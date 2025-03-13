@@ -1,4 +1,4 @@
-# Protocols, Structural Typing, and Duck Typing
+# Structural Typing
 
 ## Introduction  
 
@@ -16,7 +16,7 @@ This approach is more flexible than nominal typing because it doesn’t require 
 It is also more explicit and safe than unguarded duck typing because the structure is checked (by a type checker) before the code runs.
 
 Python historically embraced duck typing at runtime – you just call methods on objects and trust they exist.
-Prior to Python 3.8, static type checking in Python (via tools like MyPy, Pyright, etc.) was largely nominal: you would use abstract base classes or concrete classes to hint the types, and an object’s class had to match the annotation or inherit from a matching class.
+Prior to Python 3.8, static type checking in Python (via tools like MyPy, PyRight, etc.) was largely nominal: you would use abstract base classes or concrete classes to hint the types, and an object’s class had to match the annotation or inherit from a matching class.
 This could make it awkward to type-hint code that was written in a duck-typed style.
 For instance, if you had a function that worked with any object that had a `.read()` method, there wasn’t a straightforward way to express that in a type hint without making all such objects share a common base class or using `typing.Any`.
 Python 3.8 remedied this by introducing **protocols** in the `typing` module ([Python Protocols: Leveraging Structural Subtyping – Real Python](https://realpython.com/python-protocol/#:~:text=Static%20Duck%20Typing%20With%20Protocols)).
