@@ -1,6 +1,6 @@
 # Appendices
 
-## Appendix A: Quick Reference of Typing Annotations
+## Appendix A: Type Annotation Quick Reference
 
 | Annotation                        | Description                         | Example                      |
 |-----------------------------------|-------------------------------------|------------------------------|
