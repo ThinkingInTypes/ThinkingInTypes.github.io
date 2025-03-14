@@ -1,5 +1,7 @@
 site_name: Thinking in Types
 docs_dir: Chapters
+theme:
+  name: material
 nav:
   - Home: index.md
   - Chapters: 
