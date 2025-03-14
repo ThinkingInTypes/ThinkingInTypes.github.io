@@ -1,0 +1,1064 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../11%20Advanced%20Typing%20Concepts/">
+      
+      
+        <link rel="next" href="../13%20Typing%20And%20Async%20Programming/">
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.8">
+    
+    
+      
+        <title>Pattern Matching And Typing - Thinking in Types</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.8608ea7d.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#pattern-matching-and-typing" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Thinking in Types" class="md-header__button md-logo" aria-label="Thinking in Types" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Thinking in Types
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Pattern Matching And Typing
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Thinking in Types" class="md-nav__button md-logo" aria-label="Thinking in Types" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Thinking in Types
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Home
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Chapters
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            Chapters
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../01%20Preface/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Preface
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../02%20Introduction/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Introduction
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../03%20Basic%20Annotations/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Basic Annotations
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../04%20Collections%20And%20Generics/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Collections And Generics
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../05%20Dataclasses%20And%20Typed%20Classes/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Dataclasses And Typed Classes
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../06%20Callable%20Types%20And%20Annotations/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Callable Types And Annotations
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../07%20Type%20Checking%20Tools%20And%20Techniques/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Type Checking Tools And Techniques
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../08%20Structural%20Typing/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Structural Typing
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../09%20Make%20Illegal%20Types%20Unrepresentable/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Make Illegal Types Unrepresentable
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../10%20Errors%20As%20Values/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Errors As Values
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../11%20Advanced%20Typing%20Concepts/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Advanced Typing Concepts
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Pattern Matching And Typing
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    Pattern Matching And Typing
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#introduction-to-structural-pattern-matching-python-310" class="md-nav__link">
+    <span class="md-ellipsis">
+      Introduction to Structural Pattern Matching (Python 3.10+)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#annotating-code-with-pattern-matching" class="md-nav__link">
+    <span class="md-ellipsis">
+      Annotating Code with Pattern Matching
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#annotating-code-with-pattern-matching_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Annotating Code with Pattern Matching
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Annotating Code with Pattern Matching">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#example-with-typeddict-and-pattern-matching" class="md-nav__link">
+    <span class="md-ellipsis">
+      Example with TypedDict and Pattern Matching
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#type-checking-considerations-with-match-statements" class="md-nav__link">
+    <span class="md-ellipsis">
+      Type Checking Considerations with match Statements
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Type Checking Considerations with match Statements">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ensuring-consistent-patterns" class="md-nav__link">
+    <span class="md-ellipsis">
+      Ensuring Consistent Patterns
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#real-world-scenarios-for-pattern-matching" class="md-nav__link">
+    <span class="md-ellipsis">
+      Real-world Scenarios for Pattern Matching
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Real-world Scenarios for Pattern Matching">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#handling-api-responses" class="md-nav__link">
+    <span class="md-ellipsis">
+      Handling API Responses
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#parsing-complex-data-structures" class="md-nav__link">
+    <span class="md-ellipsis">
+      Parsing Complex Data Structures
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#type-checking-considerations" class="md-nav__link">
+    <span class="md-ellipsis">
+      Type Checking Considerations
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../13%20Typing%20And%20Async%20Programming/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Typing And Async Programming
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../14%20Interoperability%20And%20Typing%20Stubs/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Interoperability And Typing Stubs
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../15%20Best%20Practices%20Patterns%20And%20AntiPatterns/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Best Practices, Patterns, And Anti-Patterns
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Appendices/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Appendices
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#introduction-to-structural-pattern-matching-python-310" class="md-nav__link">
+    <span class="md-ellipsis">
+      Introduction to Structural Pattern Matching (Python 3.10+)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#annotating-code-with-pattern-matching" class="md-nav__link">
+    <span class="md-ellipsis">
+      Annotating Code with Pattern Matching
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#annotating-code-with-pattern-matching_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Annotating Code with Pattern Matching
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Annotating Code with Pattern Matching">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#example-with-typeddict-and-pattern-matching" class="md-nav__link">
+    <span class="md-ellipsis">
+      Example with TypedDict and Pattern Matching
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#type-checking-considerations-with-match-statements" class="md-nav__link">
+    <span class="md-ellipsis">
+      Type Checking Considerations with match Statements
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Type Checking Considerations with match Statements">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ensuring-consistent-patterns" class="md-nav__link">
+    <span class="md-ellipsis">
+      Ensuring Consistent Patterns
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#real-world-scenarios-for-pattern-matching" class="md-nav__link">
+    <span class="md-ellipsis">
+      Real-world Scenarios for Pattern Matching
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Real-world Scenarios for Pattern Matching">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#handling-api-responses" class="md-nav__link">
+    <span class="md-ellipsis">
+      Handling API Responses
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#parsing-complex-data-structures" class="md-nav__link">
+    <span class="md-ellipsis">
+      Parsing Complex Data Structures
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#type-checking-considerations" class="md-nav__link">
+    <span class="md-ellipsis">
+      Type Checking Considerations
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="pattern-matching-and-typing">Pattern Matching And Typing</h1>
+<blockquote>
+<p>This placeholder text was generated by ChatGPT 4.5.
+It will be significantly rewritten as the book is developed.
+In the meantime you can add comments to either <a href="https://bsky.app/bruceeckel">https://bsky.app/bruceeckel</a> or <a href="https://github.com/Thinking-In-Types/ThinkingInTypes_Book/issues">Github Issues</a>.</p>
+</blockquote>
+<h2 id="introduction-to-structural-pattern-matching-python-310">Introduction to Structural Pattern Matching (Python 3.10+)</h2>
+<p>Python 3.10 introduced structural pattern matching, providing powerful and concise syntax to match objects against specific patterns:</p>
+<pre><code class="language-python">def handle_command(command: str) -&gt; str:
+    match command:
+        case &quot;start&quot;:
+            return &quot;Starting&quot;
+        case &quot;stop&quot;:
+            return &quot;Stopping&quot;
+        case _:
+            return &quot;Unknown command&quot;
+</code></pre>
+<p>Pattern matching enhances readability and maintainability, reducing the complexity of conditional logic.</p>
+<h2 id="annotating-code-with-pattern-matching">Annotating Code with Pattern Matching</h2>
+<p>Annotations can clarify patterns used in structural matching, making code clearer and aiding static type checking:</p>
+<pre><code class="language-python">from typing import Union
+
+class Success:
+    def __init__(self, result: str):
+        self.result = result
+
+class Error:
+    def __init__(self, error: str):
+        self.error = error
+
+def process(response: Union[Success, Error]) -&gt; str:
+    match response := response:
+        case Success(result=result):
+            return f&quot;Success: {result}&quot;
+        case Error(error):
+            return f&quot;Error: {error}&quot;
+</code></pre>
+<p>This use of annotations and pattern matching simplifies complex decision-making logic.</p>
+<h2 id="annotating-code-with-pattern-matching_1">Annotating Code with Pattern Matching</h2>
+<p>When combining type annotations with pattern matching, carefully structuring types enhances type checker effectiveness:</p>
+<h3 id="example-with-typeddict-and-pattern-matching">Example with TypedDict and Pattern Matching</h3>
+<pre><code class="language-python">from typing import TypedDict
+
+class Command(TypedDict):
+    action: str
+    payload: dict
+
+def process_command(command: TypedDict) -&gt; None:
+    match command:
+        case {&quot;action&quot;: &quot;create&quot;, &quot;item&quot;: item}:
+            print(f&quot;Creating {item}&quot;)
+        case {&quot;action&quot;: &quot;delete&quot;, &quot;id&quot;: int() as item_id}:
+            print(f&quot;Deleting item {item_id}&quot;)
+        case _:
+            print(&quot;Unknown command&quot;)
+</code></pre>
+<p>Annotations clearly define expected data shapes, improving readability and correctness.</p>
+<h2 id="type-checking-considerations-with-match-statements">Type Checking Considerations with <code>match</code> Statements</h2>
+<p>Static type checkers can analyze pattern matching effectively, but careful type design is essential:</p>
+<h3 id="ensuring-consistent-patterns">Ensuring Consistent Patterns</h3>
+<p>Pattern matching works best with clearly annotated and structurally consistent types:</p>
+<pre><code class="language-python">from typing import Union
+
+class Cat:
+    def meow(self) -&gt; str:
+        return &quot;Meow&quot;
+
+class Dog:
+    def bark(self) -&gt; str:
+        return &quot;Woof&quot;
+
+def animal_sound(animal: Union[Cat, Dog]) -&gt; str:
+    match animal:
+        case Cat():
+            return animal.meow()
+        case Dog():
+            return animal.bark()
+</code></pre>
+<p>Properly annotated unions simplify handling of multiple types with clarity and safety.</p>
+<h2 id="real-world-scenarios-for-pattern-matching">Real-world Scenarios for Pattern Matching</h2>
+<p>Pattern matching is highly effective in real-world scenarios, such as:</p>
+<h3 id="handling-api-responses">Handling API Responses</h3>
+<pre><code class="language-python">def process_response(response: dict) -&gt; str:
+    match response:
+        case {&quot;status&quot;: &quot;success&quot;, &quot;data&quot;: data}:
+            return f&quot;Success: {data}&quot;
+        case {&quot;status&quot;: &quot;error&quot;, &quot;message&quot;: error_msg}:
+            return f&quot;Error: {error}&quot;
+        case _:
+            return &quot;Unknown response format&quot;
+</code></pre>
+<h3 id="parsing-complex-data-structures">Parsing Complex Data Structures</h3>
+<pre><code class="language-python">def parse_coordinates(coords: tuple) -&gt; str:
+    match coords := coords:
+        case (float(lat), float(lon)):
+            return f&quot;Latitude: {lat}, Longitude: {lon}&quot;
+        case _:
+            return &quot;Invalid coordinates&quot;
+</code></pre>
+<p>Pattern matching simplifies conditional logic, making code more maintainable.</p>
+<h2 id="type-checking-considerations">Type Checking Considerations</h2>
+<p>Ensure type annotations match patterns closely, as type checkers use them to validate correctness:</p>
+<ul>
+<li>Explicitly define type annotations for better static analysis.</li>
+<li>Carefully match patterns to annotated types for enhanced safety.</li>
+</ul>
+<p>Properly using pattern matching alongside type annotations helps catch potential runtime errors early, resulting in safer and more readable Python code.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "..", "features": [], "search": "../assets/javascripts/workers/search.f8cc74c7.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.c8b220af.min.js"></script>
+      
+    
+  </body>
+</html>
