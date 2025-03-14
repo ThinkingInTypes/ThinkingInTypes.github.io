@@ -7,4 +7,4 @@
 - Run locally: `mkdocs serve`
 - Deploy: `mkdocs gh-deploy`
 
-Usesd the [Material Theme](https://squidfunk.github.io/mkdocs-material/).
+Created with [Mkdocs](https://www.mkdocs.org/) using the [Material Theme](https://squidfunk.github.io/mkdocs-material/).
