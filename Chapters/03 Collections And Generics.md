@@ -1,4 +1,4 @@
-# Chapter 3: Collections and Generics
+# Collections And Generics
 
 ## Annotating Lists, Tuples, Sets, Dictionaries
 

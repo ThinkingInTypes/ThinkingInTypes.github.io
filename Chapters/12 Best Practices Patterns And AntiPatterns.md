@@ -1,4 +1,4 @@
-# Chapter 12: Best Practices, Patterns, and Anti-patterns
+# Best Practices, Patterns, And Anti-Patterns
 
 ## Effective Patterns for Clear and Maintainable Annotations
 

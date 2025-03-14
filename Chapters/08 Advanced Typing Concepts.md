@@ -1,4 +1,4 @@
-# Chapter 8: Advanced Typing Concepts
+# Advanced Typing Concepts
 
 ## Literal Types: Definition and Practical Usage
 

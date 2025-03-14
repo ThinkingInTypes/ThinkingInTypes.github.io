@@ -1,4 +1,4 @@
-# Chapter 11: Interoperability and Typing Stubs
+# Chapter 11: Interoperability And Typing Stubs
 
 ## Introduction to `.pyi` Stub Files
 

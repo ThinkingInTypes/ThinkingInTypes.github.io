@@ -1,4 +1,4 @@
-# Chapter 9: Pattern Matching and Typing
+# Pattern Matching And Typing
 
 ## Introduction to Structural Pattern Matching (Python 3.10+)
 

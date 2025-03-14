@@ -1,4 +1,4 @@
-# Chapter 5: Callable Types and Annotations
+# Callable Types And Annotations
 
 ## Annotating Functions and Lambdas
 

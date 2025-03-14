@@ -1,4 +1,4 @@
-# Chapter 4: Dataclasses and Typed Classes
+# Dataclasses And Typed Classes
 
 ## Annotating Classes: Attributes and Methods
 

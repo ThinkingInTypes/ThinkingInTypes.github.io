@@ -1,4 +1,4 @@
-# Chapter 10: Typing and Async Programming
+# Typing And Async Programming
 
 ## Type Annotations for Async Functions
 

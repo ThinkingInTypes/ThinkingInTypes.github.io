@@ -1,4 +1,4 @@
-# Chapter 6: Type Checking Tools and Techniques
+# Type Checking Tools And Techniques
 
 ## Getting Started with `mypy`: Installation and Basic Use
 
