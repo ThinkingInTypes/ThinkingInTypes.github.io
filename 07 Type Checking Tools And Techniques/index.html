@@ -1060,43 +1060,43 @@ In the meantime you can add comments to either <a href="https://bsky.app/bruceec
 <h2 id="getting-started-with-mypy-installation-and-basic-use">Getting Started with <code>mypy</code>: Installation and Basic Use</h2>
 <p><code>mypy</code> is a popular static type checker for Python that validates type annotations:</p>
 <h3 id="installation">Installation</h3>
-<pre><code class="language-bash">pip install mypy
-</code></pre>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>pip<span class="w"> </span>install<span class="w"> </span>mypy
+</span></code></pre></div>
 <h3 id="basic-use">Basic Use</h3>
 <p>Run <code>mypy</code> on your script or module to identify type errors:</p>
-<pre><code class="language-bash">mypy your_script.py
-</code></pre>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>mypy<span class="w"> </span>your_script.py
+</span></code></pre></div>
 <p>Example:</p>
-<pre><code class="language-python"># script.py
-def greet(name: str) -&gt; str:
-    return f&quot;Hello, {name}!&quot;
-
-greet(123)  # Incorrect type
-</code></pre>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1"># script.py</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="k">def</span> <span class="nf">greet</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>    <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;Hello, </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">!&quot;</span>
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="n">greet</span><span class="p">(</span><span class="mi">123</span><span class="p">)</span>  <span class="c1"># Incorrect type</span>
+</span></code></pre></div>
 <p>Running <code>mypy script.py</code> outputs:</p>
-<pre><code>script.py:4: error: Argument 1 to &quot;greet&quot; has incompatible type &quot;int&quot;; expected &quot;str&quot;
-</code></pre>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>script.py:4: error: Argument 1 to &quot;greet&quot; has incompatible type &quot;int&quot;; expected &quot;str&quot;
+</span></code></pre></div>
 <h2 id="advanced-configuration-and-fine-tuning-of-mypy">Advanced Configuration and Fine-tuning of <code>mypy</code></h2>
 <p>Customize <code>mypy</code> behavior using a <code>mypy.ini</code> or <code>pyproject.toml</code> file:</p>
 <h3 id="example-mypyini">Example <code>mypy.ini</code></h3>
-<pre><code class="language-ini">[mypy]
-ignore_missing_imports = True
-strict = True
-check_untyped_defs = True
-</code></pre>
+<div class="language-ini highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="k">[mypy]</span>
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="na">ignore_missing_imports</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">True</span>
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="na">strict</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">True</span>
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="na">check_untyped_defs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">True</span>
+</span></code></pre></div>
 <h3 id="example-pyprojecttoml">Example <code>pyproject.toml</code></h3>
-<pre><code class="language-toml">[tool.mypy]
-ignore_missing_imports = true
-strict = true
-</code></pre>
+<div class="language-toml highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="k">[tool.mypy]</span>
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="n">ignore_missing_imports</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span>
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="n">strict</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span>
+</span></code></pre></div>
 <p>Advanced configuration allows precise control over type-checking behavior and strictness levels.</p>
 <h2 id="exploring-pyright-and-ide-integration-vscode-pycharm">Exploring <code>pyright</code> and IDE Integration (VSCode, PyCharm)</h2>
 <p><code>pyright</code>, developed by Microsoft, offers high-performance static type checking, integrated seamlessly with popular IDEs.</p>
 <h3 id="using-pyright-cli">Using <code>pyright</code> (CLI)</h3>
 <p>Install globally using npm:</p>
-<pre><code class="language-bash">npm install -g pyright
-pyright your_script.py
-</code></pre>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>npm<span class="w"> </span>install<span class="w"> </span>-g<span class="w"> </span>pyright
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>pyright<span class="w"> </span>your_script.py
+</span></code></pre></div>
 <h3 id="vscode-integration">VSCode Integration</h3>
 <p><code>pyright</code> powers VSCode's built-in Python type checking, providing immediate feedback:</p>
 <ul>
@@ -1115,56 +1115,56 @@ pyright your_script.py
 <li>Annotate high-risk or frequently changing modules first.</li>
 <li>Enable type checking incrementally to avoid overwhelming your team:</li>
 </ul>
-<pre><code class="language-ini">[mypy]
-files = core/, utils/
-</code></pre>
+<div class="language-ini highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="k">[mypy]</span>
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="na">files</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">core/, utils/</span>
+</span></code></pre></div>
 <p>Incremental typing balances immediate benefits with manageable adoption efforts.</p>
 <h2 id="integrating-type-checking-into-continuous-integration">Integrating Type Checking into Continuous Integration</h2>
 <p>Automate type checking within your CI/CD pipeline to enforce consistency and catch errors early:</p>
 <h3 id="example-github-actions-workflow">Example GitHub Actions Workflow</h3>
-<pre><code class="language-yaml">name: Type Check
-
-on: [push, pull_request]
-
-jobs:
-  type-check:
-    runs-on: ubuntu-latest
-
-    steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-python@v3
-        with:
-          python-version: '3.11'
-
-      - run: pip install mypy
-      - run: mypy .
-</code></pre>
+<div class="language-yaml highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Type Check</span>
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>
+</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="nt">on</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">push</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">pull_request</span><span class="p p-Indicator">]</span>
+</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a>
+</span><span id="__span-8-5"><a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a><span class="nt">jobs</span><span class="p">:</span>
+</span><span id="__span-8-6"><a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a><span class="w">  </span><span class="nt">type-check</span><span class="p">:</span>
+</span><span id="__span-8-7"><a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a><span class="w">    </span><span class="nt">runs-on</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ubuntu-latest</span>
+</span><span id="__span-8-8"><a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a>
+</span><span id="__span-8-9"><a id="__codelineno-8-9" name="__codelineno-8-9" href="#__codelineno-8-9"></a><span class="w">    </span><span class="nt">steps</span><span class="p">:</span>
+</span><span id="__span-8-10"><a id="__codelineno-8-10" name="__codelineno-8-10" href="#__codelineno-8-10"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">actions/checkout@v3</span>
+</span><span id="__span-8-11"><a id="__codelineno-8-11" name="__codelineno-8-11" href="#__codelineno-8-11"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">actions/setup-python@v3</span>
+</span><span id="__span-8-12"><a id="__codelineno-8-12" name="__codelineno-8-12" href="#__codelineno-8-12"></a><span class="w">        </span><span class="nt">with</span><span class="p">:</span>
+</span><span id="__span-8-13"><a id="__codelineno-8-13" name="__codelineno-8-13" href="#__codelineno-8-13"></a><span class="w">          </span><span class="nt">python-version</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;3.11&#39;</span>
+</span><span id="__span-8-14"><a id="__codelineno-8-14" name="__codelineno-8-14" href="#__codelineno-8-14"></a>
+</span><span id="__span-8-15"><a id="__codelineno-8-15" name="__codelineno-8-15" href="#__codelineno-8-15"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">run</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">pip install mypy</span>
+</span><span id="__span-8-16"><a id="__codelineno-8-16" name="__codelineno-8-16" href="#__codelineno-8-16"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">run</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">mypy .</span>
+</span></code></pre></div>
 <p>Automated checks ensure ongoing compliance with typing standards and maintain high code quality.</p>
 <h2 id="handling-and-resolving-common-errors">Handling and Resolving Common Errors</h2>
 <p>Common type-checking errors and their resolutions:</p>
 <h3 id="incorrect-type-annotation">Incorrect Type Annotation</h3>
-<pre><code class="language-python"># Error: Incompatible types in assignment (expression has type &quot;int&quot;, variable has type &quot;str&quot;)
-name: str = 123  # fix: name = &quot;Alice&quot;
-</code></pre>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="c1"># Error: Incompatible types in assignment (expression has type &quot;int&quot;, variable has type &quot;str&quot;)</span>
+</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="mi">123</span>  <span class="c1"># fix: name = &quot;Alice&quot;</span>
+</span></code></pre></div>
 <h3 id="missing-imports">Missing Imports</h3>
 <p>Use <code>ignore_missing_imports</code> or install type stubs:</p>
-<pre><code class="language-ini">[mypy]
-ignore_missing_imports = True
-</code></pre>
+<div class="language-ini highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="k">[mypy]</span>
+</span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="na">ignore_missing_imports</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">True</span>
+</span></code></pre></div>
 <p>Or install stubs:</p>
-<pre><code class="language-bash">pip install types-requests
-</code></pre>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>pip<span class="w"> </span>install<span class="w"> </span>types-requests
+</span></code></pre></div>
 <h3 id="union-and-optional-errors">Union and Optional Errors</h3>
 <p>Resolve ambiguity clearly:</p>
-<pre><code class="language-python">from typing import Optional
-
-# Error: Incompatible return value type (got &quot;None&quot;, expected &quot;int&quot;)
-def find_index(item: str, items: list[str]) -&gt; Optional[int]:
-    try:
-        return items.index(item)
-    except ValueError:
-        return None
-</code></pre>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span>
+</span><span id="__span-12-2"><a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>
+</span><span id="__span-12-3"><a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a><span class="c1"># Error: Incompatible return value type (got &quot;None&quot;, expected &quot;int&quot;)</span>
+</span><span id="__span-12-4"><a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a><span class="k">def</span> <span class="nf">find_index</span><span class="p">(</span><span class="n">item</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">items</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]:</span>
+</span><span id="__span-12-5"><a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a>    <span class="k">try</span><span class="p">:</span>
+</span><span id="__span-12-6"><a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a>        <span class="k">return</span> <span class="n">items</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+</span><span id="__span-12-7"><a id="__codelineno-12-7" name="__codelineno-12-7" href="#__codelineno-12-7"></a>    <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+</span><span id="__span-12-8"><a id="__codelineno-12-8" name="__codelineno-12-8" href="#__codelineno-12-8"></a>        <span class="k">return</span> <span class="kc">None</span>
+</span></code></pre></div>
 <p>Effectively handling and resolving these errors leads to clearer, more reliable, and maintainable codebases.</p>
 
 

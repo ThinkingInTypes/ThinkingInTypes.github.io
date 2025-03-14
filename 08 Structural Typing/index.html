@@ -811,29 +811,29 @@ By creating a class that subclasses <code>Protocol</code>, you declare a group o
 Protocol methods typically have empty bodies (often using <code>...</code> or <code>pass</code>) because you’re not providing an implementation, just a definition of the interface.
 For example, suppose we want a protocol for “speaking” creatures or objects: it should have a method <code>speak()</code> that returns a string.
 We can define:</p>
-<pre><code class="language-python">from typing import Protocol
-
-class Speaker(Protocol):
-    def speak(self) -&gt; str: ...
-</code></pre>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Protocol</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="k">class</span> <span class="nc">Speaker</span><span class="p">(</span><span class="n">Protocol</span><span class="p">):</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>    <span class="k">def</span> <span class="nf">speak</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span> <span class="o">...</span>
+</span></code></pre></div>
 <p>Here, <code>Speaker</code> is a protocol that any “speaker” object should follow.
 Now, any class that defines a <code>speak(self) -&gt; str</code> method will be considered a <code>Speaker</code> for typing purposes.
 We can create two completely unrelated classes that fulfill this protocol without explicit inheritance:</p>
-<pre><code class="language-python">class Dog:
-    def speak(self) -&gt; str:
-        return &quot;woof&quot;
-
-class Robot:
-    def speak(self) -&gt; str:
-        return &quot;beep-boop&quot;
-
-def announce(speaker: Speaker) -&gt; None:
-    # `speaker` can be any object that has .speak() returning str
-    print(&quot;Announcement:&quot;, speaker.speak())
-
-announce(Dog())    # OK, Dog has speak()
-announce(Robot())  # OK, Robot has speak()
-</code></pre>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="k">class</span> <span class="nc">Dog</span><span class="p">:</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>    <span class="k">def</span> <span class="nf">speak</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>        <span class="k">return</span> <span class="s2">&quot;woof&quot;</span>
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="k">class</span> <span class="nc">Robot</span><span class="p">:</span>
+</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>    <span class="k">def</span> <span class="nf">speak</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>        <span class="k">return</span> <span class="s2">&quot;beep-boop&quot;</span>
+</span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>
+</span><span id="__span-1-9"><a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="k">def</span> <span class="nf">announce</span><span class="p">(</span><span class="n">speaker</span><span class="p">:</span> <span class="n">Speaker</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="__span-1-10"><a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a>    <span class="c1"># `speaker` can be any object that has .speak() returning str</span>
+</span><span id="__span-1-11"><a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a>    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Announcement:&quot;</span><span class="p">,</span> <span class="n">speaker</span><span class="o">.</span><span class="n">speak</span><span class="p">())</span>
+</span><span id="__span-1-12"><a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a>
+</span><span id="__span-1-13"><a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a><span class="n">announce</span><span class="p">(</span><span class="n">Dog</span><span class="p">())</span>    <span class="c1"># OK, Dog has speak()</span>
+</span><span id="__span-1-14"><a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a><span class="n">announce</span><span class="p">(</span><span class="n">Robot</span><span class="p">())</span>  <span class="c1"># OK, Robot has speak()</span>
+</span></code></pre></div>
 <p>Even though <code>Dog</code> and <code>Robot</code> do not inherit from <code>Speaker</code> (and are not related to each other at all), the static type checker will accept them as valid arguments to <code>announce</code> because they structurally conform to the <code>Speaker</code> protocol by implementing the required method.
 This is the power of structural typing.
 In fact, the type checker treats <code>Dog</code> and <code>Robot</code> as subtypes of <code>Speaker</code> <em>because</em> they have the right <code>speak()</code> method signature (<a href="https://mypy.readthedocs.io/en/stable/protocols.html#:~:text=,close">Protocols and structural subtyping - mypy 1.15.0 documentation</a>).
@@ -856,29 +856,29 @@ Python’s typing module and static checkers come with several predefined protoc
 <p>Let’s look at a slightly more elaborate example of defining and using a protocol.
 Imagine we have objects that need to support a <code>close()</code> method (like files or network connections).
 We can define a protocol <code>Closable</code> and use it to write a function that closes a batch of resources:</p>
-<pre><code class="language-python">from typing import Protocol, Iterable
-
-class Closable(Protocol):
-    def close(self) -&gt; None: ...
-
-class FileResource:
-    def __init__(self, path: str):
-        self.file = open(path, 'w')
-    def close(self) -&gt; None:
-        self.file.close()
-
-class SocketResource:
-    def close(self) -&gt; None:
-        print(&quot;Socket closed&quot;)
-
-def close_all(resources: Iterable[Closable]) -&gt; None:
-    for res in resources:
-        res.close()
-
-# Using the close_all function with different resource types
-closables = [FileResource(&quot;data.txt&quot;), SocketResource(), open(&quot;other.txt&quot;, &quot;w&quot;)]
-close_all(closables)  # OK: FileResource, SocketResource, and file objects all have close()
-</code></pre>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Protocol</span><span class="p">,</span> <span class="n">Iterable</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="k">class</span> <span class="nc">Closable</span><span class="p">(</span><span class="n">Protocol</span><span class="p">):</span>
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>    <span class="k">def</span> <span class="nf">close</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span> <span class="o">...</span>
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>
+</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="k">class</span> <span class="nc">FileResource</span><span class="p">:</span>
+</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+</span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">file</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span>
+</span><span id="__span-2-9"><a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a>    <span class="k">def</span> <span class="nf">close</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="__span-2-10"><a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">file</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</span><span id="__span-2-11"><a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a>
+</span><span id="__span-2-12"><a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a><span class="k">class</span> <span class="nc">SocketResource</span><span class="p">:</span>
+</span><span id="__span-2-13"><a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a>    <span class="k">def</span> <span class="nf">close</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="__span-2-14"><a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a>        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Socket closed&quot;</span><span class="p">)</span>
+</span><span id="__span-2-15"><a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a>
+</span><span id="__span-2-16"><a id="__codelineno-2-16" name="__codelineno-2-16" href="#__codelineno-2-16"></a><span class="k">def</span> <span class="nf">close_all</span><span class="p">(</span><span class="n">resources</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">Closable</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="__span-2-17"><a id="__codelineno-2-17" name="__codelineno-2-17" href="#__codelineno-2-17"></a>    <span class="k">for</span> <span class="n">res</span> <span class="ow">in</span> <span class="n">resources</span><span class="p">:</span>
+</span><span id="__span-2-18"><a id="__codelineno-2-18" name="__codelineno-2-18" href="#__codelineno-2-18"></a>        <span class="n">res</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</span><span id="__span-2-19"><a id="__codelineno-2-19" name="__codelineno-2-19" href="#__codelineno-2-19"></a>
+</span><span id="__span-2-20"><a id="__codelineno-2-20" name="__codelineno-2-20" href="#__codelineno-2-20"></a><span class="c1"># Using the close_all function with different resource types</span>
+</span><span id="__span-2-21"><a id="__codelineno-2-21" name="__codelineno-2-21" href="#__codelineno-2-21"></a><span class="n">closables</span> <span class="o">=</span> <span class="p">[</span><span class="n">FileResource</span><span class="p">(</span><span class="s2">&quot;data.txt&quot;</span><span class="p">),</span> <span class="n">SocketResource</span><span class="p">(),</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;other.txt&quot;</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)]</span>
+</span><span id="__span-2-22"><a id="__codelineno-2-22" name="__codelineno-2-22" href="#__codelineno-2-22"></a><span class="n">close_all</span><span class="p">(</span><span class="n">closables</span><span class="p">)</span>  <span class="c1"># OK: FileResource, SocketResource, and file objects all have close()</span>
+</span></code></pre></div>
 <p>In this code, <code>Closable</code> is a protocol requiring a <code>.close()</code> method.
 We created a <code>FileResource</code> class and a <code>SocketResource</code> class that both implement <code>close()</code>.
 We also use a built-in file object from <code>open()</code>, which we know has a <code>close()</code> method.
@@ -891,14 +891,14 @@ This is because the protocol is not a real base class of those objects (they nev
 However, Python’s <code>typing</code> module provides a decorator <code>@runtime_checkable</code> that you can apply to a protocol to make runtime <code>isinstance</code> checks possible on it.
 Marking a protocol with <code>@runtime_checkable</code> means it gets a special <code>__instancecheck__</code> that will return True if the object has the required attributes (much like ABCs in <code>collections.abc</code> do with their <code>__subclasshook__</code>).
 For example:</p>
-<pre><code class="language-python">from typing import runtime_checkable
-
-@runtime_checkable
-class Closable(Protocol):
-    def close(self) -&gt; None: ...
-
-isinstance(FileResource(&quot;data.txt&quot;), Closable)  # True, because FileResource has close()
-</code></pre>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">runtime_checkable</span>
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="nd">@runtime_checkable</span>
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="k">class</span> <span class="nc">Closable</span><span class="p">(</span><span class="n">Protocol</span><span class="p">):</span>
+</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>    <span class="k">def</span> <span class="nf">close</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span> <span class="o">...</span>
+</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>
+</span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="nb">isinstance</span><span class="p">(</span><span class="n">FileResource</span><span class="p">(</span><span class="s2">&quot;data.txt&quot;</span><span class="p">),</span> <span class="n">Closable</span><span class="p">)</span>  <span class="c1"># True, because FileResource has close()</span>
+</span></code></pre></div>
 <p>Now <code>Closable</code> can be used in <code>isinstance</code> and <code>issubclass</code> as a structural check (<a href="https://jellis18.github.io/post/2022-01-11-abc-vs-protocol/#:~:text=One%20last%20thing%20to%20mention,check%20with%20the%20runtime_checkable%20decorator">Abstract Base Classes and Protocols: What Are They?
 When To Use Them??
 Lets Find Out! - Justin A.
@@ -917,38 +917,38 @@ Dependency injection and interchangeable components:</strong> Suppose you’re w
 You might want the ability to swap out the logger – sometimes logging to a file, sometimes to the console, or maybe collecting logs in memory for testing.
 You can define a protocol for the logger’s interface and program against that.
 For instance:</p>
-<pre><code class="language-python">from typing import Protocol
-
-class Logger(Protocol):
-    def log(self, message: str) -&gt; None: ...
-
-class FileLogger:
-    &quot;&quot;&quot;Concrete logger that writes to a file.&quot;&quot;&quot;
-    def __init__(self, filename: str):
-        self.filename = filename
-    def log(self, message: str) -&gt; None:
-        with open(self.filename, 'a') as f:
-            f.write(message + '\n')
-
-class ListLogger:
-    &quot;&quot;&quot;Concrete logger that stores messages in a list (e.g., for testing).&quot;&quot;&quot;
-    def __init__(self):
-        self.messages: list[str] = []
-    def log(self, message: str) -&gt; None:
-        self.messages.append(message)
-
-def run_process(task_name: str, logger: Logger) -&gt; None:
-    logger.log(f&quot;Starting {task_name}&quot;)
-    # ...
-perform the task ...
-    logger.log(f&quot;Finished {task_name}&quot;)
-
-# Using the run_process with different loggers
-run_process(&quot;DataCleanup&quot;, FileLogger(&quot;app.log&quot;))       # logs to file
-test_logger = ListLogger()
-run_process(&quot;DataCleanup&quot;, test_logger)                 # logs to list in memory
-print(&quot;Captured logs:&quot;, test_logger.messages)
-</code></pre>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Protocol</span>
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="k">class</span> <span class="nc">Logger</span><span class="p">(</span><span class="n">Protocol</span><span class="p">):</span>
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>    <span class="k">def</span> <span class="nf">log</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span> <span class="o">...</span>
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>
+</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="k">class</span> <span class="nc">FileLogger</span><span class="p">:</span>
+</span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Concrete logger that writes to a file.&quot;&quot;&quot;</span>
+</span><span id="__span-4-8"><a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+</span><span id="__span-4-9"><a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">filename</span> <span class="o">=</span> <span class="n">filename</span>
+</span><span id="__span-4-10"><a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a>    <span class="k">def</span> <span class="nf">log</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="__span-4-11"><a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a>        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">filename</span><span class="p">,</span> <span class="s1">&#39;a&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+</span><span id="__span-4-12"><a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a>            <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">message</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+</span><span id="__span-4-13"><a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a>
+</span><span id="__span-4-14"><a id="__codelineno-4-14" name="__codelineno-4-14" href="#__codelineno-4-14"></a><span class="k">class</span> <span class="nc">ListLogger</span><span class="p">:</span>
+</span><span id="__span-4-15"><a id="__codelineno-4-15" name="__codelineno-4-15" href="#__codelineno-4-15"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Concrete logger that stores messages in a list (e.g., for testing).&quot;&quot;&quot;</span>
+</span><span id="__span-4-16"><a id="__codelineno-4-16" name="__codelineno-4-16" href="#__codelineno-4-16"></a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span id="__span-4-17"><a id="__codelineno-4-17" name="__codelineno-4-17" href="#__codelineno-4-17"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">messages</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+</span><span id="__span-4-18"><a id="__codelineno-4-18" name="__codelineno-4-18" href="#__codelineno-4-18"></a>    <span class="k">def</span> <span class="nf">log</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="__span-4-19"><a id="__codelineno-4-19" name="__codelineno-4-19" href="#__codelineno-4-19"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">messages</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
+</span><span id="__span-4-20"><a id="__codelineno-4-20" name="__codelineno-4-20" href="#__codelineno-4-20"></a>
+</span><span id="__span-4-21"><a id="__codelineno-4-21" name="__codelineno-4-21" href="#__codelineno-4-21"></a><span class="k">def</span> <span class="nf">run_process</span><span class="p">(</span><span class="n">task_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">logger</span><span class="p">:</span> <span class="n">Logger</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="__span-4-22"><a id="__codelineno-4-22" name="__codelineno-4-22" href="#__codelineno-4-22"></a>    <span class="n">logger</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Starting </span><span class="si">{</span><span class="n">task_name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</span><span id="__span-4-23"><a id="__codelineno-4-23" name="__codelineno-4-23" href="#__codelineno-4-23"></a>    <span class="c1"># ...</span>
+</span><span id="__span-4-24"><a id="__codelineno-4-24" name="__codelineno-4-24" href="#__codelineno-4-24"></a><span class="n">perform</span> <span class="n">the</span> <span class="n">task</span> <span class="o">...</span>
+</span><span id="__span-4-25"><a id="__codelineno-4-25" name="__codelineno-4-25" href="#__codelineno-4-25"></a>    <span class="n">logger</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Finished </span><span class="si">{</span><span class="n">task_name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</span><span id="__span-4-26"><a id="__codelineno-4-26" name="__codelineno-4-26" href="#__codelineno-4-26"></a>
+</span><span id="__span-4-27"><a id="__codelineno-4-27" name="__codelineno-4-27" href="#__codelineno-4-27"></a><span class="c1"># Using the run_process with different loggers</span>
+</span><span id="__span-4-28"><a id="__codelineno-4-28" name="__codelineno-4-28" href="#__codelineno-4-28"></a><span class="n">run_process</span><span class="p">(</span><span class="s2">&quot;DataCleanup&quot;</span><span class="p">,</span> <span class="n">FileLogger</span><span class="p">(</span><span class="s2">&quot;app.log&quot;</span><span class="p">))</span>       <span class="c1"># logs to file</span>
+</span><span id="__span-4-29"><a id="__codelineno-4-29" name="__codelineno-4-29" href="#__codelineno-4-29"></a><span class="n">test_logger</span> <span class="o">=</span> <span class="n">ListLogger</span><span class="p">()</span>
+</span><span id="__span-4-30"><a id="__codelineno-4-30" name="__codelineno-4-30" href="#__codelineno-4-30"></a><span class="n">run_process</span><span class="p">(</span><span class="s2">&quot;DataCleanup&quot;</span><span class="p">,</span> <span class="n">test_logger</span><span class="p">)</span>                 <span class="c1"># logs to list in memory</span>
+</span><span id="__span-4-31"><a id="__codelineno-4-31" name="__codelineno-4-31" href="#__codelineno-4-31"></a><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Captured logs:&quot;</span><span class="p">,</span> <span class="n">test_logger</span><span class="o">.</span><span class="n">messages</span><span class="p">)</span>
+</span></code></pre></div>
 <p>In <code>Logger(Protocol)</code>, we specify that a logger must have a <code>.log(str)</code> method.
 Our <code>run_process</code> function doesn’t care <em>how</em> the logging is done, just that the object passed in can <code>.log</code> a message. <code>FileLogger</code> and <code>ListLogger</code> are two implementations – one writes to a file, the other stores messages in a Python list.
 Notice that neither <code>FileLogger</code> nor <code>ListLogger</code> subclasses <code>Logger</code>; they don’t need to.
@@ -1008,41 +1008,41 @@ We can do the same with our own protocols.</p>
 Let’s say we want to define a simple container protocol that yields items of some type.
 We can make it generic so that a <code>Container[int]</code> will be a protocol for “container of ints” and <code>Container[str]</code> for “container of strings,” but both are based on the same generic interface.
 For example:</p>
-<pre><code class="language-python">from typing import Protocol, TypeVar
-
-T = TypeVar('T')
-
-class Container(Protocol[T]):
-    def get_item(self) -&gt; T: ...
-</code></pre>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Protocol</span><span class="p">,</span> <span class="n">TypeVar</span>
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="n">T</span> <span class="o">=</span> <span class="n">TypeVar</span><span class="p">(</span><span class="s1">&#39;T&#39;</span><span class="p">)</span>
+</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>
+</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="k">class</span> <span class="nc">Container</span><span class="p">(</span><span class="n">Protocol</span><span class="p">[</span><span class="n">T</span><span class="p">]):</span>
+</span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>    <span class="k">def</span> <span class="nf">get_item</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="p">:</span> <span class="o">...</span>
+</span></code></pre></div>
 <p>Here, <code>Container[T]</code> is a generic protocol with a single type variable <code>T</code>.
 It specifies one method <code>get_item</code> that returns an object of type <code>T</code>.
 Now we can implement this protocol for different types by providing concrete type parameters.
 For instance, a container of strings and a container of integers:</p>
-<pre><code class="language-python">class StringContainer:
-    def __init__(self, value: str):
-        self.value = value
-    def get_item(self) -&gt; str:
-        return self.value
-
-class IntContainer:
-    def __init__(self, value: int):
-        self.value = value
-    def get_item(self) -&gt; int:
-        return self.value
-</code></pre>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="k">class</span> <span class="nc">StringContainer</span><span class="p">:</span>
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">value</span>
+</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>    <span class="k">def</span> <span class="nf">get_item</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+</span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span>
+</span><span id="__span-6-6"><a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a>
+</span><span id="__span-6-7"><a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a><span class="k">class</span> <span class="nc">IntContainer</span><span class="p">:</span>
+</span><span id="__span-6-8"><a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+</span><span id="__span-6-9"><a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">value</span>
+</span><span id="__span-6-10"><a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a>    <span class="k">def</span> <span class="nf">get_item</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+</span><span id="__span-6-11"><a id="__codelineno-6-11" name="__codelineno-6-11" href="#__codelineno-6-11"></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span>
+</span></code></pre></div>
 <p><code>StringContainer</code> and <code>IntContainer</code> each implement <code>get_item</code> returning the appropriate type.
 They don’t subclass <code>Container</code>, but structurally they match <code>Container[str]</code> and <code>Container[int]</code> respectively.
 We can write functions that use the generic protocol to accept any kind of container and preserve the type information of the contained item:</p>
-<pre><code class="language-python">def print_item_and_return[C](container: Container[C]) -&gt; C:
-    item = container.get_item()
-    print(&quot;Got:&quot;, item)
-    return item  # The type of item is inferred as C
-
-# Using the generic function with different container types:
-x = print_item_and_return(StringContainer(&quot;hello&quot;))  # prints &quot;hello&quot;, x is str
-y = print_item_and_return(IntContainer(42))          # prints &quot;42&quot;, y is int
-</code></pre>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="k">def</span> <span class="nf">print_item_and_return</span><span class="p">[</span><span class="n">C</span><span class="p">](</span><span class="n">container</span><span class="p">:</span> <span class="n">Container</span><span class="p">[</span><span class="n">C</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">C</span><span class="p">:</span>
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>    <span class="n">item</span> <span class="o">=</span> <span class="n">container</span><span class="o">.</span><span class="n">get_item</span><span class="p">()</span>
+</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Got:&quot;</span><span class="p">,</span> <span class="n">item</span><span class="p">)</span>
+</span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a>    <span class="k">return</span> <span class="n">item</span>  <span class="c1"># The type of item is inferred as C</span>
+</span><span id="__span-7-5"><a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a>
+</span><span id="__span-7-6"><a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a><span class="c1"># Using the generic function with different container types:</span>
+</span><span id="__span-7-7"><a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a><span class="n">x</span> <span class="o">=</span> <span class="n">print_item_and_return</span><span class="p">(</span><span class="n">StringContainer</span><span class="p">(</span><span class="s2">&quot;hello&quot;</span><span class="p">))</span>  <span class="c1"># prints &quot;hello&quot;, x is str</span>
+</span><span id="__span-7-8"><a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a><span class="n">y</span> <span class="o">=</span> <span class="n">print_item_and_return</span><span class="p">(</span><span class="n">IntContainer</span><span class="p">(</span><span class="mi">42</span><span class="p">))</span>          <span class="c1"># prints &quot;42&quot;, y is int</span>
+</span></code></pre></div>
 <p>In the function <code>print_item_and_return</code>, we used <code>C</code> (could also use <code>T</code> again) as a type variable for the container’s item type.
 When we call this function with a <code>StringContainer</code>, the type checker knows <code>C</code> is <code>str</code> in that call, so it infers that the function returns a <code>str</code>.
 Similarly, with <code>IntContainer</code>, <code>C</code> becomes <code>int</code>.
@@ -1056,16 +1056,16 @@ In our container example, this is not an issue because we’re primarily using i
 For instance, you can declare <code>T = TypeVar('T', bound=SomeProtocol)</code> to indicate that a type variable must satisfy a certain protocol.
 This is analogous to saying “T must be a subtype of this Protocol,” except since protocols aren’t part of the class hierarchy, it really means any type used for T must structurally implement the protocol.
 For example, if we have:</p>
-<pre><code class="language-python">T = TypeVar('T', bound=Logger)  # using our Logger protocol from earlier
-</code></pre>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="n">T</span> <span class="o">=</span> <span class="n">TypeVar</span><span class="p">(</span><span class="s1">&#39;T&#39;</span><span class="p">,</span> <span class="n">bound</span><span class="o">=</span><span class="n">Logger</span><span class="p">)</span>  <span class="c1"># using our Logger protocol from earlier</span>
+</span></code></pre></div>
 <p>This means any type filling in for T must have a <code>.log(str) -&gt; None</code> method.
 You could use such a bound in a generic function or class to ensure the operations you perform on T (like calling <code>log</code>) are valid.
 This is a powerful way to write generic algorithms that operate on any objects meeting a certain interface, without tying them to a base class.</p>
 <p>It’s also worth noting that Python 3.12 introduced an even more concise way to define generic protocols (and generic classes in general) by allowing type variables in the definition of methods directly (PEP 695 – Type Parameter Syntax).
 For instance, one could write something like:</p>
-<pre><code class="language-python">class Container(Protocol):
-    def get_item[T](self) -&gt; T: ...
-</code></pre>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="k">class</span> <span class="nc">Container</span><span class="p">(</span><span class="n">Protocol</span><span class="p">):</span>
+</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>    <span class="k">def</span> <span class="nf">get_item</span><span class="p">[</span><span class="n">T</span><span class="p">](</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="p">:</span> <span class="o">...</span>
+</span></code></pre></div>
 <p>to define a generic method <code>get_item</code> in a protocol.
 However, under the hood this still creates a generic protocol with a type variable <code>T</code>.
 Most code at the time of writing still uses the earlier syntax with explicit <code>TypeVar</code> declarations, which is what we’ve shown above.</p>
