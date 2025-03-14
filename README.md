@@ -1,5 +1,5 @@
 # Thinking in Types
 
-## Building Stubbornly Resilient Libraries in Python
+## Building Stubbornly Resilient Python Code
 
 ## By Bruce Eckel
