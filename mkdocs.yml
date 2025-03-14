@@ -3,6 +3,7 @@ docs_dir: Chapters
 
 theme:
   name: material
+  favicon: img/favicon.png
   features:
     - content.code.copy
     - content.code.select
