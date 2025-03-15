@@ -2,6 +2,8 @@
 
 ## Building Stubbornly Resilient Python Code
 
+[ThinkingInTypes.com](https://thinkingintypes.com/)
+
 ## By Bruce Eckel
 
 - Run locally: `mkdocs serve`
