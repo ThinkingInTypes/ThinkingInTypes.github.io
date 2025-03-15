@@ -9,18 +9,22 @@
       
       
       
+        <link rel="prev" href="../10%20Structural%20Typing/">
       
       
-      <link rel="icon" href="/img/favicon.png">
+        <link rel="next" href="../12%20Errors%20As%20Values/">
+      
+      
+      <link rel="icon" href="../img/favicon.png">
       <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.8">
     
     
       
-        <title>Thinking in Types</title>
+        <title>Make Illegal Types Unrepresentable - Thinking in Types</title>
       
     
     
-      <link rel="stylesheet" href="/assets/stylesheets/main.8608ea7d.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.8608ea7d.min.css">
       
       
 
@@ -39,7 +43,7 @@
       
     
     
-    <script>__md_scope=new URL("/",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
 
@@ -57,6 +61,11 @@
     <label class="md-overlay" for="__drawer"></label>
     <div data-md-component="skip">
       
+        
+        <a href="#make-illegal-types-unrepresentable" class="md-skip">
+          Skip to content
+        </a>
+      
     </div>
     <div data-md-component="announce">
       
@@ -69,7 +78,7 @@
 
 <header class="md-header md-header--shadow" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href="/." title="Thinking in Types" class="md-header__button md-logo" aria-label="Thinking in Types" data-md-component="logo">
+    <a href=".." title="Thinking in Types" class="md-header__button md-logo" aria-label="Thinking in Types" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
@@ -89,7 +98,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              
+              Make Illegal Types Unrepresentable
             
           </span>
         </div>
@@ -176,7 +185,7 @@
 
 <nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="/." title="Thinking in Types" class="md-nav__button md-logo" aria-label="Thinking in Types" data-md-component="logo">
+    <a href=".." title="Thinking in Types" class="md-nav__button md-logo" aria-label="Thinking in Types" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
@@ -206,7 +215,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/01%20Preface/" class="md-nav__link">
+      <a href="../01%20Preface/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -227,7 +236,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/02%20Introduction/" class="md-nav__link">
+      <a href="../02%20Introduction/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -248,7 +257,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/03%20Basic%20Annotations/" class="md-nav__link">
+      <a href="../03%20Basic%20Annotations/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -269,7 +278,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/04%20Collections/" class="md-nav__link">
+      <a href="../04%20Collections/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -290,7 +299,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/05%20Generics/" class="md-nav__link">
+      <a href="../05%20Generics/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -311,7 +320,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/06%20Dataclasses/" class="md-nav__link">
+      <a href="../06%20Dataclasses/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -332,7 +341,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/07%20Specialized%20Type%20Tools/" class="md-nav__link">
+      <a href="../07%20Specialized%20Type%20Tools/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -353,7 +362,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/08%20Callable%20Types/" class="md-nav__link">
+      <a href="../08%20Callable%20Types/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -374,7 +383,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/09%20Tools%20And%20Techniques/" class="md-nav__link">
+      <a href="../09%20Tools%20And%20Techniques/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -395,7 +404,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/10%20Structural%20Typing/" class="md-nav__link">
+      <a href="../10%20Structural%20Typing/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -413,10 +422,19 @@
       
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="/11%20Make%20Illegal%20Types%20Unrepresentable/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   <span class="md-ellipsis">
@@ -426,6 +444,7 @@
   
 
       </a>
+      
     </li>
   
 
@@ -437,7 +456,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/12%20Errors%20As%20Values/" class="md-nav__link">
+      <a href="../12%20Errors%20As%20Values/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -458,7 +477,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/13%20Advanced%20Typing%20Concepts/" class="md-nav__link">
+      <a href="../13%20Advanced%20Typing%20Concepts/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -479,7 +498,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/14%20Pattern%20Matching%20And%20Typing/" class="md-nav__link">
+      <a href="../14%20Pattern%20Matching%20And%20Typing/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -500,7 +519,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/15%20Typing%20And%20Async%20Programming/" class="md-nav__link">
+      <a href="../15%20Typing%20And%20Async%20Programming/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -521,7 +540,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/16%20Interoperability%20And%20Typing%20Stubs/" class="md-nav__link">
+      <a href="../16%20Interoperability%20And%20Typing%20Stubs/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -542,7 +561,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/17%20Best%20Practices%20Patterns%20And%20AntiPatterns/" class="md-nav__link">
+      <a href="../17%20Best%20Practices%20Patterns%20And%20AntiPatterns/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -563,7 +582,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/Appendices/" class="md-nav__link">
+      <a href="../Appendices/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -594,6 +613,8 @@
   
   
   
+    
+  
   
 </nav>
                   </div>
@@ -605,8 +626,27 @@
             <div class="md-content" data-md-component="content">
               <article class="md-content__inner md-typeset">
                 
-  <h1>404 - Not found</h1>
+                  
 
+
+  
+  
+
+
+<h1 id="make-illegal-types-unrepresentable">Make Illegal Types Unrepresentable<a class="headerlink" href="#make-illegal-types-unrepresentable" title="Permanent link">#</a></h1>
+
+
+
+
+
+
+
+
+
+
+
+
+                
               </article>
             </div>
           
@@ -640,10 +680,10 @@
     </div>
     
     
-    <script id="__config" type="application/json">{"base": "/", "features": ["content.code.copy", "content.code.select", "navigation.indexes"], "search": "/assets/javascripts/workers/search.f8cc74c7.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    <script id="__config" type="application/json">{"base": "..", "features": ["content.code.copy", "content.code.select", "navigation.indexes"], "search": "../assets/javascripts/workers/search.f8cc74c7.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
-      <script src="/assets/javascripts/bundle.c8b220af.min.js"></script>
+      <script src="../assets/javascripts/bundle.c8b220af.min.js"></script>
       
     
   </body>
