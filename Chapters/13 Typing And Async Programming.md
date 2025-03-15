@@ -9,6 +9,7 @@
 Async functions (`async def`) support type annotations similarly to regular functions, clearly specifying their input and return types:
 
 ```python
+# example_1.py
 import asyncio
 
 async def fetch_data(url: str) -> str:
@@ -27,6 +28,7 @@ Python provides specific annotations for asynchronous constructs, enhancing type
 Explicitly type coroutines:
 
 ```python
+# example_2.py
 from typing import Coroutine
 
 async def get_user(user_id: int) -> dict:
@@ -42,6 +44,7 @@ async def main() -> Coroutine[None, None, dict]:
 For functions returning awaitable results:
 
 ```python
+# example_3.py
 from typing import Awaitable
 
 async def fetch(url: str) -> str:
@@ -56,6 +59,7 @@ def schedule_fetch(url: str) -> Awaitable[str]:
 For asynchronous generators:
 
 ```python
+# example_4.py
 from typing import AsyncGenerator
 
 async def stream_data() -> AsyncGenerator[int, None]:
@@ -70,6 +74,7 @@ These specialized annotations clarify asynchronous behaviors and interactions.
 Async context managers manage resources in asynchronous contexts, with annotations improving safety and clarity:
 
 ```python
+# example_5.py
 from contextlib import asynccontextmanager
 from typing import AsyncGenerator
 

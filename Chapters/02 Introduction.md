@@ -11,6 +11,7 @@ This means the types of variables are determined at runtime rather than explicit
 For example:
 
 ```python
+# example_1.py
 x = 42      # x is dynamically assigned as an integer
 y = "hello" # y is dynamically assigned as a string
 ```
@@ -52,6 +53,7 @@ Python initially embraced the concept of "duck typing," where the suitability of
 If it looks like a duck and quacks like a duck, it's treated as a duck:
 
 ```python
+# example_2.py
 class Duck:
     def quack(self):
         print("Quack!")
@@ -66,6 +68,7 @@ However, as Python projects grew in scale and complexity, the need for type safe
 Python 3.5 introduced **type annotations**, allowing developers to optionally specify expected types:
 
 ```python
+# example_3.py
 def greet(name: str) -> str:
     return f"Hello, {name}!"
 ```
@@ -128,6 +131,7 @@ These tools allow developers to incrementally adopt static typing, improving cod
 - Errors surface only when problematic code is executed.
 
 ```python
+# example_4.py
 def add(a, b):
     return a + b
 
@@ -140,6 +144,7 @@ add(1, "2")  # raises runtime TypeError
 - Prevents many type-related errors by analyzing code structure.
 
 ```python
+# example_5.py
 # mypy detects this error before running
 def add(a: int, b: int) -> int:
     return a + b

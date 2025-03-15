@@ -11,6 +11,7 @@ Clearly annotating functions and lambda expressions improves readability and typ
 ### Function Annotations
 
 ```python
+# example_1.py
 def add(x: int, y: int) -> int:
     return x + y
 ```
@@ -20,6 +21,7 @@ def add(x: int, y: int) -> int:
 Annotating lambdas directly isn't supported; however, annotations can be implied:
 
 ```python
+# example_2.py
 from typing import Callable
 
 adder: Callable[[int, int], int] = lambda x, y: x + y
@@ -32,6 +34,7 @@ This explicit approach ensures that lambda behavior is type-checked properly.
 The `Callable` type is essential for annotating functions that accept or return other functions:
 
 ```python
+# example_3.py
 from typing import Callable
 
 def operate(a: int, b: int, func: Callable[[int, int], int]) -> int:
@@ -47,6 +50,7 @@ Using `Callable` clearly defines expected function signatures, enhancing maintai
 Introduced in Python 3.10, `ParamSpec` allows annotating decorators and generic functions while preserving original function signatures:
 
 ```python
+# example_4.py
 from typing import Callable, ParamSpec, TypeVar
 
 P = ParamSpec('P')
@@ -72,6 +76,7 @@ multiply(2, 3)  # Output: Calling multiply with (2, 3) and {} then returns 6
 Python allows specifying multiple function signatures through the `@overload` decorator for better static type checking:
 
 ```python
+# example_5.py
 from typing import overload, Union
 
 @overload
@@ -104,6 +109,7 @@ Strategies include:
 ### Using Type Aliases for Complex Signatures
 
 ```python
+# example_6.py
 from typing import Callable, TypeAlias
 
 RequestHandler: TypeAlias = Callable[[str, dict], dict]
@@ -122,6 +128,7 @@ def handle_request(path: str, handler: RequestHandler) -> dict:
 Using `Protocol` for clearly defined callable behaviors:
 
 ```python
+# example_7.py
 from typing import Protocol
 
 class Handler(Protocol):

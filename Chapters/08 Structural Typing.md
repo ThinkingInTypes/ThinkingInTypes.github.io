@@ -43,6 +43,7 @@ For example, suppose we want a protocol for “speaking” creatures or objects:
 We can define:
 
 ```python
+# example_1.py
 from typing import Protocol
 
 class Speaker(Protocol):
@@ -54,6 +55,7 @@ Now, any class that defines a `speak(self) -> str` method will be considered a `
 We can create two completely unrelated classes that fulfill this protocol without explicit inheritance:
 
 ```python
+# example_2.py
 class Dog:
     def speak(self) -> str:
         return "woof"
@@ -97,6 +99,7 @@ Imagine we have objects that need to support a `close()` method (like files or n
 We can define a protocol `Closable` and use it to write a function that closes a batch of resources:
 
 ```python
+# example_3.py
 from typing import Protocol, Iterable
 
 class Closable(Protocol):
@@ -136,6 +139,7 @@ Marking a protocol with `@runtime_checkable` means it gets a special `__instance
 For example:
 
 ```python
+# example_4.py
 from typing import runtime_checkable
 
 @runtime_checkable
@@ -168,6 +172,7 @@ You can define a protocol for the logger’s interface and program against that.
 For instance:
 
 ```python
+# example_5.py
 from typing import Protocol
 
 class Logger(Protocol):
@@ -269,6 +274,7 @@ We can make it generic so that a `Container[int]` will be a protocol for “cont
 For example:
 
 ```python
+# example_6.py
 from typing import Protocol, TypeVar
 
 T = TypeVar('T')
@@ -283,6 +289,7 @@ Now we can implement this protocol for different types by providing concrete typ
 For instance, a container of strings and a container of integers:
 
 ```python
+# example_7.py
 class StringContainer:
     def __init__(self, value: str):
         self.value = value
@@ -301,6 +308,7 @@ They don’t subclass `Container`, but structurally they match `Container[str]` 
 We can write functions that use the generic protocol to accept any kind of container and preserve the type information of the contained item:
 
 ```python
+# example_8.py
 def print_item_and_return[C](container: Container[C]) -> C:
     item = container.get_item()
     print("Got:", item)
@@ -328,6 +336,7 @@ This is analogous to saying “T must be a subtype of this Protocol,” except s
 For example, if we have:
 
 ```python
+# example_9.py
 T = TypeVar('T', bound=Logger)  # using our Logger protocol from earlier
 ```
 
@@ -339,6 +348,7 @@ It’s also worth noting that Python 3.12 introduced an even more concise way to
 For instance, one could write something like:
 
 ```python
+# example_10.py
 class Container(Protocol):
     def get_item[T](self) -> T: ...
 ```

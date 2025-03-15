@@ -14,6 +14,7 @@ Clear type annotations significantly improve code quality and maintainability:
 - Clearly annotate function signatures, class attributes, and return types.
 
 ```python
+# example_1.py
 def calculate_area(width: float, height: float) -> float:
     return width * height
 ```
@@ -23,6 +24,7 @@ def calculate_area(width: float, height: float) -> float:
 Simplify repetitive or complex annotations:
 
 ```python
+# example_2.py
 from typing import Dict, List
 
 UserData = Dict[str, List[int]]
@@ -39,6 +41,7 @@ Type aliases enhance readability, making complex types easier to understand.
 - TypedDicts clarify expected dictionary structures.
 
 ```python
+# example_3.py
 from dataclasses import dataclass
 
 @dataclass
@@ -58,9 +61,11 @@ Overuse of `Any` defeats the purpose of type annotations:
 - **Pitfall:**
 
   ```python
+# example_4.py
   def process(data: Any) -> Any:
       pass
-  ```
+  
+```
 
 - **Solution:**
   Provide specific type annotations whenever possible.
@@ -79,9 +84,11 @@ Avoid overly complex union types:
 - **Pitfall:**
 
   ```python
+# example_5.py
   def handle(value: Union[int, str, None, float]) -> None:
       pass
-  ```
+  
+```
 
 - **Solution:**
   Refactor to simplify or use custom types.

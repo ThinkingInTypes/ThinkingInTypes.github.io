@@ -19,21 +19,19 @@ markdown_extensions:
   - pymdownx.superfences
 
 nav:
-  - Home: index.md
-  - Chapters: 
-    - 01 Preface.md
-    - 02 Introduction.md
-    - 03 Basic Annotations.md
-    - 04 Collections And Generics.md
-    - 05 Dataclasses And Typed Classes.md
-    - 06 Callable Types And Annotations.md
-    - 07 Type Checking Tools And Techniques.md
-    - 08 Structural Typing.md
-    - 09 Make Illegal Types Unrepresentable.md
-    - 10 Errors As Values.md
-    - 11 Advanced Typing Concepts.md
-    - 12 Pattern Matching And Typing.md
-    - 13 Typing And Async Programming.md
-    - 14 Interoperability And Typing Stubs.md
-    - 15 Best Practices Patterns And AntiPatterns.md
-    - Appendices.md
+  - 01 Preface.md
+  - 02 Introduction.md
+  - 03 Basic Annotations.md
+  - 04 Collections And Generics.md
+  - 05 Dataclasses And Typed Classes.md
+  - 06 Callable Types And Annotations.md
+  - 07 Type Checking Tools And Techniques.md
+  - 08 Structural Typing.md
+  - 09 Make Illegal Types Unrepresentable.md
+  - 10 Errors As Values.md
+  - 11 Advanced Typing Concepts.md
+  - 12 Pattern Matching And Typing.md
+  - 13 Typing And Async Programming.md
+  - 14 Interoperability And Typing Stubs.md
+  - 15 Best Practices Patterns And AntiPatterns.md
+  - Appendices.md

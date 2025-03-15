@@ -9,6 +9,7 @@
 Python supports type annotations for its fundamental built-in types, allowing developers to clarify expected types of variables and function arguments explicitly:
 
 ```python
+# example_1.py
 age: int = 25
 name: str = "Alice"
 salary: float = 45000.50
@@ -25,6 +26,7 @@ Type annotations can be added to variables and function parameters to indicate e
 ### Variables
 
 ```python
+# example_2.py
 user_id: int = 123
 username: str = "admin"
 ```
@@ -32,6 +34,7 @@ username: str = "admin"
 ### Functions
 
 ```python
+# example_3.py
 def greet_user(username: str) -> str:
     return f"Welcome, {username}!"
 ```
@@ -44,6 +47,7 @@ Sometimes a variable or function argument can be a specific type or `None`.
 Python uses `Optional` from `typing` to indicate this:
 
 ```python
+# example_4.py
 from typing import Optional
 
 def find_user(user_id: int) -> Optional[str]:
@@ -55,6 +59,7 @@ def find_user(user_id: int) -> Optional[str]:
 Default values with optional annotations:
 
 ```python
+# example_5.py
 def greet(name: Optional[str] = None) -> str:
     if name:
         return f"Hello, {name}!"
@@ -69,6 +74,7 @@ Traditionally, the `Union` type was used, but Python 3.10 introduced the `|` ope
 ### Using `Union`
 
 ```python
+# example_6.py
 from typing import Union
 
 def process_value(value: Union[int, str]) -> str:
@@ -78,6 +84,7 @@ def process_value(value: Union[int, str]) -> str:
 ### Using `|` operator (Python 3.10+)
 
 ```python
+# example_7.py
 def process_value(value: int | str) -> str:
     return str(value)
 ```
@@ -89,6 +96,7 @@ The `|` operator provides clearer and more concise syntax.
 Type aliases simplify complex annotations by providing a readable and reusable name for a type:
 
 ```python
+# example_8.py
 from typing import List
 
 UserIDs = List[int]
@@ -117,6 +125,7 @@ Aliases improve code clarity, especially for complex types.
 Example error:
 
 ```python
+# example_9.py
 def calculate_area(radius: int) -> float:
     return 3.14 * radius ** 2
 

@@ -25,6 +25,7 @@ mypy your_script.py
 Example:
 
 ```python
+# example_1.py
 # script.py
 def greet(name: str) -> str:
     return f"Hello, {name}!"
@@ -136,6 +137,7 @@ Common type-checking errors and their resolutions:
 ### Incorrect Type Annotation
 
 ```python
+# example_2.py
 # Error: Incompatible types in assignment (expression has type "int", variable has type "str")
 name: str = 123  # fix: name = "Alice"
 ```
@@ -160,6 +162,7 @@ pip install types-requests
 Resolve ambiguity clearly:
 
 ```python
+# example_3.py
 from typing import Optional
 
 # Error: Incompatible return value type (got "None", expected "int")

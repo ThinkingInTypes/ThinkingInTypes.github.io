@@ -9,6 +9,7 @@
 Class annotations provide explicit type definitions for attributes and methods, increasing clarity and ensuring type consistency:
 
 ```python
+# example_1.py
 class User:
     username: str
     age: int
@@ -28,6 +29,7 @@ Annotations help document the intended use of class members and improve maintain
 Dataclasses simplify class definitions by automatically generating methods like `__init__`, `__repr__`, and `__eq__`:
 
 ```python
+# example_2.py
 from dataclasses import dataclass
 
 @dataclass
@@ -47,6 +49,7 @@ Dataclasses reduce boilerplate, ensuring concise and readable class definitions.
 Dataclasses support default factories, immutability, and more:
 
 ```python
+# example_3.py
 from dataclasses import dataclass, field
 from typing import List
 
@@ -64,6 +67,7 @@ order = Order(order_id=123)
 Typed `NamedTuple` combines tuple immutability with type annotations and named fields:
 
 ```python
+# example_4.py
 from typing import NamedTuple
 
 class Coordinates(NamedTuple):
@@ -81,6 +85,7 @@ print(coords.latitude)  # 51.5074
 `TypedDict` is useful when defining dictionary structures with known keys and typed values:
 
 ```python
+# example_5.py
 from typing import TypedDict
 
 class UserProfile(TypedDict):
@@ -98,6 +103,7 @@ user: UserProfile = {"username": "alice", "email": "alice@example.com", "age": 3
 You can specify optional fields using `NotRequired` (Python 3.11+) or `total=False`:
 
 ```python
+# example_6.py
 from typing import TypedDict, NotRequired
 
 class UserSettings(TypedDict):
@@ -116,6 +122,7 @@ Strongly-typed domain models help clearly represent domain logic, improving robu
 ### Using Dataclasses and Enums
 
 ```python
+# example_7.py
 from dataclasses import dataclass
 from enum import Enum
 
@@ -135,6 +142,7 @@ user = User(id=1, name="Alice", status=Status.ACTIVE)
 ### Combining Dataclasses with Protocols
 
 ```python
+# example_8.py
 from typing import Protocol
 
 class Identifiable(Protocol):
@@ -162,6 +170,7 @@ print_id(Product(101, 19.99))
 Define domain entities explicitly to enhance domain logic expressiveness:
 
 ```python
+# example_9.py
 @dataclass
 class Order:
     order_id: int

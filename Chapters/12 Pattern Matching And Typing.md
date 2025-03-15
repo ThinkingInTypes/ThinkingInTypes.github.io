@@ -9,6 +9,7 @@
 Python 3.10 introduced structural pattern matching, providing powerful and concise syntax to match objects against specific patterns:
 
 ```python
+# example_1.py
 def handle_command(command: str) -> str:
     match command:
         case "start":
@@ -26,6 +27,7 @@ Pattern matching enhances readability and maintainability, reducing the complexi
 Annotations can clarify patterns used in structural matching, making code clearer and aiding static type checking:
 
 ```python
+# example_2.py
 from typing import Union
 
 class Success:
@@ -53,6 +55,7 @@ When combining type annotations with pattern matching, carefully structuring typ
 ### Example with TypedDict and Pattern Matching
 
 ```python
+# example_3.py
 from typing import TypedDict
 
 class Command(TypedDict):
@@ -80,6 +83,7 @@ Static type checkers can analyze pattern matching effectively, but careful type 
 Pattern matching works best with clearly annotated and structurally consistent types:
 
 ```python
+# example_4.py
 from typing import Union
 
 class Cat:
@@ -107,6 +111,7 @@ Pattern matching is highly effective in real-world scenarios, such as:
 ### Handling API Responses
 
 ```python
+# example_5.py
 def process_response(response: dict) -> str:
     match response:
         case {"status": "success", "data": data}:
@@ -120,6 +125,7 @@ def process_response(response: dict) -> str:
 ### Parsing Complex Data Structures
 
 ```python
+# example_6.py
 def parse_coordinates(coords: tuple) -> str:
     match coords := coords:
         case (float(lat), float(lon)):

@@ -9,6 +9,7 @@
 Literal types allow specifying exact permissible values, enhancing type specificity and correctness:
 
 ```python
+# example_1.py
 from typing import Literal
 
 def set_mode(mode: Literal['auto', 'manual']) -> None:
@@ -25,6 +26,7 @@ Literal types ensure values match expected exact constants, improving type safet
 `Annotated` provides metadata for types, useful in documentation, validation, or frameworks:
 
 ```python
+# example_2.py
 from typing import Annotated
 
 UserID = Annotated[int, "Database primary key"]
@@ -40,6 +42,7 @@ Metadata within `Annotated` helps convey additional context beyond simple type h
 `NewType` creates distinct types for stronger type checking without runtime overhead:
 
 ```python
+# example_3.py
 from typing import NewType
 
 UserId = NewType('UserId', int)
@@ -62,6 +65,7 @@ Type narrowing refines a variable's type within conditional checks:
 ### Using `isinstance`
 
 ```python
+# example_4.py
 from typing import Union
 
 def process(value: Union[int, str]) -> None:
@@ -74,6 +78,7 @@ def process(value: Union[int, str]) -> None:
 ### Using assertions
 
 ```python
+# example_5.py
 from typing import Optional
 
 def greet(name: Optional[str]) -> None:
@@ -90,6 +95,7 @@ Custom type guards offer explicit ways to narrow types more clearly:
 ### Custom type guard functions (Python 3.10+)
 
 ```python
+# example_6.py
 from typing import TypeGuard
 
 class Cat:
@@ -115,6 +121,7 @@ Variance controls type relationships between generic types:
 Allows using subtypes in place of parent types:
 
 ```python
+# example_7.py
 from typing import Generic, TypeVar
 
 T_co = TypeVar('T_co', covariant=True)
@@ -132,6 +139,7 @@ numbers: ReadOnlyList[float] = ints  # Valid due to covariance
 Allows using parent types in place of subtypes, common in callbacks or consumers:
 
 ```python
+# example_8.py
 T_contra = TypeVar('T_contra', contravariant=True)
 
 class Processor(Generic[T_contra]):

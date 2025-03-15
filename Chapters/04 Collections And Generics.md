@@ -11,6 +11,7 @@ Python provides built-in collection types such as lists, tuples, sets, and dicti
 ### Lists
 
 ```python
+# example_1.py
 from typing import List
 
 scores: List[int] = [95, 85, 75]
@@ -19,6 +20,7 @@ scores: List[int] = [95, 85, 75]
 ### Tuples
 
 ```python
+# example_2.py
 from typing import Tuple
 
 coordinates: Tuple[float, float] = (23.5, 45.8)
@@ -27,6 +29,7 @@ coordinates: Tuple[float, float] = (23.5, 45.8)
 ### Sets
 
 ```python
+# example_3.py
 from typing import Set
 
 unique_ids: Set[str] = {"abc", "xyz", "123"}
@@ -35,6 +38,7 @@ unique_ids: Set[str] = {"abc", "xyz", "123"}
 ### Dictionaries
 
 ```python
+# example_4.py
 from typing import Dict
 
 user_data: Dict[str, int] = {"Alice": 30, "Bob": 25}
@@ -47,6 +51,7 @@ These annotations enhance readability and help catch type-related errors early.
 Starting from Python 3.9, built-in collection types support direct annotations without importing from `typing`:
 
 ```python
+# example_5.py
 scores: list[int] = [95, 85, 75]
 user_data: dict[str, float] = {"Alice": 95.5, "Bob": 85.3}
 ```
@@ -62,6 +67,7 @@ Python provides specialized annotations for greater flexibility:
 - For any ordered collection supporting indexing:
 
 ```python
+# example_6.py
 from typing import Sequence
 
 def average(numbers: Sequence[float]) -> float:
@@ -73,6 +79,7 @@ def average(numbers: Sequence[float]) -> float:
 - For dictionary-like objects:
 
 ```python
+# example_7.py
 from typing import Mapping
 
 def get_user_age(users: Mapping[str, int], username: str) -> int:
@@ -84,6 +91,7 @@ def get_user_age(users: Mapping[str, int], username: str) -> int:
 - For looping over items:
 
 ```python
+# example_8.py
 from typing import Iterable, Iterator
 
 def print_items(items: Iterable[str]) -> None:
@@ -105,6 +113,7 @@ Custom generics allow functions and classes to handle various types flexibly:
 ### Using `TypeVar`
 
 ```python
+# example_9.py
 from typing import TypeVar, List
 
 T = TypeVar('T')
@@ -119,6 +128,7 @@ print(first_item(["a", "b"]))  # returns str
 ### Generic Classes
 
 ```python
+# example_10.py
 from typing import Generic
 
 class Box(Generic[T]):
@@ -138,6 +148,7 @@ Generics can include constraints and bounds to restrict allowed types:
 ### Constraints
 
 ```python
+# example_11.py
 U = TypeVar('U', int, float)
 
 def add(a: U, b: U) -> U:
@@ -151,6 +162,7 @@ add(1.5, 2.5)  # valid
 ### Bounds
 
 ```python
+# example_12.py
 class Animal:
     def speak(self) -> str:
         return "..."
