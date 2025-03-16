@@ -1,7 +1,7 @@
 site_name: Thinking in Types
 docs_dir: Chapters
 site_url: https://ThinkingInTypes.github.io
-repo_url: https://github.com/ThinkingInTypes/ThinkingInTypes_Book
+repo_url: https://github.com/ThinkingInTypes/ThinkingInTypes.github.io
 
 theme:
   name: material
