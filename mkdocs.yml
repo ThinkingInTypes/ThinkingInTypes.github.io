@@ -1,6 +1,7 @@
 site_name: Thinking in Types
 docs_dir: Chapters
-repo_url: https://github.com/Thinking-In-Types/ThinkingInTypes_Book
+site_url: https://ThinkingInTypes.github.io
+repo_url: https://github.com/ThinkingInTypes/ThinkingInTypes_Book
 
 theme:
   name: material
@@ -8,6 +9,8 @@ theme:
   features:
     - content.code.copy
     - content.code.select
+    - navigation.indexes  # Ensures only one entry in TOC
+    # - toc.integrate  # Makes TOC part of the left-hand navigation
 
 markdown_extensions:
   - pymdownx.highlight:
@@ -17,21 +20,26 @@ markdown_extensions:
   - pymdownx.inlinehilite
   - pymdownx.snippets
   - pymdownx.superfences
+  - toc:
+      permalink: "#"
+
 
 nav:
   - 01 Preface.md
   - 02 Introduction.md
   - 03 Basic Annotations.md
-  - 04 Collections And Generics.md
-  - 05 Dataclasses And Typed Classes.md
-  - 06 Callable Types And Annotations.md
-  - 07 Type Checking Tools And Techniques.md
-  - 08 Structural Typing.md
-  - 09 Make Illegal Types Unrepresentable.md
-  - 10 Errors As Values.md
-  - 11 Advanced Typing Concepts.md
-  - 12 Pattern Matching And Typing.md
-  - 13 Typing And Async Programming.md
-  - 14 Interoperability And Typing Stubs.md
-  - 15 Best Practices Patterns And AntiPatterns.md
+  - 04 Collections.md
+  - 05 Generics.md
+  - 06 Dataclasses.md
+  - 07 Specialized Type Tools.md
+  - 08 Callable Types.md
+  - 09 Tools And Techniques.md
+  - 10 Structural Typing.md
+  - 11 Make Illegal Types Unrepresentable.md
+  - 12 Errors As Values.md
+  - 13 Advanced Typing Concepts.md
+  - 14 Pattern Matching And Typing.md
+  - 15 Typing And Async Programming.md
+  - 16 Interoperability And Typing Stubs.md
+  - 17 Best Practices Patterns And AntiPatterns.md
   - Appendices.md
