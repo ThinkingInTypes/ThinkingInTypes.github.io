@@ -27,19 +27,20 @@ markdown_extensions:
 nav:
   - 01 Preface.md
   - 02 Introduction.md
-  - 03 Basic Annotations.md
+  - 03 Basic_Annotations.md
   - 04 Collections.md
   - 05 Generics.md
   - 06 Dataclasses.md
-  - 07 Specialized Type Tools.md
-  - 08 Callable Types.md
-  - 09 Tools And Techniques.md
-  - 10 Structural Typing.md
-  - 11 Make Illegal Types Unrepresentable.md
-  - 12 Errors As Values.md
-  - 13 Advanced Typing Concepts.md
-  - 14 Pattern Matching And Typing.md
-  - 15 Typing And Async Programming.md
-  - 16 Interoperability And Typing Stubs.md
-  - 17 Best Practices Patterns And AntiPatterns.md
-  - Appendices.md
+  - 07 Specialized_Type_Tools.md
+  - 08 Callable_Types.md
+  - 09 Structural_Typing.md
+  - 10 Make_Illegal_Types_Unrepresentable.md
+  - 11 Errors_As_Values.md
+  - 12 Advanced_Typing_Concepts.md
+  - 13 Pattern_Matching_And_Typing.md
+  - 14 Async.md
+  - 15 Interoperability_And_Typing_Stubs.md
+  - 16 Best_Practices.md
+  - A1 Quick_Reference.md
+  - A2 Glossary.md
+  - A3 Type_Checkers.md
