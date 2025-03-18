@@ -8,13 +8,11 @@
       
       
       
-        <link rel="canonical" href="https://ThinkingInTypes.github.io/09%20Tools%20And%20Techniques/">
+        <link rel="canonical" href="https://ThinkingInTypes.github.io/A3%20Type_Checkers/">
       
       
-        <link rel="prev" href="../08%20Callable%20Types/">
+        <link rel="prev" href="../A2%20Glossary/">
       
-      
-        <link rel="next" href="../10%20Structural%20Typing/">
       
       
       <link rel="icon" href="../img/favicon.png">
@@ -22,7 +20,7 @@
     
     
       
-        <title>Tools And Techniques - Thinking in Types</title>
+        <title>Type Checkers - Thinking in Types</title>
       
     
     
@@ -64,7 +62,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#tools-and-techniques" class="md-skip">
+        <a href="#type-checkers" class="md-skip">
           Skip to content
         </a>
       
@@ -100,7 +98,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Tools And Techniques
+              Type Checkers
             
           </span>
         </div>
@@ -259,7 +257,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../03%20Basic%20Annotations/" class="md-nav__link">
+      <a href="../03%20Basic_Annotations/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -343,7 +341,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../07%20Specialized%20Type%20Tools/" class="md-nav__link">
+      <a href="../07%20Specialized_Type_Tools/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -364,11 +362,221 @@
   
   
     <li class="md-nav__item">
-      <a href="../08%20Callable%20Types/" class="md-nav__link">
+      <a href="../08%20Callable_Types/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
     Callable Types
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../09%20Structural_Typing/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Structural Typing
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../10%20Make_Illegal_Types_Unrepresentable/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Make Illegal Types Unrepresentable
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../11%20Errors_As_Values/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Errors As Values
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../12%20Advanced_Typing_Concepts/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Advanced Typing Concepts
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../13%20Pattern_Matching_And_Typing/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Pattern Matching And Typing
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../14%20Async/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Async
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../15%20Interoperability_And_Typing_Stubs/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Interoperability And Typing Stubs
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../16%20Best_Practices/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Best Practices
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../A1%20Quick_Reference/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Quick Reference
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../A2%20Glossary/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Glossary
     
   </span>
   
@@ -398,7 +606,7 @@
           
   
   <span class="md-ellipsis">
-    Tools And Techniques
+    Type Checkers
     
   </span>
   
@@ -410,7 +618,7 @@
         
   
   <span class="md-ellipsis">
-    Tools And Techniques
+    Type Checkers
     
   </span>
   
@@ -619,195 +827,6 @@
   
 </nav>
       
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../10%20Structural%20Typing/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Structural Typing
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../11%20Make%20Illegal%20Types%20Unrepresentable/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Make Illegal Types Unrepresentable
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../12%20Errors%20As%20Values/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Errors As Values
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../13%20Advanced%20Typing%20Concepts/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Advanced Typing Concepts
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../14%20Pattern%20Matching%20And%20Typing/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Pattern Matching And Typing
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../15%20Typing%20And%20Async%20Programming/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Typing And Async Programming
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../16%20Interoperability%20And%20Typing%20Stubs/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Interoperability And Typing Stubs
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../17%20Best%20Practices%20Patterns%20And%20AntiPatterns/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Best Practices, Patterns, And Anti-Patterns
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../Appendices/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Appendices
-    
-  </span>
-  
-
-      </a>
     </li>
   
 
@@ -1040,7 +1059,7 @@
   
 
 
-<h1 id="tools-and-techniques">Tools And Techniques<a class="headerlink" href="#tools-and-techniques" title="Permanent link">#</a></h1>
+<h1 id="type-checkers">Type Checkers<a class="headerlink" href="#type-checkers" title="Permanent link">#</a></h1>
 <blockquote>
 <p>This placeholder text was generated by ChatGPT 4.5.
 It will be significantly rewritten as the book is developed.

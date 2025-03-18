@@ -8,13 +8,13 @@
       
       
       
-        <link rel="canonical" href="https://ThinkingInTypes.github.io/17%20Best%20Practices%20Patterns%20And%20AntiPatterns/">
+        <link rel="canonical" href="https://ThinkingInTypes.github.io/16%20Best_Practices/">
       
       
-        <link rel="prev" href="../16%20Interoperability%20And%20Typing%20Stubs/">
+        <link rel="prev" href="../15%20Interoperability_And_Typing_Stubs/">
       
       
-        <link rel="next" href="../Appendices/">
+        <link rel="next" href="../A1%20Quick_Reference/">
       
       
       <link rel="icon" href="../img/favicon.png">
@@ -22,7 +22,7 @@
     
     
       
-        <title>Best Practices, Patterns, And Anti-Patterns - Thinking in Types</title>
+        <title>Best Practices - Thinking in Types</title>
       
     
     
@@ -64,7 +64,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#best-practices-patterns-and-anti-patterns" class="md-skip">
+        <a href="#best-practices" class="md-skip">
           Skip to content
         </a>
       
@@ -100,7 +100,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Best Practices, Patterns, And Anti-Patterns
+              Best Practices
             
           </span>
         </div>
@@ -259,7 +259,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../03%20Basic%20Annotations/" class="md-nav__link">
+      <a href="../03%20Basic_Annotations/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -343,7 +343,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../07%20Specialized%20Type%20Tools/" class="md-nav__link">
+      <a href="../07%20Specialized_Type_Tools/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -364,7 +364,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../08%20Callable%20Types/" class="md-nav__link">
+      <a href="../08%20Callable_Types/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -385,28 +385,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../09%20Tools%20And%20Techniques/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Tools And Techniques
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../10%20Structural%20Typing/" class="md-nav__link">
+      <a href="../09%20Structural_Typing/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -427,7 +406,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../11%20Make%20Illegal%20Types%20Unrepresentable/" class="md-nav__link">
+      <a href="../10%20Make_Illegal_Types_Unrepresentable/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -448,7 +427,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../12%20Errors%20As%20Values/" class="md-nav__link">
+      <a href="../11%20Errors_As_Values/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -469,7 +448,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../13%20Advanced%20Typing%20Concepts/" class="md-nav__link">
+      <a href="../12%20Advanced_Typing_Concepts/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -490,7 +469,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../14%20Pattern%20Matching%20And%20Typing/" class="md-nav__link">
+      <a href="../13%20Pattern_Matching_And_Typing/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -511,11 +490,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../15%20Typing%20And%20Async%20Programming/" class="md-nav__link">
+      <a href="../14%20Async/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    Typing And Async Programming
+    Async
     
   </span>
   
@@ -532,7 +511,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../16%20Interoperability%20And%20Typing%20Stubs/" class="md-nav__link">
+      <a href="../15%20Interoperability_And_Typing_Stubs/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -566,7 +545,7 @@
           
   
   <span class="md-ellipsis">
-    Best Practices, Patterns, And Anti-Patterns
+    Best Practices
     
   </span>
   
@@ -578,7 +557,7 @@
         
   
   <span class="md-ellipsis">
-    Best Practices, Patterns, And Anti-Patterns
+    Best Practices
     
   </span>
   
@@ -661,6 +640,24 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#missing-or-inconsistent-annotations" class="md-nav__link">
+    <span class="md-ellipsis">
+      Missing or Inconsistent Annotations
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#complex-union-types" class="md-nav__link">
+    <span class="md-ellipsis">
+      Complex Union Types
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -681,11 +678,53 @@
   
   
     <li class="md-nav__item">
-      <a href="../Appendices/" class="md-nav__link">
+      <a href="../A1%20Quick_Reference/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    Appendices
+    Quick Reference
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../A2%20Glossary/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Glossary
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../A3%20Type_Checkers/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Type Checkers
     
   </span>
   
@@ -782,6 +821,24 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#missing-or-inconsistent-annotations" class="md-nav__link">
+    <span class="md-ellipsis">
+      Missing or Inconsistent Annotations
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#complex-union-types" class="md-nav__link">
+    <span class="md-ellipsis">
+      Complex Union Types
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -806,7 +863,7 @@
   
 
 
-<h1 id="best-practices-patterns-and-anti-patterns">Best Practices, Patterns, And Anti-Patterns<a class="headerlink" href="#best-practices-patterns-and-anti-patterns" title="Permanent link">#</a></h1>
+<h1 id="best-practices">Best Practices<a class="headerlink" href="#best-practices" title="Permanent link">#</a></h1>
 <blockquote>
 <p>This placeholder text was generated by ChatGPT 4.5.
 It will be significantly rewritten as the book is developed.
@@ -854,33 +911,32 @@ In the meantime you can add comments to either <a href="https://bsky.app/bruceec
 <ul>
 <li><strong>Pitfall:</strong></li>
 </ul>
-<p>```python</p>
-<h1 id="example_4py">example_4.py<a class="headerlink" href="#example_4py" title="Permanent link">#</a></h1>
-<h1 id="example_4py_1">example_4.py<a class="headerlink" href="#example_4py_1" title="Permanent link">#</a></h1>
-<p>def process(data: Any) -&gt; Any:
-      pass</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>- **Solution:**
-</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>  Provide specific type annotations whenever possible.
-</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>
-</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>### Missing or Inconsistent Annotations
-</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>
-</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>Incomplete annotations lead to confusion:
-</span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a>
-</span><span id="__span-3-8"><a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a>- Always annotate public APIs clearly.
-</span><span id="__span-3-9"><a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a>- Regularly review annotations during code reviews.
-</span><span id="__span-3-10"><a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a>
-</span><span id="__span-3-11"><a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a>### Complex Union Types
-</span><span id="__span-3-12"><a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a>
-</span><span id="__span-3-13"><a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a>Avoid overly complex union types:
-</span><span id="__span-3-14"><a id="__codelineno-3-14" name="__codelineno-3-14" href="#__codelineno-3-14"></a>
-</span><span id="__span-3-15"><a id="__codelineno-3-15" name="__codelineno-3-15" href="#__codelineno-3-15"></a>- **Pitfall:**
-</span><span id="__span-3-16"><a id="__codelineno-3-16" name="__codelineno-3-16" href="#__codelineno-3-16"></a>
-</span><span id="__span-3-17"><a id="__codelineno-3-17" name="__codelineno-3-17" href="#__codelineno-3-17"></a>  ```python
-</span><span id="__span-3-18"><a id="__codelineno-3-18" name="__codelineno-3-18" href="#__codelineno-3-18"></a># example_5.py
-</span><span id="__span-3-19"><a id="__codelineno-3-19" name="__codelineno-3-19" href="#__codelineno-3-19"></a>  # example_5.py
-</span><span id="__span-3-20"><a id="__codelineno-3-20" name="__codelineno-3-20" href="#__codelineno-3-20"></a>  def handle(value: Union[int, str, None, float]) -&gt; None:
-</span><span id="__span-3-21"><a id="__codelineno-3-21" name="__codelineno-3-21" href="#__codelineno-3-21"></a>      pass
+<div class="language-python highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="c1"># example_4.py</span>
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="k">def</span> <span class="nf">process</span><span class="p">(</span><span class="n">data</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>    <span class="k">pass</span>
 </span></code></pre></div>
+<ul>
+<li><strong>Solution:</strong>
+  Provide specific type annotations whenever possible.</li>
+</ul>
+<h3 id="missing-or-inconsistent-annotations">Missing or Inconsistent Annotations<a class="headerlink" href="#missing-or-inconsistent-annotations" title="Permanent link">#</a></h3>
+<p>Incomplete annotations lead to confusion:</p>
+<ul>
+<li>Always annotate public APIs clearly.</li>
+<li>Regularly review annotations during code reviews.</li>
+</ul>
+<h3 id="complex-union-types">Complex Union Types<a class="headerlink" href="#complex-union-types" title="Permanent link">#</a></h3>
+<p>Avoid overly complex union types:</p>
+<ul>
+<li><strong>Pitfall:</strong></li>
+</ul>
+<p>```python</p>
+<h1 id="example_5py">example_5.py<a class="headerlink" href="#example_5py" title="Permanent link">#</a></h1>
+<h1 id="example_5py_1">example_5.py<a class="headerlink" href="#example_5py_1" title="Permanent link">#</a></h1>
+<p>def handle(value: Union[int, str, None, float]) -&gt; None:
+      pass</p>
+<p>```</p>
 <ul>
 <li><strong>Solution:</strong>
   Refactor to simplify or use custom types.</li>
