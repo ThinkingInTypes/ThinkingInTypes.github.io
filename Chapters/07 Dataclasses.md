@@ -6,6 +6,12 @@
 
 (Insert material from Pycon presentation)
 
+## Misunderstanding Class Attributes
+
+A number of type tools hack the class attribute syntax; the most obvious is dataclasses but there are others.
+It's important to understand that this is special behavior created by the tool, and that ordinary classes do not behave this way.
+Read the [Class Attributes] appendix for deeper understanding.
+
 ## Using Dataclasses Effectively
 
 Dataclasses simplify class definitions by automatically generating methods like `__init__`, `__repr__`, and `__eq__`:
