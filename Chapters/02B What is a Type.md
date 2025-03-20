@@ -4,6 +4,8 @@
 > It will be significantly rewritten as the book is developed.
 > In the meantime you can add comments to either <https://bsky.app/bruceeckel> or [Github Issues](https://github.com/ThinkingInTypes/ThinkingInTypes.github.io/issues).
 
+- Types enable code generation tools, e.g. Typer, Cyclopts
+
 ## Dynamic vs. Static Typing: Definitions, Pros, and Cons
 
 Python is traditionally known as a dynamically typed language.
