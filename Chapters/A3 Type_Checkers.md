@@ -25,7 +25,6 @@ mypy your_script.py
 Example:
 
 ```python
-# example_1.py
 # script.py
 def greet(name: str) -> str:
     return f"Hello, {name}!"
@@ -35,7 +34,7 @@ greet(123)  # Incorrect type
 
 Running `mypy script.py` outputs:
 
-```
+```bash
 script.py:4: error: Argument 1 to "greet" has incompatible type "int"; expected "str"
 ```
 

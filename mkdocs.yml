@@ -31,18 +31,18 @@ nav:
   - 04 Basic_Annotations.md
   - 05 Collections.md
   - 06 Generics.md
-  - 07 Class_Attributes.md
-  - 08 Dataclasses.md
-  - 09 Specialized_Type_Tools.md
-  - 10 Callables.md
-  - 11 Structural_Typing.md
-  - 12 Make_Illegal_Types_Unrepresentable.md
-  - 13 Errors_As_Values.md
-  - 14 Pattern_Matching.md
-  - 15 Advanced_Typing_Concepts.md
-  - 16 Async.md
-  - 17 Interoperability_And_Typing_Stubs.md
-  - 18 Best_Practices.md
+  - 07 Dataclasses.md
+  - 08 Specialized_Type_Tools.md
+  - 09 Callables.md
+  - 10 Structural_Typing.md
+  - 11 Make_Illegal_Types_Unrepresentable.md
+  - 12 Errors_As_Values.md
+  - 13 Pattern_Matching.md
+  - 14 Advanced_Typing_Concepts.md
+  - 15 Async.md
+  - 16 Interoperability_And_Typing_Stubs.md
+  - 17 Best_Practices.md
   - A1 Quick_Reference.md
   - A2 Glossary.md
   - A3 Type_Checkers.md
+  - A4 Class_Attributes.md

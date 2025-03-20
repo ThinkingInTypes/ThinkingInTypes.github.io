@@ -1,12 +1,9 @@
 # Class Attributes
 
-(Possibly an appendix)
-
 > A number of type tools use a syntax that hacks class attribute syntax; the most obvious is dataclasses but there are others.
 > It's important to understand that this is special behavior created by the tool, and that ordinary classes do not behave this way.
 
-I was attempting to assist on an open-source project when I was stopped short by
-this (names have been changed):
+While contributing to an open-source project, I was stopped short by this (names have been changed):
 
 ```python
 # example_1.py
@@ -26,14 +23,13 @@ make an object, immediately create and initialize instance variables with the
 *same names* as the class attributes? I began to suspect a misunderstanding
 about class attributes.
 
-I found one of the coaches of the project (who was not the original author) and
-asked. It was explained to me that this was the way you provide default values
-for Python objects. When I attempted to disagree, the effects were demonstrated
-using a debugger. The argument looked something like this:
+I asked one of the coaches of the project (not the original author).
+They explained that this was the way you provide default values for Python objects.
+When I attempted to disagree, the effects were demonstrated using a debugger.
+The argument looked something like this:
 
 ```python
-# example_3.py
-# 1_like_default_values.py
+# like_default_values.py
 
 class A:
     x: int = 100
@@ -74,7 +70,7 @@ previously missed something magical about class attributes.
 Here's a Java example exploring the same ideas:
 
 ```java
-// 2_DefaultValues.java
+// DefaultValues.java
 // Rename to DefaultValues.java
 // Java automatically initializes from defaults
 
@@ -162,7 +158,7 @@ with the class, and there's only one piece of storage shared by all objects of
 C++ has virtually identical behavior, although `static` initialization syntax is different for variables:
 
 ```cpp
-// 3_default_values.cpp
+// default_values.cpp
 // C++ automatically initializes from defaults
 // Tested on http://cpp.sh
 #include <iostream>
@@ -252,7 +248,7 @@ Class X:
 
 It is quite reasonable to expect the same results as from similar-looking C++ or
 Java code. After doing a few simple experiments as in
-`1_like_default_values.py`, a C++ or Java programmer might well conclude that
+`like_default_values.py`, a C++ or Java programmer might well conclude that
 Python does indeed work that way. And, because a class attribute is a single
 variable that is "global to the class," it can be mistaken for a default value.
 
@@ -267,8 +263,7 @@ The problem occurs when you're least expecting it. Here is just one
 configuration that produces a surprise:
 
 ```python
-# example_5.py
-# 4_it_all_goes_wrong.py
+# it_all_goes_wrong.py
 
 class A:
     x: int = 100
@@ -383,7 +378,6 @@ To see this in action, we need a function that displays the inside of classes
 and objects:
 
 ```python
-# example_6.py
 # look_inside.py
 
 def attributes(d: object) -> str:
@@ -404,8 +398,7 @@ in `show()` to display both the class and an object of that class. Now we can
 see the details when using class attributes:
 
 ```python
-# example_7.py
-# 5_class_attributes.py
+# class_attributes.py
 from look_inside import show
 
 class A:
@@ -441,8 +434,7 @@ instance variable (thus creating it).
 Let's look at the original example using `show()`:
 
 ```python
-# example_8.py
-# 6_like_default_values_shown.py
+# like_default_values_shown.py
 from look_inside import show
 
 class A:
@@ -500,7 +492,7 @@ This seemed magical and confusing. There's no visible constructor but somehow
 the instance variables by using the class attributes as a template.
 
 Python's `dataclasses` use a decorator to generate code for the constructor and
-other methods using class attributes as a template. Simply adding `dataclasses` to `4_it_all_goes_wrong.py` fixes the problem:
+other methods using class attributes as a template. Simply adding `dataclasses` to `it_all_goes_wrong.py` fixes the problem:
 
 ```python
 # example_10.py
@@ -521,8 +513,7 @@ Instead, write proper constructors with default arguments, as you see in
 `class A`:
 
 ```python
-# example_11.py
-# 7_choices.py
+# choices.py
 from look_inside import show
 from dataclasses import dataclass
 
