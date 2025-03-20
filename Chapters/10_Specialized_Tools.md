@@ -67,7 +67,7 @@ This flexibility allows clear definitions for complex, partially-optional data s
 
 Strongly-typed domain models help clearly represent domain logic, improving robustness and maintainability:
 
-### Using Dataclasses and Enums
+### Combining Dataclasses and Enums
 
 ```python
 # dataclasses_and_enums.py

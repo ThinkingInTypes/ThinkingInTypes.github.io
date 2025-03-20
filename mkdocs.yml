@@ -32,9 +32,9 @@ nav:
   - 05_Collections.md
   - 06_Generics.md
   - 07_Dataclasses.md
-  - 08_Specialized_Tools.md
-  - 09_Callables.md
-  - 10_Structural_Typing.md
+  - 08_Callables.md
+  - 09_Structural_Typing.md
+  - 10_Specialized_Tools.md
   - 11_Make_Illegal_Types_Unrepresentable.md
   - 12_Errors_As_Values.md
   - 13_Pattern_Matching.md
