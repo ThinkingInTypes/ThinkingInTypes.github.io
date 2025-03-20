@@ -2,82 +2,90 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
          <loc>https://ThinkingInTypes.github.io/</loc>
-         <lastmod>2025-03-18</lastmod>
+         <lastmod>2025-03-20</lastmod>
     </url>
     <url>
          <loc>https://ThinkingInTypes.github.io/01%20Preface/</loc>
-         <lastmod>2025-03-18</lastmod>
+         <lastmod>2025-03-20</lastmod>
     </url>
     <url>
-         <loc>https://ThinkingInTypes.github.io/02%20Introduction/</loc>
-         <lastmod>2025-03-18</lastmod>
+         <loc>https://ThinkingInTypes.github.io/02%20Foundations/</loc>
+         <lastmod>2025-03-20</lastmod>
     </url>
     <url>
-         <loc>https://ThinkingInTypes.github.io/03%20Basic_Annotations/</loc>
-         <lastmod>2025-03-18</lastmod>
+         <loc>https://ThinkingInTypes.github.io/03%20What_is_a_Type/</loc>
+         <lastmod>2025-03-20</lastmod>
     </url>
     <url>
-         <loc>https://ThinkingInTypes.github.io/04%20Collections/</loc>
-         <lastmod>2025-03-18</lastmod>
+         <loc>https://ThinkingInTypes.github.io/04%20Basic_Annotations/</loc>
+         <lastmod>2025-03-20</lastmod>
     </url>
     <url>
-         <loc>https://ThinkingInTypes.github.io/05%20Generics/</loc>
-         <lastmod>2025-03-18</lastmod>
+         <loc>https://ThinkingInTypes.github.io/05%20Collections/</loc>
+         <lastmod>2025-03-20</lastmod>
     </url>
     <url>
-         <loc>https://ThinkingInTypes.github.io/06%20Dataclasses/</loc>
-         <lastmod>2025-03-18</lastmod>
+         <loc>https://ThinkingInTypes.github.io/06%20Generics/</loc>
+         <lastmod>2025-03-20</lastmod>
     </url>
     <url>
-         <loc>https://ThinkingInTypes.github.io/07%20Specialized_Type_Tools/</loc>
-         <lastmod>2025-03-18</lastmod>
+         <loc>https://ThinkingInTypes.github.io/07%20Class_Attributes/</loc>
+         <lastmod>2025-03-20</lastmod>
     </url>
     <url>
-         <loc>https://ThinkingInTypes.github.io/08%20Callable_Types/</loc>
-         <lastmod>2025-03-18</lastmod>
+         <loc>https://ThinkingInTypes.github.io/08%20Dataclasses/</loc>
+         <lastmod>2025-03-20</lastmod>
     </url>
     <url>
-         <loc>https://ThinkingInTypes.github.io/09%20Structural_Typing/</loc>
-         <lastmod>2025-03-18</lastmod>
+         <loc>https://ThinkingInTypes.github.io/09%20Specialized_Type_Tools/</loc>
+         <lastmod>2025-03-20</lastmod>
     </url>
     <url>
-         <loc>https://ThinkingInTypes.github.io/10%20Make_Illegal_Types_Unrepresentable/</loc>
-         <lastmod>2025-03-18</lastmod>
+         <loc>https://ThinkingInTypes.github.io/10%20Callables/</loc>
+         <lastmod>2025-03-20</lastmod>
     </url>
     <url>
-         <loc>https://ThinkingInTypes.github.io/11%20Errors_As_Values/</loc>
-         <lastmod>2025-03-18</lastmod>
+         <loc>https://ThinkingInTypes.github.io/11%20Structural_Typing/</loc>
+         <lastmod>2025-03-20</lastmod>
     </url>
     <url>
-         <loc>https://ThinkingInTypes.github.io/12%20Advanced_Typing_Concepts/</loc>
-         <lastmod>2025-03-18</lastmod>
+         <loc>https://ThinkingInTypes.github.io/12%20Make_Illegal_Types_Unrepresentable/</loc>
+         <lastmod>2025-03-20</lastmod>
     </url>
     <url>
-         <loc>https://ThinkingInTypes.github.io/13%20Pattern_Matching_And_Typing/</loc>
-         <lastmod>2025-03-18</lastmod>
+         <loc>https://ThinkingInTypes.github.io/13%20Errors_As_Values/</loc>
+         <lastmod>2025-03-20</lastmod>
     </url>
     <url>
-         <loc>https://ThinkingInTypes.github.io/14%20Async/</loc>
-         <lastmod>2025-03-18</lastmod>
+         <loc>https://ThinkingInTypes.github.io/14%20Pattern_Matching/</loc>
+         <lastmod>2025-03-20</lastmod>
     </url>
     <url>
-         <loc>https://ThinkingInTypes.github.io/15%20Interoperability_And_Typing_Stubs/</loc>
-         <lastmod>2025-03-18</lastmod>
+         <loc>https://ThinkingInTypes.github.io/15%20Advanced_Typing_Concepts/</loc>
+         <lastmod>2025-03-20</lastmod>
     </url>
     <url>
-         <loc>https://ThinkingInTypes.github.io/16%20Best_Practices/</loc>
-         <lastmod>2025-03-18</lastmod>
+         <loc>https://ThinkingInTypes.github.io/16%20Async/</loc>
+         <lastmod>2025-03-20</lastmod>
+    </url>
+    <url>
+         <loc>https://ThinkingInTypes.github.io/17%20Interoperability_And_Typing_Stubs/</loc>
+         <lastmod>2025-03-20</lastmod>
+    </url>
+    <url>
+         <loc>https://ThinkingInTypes.github.io/18%20Best_Practices/</loc>
+         <lastmod>2025-03-20</lastmod>
     </url>
     <url>
          <loc>https://ThinkingInTypes.github.io/A1%20Quick_Reference/</loc>
-         <lastmod>2025-03-18</lastmod>
+         <lastmod>2025-03-20</lastmod>
     </url>
     <url>
          <loc>https://ThinkingInTypes.github.io/A2%20Glossary/</loc>
-         <lastmod>2025-03-18</lastmod>
+         <lastmod>2025-03-20</lastmod>
     </url>
     <url>
          <loc>https://ThinkingInTypes.github.io/A3%20Type_Checkers/</loc>
-         <lastmod>2025-03-18</lastmod>
+         <lastmod>2025-03-20</lastmod>
     </url>
 </urlset>

@@ -8,13 +8,13 @@
       
       
       
-        <link rel="canonical" href="https://ThinkingInTypes.github.io/A1%20Quick_Reference/">
+        <link rel="canonical" href="https://ThinkingInTypes.github.io/12%20Make_Illegal_Types_Unrepresentable/">
       
       
-        <link rel="prev" href="../18%20Best_Practices/">
+        <link rel="prev" href="../11%20Structural_Typing/">
       
       
-        <link rel="next" href="../A2%20Glossary/">
+        <link rel="next" href="../13%20Errors_As_Values/">
       
       
       <link rel="icon" href="../img/favicon.png">
@@ -22,7 +22,7 @@
     
     
       
-        <title>Quick Reference - Thinking in Types</title>
+        <title>Make Illegal Types Unrepresentable - Thinking in Types</title>
       
     
     
@@ -64,7 +64,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#quick-reference" class="md-skip">
+        <a href="#make-illegal-types-unrepresentable" class="md-skip">
           Skip to content
         </a>
       
@@ -100,7 +100,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Quick Reference
+              Make Illegal Types Unrepresentable
             
           </span>
         </div>
@@ -445,10 +445,19 @@
       
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../12%20Make_Illegal_Types_Unrepresentable/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   <span class="md-ellipsis">
@@ -458,6 +467,7 @@
   
 
       </a>
+      
     </li>
   
 
@@ -592,19 +602,10 @@
       
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../A1%20Quick_Reference/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -614,7 +615,6 @@
   
 
       </a>
-      
     </li>
   
 
@@ -698,78 +698,7 @@
   
 
 
-<h1 id="quick-reference">Quick Reference<a class="headerlink" href="#quick-reference" title="Permanent link">#</a></h1>
-<table>
-<thead>
-<tr>
-<th>Annotation</th>
-<th>Description</th>
-<th>Example</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>int</code>, <code>str</code>, <code>float</code>, <code>bool</code></td>
-<td>Basic built-in types</td>
-<td><code>age: int = 25</code></td>
-</tr>
-<tr>
-<td><code>List[T]</code>, <code>list[T]</code></td>
-<td>List containing items of type <code>T</code></td>
-<td><code>scores: list[int]</code></td>
-</tr>
-<tr>
-<td><code>Tuple[T, ...]</code></td>
-<td>Tuple with specified item types</td>
-<td><code>coords: tuple[float, float]</code></td>
-</tr>
-<tr>
-<td><code>Dict[K, V]</code>, <code>dict[K, V]</code></td>
-<td>Dictionary with keys <code>K</code>, values <code>V</code></td>
-<td><code>user_data: dict[str, int]</code></td>
-</tr>
-<tr>
-<td><code>Set[T]</code>, <code>set[T]</code></td>
-<td>Set containing items of type <code>T</code></td>
-<td><code>tags: set[str]</code></td>
-</tr>
-<tr>
-<td><code>Optional[T]</code></td>
-<td>Type <code>T</code> or <code>None</code></td>
-<td><code>name: Optional[str]</code></td>
-</tr>
-<tr>
-<td><code>Union[T1, T2]</code> or <code>T1 | T2</code></td>
-<td>Either type <code>T1</code> or <code>T2</code></td>
-<td><code>value: int | str</code></td>
-</tr>
-<tr>
-<td><code>Callable[[Args], ReturnType]</code></td>
-<td>Function types</td>
-<td><code>adder: Callable[[int, int], int]</code></td>
-</tr>
-<tr>
-<td><code>Literal["value"]</code></td>
-<td>Specific literal values</td>
-<td><code>mode: Literal["auto", "manual"]</code></td>
-</tr>
-<tr>
-<td><code>Annotated[T, metadata]</code></td>
-<td>Type <code>T</code> with additional metadata</td>
-<td><code>UserID = Annotated[int, "primary key"]</code></td>
-</tr>
-<tr>
-<td><code>NewType('Name', T)</code></td>
-<td>New distinct type based on type <code>T</code></td>
-<td><code>UserId = NewType('UserId', int)</code></td>
-</tr>
-<tr>
-<td><code>Protocol</code></td>
-<td>Structural typing protocol</td>
-<td><code>class Speaker(Protocol): ...</code></td>
-</tr>
-</tbody>
-</table>
+<h1 id="make-illegal-types-unrepresentable">Make Illegal Types Unrepresentable<a class="headerlink" href="#make-illegal-types-unrepresentable" title="Permanent link">#</a></h1>
 
 
 
