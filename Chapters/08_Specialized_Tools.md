@@ -10,9 +10,9 @@ This chapter contains additional tools that modify the normal behavior of class 
 It's important to understand that this behavior is created by the tool, and that ordinary classes do not behave this way.
 Read the [Class Attributes] appendix for deeper understanding.
 
-## Typed NamedTuples: Definition and Use
+## Typed NamedTuples
 
-Typed `NamedTuple` combines tuple immutability with type annotations and named fields:
+A typed `NamedTuple` combines tuple immutability with type annotations and named fields:
 
 ```python
 # named_tuple.py
