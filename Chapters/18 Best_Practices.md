@@ -60,13 +60,12 @@ Overuse of `Any` defeats the purpose of type annotations:
 
 - **Pitfall:**
 
-  ```python
-  # example_4.py
+```python
+# example_4.py
 
-  def process(data: Any) -> Any:
-      pass
-  
-  ```
+def process(data: Any) -> Any:
+    pass
+```
 
 - **Solution:**
   Provide specific type annotations whenever possible.
@@ -84,15 +83,11 @@ Avoid overly complex union types:
 
 - **Pitfall:**
 
-  ```python
-
+```python
 # example_5.py
 
-# example_5.py
-
-  def handle(value: Union[int, str, None, float]) -> None:
-      pass
-  
+def handle(value: Union[int, str, None, float]) -> None:
+    pass
 ```
 
 - **Solution:**

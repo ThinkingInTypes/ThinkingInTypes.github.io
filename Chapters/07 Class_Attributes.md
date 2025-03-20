@@ -9,15 +9,12 @@ I was attempting to assist on an open-source project when I was stopped short by
 this (names have been changed):
 
 ```python
+# example_1.py
 class DataPoint:
     measurement1 = None
     measurement2 = None
     measurement3 = None
-```
 
-`DataPoint` was later used like this:
-
-```python
 d = DataPoint()
 d.measurement1 = 100
 d.measurement2 = 200
@@ -35,6 +32,7 @@ for Python objects. When I attempted to disagree, the effects were demonstrated
 using a debugger. The argument looked something like this:
 
 ```python
+# example_3.py
 # 1_like_default_values.py
 
 class A:
@@ -245,6 +243,7 @@ Notice that both Java and C++ have explicit `static` keywords, whereas Python
 does not. This adds to the confusion, so when a Java or C++ programmer (who has not learned about class attributes) sees something of the form:
 
 ```python
+# example_4.py
 Class X:
     a = 1
     b = 2
@@ -268,6 +267,7 @@ The problem occurs when you're least expecting it. Here is just one
 configuration that produces a surprise:
 
 ```python
+# example_5.py
 # 4_it_all_goes_wrong.py
 
 class A:
@@ -383,6 +383,7 @@ To see this in action, we need a function that displays the inside of classes
 and objects:
 
 ```python
+# example_6.py
 # look_inside.py
 
 def attributes(d: object) -> str:
@@ -403,6 +404,7 @@ in `show()` to display both the class and an object of that class. Now we can
 see the details when using class attributes:
 
 ```python
+# example_7.py
 # 5_class_attributes.py
 from look_inside import show
 
@@ -439,6 +441,7 @@ instance variable (thus creating it).
 Let's look at the original example using `show()`:
 
 ```python
+# example_8.py
 # 6_like_default_values_shown.py
 from look_inside import show
 
@@ -483,6 +486,7 @@ integral part of the way some libraries provide easy class configuration. The
 first time I saw it was in Django:
 
 ```python
+# example_9.py
 class Blog(models.Model):
     name = models.CharField(max_length=100)
     tagline = models.TextField()
@@ -499,6 +503,7 @@ Python's `dataclasses` use a decorator to generate code for the constructor and
 other methods using class attributes as a template. Simply adding `dataclasses` to `4_it_all_goes_wrong.py` fixes the problem:
 
 ```python
+# example_10.py
 from dataclasses import dataclass
 
 @dataclass
@@ -516,6 +521,7 @@ Instead, write proper constructors with default arguments, as you see in
 `class A`:
 
 ```python
+# example_11.py
 # 7_choices.py
 from look_inside import show
 from dataclasses import dataclass
