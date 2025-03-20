@@ -26,21 +26,23 @@ markdown_extensions:
 
 nav:
   - 01 Preface.md
-  - 02 Introduction.md
-  - 03 Basic_Annotations.md
-  - 04 Collections.md
-  - 05 Generics.md
-  - 06 Dataclasses.md
-  - 07 Specialized_Type_Tools.md
-  - 08 Callable_Types.md
-  - 09 Structural_Typing.md
-  - 10 Make_Illegal_Types_Unrepresentable.md
-  - 11 Errors_As_Values.md
-  - 12 Advanced_Typing_Concepts.md
-  - 13 Pattern_Matching_And_Typing.md
-  - 14 Async.md
-  - 15 Interoperability_And_Typing_Stubs.md
-  - 16 Best_Practices.md
+  - 02 Foundations.md
+  - 03 What_is_a_Type.md
+  - 04 Basic_Annotations.md
+  - 05 Collections.md
+  - 06 Generics.md
+  - 07 Class_Attributes.md
+  - 08 Dataclasses.md
+  - 09 Specialized_Type_Tools.md
+  - 10 Callables.md
+  - 11 Structural_Typing.md
+  - 12 Make_Illegal_Types_Unrepresentable.md
+  - 13 Errors_As_Values.md
+  - 14 Pattern_Matching.md
+  - 15 Advanced_Typing_Concepts.md
+  - 16 Async.md
+  - 17 Interoperability_And_Typing_Stubs.md
+  - 18 Best_Practices.md
   - A1 Quick_Reference.md
   - A2 Glossary.md
   - A3 Type_Checkers.md
