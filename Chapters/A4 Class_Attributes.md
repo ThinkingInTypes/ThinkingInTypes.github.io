@@ -6,7 +6,7 @@
 While contributing to an open-source project, I was stopped short by this (names have been changed):
 
 ```python
-# example_1.py
+# data_point.py
 class DataPoint:
     measurement1 = None
     measurement2 = None
@@ -34,16 +34,15 @@ The argument looked something like this:
 class A:
     x: int = 100
 
-if __name__ == '__main__':
-    a = A()
-    print(f"{a.x = }")
-    # a.x = 100
-    a.x = -1
-    print(f"{a.x = }")
-    # a.x = -1
-    a2 = A()
-    print(f"{a2.x = }")
-    # a2.x = 100
+a = A()
+print(f"{a.x = }")
+# a.x = 100
+a.x = -1
+print(f"{a.x = }")
+# a.x = -1
+a2 = A()
+print(f"{a2.x = }")
+# a2.x = 100
 ```
 
 (`f"{a.x = }"` is an f-string feature that eliminates the redundancy of
@@ -55,8 +54,6 @@ second `A` object `a2` which once again is given the "default value" of
 100---separate storage appears to have been created and initialized for the `x`
 in both `a` and `a2`. Based on this simple example, Python class attributes
 seem to produce default value behavior.
-
-(The code for this article is on [GitHub](https://github.com/BruceEckel/PythonClassAttributes)).
 
 ## Where Did This Idea Come From?
 
@@ -71,7 +68,6 @@ Here's a Java example exploring the same ideas:
 
 ```java
 // DefaultValues.java
-// Rename to DefaultValues.java
 // Java automatically initializes from defaults
 
 class A {
@@ -133,27 +129,21 @@ public class DefaultValues {
 }
 ```
 
-Inside the constructor `A()`, the storage for `x` has already been allocated and
-initialized. Changing the value of `a.x` doesn't influence further new `A`
-objects, which are initialized to `100`.
+Inside the constructor `A()`, the storage for `x` has already been allocated and initialized.
+Changing the value of `a.x` doesn't influence further new `A` objects, which are initialized to `100`.
 
-In `class B`, `x` is changed to a `static` variable, which means there is only a
-single piece of `x` storage for the class---no matter how many instances of
-that class you create. This is how Python class attributes work; they are `static` variables without using the `static` keyword.
+In `class B`, `x` is changed to a `static` variable.
+This means there is only a single piece of `x` storage for the class---no matter how many instances of that class you create.
+This is how Python class attributes work: they are `static` variables without using the `static` keyword.
 
-In `B`'s `toString()`, notice that `B`'s `x` is accessed the same way it is in
-`Class A`'s `toString()`: as if it were an ordinary object field rather than a
-`static` field. When you do this, Java automatically uses the `static` `x`
-even though you are syntactically treating it like the object's `x`.
+In `B`'s `toString()`, notice that `B`'s `x` is accessed the same way it is in `Class A`'s `toString()`: as if it were an ordinary object field rather than a `static` field.
+When you do this, Java automatically uses the `static` `x` even though you are syntactically treating it like the object's `x`.
 
-In `statics()`, `x` is accessed *through the class* by saying `B.x`. If `x` were
-*not* a `static` you couldn't do this.
+In `statics()`, `x` is accessed *through the class* by saying `B.x`.
+If `x` were *not* a `static` you couldn't do this.
 
-At the end of `class B`, notice that we cannot "shadow" an identifier name like
-we can in Python: we cannot have both an ordinary and a `static` variable of the
-same name. `main()` demonstrates that the `static x` in `B` is indeed associated
-with the class, and there's only one piece of storage shared by all objects of
-`class B`.
+At the end of `class B`, notice that we cannot "shadow" an identifier name like we can in Python: we cannot have both an ordinary and a `static` variable of the same name.
+`main()` demonstrates that the `static x` in `B` is indeed associated with the class, and there's only one piece of storage shared by all objects of `class B`.
 
 C++ has virtually identical behavior, although `static` initialization syntax is different for variables:
 
@@ -221,8 +211,7 @@ int main() {
 }
 ```
 
-Just like Java, storage is allocated and initialized for `x` by the time the
-`A()` constructor is called.
+Just like Java, storage is allocated and initialized for `x` by the time the `A()` constructor is called.
 
 In `class B`, the `static int x` definition only indicates that `x` exists for
 `B`. To allocate and initialize static variable storage, the external definition
@@ -235,22 +224,20 @@ In `class B`, you see that, like Java, C++ also disallows name shadowing.
 `main()` shows that `static x` can be accessed either through the class or using
 an instance of the class.
 
-Notice that both Java and C++ have explicit `static` keywords, whereas Python
-does not. This adds to the confusion, so when a Java or C++ programmer (who has not learned about class attributes) sees something of the form:
+Notice that both Java and C++ have explicit `static` keywords, whereas Python does not.
+This adds to the confusion, so when a Java or C++ programmer (who has not learned about class attributes) sees something of the form:
 
 ```python
-# example_4.py
+# no_static_keyword.py
 Class X:
     a = 1
     b = 2
     c = 3
 ```
 
-It is quite reasonable to expect the same results as from similar-looking C++ or
-Java code. After doing a few simple experiments as in
-`like_default_values.py`, a C++ or Java programmer might well conclude that
-Python does indeed work that way. And, because a class attribute is a single
-variable that is "global to the class," it can be mistaken for a default value.
+It is quite reasonable to expect the same results as from similar-looking C++ or Java code.
+After doing a few simple experiments as in `like_default_values.py`, a C++ or Java programmer might well conclude that Python does indeed work that way.
+And, because a class attribute is a single variable that is "global to the class," it can be mistaken for a default value.
 
 ## How Things Break
 
