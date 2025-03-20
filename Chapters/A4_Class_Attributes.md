@@ -229,7 +229,7 @@ This adds to the confusion, so when a Java or C++ programmer (who has not learne
 
 ```python
 # no_static_keyword.py
-Class X:
+class X:
     a = 1
     b = 2
     c = 3

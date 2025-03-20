@@ -197,8 +197,7 @@ class ListLogger:
 
 def run_process(task_name: str, logger: Logger) -> None:
     logger.log(f"Starting {task_name}")
-    # ...
-perform the task ...
+    # Perform the task ...
     logger.log(f"Finished {task_name}")
 
 # Using the run_process with different loggers
