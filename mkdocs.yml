@@ -32,15 +32,15 @@ nav:
   - 05 Collections.md
   - 06 Generics.md
   - 07 Dataclasses.md
-  - 08 Specialized_Type_Tools.md
+  - 08 Specialized_Tools.md
   - 09 Callables.md
   - 10 Structural_Typing.md
   - 11 Make_Illegal_Types_Unrepresentable.md
   - 12 Errors_As_Values.md
   - 13 Pattern_Matching.md
-  - 14 Advanced_Typing_Concepts.md
+  - 14 Advanced_Concepts.md
   - 15 Async.md
-  - 16 Interoperability_And_Typing_Stubs.md
+  - 16 Interoperability_and_Typing_Stubs.md
   - 17 Best_Practices.md
   - A1 Quick_Reference.md
   - A2 Glossary.md
