@@ -38,6 +38,7 @@ In functional programming, a more elegant solution has evolved: Instead of throw
 Initially, we might represent results as a type union (sum type). For example:
 
 ```python
+# example_1.py
 def calculate(value: int) -> int | str:
     if value == 1:
         return "Invalid argument"
@@ -51,6 +52,7 @@ This works but isn't ideal, because we're overloading primitive types (like `int
 Instead, we create a custom `Result` type:
 
 ```python
+# example_2.py
 from dataclasses import dataclass
 from typing import Generic, TypeVar
 
@@ -82,6 +84,7 @@ In this approach:
 Example usage:
 
 ```python
+# example_3.py
 def calculate(value: int) -> Result[int, str]:
     if value == 1:
         return Failure("Invalid argument")
@@ -95,6 +98,7 @@ Using this approach with a sequence of calculations, you explicitly handle each 
 With explicit `Result` types, we can elegantly compose functions, propagating errors easily:
 
 ```python
+# example_4.py
 result = calculate(value).bind(process).bind(next_step)
 ```
 
@@ -107,6 +111,7 @@ For a richer implementation, libraries such as Python's `returns` package stream
 An example using the `returns` library decorator:
 
 ```python
+# example_5.py
 from returns.result import Result, Success, Failure, safe
 
 @safe
@@ -121,6 +126,7 @@ Here, exceptions like division by zero are automatically captured, transformed i
 Consider a scenario where several smaller functions combine into a larger workflow:
 
 ```python
+# example_6.py
 from returns.result import Result, Success, Failure
 
 def func_a(val: int) -> Result[int, str]:

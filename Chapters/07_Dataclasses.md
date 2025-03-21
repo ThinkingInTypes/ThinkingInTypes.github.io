@@ -9,6 +9,7 @@ This chapter began as a presentation at a Python conference, inspired by convers
 Imagine building a simple customer feedback system using a rating from one to ten stars. Traditionally, Python programmers use an integer type, checking its validity whenever it's used:
 
 ```python
+# example_1.py
 def rate_stars(stars: int):
     assert 1 <= stars <= 10, "Stars rating must be between 1 and 10."
     # use stars safely
@@ -21,6 +22,7 @@ However, each time the integer is used, its validity must be rechecked, leading 
 Object-oriented programming (OOP) suggests encapsulating validation within the class. Python typically uses a private attribute to ensure encapsulation:
 
 ```python
+# example_2.py
 class Stars:
     def __init__(self, stars: int):
         assert 1 <= stars <= 10, "Stars rating must be between 1 and 10."
@@ -38,6 +40,7 @@ This approach centralizes validation, yet remains cumbersome. Each method intera
 Data classes, introduced in Python 3.7, significantly streamline this process by generating essential methods automatically. They provide a structured, concise way to define data-holding objects:
 
 ```python
+# example_3.py
 from dataclasses import dataclass
 
 @dataclass
@@ -51,6 +54,7 @@ class Stars:
 Here, validation logic resides exclusively in the `__post_init__` method, executed automatically after initialization. This guarantees that only valid `Stars` instances exist. Subsequent functions operating on `Stars` no longer require redundant checks:
 
 ```python
+# example_4.py
 def increase_stars(rating: Stars, increment: int) -> Stars:
     return Stars(rating.stars + increment)
 ```
@@ -62,6 +66,7 @@ If this function tries to create an invalid rating, the data class validation im
 Functional programming strongly advocates immutability, preventing accidental changes and thus simplifying reasoning about your code. Python data classes support immutability through a `frozen=True` parameter:
 
 ```python
+# example_5.py
 @dataclass(frozen=True)
 class Stars:
     stars: int
@@ -77,6 +82,7 @@ Now, modifying a `Stars` instance after creation raises an error, further safegu
 Composition, another functional programming cornerstone, allows building complex data types from simpler ones. Consider a `Person` object composed of `FullName`, `BirthDate`, and `Email` data classes:
 
 ```python
+# example_6.py
 @dataclass(frozen=True)
 class FullName:
     name: str
@@ -117,6 +123,7 @@ This hierarchical validation structure ensures correctness and clarity at every 
 Enums provide additional type safety for fixed-value sets, such as months:
 
 ```python
+# example_7.py
 from enum import Enum
 
 class Month(Enum):
