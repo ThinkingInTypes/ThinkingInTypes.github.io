@@ -158,7 +158,7 @@ Read the [Class Attributes] appendix for deeper understanding.
 Dataclasses simplify class definitions by automatically generating methods like `__init__`, `__repr__`, and `__eq__`:
 
 ```python
-# example_1.py
+# example_8.py
 from dataclasses import dataclass
 
 
@@ -180,7 +180,7 @@ Dataclasses reduce boilerplate, ensuring concise and readable class definitions.
 Dataclasses support default factories, immutability, and more:
 
 ```python
-# example_2.py
+# example_9.py
 from dataclasses import dataclass, field
 from typing import List
 
