@@ -1,1 +1,1 @@
-mdinject Chapters C:\git\ThinkingInTypes_Examples
+mdinject -i Chapters C:\git\ThinkingInTypes_Examples

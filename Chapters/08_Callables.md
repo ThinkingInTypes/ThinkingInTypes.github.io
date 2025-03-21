@@ -37,8 +37,10 @@ The `Callable` type is essential for annotating functions that accept or return 
 # example_3.py
 from typing import Callable
 
+
 def operate(a: int, b: int, func: Callable[[int, int], int]) -> int:
     return func(a, b)
+
 
 result = operate(5, 3, lambda x, y: x * y)  # returns 15
 ```
@@ -53,18 +55,22 @@ Introduced in Python 3.10, `ParamSpec` allows annotating decorators and generic 
 # example_4.py
 from typing import Callable, ParamSpec, TypeVar
 
-P = ParamSpec('P')
-R = TypeVar('R')
+P = ParamSpec("P")
+R = TypeVar("R")
+
 
 def logging_decorator(func: Callable[P, R]) -> Callable[P, R]:
     def wrapper(*args: P.args, **kwargs: P.kwargs) -> R:
         print(f"Calling {func.__name__} with {args} and {kwargs}")
         return func(*args, **kwargs)
+
     return wrapper
+
 
 @logging_decorator
 def multiply(a: int, b: int) -> int:
     return a * b
+
 
 multiply(2, 3)  # Output: Calling multiply with (2, 3) and {} then returns 6
 ```
@@ -79,18 +85,22 @@ Python allows specifying multiple function signatures through the `@overload` de
 # example_5.py
 from typing import overload, Union
 
+
 @overload
 def double(value: int) -> int: ...
 
+
 @overload
 def double(value: str) -> str: ...
+
 
 def double(value: Union[int, str]) -> Union[int, str]:
     if isinstance(value, int):
         return value * 2
     return value + value
 
-print(double(4))     # Output: 8
+
+print(double(4))  # Output: 8
 print(double("Hi"))  # Output: HiHi
 ```
 
@@ -114,6 +124,7 @@ from typing import Callable, TypeAlias
 
 RequestHandler: TypeAlias = Callable[[str, dict], dict]
 
+
 def handle_request(path: str, handler: RequestHandler) -> dict:
     response = handler(path, {})
     return response
@@ -131,8 +142,10 @@ Using `Protocol` for clearly defined callable behaviors:
 # example_7.py
 from typing import Protocol
 
+
 class Handler(Protocol):
     def __call__(self, request: dict) -> dict: ...
+
 
 def process_request(handler: Handler, request: dict) -> dict:
     return handler(request)

@@ -14,8 +14,8 @@ For example:
 
 ```python
 # example_1.py
-x = 42      # x is dynamically assigned as an integer
-y = "hello" # y is dynamically assigned as a string
+x = 42  # x is dynamically assigned as an integer
+y = "hello"  # y is dynamically assigned as a string
 ```
 
 In contrast, statically typed languages require explicit type declarations, and types are checked at compile time:
@@ -60,8 +60,10 @@ class Duck:
     def quack(self):
         print("Quack!")
 
+
 def make_it_quack(bird):
     bird.quack()
+
 
 make_it_quack(Duck())  # works fine
 ```
@@ -137,6 +139,7 @@ These tools allow developers to incrementally adopt static typing, improving cod
 def add(a, b):
     return a + b
 
+
 add(1, "2")  # raises runtime TypeError
 ```
 
@@ -150,6 +153,7 @@ add(1, "2")  # raises runtime TypeError
 # mypy detects this error before running
 def add(a: int, b: int) -> int:
     return a + b
+
 
 add(1, "2")  # Static type checker flags this
 ```

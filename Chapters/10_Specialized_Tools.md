@@ -18,12 +18,16 @@ A typed `NamedTuple` combines tuple immutability with type annotations and named
 # named_tuple.py
 from typing import NamedTuple
 
+
 class Coordinates(NamedTuple):
     latitude: float
     longitude: float
 
+
 coords = Coordinates(51.5074, -0.1278)
-print(coords.latitude)  # 51.5074
+print(coords)
+print(coords.latitude)
+coords.latitude = 123.4567
 ```
 
 `NamedTuple` provides clarity, immutability, and easy unpacking, ideal for simple structured data.
@@ -36,10 +40,12 @@ print(coords.latitude)  # 51.5074
 # typed_dict.py
 from typing import TypedDict
 
+
 class UserProfile(TypedDict):
     username: str
     email: str
     age: int
+
 
 user: UserProfile = {"username": "alice", "email": "alice@example.com", "age": 30}
 ```
@@ -54,9 +60,11 @@ You can specify optional fields using `NotRequired` (Python 3.11+) or `total=Fal
 # optional_typed_dict_fields.py
 from typing import TypedDict, NotRequired
 
+
 class UserSettings(TypedDict):
     theme: str
     notifications_enabled: NotRequired[bool]
+
 
 settings: UserSettings = {"theme": "dark"}
 ```
@@ -74,9 +82,11 @@ Strongly-typed domain models help clearly represent domain logic, improving robu
 from dataclasses import dataclass
 from enum import Enum
 
+
 class Status(Enum):
     ACTIVE = "active"
     INACTIVE = "inactive"
+
 
 @dataclass
 class User:
@@ -84,30 +94,38 @@ class User:
     name: str
     status: Status
 
+
 user = User(id=1, name="Alice", status=Status.ACTIVE)
+print(user)
 ```
 
 ### Combining Dataclasses with Protocols
 
 ```python
 # dataclasses_and_protocols.py
+from dataclasses import dataclass
 from typing import Protocol
+
 
 class Identifiable(Protocol):
     id: int
+
 
 @dataclass
 class User:
     id: int
     name: str
 
+
 @dataclass
 class Product:
     id: int
     price: float
 
+
 def print_id(entity: Identifiable) -> None:
     print(f"ID: {entity.id}")
+
 
 print_id(User(1, "Alice"))
 print_id(Product(101, 19.99))
@@ -119,6 +137,10 @@ Define domain entities explicitly to enhance domain logic expressiveness:
 
 ```python
 # ddd.py
+from dataclasses import dataclass
+from typing import List
+
+
 @dataclass
 class Order:
     order_id: int

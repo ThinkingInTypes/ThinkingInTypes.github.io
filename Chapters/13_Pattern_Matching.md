@@ -30,13 +30,16 @@ Annotations can clarify patterns used in structural matching, making code cleare
 # example_2.py
 from typing import Union
 
+
 class Success:
     def __init__(self, result: str):
         self.result = result
 
+
 class Error:
     def __init__(self, error: str):
         self.error = error
+
 
 def process(response: Union[Success, Error]) -> str:
     match response := response:
@@ -58,9 +61,11 @@ When combining type annotations with pattern matching, carefully structuring typ
 # example_3.py
 from typing import TypedDict
 
+
 class Command(TypedDict):
     action: str
     payload: dict
+
 
 def process_command(command: TypedDict) -> None:
     match command:
@@ -86,13 +91,16 @@ Pattern matching works best with clearly annotated and structurally consistent t
 # example_4.py
 from typing import Union
 
+
 class Cat:
     def meow(self) -> str:
         return "Meow"
 
+
 class Dog:
     def bark(self) -> str:
         return "Woof"
+
 
 def animal_sound(animal: Union[Cat, Dog]) -> str:
     match animal:

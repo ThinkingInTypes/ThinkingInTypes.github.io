@@ -20,11 +20,13 @@ Dataclasses simplify class definitions by automatically generating methods like 
 # example_1.py
 from dataclasses import dataclass
 
+
 @dataclass
 class Product:
     name: str
     price: float
     in_stock: bool = True
+
 
 product = Product("Laptop", 999.99)
 print(product)  # Product(name='Laptop', price=999.99, in_stock=True)
@@ -41,10 +43,12 @@ Dataclasses support default factories, immutability, and more:
 from dataclasses import dataclass, field
 from typing import List
 
+
 @dataclass(frozen=True)
 class Order:
     order_id: int
     items: List[str] = field(default_factory=list)
+
 
 order = Order(order_id=123)
 # order.order_id = 456  # Error: dataclass is frozen (immutable)

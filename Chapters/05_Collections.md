@@ -70,6 +70,7 @@ Python provides specialized annotations for greater flexibility:
 # example_6.py
 from typing import Sequence
 
+
 def average(numbers: Sequence[float]) -> float:
     return sum(numbers) / len(numbers)
 ```
@@ -82,6 +83,7 @@ def average(numbers: Sequence[float]) -> float:
 # example_7.py
 from typing import Mapping
 
+
 def get_user_age(users: Mapping[str, int], username: str) -> int:
     return users.get(username, 0)
 ```
@@ -93,6 +95,7 @@ def get_user_age(users: Mapping[str, int], username: str) -> int:
 ```python
 # example_8.py
 from typing import Iterable, Iterator
+
 
 def print_items(items: Iterable[str]) -> None:
     for item in items:

@@ -29,6 +29,7 @@ from typing import Dict, List
 
 UserData = Dict[str, List[int]]
 
+
 def process_data(data: UserData) -> None:
     pass
 ```
@@ -43,6 +44,7 @@ Type aliases enhance readability, making complex types easier to understand.
 ```python
 # example_3.py
 from dataclasses import dataclass
+
 
 @dataclass
 class User:
@@ -62,6 +64,7 @@ Overuse of `Any` defeats the purpose of type annotations:
 
 ```python
 # example_4.py
+
 
 def process(data: Any) -> Any:
     pass
@@ -85,6 +88,7 @@ Avoid overly complex union types:
 
 ```python
 # example_5.py
+
 
 def handle(value: Union[int, str, None, float]) -> None:
     pass

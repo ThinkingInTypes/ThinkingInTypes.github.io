@@ -12,6 +12,7 @@ Async functions (`async def`) support type annotations similarly to regular func
 # example_1.py
 import asyncio
 
+
 async def fetch_data(url: str) -> str:
     await asyncio.sleep(1)
     return f"Data from {url}"
@@ -31,8 +32,10 @@ Explicitly type coroutines:
 # example_2.py
 from typing import Coroutine
 
+
 async def get_user(user_id: int) -> dict:
     return {"id": user_id, "name": "Alice"}
+
 
 async def main() -> Coroutine[None, None, dict]:
     user = await get_user(123)
@@ -47,8 +50,10 @@ For functions returning awaitable results:
 # example_3.py
 from typing import Awaitable
 
+
 async def fetch(url: str) -> str:
     return f"Content from {url}"
+
 
 def schedule_fetch(url: str) -> Awaitable[str]:
     return fetch(url)
@@ -61,6 +66,7 @@ For asynchronous generators:
 ```python
 # example_4.py
 from typing import AsyncGenerator
+
 
 async def stream_data() -> AsyncGenerator[int, None]:
     for i in range(5):
@@ -78,6 +84,7 @@ Async context managers manage resources in asynchronous contexts, with annotatio
 from contextlib import asynccontextmanager
 from typing import AsyncGenerator
 
+
 @asynccontextmanager
 async def database_connection() -> AsyncGenerator[str, None]:
     connection = "db_connection"
@@ -85,6 +92,7 @@ async def database_connection() -> AsyncGenerator[str, None]:
         yield connection
     finally:
         await asyncio.sleep(1)  # simulate closing connection
+
 
 async def main():
     async with database_connection() as conn:

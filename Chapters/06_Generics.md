@@ -14,10 +14,12 @@ Custom generics allow functions and classes to handle various types flexibly:
 # example_1.py
 from typing import TypeVar, List
 
-T = TypeVar('T')
+T = TypeVar("T")
+
 
 def first_item(items: List[T]) -> T:
     return items[0]
+
 
 print(first_item([1, 2, 3]))  # returns int
 print(first_item(["a", "b"]))  # returns str
@@ -29,9 +31,11 @@ print(first_item(["a", "b"]))  # returns str
 # example_2.py
 from typing import Generic
 
+
 class Box(Generic[T]):
     def __init__(self, content: T):
         self.content = content
+
 
 box_int = Box(123)
 box_str = Box("hello")
@@ -47,12 +51,14 @@ Generics can include constraints and bounds to restrict allowed types:
 
 ```python
 # example_3.py
-U = TypeVar('U', int, float)
+U = TypeVar("U", int, float)
+
 
 def add(a: U, b: U) -> U:
     return a + b
 
-add(1, 2)      # valid
+
+add(1, 2)  # valid
 add(1.5, 2.5)  # valid
 # add("a", "b")  # invalid, detected by type checker
 ```
@@ -65,14 +71,18 @@ class Animal:
     def speak(self) -> str:
         return "..."
 
-A = TypeVar('A', bound=Animal)
+
+A = TypeVar("A", bound=Animal)
+
 
 def animal_sound(animal: A) -> str:
     return animal.speak()
 
+
 class Dog(Animal):
     def speak(self) -> str:
         return "Woof!"
+
 
 print(animal_sound(Dog()))  # "Woof!"
 ```

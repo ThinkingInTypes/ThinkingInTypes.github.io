@@ -12,6 +12,7 @@ class DataPoint:
     measurement2 = None
     measurement3 = None
 
+
 d = DataPoint()
 d.measurement1 = 100
 d.measurement2 = 200
@@ -31,8 +32,10 @@ The argument looked something like this:
 ```python
 # like_default_values.py
 
+
 class A:
     x: int = 100
+
 
 a = A()
 print(f"{a.x = }")
@@ -252,24 +255,30 @@ configuration that produces a surprise:
 ```python
 # it_all_goes_wrong.py
 
+
 class A:
     x: int = 100
     y: int = 200
+
     @classmethod
     def change_x(cls):
         cls.x = 999
+
     @classmethod
     def change_y(cls):
         cls.y = 313
+
 
 def reset():
     A.x = 100
     A.y = 200
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     a1: A = None
     a2: A = None
     a3: A = None
+
     def display(counter: int):
         print(f"display({counter})")
         if a1:
@@ -367,10 +376,13 @@ and objects:
 ```python
 # look_inside.py
 
+
 def attributes(d: object) -> str:
-    return ", ".join(
-        [f"{k}: {v}" for k, v in vars(d).items()
-         if not k.startswith("__")]) or "Empty"
+    return (
+        ", ".join([f"{k}: {v}" for k, v in vars(d).items() if not k.startswith("__")])
+        or "Empty"
+    )
+
 
 def show(obj: object, obj_name: str) -> None:
     klass: type = obj.__class__
@@ -388,16 +400,20 @@ see the details when using class attributes:
 # class_attributes.py
 from look_inside import show
 
+
 class A:
     x: int = 100
 
+
 class B:
     x: int = 100
+
     def __init__(self, x_init: int):
         # Shadows the class attribute name:
         self.x = x_init
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     a = A()
     show(a, "a")
     # [Class A] x: 100
@@ -424,10 +440,12 @@ Let's look at the original example using `show()`:
 # like_default_values_shown.py
 from look_inside import show
 
+
 class A:
     x: int = 100
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     a = A()
     show(a, "a")
     # [Class A] x: 100
@@ -485,6 +503,7 @@ other methods using class attributes as a template. Simply adding `dataclasses` 
 # example_10.py
 from dataclasses import dataclass
 
+
 @dataclass
 class A:
     x: int = 100
@@ -504,13 +523,16 @@ Instead, write proper constructors with default arguments, as you see in
 from look_inside import show
 from dataclasses import dataclass
 
+
 class A:
     def __init__(self, x: int = 100, y: int = 200, z: int = 300):
         self.x = x
         self.y = y
         self.z = z
 
+
 # OR:
+
 
 @dataclass
 class AA:
@@ -518,7 +540,8 @@ class AA:
     y: int = 200
     z: int = 300
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     a = A()
     show(a, "a")
     # [Class A] Empty

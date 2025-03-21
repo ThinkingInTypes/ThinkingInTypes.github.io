@@ -29,6 +29,7 @@ Example:
 def greet(name: str) -> str:
     return f"Hello, {name}!"
 
+
 greet(123)  # Incorrect type
 ```
 
@@ -163,6 +164,7 @@ Resolve ambiguity clearly:
 ```python
 # example_3.py
 from typing import Optional
+
 
 # Error: Incompatible return value type (got "None", expected "int")
 def find_index(item: str, items: list[str]) -> Optional[int]:

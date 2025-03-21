@@ -47,6 +47,7 @@ We can define:
 # example_1.py
 from typing import Protocol
 
+
 class Speaker(Protocol):
     def speak(self) -> str: ...
 ```
@@ -61,15 +62,18 @@ class Dog:
     def speak(self) -> str:
         return "woof"
 
+
 class Robot:
     def speak(self) -> str:
         return "beep-boop"
+
 
 def announce(speaker: Speaker) -> None:
     # `speaker` can be any object that has .speak() returning str
     print("Announcement:", speaker.speak())
 
-announce(Dog())    # OK, Dog has speak()
+
+announce(Dog())  # OK, Dog has speak()
 announce(Robot())  # OK, Robot has speak()
 ```
 
@@ -104,26 +108,34 @@ We can define a protocol `Closable` and use it to write a function that closes a
 # example_3.py
 from typing import Protocol, Iterable
 
+
 class Closable(Protocol):
     def close(self) -> None: ...
 
+
 class FileResource:
     def __init__(self, path: str):
-        self.file = open(path, 'w')
+        self.file = open(path, "w")
+
     def close(self) -> None:
         self.file.close()
+
 
 class SocketResource:
     def close(self) -> None:
         print("Socket closed")
 
+
 def close_all(resources: Iterable[Closable]) -> None:
     for res in resources:
         res.close()
 
+
 # Using the close_all function with different resource types
 closables = [FileResource("data.txt"), SocketResource(), open("other.txt", "w")]
-close_all(closables)  # OK: FileResource, SocketResource, and file objects all have close()
+close_all(
+    closables
+)  # OK: FileResource, SocketResource, and file objects all have close()
 ```
 
 In this code, `Closable` is a protocol requiring a `.close()` method.
@@ -144,9 +156,11 @@ For example:
 # example_4.py
 from typing import runtime_checkable
 
+
 @runtime_checkable
 class Closable(Protocol):
     def close(self) -> None: ...
+
 
 isinstance(FileResource("data.txt"), Closable)  # True, because FileResource has close()
 ```
@@ -177,33 +191,42 @@ For instance:
 # example_5.py
 from typing import Protocol
 
+
 class Logger(Protocol):
     def log(self, message: str) -> None: ...
 
+
 class FileLogger:
     """Concrete logger that writes to a file."""
+
     def __init__(self, filename: str):
         self.filename = filename
+
     def log(self, message: str) -> None:
-        with open(self.filename, 'a') as f:
-            f.write(message + '\n')
+        with open(self.filename, "a") as f:
+            f.write(message + "\n")
+
 
 class ListLogger:
     """Concrete logger that stores messages in a list (e.g., for testing)."""
+
     def __init__(self):
         self.messages: list[str] = []
+
     def log(self, message: str) -> None:
         self.messages.append(message)
+
 
 def run_process(task_name: str, logger: Logger) -> None:
     logger.log(f"Starting {task_name}")
     # Perform the task ...
     logger.log(f"Finished {task_name}")
 
+
 # Using the run_process with different loggers
-run_process("DataCleanup", FileLogger("app.log"))       # logs to file
+run_process("DataCleanup", FileLogger("app.log"))  # logs to file
 test_logger = ListLogger()
-run_process("DataCleanup", test_logger)                 # logs to list in memory
+run_process("DataCleanup", test_logger)  # logs to list in memory
 print("Captured logs:", test_logger.messages)
 ```
 
@@ -277,7 +300,8 @@ For example:
 # example_6.py
 from typing import Protocol, TypeVar
 
-T = TypeVar('T')
+T = TypeVar("T")
+
 
 class Container(Protocol[T]):
     def get_item(self) -> T: ...
@@ -293,12 +317,15 @@ For instance, a container of strings and a container of integers:
 class StringContainer:
     def __init__(self, value: str):
         self.value = value
+
     def get_item(self) -> str:
         return self.value
+
 
 class IntContainer:
     def __init__(self, value: int):
         self.value = value
+
     def get_item(self) -> int:
         return self.value
 ```
@@ -309,14 +336,18 @@ We can write functions that use the generic protocol to accept any kind of conta
 
 ```python
 # example_8.py
+from typing import Container
+
+
 def print_item_and_return[C](container: Container[C]) -> C:
     item = container.get_item()
     print("Got:", item)
     return item  # The type of item is inferred as C
 
+
 # Using the generic function with different container types:
 x = print_item_and_return(StringContainer("hello"))  # prints "hello", x is str
-y = print_item_and_return(IntContainer(42))          # prints "42", y is int
+y = print_item_and_return(IntContainer(42))  # prints "42", y is int
 ```
 
 In the function `print_item_and_return`, we used `C` (could also use `T` again) as a type variable for the container’s item type.
@@ -338,7 +369,9 @@ For example, if we have:
 
 ```python
 # example_9.py
-T = TypeVar('T', bound=Logger)  # using our Logger protocol from earlier
+from typing import TypeVar
+
+T = TypeVar("T", bound=Logger)  # using our Logger protocol from earlier
 ```
 
 This means any type filling in for T must have a `.log(str) -> None` method.

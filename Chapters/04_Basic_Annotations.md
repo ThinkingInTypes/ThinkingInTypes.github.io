@@ -50,6 +50,7 @@ Python uses `Optional` from `typing` to indicate this:
 # example_4.py
 from typing import Optional
 
+
 def find_user(user_id: int) -> Optional[str]:
     if user_id == 1:
         return "Alice"
@@ -77,6 +78,7 @@ Traditionally, the `Union` type was used, but Python 3.10 introduced the `|` ope
 # example_6.py
 from typing import Union
 
+
 def process_value(value: Union[int, str]) -> str:
     return str(value)
 ```
@@ -100,6 +102,7 @@ Type aliases simplify complex annotations by providing a readable and reusable n
 from typing import List
 
 UserIDs = List[int]
+
 
 def process_users(user_ids: UserIDs) -> None:
     for uid in user_ids:
@@ -128,6 +131,7 @@ Example error:
 # example_9.py
 def calculate_area(radius: int) -> float:
     return 3.14 * radius ** 2
+
 
 calculate_area(3.5)  # Error detected by static type checkers
 ```

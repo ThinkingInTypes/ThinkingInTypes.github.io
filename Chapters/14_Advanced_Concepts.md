@@ -12,10 +12,12 @@ Literal types allow specifying exact permissible values, enhancing type specific
 # example_1.py
 from typing import Literal
 
-def set_mode(mode: Literal['auto', 'manual']) -> None:
+
+def set_mode(mode: Literal["auto", "manual"]) -> None:
     print(f"Mode set to {mode}")
 
-set_mode('auto')  # valid
+
+set_mode("auto")  # valid
 # set_mode('automatic')  # invalid, detected by type checker
 ```
 
@@ -31,6 +33,7 @@ from typing import Annotated
 
 UserID = Annotated[int, "Database primary key"]
 
+
 def fetch_user(user_id: UserID) -> dict:
     return {"id": user_id, "name": "Alice"}
 ```
@@ -45,12 +48,14 @@ Metadata within `Annotated` helps convey additional context beyond simple type h
 # example_3.py
 from typing import NewType
 
-UserId = NewType('UserId', int)
+UserId = NewType("UserId", int)
 
 user_id = UserId(42)
 
+
 def get_user(uid: UserId) -> str:
     return f"User {uid}"
+
 
 # get_user(42)  # type checker error
 get_user(user_id)  # correct usage
@@ -68,6 +73,7 @@ Type narrowing refines a variable's type within conditional checks:
 # example_4.py
 from typing import Union
 
+
 def process(value: Union[int, str]) -> None:
     if isinstance(value, int):
         print(value + 1)
@@ -80,6 +86,7 @@ def process(value: Union[int, str]) -> None:
 ```python
 # example_5.py
 from typing import Optional
+
 
 def greet(name: Optional[str]) -> None:
     assert name is not None, "Name cannot be None"
@@ -98,12 +105,15 @@ Custom type guards offer explicit ways to narrow types more clearly:
 # example_6.py
 from typing import TypeGuard
 
+
 class Cat:
     def meow(self):
         print("Meow!")
 
+
 def is_cat(animal: object) -> TypeGuard[Cat]:
-    return hasattr(animal, 'meow')
+    return hasattr(animal, "meow")
+
 
 animal = Cat()
 if is_cat(animal):
@@ -124,11 +134,13 @@ Allows using subtypes in place of parent types:
 # example_7.py
 from typing import Generic, TypeVar
 
-T_co = TypeVar('T_co', covariant=True)
+T_co = TypeVar("T_co", covariant=True)
+
 
 class ReadOnlyList(Generic[T_co]):
     def __init__(self, items: list[T_co]):
         self.items = items
+
 
 ints: ReadOnlyList[int] = ReadOnlyList([1, 2, 3])
 numbers: ReadOnlyList[float] = ints  # Valid due to covariance
@@ -140,11 +152,13 @@ Allows using parent types in place of subtypes, common in callbacks or consumers
 
 ```python
 # example_8.py
-T_contra = TypeVar('T_contra', contravariant=True)
+T_contra = TypeVar("T_contra", contravariant=True)
+
 
 class Processor(Generic[T_contra]):
     def process(self, value: T_contra) -> None:
         print(value)
+
 
 int_processor: Processor[int] = Processor()
 number_processor: Processor[float] = int_processor  # Valid due to contravariance
