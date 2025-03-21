@@ -540,28 +540,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../08_Specialized_Tools/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Specialized Tools
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../09_Callables/" class="md-nav__link">
+      <a href="../08_Callables/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -582,11 +561,32 @@
   
   
     <li class="md-nav__item">
-      <a href="../10_Structural_Typing/" class="md-nav__link">
+      <a href="../09_Structural_Typing/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
     Structural Typing
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../10_Specialized_Tools/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Specialized Tools
     
   </span>
   
@@ -1021,8 +1021,8 @@ In the meantime you can add comments to either <a href="https://bsky.app/bruceec
 This means the types of variables are determined at runtime rather than explicitly declared.
 For example:</p>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1"># example_1.py</span>
-</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="n">x</span> <span class="o">=</span> <span class="mi">42</span>      <span class="c1"># x is dynamically assigned as an integer</span>
-</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="n">y</span> <span class="o">=</span> <span class="s2">&quot;hello&quot;</span> <span class="c1"># y is dynamically assigned as a string</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="n">x</span> <span class="o">=</span> <span class="mi">42</span>  <span class="c1"># x is dynamically assigned as an integer</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="n">y</span> <span class="o">=</span> <span class="s2">&quot;hello&quot;</span>  <span class="c1"># y is dynamically assigned as a string</span>
 </span></code></pre></div>
 <p>In contrast, statically typed languages require explicit type declarations, and types are checked at compile time:</p>
 <div class="language-java highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="kt">int</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">42</span><span class="p">;</span><span class="w">       </span><span class="c1">// Java explicitly defines x as an integer</span>
@@ -1060,10 +1060,12 @@ If it looks like a duck and quacks like a duck, it's treated as a duck:</p>
 </span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>    <span class="k">def</span> <span class="nf">quack</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 </span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Quack!&quot;</span><span class="p">)</span>
 </span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>
-</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="k">def</span> <span class="nf">make_it_quack</span><span class="p">(</span><span class="n">bird</span><span class="p">):</span>
-</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>    <span class="n">bird</span><span class="o">.</span><span class="n">quack</span><span class="p">()</span>
-</span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>
-</span><span id="__span-2-9"><a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="n">make_it_quack</span><span class="p">(</span><span class="n">Duck</span><span class="p">())</span>  <span class="c1"># works fine</span>
+</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>
+</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="k">def</span> <span class="nf">make_it_quack</span><span class="p">(</span><span class="n">bird</span><span class="p">):</span>
+</span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>    <span class="n">bird</span><span class="o">.</span><span class="n">quack</span><span class="p">()</span>
+</span><span id="__span-2-9"><a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a>
+</span><span id="__span-2-10"><a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a>
+</span><span id="__span-2-11"><a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a><span class="n">make_it_quack</span><span class="p">(</span><span class="n">Duck</span><span class="p">())</span>  <span class="c1"># works fine</span>
 </span></code></pre></div>
 <p>However, as Python projects grew in scale and complexity, the need for type safety and clearer documentation became apparent.
 Python 3.5 introduced <strong>type annotations</strong>, allowing developers to optionally specify expected types:</p>
@@ -1122,7 +1124,8 @@ Python 3.5 introduced <strong>type annotations</strong>, allowing developers to 
 </span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="k">def</span> <span class="nf">add</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
 </span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>    <span class="k">return</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span>
 </span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>
-</span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="n">add</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;2&quot;</span><span class="p">)</span>  <span class="c1"># raises runtime TypeError</span>
+</span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>
+</span><span id="__span-6-6"><a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a><span class="n">add</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;2&quot;</span><span class="p">)</span>  <span class="c1"># raises runtime TypeError</span>
 </span></code></pre></div>
 <h3 id="static-type-checking">Static Type Checking<a class="headerlink" href="#static-type-checking" title="Permanent link">#</a></h3>
 <ul>
@@ -1134,7 +1137,8 @@ Python 3.5 introduced <strong>type annotations</strong>, allowing developers to 
 </span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="k">def</span> <span class="nf">add</span><span class="p">(</span><span class="n">a</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
 </span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a>    <span class="k">return</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span>
 </span><span id="__span-7-5"><a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a>
-</span><span id="__span-7-6"><a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a><span class="n">add</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;2&quot;</span><span class="p">)</span>  <span class="c1"># Static type checker flags this</span>
+</span><span id="__span-7-6"><a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a>
+</span><span id="__span-7-7"><a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a><span class="n">add</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;2&quot;</span><span class="p">)</span>  <span class="c1"># Static type checker flags this</span>
 </span></code></pre></div>
 <p>By combining runtime flexibility with static checking, Python provides a balanced approach that empowers developers to write safe, readable, and maintainable code.</p>
 
