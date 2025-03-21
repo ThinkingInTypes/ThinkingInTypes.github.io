@@ -32,16 +32,17 @@ nav:
   - 05_Collections.md
   - 06_Generics.md
   - 07_Dataclasses.md
-  - 08_Callables.md
-  - 09_Structural_Typing.md
-  - 10_Specialized_Tools.md
-  - 11_Make_Illegal_Types_Unrepresentable.md
-  - 12_Errors_As_Values.md
-  - 13_Pattern_Matching.md
-  - 14_Advanced_Concepts.md
-  - 15_Async.md
-  - 16_Interoperability_and_Typing_Stubs.md
-  - 17_Best_Practices.md
+  - 08_Immutability.md
+  - 09_Callables.md
+  - 10_Structural_Typing.md
+  - 11_Specialized_Tools.md
+  - 12_Make_Illegal_Types_Unrepresentable.md
+  - 13_Errors_As_Values.md
+  - 14_Pattern_Matching.md
+  - 15_Advanced_Concepts.md
+  - 16_Async.md
+  - 17_Interoperability_and_Typing_Stubs.md
+  - 18_Best_Practices.md
   - A1_Quick_Reference.md
   - A2_Glossary.md
   - A3_Type_Checkers.md
