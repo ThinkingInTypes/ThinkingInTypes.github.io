@@ -1,6 +1,6 @@
 $directory = "C:\git\ThinkingInTypes_Examples\src"
 
-# Prompt the user for confirmation
+mdvalid -d .\Chapters\
 Write-Host "WARNING: You are about to delete the directory: $directory"
 $response = Read-Host "Are you sure? Type 'y' to continue"
 
