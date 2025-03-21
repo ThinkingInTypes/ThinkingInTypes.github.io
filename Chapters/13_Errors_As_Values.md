@@ -56,12 +56,14 @@ Instead, we create a custom `Result` type:
 from dataclasses import dataclass
 from typing import Generic, TypeVar
 
-A = TypeVar('A')  # Successful result type
-E = TypeVar('E')  # Error type
+A = TypeVar("A")  # Successful result type
+E = TypeVar("E")  # Error type
+
 
 @dataclass(frozen=True)
 class Result(Generic[A, E]):
     pass
+
 
 @dataclass(frozen=True)
 class Success(Result[A, E]):
@@ -69,6 +71,7 @@ class Success(Result[A, E]):
 
     def unwrap(self) -> A:
         return self.answer
+
 
 @dataclass(frozen=True)
 class Failure(Result[A, E]):
@@ -114,6 +117,7 @@ An example using the `returns` library decorator:
 # example_5.py
 from returns.result import Result, Success, Failure, safe
 
+
 @safe
 def divide(a: int, b: int) -> float:
     return a / b
@@ -129,15 +133,18 @@ Consider a scenario where several smaller functions combine into a larger workfl
 # example_6.py
 from returns.result import Result, Success, Failure
 
+
 def func_a(val: int) -> Result[int, str]:
     if val == 1:
         return Failure("Cannot handle 1")
     return Success(val * 10)
 
+
 def func_b(val: int) -> Result[int, str]:
     if val == 3:
         return Failure("Division by zero risk")
     return Success(val - 1)
+
 
 def workflow(x: int) -> Result[int, str]:
     return calculate(x).bind(func_b).bind(func_c)

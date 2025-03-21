@@ -43,6 +43,7 @@ Data classes, introduced in Python 3.7, significantly streamline this process by
 # example_3.py
 from dataclasses import dataclass
 
+
 @dataclass
 class Stars:
     stars: int
@@ -97,6 +98,7 @@ class FullName:
         parts = self.name.split()
         assert len(parts) >= 2, "Full name must include at least two parts."
 
+
 @dataclass(frozen=True)
 class BirthDate:
     year: int
@@ -108,12 +110,14 @@ class BirthDate:
         assert 1 <= self.month <= 12, "Month must be between 1 and 12."
         assert 1 <= self.day <= 31, "Day must be valid for given month."
 
+
 @dataclass(frozen=True)
 class Email:
     address: str
 
     def __post_init__(self):
         assert "@" in self.address, "Invalid email address."
+
 
 @dataclass(frozen=True)
 class Person:
@@ -131,6 +135,7 @@ Enums provide additional type safety for fixed-value sets, such as months:
 ```python
 # example_7.py
 from enum import Enum
+
 
 class Month(Enum):
     JANUARY = (1, 31)
