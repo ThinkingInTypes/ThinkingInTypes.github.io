@@ -14,7 +14,6 @@
 Example:
 
 ```python
-# example_1.py
 # math.pyi
 def sqrt(x: float) -> float: ...
 ```
@@ -35,8 +34,7 @@ stubgen -m your_module
 Generates a `.pyi` file with inferred annotations, saving manual effort:
 
 ```python
-# example_2.py
-# Generated example.pyi
+# generated_example.pyi
 def greet(name: str) -> str: ...
 ```
 
@@ -49,7 +47,6 @@ Manual stub writing is essential when automatic inference is insufficient:
 ### Example Stub File
 
 ```python
-# example_3.py
 # custom_module.pyi
 class User:
     id: int
