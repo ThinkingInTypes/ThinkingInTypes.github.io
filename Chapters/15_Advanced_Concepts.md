@@ -152,6 +152,8 @@ Allows using parent types in place of subtypes, common in callbacks or consumers
 
 ```python
 # example_8.py
+from typing import TypeVar, Generic
+
 T_contra = TypeVar("T_contra", contravariant=True)
 
 

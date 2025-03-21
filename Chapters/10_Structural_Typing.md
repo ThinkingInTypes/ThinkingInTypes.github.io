@@ -154,7 +154,7 @@ For example:
 
 ```python
 # example_4.py
-from typing import runtime_checkable
+from typing import runtime_checkable, Protocol
 
 
 @runtime_checkable
@@ -383,6 +383,9 @@ For instance, one could write something like:
 
 ```python
 # example_10.py
+from typing import Protocol
+
+
 class Container(Protocol):
     def get_item[T](self) -> T: ...
 ```

@@ -64,6 +64,7 @@ Overuse of `Any` defeats the purpose of type annotations:
 
 ```python
 # example_4.py
+from typing import Any
 
 
 def process(data: Any) -> Any:
@@ -88,6 +89,7 @@ Avoid overly complex union types:
 
 ```python
 # example_5.py
+from typing import Union
 
 
 def handle(value: Union[int, str, None, float]) -> None:

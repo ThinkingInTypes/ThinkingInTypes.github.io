@@ -81,6 +81,7 @@ Async context managers manage resources in asynchronous contexts, with annotatio
 
 ```python
 # example_5.py
+import asyncio
 from contextlib import asynccontextmanager
 from typing import AsyncGenerator
 

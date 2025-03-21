@@ -51,6 +51,8 @@ Generics can include constraints and bounds to restrict allowed types:
 
 ```python
 # example_3.py
+from typing import TypeVar
+
 U = TypeVar("U", int, float)
 
 
@@ -67,6 +69,9 @@ add(1.5, 2.5)  # valid
 
 ```python
 # example_4.py
+from typing import TypeVar
+
+
 class Animal:
     def speak(self) -> str:
         return "..."

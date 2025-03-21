@@ -67,6 +67,9 @@ Functional programming strongly advocates immutability, preventing accidental ch
 
 ```python
 # example_5.py
+from dataclasses import dataclass
+
+
 @dataclass(frozen=True)
 class Stars:
     stars: int
@@ -83,6 +86,9 @@ Composition, another functional programming cornerstone, allows building complex
 
 ```python
 # example_6.py
+from dataclasses import dataclass
+
+
 @dataclass(frozen=True)
 class FullName:
     name: str
