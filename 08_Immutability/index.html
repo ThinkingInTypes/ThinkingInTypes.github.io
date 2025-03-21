@@ -8,13 +8,13 @@
       
       
       
-        <link rel="canonical" href="https://ThinkingInTypes.github.io/11_Make_Illegal_Types_Unrepresentable/">
+        <link rel="canonical" href="https://ThinkingInTypes.github.io/08_Immutability/">
       
       
-        <link rel="prev" href="../10_Specialized_Tools/">
+        <link rel="prev" href="../07_Dataclasses/">
       
       
-        <link rel="next" href="../12_Errors_As_Values/">
+        <link rel="next" href="../09_Callables/">
       
       
       <link rel="icon" href="../img/favicon.png">
@@ -22,7 +22,7 @@
     
     
       
-        <title>Make Illegal Types Unrepresentable - Thinking in Types</title>
+        <title>Immutability - Thinking in Types</title>
       
     
     
@@ -64,7 +64,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#make-illegal-types-unrepresentable" class="md-skip">
+        <a href="#immutability" class="md-skip">
           Skip to content
         </a>
       
@@ -100,7 +100,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Make Illegal Types Unrepresentable
+              Immutability
             
           </span>
         </div>
@@ -361,10 +361,41 @@
       
   
   
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    Immutability
+    
+  </span>
+  
+
+      </a>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
   
   
     <li class="md-nav__item">
-      <a href="../08_Callables/" class="md-nav__link">
+      <a href="../09_Callables/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -385,7 +416,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../09_Structural_Typing/" class="md-nav__link">
+      <a href="../10_Structural_Typing/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -406,7 +437,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../10_Specialized_Tools/" class="md-nav__link">
+      <a href="../11_Specialized_Tools/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -424,19 +455,10 @@
       
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../12_Make_Illegal_Types_Unrepresentable/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -446,7 +468,6 @@
   
 
       </a>
-      
     </li>
   
 
@@ -458,7 +479,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../12_Errors_As_Values/" class="md-nav__link">
+      <a href="../13_Errors_As_Values/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -479,7 +500,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../13_Pattern_Matching/" class="md-nav__link">
+      <a href="../14_Pattern_Matching/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -500,7 +521,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../14_Advanced_Concepts/" class="md-nav__link">
+      <a href="../15_Advanced_Concepts/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -521,7 +542,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../15_Async/" class="md-nav__link">
+      <a href="../16_Async/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -542,7 +563,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../16_Interoperability_and_Typing_Stubs/" class="md-nav__link">
+      <a href="../17_Interoperability_and_Typing_Stubs/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -563,7 +584,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../17_Best_Practices/" class="md-nav__link">
+      <a href="../18_Best_Practices/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -698,7 +719,30 @@
   
 
 
-<h1 id="make-illegal-types-unrepresentable">Make Illegal Types Unrepresentable<a class="headerlink" href="#make-illegal-types-unrepresentable" title="Permanent link">#</a></h1>
+<h1 id="immutability">Immutability<a class="headerlink" href="#immutability" title="Permanent link">#</a></h1>
+<ul>
+<li>Benefits of immutability</li>
+<li>Historic immutability by convention with all caps</li>
+<li>Immutability with <code>Final</code></li>
+</ul>
+<p>Dataclasses support immutability with <code>frozen</code>:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1"># example_2.py</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span><span class="p">,</span> <span class="n">field</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="k">class</span> <span class="nc">Order</span><span class="p">:</span>
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>    <span class="n">order_id</span><span class="p">:</span> <span class="nb">int</span>
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>    <span class="n">items</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="nb">list</span><span class="p">)</span>
+</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>
+</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>
+</span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a><span class="n">order</span> <span class="o">=</span> <span class="n">Order</span><span class="p">(</span><span class="n">order_id</span><span class="o">=</span><span class="mi">123</span><span class="p">)</span>
+</span><span id="__span-0-13"><a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a><span class="c1"># order.order_id = 456  # Error: dataclass is frozen (immutable)</span>
+</span></code></pre></div>
+<ul>
+<li>show <em>post_init</em> with frozen</li>
+</ul>
 
 
 
