@@ -97,6 +97,8 @@ class User:
 
 user = User(id=1, name="Alice", status=Status.ACTIVE)
 print(user)
+## User(id=1, name='Alice', status=<Status.ACTIVE:
+## 'active'>)
 ```
 
 ### Combining Dataclasses with Protocols
@@ -128,7 +130,9 @@ def print_id(entity: Identifiable) -> None:
 
 
 print_id(User(1, "Alice"))
+## ID: 1
 print_id(Product(101, 19.99))
+## ID: 101
 ```
 
 ### Domain-Driven Design (DDD)

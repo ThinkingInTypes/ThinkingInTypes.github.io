@@ -22,7 +22,9 @@ def first_item(items: List[T]) -> T:
 
 
 print(first_item([1, 2, 3]))  # returns int
+## 1
 print(first_item(["a", "b"]))  # returns str
+## a
 ```
 
 ### Generic Classes
@@ -90,6 +92,7 @@ class Dog(Animal):
 
 
 print(animal_sound(Dog()))  # "Woof!"
+## Woof!
 ```
 
 Constraints and bounds improve specificity in generic type annotations, enhancing code clarity and correctness.

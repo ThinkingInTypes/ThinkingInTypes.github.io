@@ -73,6 +73,7 @@ def multiply(a: int, b: int) -> int:
 
 
 multiply(2, 3)  # Output: Calling multiply with (2, 3) and {} then returns 6
+## Calling multiply with (2, 3) and {}
 ```
 
 `ParamSpec` helps decorators maintain accurate type information for wrapped functions.
@@ -101,7 +102,9 @@ def double(value: Union[int, str]) -> Union[int, str]:
 
 
 print(double(4))  # Output: 8
+## 8
 print(double("Hi"))  # Output: HiHi
+## HiHi
 ```
 
 `@overload` clearly defines each acceptable signature, providing strong typing and preventing misuse.

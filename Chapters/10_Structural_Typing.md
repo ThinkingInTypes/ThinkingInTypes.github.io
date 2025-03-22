@@ -136,6 +136,7 @@ closables = [FileResource("data.txt"), SocketResource(), open("other.txt", "w")]
 close_all(
     closables
 )  # OK: FileResource, SocketResource, and file objects all have close()
+## Socket closed
 ```
 
 In this code, `Closable` is a protocol requiring a `.close()` method.
@@ -228,6 +229,8 @@ run_process("DataCleanup", FileLogger("app.log"))  # logs to file
 test_logger = ListLogger()
 run_process("DataCleanup", test_logger)  # logs to list in memory
 print("Captured logs:", test_logger.messages)
+## Captured logs: ['Starting DataCleanup',
+## 'Finished DataCleanup']
 ```
 
 In `Logger(Protocol)`, we specify that a logger must have a `.log(str)` method.
