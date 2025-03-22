@@ -66,6 +66,7 @@ def make_it_quack(bird):
 
 
 make_it_quack(Duck())  # works fine
+## Quack!
 ```
 
 However, as Python projects grew in scale and complexity, the need for type safety and clearer documentation became apparent.
