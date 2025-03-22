@@ -18,6 +18,7 @@ def set_mode(mode: Literal["auto", "manual"]) -> None:
 
 
 set_mode("auto")  # valid
+## Mode set to auto
 # set_mode('automatic')  # invalid, detected by type checker
 ```
 
@@ -118,6 +119,7 @@ def is_cat(animal: object) -> TypeGuard[Cat]:
 animal = Cat()
 if is_cat(animal):
     animal.meow()  # Safe to call
+## Meow!
 ```
 
 Type guards enhance type narrowing accuracy, making code safer and cleaner.

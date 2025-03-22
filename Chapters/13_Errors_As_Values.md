@@ -104,6 +104,7 @@ With explicit `Result` types, we can elegantly compose functions, propagating er
 # example_4.py
 # result = calculate(value).bind(process).bind(next_step)
 print("INCOMPLETE")
+## INCOMPLETE
 ```
 
 Each step checks internally: if the previous call returned a failure, subsequent calls are skipped, immediately propagating the failure outward. This style leads to robust, composable, and clear error handling.
