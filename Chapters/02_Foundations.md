@@ -19,6 +19,7 @@ Assumptions I make about your Python & programming knowledge.
 
 - Build up from small testable pieces, balanced with simplicity and clarity.
 - Use the most modern/elegant coding mechanisms available (latest Python)
+- Classes are for creating types. As much as possible, pretend inheritance doesn't exist.
 
 ## Examples
 
