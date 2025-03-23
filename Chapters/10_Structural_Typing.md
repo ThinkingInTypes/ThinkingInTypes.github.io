@@ -44,7 +44,7 @@ For example, suppose we want a protocol for "speaking" creatures or objects: it 
 We can define:
 
 ```python
-# example_1.py
+# speaker.py
 from typing import Protocol
 
 
@@ -57,7 +57,10 @@ Now, any class that defines a `speak(self) -> str` method will be considered a `
 We can create two completely unrelated classes that fulfill this protocol without explicit inheritance:
 
 ```python
-# example_2.py
+# announce.py
+from speaker import Speaker
+
+
 class Dog:
     def speak(self) -> str:
         return "woof"

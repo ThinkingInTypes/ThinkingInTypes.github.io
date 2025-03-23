@@ -7,9 +7,13 @@ Error handling has had a messy history. Initially, programmers used languages cl
 
 ## Historical Context of Error Handling
 
-Originally, the approach to handling errors was global—using global flags, setting signals, or similar global mechanisms. Unfortunately, this often resulted in race conditions, where one part of a program could easily overwrite an error indicator that another part needed to read. This made error handling an impediment to composability.
+Originally, the approach to handling errors was global—using global flags, setting signals, or similar global mechanisms.
+Unfortunately, this often resulted in race conditions, where one part of a program could easily overwrite an error indicator that another part needed to read.
+This made error handling an impediment to composability.
 
-Initially, developers experimented with placing error handling responsibility in the operating system, alongside mechanisms like resumption. With resumption, you would register an error handler, potentially fix the issue in your handler, then resume execution right where the error occurred. Unfortunately, this approach failed and was eventually abandoned.
+Initially, developers experimented with placing error handling responsibility in the operating system, alongside mechanisms like resumption.
+With resumption, you would register an error handler, potentially fix the issue in your handler, then resume execution right where the error occurred.
+However, this approach failed and was eventually abandoned.
 
 ## Introducing Exceptions
 
@@ -52,7 +56,7 @@ This works but isn't ideal, because we're overloading primitive types (like `int
 Instead, we create a custom `Result` type:
 
 ```python
-# example_2.py
+# result.py
 from dataclasses import dataclass
 from typing import Generic, TypeVar
 
@@ -87,7 +91,9 @@ In this approach:
 Example usage:
 
 ```python
-# example_3.py
+# calculate.py
+from result import Result, Success, Failure
+
 def calculate(value: int) -> Result[int, str]:
     if value == 1:
         return Failure("Invalid argument")
@@ -107,11 +113,15 @@ print("INCOMPLETE")
 ## INCOMPLETE
 ```
 
-Each step checks internally: if the previous call returned a failure, subsequent calls are skipped, immediately propagating the failure outward. This style leads to robust, composable, and clear error handling.
+Each step checks internally: if the previous call returned a failure, subsequent calls are skipped, immediately propagating the failure outward.
+This style leads to robust, composable, and clear error handling.
+
+If the `bind` approach seems awkward, look at the code it replaces:
 
 ### Leveraging Libraries
 
-For a richer implementation, libraries such as Python's `returns` package streamline this functional error-handling pattern. The `returns` library provides decorators to transform regular functions into functions returning result types, handles exception catching cleanly, and includes helper methods such as `bind`.
+For a richer implementation, libraries such as `returns` streamline this functional error-handling pattern.
+The `returns` library provides decorators to transform regular functions into functions returning result types, handles exception catching cleanly, and includes helper methods such as `bind`.
 
 An example using the `returns` library decorator:
 
@@ -152,7 +162,8 @@ def workflow(x: int) -> Result[int, str]:
     return calculate(x).bind(func_b).bind(func_c)
 ```
 
-With this chaining pattern, errors propagate automatically. The first failure encountered halts further processing, immediately surfacing the error clearly to the caller, maintaining data integrity and simplifying debugging.
+With this chaining pattern, errors propagate automatically.
+The first failure encountered halts further processing, immediately surfacing the error clearly to the caller, maintaining data integrity and simplifying debugging.
 
 ### Functional Error Handling in Other Languages
 
@@ -162,7 +173,8 @@ These patterns originated from functional languages, but increasingly influence 
 - **Kotlin:** Lightweight built-in functional error handling.
 - **C++:** Deprecated exception specifications and shifting towards return-value-based error handling.
 
-Python, while historically leaning heavily on exceptions, can benefit greatly from adopting these functional-style techniques. Libraries like `returns` or `pydantic`, and the introduction of modern Python idioms (such as type annotations and dataclasses), facilitate safer, clearer, and more composable code.
+Python, while historically leaning heavily on exceptions, can benefit greatly from adopting these functional-style techniques.
+Libraries like `returns` or `pydantic`, and the introduction of modern Python idioms (such as type annotations and dataclasses), facilitate safer, clearer, and more composable code.
 
 ### Conclusion
 
