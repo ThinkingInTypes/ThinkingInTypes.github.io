@@ -976,8 +976,12 @@
 <a href="https://github.com/BruceEckel/functional_error_handling">https://github.com/BruceEckel/functional_error_handling</a></p>
 <p>Error handling has had a messy history. Initially, programmers used languages close to hardware, such as assembly, or higher-level languages like COBOL or Fortran, where errors were typically presented as output from batch processing—a stack of punch cards passed to an operator, eventually returning error messages. Until interactive real-time operating systems became commonplace, software engineers didn't frequently consider the question, "How should we recover from an error?"</p>
 <h2 id="historical-context-of-error-handling">Historical Context of Error Handling<a class="headerlink" href="#historical-context-of-error-handling" title="Permanent link">#</a></h2>
-<p>Originally, the approach to handling errors was global—using global flags, setting signals, or similar global mechanisms. Unfortunately, this often resulted in race conditions, where one part of a program could easily overwrite an error indicator that another part needed to read. This made error handling an impediment to composability.</p>
-<p>Initially, developers experimented with placing error handling responsibility in the operating system, alongside mechanisms like resumption. With resumption, you would register an error handler, potentially fix the issue in your handler, then resume execution right where the error occurred. Unfortunately, this approach failed and was eventually abandoned.</p>
+<p>Originally, the approach to handling errors was global—using global flags, setting signals, or similar global mechanisms.
+Unfortunately, this often resulted in race conditions, where one part of a program could easily overwrite an error indicator that another part needed to read.
+This made error handling an impediment to composability.</p>
+<p>Initially, developers experimented with placing error handling responsibility in the operating system, alongside mechanisms like resumption.
+With resumption, you would register an error handler, potentially fix the issue in your handler, then resume execution right where the error occurred.
+However, this approach failed and was eventually abandoned.</p>
 <h2 id="introducing-exceptions">Introducing Exceptions<a class="headerlink" href="#introducing-exceptions" title="Permanent link">#</a></h2>
 <p>The next step was moving error handling responsibility into the programming language itself. Languages introduced exceptions, providing a standardized error-reporting mechanism integrated closely with the program's domain logic. Exceptions addressed two main concerns:</p>
 <ul>
@@ -1004,7 +1008,7 @@ When an exception occurs within a large calculation (like a list comprehension),
 <p>This works but isn't ideal, because we're overloading primitive types (like <code>int</code> and <code>str</code>) for error signaling, which isn't clear.</p>
 <h3 id="explicit-result-types-with-data-classes">Explicit Result Types with Data Classes<a class="headerlink" href="#explicit-result-types-with-data-classes" title="Permanent link">#</a></h3>
 <p>Instead, we create a custom <code>Result</code> type:</p>
-<div class="language-python highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="c1"># example_2.py</span>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="c1"># result.py</span>
 </span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span>
 </span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Generic</span><span class="p">,</span> <span class="n">TypeVar</span>
 </span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>
@@ -1036,11 +1040,13 @@ When an exception occurs within a large calculation (like a list comprehension),
 <li>These two cases are distinct, clearly encoded by types.</li>
 </ul>
 <p>Example usage:</p>
-<div class="language-python highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1"># example_3.py</span>
-</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="k">def</span> <span class="nf">calculate</span><span class="p">(</span><span class="n">value</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Result</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">]:</span>
-</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>    <span class="k">if</span> <span class="n">value</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
-</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>        <span class="k">return</span> <span class="n">Failure</span><span class="p">(</span><span class="s2">&quot;Invalid argument&quot;</span><span class="p">)</span>
-</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>    <span class="k">return</span> <span class="n">Success</span><span class="p">(</span><span class="n">value</span> <span class="o">*</span> <span class="mi">2</span><span class="p">)</span>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1"># calculate.py</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="kn">from</span> <span class="nn">result</span> <span class="kn">import</span> <span class="n">Result</span><span class="p">,</span> <span class="n">Success</span><span class="p">,</span> <span class="n">Failure</span>
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="k">def</span> <span class="nf">calculate</span><span class="p">(</span><span class="n">value</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Result</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">]:</span>
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>    <span class="k">if</span> <span class="n">value</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>        <span class="k">return</span> <span class="n">Failure</span><span class="p">(</span><span class="s2">&quot;Invalid argument&quot;</span><span class="p">)</span>
+</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>    <span class="k">return</span> <span class="n">Success</span><span class="p">(</span><span class="n">value</span> <span class="o">*</span> <span class="mi">2</span><span class="p">)</span>
 </span></code></pre></div>
 <p>Using this approach with a sequence of calculations, you explicitly handle each result to determine success or failure, making error handling clearer and preventing partial results from getting lost.</p>
 <h3 id="composition-with-functional-error-handling">Composition with Functional Error Handling<a class="headerlink" href="#composition-with-functional-error-handling" title="Permanent link">#</a></h3>
@@ -1050,9 +1056,12 @@ When an exception occurs within a large calculation (like a list comprehension),
 </span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;INCOMPLETE&quot;</span><span class="p">)</span>
 </span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="c1">## INCOMPLETE</span>
 </span></code></pre></div>
-<p>Each step checks internally: if the previous call returned a failure, subsequent calls are skipped, immediately propagating the failure outward. This style leads to robust, composable, and clear error handling.</p>
+<p>Each step checks internally: if the previous call returned a failure, subsequent calls are skipped, immediately propagating the failure outward.
+This style leads to robust, composable, and clear error handling.</p>
+<p>If the <code>bind</code> approach seems awkward, look at the code it replaces:</p>
 <h3 id="leveraging-libraries">Leveraging Libraries<a class="headerlink" href="#leveraging-libraries" title="Permanent link">#</a></h3>
-<p>For a richer implementation, libraries such as Python's <code>returns</code> package streamline this functional error-handling pattern. The <code>returns</code> library provides decorators to transform regular functions into functions returning result types, handles exception catching cleanly, and includes helper methods such as <code>bind</code>.</p>
+<p>For a richer implementation, libraries such as <code>returns</code> streamline this functional error-handling pattern.
+The <code>returns</code> library provides decorators to transform regular functions into functions returning result types, handles exception catching cleanly, and includes helper methods such as <code>bind</code>.</p>
 <p>An example using the <code>returns</code> library decorator:</p>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="c1"># example_5.py</span>
 </span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="kn">from</span> <span class="nn">returns.result</span> <span class="kn">import</span> <span class="n">Result</span><span class="p">,</span> <span class="n">Success</span><span class="p">,</span> <span class="n">Failure</span><span class="p">,</span> <span class="n">safe</span>
@@ -1084,7 +1093,8 @@ When an exception occurs within a large calculation (like a list comprehension),
 </span><span id="__span-5-17"><a id="__codelineno-5-17" name="__codelineno-5-17" href="#__codelineno-5-17"></a><span class="k">def</span> <span class="nf">workflow</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Result</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">]:</span>
 </span><span id="__span-5-18"><a id="__codelineno-5-18" name="__codelineno-5-18" href="#__codelineno-5-18"></a>    <span class="k">return</span> <span class="n">calculate</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">.</span><span class="n">bind</span><span class="p">(</span><span class="n">func_b</span><span class="p">)</span><span class="o">.</span><span class="n">bind</span><span class="p">(</span><span class="n">func_c</span><span class="p">)</span>
 </span></code></pre></div>
-<p>With this chaining pattern, errors propagate automatically. The first failure encountered halts further processing, immediately surfacing the error clearly to the caller, maintaining data integrity and simplifying debugging.</p>
+<p>With this chaining pattern, errors propagate automatically.
+The first failure encountered halts further processing, immediately surfacing the error clearly to the caller, maintaining data integrity and simplifying debugging.</p>
 <h3 id="functional-error-handling-in-other-languages">Functional Error Handling in Other Languages<a class="headerlink" href="#functional-error-handling-in-other-languages" title="Permanent link">#</a></h3>
 <p>These patterns originated from functional languages, but increasingly influence modern mainstream languages:</p>
 <ul>
@@ -1092,7 +1102,8 @@ When an exception occurs within a large calculation (like a list comprehension),
 <li><strong>Kotlin:</strong> Lightweight built-in functional error handling.</li>
 <li><strong>C++:</strong> Deprecated exception specifications and shifting towards return-value-based error handling.</li>
 </ul>
-<p>Python, while historically leaning heavily on exceptions, can benefit greatly from adopting these functional-style techniques. Libraries like <code>returns</code> or <code>pydantic</code>, and the introduction of modern Python idioms (such as type annotations and dataclasses), facilitate safer, clearer, and more composable code.</p>
+<p>Python, while historically leaning heavily on exceptions, can benefit greatly from adopting these functional-style techniques.
+Libraries like <code>returns</code> or <code>pydantic</code>, and the introduction of modern Python idioms (such as type annotations and dataclasses), facilitate safer, clearer, and more composable code.</p>
 <h3 id="conclusion">Conclusion<a class="headerlink" href="#conclusion" title="Permanent link">#</a></h3>
 <p>Shifting from exceptions towards structured error handling improves composability, readability, and robustness. This approach:</p>
 <ul>
