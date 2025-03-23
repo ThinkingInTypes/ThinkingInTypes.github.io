@@ -28,22 +28,20 @@ Annotations can clarify patterns used in structural matching, making code cleare
 
 ```python
 # example_2.py
-from typing import Union
+from typing import Union, NamedTuple
 
 
-class Success:
-    def __init__(self, result: str):
-        self.result = result
+class Success(NamedTuple):
+    result: str
 
 
-class Error:
-    def __init__(self, error: str):
-        self.error = error
+class Error(NamedTuple):
+    error: str
 
 
 def process(response: Union[Success, Error]) -> str:
-    match response := response:
-        case Success(result=result):
+    match response:
+        case Success(result):
             return f"Success: {result}"
         case Error(error):
             return f"Error: {error}"
