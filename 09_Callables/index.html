@@ -1058,6 +1058,7 @@ In the meantime you can add comments to either <a href="https://bsky.app/bruceec
 </span><span id="__span-3-19"><a id="__codelineno-3-19" name="__codelineno-3-19" href="#__codelineno-3-19"></a>
 </span><span id="__span-3-20"><a id="__codelineno-3-20" name="__codelineno-3-20" href="#__codelineno-3-20"></a>
 </span><span id="__span-3-21"><a id="__codelineno-3-21" name="__codelineno-3-21" href="#__codelineno-3-21"></a><span class="n">multiply</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>  <span class="c1"># Output: Calling multiply with (2, 3) and {} then returns 6</span>
+</span><span id="__span-3-22"><a id="__codelineno-3-22" name="__codelineno-3-22" href="#__codelineno-3-22"></a><span class="c1">## Calling multiply with (2, 3) and {}</span>
 </span></code></pre></div>
 <p><code>ParamSpec</code> helps decorators maintain accurate type information for wrapped functions.</p>
 <h2 id="implementing-function-overloading-with-overload">Implementing Function Overloading with <code>@overload</code><a class="headerlink" href="#implementing-function-overloading-with-overload" title="Permanent link">#</a></h2>
@@ -1081,7 +1082,9 @@ In the meantime you can add comments to either <a href="https://bsky.app/bruceec
 </span><span id="__span-4-17"><a id="__codelineno-4-17" name="__codelineno-4-17" href="#__codelineno-4-17"></a>
 </span><span id="__span-4-18"><a id="__codelineno-4-18" name="__codelineno-4-18" href="#__codelineno-4-18"></a>
 </span><span id="__span-4-19"><a id="__codelineno-4-19" name="__codelineno-4-19" href="#__codelineno-4-19"></a><span class="nb">print</span><span class="p">(</span><span class="n">double</span><span class="p">(</span><span class="mi">4</span><span class="p">))</span>  <span class="c1"># Output: 8</span>
-</span><span id="__span-4-20"><a id="__codelineno-4-20" name="__codelineno-4-20" href="#__codelineno-4-20"></a><span class="nb">print</span><span class="p">(</span><span class="n">double</span><span class="p">(</span><span class="s2">&quot;Hi&quot;</span><span class="p">))</span>  <span class="c1"># Output: HiHi</span>
+</span><span id="__span-4-20"><a id="__codelineno-4-20" name="__codelineno-4-20" href="#__codelineno-4-20"></a><span class="c1">## 8</span>
+</span><span id="__span-4-21"><a id="__codelineno-4-21" name="__codelineno-4-21" href="#__codelineno-4-21"></a><span class="nb">print</span><span class="p">(</span><span class="n">double</span><span class="p">(</span><span class="s2">&quot;Hi&quot;</span><span class="p">))</span>  <span class="c1"># Output: HiHi</span>
+</span><span id="__span-4-22"><a id="__codelineno-4-22" name="__codelineno-4-22" href="#__codelineno-4-22"></a><span class="c1">## HiHi</span>
 </span></code></pre></div>
 <p><code>@overload</code> clearly defines each acceptable signature, providing strong typing and preventing misuse.</p>
 <h2 id="annotation-strategies-for-apis-and-libraries">Annotation Strategies for APIs and Libraries<a class="headerlink" href="#annotation-strategies-for-apis-and-libraries" title="Permanent link">#</a></h2>

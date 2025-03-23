@@ -989,6 +989,7 @@ We can define a protocol <code>Closable</code> and use it to write a function th
 </span><span id="__span-2-29"><a id="__codelineno-2-29" name="__codelineno-2-29" href="#__codelineno-2-29"></a><span class="n">close_all</span><span class="p">(</span>
 </span><span id="__span-2-30"><a id="__codelineno-2-30" name="__codelineno-2-30" href="#__codelineno-2-30"></a>    <span class="n">closables</span>
 </span><span id="__span-2-31"><a id="__codelineno-2-31" name="__codelineno-2-31" href="#__codelineno-2-31"></a><span class="p">)</span>  <span class="c1"># OK: FileResource, SocketResource, and file objects all have close()</span>
+</span><span id="__span-2-32"><a id="__codelineno-2-32" name="__codelineno-2-32" href="#__codelineno-2-32"></a><span class="c1">## Socket closed</span>
 </span></code></pre></div>
 <p>In this code, <code>Closable</code> is a protocol requiring a <code>.close()</code> method.
 We created a <code>FileResource</code> class and a <code>SocketResource</code> class that both implement <code>close()</code>.
@@ -1071,6 +1072,8 @@ For instance:</p>
 </span><span id="__span-4-38"><a id="__codelineno-4-38" name="__codelineno-4-38" href="#__codelineno-4-38"></a><span class="n">test_logger</span> <span class="o">=</span> <span class="n">ListLogger</span><span class="p">()</span>
 </span><span id="__span-4-39"><a id="__codelineno-4-39" name="__codelineno-4-39" href="#__codelineno-4-39"></a><span class="n">run_process</span><span class="p">(</span><span class="s2">&quot;DataCleanup&quot;</span><span class="p">,</span> <span class="n">test_logger</span><span class="p">)</span>  <span class="c1"># logs to list in memory</span>
 </span><span id="__span-4-40"><a id="__codelineno-4-40" name="__codelineno-4-40" href="#__codelineno-4-40"></a><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Captured logs:&quot;</span><span class="p">,</span> <span class="n">test_logger</span><span class="o">.</span><span class="n">messages</span><span class="p">)</span>
+</span><span id="__span-4-41"><a id="__codelineno-4-41" name="__codelineno-4-41" href="#__codelineno-4-41"></a><span class="c1">## Captured logs: [&#39;Starting DataCleanup&#39;,</span>
+</span><span id="__span-4-42"><a id="__codelineno-4-42" name="__codelineno-4-42" href="#__codelineno-4-42"></a><span class="c1">## &#39;Finished DataCleanup&#39;]</span>
 </span></code></pre></div>
 <p>In <code>Logger(Protocol)</code>, we specify that a logger must have a <code>.log(str)</code> method.
 Our <code>run_process</code> function doesn’t care <em>how</em> the logging is done, just that the object passed in can <code>.log</code> a message.

@@ -1030,7 +1030,8 @@ In the meantime you can add comments to either <a href="https://bsky.app/bruceec
 </span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>
 </span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>
 </span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="n">set_mode</span><span class="p">(</span><span class="s2">&quot;auto&quot;</span><span class="p">)</span>  <span class="c1"># valid</span>
-</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="c1"># set_mode(&#39;automatic&#39;)  # invalid, detected by type checker</span>
+</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="c1">## Mode set to auto</span>
+</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="c1"># set_mode(&#39;automatic&#39;)  # invalid, detected by type checker</span>
 </span></code></pre></div>
 <p>Literal types ensure values match expected exact constants, improving type safety.</p>
 <h2 id="annotated-types-annotated-for-metadata">Annotated Types (<code>Annotated[...]</code>) for Metadata<a class="headerlink" href="#annotated-types-annotated-for-metadata" title="Permanent link">#</a></h2>
@@ -1105,6 +1106,7 @@ In the meantime you can add comments to either <a href="https://bsky.app/bruceec
 </span><span id="__span-5-14"><a id="__codelineno-5-14" name="__codelineno-5-14" href="#__codelineno-5-14"></a><span class="n">animal</span> <span class="o">=</span> <span class="n">Cat</span><span class="p">()</span>
 </span><span id="__span-5-15"><a id="__codelineno-5-15" name="__codelineno-5-15" href="#__codelineno-5-15"></a><span class="k">if</span> <span class="n">is_cat</span><span class="p">(</span><span class="n">animal</span><span class="p">):</span>
 </span><span id="__span-5-16"><a id="__codelineno-5-16" name="__codelineno-5-16" href="#__codelineno-5-16"></a>    <span class="n">animal</span><span class="o">.</span><span class="n">meow</span><span class="p">()</span>  <span class="c1"># Safe to call</span>
+</span><span id="__span-5-17"><a id="__codelineno-5-17" name="__codelineno-5-17" href="#__codelineno-5-17"></a><span class="c1">## Meow!</span>
 </span></code></pre></div>
 <p>Type guards enhance type narrowing accuracy, making code safer and cleaner.</p>
 <h2 id="variance-covariance-and-contravariance-in-generics">Variance, Covariance, and Contravariance in Generics<a class="headerlink" href="#variance-covariance-and-contravariance-in-generics" title="Permanent link">#</a></h2>

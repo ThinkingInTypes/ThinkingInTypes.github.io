@@ -1025,6 +1025,8 @@ Read the [Class Attributes] appendix for deeper understanding.</p>
 </span><span id="__span-3-17"><a id="__codelineno-3-17" name="__codelineno-3-17" href="#__codelineno-3-17"></a>
 </span><span id="__span-3-18"><a id="__codelineno-3-18" name="__codelineno-3-18" href="#__codelineno-3-18"></a><span class="n">user</span> <span class="o">=</span> <span class="n">User</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Alice&quot;</span><span class="p">,</span> <span class="n">status</span><span class="o">=</span><span class="n">Status</span><span class="o">.</span><span class="n">ACTIVE</span><span class="p">)</span>
 </span><span id="__span-3-19"><a id="__codelineno-3-19" name="__codelineno-3-19" href="#__codelineno-3-19"></a><span class="nb">print</span><span class="p">(</span><span class="n">user</span><span class="p">)</span>
+</span><span id="__span-3-20"><a id="__codelineno-3-20" name="__codelineno-3-20" href="#__codelineno-3-20"></a><span class="c1">## User(id=1, name=&#39;Alice&#39;, status=&lt;Status.ACTIVE:</span>
+</span><span id="__span-3-21"><a id="__codelineno-3-21" name="__codelineno-3-21" href="#__codelineno-3-21"></a><span class="c1">## &#39;active&#39;&gt;)</span>
 </span></code></pre></div>
 <h3 id="combining-dataclasses-with-protocols">Combining Dataclasses with Protocols<a class="headerlink" href="#combining-dataclasses-with-protocols" title="Permanent link">#</a></h3>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="c1"># dataclasses_and_protocols.py</span>
@@ -1053,7 +1055,9 @@ Read the [Class Attributes] appendix for deeper understanding.</p>
 </span><span id="__span-4-24"><a id="__codelineno-4-24" name="__codelineno-4-24" href="#__codelineno-4-24"></a>
 </span><span id="__span-4-25"><a id="__codelineno-4-25" name="__codelineno-4-25" href="#__codelineno-4-25"></a>
 </span><span id="__span-4-26"><a id="__codelineno-4-26" name="__codelineno-4-26" href="#__codelineno-4-26"></a><span class="n">print_id</span><span class="p">(</span><span class="n">User</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;Alice&quot;</span><span class="p">))</span>
-</span><span id="__span-4-27"><a id="__codelineno-4-27" name="__codelineno-4-27" href="#__codelineno-4-27"></a><span class="n">print_id</span><span class="p">(</span><span class="n">Product</span><span class="p">(</span><span class="mi">101</span><span class="p">,</span> <span class="mf">19.99</span><span class="p">))</span>
+</span><span id="__span-4-27"><a id="__codelineno-4-27" name="__codelineno-4-27" href="#__codelineno-4-27"></a><span class="c1">## ID: 1</span>
+</span><span id="__span-4-28"><a id="__codelineno-4-28" name="__codelineno-4-28" href="#__codelineno-4-28"></a><span class="n">print_id</span><span class="p">(</span><span class="n">Product</span><span class="p">(</span><span class="mi">101</span><span class="p">,</span> <span class="mf">19.99</span><span class="p">))</span>
+</span><span id="__span-4-29"><a id="__codelineno-4-29" name="__codelineno-4-29" href="#__codelineno-4-29"></a><span class="c1">## ID: 101</span>
 </span></code></pre></div>
 <h3 id="domain-driven-design-ddd">Domain-Driven Design (DDD)<a class="headerlink" href="#domain-driven-design-ddd" title="Permanent link">#</a></h3>
 <p>Define domain entities explicitly to enhance domain logic expressiveness:</p>

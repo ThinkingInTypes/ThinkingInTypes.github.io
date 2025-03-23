@@ -1046,7 +1046,9 @@ When an exception occurs within a large calculation (like a list comprehension),
 <h3 id="composition-with-functional-error-handling">Composition with Functional Error Handling<a class="headerlink" href="#composition-with-functional-error-handling" title="Permanent link">#</a></h3>
 <p>With explicit <code>Result</code> types, we can elegantly compose functions, propagating errors easily:</p>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="c1"># example_4.py</span>
-</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="n">result</span> <span class="o">=</span> <span class="n">calculate</span><span class="p">(</span><span class="n">value</span><span class="p">)</span><span class="o">.</span><span class="n">bind</span><span class="p">(</span><span class="n">process</span><span class="p">)</span><span class="o">.</span><span class="n">bind</span><span class="p">(</span><span class="n">next_step</span><span class="p">)</span>
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="c1"># result = calculate(value).bind(process).bind(next_step)</span>
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;INCOMPLETE&quot;</span><span class="p">)</span>
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="c1">## INCOMPLETE</span>
 </span></code></pre></div>
 <p>Each step checks internally: if the previous call returned a failure, subsequent calls are skipped, immediately propagating the failure outward. This style leads to robust, composable, and clear error handling.</p>
 <h3 id="leveraging-libraries">Leveraging Libraries<a class="headerlink" href="#leveraging-libraries" title="Permanent link">#</a></h3>

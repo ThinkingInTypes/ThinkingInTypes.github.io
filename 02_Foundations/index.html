@@ -303,6 +303,24 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#programming-philosophy" class="md-nav__link">
+    <span class="md-ellipsis">
+      Programming Philosophy
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#examples" class="md-nav__link">
+    <span class="md-ellipsis">
+      Examples
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -796,6 +814,24 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#programming-philosophy" class="md-nav__link">
+    <span class="md-ellipsis">
+      Programming Philosophy
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#examples" class="md-nav__link">
+    <span class="md-ellipsis">
+      Examples
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -825,11 +861,25 @@
 </ul>
 <h2 id="this-book-uses">This book uses<a class="headerlink" href="#this-book-uses" title="Permanent link">#</a></h2>
 <ul>
-<li>Version control (github)</li>
-<li>Automated Build (uv)</li>
-<li>Testing (pytest)</li>
-<li>Build up from small testable pieces</li>
+<li>Version control with github</li>
+<li>Project management with uv</li>
+<li>Testing with Pytest (noting that there are valid reasons to use other systems)</li>
 <li>Project organization (src directory)</li>
+</ul>
+<h2 id="programming-philosophy">Programming Philosophy<a class="headerlink" href="#programming-philosophy" title="Permanent link">#</a></h2>
+<ul>
+<li>Build up from small testable pieces, balanced with simplicity and clarity.</li>
+<li>Use the most modern/elegant coding mechanisms available (latest Python)</li>
+<li>Classes are for creating types. As much as possible, pretend inheritance doesn't exist.</li>
+</ul>
+<h2 id="examples">Examples<a class="headerlink" href="#examples" title="Permanent link">#</a></h2>
+<ul>
+<li>Each example has a "slug line" which is simply the name of the file in a single-line comment as line one of the example.</li>
+<li>That example is in the Github repository in a subdirectory named for the chapter.</li>
+<li>The examples do not have <code>__main__</code>s; everything is at the top level.</li>
+<li>If a top-level-statement (TLS) produces output, that output will appear on the following line(s), commented with <code>##</code>.</li>
+<li>If a program does not run successfully, you will see a <code># R:</code> indicating an expected runtime error, typically followed by an explanation.</li>
+<li>Lines to be called out in text are marked with comments</li>
 <li>Black for consistent formatting</li>
 <li>Listings 47 Characters wide: readable on a phone</li>
 </ul>
