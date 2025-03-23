@@ -20,9 +20,12 @@ y = "hello"  # y is dynamically assigned as a string
 
 In contrast, statically typed languages require explicit type declarations, and types are checked at compile time:
 
-```java
-int x = 42;       // Java explicitly defines x as an integer
-String y = "hello"; // Java explicitly defines y as a String
+```cpp
+// int_and_string.cpp
+#include <string>
+
+int x = 42;               
+std::string y = "hello";  
 ```
 
 **Pros of dynamic typing:**
