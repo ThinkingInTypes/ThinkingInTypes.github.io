@@ -142,7 +142,12 @@ Define domain entities explicitly to enhance domain logic expressiveness:
 ```python
 # ddd.py
 from dataclasses import dataclass
-from typing import List
+from typing import List, NamedTuple
+
+
+class Product(NamedTuple):
+    name: str
+    price: float
 
 
 @dataclass
@@ -150,7 +155,7 @@ class Order:
     order_id: int
     products: List[Product]
 
-    def total_price(self) -> float:
+    def total(self) -> float:
         return sum(product.price for product in self.products)
 ```
 

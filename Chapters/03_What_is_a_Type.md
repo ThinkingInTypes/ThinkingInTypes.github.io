@@ -154,12 +154,11 @@ add(1, "2")  # raises runtime TypeError
 
 ```python
 # example_5.py
-# mypy detects this error before running
+
 def add(a: int, b: int) -> int:
     return a + b
 
-
-add(1, "2")  # Static type checker flags this
+add(1, "2")  # R: Static type checker flags this
 ```
 
 By combining runtime flexibility with static checking, Python provides a balanced approach that empowers developers to write safe, readable, and maintainable code.
