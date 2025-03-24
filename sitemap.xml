@@ -2,98 +2,98 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
          <loc>https://ThinkingInTypes.github.io/</loc>
-         <lastmod>2025-03-23</lastmod>
+         <lastmod>2025-03-24</lastmod>
     </url>
     <url>
          <loc>https://ThinkingInTypes.github.io/01_Preface/</loc>
-         <lastmod>2025-03-23</lastmod>
+         <lastmod>2025-03-24</lastmod>
     </url>
     <url>
          <loc>https://ThinkingInTypes.github.io/02_Foundations/</loc>
-         <lastmod>2025-03-23</lastmod>
+         <lastmod>2025-03-24</lastmod>
     </url>
     <url>
          <loc>https://ThinkingInTypes.github.io/03_What_is_a_Type/</loc>
-         <lastmod>2025-03-23</lastmod>
+         <lastmod>2025-03-24</lastmod>
     </url>
     <url>
          <loc>https://ThinkingInTypes.github.io/04_Basic_Annotations/</loc>
-         <lastmod>2025-03-23</lastmod>
+         <lastmod>2025-03-24</lastmod>
     </url>
     <url>
          <loc>https://ThinkingInTypes.github.io/05_Collections/</loc>
-         <lastmod>2025-03-23</lastmod>
+         <lastmod>2025-03-24</lastmod>
     </url>
     <url>
          <loc>https://ThinkingInTypes.github.io/06_Generics/</loc>
-         <lastmod>2025-03-23</lastmod>
+         <lastmod>2025-03-24</lastmod>
     </url>
     <url>
          <loc>https://ThinkingInTypes.github.io/07_Dataclasses/</loc>
-         <lastmod>2025-03-23</lastmod>
+         <lastmod>2025-03-24</lastmod>
     </url>
     <url>
          <loc>https://ThinkingInTypes.github.io/08_Immutability/</loc>
-         <lastmod>2025-03-23</lastmod>
+         <lastmod>2025-03-24</lastmod>
     </url>
     <url>
          <loc>https://ThinkingInTypes.github.io/09_Callables/</loc>
-         <lastmod>2025-03-23</lastmod>
+         <lastmod>2025-03-24</lastmod>
     </url>
     <url>
          <loc>https://ThinkingInTypes.github.io/10_Structural_Typing/</loc>
-         <lastmod>2025-03-23</lastmod>
+         <lastmod>2025-03-24</lastmod>
     </url>
     <url>
          <loc>https://ThinkingInTypes.github.io/11_Specialized_Tools/</loc>
-         <lastmod>2025-03-23</lastmod>
+         <lastmod>2025-03-24</lastmod>
     </url>
     <url>
          <loc>https://ThinkingInTypes.github.io/12_Make_Illegal_Types_Unrepresentable/</loc>
-         <lastmod>2025-03-23</lastmod>
+         <lastmod>2025-03-24</lastmod>
     </url>
     <url>
          <loc>https://ThinkingInTypes.github.io/13_Errors_As_Values/</loc>
-         <lastmod>2025-03-23</lastmod>
+         <lastmod>2025-03-24</lastmod>
     </url>
     <url>
          <loc>https://ThinkingInTypes.github.io/14_Pattern_Matching/</loc>
-         <lastmod>2025-03-23</lastmod>
+         <lastmod>2025-03-24</lastmod>
     </url>
     <url>
          <loc>https://ThinkingInTypes.github.io/15_Advanced_Concepts/</loc>
-         <lastmod>2025-03-23</lastmod>
+         <lastmod>2025-03-24</lastmod>
     </url>
     <url>
          <loc>https://ThinkingInTypes.github.io/16_Async/</loc>
-         <lastmod>2025-03-23</lastmod>
+         <lastmod>2025-03-24</lastmod>
     </url>
     <url>
          <loc>https://ThinkingInTypes.github.io/17_Interoperability_and_Typing_Stubs/</loc>
-         <lastmod>2025-03-23</lastmod>
+         <lastmod>2025-03-24</lastmod>
     </url>
     <url>
          <loc>https://ThinkingInTypes.github.io/18_Best_Practices/</loc>
-         <lastmod>2025-03-23</lastmod>
+         <lastmod>2025-03-24</lastmod>
     </url>
     <url>
          <loc>https://ThinkingInTypes.github.io/A1_Quick_Reference/</loc>
-         <lastmod>2025-03-23</lastmod>
+         <lastmod>2025-03-24</lastmod>
     </url>
     <url>
          <loc>https://ThinkingInTypes.github.io/A2_Glossary/</loc>
-         <lastmod>2025-03-23</lastmod>
+         <lastmod>2025-03-24</lastmod>
     </url>
     <url>
          <loc>https://ThinkingInTypes.github.io/A3_Type_Checkers/</loc>
-         <lastmod>2025-03-23</lastmod>
+         <lastmod>2025-03-24</lastmod>
     </url>
     <url>
          <loc>https://ThinkingInTypes.github.io/A4_Class_Attributes/</loc>
-         <lastmod>2025-03-23</lastmod>
+         <lastmod>2025-03-24</lastmod>
     </url>
     <url>
          <loc>https://ThinkingInTypes.github.io/A5_Book_Notes/</loc>
-         <lastmod>2025-03-23</lastmod>
+         <lastmod>2025-03-24</lastmod>
     </url>
 </urlset>
