@@ -200,7 +200,7 @@ Both systems (the original C++ dynamic exception specifications, and Java except
 Let’s start with a simple example where we populate a `List` with the results of a sequence of calls to the function `func_a`:
 
 ```python
-#: discarded_state.py
+# discarded_state.py
 # Exception throws everything away
 
 
@@ -238,7 +238,7 @@ This package is a new type, with operations that prevent the programmer from sim
 A first attempt uses *type unions* to create a nameless return package:
 
 ```python
-#: return_union.py
+# return_union.py
 # Type union aka Sum Type
 # Success vs error is not clear
 
@@ -277,7 +277,7 @@ The solution is to create a new type that unifies the “answer” and “error�
 We’ll call this `Result` and define it using generics to make it universally applicable:
 
 ```python
-#: result.py
+# result.py
 # Generic Result with Success & Failure subtypes
 from dataclasses import dataclass
 from typing import Generic, TypeVar, NamedTuple
@@ -315,7 +315,7 @@ To use `Result`, you `return Success(answer)` when you’ve successfully created
 The modified version of the example using `Result` is now:
 
 ```python
-#: return_result.py
+# return_result.py
 # Result type returns Success/Failure
 # Using https://github.com/dry-python/returns
 from pprint import pprint
@@ -344,7 +344,7 @@ The previous examples included very simple composition in the `composed` functio
 What if you need to compose a more complex function from multiple other functions? The `Result` type ensures that the `composed` function properly represents both the `Answer` type but also the various different errors that can occur:
 
 ```python
-#: composing_functions.py
+# composing_functions.py
 from pprint import pprint
 
 from return_result import func_a
@@ -419,7 +419,7 @@ We need some way to reduce or eliminate the extra code.
 Lets modify `Result` to add a new member function, `bind`:
 
 ```python
-#: result_with_bind.py
+# result_with_bind.py
 from dataclasses import dataclass
 from typing import Callable, Generic, TypeVar
 
@@ -453,7 +453,7 @@ class Failure(Result[ANSWER, ERROR]):
 `bind` removes the duplicated code:
 
 ```python
-#: composing_with_bind.py
+# composing_with_bind.py
 from pprint import pprint
 
 from example4 import func_a, func_b, func_c, func_d
@@ -495,7 +495,7 @@ The most popular Python library that includes this extra functionality is [Retur
 What if you need to create a `composed` function that takes multiple arguments? For this, we use something called “do notation,” which you access using `Result.do`:
 
 ```python
-#: multiple_arguments.py
+# multiple_arguments.py
 from pprint import pprint
 
 from example4 import func_a, func_b, func_c
