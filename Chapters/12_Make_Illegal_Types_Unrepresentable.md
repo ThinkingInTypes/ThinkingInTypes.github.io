@@ -27,9 +27,11 @@ Every such function must start from scratch and analyze that string to see if it
 
 If you ever change the meaning of that stringly-typed item, you have a daunting job ahead of you: to look through every function that uses it and ensure that your change is reflected in the validations in every single function.
 
-### Design by Contract
+[[Stringly typed example, possibly telephone numbers]]
 
-This problem was observed by Bertrand Meyer and introduced as a core concept in his Eiffel programming language, described in the book *Object-Oriented Software Construction* (1988).
+## Design by Contract
+
+The argument-validation problem was observed by Bertrand Meyer and introduced as a core concept in his Eiffel programming language, described in the book *Object-Oriented Software Construction* (1988).
 *Design By Contract* (DbC) tried to reduce errors by treating the interaction between software components as a formal agreement:
 
 - Preconditions: What must be true before a function/method runs.
@@ -38,7 +40,7 @@ This problem was observed by Bertrand Meyer and introduced as a core concept in 
 
 Eiffel provided explicit keywords to make DbC a first-class citizen in the language:
 
-| Keyword     | Purpose               |
+| Keyword     | Purpose                |
 |-------------|------------------------|
 | `require`   | Preconditions          |
 | `ensure`    | Postconditions         |
@@ -47,7 +49,7 @@ Eiffel provided explicit keywords to make DbC a first-class citizen in the langu
 
 The idea was that each function you wrote would use these to ensure the correctness of the inputs and outputs of that function.
 In particular, `require` typically checks the argument values for correctness.
-We can create a `requires` decorator to produce this effect for Python:
+We can create a `requires` decorator to check argument values, producing this effect for Python:
 
 ```python
 # require.py
@@ -75,7 +77,7 @@ def requires(*conditions: Condition):
     return decorator
 ```
 
-We can apply `require` multiple times to a function:
+Now we can apply `require` to validate function arguments:
 
 ```python
 # bank_account.py
@@ -112,7 +114,11 @@ account.withdraw(200)
 account.deposit(-10) 
 ```
 
-This is an improvement over placing the testing code at the top of each function, as Eiffel does and as traditional Python functions do--assuming they test their arguments.
+This is an improvement over placing the testing code at the beginning of each function, as Eiffel does and as traditional Python functions do--assuming they test their arguments.
 The `@require` clearly shows that constraints have been placed on the arguments.
+`Condition` reduces duplicated code.
 
-As much
+DbC definitely helps, but it has limitations:
+
+1. A programmer can forget to use `requires`, or simply choose to perform argument checks by hand if DbC doesn't make sense to them.
+1. The tests are spread throughout your system. Using `Condition` centralizes the test logic but making changes still risks missing updates on functions.
