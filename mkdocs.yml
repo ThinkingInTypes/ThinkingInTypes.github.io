@@ -28,21 +28,20 @@ nav:
   - 01_Preface.md
   - 02_Foundations.md
   - 03_What_is_a_Type.md
-  - 04_Predefined_Annotations.md
+  - 04_Predefined_Types.md
   - 05_Custom_Types.md
-  - 06_Immutability.md
-  - 07_Generics.md
-  - 08_Callables.md
-  - 09_Structural_Typing.md
-  - 10_Make_Illegal_Types_Unrepresentable.md
-  - 11_Errors_as_Values.md
-  - 12_Pattern_Matching.md
+  - 06_Pattern_Matching.md
+  - 07_Immutability.md
+  - 08_Generics.md
+  - 09_Callables.md
+  - 10_Structural_Typing.md
+  - 11_Make_Illegal_Types_Unrepresentable.md
+  - 12_Errors_as_Values.md
   - 13_Advanced_Concepts.md
-  - 14_Async.md
-  - 15_Interoperability_and_Typing_Stubs.md
-  - 16_Best_Practices.md
   - A1_Quick_Reference.md
   - A2_Glossary.md
-  - A3_Type_Checkers.md
-  - A4_Class_Attributes.md
-  - A5_Book_Notes.md
+  - A3_Guidelines.md
+  - A4_Type_Checkers.md
+  - A5_Automatic_Annotations.md
+  - A6_Class_Attributes.md
+  - A7_Book_Notes.md

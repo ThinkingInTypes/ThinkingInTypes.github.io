@@ -135,6 +135,49 @@ class Person:
 
 This hierarchical validation structure ensures correctness and clarity at every composition level. Invalid data never propagates, vastly simplifying subsequent interactions.
 
+## Simple Type Aliasing with `NewType`
+
+`NewType` creates distinct types for stronger type checking without runtime overhead:
+
+```python
+# simple_type_aliasing.py
+from typing import NewType
+
+UserId = NewType("UserId", int)
+
+user_id = UserId(42)
+
+
+def get_user(uid: UserId) -> str:
+    return f"User {uid}"
+
+
+# get_user(42)  # type checker error
+get_user(user_id)  # correct usage
+```
+
+`NewType` improves clarity, preventing accidental misuse of similar underlying types.
+
+## Literal Types
+
+Literal types allow specifying exact permissible values, enhancing type specificity and correctness:
+
+```python
+# literal_types.py
+from typing import Literal
+
+
+def set_mode(mode: Literal["auto", "manual"]) -> None:
+    print(f"Mode set to {mode}")
+
+
+set_mode("auto")  # valid
+## Mode set to auto
+# set_mode('automatic')  # invalid, detected by type checker
+```
+
+Literal types ensure values match expected exact constants, improving type safety.
+
 ## Leveraging Enums for Type Safety
 
 Enums provide additional type safety for fixed-value sets, such as months:

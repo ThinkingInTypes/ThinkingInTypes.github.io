@@ -99,3 +99,49 @@ print(animal_sound(Dog()))  # "Woof!"
 ```
 
 Constraints and bounds improve specificity in generic type annotations, enhancing code clarity and correctness.
+
+## Variance, Covariance, and Contravariance in Generics
+
+Variance controls type relationships between generic types:
+
+### Covariance (`covariant=True`)
+
+Allows using subtypes in place of parent types:
+
+```python
+# example_7.py
+from typing import Generic, TypeVar
+
+T_co = TypeVar("T_co", covariant=True)
+
+
+class ReadOnlyList(Generic[T_co]):
+    def __init__(self, items: list[T_co]):
+        self.items = items
+
+
+ints: ReadOnlyList[int] = ReadOnlyList([1, 2, 3])
+numbers: ReadOnlyList[float] = ints  # Valid due to covariance
+```
+
+### Contravariance (`contravariant=True`)
+
+Allows using parent types in place of subtypes, common in callbacks or consumers:
+
+```python
+# example_8.py
+from typing import TypeVar, Generic
+
+T_contra = TypeVar("T_contra", contravariant=True)
+
+
+class Processor(Generic[T_contra]):
+    def process(self, value: T_contra) -> None:
+        print(value)
+
+
+int_processor: Processor[int] = Processor()
+number_processor: Processor[float] = int_processor  # Valid due to contravariance
+```
+
+Understanding variance ensures accurate type relationships, especially when designing flexible APIs or libraries.
