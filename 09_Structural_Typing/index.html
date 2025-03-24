@@ -8,13 +8,13 @@
       
       
       
-        <link rel="canonical" href="https://ThinkingInTypes.github.io/10_Structural_Typing/">
+        <link rel="canonical" href="https://ThinkingInTypes.github.io/09_Structural_Typing/">
       
       
-        <link rel="prev" href="../09_Callables/">
+        <link rel="prev" href="../08_Callables/">
       
       
-        <link rel="next" href="../11_Specialized_Tools/">
+        <link rel="next" href="../10_Make_Illegal_Types_Unrepresentable/">
       
       
       <link rel="icon" href="../img/favicon.png">
@@ -280,11 +280,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../04_Basic_Annotations/" class="md-nav__link">
+      <a href="../04_Predefined_Annotations/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    Basic Annotations
+    Predefined Annotations
     
   </span>
   
@@ -301,11 +301,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../05_Collections/" class="md-nav__link">
+      <a href="../05_Custom_Types/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    Collections
+    Custom Types
     
   </span>
   
@@ -322,49 +322,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../06_Generics/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Generics
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../07_Dataclasses/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Dataclasses
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../08_Immutability/" class="md-nav__link">
+      <a href="../06_Immutability/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -385,7 +343,28 @@
   
   
     <li class="md-nav__item">
-      <a href="../09_Callables/" class="md-nav__link">
+      <a href="../07_Generics/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Generics
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../08_Callables/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -481,6 +460,15 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#combining-dataclasses-with-protocols" class="md-nav__link">
+    <span class="md-ellipsis">
+      Combining Dataclasses with Protocols
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#combining-protocols-with-generics" class="md-nav__link">
     <span class="md-ellipsis">
       Combining Protocols with Generics
@@ -513,28 +501,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../11_Specialized_Tools/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Specialized Tools
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../12_Make_Illegal_Types_Unrepresentable/" class="md-nav__link">
+      <a href="../10_Make_Illegal_Types_Unrepresentable/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -555,7 +522,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../13_Errors_As_Values/" class="md-nav__link">
+      <a href="../11_Errors_as_Values/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -576,7 +543,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../14_Pattern_Matching/" class="md-nav__link">
+      <a href="../12_Pattern_Matching/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -597,7 +564,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../15_Advanced_Concepts/" class="md-nav__link">
+      <a href="../13_Advanced_Concepts/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -618,7 +585,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../16_Async/" class="md-nav__link">
+      <a href="../14_Async/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -639,7 +606,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../17_Interoperability_and_Typing_Stubs/" class="md-nav__link">
+      <a href="../15_Interoperability_and_Typing_Stubs/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -660,7 +627,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../18_Best_Practices/" class="md-nav__link">
+      <a href="../16_Best_Practices/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -827,6 +794,15 @@
   <a href="#practical-protocol-examples" class="md-nav__link">
     <span class="md-ellipsis">
       Practical Protocol Examples
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#combining-dataclasses-with-protocols" class="md-nav__link">
+    <span class="md-ellipsis">
+      Combining Dataclasses with Protocols
     </span>
   </a>
   
@@ -1127,6 +1103,37 @@ For example, you might have a basic service class and then a logging wrapper cla
 As long as both implement the protocol, code using the protocol can accept either the plain or the wrapped version.
 This was illustrated by defining an <code>AddServiceProtocol</code> for an addition service and creating both a normal implementation and a logging decorator implementation that forwards calls (<a href="https://dev.to/fwojciec/protocols-and-composition-in-python-8mm#:~:text=A%20protocol%20is%20Python%27s%20take,augmented%20with%20static%20verification%20tooling">Protocols and Composition in Python - DEV Community</a>).
 The key takeaway is that structural typing focuses on the <strong>behavior</strong>, so even objects that don’t share a lineage can work together if they fulfill the same behavioral contract.</p>
+<h2 id="combining-dataclasses-with-protocols">Combining Dataclasses with Protocols<a class="headerlink" href="#combining-dataclasses-with-protocols" title="Permanent link">#</a></h2>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="c1"># dataclasses_and_protocols.py</span>
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span>
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Protocol</span>
+</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>
+</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>
+</span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="k">class</span> <span class="nc">Identifiable</span><span class="p">(</span><span class="n">Protocol</span><span class="p">):</span>
+</span><span id="__span-5-7"><a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a>    <span class="nb">id</span><span class="p">:</span> <span class="nb">int</span>
+</span><span id="__span-5-8"><a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a>
+</span><span id="__span-5-9"><a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a>
+</span><span id="__span-5-10"><a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a><span class="nd">@dataclass</span>
+</span><span id="__span-5-11"><a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a><span class="k">class</span> <span class="nc">User</span><span class="p">:</span>
+</span><span id="__span-5-12"><a id="__codelineno-5-12" name="__codelineno-5-12" href="#__codelineno-5-12"></a>    <span class="nb">id</span><span class="p">:</span> <span class="nb">int</span>
+</span><span id="__span-5-13"><a id="__codelineno-5-13" name="__codelineno-5-13" href="#__codelineno-5-13"></a>    <span class="n">name</span><span class="p">:</span> <span class="nb">str</span>
+</span><span id="__span-5-14"><a id="__codelineno-5-14" name="__codelineno-5-14" href="#__codelineno-5-14"></a>
+</span><span id="__span-5-15"><a id="__codelineno-5-15" name="__codelineno-5-15" href="#__codelineno-5-15"></a>
+</span><span id="__span-5-16"><a id="__codelineno-5-16" name="__codelineno-5-16" href="#__codelineno-5-16"></a><span class="nd">@dataclass</span>
+</span><span id="__span-5-17"><a id="__codelineno-5-17" name="__codelineno-5-17" href="#__codelineno-5-17"></a><span class="k">class</span> <span class="nc">Product</span><span class="p">:</span>
+</span><span id="__span-5-18"><a id="__codelineno-5-18" name="__codelineno-5-18" href="#__codelineno-5-18"></a>    <span class="nb">id</span><span class="p">:</span> <span class="nb">int</span>
+</span><span id="__span-5-19"><a id="__codelineno-5-19" name="__codelineno-5-19" href="#__codelineno-5-19"></a>    <span class="n">price</span><span class="p">:</span> <span class="nb">float</span>
+</span><span id="__span-5-20"><a id="__codelineno-5-20" name="__codelineno-5-20" href="#__codelineno-5-20"></a>
+</span><span id="__span-5-21"><a id="__codelineno-5-21" name="__codelineno-5-21" href="#__codelineno-5-21"></a>
+</span><span id="__span-5-22"><a id="__codelineno-5-22" name="__codelineno-5-22" href="#__codelineno-5-22"></a><span class="k">def</span> <span class="nf">print_id</span><span class="p">(</span><span class="n">entity</span><span class="p">:</span> <span class="n">Identifiable</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="__span-5-23"><a id="__codelineno-5-23" name="__codelineno-5-23" href="#__codelineno-5-23"></a>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;ID: </span><span class="si">{</span><span class="n">entity</span><span class="o">.</span><span class="n">id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</span><span id="__span-5-24"><a id="__codelineno-5-24" name="__codelineno-5-24" href="#__codelineno-5-24"></a>
+</span><span id="__span-5-25"><a id="__codelineno-5-25" name="__codelineno-5-25" href="#__codelineno-5-25"></a>
+</span><span id="__span-5-26"><a id="__codelineno-5-26" name="__codelineno-5-26" href="#__codelineno-5-26"></a><span class="n">print_id</span><span class="p">(</span><span class="n">User</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;Alice&quot;</span><span class="p">))</span>
+</span><span id="__span-5-27"><a id="__codelineno-5-27" name="__codelineno-5-27" href="#__codelineno-5-27"></a><span class="c1">## ID: 1</span>
+</span><span id="__span-5-28"><a id="__codelineno-5-28" name="__codelineno-5-28" href="#__codelineno-5-28"></a><span class="n">print_id</span><span class="p">(</span><span class="n">Product</span><span class="p">(</span><span class="mi">101</span><span class="p">,</span> <span class="mf">19.99</span><span class="p">))</span>
+</span><span id="__span-5-29"><a id="__codelineno-5-29" name="__codelineno-5-29" href="#__codelineno-5-29"></a><span class="c1">## ID: 101</span>
+</span></code></pre></div>
 <h2 id="combining-protocols-with-generics">Combining Protocols with Generics<a class="headerlink" href="#combining-protocols-with-generics" title="Permanent link">#</a></h2>
 <p>Just like classes and functions can be generic (using <code>TypeVar</code> to operate over a range of types), protocol classes can be generic as well.
 A <em>generic protocol</em> allows you to define a protocol that is parameterized by a type (or multiple types), enabling more precise typing of method arguments and return values.
@@ -1136,51 +1143,51 @@ We can do the same with our own protocols.</p>
 Let’s say we want to define a simple container protocol that yields items of some type.
 We can make it generic so that a <code>Container[int]</code> will be a protocol for "container of ints" and <code>Container[str]</code> for "container of strings," but both are based on the same generic interface.
 For example:</p>
-<div class="language-python highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="c1"># example_6.py</span>
-</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Protocol</span><span class="p">,</span> <span class="n">TypeVar</span>
-</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>
-</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="n">T</span> <span class="o">=</span> <span class="n">TypeVar</span><span class="p">(</span><span class="s2">&quot;T&quot;</span><span class="p">)</span>
-</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>
-</span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>
-</span><span id="__span-5-7"><a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a><span class="k">class</span> <span class="nc">Container</span><span class="p">(</span><span class="n">Protocol</span><span class="p">[</span><span class="n">T</span><span class="p">]):</span>
-</span><span id="__span-5-8"><a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a>    <span class="k">def</span> <span class="nf">get_item</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="p">:</span> <span class="o">...</span>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="c1"># example_6.py</span>
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Protocol</span><span class="p">,</span> <span class="n">TypeVar</span>
+</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>
+</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="n">T</span> <span class="o">=</span> <span class="n">TypeVar</span><span class="p">(</span><span class="s2">&quot;T&quot;</span><span class="p">)</span>
+</span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>
+</span><span id="__span-6-6"><a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a>
+</span><span id="__span-6-7"><a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a><span class="k">class</span> <span class="nc">Container</span><span class="p">(</span><span class="n">Protocol</span><span class="p">[</span><span class="n">T</span><span class="p">]):</span>
+</span><span id="__span-6-8"><a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a>    <span class="k">def</span> <span class="nf">get_item</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="p">:</span> <span class="o">...</span>
 </span></code></pre></div>
 <p>Here, <code>Container[T]</code> is a generic protocol with a single type variable <code>T</code>.
 It specifies one method <code>get_item</code> that returns an object of type <code>T</code>.
 Now we can implement this protocol for different types by providing concrete type parameters.
 For instance, a container of strings and a container of integers:</p>
-<div class="language-python highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="c1"># example_7.py</span>
-</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="k">class</span> <span class="nc">StringContainer</span><span class="p">:</span>
-</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
-</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">value</span>
-</span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>
-</span><span id="__span-6-6"><a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a>    <span class="k">def</span> <span class="nf">get_item</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-</span><span id="__span-6-7"><a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span>
-</span><span id="__span-6-8"><a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a>
-</span><span id="__span-6-9"><a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a>
-</span><span id="__span-6-10"><a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a><span class="k">class</span> <span class="nc">IntContainer</span><span class="p">:</span>
-</span><span id="__span-6-11"><a id="__codelineno-6-11" name="__codelineno-6-11" href="#__codelineno-6-11"></a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
-</span><span id="__span-6-12"><a id="__codelineno-6-12" name="__codelineno-6-12" href="#__codelineno-6-12"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">value</span>
-</span><span id="__span-6-13"><a id="__codelineno-6-13" name="__codelineno-6-13" href="#__codelineno-6-13"></a>
-</span><span id="__span-6-14"><a id="__codelineno-6-14" name="__codelineno-6-14" href="#__codelineno-6-14"></a>    <span class="k">def</span> <span class="nf">get_item</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-</span><span id="__span-6-15"><a id="__codelineno-6-15" name="__codelineno-6-15" href="#__codelineno-6-15"></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="c1"># example_7.py</span>
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="k">class</span> <span class="nc">StringContainer</span><span class="p">:</span>
+</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+</span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">value</span>
+</span><span id="__span-7-5"><a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a>
+</span><span id="__span-7-6"><a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a>    <span class="k">def</span> <span class="nf">get_item</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+</span><span id="__span-7-7"><a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span>
+</span><span id="__span-7-8"><a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a>
+</span><span id="__span-7-9"><a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a>
+</span><span id="__span-7-10"><a id="__codelineno-7-10" name="__codelineno-7-10" href="#__codelineno-7-10"></a><span class="k">class</span> <span class="nc">IntContainer</span><span class="p">:</span>
+</span><span id="__span-7-11"><a id="__codelineno-7-11" name="__codelineno-7-11" href="#__codelineno-7-11"></a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+</span><span id="__span-7-12"><a id="__codelineno-7-12" name="__codelineno-7-12" href="#__codelineno-7-12"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">value</span>
+</span><span id="__span-7-13"><a id="__codelineno-7-13" name="__codelineno-7-13" href="#__codelineno-7-13"></a>
+</span><span id="__span-7-14"><a id="__codelineno-7-14" name="__codelineno-7-14" href="#__codelineno-7-14"></a>    <span class="k">def</span> <span class="nf">get_item</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+</span><span id="__span-7-15"><a id="__codelineno-7-15" name="__codelineno-7-15" href="#__codelineno-7-15"></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span>
 </span></code></pre></div>
 <p><code>StringContainer</code> and <code>IntContainer</code> each implement <code>get_item</code> returning the appropriate type.
 They don’t subclass <code>Container</code>, but structurally they match <code>Container[str]</code> and <code>Container[int]</code> respectively.
 We can write functions that use the generic protocol to accept any kind of container and preserve the type information of the contained item:</p>
-<div class="language-python highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="c1"># example_8.py</span>
-</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Container</span>
-</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>
-</span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a>
-</span><span id="__span-7-5"><a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a><span class="k">def</span> <span class="nf">print_item_and_return</span><span class="p">[</span><span class="n">C</span><span class="p">](</span><span class="n">container</span><span class="p">:</span> <span class="n">Container</span><span class="p">[</span><span class="n">C</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">C</span><span class="p">:</span>
-</span><span id="__span-7-6"><a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a>    <span class="n">item</span> <span class="o">=</span> <span class="n">container</span><span class="o">.</span><span class="n">get_item</span><span class="p">()</span>
-</span><span id="__span-7-7"><a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a>    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Got:&quot;</span><span class="p">,</span> <span class="n">item</span><span class="p">)</span>
-</span><span id="__span-7-8"><a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a>    <span class="k">return</span> <span class="n">item</span>  <span class="c1"># The type of item is inferred as C</span>
-</span><span id="__span-7-9"><a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a>
-</span><span id="__span-7-10"><a id="__codelineno-7-10" name="__codelineno-7-10" href="#__codelineno-7-10"></a>
-</span><span id="__span-7-11"><a id="__codelineno-7-11" name="__codelineno-7-11" href="#__codelineno-7-11"></a><span class="c1"># Using the generic function with different container types:</span>
-</span><span id="__span-7-12"><a id="__codelineno-7-12" name="__codelineno-7-12" href="#__codelineno-7-12"></a><span class="n">x</span> <span class="o">=</span> <span class="n">print_item_and_return</span><span class="p">(</span><span class="n">StringContainer</span><span class="p">(</span><span class="s2">&quot;hello&quot;</span><span class="p">))</span>  <span class="c1"># prints &quot;hello&quot;, x is str</span>
-</span><span id="__span-7-13"><a id="__codelineno-7-13" name="__codelineno-7-13" href="#__codelineno-7-13"></a><span class="n">y</span> <span class="o">=</span> <span class="n">print_item_and_return</span><span class="p">(</span><span class="n">IntContainer</span><span class="p">(</span><span class="mi">42</span><span class="p">))</span>  <span class="c1"># prints &quot;42&quot;, y is int</span>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="c1"># example_8.py</span>
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Container</span>
+</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>
+</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a>
+</span><span id="__span-8-5"><a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a><span class="k">def</span> <span class="nf">print_item_and_return</span><span class="p">[</span><span class="n">C</span><span class="p">](</span><span class="n">container</span><span class="p">:</span> <span class="n">Container</span><span class="p">[</span><span class="n">C</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">C</span><span class="p">:</span>
+</span><span id="__span-8-6"><a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a>    <span class="n">item</span> <span class="o">=</span> <span class="n">container</span><span class="o">.</span><span class="n">get_item</span><span class="p">()</span>
+</span><span id="__span-8-7"><a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a>    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Got:&quot;</span><span class="p">,</span> <span class="n">item</span><span class="p">)</span>
+</span><span id="__span-8-8"><a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a>    <span class="k">return</span> <span class="n">item</span>  <span class="c1"># The type of item is inferred as C</span>
+</span><span id="__span-8-9"><a id="__codelineno-8-9" name="__codelineno-8-9" href="#__codelineno-8-9"></a>
+</span><span id="__span-8-10"><a id="__codelineno-8-10" name="__codelineno-8-10" href="#__codelineno-8-10"></a>
+</span><span id="__span-8-11"><a id="__codelineno-8-11" name="__codelineno-8-11" href="#__codelineno-8-11"></a><span class="c1"># Using the generic function with different container types:</span>
+</span><span id="__span-8-12"><a id="__codelineno-8-12" name="__codelineno-8-12" href="#__codelineno-8-12"></a><span class="n">x</span> <span class="o">=</span> <span class="n">print_item_and_return</span><span class="p">(</span><span class="n">StringContainer</span><span class="p">(</span><span class="s2">&quot;hello&quot;</span><span class="p">))</span>  <span class="c1"># prints &quot;hello&quot;, x is str</span>
+</span><span id="__span-8-13"><a id="__codelineno-8-13" name="__codelineno-8-13" href="#__codelineno-8-13"></a><span class="n">y</span> <span class="o">=</span> <span class="n">print_item_and_return</span><span class="p">(</span><span class="n">IntContainer</span><span class="p">(</span><span class="mi">42</span><span class="p">))</span>  <span class="c1"># prints &quot;42&quot;, y is int</span>
 </span></code></pre></div>
 <p>In the function <code>print_item_and_return</code>, we used <code>C</code> (could also use <code>T</code> again) as a type variable for the container’s item type.
 When we call this function with a <code>StringContainer</code>, the type checker knows <code>C</code> is <code>str</code> in that call, so it infers that the function returns a <code>str</code>.
@@ -1196,22 +1203,22 @@ In our container example, this is not an issue because we’re primarily using i
 For instance, you can declare <code>T = TypeVar('T', bound=SomeProtocol)</code> to indicate that a type variable must satisfy a certain protocol.
 This is analogous to saying "T must be a subtype of this Protocol," except since protocols aren’t part of the class hierarchy, it really means any type used for T must structurally implement the protocol.
 For example, if we have:</p>
-<div class="language-python highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="c1"># example_9.py</span>
-</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">TypeVar</span>
-</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>
-</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="n">T</span> <span class="o">=</span> <span class="n">TypeVar</span><span class="p">(</span><span class="s2">&quot;T&quot;</span><span class="p">,</span> <span class="n">bound</span><span class="o">=</span><span class="n">Logger</span><span class="p">)</span>  <span class="c1"># using our Logger protocol from earlier</span>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="c1"># example_9.py</span>
+</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">TypeVar</span>
+</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>
+</span><span id="__span-9-4"><a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="n">T</span> <span class="o">=</span> <span class="n">TypeVar</span><span class="p">(</span><span class="s2">&quot;T&quot;</span><span class="p">,</span> <span class="n">bound</span><span class="o">=</span><span class="n">Logger</span><span class="p">)</span>  <span class="c1"># using our Logger protocol from earlier</span>
 </span></code></pre></div>
 <p>This means any type filling in for T must have a <code>.log(str) -&gt; None</code> method.
 You could use such a bound in a generic function or class to ensure the operations you perform on T (like calling <code>log</code>) are valid.
 This is a powerful way to write generic algorithms that operate on any objects meeting a certain interface, without tying them to a base class.</p>
 <p>It’s also worth noting that Python 3.12 introduced an even more concise way to define generic protocols (and generic classes in general) by allowing type variables in the definition of methods directly (PEP 695 – Type Parameter Syntax).
 For instance, one could write something like:</p>
-<div class="language-python highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="c1"># example_10.py</span>
-</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Protocol</span>
-</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>
-</span><span id="__span-9-4"><a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a>
-</span><span id="__span-9-5"><a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a><span class="k">class</span> <span class="nc">Container</span><span class="p">(</span><span class="n">Protocol</span><span class="p">):</span>
-</span><span id="__span-9-6"><a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a>    <span class="k">def</span> <span class="nf">get_item</span><span class="p">[</span><span class="n">T</span><span class="p">](</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="p">:</span> <span class="o">...</span>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="c1"># example_10.py</span>
+</span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Protocol</span>
+</span><span id="__span-10-3"><a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>
+</span><span id="__span-10-4"><a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a>
+</span><span id="__span-10-5"><a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a><span class="k">class</span> <span class="nc">Container</span><span class="p">(</span><span class="n">Protocol</span><span class="p">):</span>
+</span><span id="__span-10-6"><a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a>    <span class="k">def</span> <span class="nf">get_item</span><span class="p">[</span><span class="n">T</span><span class="p">](</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="p">:</span> <span class="o">...</span>
 </span></code></pre></div>
 <p>to define a generic method <code>get_item</code> in a protocol.
 However, under the hood this still creates a generic protocol with a type variable <code>T</code>.

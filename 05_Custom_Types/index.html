@@ -8,13 +8,13 @@
       
       
       
-        <link rel="canonical" href="https://ThinkingInTypes.github.io/07_Dataclasses/">
+        <link rel="canonical" href="https://ThinkingInTypes.github.io/05_Custom_Types/">
       
       
-        <link rel="prev" href="../06_Generics/">
+        <link rel="prev" href="../04_Predefined_Annotations/">
       
       
-        <link rel="next" href="../08_Immutability/">
+        <link rel="next" href="../06_Immutability/">
       
       
       <link rel="icon" href="../img/favicon.png">
@@ -22,7 +22,7 @@
     
     
       
-        <title>Dataclasses - Thinking in Types</title>
+        <title>Custom Types - Thinking in Types</title>
       
     
     
@@ -64,7 +64,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#dataclasses" class="md-skip">
+        <a href="#custom-types" class="md-skip">
           Skip to content
         </a>
       
@@ -100,7 +100,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Dataclasses
+              Custom Types
             
           </span>
         </div>
@@ -280,53 +280,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../04_Basic_Annotations/" class="md-nav__link">
+      <a href="../04_Predefined_Annotations/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    Basic Annotations
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../05_Collections/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Collections
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../06_Generics/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Generics
+    Predefined Annotations
     
   </span>
   
@@ -356,7 +314,7 @@
           
   
   <span class="md-ellipsis">
-    Dataclasses
+    Custom Types
     
   </span>
   
@@ -368,7 +326,7 @@
         
   
   <span class="md-ellipsis">
-    Dataclasses
+    Custom Types
     
   </span>
   
@@ -391,6 +349,15 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#misunderstanding-class-attributes" class="md-nav__link">
+    <span class="md-ellipsis">
+      Misunderstanding Class Attributes
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#the-initial-problem-ensuring-correctness" class="md-nav__link">
     <span class="md-ellipsis">
       The Initial Problem: Ensuring Correctness
@@ -409,9 +376,9 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#introducing-python-data-classes" class="md-nav__link">
+  <a href="#data-classes" class="md-nav__link">
     <span class="md-ellipsis">
-      Introducing Python Data Classes
+      Data Classes
     </span>
   </a>
   
@@ -445,6 +412,66 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#specialized-tools" class="md-nav__link">
+    <span class="md-ellipsis">
+      Specialized Tools
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Specialized Tools">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#typed-namedtuples" class="md-nav__link">
+    <span class="md-ellipsis">
+      Typed NamedTuples
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#leveraging-typeddicts-for-structured-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      Leveraging TypedDicts for Structured Data
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#optional-fields-in-typeddict" class="md-nav__link">
+    <span class="md-ellipsis">
+      Optional Fields in TypedDict
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#combining-dataclasses-and-enums" class="md-nav__link">
+    <span class="md-ellipsis">
+      Combining Dataclasses and Enums
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#domain-driven-design-ddd" class="md-nav__link">
+    <span class="md-ellipsis">
+      Domain-Driven Design (DDD)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#conclusion" class="md-nav__link">
     <span class="md-ellipsis">
       Conclusion
@@ -454,35 +481,11 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#misunderstanding-class-attributes" class="md-nav__link">
+  <a href="#generated-dataclass-intro-notes" class="md-nav__link">
     <span class="md-ellipsis">
-      Misunderstanding Class Attributes
+      (Generated) Dataclass Intro Notes
     </span>
   </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#using-dataclasses-effectively" class="md-nav__link">
-    <span class="md-ellipsis">
-      Using Dataclasses Effectively
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Using Dataclasses Effectively">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#advanced-dataclass-features" class="md-nav__link">
-    <span class="md-ellipsis">
-      Advanced Dataclass Features
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
@@ -501,7 +504,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../08_Immutability/" class="md-nav__link">
+      <a href="../06_Immutability/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -522,7 +525,28 @@
   
   
     <li class="md-nav__item">
-      <a href="../09_Callables/" class="md-nav__link">
+      <a href="../07_Generics/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Generics
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../08_Callables/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -543,7 +567,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../10_Structural_Typing/" class="md-nav__link">
+      <a href="../09_Structural_Typing/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -564,28 +588,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../11_Specialized_Tools/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Specialized Tools
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../12_Make_Illegal_Types_Unrepresentable/" class="md-nav__link">
+      <a href="../10_Make_Illegal_Types_Unrepresentable/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -606,7 +609,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../13_Errors_As_Values/" class="md-nav__link">
+      <a href="../11_Errors_as_Values/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -627,7 +630,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../14_Pattern_Matching/" class="md-nav__link">
+      <a href="../12_Pattern_Matching/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -648,7 +651,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../15_Advanced_Concepts/" class="md-nav__link">
+      <a href="../13_Advanced_Concepts/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -669,7 +672,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../16_Async/" class="md-nav__link">
+      <a href="../14_Async/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -690,7 +693,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../17_Interoperability_and_Typing_Stubs/" class="md-nav__link">
+      <a href="../15_Interoperability_and_Typing_Stubs/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -711,7 +714,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../18_Best_Practices/" class="md-nav__link">
+      <a href="../16_Best_Practices/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -857,6 +860,15 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#misunderstanding-class-attributes" class="md-nav__link">
+    <span class="md-ellipsis">
+      Misunderstanding Class Attributes
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#the-initial-problem-ensuring-correctness" class="md-nav__link">
     <span class="md-ellipsis">
       The Initial Problem: Ensuring Correctness
@@ -875,9 +887,9 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#introducing-python-data-classes" class="md-nav__link">
+  <a href="#data-classes" class="md-nav__link">
     <span class="md-ellipsis">
-      Introducing Python Data Classes
+      Data Classes
     </span>
   </a>
   
@@ -911,6 +923,66 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#specialized-tools" class="md-nav__link">
+    <span class="md-ellipsis">
+      Specialized Tools
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Specialized Tools">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#typed-namedtuples" class="md-nav__link">
+    <span class="md-ellipsis">
+      Typed NamedTuples
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#leveraging-typeddicts-for-structured-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      Leveraging TypedDicts for Structured Data
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#optional-fields-in-typeddict" class="md-nav__link">
+    <span class="md-ellipsis">
+      Optional Fields in TypedDict
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#combining-dataclasses-and-enums" class="md-nav__link">
+    <span class="md-ellipsis">
+      Combining Dataclasses and Enums
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#domain-driven-design-ddd" class="md-nav__link">
+    <span class="md-ellipsis">
+      Domain-Driven Design (DDD)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#conclusion" class="md-nav__link">
     <span class="md-ellipsis">
       Conclusion
@@ -920,35 +992,11 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#misunderstanding-class-attributes" class="md-nav__link">
+  <a href="#generated-dataclass-intro-notes" class="md-nav__link">
     <span class="md-ellipsis">
-      Misunderstanding Class Attributes
+      (Generated) Dataclass Intro Notes
     </span>
   </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#using-dataclasses-effectively" class="md-nav__link">
-    <span class="md-ellipsis">
-      Using Dataclasses Effectively
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Using Dataclasses Effectively">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#advanced-dataclass-features" class="md-nav__link">
-    <span class="md-ellipsis">
-      Advanced Dataclass Features
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
@@ -971,9 +1019,16 @@
   
 
 
-<h1 id="dataclasses">Dataclasses<a class="headerlink" href="#dataclasses" title="Permanent link">#</a></h1>
-<p><a href="https://github.com/BruceEckel/DataClassesAsTypes">https://github.com/BruceEckel/DataClassesAsTypes</a></p>
+<h1 id="custom-types">Custom Types<a class="headerlink" href="#custom-types" title="Permanent link">#</a></h1>
+<ul>
+<li>Add variations: NamedTuple, Enum</li>
+<li>Incorporate examples from <a href="https://github.com/BruceEckel/DataClassesAsTypes">https://github.com/BruceEckel/DataClassesAsTypes</a></li>
+</ul>
 <p>This chapter began as a presentation at a Python conference, inspired by conversations with fellow programmers exploring functional programming techniques. Specifically, the idea arose from a podcast discussion about Scala's smart types. After extensive study of functional programming, several concepts coalesced into an approach that leverages Python’s data classes effectively. This chapter aims to share those insights and illustrate the practical benefits of Python data classes, guiding you towards clearer, more reliable code.</p>
+<h2 id="misunderstanding-class-attributes">Misunderstanding Class Attributes<a class="headerlink" href="#misunderstanding-class-attributes" title="Permanent link">#</a></h2>
+<p>This chapter contains additional tools that modify the normal behavior of class attributes.
+It's important to understand that this behavior is created by the tool, and that ordinary classes do not behave this way.
+Read the [Class Attributes] appendix for deeper understanding.</p>
 <h2 id="the-initial-problem-ensuring-correctness">The Initial Problem: Ensuring Correctness<a class="headerlink" href="#the-initial-problem-ensuring-correctness" title="Permanent link">#</a></h2>
 <p>Imagine building a simple customer feedback system using a rating from one to ten stars. Traditionally, Python programmers use an integer type, checking its validity whenever it's used:</p>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1"># example_1.py</span>
@@ -995,7 +1050,7 @@
 </span><span id="__span-1-9"><a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_stars</span>
 </span></code></pre></div>
 <p>This approach centralizes validation, yet remains cumbersome. Each method interacting with the attribute still requires pre- and post-condition checks, cluttering the code and potentially introducing errors if a developer neglects these checks.</p>
-<h2 id="introducing-python-data-classes">Introducing Python Data Classes<a class="headerlink" href="#introducing-python-data-classes" title="Permanent link">#</a></h2>
+<h2 id="data-classes">Data Classes<a class="headerlink" href="#data-classes" title="Permanent link">#</a></h2>
 <p>Data classes, introduced in Python 3.7, significantly streamline this process by generating essential methods automatically. They provide a structured, concise way to define data-holding objects:</p>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1"># example_3.py</span>
 </span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span>
@@ -1087,51 +1142,134 @@
 </span><span id="__span-6-13"><a id="__codelineno-6-13" name="__codelineno-6-13" href="#__codelineno-6-13"></a>        <span class="k">return</span> <span class="mi">1</span> <span class="o">&lt;=</span> <span class="n">day</span> <span class="o">&lt;=</span> <span class="n">month</span><span class="o">.</span><span class="n">value</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
 </span></code></pre></div>
 <p>Using enums makes code both readable and safely constrained, improving robustness. Enums clearly outperform data classes for fixed-value sets due to simplicity and compile-time definitions.</p>
-<h2 id="conclusion">Conclusion<a class="headerlink" href="#conclusion" title="Permanent link">#</a></h2>
-<p>Python data classes simplify managing data integrity and composition, reducing repetitive checks and centralizing validation. Combined with functional programming principles like immutability and type composition, data classes significantly enhance the clarity, maintainability, and robustness of your code. Once you adopt this method, you'll find your development process smoother, more reliable, and enjoyable.</p>
-<blockquote>
-<p>This placeholder text was generated by ChatGPT 4.5.
-It will be significantly rewritten as the book is developed.
-In the meantime you can add comments to either <a href="https://bsky.app/bruceeckel">https://bsky.app/bruceeckel</a> or <a href="https://github.com/ThinkingInTypes/ThinkingInTypes.github.io/issues">Github Issues</a>.</p>
-</blockquote>
-<h2 id="misunderstanding-class-attributes">Misunderstanding Class Attributes<a class="headerlink" href="#misunderstanding-class-attributes" title="Permanent link">#</a></h2>
-<p>A number of type tools hack the class attribute syntax; the most obvious is dataclasses but there are others.
-It's important to understand that this is special behavior created by the tool, and that ordinary classes do not behave this way.
-Read the [Class Attributes] appendix for deeper understanding.</p>
-<h2 id="using-dataclasses-effectively">Using Dataclasses Effectively<a class="headerlink" href="#using-dataclasses-effectively" title="Permanent link">#</a></h2>
-<p>Dataclasses simplify class definitions by automatically generating methods like <code>__init__</code>, <code>__repr__</code>, and <code>__eq__</code>:</p>
-<div class="language-python highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="c1"># example_8.py</span>
-</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span>
+<h2 id="specialized-tools">Specialized Tools<a class="headerlink" href="#specialized-tools" title="Permanent link">#</a></h2>
+<h3 id="typed-namedtuples">Typed NamedTuples<a class="headerlink" href="#typed-namedtuples" title="Permanent link">#</a></h3>
+<p>A typed <code>NamedTuple</code> combines tuple immutability with type annotations and named fields:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="c1"># named_tuple.py</span>
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">NamedTuple</span>
 </span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>
 </span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a>
-</span><span id="__span-7-5"><a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a><span class="nd">@dataclass</span>
-</span><span id="__span-7-6"><a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a><span class="k">class</span> <span class="nc">Product</span><span class="p">:</span>
-</span><span id="__span-7-7"><a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a>    <span class="n">name</span><span class="p">:</span> <span class="nb">str</span>
-</span><span id="__span-7-8"><a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a>    <span class="n">price</span><span class="p">:</span> <span class="nb">float</span>
-</span><span id="__span-7-9"><a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a>    <span class="n">in_stock</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
-</span><span id="__span-7-10"><a id="__codelineno-7-10" name="__codelineno-7-10" href="#__codelineno-7-10"></a>
-</span><span id="__span-7-11"><a id="__codelineno-7-11" name="__codelineno-7-11" href="#__codelineno-7-11"></a>
-</span><span id="__span-7-12"><a id="__codelineno-7-12" name="__codelineno-7-12" href="#__codelineno-7-12"></a><span class="n">product</span> <span class="o">=</span> <span class="n">Product</span><span class="p">(</span><span class="s2">&quot;Laptop&quot;</span><span class="p">,</span> <span class="mf">999.99</span><span class="p">)</span>
-</span><span id="__span-7-13"><a id="__codelineno-7-13" name="__codelineno-7-13" href="#__codelineno-7-13"></a><span class="nb">print</span><span class="p">(</span><span class="n">product</span><span class="p">)</span>  <span class="c1"># Product(name=&#39;Laptop&#39;, price=999.99, in_stock=True)</span>
-</span><span id="__span-7-14"><a id="__codelineno-7-14" name="__codelineno-7-14" href="#__codelineno-7-14"></a><span class="c1">## Product(name=&#39;Laptop&#39;, price=999.99,</span>
-</span><span id="__span-7-15"><a id="__codelineno-7-15" name="__codelineno-7-15" href="#__codelineno-7-15"></a><span class="c1">## in_stock=True)</span>
+</span><span id="__span-7-5"><a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a><span class="k">class</span> <span class="nc">Coordinates</span><span class="p">(</span><span class="n">NamedTuple</span><span class="p">):</span>
+</span><span id="__span-7-6"><a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a>    <span class="n">latitude</span><span class="p">:</span> <span class="nb">float</span>
+</span><span id="__span-7-7"><a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a>    <span class="n">longitude</span><span class="p">:</span> <span class="nb">float</span>
+</span><span id="__span-7-8"><a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a>
+</span><span id="__span-7-9"><a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a>
+</span><span id="__span-7-10"><a id="__codelineno-7-10" name="__codelineno-7-10" href="#__codelineno-7-10"></a><span class="n">coords</span> <span class="o">=</span> <span class="n">Coordinates</span><span class="p">(</span><span class="mf">51.5074</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.1278</span><span class="p">)</span>
+</span><span id="__span-7-11"><a id="__codelineno-7-11" name="__codelineno-7-11" href="#__codelineno-7-11"></a><span class="nb">print</span><span class="p">(</span><span class="n">coords</span><span class="p">)</span>
+</span><span id="__span-7-12"><a id="__codelineno-7-12" name="__codelineno-7-12" href="#__codelineno-7-12"></a><span class="nb">print</span><span class="p">(</span><span class="n">coords</span><span class="o">.</span><span class="n">latitude</span><span class="p">)</span>
+</span><span id="__span-7-13"><a id="__codelineno-7-13" name="__codelineno-7-13" href="#__codelineno-7-13"></a><span class="c1"># coords.latitude = 123.4567 # Runtime error</span>
+</span></code></pre></div>
+<p><code>NamedTuple</code> provides clarity, immutability, and easy unpacking, ideal for simple structured data.
+For brevity and cleanliness, this book will used <code>NamedTuple</code>s instead of frozen <code>dataclass</code>es whenever possible.</p>
+<h3 id="leveraging-typeddicts-for-structured-data">Leveraging TypedDicts for Structured Data<a class="headerlink" href="#leveraging-typeddicts-for-structured-data" title="Permanent link">#</a></h3>
+<p><code>TypedDict</code> is useful when defining dictionary structures with known keys and typed values:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="c1"># typed_dict.py</span>
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">TypedDict</span>
+</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>
+</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a>
+</span><span id="__span-8-5"><a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a><span class="k">class</span> <span class="nc">UserProfile</span><span class="p">(</span><span class="n">TypedDict</span><span class="p">):</span>
+</span><span id="__span-8-6"><a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a>    <span class="n">username</span><span class="p">:</span> <span class="nb">str</span>
+</span><span id="__span-8-7"><a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a>    <span class="n">email</span><span class="p">:</span> <span class="nb">str</span>
+</span><span id="__span-8-8"><a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a>    <span class="n">age</span><span class="p">:</span> <span class="nb">int</span>
+</span><span id="__span-8-9"><a id="__codelineno-8-9" name="__codelineno-8-9" href="#__codelineno-8-9"></a>
+</span><span id="__span-8-10"><a id="__codelineno-8-10" name="__codelineno-8-10" href="#__codelineno-8-10"></a>
+</span><span id="__span-8-11"><a id="__codelineno-8-11" name="__codelineno-8-11" href="#__codelineno-8-11"></a><span class="n">user</span><span class="p">:</span> <span class="n">UserProfile</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;username&quot;</span><span class="p">:</span> <span class="s2">&quot;alice&quot;</span><span class="p">,</span> <span class="s2">&quot;email&quot;</span><span class="p">:</span> <span class="s2">&quot;alice@example.com&quot;</span><span class="p">,</span> <span class="s2">&quot;age&quot;</span><span class="p">:</span> <span class="mi">30</span><span class="p">}</span>
+</span></code></pre></div>
+<p><code>TypedDict</code> clarifies expected keys and types, providing type safety for dictionary data.</p>
+<h3 id="optional-fields-in-typeddict">Optional Fields in TypedDict<a class="headerlink" href="#optional-fields-in-typeddict" title="Permanent link">#</a></h3>
+<p>You can specify optional fields using <code>NotRequired</code> (Python 3.11+) or <code>total=False</code>:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="c1"># optional_typed_dict_fields.py</span>
+</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">TypedDict</span><span class="p">,</span> <span class="n">NotRequired</span>
+</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>
+</span><span id="__span-9-4"><a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a>
+</span><span id="__span-9-5"><a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a><span class="k">class</span> <span class="nc">UserSettings</span><span class="p">(</span><span class="n">TypedDict</span><span class="p">):</span>
+</span><span id="__span-9-6"><a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a>    <span class="n">theme</span><span class="p">:</span> <span class="nb">str</span>
+</span><span id="__span-9-7"><a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a>    <span class="n">notifications_enabled</span><span class="p">:</span> <span class="n">NotRequired</span><span class="p">[</span><span class="nb">bool</span><span class="p">]</span>
+</span><span id="__span-9-8"><a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a>
+</span><span id="__span-9-9"><a id="__codelineno-9-9" name="__codelineno-9-9" href="#__codelineno-9-9"></a>
+</span><span id="__span-9-10"><a id="__codelineno-9-10" name="__codelineno-9-10" href="#__codelineno-9-10"></a><span class="n">settings</span><span class="p">:</span> <span class="n">UserSettings</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;theme&quot;</span><span class="p">:</span> <span class="s2">&quot;dark&quot;</span><span class="p">}</span>
+</span></code></pre></div>
+<p>This flexibility allows clear definitions for complex, partially-optional data structures.</p>
+<h2 id="combining-dataclasses-and-enums">Combining Dataclasses and Enums<a class="headerlink" href="#combining-dataclasses-and-enums" title="Permanent link">#</a></h2>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="c1"># dataclasses_and_enums.py</span>
+</span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span>
+</span><span id="__span-10-3"><a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a><span class="kn">from</span> <span class="nn">enum</span> <span class="kn">import</span> <span class="n">Enum</span>
+</span><span id="__span-10-4"><a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a>
+</span><span id="__span-10-5"><a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a>
+</span><span id="__span-10-6"><a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a><span class="k">class</span> <span class="nc">Status</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
+</span><span id="__span-10-7"><a id="__codelineno-10-7" name="__codelineno-10-7" href="#__codelineno-10-7"></a>    <span class="n">ACTIVE</span> <span class="o">=</span> <span class="s2">&quot;active&quot;</span>
+</span><span id="__span-10-8"><a id="__codelineno-10-8" name="__codelineno-10-8" href="#__codelineno-10-8"></a>    <span class="n">INACTIVE</span> <span class="o">=</span> <span class="s2">&quot;inactive&quot;</span>
+</span><span id="__span-10-9"><a id="__codelineno-10-9" name="__codelineno-10-9" href="#__codelineno-10-9"></a>
+</span><span id="__span-10-10"><a id="__codelineno-10-10" name="__codelineno-10-10" href="#__codelineno-10-10"></a>
+</span><span id="__span-10-11"><a id="__codelineno-10-11" name="__codelineno-10-11" href="#__codelineno-10-11"></a><span class="nd">@dataclass</span>
+</span><span id="__span-10-12"><a id="__codelineno-10-12" name="__codelineno-10-12" href="#__codelineno-10-12"></a><span class="k">class</span> <span class="nc">User</span><span class="p">:</span>
+</span><span id="__span-10-13"><a id="__codelineno-10-13" name="__codelineno-10-13" href="#__codelineno-10-13"></a>    <span class="nb">id</span><span class="p">:</span> <span class="nb">int</span>
+</span><span id="__span-10-14"><a id="__codelineno-10-14" name="__codelineno-10-14" href="#__codelineno-10-14"></a>    <span class="n">name</span><span class="p">:</span> <span class="nb">str</span>
+</span><span id="__span-10-15"><a id="__codelineno-10-15" name="__codelineno-10-15" href="#__codelineno-10-15"></a>    <span class="n">status</span><span class="p">:</span> <span class="n">Status</span>
+</span><span id="__span-10-16"><a id="__codelineno-10-16" name="__codelineno-10-16" href="#__codelineno-10-16"></a>
+</span><span id="__span-10-17"><a id="__codelineno-10-17" name="__codelineno-10-17" href="#__codelineno-10-17"></a>
+</span><span id="__span-10-18"><a id="__codelineno-10-18" name="__codelineno-10-18" href="#__codelineno-10-18"></a><span class="n">user</span> <span class="o">=</span> <span class="n">User</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Alice&quot;</span><span class="p">,</span> <span class="n">status</span><span class="o">=</span><span class="n">Status</span><span class="o">.</span><span class="n">ACTIVE</span><span class="p">)</span>
+</span><span id="__span-10-19"><a id="__codelineno-10-19" name="__codelineno-10-19" href="#__codelineno-10-19"></a><span class="nb">print</span><span class="p">(</span><span class="n">user</span><span class="p">)</span>
+</span><span id="__span-10-20"><a id="__codelineno-10-20" name="__codelineno-10-20" href="#__codelineno-10-20"></a><span class="c1">## User(id=1, name=&#39;Alice&#39;, status=&lt;Status.ACTIVE:</span>
+</span><span id="__span-10-21"><a id="__codelineno-10-21" name="__codelineno-10-21" href="#__codelineno-10-21"></a><span class="c1">## &#39;active&#39;&gt;)</span>
+</span></code></pre></div>
+<h2 id="domain-driven-design-ddd">Domain-Driven Design (DDD)<a class="headerlink" href="#domain-driven-design-ddd" title="Permanent link">#</a></h2>
+<p>Strongly-typed domain models help clearly represent domain logic, improving robustness and maintainability.
+Define domain entities explicitly to enhance domain logic expressiveness:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="c1"># ddd.py</span>
+</span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span>
+</span><span id="__span-11-3"><a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">NamedTuple</span>
+</span><span id="__span-11-4"><a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a>
+</span><span id="__span-11-5"><a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a>
+</span><span id="__span-11-6"><a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a><span class="k">class</span> <span class="nc">Product</span><span class="p">(</span><span class="n">NamedTuple</span><span class="p">):</span>
+</span><span id="__span-11-7"><a id="__codelineno-11-7" name="__codelineno-11-7" href="#__codelineno-11-7"></a>    <span class="n">name</span><span class="p">:</span> <span class="nb">str</span>
+</span><span id="__span-11-8"><a id="__codelineno-11-8" name="__codelineno-11-8" href="#__codelineno-11-8"></a>    <span class="n">price</span><span class="p">:</span> <span class="nb">float</span>
+</span><span id="__span-11-9"><a id="__codelineno-11-9" name="__codelineno-11-9" href="#__codelineno-11-9"></a>
+</span><span id="__span-11-10"><a id="__codelineno-11-10" name="__codelineno-11-10" href="#__codelineno-11-10"></a>
+</span><span id="__span-11-11"><a id="__codelineno-11-11" name="__codelineno-11-11" href="#__codelineno-11-11"></a><span class="nd">@dataclass</span>
+</span><span id="__span-11-12"><a id="__codelineno-11-12" name="__codelineno-11-12" href="#__codelineno-11-12"></a><span class="k">class</span> <span class="nc">Order</span><span class="p">:</span>
+</span><span id="__span-11-13"><a id="__codelineno-11-13" name="__codelineno-11-13" href="#__codelineno-11-13"></a>    <span class="n">order_id</span><span class="p">:</span> <span class="nb">int</span>
+</span><span id="__span-11-14"><a id="__codelineno-11-14" name="__codelineno-11-14" href="#__codelineno-11-14"></a>    <span class="n">products</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Product</span><span class="p">]</span>
+</span><span id="__span-11-15"><a id="__codelineno-11-15" name="__codelineno-11-15" href="#__codelineno-11-15"></a>
+</span><span id="__span-11-16"><a id="__codelineno-11-16" name="__codelineno-11-16" href="#__codelineno-11-16"></a>    <span class="k">def</span> <span class="nf">total</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+</span><span id="__span-11-17"><a id="__codelineno-11-17" name="__codelineno-11-17" href="#__codelineno-11-17"></a>        <span class="k">return</span> <span class="nb">sum</span><span class="p">(</span><span class="n">product</span><span class="o">.</span><span class="n">price</span> <span class="k">for</span> <span class="n">product</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">products</span><span class="p">)</span>
+</span></code></pre></div>
+<p>Strongly-typed domain models help catch issues early, facilitating clearer, safer, and more maintainable codebases.</p>
+<h2 id="conclusion">Conclusion<a class="headerlink" href="#conclusion" title="Permanent link">#</a></h2>
+<p>Python data classes simplify managing data integrity and composition, reducing repetitive checks and centralizing validation. Combined with functional programming principles like immutability and type composition, data classes significantly enhance the clarity, maintainability, and robustness of your code. Once you adopt this method, you'll find your development process smoother, more reliable, and enjoyable.</p>
+<h2 id="generated-dataclass-intro-notes">(Generated) Dataclass Intro Notes<a class="headerlink" href="#generated-dataclass-intro-notes" title="Permanent link">#</a></h2>
+<p>Dataclasses simplify class definitions by automatically generating methods like <code>__init__</code>, <code>__repr__</code>, and <code>__eq__</code>:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="c1"># generated_methods.py</span>
+</span><span id="__span-12-2"><a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span>
+</span><span id="__span-12-3"><a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a>
+</span><span id="__span-12-4"><a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a>
+</span><span id="__span-12-5"><a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a><span class="nd">@dataclass</span>
+</span><span id="__span-12-6"><a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a><span class="k">class</span> <span class="nc">Product</span><span class="p">:</span>
+</span><span id="__span-12-7"><a id="__codelineno-12-7" name="__codelineno-12-7" href="#__codelineno-12-7"></a>    <span class="n">name</span><span class="p">:</span> <span class="nb">str</span>
+</span><span id="__span-12-8"><a id="__codelineno-12-8" name="__codelineno-12-8" href="#__codelineno-12-8"></a>    <span class="n">price</span><span class="p">:</span> <span class="nb">float</span>
+</span><span id="__span-12-9"><a id="__codelineno-12-9" name="__codelineno-12-9" href="#__codelineno-12-9"></a>    <span class="n">in_stock</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
+</span><span id="__span-12-10"><a id="__codelineno-12-10" name="__codelineno-12-10" href="#__codelineno-12-10"></a>
+</span><span id="__span-12-11"><a id="__codelineno-12-11" name="__codelineno-12-11" href="#__codelineno-12-11"></a>
+</span><span id="__span-12-12"><a id="__codelineno-12-12" name="__codelineno-12-12" href="#__codelineno-12-12"></a><span class="n">product</span> <span class="o">=</span> <span class="n">Product</span><span class="p">(</span><span class="s2">&quot;Laptop&quot;</span><span class="p">,</span> <span class="mf">999.99</span><span class="p">)</span>
+</span><span id="__span-12-13"><a id="__codelineno-12-13" name="__codelineno-12-13" href="#__codelineno-12-13"></a><span class="nb">print</span><span class="p">(</span><span class="n">product</span><span class="p">)</span>
+</span><span id="__span-12-14"><a id="__codelineno-12-14" name="__codelineno-12-14" href="#__codelineno-12-14"></a><span class="c1">## Product(name=&#39;Laptop&#39;, price=999.99,</span>
+</span><span id="__span-12-15"><a id="__codelineno-12-15" name="__codelineno-12-15" href="#__codelineno-12-15"></a><span class="c1">## in_stock=True)</span>
 </span></code></pre></div>
 <p>Dataclasses reduce boilerplate, ensuring concise and readable class definitions.</p>
-<h3 id="advanced-dataclass-features">Advanced Dataclass Features<a class="headerlink" href="#advanced-dataclass-features" title="Permanent link">#</a></h3>
 <p>Dataclasses support default factories, immutability, and more:</p>
-<div class="language-python highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="c1"># example_9.py</span>
-</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span><span class="p">,</span> <span class="n">field</span>
-</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span>
-</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a>
-</span><span id="__span-8-5"><a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a>
-</span><span id="__span-8-6"><a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a><span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-</span><span id="__span-8-7"><a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a><span class="k">class</span> <span class="nc">Order</span><span class="p">:</span>
-</span><span id="__span-8-8"><a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a>    <span class="n">order_id</span><span class="p">:</span> <span class="nb">int</span>
-</span><span id="__span-8-9"><a id="__codelineno-8-9" name="__codelineno-8-9" href="#__codelineno-8-9"></a>    <span class="n">items</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="nb">list</span><span class="p">)</span>
-</span><span id="__span-8-10"><a id="__codelineno-8-10" name="__codelineno-8-10" href="#__codelineno-8-10"></a>
-</span><span id="__span-8-11"><a id="__codelineno-8-11" name="__codelineno-8-11" href="#__codelineno-8-11"></a>
-</span><span id="__span-8-12"><a id="__codelineno-8-12" name="__codelineno-8-12" href="#__codelineno-8-12"></a><span class="n">order</span> <span class="o">=</span> <span class="n">Order</span><span class="p">(</span><span class="n">order_id</span><span class="o">=</span><span class="mi">123</span><span class="p">)</span>
-</span><span id="__span-8-13"><a id="__codelineno-8-13" name="__codelineno-8-13" href="#__codelineno-8-13"></a><span class="c1"># order.order_id = 456  # Error: dataclass is frozen (immutable)</span>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="c1"># example_9.py</span>
+</span><span id="__span-13-2"><a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a><span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span><span class="p">,</span> <span class="n">field</span>
+</span><span id="__span-13-3"><a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span>
+</span><span id="__span-13-4"><a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a>
+</span><span id="__span-13-5"><a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a>
+</span><span id="__span-13-6"><a id="__codelineno-13-6" name="__codelineno-13-6" href="#__codelineno-13-6"></a><span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</span><span id="__span-13-7"><a id="__codelineno-13-7" name="__codelineno-13-7" href="#__codelineno-13-7"></a><span class="k">class</span> <span class="nc">Order</span><span class="p">:</span>
+</span><span id="__span-13-8"><a id="__codelineno-13-8" name="__codelineno-13-8" href="#__codelineno-13-8"></a>    <span class="n">order_id</span><span class="p">:</span> <span class="nb">int</span>
+</span><span id="__span-13-9"><a id="__codelineno-13-9" name="__codelineno-13-9" href="#__codelineno-13-9"></a>    <span class="n">items</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="nb">list</span><span class="p">)</span>
+</span><span id="__span-13-10"><a id="__codelineno-13-10" name="__codelineno-13-10" href="#__codelineno-13-10"></a>
+</span><span id="__span-13-11"><a id="__codelineno-13-11" name="__codelineno-13-11" href="#__codelineno-13-11"></a>
+</span><span id="__span-13-12"><a id="__codelineno-13-12" name="__codelineno-13-12" href="#__codelineno-13-12"></a><span class="n">order</span> <span class="o">=</span> <span class="n">Order</span><span class="p">(</span><span class="n">order_id</span><span class="o">=</span><span class="mi">123</span><span class="p">)</span>
+</span><span id="__span-13-13"><a id="__codelineno-13-13" name="__codelineno-13-13" href="#__codelineno-13-13"></a><span class="c1"># order.order_id = 456  # Error: dataclass is frozen (immutable)</span>
 </span></code></pre></div>
 
 

@@ -8,13 +8,13 @@
       
       
       
-        <link rel="canonical" href="https://ThinkingInTypes.github.io/05_Collections/">
+        <link rel="canonical" href="https://ThinkingInTypes.github.io/07_Generics/">
       
       
-        <link rel="prev" href="../04_Basic_Annotations/">
+        <link rel="prev" href="../06_Immutability/">
       
       
-        <link rel="next" href="../06_Generics/">
+        <link rel="next" href="../08_Callables/">
       
       
       <link rel="icon" href="../img/favicon.png">
@@ -22,7 +22,7 @@
     
     
       
-        <title>Collections - Thinking in Types</title>
+        <title>Generics - Thinking in Types</title>
       
     
     
@@ -64,7 +64,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#collections" class="md-skip">
+        <a href="#generics" class="md-skip">
           Skip to content
         </a>
       
@@ -100,7 +100,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Collections
+              Generics
             
           </span>
         </div>
@@ -280,11 +280,53 @@
   
   
     <li class="md-nav__item">
-      <a href="../04_Basic_Annotations/" class="md-nav__link">
+      <a href="../04_Predefined_Annotations/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    Basic Annotations
+    Predefined Annotations
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../05_Custom_Types/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Custom Types
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../06_Immutability/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Immutability
     
   </span>
   
@@ -314,7 +356,7 @@
           
   
   <span class="md-ellipsis">
-    Collections
+    Generics
     
   </span>
   
@@ -326,7 +368,7 @@
         
   
   <span class="md-ellipsis">
-    Collections
+    Generics
     
   </span>
   
@@ -349,46 +391,28 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#annotating-lists-tuples-sets-dictionaries" class="md-nav__link">
+  <a href="#defining-custom-generics-with-typevar-and-generic" class="md-nav__link">
     <span class="md-ellipsis">
-      Annotating Lists, Tuples, Sets, Dictionaries
+      Defining Custom Generics with TypeVar and Generic
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Annotating Lists, Tuples, Sets, Dictionaries">
+    <nav class="md-nav" aria-label="Defining Custom Generics with TypeVar and Generic">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#lists" class="md-nav__link">
+  <a href="#using-typevar" class="md-nav__link">
     <span class="md-ellipsis">
-      Lists
+      Using TypeVar
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#tuples" class="md-nav__link">
+  <a href="#generic-classes" class="md-nav__link">
     <span class="md-ellipsis">
-      Tuples
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#sets" class="md-nav__link">
-    <span class="md-ellipsis">
-      Sets
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#dictionaries" class="md-nav__link">
-    <span class="md-ellipsis">
-      Dictionaries
+      Generic Classes
     </span>
   </a>
   
@@ -400,46 +424,28 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#annotations-without-imports" class="md-nav__link">
+  <a href="#using-constraints-and-bounds-with-generics" class="md-nav__link">
     <span class="md-ellipsis">
-      Annotations without Imports
+      Using Constraints and Bounds with Generics
     </span>
   </a>
   
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#specialized-annotations-sequence-mapping-iterable-iterator" class="md-nav__link">
-    <span class="md-ellipsis">
-      Specialized Annotations (Sequence, Mapping, Iterable, Iterator)
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Specialized Annotations (Sequence, Mapping, Iterable, Iterator)">
+    <nav class="md-nav" aria-label="Using Constraints and Bounds with Generics">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#sequence" class="md-nav__link">
+  <a href="#constraints" class="md-nav__link">
     <span class="md-ellipsis">
-      Sequence
+      Constraints
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#mapping" class="md-nav__link">
+  <a href="#bounds" class="md-nav__link">
     <span class="md-ellipsis">
-      Mapping
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#iterable-and-iterator" class="md-nav__link">
-    <span class="md-ellipsis">
-      Iterable and Iterator
+      Bounds
     </span>
   </a>
   
@@ -465,70 +471,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../06_Generics/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Generics
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../07_Dataclasses/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Dataclasses
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../08_Immutability/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Immutability
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../09_Callables/" class="md-nav__link">
+      <a href="../08_Callables/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -549,7 +492,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../10_Structural_Typing/" class="md-nav__link">
+      <a href="../09_Structural_Typing/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -570,28 +513,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../11_Specialized_Tools/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Specialized Tools
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../12_Make_Illegal_Types_Unrepresentable/" class="md-nav__link">
+      <a href="../10_Make_Illegal_Types_Unrepresentable/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -612,7 +534,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../13_Errors_As_Values/" class="md-nav__link">
+      <a href="../11_Errors_as_Values/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -633,7 +555,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../14_Pattern_Matching/" class="md-nav__link">
+      <a href="../12_Pattern_Matching/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -654,7 +576,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../15_Advanced_Concepts/" class="md-nav__link">
+      <a href="../13_Advanced_Concepts/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -675,7 +597,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../16_Async/" class="md-nav__link">
+      <a href="../14_Async/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -696,7 +618,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../17_Interoperability_and_Typing_Stubs/" class="md-nav__link">
+      <a href="../15_Interoperability_and_Typing_Stubs/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -717,7 +639,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../18_Best_Practices/" class="md-nav__link">
+      <a href="../16_Best_Practices/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -863,46 +785,28 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#annotating-lists-tuples-sets-dictionaries" class="md-nav__link">
+  <a href="#defining-custom-generics-with-typevar-and-generic" class="md-nav__link">
     <span class="md-ellipsis">
-      Annotating Lists, Tuples, Sets, Dictionaries
+      Defining Custom Generics with TypeVar and Generic
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Annotating Lists, Tuples, Sets, Dictionaries">
+    <nav class="md-nav" aria-label="Defining Custom Generics with TypeVar and Generic">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#lists" class="md-nav__link">
+  <a href="#using-typevar" class="md-nav__link">
     <span class="md-ellipsis">
-      Lists
+      Using TypeVar
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#tuples" class="md-nav__link">
+  <a href="#generic-classes" class="md-nav__link">
     <span class="md-ellipsis">
-      Tuples
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#sets" class="md-nav__link">
-    <span class="md-ellipsis">
-      Sets
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#dictionaries" class="md-nav__link">
-    <span class="md-ellipsis">
-      Dictionaries
+      Generic Classes
     </span>
   </a>
   
@@ -914,46 +818,28 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#annotations-without-imports" class="md-nav__link">
+  <a href="#using-constraints-and-bounds-with-generics" class="md-nav__link">
     <span class="md-ellipsis">
-      Annotations without Imports
+      Using Constraints and Bounds with Generics
     </span>
   </a>
   
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#specialized-annotations-sequence-mapping-iterable-iterator" class="md-nav__link">
-    <span class="md-ellipsis">
-      Specialized Annotations (Sequence, Mapping, Iterable, Iterator)
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Specialized Annotations (Sequence, Mapping, Iterable, Iterator)">
+    <nav class="md-nav" aria-label="Using Constraints and Bounds with Generics">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#sequence" class="md-nav__link">
+  <a href="#constraints" class="md-nav__link">
     <span class="md-ellipsis">
-      Sequence
+      Constraints
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#mapping" class="md-nav__link">
+  <a href="#bounds" class="md-nav__link">
     <span class="md-ellipsis">
-      Mapping
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#iterable-and-iterator" class="md-nav__link">
-    <span class="md-ellipsis">
-      Iterable and Iterator
+      Bounds
     </span>
   </a>
   
@@ -983,88 +869,90 @@
   
 
 
-<h1 id="collections">Collections<a class="headerlink" href="#collections" title="Permanent link">#</a></h1>
+<h1 id="generics">Generics<a class="headerlink" href="#generics" title="Permanent link">#</a></h1>
 <blockquote>
 <p>This placeholder text was generated by ChatGPT 4.5.
 It will be significantly rewritten as the book is developed.
 In the meantime you can add comments to either <a href="https://bsky.app/bruceeckel">https://bsky.app/bruceeckel</a> or <a href="https://github.com/ThinkingInTypes/ThinkingInTypes.github.io/issues">Github Issues</a>.</p>
 </blockquote>
-<h2 id="annotating-lists-tuples-sets-dictionaries">Annotating Lists, Tuples, Sets, Dictionaries<a class="headerlink" href="#annotating-lists-tuples-sets-dictionaries" title="Permanent link">#</a></h2>
-<p>Python provides built-in collection types such as lists, tuples, sets, and dictionaries. Annotating these clearly specifies their expected contents:</p>
-<h3 id="lists">Lists<a class="headerlink" href="#lists" title="Permanent link">#</a></h3>
+<h2 id="defining-custom-generics-with-typevar-and-generic">Defining Custom Generics with <code>TypeVar</code> and <code>Generic</code><a class="headerlink" href="#defining-custom-generics-with-typevar-and-generic" title="Permanent link">#</a></h2>
+<p>Custom generics allow functions and classes to handle various types flexibly:</p>
+<h3 id="using-typevar">Using <code>TypeVar</code><a class="headerlink" href="#using-typevar" title="Permanent link">#</a></h3>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1"># example_1.py</span>
-</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">TypeVar</span><span class="p">,</span> <span class="n">List</span>
 </span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>
-</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="n">scores</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="mi">95</span><span class="p">,</span> <span class="mi">85</span><span class="p">,</span> <span class="mi">75</span><span class="p">]</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="n">T</span> <span class="o">=</span> <span class="n">TypeVar</span><span class="p">(</span><span class="s2">&quot;T&quot;</span><span class="p">)</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="k">def</span> <span class="nf">first_item</span><span class="p">(</span><span class="n">items</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">T</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="p">:</span>
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>    <span class="k">return</span> <span class="n">items</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>
+</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>
+</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="nb">print</span><span class="p">(</span><span class="n">first_item</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]))</span>  <span class="c1"># returns int</span>
+</span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a><span class="c1">## 1</span>
+</span><span id="__span-0-13"><a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a><span class="nb">print</span><span class="p">(</span><span class="n">first_item</span><span class="p">([</span><span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">]))</span>  <span class="c1"># returns str</span>
+</span><span id="__span-0-14"><a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a><span class="c1">## a</span>
 </span></code></pre></div>
-<h3 id="tuples">Tuples<a class="headerlink" href="#tuples" title="Permanent link">#</a></h3>
+<h3 id="generic-classes">Generic Classes<a class="headerlink" href="#generic-classes" title="Permanent link">#</a></h3>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="c1"># example_2.py</span>
-</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Tuple</span>
-</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>
-</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="n">coordinates</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mf">23.5</span><span class="p">,</span> <span class="mf">45.8</span><span class="p">)</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span>
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Generic</span><span class="p">,</span> <span class="n">TypeVar</span>
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="n">T</span> <span class="o">=</span> <span class="n">TypeVar</span><span class="p">(</span><span class="s2">&quot;T&quot;</span><span class="p">)</span>  <span class="c1"># Declare a type variable</span>
+</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>
+</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>
+</span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="nd">@dataclass</span>
+</span><span id="__span-1-9"><a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="k">class</span> <span class="nc">Box</span><span class="p">(</span><span class="n">Generic</span><span class="p">[</span><span class="n">T</span><span class="p">]):</span>
+</span><span id="__span-1-10"><a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a>    <span class="n">content</span><span class="p">:</span> <span class="n">T</span>
+</span><span id="__span-1-11"><a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a>
+</span><span id="__span-1-12"><a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a>
+</span><span id="__span-1-13"><a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a><span class="n">box_int</span> <span class="o">=</span> <span class="n">Box</span><span class="p">(</span><span class="mi">123</span><span class="p">)</span>  <span class="c1"># Box[int]</span>
+</span><span id="__span-1-14"><a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a><span class="n">box_str</span> <span class="o">=</span> <span class="n">Box</span><span class="p">(</span><span class="s2">&quot;hello&quot;</span><span class="p">)</span>  <span class="c1"># Box[str]</span>
 </span></code></pre></div>
-<h3 id="sets">Sets<a class="headerlink" href="#sets" title="Permanent link">#</a></h3>
+<p>Custom generics enhance code reusability and type safety.</p>
+<h2 id="using-constraints-and-bounds-with-generics">Using Constraints and Bounds with Generics<a class="headerlink" href="#using-constraints-and-bounds-with-generics" title="Permanent link">#</a></h2>
+<p>Generics can include constraints and bounds to restrict allowed types:</p>
+<h3 id="constraints">Constraints<a class="headerlink" href="#constraints" title="Permanent link">#</a></h3>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1"># example_3.py</span>
-</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Set</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">TypeVar</span>
 </span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>
-</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="n">unique_ids</span><span class="p">:</span> <span class="n">Set</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;abc&quot;</span><span class="p">,</span> <span class="s2">&quot;xyz&quot;</span><span class="p">,</span> <span class="s2">&quot;123&quot;</span><span class="p">}</span>
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="n">U</span> <span class="o">=</span> <span class="n">TypeVar</span><span class="p">(</span><span class="s2">&quot;U&quot;</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">)</span>
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>
+</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>
+</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="k">def</span> <span class="nf">add</span><span class="p">(</span><span class="n">a</span><span class="p">:</span> <span class="n">U</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="n">U</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">U</span><span class="p">:</span>
+</span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>    <span class="k">return</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span>
+</span><span id="__span-2-9"><a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a>
+</span><span id="__span-2-10"><a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a>
+</span><span id="__span-2-11"><a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a><span class="n">add</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>  <span class="c1"># valid</span>
+</span><span id="__span-2-12"><a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a><span class="n">add</span><span class="p">(</span><span class="mf">1.5</span><span class="p">,</span> <span class="mf">2.5</span><span class="p">)</span>  <span class="c1"># valid</span>
+</span><span id="__span-2-13"><a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a><span class="c1"># add(&quot;a&quot;, &quot;b&quot;)  # invalid, detected by type checker</span>
 </span></code></pre></div>
-<h3 id="dictionaries">Dictionaries<a class="headerlink" href="#dictionaries" title="Permanent link">#</a></h3>
+<h3 id="bounds">Bounds<a class="headerlink" href="#bounds" title="Permanent link">#</a></h3>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="c1"># example_4.py</span>
-</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Dict</span>
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">TypeVar</span>
 </span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>
-</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="n">user_data</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;Alice&quot;</span><span class="p">:</span> <span class="mi">30</span><span class="p">,</span> <span class="s2">&quot;Bob&quot;</span><span class="p">:</span> <span class="mi">25</span><span class="p">}</span>
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>
+</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="k">class</span> <span class="nc">Animal</span><span class="p">:</span>
+</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>    <span class="k">def</span> <span class="nf">speak</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+</span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a>        <span class="k">return</span> <span class="s2">&quot;...&quot;</span>
+</span><span id="__span-3-8"><a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a>
+</span><span id="__span-3-9"><a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a>
+</span><span id="__span-3-10"><a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a><span class="n">A</span> <span class="o">=</span> <span class="n">TypeVar</span><span class="p">(</span><span class="s2">&quot;A&quot;</span><span class="p">,</span> <span class="n">bound</span><span class="o">=</span><span class="n">Animal</span><span class="p">)</span>
+</span><span id="__span-3-11"><a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a>
+</span><span id="__span-3-12"><a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a>
+</span><span id="__span-3-13"><a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a><span class="k">def</span> <span class="nf">animal_sound</span><span class="p">(</span><span class="n">animal</span><span class="p">:</span> <span class="n">A</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+</span><span id="__span-3-14"><a id="__codelineno-3-14" name="__codelineno-3-14" href="#__codelineno-3-14"></a>    <span class="k">return</span> <span class="n">animal</span><span class="o">.</span><span class="n">speak</span><span class="p">()</span>
+</span><span id="__span-3-15"><a id="__codelineno-3-15" name="__codelineno-3-15" href="#__codelineno-3-15"></a>
+</span><span id="__span-3-16"><a id="__codelineno-3-16" name="__codelineno-3-16" href="#__codelineno-3-16"></a>
+</span><span id="__span-3-17"><a id="__codelineno-3-17" name="__codelineno-3-17" href="#__codelineno-3-17"></a><span class="k">class</span> <span class="nc">Dog</span><span class="p">(</span><span class="n">Animal</span><span class="p">):</span>
+</span><span id="__span-3-18"><a id="__codelineno-3-18" name="__codelineno-3-18" href="#__codelineno-3-18"></a>    <span class="k">def</span> <span class="nf">speak</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+</span><span id="__span-3-19"><a id="__codelineno-3-19" name="__codelineno-3-19" href="#__codelineno-3-19"></a>        <span class="k">return</span> <span class="s2">&quot;Woof!&quot;</span>
+</span><span id="__span-3-20"><a id="__codelineno-3-20" name="__codelineno-3-20" href="#__codelineno-3-20"></a>
+</span><span id="__span-3-21"><a id="__codelineno-3-21" name="__codelineno-3-21" href="#__codelineno-3-21"></a>
+</span><span id="__span-3-22"><a id="__codelineno-3-22" name="__codelineno-3-22" href="#__codelineno-3-22"></a><span class="nb">print</span><span class="p">(</span><span class="n">animal_sound</span><span class="p">(</span><span class="n">Dog</span><span class="p">()))</span>  <span class="c1"># &quot;Woof!&quot;</span>
+</span><span id="__span-3-23"><a id="__codelineno-3-23" name="__codelineno-3-23" href="#__codelineno-3-23"></a><span class="c1">## Woof!</span>
 </span></code></pre></div>
-<p>These annotations enhance readability and help catch type-related errors early.</p>
-<h2 id="annotations-without-imports">Annotations without Imports<a class="headerlink" href="#annotations-without-imports" title="Permanent link">#</a></h2>
-<p>Starting from Python 3.9, built-in collection types support direct annotations without importing from <code>typing</code>:</p>
-<div class="language-python highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="c1"># example_5.py</span>
-</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="n">scores</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="mi">95</span><span class="p">,</span> <span class="mi">85</span><span class="p">,</span> <span class="mi">75</span><span class="p">]</span>
-</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="n">user_data</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;Alice&quot;</span><span class="p">:</span> <span class="mf">95.5</span><span class="p">,</span> <span class="s2">&quot;Bob&quot;</span><span class="p">:</span> <span class="mf">85.3</span><span class="p">}</span>
-</span></code></pre></div>
-<p>This simplified syntax enhances readability and reduces verbosity.</p>
-<h2 id="specialized-annotations-sequence-mapping-iterable-iterator">Specialized Annotations (<code>Sequence</code>, <code>Mapping</code>, <code>Iterable</code>, <code>Iterator</code>)<a class="headerlink" href="#specialized-annotations-sequence-mapping-iterable-iterator" title="Permanent link">#</a></h2>
-<p>Python provides specialized annotations for greater flexibility:</p>
-<h3 id="sequence"><code>Sequence</code><a class="headerlink" href="#sequence" title="Permanent link">#</a></h3>
-<ul>
-<li>For any ordered collection supporting indexing:</li>
-</ul>
-<div class="language-python highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="c1"># example_6.py</span>
-</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Sequence</span>
-</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>
-</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>
-</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="k">def</span> <span class="nf">average</span><span class="p">(</span><span class="n">numbers</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">float</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-</span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>    <span class="k">return</span> <span class="nb">sum</span><span class="p">(</span><span class="n">numbers</span><span class="p">)</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">numbers</span><span class="p">)</span>
-</span></code></pre></div>
-<h3 id="mapping"><code>Mapping</code><a class="headerlink" href="#mapping" title="Permanent link">#</a></h3>
-<ul>
-<li>For dictionary-like objects:</li>
-</ul>
-<div class="language-python highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="c1"># example_7.py</span>
-</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Mapping</span>
-</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>
-</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>
-</span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="k">def</span> <span class="nf">get_user_age</span><span class="p">(</span><span class="n">users</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">],</span> <span class="n">username</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-</span><span id="__span-6-6"><a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a>    <span class="k">return</span> <span class="n">users</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">username</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
-</span></code></pre></div>
-<h3 id="iterable-and-iterator"><code>Iterable</code> and <code>Iterator</code><a class="headerlink" href="#iterable-and-iterator" title="Permanent link">#</a></h3>
-<ul>
-<li>For looping over items:</li>
-</ul>
-<div class="language-python highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="c1"># example_8.py</span>
-</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">Iterator</span>
-</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>
-</span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a>
-</span><span id="__span-7-5"><a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a><span class="k">def</span> <span class="nf">print_items</span><span class="p">(</span><span class="n">items</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-</span><span id="__span-7-6"><a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a>    <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">items</span><span class="p">:</span>
-</span><span id="__span-7-7"><a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a>        <span class="nb">print</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
-</span><span id="__span-7-8"><a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a>
-</span><span id="__span-7-9"><a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a>
-</span><span id="__span-7-10"><a id="__codelineno-7-10" name="__codelineno-7-10" href="#__codelineno-7-10"></a><span class="k">def</span> <span class="nf">generate_numbers</span><span class="p">(</span><span class="n">n</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="nb">int</span><span class="p">]:</span>
-</span><span id="__span-7-11"><a id="__codelineno-7-11" name="__codelineno-7-11" href="#__codelineno-7-11"></a>    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
-</span><span id="__span-7-12"><a id="__codelineno-7-12" name="__codelineno-7-12" href="#__codelineno-7-12"></a>        <span class="k">yield</span> <span class="n">i</span>
-</span></code></pre></div>
-<p>Specialized annotations enable broader compatibility with various collection types.</p>
+<p>Constraints and bounds improve specificity in generic type annotations, enhancing code clarity and correctness.</p>
 
 
 
