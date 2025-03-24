@@ -70,11 +70,11 @@ Although the first OO language was Simula-67 (a compiled language), OO found its
 But Smalltalk might be the most dynamic language you’ll ever encounter—literally everything is evaluated at runtime.
 While this worked well for the kinds of problems Smalltalk was good at solving, it turned out that taking the ideas of Smalltalk and imprinting them into a statically-typed language lost a *lot* in translation.
 
-# Error Handling
+## Error Handling
 
 Error reporting and handling has been a significant impediment to composability.
 
-## History
+### History
 
 Original programs were small (by present-day standards), written in assembly language (machine code quickly became too unwieldy), and tightly coupled to the underlying hardware.
 If something went wrong, the only way to report it was to change the output on a wire, to turn on a light or a buzzer.
@@ -124,7 +124,7 @@ You could imagine calling the OS to install custom error-handling routines, and 
 
 If errors are in the language domain, the next question is how to report and handle them.
 
-# Exceptions
+## Exceptions
 
 Unifying error reporting and recovery
 
@@ -228,7 +228,7 @@ This:
 1. Is computationally wasteful, especially with large calculations.
 2. Makes debugging harder. It would be quite valuable to see in `result` the parts that succeeded and those that failed.
 
-# The Functional Solution
+## The Functional Solution
 
 Instead of creating a complex implementation to report and handle errors, the functional approach creates a “return package” containing the answer along with the (potential) error information.
 Instead of only returning the answer, we return this package from the function.
@@ -543,7 +543,7 @@ The value `0` causes `func_b` to produce a `ZeroDivisionError` when it tries to 
 Note that there may be an issue with the `Returns` library, which is that for proper type checking it requires using a MyPy extension.
 So far I have been unable to get that extension to work (however, I have no experience with MyPy extensions).
 
-# Functional Error Handling is Happening
+## Functional Error Handling is Happening
 
 Functional error handling has already appeared in languages like Rust, Kotlin, and recent versions of C++ support these combined answer-error result types, with associated unpacking operations.
 In these languages, errors become part of the type system and it is far more difficult for an error to “slip through the cracks.”
