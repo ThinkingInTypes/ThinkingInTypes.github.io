@@ -1,5 +1,7 @@
 # Glossary
 
+[[Add links to introductions in book]]
+
 | Term                 | Definition                                                                 |
 |----------------------|----------------------------------------------------------------------------|
 | **Annotation**       | Explicit type declaration for variables, functions, or classes.            |

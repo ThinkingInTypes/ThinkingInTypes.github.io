@@ -4,7 +4,7 @@
 |-----------------------------------|-------------------------------------|------------------------------------------|
 | `int`, `str`, `float`, `bool`     | Basic built-in types                | `age: int = 25`                          |
 | `List[T]`, `list[T]`              | List containing items of type `T`   | `scores: list[int]`                      |
-| `Tuple[T, ...]`                   | Tuple with specified item types     | `coords: tuple[float, float]`            |
+| `Tuple[T, ...]`, `tuple[T, ...]`  | Tuple with specified item types     | `coords: tuple[float, float]`            |
 | `Dict[K, V]`, `dict[K, V]`        | Dictionary with keys `K`, values `V`| `user_data: dict[str, int]`              |
 | `Set[T]`, `set[T]`                | Set containing items of type `T`    | `tags: set[str]`                         |
 | `Optional[T]`                     | Type `T` or `None`                  | `name: Optional[str]`                    |
