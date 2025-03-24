@@ -49,7 +49,7 @@ Eiffel provided explicit keywords to make DbC a first-class citizen in the langu
 
 The idea was that each function you wrote would use these to ensure the correctness of the inputs and outputs of that function.
 In particular, `require` typically checks the argument values for correctness.
-We can create a `requires` decorator to check argument values, producing this effect for Python:
+For preconditions in Python, we can create a `requires` decorator to check argument values:
 
 ```python
 # require.py

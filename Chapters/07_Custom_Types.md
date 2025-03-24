@@ -1,8 +1,15 @@
-# Dataclasses
+# Custom Types
 
-<https://github.com/BruceEckel/DataClassesAsTypes>
+- Add variations: NamedTuple, Enum
+- Incorporate examples from <https://github.com/BruceEckel/DataClassesAsTypes>
 
 This chapter began as a presentation at a Python conference, inspired by conversations with fellow programmers exploring functional programming techniques. Specifically, the idea arose from a podcast discussion about Scala's smart types. After extensive study of functional programming, several concepts coalesced into an approach that leverages Python’s data classes effectively. This chapter aims to share those insights and illustrate the practical benefits of Python data classes, guiding you towards clearer, more reliable code.
+
+## Misunderstanding Class Attributes
+
+This chapter contains additional tools that modify the normal behavior of class attributes.
+It's important to understand that this behavior is created by the tool, and that ordinary classes do not behave this way.
+Read the [Class Attributes] appendix for deeper understanding.
 
 ## The Initial Problem: Ensuring Correctness
 
@@ -149,6 +156,160 @@ class Month(Enum):
 ```
 
 Using enums makes code both readable and safely constrained, improving robustness. Enums clearly outperform data classes for fixed-value sets due to simplicity and compile-time definitions.
+
+## Specialized Tools
+
+### Typed NamedTuples
+
+A typed `NamedTuple` combines tuple immutability with type annotations and named fields:
+
+```python
+# named_tuple.py
+from typing import NamedTuple
+
+
+class Coordinates(NamedTuple):
+    latitude: float
+    longitude: float
+
+
+coords = Coordinates(51.5074, -0.1278)
+print(coords)
+print(coords.latitude)
+# coords.latitude = 123.4567 # Runtime error
+```
+
+`NamedTuple` provides clarity, immutability, and easy unpacking, ideal for simple structured data.
+For brevity and cleanliness, this book will used `NamedTuple`s instead of frozen `dataclass`es whenever possible.
+
+### Leveraging TypedDicts for Structured Data
+
+`TypedDict` is useful when defining dictionary structures with known keys and typed values:
+
+```python
+# typed_dict.py
+from typing import TypedDict
+
+
+class UserProfile(TypedDict):
+    username: str
+    email: str
+    age: int
+
+
+user: UserProfile = {"username": "alice", "email": "alice@example.com", "age": 30}
+```
+
+`TypedDict` clarifies expected keys and types, providing type safety for dictionary data.
+
+### Optional Fields in TypedDict
+
+You can specify optional fields using `NotRequired` (Python 3.11+) or `total=False`:
+
+```python
+# optional_typed_dict_fields.py
+from typing import TypedDict, NotRequired
+
+
+class UserSettings(TypedDict):
+    theme: str
+    notifications_enabled: NotRequired[bool]
+
+
+settings: UserSettings = {"theme": "dark"}
+```
+
+This flexibility allows clear definitions for complex, partially-optional data structures.
+
+### Patterns for Strongly-Typed Domain Models
+
+Strongly-typed domain models help clearly represent domain logic, improving robustness and maintainability:
+
+### Combining Dataclasses and Enums
+
+```python
+# dataclasses_and_enums.py
+from dataclasses import dataclass
+from enum import Enum
+
+
+class Status(Enum):
+    ACTIVE = "active"
+    INACTIVE = "inactive"
+
+
+@dataclass
+class User:
+    id: int
+    name: str
+    status: Status
+
+
+user = User(id=1, name="Alice", status=Status.ACTIVE)
+print(user)
+## User(id=1, name='Alice', status=<Status.ACTIVE:
+## 'active'>)
+```
+
+### Combining Dataclasses with Protocols
+
+```python
+# dataclasses_and_protocols.py
+from dataclasses import dataclass
+from typing import Protocol
+
+
+class Identifiable(Protocol):
+    id: int
+
+
+@dataclass
+class User:
+    id: int
+    name: str
+
+
+@dataclass
+class Product:
+    id: int
+    price: float
+
+
+def print_id(entity: Identifiable) -> None:
+    print(f"ID: {entity.id}")
+
+
+print_id(User(1, "Alice"))
+## ID: 1
+print_id(Product(101, 19.99))
+## ID: 101
+```
+
+### Domain-Driven Design (DDD)
+
+Define domain entities explicitly to enhance domain logic expressiveness:
+
+```python
+# ddd.py
+from dataclasses import dataclass
+from typing import List, NamedTuple
+
+
+class Product(NamedTuple):
+    name: str
+    price: float
+
+
+@dataclass
+class Order:
+    order_id: int
+    products: List[Product]
+
+    def total(self) -> float:
+        return sum(product.price for product in self.products)
+```
+
+Strongly-typed domain models help catch issues early, facilitating clearer, safer, and more maintainable codebases.
 
 ## Conclusion
 
