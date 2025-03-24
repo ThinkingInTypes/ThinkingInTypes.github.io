@@ -38,10 +38,11 @@ nav:
   - 11_Make_Illegal_Types_Unrepresentable.md
   - 12_Errors_as_Values.md
   - 13_Advanced_Concepts.md
-  - A1_Quick_Reference.md
-  - A2_Glossary.md
-  - A3_Guidelines.md
-  - A4_Type_Checkers.md
-  - A5_Automatic_Annotations.md
-  - A6_Class_Attributes.md
-  - A7_Book_Notes.md
+  - A1_Annotation_Reference.md
+  - A2_Annotation_Reference.md
+  - A3_Glossary.md
+  - A4_Guidelines.md
+  - A5_Type_Checkers.md
+  - A6_Automatic_Annotations.md
+  - A7_Class_Attributes.md
+  - A8_Book_Notes.md

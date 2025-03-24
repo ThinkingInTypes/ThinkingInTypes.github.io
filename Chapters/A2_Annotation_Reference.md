@@ -1,4 +1,4 @@
-# Quick Reference
+# Annotation Reference
 
 | Annotation                        | Description                         | Example                      |
 |-----------------------------------|-------------------------------------|------------------------------|
@@ -8,7 +8,7 @@
 | `Dict[K, V]`, `dict[K, V]`        | Dictionary with keys `K`, values `V`| `user_data: dict[str, int]`  |
 | `Set[T]`, `set[T]`                | Set containing items of type `T`    | `tags: set[str]`             |
 | `Optional[T]`                     | Type `T` or `None`                  | `name: Optional[str]`        |
-| `Union[T1, T2]` or `T1 | T2`      | Either type `T1` or `T2`            | `value: int | str`           |
+| `Union[T1, T2]` or `T1 \| T2`      | Either type `T1` or `T2`            | `value: int \| str`         |
 | `Callable[[Args], ReturnType]`    | Function types                      | `adder: Callable[[int, int], int]` |
 | `Literal["value"]`                | Specific literal values             | `mode: Literal["auto", "manual"]` |
 | `Annotated[T, metadata]`          | Type `T` with additional metadata   | `UserID = Annotated[int, "primary key"]` |

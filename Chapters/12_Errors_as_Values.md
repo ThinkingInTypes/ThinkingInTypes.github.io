@@ -2,13 +2,14 @@
 
 > *Most of what we've been working towards in programming—whether we are aware of it or not—is composability.*
 
-Discovering the meaning of composability is part of this path—there are different definitions depending on the programming language paradigm under scrutiny.
+Discovering the meaning of composability is part of this path--there are different definitions depending on the programming language paradigm under scrutiny.
 Here’s my definition:
 
 > The ability to assemble bigger pieces from smaller pieces.
 
-This is less-precise than some definitions.
-For example, composition in object-oriented programming means “putting objects inside other objects.” When dealing with functions, composability means “calling functions within other functions.” Both definitions fit my overall definition; they achieve the same goal but in different specific ways.
+This is less precise than some definitions.
+For example, composition in object-oriented programming means "putting objects inside other objects."
+When dealing with functions, composability means "calling functions within other functions." Both definitions fit my overall definition; they achieve the same goal but in different specific ways.
 
 To enable the easy construction of programs, we need to be able to effortlessly assemble components in the same way that a child assembles Legos—by simply sticking them together, without requiring extra activities.
 On top of that, such assemblages become their own components that can be stuck together just as easily.
@@ -114,7 +115,7 @@ A fundamental question that designers were trying to understand during this evol
 > *Who is responsible for error handling, the OS or the language?*
 
 Since every program has the potential for errors, it initially seemed obvious that this activity should be the domain of the operating system.
-Some early operating systems allowed the program to invoke an error which would then jump to the operating system, and a few OSes even experimented with the ability to “resume” back to the point where the error occurred, so the handler could fix the problem and continue processing.
+Some early operating systems allowed the program to invoke an error which would then jump to the operating system, and a few OSes even experimented with the ability to "resume" back to the point where the error occurred, so the handler could fix the problem and continue processing.
 Notably, these systems did not find success and resumption was removed.
 
 Further experiments eventually made it clear that the language needed primary responsibility for error reporting and handling (there are a few special cases, such as out-of-memory errors, which must still be handled by the OS).
@@ -131,7 +132,7 @@ Unifying error reporting and recovery
 There were different language implementations of exceptions:
 
 - Lisp (was this the origin of language-based exceptions?). Possibly ironic as Lisp is the first functional language.
-- BASIC had “On Error Go To” (and “resume”?)
+- BASIC had "On Error Go To" (and "resume"?)
 - Pascal
 - C++
 - Java created checked exceptions, which must be explicitly dealt with in your code, and runtime exceptions, which could be ignored.
@@ -179,11 +180,11 @@ This obscures important details; if the exception specification just uses a base
 When errors are included in the type system, you can know all the errors that can occur just by looking at the type information.
 If a library component adds a new error then that must be reflected in that component’s type signature, which means that the code using it immediately knows that it is no longer covering all the error conditions, and will produce type errors until it is fixed.
 
-### 3. Exception Specifications Create a “Shadow Type System”
+### 3. Exception Specifications Create a "Shadow Type System"
 
 Languages like C++ and Java attempted to add notation indicating the exceptions that might emerge from a function call.
 This was well-intentioned and seems to produce the necessary information the client programmer needs to handle errors.
-The fundamental problem was that this created an alternate or “shadow” type system that doesn’t follow the same rules as the primary type system.
+The fundamental problem was that this created an alternate or "shadow" type system that doesn’t follow the same rules as the primary type system.
 To make the shadow type system work, its rules were warped to the point where it became effectively useless (a discovery that has taken years to realize).
 
 C++ exception specifications were originally optional and not statically type-checked.
@@ -230,7 +231,7 @@ This:
 
 ## The Functional Solution
 
-Instead of creating a complex implementation to report and handle errors, the functional approach creates a “return package” containing the answer along with the (potential) error information.
+Instead of creating a complex implementation to report and handle errors, the functional approach creates a "return package" containing the answer along with the (potential) error information.
 Instead of only returning the answer, we return this package from the function.
 
 This package is a new type, with operations that prevent the programmer from simply plucking the result from the package without dealing with error conditions (a failing of the Go language approach).
@@ -264,7 +265,7 @@ In the pattern match, we are forced to check the result type to determine whethe
 
 An important problem with this approach is that it is not clear which type is the success value and which type represents the error condition—because we are trying to repurpose existing built-in types to represent new meanings.
 
-In hindsight, it might seem like this “return package” approach is much more obvious than the elaborate exception-handling scheme that was adopted for C++, Java and other languages, but at the time the apparent overhead of returning extra bytes seemed unacceptable (I don’t know of any comparisons between that and the overhead of exception-handling mechanisms, but I do know that the goal of C++ exception handling is to have zero execution overhead if no exceptions occur).
+In hindsight, it might seem like this "return package" approach is much more obvious than the elaborate exception-handling scheme that was adopted for C++, Java and other languages, but at the time the apparent overhead of returning extra bytes seemed unacceptable (I don’t know of any comparisons between that and the overhead of exception-handling mechanisms, but I do know that the goal of C++ exception handling is to have zero execution overhead if no exceptions occur).
 
 Note that in the definition of `composed`, the type checker requires that you return `int | str` because `func_a` returns those types.
 Thus, when composing, type-safety is preserved.
@@ -273,7 +274,7 @@ This means you won’t lose error type information during composition, so compos
 ## Creating a New Return Type
 
 We now have the unfortunate situation that `outputs` contains multiple types: both `int` and `str`.
-The solution is to create a new type that unifies the “answer” and “error” types.
+The solution is to create a new type that unifies the "answer" and "error" types.
 We’ll call this `Result` and define it using generics to make it universally applicable:
 
 ```python
@@ -407,7 +408,7 @@ If so, the calculation has failed and we can’t continue, so we return the curr
 If it succeeds, it is a `Success` which contains an `unwrap` method that is used to extract the answer from that calculation—if you look back at `Result`, you’ll see that it returns the `ANSWER` type so its use can be properly type-checked.
 
 This means that any failure during a sequence of composed function calls will short-circuit out of `composed`, returning a `Failure` that tells you exactly what happened, and that you must decide what to do with.
-You can’t just ignore it and assume that it will “bubble up” until it finds an appropriate handler.
+You can’t just ignore it and assume that it will "bubble up" until it finds an appropriate handler.
 You are forced to deal with it at the point of origin, which is typically when you know the most about an error.
 
 ## Simplifying Composition with `bind`
@@ -479,7 +480,7 @@ In `composed`, we call `func_a(i)` which returns a `Result`.
 The `bind` method is called on that `Result`, passing it the next function we want to call (`func_b`) as an argument.
 The return value of `bind` is *also* a `Result`, so we can call `bind` again upon that `Result`, passing it the third function we want to call (`func_c`), and so on.
 
-At each “chaining point” in `func_a(i).bind(func_b).bind(func_c).bind(func_d)`, `bind` checks the `Result` type to see if it `Success`.
+At each "chaining point" in `func_a(i).bind(func_b).bind(func_c).bind(func_d)`, `bind` checks the `Result` type to see if it `Success`.
 If so, it passes the result `answer` from that call as the argument to the next function in the chain.
 If not, that means `self` is a `Failure` object (containing specific error information), so all it needs to do is `return self`.
 The next call in the chain sees that the returned type is `Failure`, so it doesn’t try to apply the next function but just (again) returns the `Failure`.
@@ -492,7 +493,7 @@ However, others have worked on this problem so it makes more sense to reuse thei
 The most popular Python library that includes this extra functionality is [Returns](https://github.com/dry-python/returns).
 `Returns` includes other features, but we will only focus on  `Result`.
 
-What if you need to create a `composed` function that takes multiple arguments? For this, we use something called “do notation,” which you access using `Result.do`:
+What if you need to create a `composed` function that takes multiple arguments? For this, we use something called "do notation," which you access using `Result.do`:
 
 ```python
 # multiple_arguments.py
@@ -525,7 +526,7 @@ inputs = [(1, 5), (7, 2), (2, 1), (7, 5)]
 pprint([(args, composed(*args)) for args in inputs])
 ```
 
-`Returns` provides a `@safe` decorator that you see applied to the “plain” function `func_b`.
+`Returns` provides a `@safe` decorator that you see applied to the "plain" function `func_b`.
 This changes the normal `int` return type into a `Result` that includes `int` for the `Success` type but is also somehow able to recognize that the division might produce a `ZeroDivisionError` and include that in the `Failure` type.
 In addition, `@safe` is apparently catching the exception and converting it to the `ZeroDivisionError` returned as the information object in the `Failure` object.
 `@safe` is a helpful tool when converting exception-throwing code into error-returning code.
@@ -546,7 +547,7 @@ So far I have been unable to get that extension to work (however, I have no expe
 ## Functional Error Handling is Happening
 
 Functional error handling has already appeared in languages like Rust, Kotlin, and recent versions of C++ support these combined answer-error result types, with associated unpacking operations.
-In these languages, errors become part of the type system and it is far more difficult for an error to “slip through the cracks.”
+In these languages, errors become part of the type system and it is far more difficult for an error to "slip through the cracks."
 
 Python has only been able to support functional error handling since the advent of typing and type checkers, and it doesn’t provide any direct language or library constructs for this.
 The benefits of better error handling and robust composability make it worth adopting a library like `Results`.
