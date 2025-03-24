@@ -290,6 +290,40 @@ As long as both implement the protocol, code using the protocol can accept eithe
 This was illustrated by defining an `AddServiceProtocol` for an addition service and creating both a normal implementation and a logging decorator implementation that forwards calls ([Protocols and Composition in Python - DEV Community](https://dev.to/fwojciec/protocols-and-composition-in-python-8mm#:~:text=A%20protocol%20is%20Python%27s%20take,augmented%20with%20static%20verification%20tooling)).
 The key takeaway is that structural typing focuses on the **behavior**, so even objects that don’t share a lineage can work together if they fulfill the same behavioral contract.
 
+## Combining Dataclasses with Protocols
+
+```python
+# dataclasses_and_protocols.py
+from dataclasses import dataclass
+from typing import Protocol
+
+
+class Identifiable(Protocol):
+    id: int
+
+
+@dataclass
+class User:
+    id: int
+    name: str
+
+
+@dataclass
+class Product:
+    id: int
+    price: float
+
+
+def print_id(entity: Identifiable) -> None:
+    print(f"ID: {entity.id}")
+
+
+print_id(User(1, "Alice"))
+## ID: 1
+print_id(Product(101, 19.99))
+## ID: 101
+```
+
 ## Combining Protocols with Generics  
 
 Just like classes and functions can be generic (using `TypeVar` to operate over a range of types), protocol classes can be generic as well.
