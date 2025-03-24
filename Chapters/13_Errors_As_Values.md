@@ -322,6 +322,7 @@ from pprint import pprint
 
 from returns.result import Failure, Result, Success
 
+
 def func_a(i: int) -> Result[int, str]:
     if i == 1:
         return Failure(f"func_a({i})")
@@ -349,7 +350,6 @@ from pprint import pprint
 
 from return_result import func_a
 from returns.result import Failure, Result, Success, safe
-
 
 
 # Use an exception as info (but don't raise it):
@@ -456,7 +456,7 @@ class Failure(Result[ANSWER, ERROR]):
 # composing_with_bind.py
 from pprint import pprint
 
-from example4 import func_a, func_b, func_c, func_d
+from composing_functions import func_a, func_b, func_c, func_d
 from returns.result import Result
 
 
@@ -498,8 +498,9 @@ What if you need to create a `composed` function that takes multiple arguments? 
 # multiple_arguments.py
 from pprint import pprint
 
-from example4 import func_a, func_b, func_c
+from composing_functions import func_a, func_b, func_c
 from returns.result import Result
+
 
 def add(first: int, second: int, third: int) -> str:
     return (
