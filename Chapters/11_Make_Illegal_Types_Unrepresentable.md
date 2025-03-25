@@ -142,11 +142,14 @@ DbC definitely helps, but it has limitations:
 ## Centralizing Validation into Custom Types
 
 Instead of DbC, we can encode our validations into custom types.
-This way, incorrect objects of those types cannot successfully be created:
+This way, incorrect objects of those types cannot successfully be created.
+In addition, the types are usually *domain driven*, that is, they represent a concept from the problem domain.
+
+For the bank example, we start by creating an `Amount`, which is a `Decimal` value with the fundamental property that it cannot be negative.
+If an `Amount` object exists, you already know that it doesn't contain a negative value:
 
 ```python
-# typed_bank_account.py
-from typing import NamedTuple
+# amount.py
 from dataclasses import dataclass
 from decimal import Decimal
 
@@ -166,6 +169,18 @@ class Amount:
 
     def __sub__(self, other: "Amount") -> "Amount":
         return Amount(self.value - other.value)
+```
+
+An `Amount` converts multiple forms of input into a `Decimal`, guaranteeing that it is non-negative.
+Note that `__add__` and `__sub__` simply return new `Amount` objects without worrying whether they are non-negative--the constructor takes care of that.
+
+`Amount` is a `frozen` `dataclass` because it includes a constructor that modifies the object using `object.__setattr__`, but other than that we want it safely immutable.
+`Balance` contains an `Amount`, but it doesn't need any fancy construction behavior so we can produce an immutable using `NamedTuple`:
+
+```python
+# balance.py
+from typing import NamedTuple
+from amount import Amount
 
 
 class Balance(NamedTuple):
@@ -176,6 +191,19 @@ class Balance(NamedTuple):
 
     def withdraw(self, withdrawal_amount: Amount) -> "Balance":
         return Balance(self.amount - withdrawal_amount)
+```
+
+`Balance` produces new immutable objects when you `deposit` and `withdraw`.
+Because it is using `Amount`, it needs no special validation checks.
+
+In the new, improved `BankAccount`, the need for validation disappears because it is automatically enforced by the types:
+
+```python
+# typed_bank_account.py
+from dataclasses import dataclass
+
+from amount import Amount
+from balance import Balance
 
 
 @dataclass
@@ -210,7 +238,11 @@ except ValueError as e:
 ## Error: Amount cannot be negative, got -10
 ```
 
+The code is significantly more straightforward to understand and change.
 If we need to change the underlying representation of `Amount` we only do it in one place.
 Suppose, for example, we discover Python's implementation of `Decimal` is too slow.
 We can modify `Amount` to use, for example, a Rust implementation of decimal numbers.
 We *only* need to change the code for `Amount` because the rest of the code simply uses `Amount`.
+
+Possibly best of all, any new code we write using our types transparently uses all the type validations built into those types.
+If we add more validations, they automatically propagate to each site where those types are used.
