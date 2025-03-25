@@ -68,10 +68,7 @@ def requires(*conditions: Condition):
         def wrapper(*args, **kwargs):
             for condition in conditions:
                 if not condition.check(*args, **kwargs):
-                    # Do something like this:
-                    # raise ValueError(condition.message)
-                    # We'll just:
-                    print(condition.message)
+                    raise ValueError(condition.message)
             return func(*args, **kwargs)
         return wrapper
     return decorator
@@ -81,10 +78,12 @@ Now we can apply `require` to validate function arguments:
 
 ```python
 # bank_account.py
+from dataclasses import dataclass
+from decimal import Decimal
 from require import requires, Condition
 
 POSITIVE_AMOUNT = Condition(
-    check=lambda self, amount: amount > 0,
+    check=lambda self, amount: amount > Decimal("0"),
     message="Amount must be positive"
 )
 
@@ -93,25 +92,34 @@ SUFFICIENT_BALANCE = Condition(
     message="Insufficient balance"
 )
 
+@dataclass
 class BankAccount:
-    def __init__(self, balance: float):
-        self.balance = balance
+    balance: Decimal
 
     @requires(POSITIVE_AMOUNT, SUFFICIENT_BALANCE)
-    def withdraw(self, amount: float) -> None:
+    def withdraw(self, amount: Decimal) -> None:
         self.balance -= amount
         print(f"Withdrew {amount}, new balance: {self.balance}")
 
     @requires(POSITIVE_AMOUNT)
-    def deposit(self, amount: float) -> None:
+    def deposit(self, amount: Decimal) -> None:
         self.balance += amount
-        print(f"Deposited {amount}, new balance: {self.balance}") 
+        print(f"Deposited {amount}, new balance: {self.balance}")
 
-account = BankAccount(100)
-account.deposit(50)
-account.withdraw(30)
-account.withdraw(200)
-account.deposit(-10) 
+
+account = BankAccount(Decimal("100"))
+account.deposit(Decimal("50"))
+account.withdraw(Decimal("30"))
+
+try:
+    account.withdraw(Decimal("200"))
+except Exception as e:
+    print(f"Error: {e}")
+
+try:
+    account.deposit(Decimal("-10"))
+except Exception as e:
+    print(f"Error: {e}")
 ```
 
 This is an improvement over placing the testing code at the beginning of each function, as Eiffel does and as traditional Python functions do--assuming they test their arguments.
@@ -122,3 +130,70 @@ DbC definitely helps, but it has limitations:
 
 1. A programmer can forget to use `requires`, or simply choose to perform argument checks by hand if DbC doesn't make sense to them.
 1. The tests are spread throughout your system. Using `Condition` centralizes the test logic but making changes still risks missing updates on functions.
+
+## Centralizing Validation into Custom Types
+
+Instead of DbC, we can encode our validations into custom types.
+This way, incorrect objects of those types cannot successfully be created:
+
+```python
+# typed_bank_account.py
+from dataclasses import dataclass
+from decimal import Decimal
+
+
+@dataclass(frozen=True)
+class Amount:
+    value: Decimal
+
+    def __init__(self, value: int | float | str | Decimal) -> None:
+        decimal_value = Decimal(str(value))
+        if decimal_value < Decimal("0"):
+            raise ValueError(f"Amount cannot be negative, got {decimal_value}")
+        object.__setattr__(self, "value", decimal_value)
+
+    def __add__(self, other: "Amount") -> "Amount":
+        return Amount(self.value + other.value)
+
+    def __sub__(self, other: "Amount") -> "Amount":
+        return Amount(self.value - other.value)
+
+
+@dataclass(frozen=True)
+class Balance:
+    amount: Amount
+
+    def deposit(self, deposit_amount: Amount) -> "Balance":
+        return Balance(self.amount + deposit_amount)
+
+    def withdraw(self, withdrawal_amount: Amount) -> "Balance":
+        return Balance(self.amount - withdrawal_amount)
+
+
+@dataclass
+class BankAccount:
+    balance: Balance
+
+    def deposit(self, amount: Amount) -> None:
+        self.balance = self.balance.deposit(amount)
+        print(f"Deposited {amount.value}, balance: {self.balance.amount.value}")
+
+    def withdraw(self, amount: Amount) -> None:
+        self.balance = self.balance.withdraw(amount)
+        print(f"Withdrew {amount.value}, balance: {self.balance.amount.value}")
+
+
+account = BankAccount(Balance(Amount(100)))
+account.deposit(Amount(50))
+account.withdraw(Amount(30))
+
+try:
+    account.withdraw(Amount(200))  # Too much
+except ValueError as e:
+    print(f"Error: {e}")
+
+try:
+    account.deposit(Amount(-10))  # Invalid amount
+except ValueError as e:
+    print(f"Error: {e}")
+```
