@@ -246,3 +246,15 @@ We *only* need to change the code for `Amount` because the rest of the code simp
 
 Possibly best of all, any new code we write using our types transparently uses all the type validations built into those types.
 If we add more validations, they automatically propagate to each site where those types are used.
+
+```python
+# catcher.py
+from contextlib import contextmanager
+
+@contextmanager
+def catcher():
+    try:
+        yield
+    except Exception as e:
+        print(f"Error: {e}")
+```
