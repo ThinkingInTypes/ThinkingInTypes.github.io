@@ -109,17 +109,21 @@ class BankAccount:
 
 account = BankAccount(Decimal("100"))
 account.deposit(Decimal("50"))
+## Deposited 50, new balance: 150
 account.withdraw(Decimal("30"))
+## Withdrew 30, new balance: 120
 
 try:
     account.withdraw(Decimal("200"))
 except Exception as e:
     print(f"Error: {e}")
+## Error: Insufficient balance
 
 try:
     account.deposit(Decimal("-10"))
 except Exception as e:
     print(f"Error: {e}")
+## Error: Amount must be positive
 ```
 
 This is an improvement over placing the testing code at the beginning of each function, as Eiffel does and as traditional Python functions do--assuming they test their arguments.
@@ -185,15 +189,19 @@ class BankAccount:
 
 account = BankAccount(Balance(Amount(100)))
 account.deposit(Amount(50))
+## Deposited 50, balance: 150
 account.withdraw(Amount(30))
+## Withdrew 30, balance: 120
 
 try:
     account.withdraw(Amount(200))  # Too much
 except ValueError as e:
     print(f"Error: {e}")
+## Error: Amount cannot be negative, got -80
 
 try:
     account.deposit(Amount(-10))  # Invalid amount
 except ValueError as e:
     print(f"Error: {e}")
+## Error: Amount cannot be negative, got -10
 ```
