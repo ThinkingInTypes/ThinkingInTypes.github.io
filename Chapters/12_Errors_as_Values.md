@@ -365,9 +365,7 @@ def func_c(i: int) -> Result[int, ZeroDivisionError]:
     try:
         1 / (i - 3)
     except ZeroDivisionError as e:
-        return Failure(
-            ZeroDivisionError(f"func_c({i}): {e}")
-        )
+        return Failure(ZeroDivisionError(f"func_c({i}): {e}"))
     return Success(i)
 
 
@@ -430,9 +428,7 @@ ERROR = TypeVar("ERROR")
 
 @dataclass(frozen=True)
 class Result(Generic[ANSWER, ERROR]):
-    def bind(
-        self, func: Callable[[ANSWER], "Result"]
-    ) -> "Result[ANSWER, ERROR]":
+    def bind(self, func: Callable[[ANSWER], "Result"]) -> "Result[ANSWER, ERROR]":
         if isinstance(self, Success):
             return func(self.unwrap())
         return self  # Pass the Failure forward
@@ -504,15 +500,10 @@ from returns.result import Result
 
 
 def add(first: int, second: int, third: int) -> str:
-    return (
-        f"add({first} + {second} + {third}):"
-        f" {first + second + third}"
-    )
+    return f"add({first} + {second} + {third}):" f" {first + second + third}"
 
 
-def composed(
-    i: int, j: int
-) -> Result[str, str | ZeroDivisionError | ValueError]:
+def composed(i: int, j: int) -> Result[str, str | ZeroDivisionError | ValueError]:
     # fmt: off
     return Result.do(
         add(first, second, third)

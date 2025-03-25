@@ -21,11 +21,13 @@ Only a tiny percentage of the code reviewed used anything *except* strings as ty
 This study suggested that the vast majority of systems were using strings as their primary data type.
 
 Because you can put any characters in any format into a string, such "stringly typed" systems (an ironic play on "strongly typed") may be the worst of all possible worlds.
-Unless it's actually text, classifying something as a string says virtually nothing about it.
+Unless it's actually text, classifying something as a string doesn't tell you anything.
 When a function receives a string that is meant to represent a type, that function can assume precisely nothing about it.
 Every such function must start from scratch and analyze that string to see if it conforms to what that function needs.
 
-If you ever change the meaning of that stringly-typed item, you have a daunting job ahead of you: to look through every function that uses it and ensure that your change is reflected in the validations in every single function.
+It is a daunting job to change the meaning of that stringly-typed item.
+You must look through every function that uses it and ensure that your change is reflected in the validations in every single function.
+Because the logic is distributed, it's highly likely you will miss some.
 
 [[Stringly typed example, possibly telephone numbers]]
 
@@ -70,7 +72,9 @@ def requires(*conditions: Condition):
                 if not condition.check(*args, **kwargs):
                     raise ValueError(condition.message)
             return func(*args, **kwargs)
+
         return wrapper
+
     return decorator
 ```
 
@@ -82,36 +86,36 @@ from dataclasses import dataclass
 from decimal import Decimal
 from require import requires, Condition
 
-POSITIVE_AMOUNT = Condition(
-    check=lambda self, amount: amount > Decimal("0"),
-    message="Amount must be positive"
+positive_amount = Condition(
+    check=lambda self, amount: amount >= Decimal("0"),
+    message="Amount cannot be negative",
 )
 
-SUFFICIENT_BALANCE = Condition(
-    check=lambda self, amount: self.balance >= amount,
-    message="Insufficient balance"
+sufficient_balance = Condition(
+    check=lambda self, amount: self.balance >= amount, message="Insufficient balance"
 )
+
 
 @dataclass
 class BankAccount:
     balance: Decimal
 
-    @requires(POSITIVE_AMOUNT, SUFFICIENT_BALANCE)
+    @requires(positive_amount, sufficient_balance)
     def withdraw(self, amount: Decimal) -> None:
         self.balance -= amount
-        print(f"Withdrew {amount}, new balance: {self.balance}")
+        print(f"Withdrew {amount}, balance: {self.balance}")
 
-    @requires(POSITIVE_AMOUNT)
+    @requires(positive_amount)
     def deposit(self, amount: Decimal) -> None:
         self.balance += amount
-        print(f"Deposited {amount}, new balance: {self.balance}")
+        print(f"Deposited {amount}, balance: {self.balance}")
 
 
 account = BankAccount(Decimal("100"))
 account.deposit(Decimal("50"))
-## Deposited 50, new balance: 150
+## Deposited 50, balance: 150
 account.withdraw(Decimal("30"))
-## Withdrew 30, new balance: 120
+## Withdrew 30, balance: 120
 
 try:
     account.withdraw(Decimal("200"))
@@ -123,7 +127,7 @@ try:
     account.deposit(Decimal("-10"))
 except Exception as e:
     print(f"Error: {e}")
-## Error: Amount must be positive
+## Error: Amount cannot be negative
 ```
 
 This is an improvement over placing the testing code at the beginning of each function, as Eiffel does and as traditional Python functions do--assuming they test their arguments.
@@ -142,6 +146,7 @@ This way, incorrect objects of those types cannot successfully be created:
 
 ```python
 # typed_bank_account.py
+from typing import NamedTuple
 from dataclasses import dataclass
 from decimal import Decimal
 
@@ -163,8 +168,7 @@ class Amount:
         return Amount(self.value - other.value)
 
 
-@dataclass(frozen=True)
-class Balance:
+class Balance(NamedTuple):
     amount: Amount
 
     def deposit(self, deposit_amount: Amount) -> "Balance":
@@ -200,8 +204,13 @@ except ValueError as e:
 ## Error: Amount cannot be negative, got -80
 
 try:
-    account.deposit(Amount(-10))  # Invalid amount
+    account.deposit(Amount(-10))  # Invalid
 except ValueError as e:
     print(f"Error: {e}")
 ## Error: Amount cannot be negative, got -10
 ```
+
+If we need to change the underlying representation of `Amount` we only do it in one place.
+Suppose, for example, we discover Python's implementation of `Decimal` is too slow.
+We can modify `Amount` to use, for example, a Rust implementation of decimal numbers.
+We *only* need to change the code for `Amount` because the rest of the code simply uses `Amount`.

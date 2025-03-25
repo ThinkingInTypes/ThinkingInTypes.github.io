@@ -252,6 +252,7 @@ configuration that produces a surprise:
 ```python
 # it_all_goes_wrong.py
 
+
 class A:
     x: int = 100
     y: int = 200
