@@ -9,7 +9,7 @@ This chapter began as a presentation at a Python conference, inspired by convers
 
 This chapter contains additional tools that modify the normal behavior of class attributes.
 It's important to understand that this behavior is created by the tool, and that ordinary classes do not behave this way.
-Read the [Class Attributes] appendix for deeper understanding.
+Read the [Class Attributes](A6_Class_Attributes.md) appendix for deeper understanding.
 
 ## The Initial Problem: Ensuring Correctness
 
