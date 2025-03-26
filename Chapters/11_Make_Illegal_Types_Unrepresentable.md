@@ -248,11 +248,11 @@ Possibly best of all, any new code we write using our types transparently uses a
 If we add more validations, they automatically propagate to each site where those types are used.
 
 ```python
-# catcher.py
+# util/exception_catcher.py
 from contextlib import contextmanager
 
 @contextmanager
-def catcher():
+def capture():
     try:
         yield
     except Exception as e:
