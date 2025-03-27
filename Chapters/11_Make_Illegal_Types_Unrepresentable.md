@@ -85,7 +85,7 @@ Now we can apply `require` to validate function arguments:
 from dataclasses import dataclass
 from decimal import Decimal
 from require import requires, Condition
-from util import capture
+from book_utils import cp
 
 positive_amount = Condition(
     check=lambda self, amount: amount >= Decimal("0"),
@@ -103,27 +103,21 @@ class BankAccount:
     balance: Decimal
 
     @requires(positive_amount, sufficient_balance)
-    def withdraw(self, amount: Decimal) -> None:
+    def withdraw(self, amount: Decimal) -> str:
         self.balance -= amount
-        print(f"Withdrew {amount}, balance: {self.balance}")
+        return f"Withdrew {amount}, balance: {self.balance}"
 
     @requires(positive_amount)
-    def deposit(self, amount: Decimal) -> None:
+    def deposit(self, amount: Decimal) -> str:
         self.balance += amount
-        print(f"Deposited {amount}, balance: {self.balance}")
+        return f"Deposited {amount}, balance: {self.balance}"
 
 
 account = BankAccount(Decimal("100"))
-account.deposit(Decimal("50"))
-## Deposited 50, balance: 150
-account.withdraw(Decimal("30"))
-## Withdrew 30, balance: 120
-with capture():
-    account.withdraw(Decimal("200"))
-## Error: Insufficient balance
-with capture():
-    account.deposit(Decimal("-10"))
-## Error: Amount cannot be negative
+cp(account.deposit, Decimal("50"))
+cp(account.withdraw, Decimal("30"))
+cp(account.withdraw, Decimal("200"))
+cp(account.deposit, Decimal("-10"))
 ```
 
 This is an improvement over placing the testing code at the beginning of each function, as Eiffel does and as traditional Python functions do--assuming they test their arguments.
@@ -197,36 +191,29 @@ In the new, improved `BankAccount`, the need for validation disappears because i
 ```python
 # typed_bank_account.py
 from dataclasses import dataclass
-
 from amount import Amount
 from balance import Balance
-from util import capture
+from book_utils import cp
 
 
 @dataclass
 class BankAccount:
     balance: Balance
 
-    def deposit(self, amount: Amount) -> None:
+    def deposit(self, amount: Amount) -> str:
         self.balance = self.balance.deposit(amount)
-        print(f"Deposited {amount.value}, balance: {self.balance.amount.value}")
+        return f"Deposited {amount.value}, balance: {self.balance.amount.value}"
 
-    def withdraw(self, amount: Amount) -> None:
+    def withdraw(self, amount: Amount) -> str:
         self.balance = self.balance.withdraw(amount)
-        print(f"Withdrew {amount.value}, balance: {self.balance.amount.value}")
+        return f"Withdrew {amount.value}, balance: {self.balance.amount.value}"
 
 
 account = BankAccount(Balance(Amount(100)))
-account.deposit(Amount(50))
-## Deposited 50, balance: 150
-account.withdraw(Amount(30))
-## Withdrew 30, balance: 120
-with capture():
-    account.withdraw(Amount(200))  # Too much
-## Error: Amount cannot be negative, got -80
-with capture():
-    account.deposit(Amount(-10))  # Invalid
-## Error: Amount cannot be negative, got -10
+cp(account.deposit, Amount("50"))
+cp(account.withdraw, Amount("30"))
+cp(account.withdraw, Amount("200"))
+cp(account.deposit, Amount("-10"))
 ```
 
 The code is significantly more straightforward to understand and change.
@@ -237,15 +224,3 @@ We *only* need to change the code for `Amount` because the rest of the code simp
 
 Possibly best of all, any new code we write using our types transparently uses all the type validations built into those types.
 If we add more validations, they automatically propagate to each site where those types are used.
-
-```python
-# util/exception_catcher.py
-from contextlib import contextmanager
-
-@contextmanager
-def capture():
-    try:
-        yield
-    except Exception as e:
-        print(f"Error: {e}")
-```

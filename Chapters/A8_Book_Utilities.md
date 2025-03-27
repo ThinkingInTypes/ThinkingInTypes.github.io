@@ -1,8 +1,8 @@
 # Book Utilities
 
 These are incorporated into book examples to make them easier to read and to reduce code duplication.
-They are placed in a subdirectory off the root of the project, named `butil` for "book utilities".
-Because the book examples are extracted into a flat layout in the examples repository, you can import directly from `butil`.
+They are placed in a subdirectory off the root of the project, named `book_utils`.
+Because the book examples are extracted into a flat layout in the examples repository, you can import directly from `book_utils`.
 
 ## Call and Print
 
@@ -11,7 +11,7 @@ If a function call can fail with an exception, `call_and_print()` will catch and
 In use, it is shortened to `cp` so it can also be used to make a code line a tiny bit shorter than `print()`.
 
 ```python
-# butil/call_and_print.py
+# book_utils/call_and_print.py
 from typing import Callable, ParamSpec, TypeVar
 
 T = TypeVar("T")
@@ -27,14 +27,12 @@ def call_and_print(fn: Callable[P, T], *args: P.args, **kwargs: P.kwargs) -> Non
         print(f"Error: {e}")
 ```
 
-The use of `ParamSpec` (`P`) captures the *actual* signature of the function `fn`. 
+The use of `ParamSpec` (`P`) captures the *actual* signature of the function `fn`.
 That allows `*args` and `**kwargs` to match whatever positional and keyword argument types `fn` expects--even if they are mixed types.
 `ParamSpec` produces variadic, type-preserving function calls.
 
-
-
 ```python
-# butil/test_call_and_print.py
+# book_utils/test_call_and_print.py
 from call_and_print import call_and_print
 
 def test_call_and_print() -> None:
@@ -47,7 +45,7 @@ def test_call_and_print() -> None:
 ## Book Utilities `__init__.py`
 
 ```python
-# butil/__init__.py
+# book_utils/__init__.py
 from .call_and_print import call_and_print as cp
 __all__ = ["cp"]
 ```
