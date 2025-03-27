@@ -85,6 +85,7 @@ Now we can apply `require` to validate function arguments:
 from dataclasses import dataclass
 from decimal import Decimal
 from require import requires, Condition
+from util import capture
 
 positive_amount = Condition(
     check=lambda self, amount: amount >= Decimal("0"),
@@ -92,7 +93,8 @@ positive_amount = Condition(
 )
 
 sufficient_balance = Condition(
-    check=lambda self, amount: self.balance >= amount, message="Insufficient balance"
+    check=lambda self, amount: self.balance >= amount,
+    message="Insufficient balance"
 )
 
 
@@ -116,17 +118,11 @@ account.deposit(Decimal("50"))
 ## Deposited 50, balance: 150
 account.withdraw(Decimal("30"))
 ## Withdrew 30, balance: 120
-
-try:
+with capture():
     account.withdraw(Decimal("200"))
-except Exception as e:
-    print(f"Error: {e}")
 ## Error: Insufficient balance
-
-try:
+with capture():
     account.deposit(Decimal("-10"))
-except Exception as e:
-    print(f"Error: {e}")
 ## Error: Amount cannot be negative
 ```
 
@@ -204,6 +200,7 @@ from dataclasses import dataclass
 
 from amount import Amount
 from balance import Balance
+from util import capture
 
 
 @dataclass
@@ -224,17 +221,11 @@ account.deposit(Amount(50))
 ## Deposited 50, balance: 150
 account.withdraw(Amount(30))
 ## Withdrew 30, balance: 120
-
-try:
+with capture():
     account.withdraw(Amount(200))  # Too much
-except ValueError as e:
-    print(f"Error: {e}")
 ## Error: Amount cannot be negative, got -80
-
-try:
+with capture():
     account.deposit(Amount(-10))  # Invalid
-except ValueError as e:
-    print(f"Error: {e}")
 ## Error: Amount cannot be negative, got -10
 ```
 
