@@ -84,8 +84,10 @@ Now we can apply `require` to validate function arguments:
 # bank_account.py
 from dataclasses import dataclass
 from decimal import Decimal
+
+from book_utils import Catch
 from require import requires, Condition
-from book_utils import catch
+from amount import Amount
 
 positive_amount = Condition(
     check=lambda self, amount: amount >= Decimal("0"),
@@ -113,11 +115,13 @@ class BankAccount:
         return f"Deposited {amount}, balance: {self.balance}"
 
 
-account = BankAccount(Decimal("100"))
-print(account.deposit(Amount("50")))
-print(account.withdraw(Amount("30")))
-catch(account.withdraw, Amount("200"))
-catch(account.deposit, Amount("-10"))
+account = BankAccount(Decimal(100))
+print(account.deposit(Decimal(50)))
+print(account.withdraw(Decimal(30)))
+with Catch():
+    account.withdraw(Decimal(200))
+with Catch():
+    account.deposit(Decimal(-10))
 ```
 
 This is an improvement over placing the testing code at the beginning of each function, as Eiffel does and as traditional Python functions do--assuming they test their arguments.
@@ -151,7 +155,7 @@ class Amount:
     def __init__(self, value: int | float | str | Decimal) -> None:
         decimal_value = Decimal(str(value))
         if decimal_value < Decimal("0"):
-            raise ValueError(f"Amount cannot be negative, got {decimal_value}")
+            raise ValueError(f"Amount({decimal_value}) cannot be negative")
         object.__setattr__(self, "value", decimal_value)
 
     def __add__(self, other: "Amount") -> "Amount":
@@ -193,7 +197,7 @@ In the new, improved `BankAccount`, the need for validation disappears because i
 from dataclasses import dataclass
 from amount import Amount
 from balance import Balance
-from book_utils import catch
+from book_utils import Catch
 
 
 @dataclass
@@ -210,10 +214,12 @@ class BankAccount:
 
 
 account = BankAccount(Balance(Amount(100)))
-print(account.deposit(Amount("50")))
-print(account.withdraw(Amount("30")))
-catch(account.withdraw, Amount("200"))
-catch(account.deposit, Amount("-10"))
+print(account.deposit(Amount(50)))
+print(account.withdraw(Amount(30)))
+with Catch():
+    account.withdraw(Amount(200))
+with Catch():
+    account.deposit(Amount(-10))
 ```
 
 The code is significantly more straightforward to understand and change.
