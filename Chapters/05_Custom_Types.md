@@ -25,6 +25,8 @@ Traditionally, Python programmers use an integer type, checking its validity whe
 ```python
 # int_stars.py
 # Using 1-10 stars for customer feedback.
+from book_utils import Catch
+
 
 def f1(stars: int) -> int:
     # Must check argument...
@@ -41,9 +43,11 @@ print(stars1)
 print(f1(stars1))
 print(f2(stars1))
 stars2 = 11
-print(f1(stars2))
+with Catch():
+    print(f1(stars2))
 stars1 = 99
-print(f2(stars1))
+with Catch():
+    print(f2(stars1))
 ```
 
 However, each time the integer is used, its validity must be rechecked, leading to duplicated logic, 
@@ -56,6 +60,8 @@ Python typically uses a private attribute (indicated with a single leading under
 
 ```python
 # stars_class.py
+from book_utils import Catch
+
 
 class Stars:
     def __init__(self, n_stars: int):
@@ -92,10 +98,15 @@ class Stars:
 stars1 = Stars(4)
 print(stars1)
 print(stars1.f1(3))
-print(stars1.f2(stars1.f1(3)))
-stars2 = Stars(11)
-print(stars2.f1(2))
-print(stars2.f2(22))
+with Catch():
+    print(stars1.f2(stars1.f1(3)))
+with Catch():
+    stars2 = Stars(11)
+stars3 = Stars(5)
+with Catch():
+    print(stars3.f1(4))
+with Catch():
+    print(stars3.f2(22))
 # @property without setter prevents mutation:
 # stars1.number = 99
 # AttributeError: can't set attribute 'number'
@@ -175,6 +186,9 @@ We can apply this approach to our `Stars` example:
 # stars.py
 from dataclasses import dataclass
 
+from book_utils import Catch
+
+
 @dataclass(frozen=True)
 class Stars:
     number: int
@@ -190,9 +204,12 @@ def f2(s: Stars) -> Stars:
 stars1 = Stars(4)
 print(stars1)
 print(f1(stars1))
-print(f2(f1(stars1)))
-stars2 = Stars(11)
-print(f1(stars2))
+with Catch():
+    print(f2(f1(stars1)))
+with Catch():
+    stars2 = Stars(11)
+with Catch():
+    print(f1(Stars(11)))
 ```
 
 Subsequent functions operating on `Stars` no longer require redundant checks.
@@ -384,6 +401,8 @@ for date in [
 from dataclasses import dataclass, field
 from typing import List
 
+from book_utils import Catch
+
 
 @dataclass(frozen=True)
 class Day:
@@ -459,9 +478,10 @@ for date in [
     (11, 31, 2022),
     (12, 31, 2022),
 ]:
-    print(date)
-    print(BirthDate(months.number(date[0]), Day(date[1]), Year(date[2])))
-    print('-' * 30)
+    with Catch():
+        print(date)
+        print(BirthDate(months.number(date[0]), Day(date[1]), Year(date[2])))
+        print('-' * 30)
 ```
 `Month` can be created using dataclasses, but it's more complicated than using `Enum`, with questionable benefits.
 
