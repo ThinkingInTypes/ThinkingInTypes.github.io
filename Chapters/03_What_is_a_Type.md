@@ -140,11 +140,13 @@ These tools allow developers to incrementally adopt static typing, improving cod
 
 ```python
 # example_4.py
+from book_utils import Catch
+
 def add(a, b):
     return a + b
 
-
-add(1, "2")  # raises runtime TypeError
+with Catch():
+    add(1, "2")  # raises runtime TypeError
 ```
 
 ### Static Type Checking
@@ -154,13 +156,14 @@ add(1, "2")  # raises runtime TypeError
 
 ```python
 # example_5.py
+from book_utils import Catch
 
 
 def add(a: int, b: int) -> int:
     return a + b
 
-
-add(1, "2")  # R: Static type checker flags this
+with Catch():
+    add(1, "2")  # Static type checker flags this
 ```
 
 By combining runtime flexibility with static checking, Python provides a balanced approach that empowers developers to write safe, readable, and maintainable code.
