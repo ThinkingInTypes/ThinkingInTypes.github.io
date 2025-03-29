@@ -110,7 +110,7 @@ Data classes, introduced in Python 3.7, significantly streamline this process by
 They provide a structured, concise way to define data-holding objects:
 
 ```python
-# stars.py
+# messenger.py
 from dataclasses import dataclass, replace
 
 @dataclass
@@ -119,24 +119,23 @@ class Messenger:
     number: int
     depth: float = 0.0  # Default argument
 
-if __name__ == '__main__':
-    x = Messenger(name="x", number=9, depth=2.0)
-    m = Messenger("foo", 12, 3.14)
-    print(m)
-    print(m.name, m.number, m.depth)
-    mm = Messenger("xx", 1)  # Uses default argument
-    print(mm == Messenger("xx", 1))  # Generates __eq__()
-    print(mm == Messenger("xx", 2))
+x = Messenger(name="x", number=9, depth=2.0)
+m = Messenger("foo", 12, 3.14)
+print(m)
+print(m.name, m.number, m.depth)
+mm = Messenger("xx", 1)  # Uses default argument
+print(mm == Messenger("xx", 1))  # Generates __eq__()
+print(mm == Messenger("xx", 2))
 
-    # Make a copy with a different depth:
-    mc = replace(m, depth=9.9)
-    print(m, mc)
+# Make a copy with a different depth:
+mc = replace(m, depth=9.9)
+print(m, mc)
 
-    # Mutable:
-    m.name = "bar"
-    print(m)
-    # d = {m: "value"}
-    # TypeError: unhashable type: 'Messenger'
+# Mutable:
+m.name = "bar"
+print(m)
+# d = {m: "value"}
+# TypeError: unhashable type: 'Messenger'
 ```
 
 In a `dataclass`, validation logic resides exclusively in the `__post_init__` method, 
@@ -160,15 +159,14 @@ class Messenger:
     number: int
     depth: float = 0.0  # Default
 
-if __name__ == '__main__':
-    m = Messenger("foo", 12, 3.14)
-    print(m)
-    # Frozen dataclass is immutable:
-    # m.name = "bar"
-    # dataclasses.FrozenInstanceError: cannot assign to field 'name'
-    # Automatically creates __hash__():
-    d = {m: "value"}
-    print(d[m])
+m = Messenger("foo", 12, 3.14)
+print(m)
+# Frozen dataclass is immutable:
+# m.name = "bar"
+# dataclasses.FrozenInstanceError: cannot assign to field 'name'
+# Automatically creates __hash__():
+d = {m: "value"}
+print(d[m])
 ```
 
 We can apply this approach to our `Stars` example:
@@ -189,13 +187,12 @@ def f1(s: Stars) -> Stars:
 def f2(s: Stars) -> Stars:
     return Stars(s.number * 5)
 
-if __name__ == '__main__':
-    stars1 = Stars(4)
-    print(stars1)
-    print(f1(stars1))
-    print(f2(f1(stars1)))
-    stars2 = Stars(11)
-    print(f1(stars2))
+stars1 = Stars(4)
+print(stars1)
+print(f1(stars1))
+print(f2(f1(stars1)))
+stars2 = Stars(11)
+print(f1(stars2))
 ```
 
 Subsequent functions operating on `Stars` no longer require redundant checks.
@@ -203,10 +200,10 @@ Modifying a `Stars` instance after creation raises an error, further safeguardin
 
 ```python
 # example_4.py
-from stars import Stars
+# from stars import Stars
 
-def increase_stars(rating: Stars, increment: int) -> Stars:
-    return Stars(rating.stars + increment)
+# def increase_stars(rating: Stars, increment: int) -> Stars:
+#    return Stars(rating.stars + increment)
 ```
 
 If this function tries to create an invalid rating, the data class validation immediately raises an error. 
@@ -314,6 +311,8 @@ Enums provide additional type safety for fixed-value sets, such as months:
 from dataclasses import dataclass
 from enum import Enum
 
+from book_utils import Catch
+
 
 @dataclass(frozen=True)
 class Day:
@@ -374,9 +373,10 @@ for date in [
     (11, 31, 2022),
     (12, 31, 2022),
 ]:
-    print(date)
-    print(BirthDate(Month.number(date[0]), Day(date[1]), Year(date[2])))
-    print('-' * 30)
+    with Catch():
+        print(date)
+        print(BirthDate(Month.number(date[0]), Day(date[1]), Year(date[2])))
+        print('-' * 30)
 ```
 
 ```python
