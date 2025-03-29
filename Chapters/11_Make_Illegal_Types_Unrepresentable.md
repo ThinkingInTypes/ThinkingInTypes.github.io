@@ -85,7 +85,7 @@ Now we can apply `require` to validate function arguments:
 from dataclasses import dataclass
 from decimal import Decimal
 from require import requires, Condition
-from book_utils import cp
+from book_utils import catch
 
 positive_amount = Condition(
     check=lambda self, amount: amount >= Decimal("0"),
@@ -114,10 +114,10 @@ class BankAccount:
 
 
 account = BankAccount(Decimal("100"))
-cp(account.deposit, Decimal("50"))
-cp(account.withdraw, Decimal("30"))
-cp(account.withdraw, Decimal("200"))
-cp(account.deposit, Decimal("-10"))
+print(account.deposit(Amount("50")))
+print(account.withdraw(Amount("30")))
+catch(account.withdraw, Amount("200"))
+catch(account.deposit, Amount("-10"))
 ```
 
 This is an improvement over placing the testing code at the beginning of each function, as Eiffel does and as traditional Python functions do--assuming they test their arguments.
@@ -193,7 +193,7 @@ In the new, improved `BankAccount`, the need for validation disappears because i
 from dataclasses import dataclass
 from amount import Amount
 from balance import Balance
-from book_utils import cp
+from book_utils import catch
 
 
 @dataclass
@@ -210,10 +210,10 @@ class BankAccount:
 
 
 account = BankAccount(Balance(Amount(100)))
-cp(account.deposit, Amount("50"))
-cp(account.withdraw, Amount("30"))
-cp(account.withdraw, Amount("200"))
-cp(account.deposit, Amount("-10"))
+print(account.deposit(Amount("50")))
+print(account.withdraw(Amount("30")))
+catch(account.withdraw, Amount("200"))
+catch(account.deposit, Amount("-10"))
 ```
 
 The code is significantly more straightforward to understand and change.

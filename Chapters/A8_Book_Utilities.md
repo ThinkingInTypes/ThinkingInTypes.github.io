@@ -11,13 +11,13 @@ If a function call can fail with an exception, `call_and_print()` will catch and
 In use, it is shortened to `cp` so it can also be used to make a code line a tiny bit shorter than `print()`.
 
 ```python
-# book_utils/call_and_print.py
+# book_utils/catch.py
 from typing import Callable, ParamSpec, TypeVar
 
 T = TypeVar("T")
 P = ParamSpec("P")
 
-def call_and_print(fn: Callable[P, T], *args: P.args, **kwargs: P.kwargs) -> None:
+def catch(fn: Callable[P, T], *args: P.args, **kwargs: P.kwargs) -> None:
     """
     Call a function and display either the result or the error message.
     """
@@ -32,20 +32,20 @@ That allows `*args` and `**kwargs` to match whatever positional and keyword argu
 `ParamSpec` produces variadic, type-preserving function calls.
 
 ```python
-# book_utils/test_call_and_print.py
-from call_and_print import call_and_print
+# book_utils/test_catch.py
+from catch import catch
 
-def test_call_and_print() -> None:
+def test_catch() -> None:
     def risky_divide(a: int, b: int) -> float:
         return a / b
-    call_and_print(risky_divide, 10, 2)
-    call_and_print(risky_divide, 10, 0)
+    catch(risky_divide, 10, 2)
+    catch(risky_divide, 10, 0)
 ```
 
 ## Book Utilities `__init__.py`
 
 ```python
 # book_utils/__init__.py
-from .call_and_print import call_and_print as cp
-__all__ = ["cp"]
+from .catch import catch
+__all__ = ["catch"]
 ```
