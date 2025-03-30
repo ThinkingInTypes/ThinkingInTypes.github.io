@@ -77,7 +77,9 @@ def announce(speaker: Speaker) -> None:
 
 
 announce(Dog())  # OK, Dog has speak()
+## Announcement: woof
 announce(Robot())  # OK, Robot has speak()
+## Announcement: beep-boop
 ```
 
 Even though `Dog` and `Robot` do not inherit from `Speaker` (and are not related to each other at all), the static type checker will accept them as valid arguments to `announce` because they structurally conform to the `Speaker` protocol by implementing the required method.
@@ -160,6 +162,7 @@ For example:
 # example_4.py
 from typing import runtime_checkable, Protocol
 from file_resource import FileResource
+## Socket closed
 
 
 @runtime_checkable
@@ -389,7 +392,9 @@ def print_item_and_return[C](container: Container[C]) -> C:
 
 # Using the generic function with different container types:
 x = print_item_and_return(StringContainer("hello"))  # prints "hello", x is str
+## Got: hello
 y = print_item_and_return(IntContainer(42))  # prints "42", y is int
+## Got: 42
 ```
 
 In the function `print_item_and_return`, we used `C` (could also use `T` again) as a type variable for the container’s item type.
@@ -413,6 +418,8 @@ For example, if we have:
 # example_9.py
 from typing import TypeVar
 from logger_protocol import Logger
+## Captured logs: ['Starting DataCleanup',
+## 'Finished DataCleanup']
 
 T = TypeVar("T", bound=Logger)  # using our Logger protocol from earlier
 ```

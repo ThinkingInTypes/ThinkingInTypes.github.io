@@ -147,6 +147,8 @@ def add(a, b):
 
 with Catch():
     add(1, "2")  # raises runtime TypeError
+## Error: unsupported operand type(s) for +: 'int'
+## and 'str'
 ```
 
 ### Static Type Checking
@@ -164,6 +166,8 @@ def add(a: int, b: int) -> int:
 
 with Catch():
     add(1, "2")  # Static type checker flags this
+## Error: unsupported operand type(s) for +: 'int'
+## and 'str'
 ```
 
 By combining runtime flexibility with static checking, Python provides a balanced approach that empowers developers to write safe, readable, and maintainable code.

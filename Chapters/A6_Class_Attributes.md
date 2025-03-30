@@ -39,10 +39,13 @@ class A:
 
 a = A()
 print(f"{a.x = }")
+## a.x = 100
 a.x = -1
 print(f"{a.x = }")
+## a.x = -1
 a2 = A()
 print(f"{a2.x = }")
+## a2.x = 100
 ```
 
 (`f"{a.x = }"` is an f-string feature that eliminates the redundancy of
@@ -288,20 +291,40 @@ def display(counter: int):
 
 a1 = A()
 display(1)
+## display(1)
+## a1.x = 100, a1.y = 200
 a1.x = -1
 a1.y = -2
 display(2)
+## display(2)
+## a1.x = -1, a1.y = -2
 a1.change_x()
 display(3)
+## display(3)
+## a1.x = -1, a1.y = -2
 a2 = A()
 display(4)
+## display(4)
+## a1.x = -1, a1.y = -2
+## a2.x = 999, a2.y = 200
 a2.y = 17
 display(5)
+## display(5)
+## a1.x = -1, a1.y = -2
+## a2.x = 999, a2.y = 17
 A.change_y()
 a3 = A()
 display(6)
+## display(6)
+## a1.x = -1, a1.y = -2
+## a2.x = 999, a2.y = 17
+## a3.x = 999, a3.y = 313
 reset()
 display(7)
+## display(7)
+## a1.x = -1, a1.y = -2
+## a2.x = 100, a2.y = 17
+## a3.x = 100, a3.y = 200
 ```
 
 Every object instance has its own dictionary. When you assign to an instance
@@ -400,10 +423,16 @@ class B:
 
 a = A()
 show(a, "a")
+## [Class A] x: 100
+## [Object a] Empty
 a.x = 1
 show(a, "a")
+## [Class A] x: 100
+## [Object a] x: 1
 b = B(-99)
 show(b, "b")
+## [Class B] x: 100
+## [Object b] x: -99
 ```
 
 Creating an `A` requires no constructor arguments (because there is no
@@ -424,13 +453,22 @@ class A:
 
 a = A()
 show(a, "a")
+## [Class A] x: 100
+## [Object a] Empty
 print(f"{a.x = }")
+## a.x = 100
 a.x = -1
 show(a, "a")
+## [Class A] x: 100
+## [Object a] x: -1
 print(f"{a.x = }")
+## a.x = -1
 a2 = A()
 show(a2, "a2")
+## [Class A] x: 100
+## [Object a2] Empty
 print(f"{a2.x = }")
+## a2.x = 100
 ```
 
 In the first `print()`, the instance variable `x` has not yet been created, so
@@ -510,20 +548,31 @@ class AA:
 
 a = A()
 show(a, "a")
+## [Class A] Empty
+## [Object a] x: 100, y: 200, z: 300
 a.x = -1
 a.y = -2
 a.z = -3
 show(a, "a")
+## [Class A] Empty
+## [Object a] x: -1, y: -2, z: -3
 
 aa = AA()
 print(aa)
+## AA(x=100, y=200, z=300)
 show(aa, "aa")
+## [Class AA] x: 100, y: 200, z: 300
+## [Object aa] x: 100, y: 200, z: 300
 aa.x = -1
 aa.y = -2
 aa.z = -3
 show(aa, "aa")
+## [Class AA] x: 100, y: 200, z: 300
+## [Object aa] x: -1, y: -2, z: -3
 aa2 = AA(-4, -5, -6)
 show(aa2, "aa2")
+## [Class AA] x: 100, y: 200, z: 300
+## [Object aa2] x: -4, y: -5, z: -6
 
 # Even if we modify the class attributes, the
 # constructor default arguments stay the same:
@@ -532,6 +581,8 @@ AA.y = 74
 AA.z = 22
 aa3 = AA()
 show(aa3, "aa3")
+## [Class AA] x: 42, y: 74, z: 22
+## [Object aa3] x: 100, y: 200, z: 300
 ```
 
 You can also use a `dataclass` as seen in `class AA`. Notice the result of

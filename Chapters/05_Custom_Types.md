@@ -40,14 +40,19 @@ def f2(stars: int) -> int:
 
 stars1 = 6
 print(stars1)
+## 6
 print(f1(stars1))
+## 11
 print(f2(stars1))
+## 30
 stars2 = 11
 with Catch():
     print(f1(stars2))
+## Error: f1: 11
 stars1 = 99
 with Catch():
     print(f2(stars1))
+## Error: f2: 99
 ```
 
 However, each time the integer is used, its validity must be rechecked, leading to duplicated logic, 
@@ -97,16 +102,22 @@ class Stars:
 
 stars1 = Stars(4)
 print(stars1)
+## Stars(4)
 print(stars1.f1(3))
+## 8
 with Catch():
     print(stars1.f2(stars1.f1(3)))
+## Error: Stars(40)
 with Catch():
     stars2 = Stars(11)
+## Error: Stars(11)
 stars3 = Stars(5)
 with Catch():
     print(stars3.f1(4))
+## 9
 with Catch():
     print(stars3.f2(22))
+## Error: Stars(9): 22
 # @property without setter prevents mutation:
 # stars1.number = 99
 # AttributeError: can't set attribute 'number'
@@ -133,18 +144,25 @@ class Messenger:
 x = Messenger(name="x", number=9, depth=2.0)
 m = Messenger("foo", 12, 3.14)
 print(m)
+## Messenger(name='foo', number=12, depth=3.14)
 print(m.name, m.number, m.depth)
+## foo 12 3.14
 mm = Messenger("xx", 1)  # Uses default argument
 print(mm == Messenger("xx", 1))  # Generates __eq__()
+## True
 print(mm == Messenger("xx", 2))
+## False
 
 # Make a copy with a different depth:
 mc = replace(m, depth=9.9)
 print(m, mc)
+## Messenger(name='foo', number=12, depth=3.14)
+## Messenger(name='foo', number=12, depth=9.9)
 
 # Mutable:
 m.name = "bar"
 print(m)
+## Messenger(name='bar', number=12, depth=3.14)
 # d = {m: "value"}
 # TypeError: unhashable type: 'Messenger'
 ```
@@ -172,12 +190,14 @@ class Messenger:
 
 m = Messenger("foo", 12, 3.14)
 print(m)
+## Messenger(name='foo', number=12, depth=3.14)
 # Frozen dataclass is immutable:
 # m.name = "bar"
 # dataclasses.FrozenInstanceError: cannot assign to field 'name'
 # Automatically creates __hash__():
 d = {m: "value"}
 print(d[m])
+## value
 ```
 
 We can apply this approach to our `Stars` example:
@@ -203,13 +223,18 @@ def f2(s: Stars) -> Stars:
 
 stars1 = Stars(4)
 print(stars1)
+## Stars(number=4)
 print(f1(stars1))
+## Stars(number=9)
 with Catch():
     print(f2(f1(stars1)))
+## Error: Stars(number=45)
 with Catch():
     stars2 = Stars(11)
+## Error: Stars(number=11)
 with Catch():
     print(f1(Stars(11)))
+## Error: Stars(number=11)
 ```
 
 Subsequent functions operating on `Stars` no longer require redundant checks.
@@ -268,7 +293,13 @@ person = Person(
     BirthDate("7/8/1957"),
     EmailAddress("mindviewinc@gmail.com")
 )
+## FullName checking Bruce Eckel
+## BirthDate checking 7/8/1957
+## EmailAddress checking mindviewinc@gmail.com
 print(person)
+## Person(name=FullName(name='Bruce Eckel'),
+## date_of_birth=BirthDate(dob='7/8/1957'), email=
+## EmailAddress(address='mindviewinc@gmail.com'))
 ```
 
 This hierarchical validation structure ensures correctness and clarity at every composition level. 
@@ -394,6 +425,25 @@ for date in [
         print(date)
         print(BirthDate(Month.number(date[0]), Day(date[1]), Year(date[2])))
         print('-' * 30)
+## (7, 8, 1957)
+## BirthDate(m=JULY, d=Day(n=8), y=Year(n=1957))
+## ------------------------------
+## (0, 32, 1857)
+## Error: Month(0)
+## (2, 31, 2022)
+## Error: Month.FEBRUARY Day(n=31)
+## (9, 31, 2022)
+## Error: Month.SEPTEMBER Day(n=31)
+## (4, 31, 2022)
+## Error: Month.APRIL Day(n=31)
+## (6, 31, 2022)
+## Error: Month.JUNE Day(n=31)
+## (11, 31, 2022)
+## Error: Month.NOVEMBER Day(n=31)
+## (12, 31, 2022)
+## BirthDate(m=DECEMBER, d=Day(n=31),
+## y=Year(n=2022))
+## ------------------------------
 ```
 
 ```python
@@ -482,6 +532,31 @@ for date in [
         print(date)
         print(BirthDate(months.number(date[0]), Day(date[1]), Year(date[2])))
         print('-' * 30)
+## (7, 8, 1957)
+## BirthDate(m=Month(name='July', n=7,
+## max_days=31), d=Day(n=8), y=Year(n=1957))
+## ------------------------------
+## (0, 32, 1857)
+## Error: Month(0)
+## (2, 31, 2022)
+## Error: Month(name='February', n=2, max_days=28)
+## Day(n=31)
+## (9, 31, 2022)
+## Error: Month(name='September', n=9,
+## max_days=30) Day(n=31)
+## (4, 31, 2022)
+## Error: Month(name='April', n=4, max_days=30)
+## Day(n=31)
+## (6, 31, 2022)
+## Error: Month(name='June', n=6, max_days=30)
+## Day(n=31)
+## (11, 31, 2022)
+## Error: Month(name='November', n=11,
+## max_days=30) Day(n=31)
+## (12, 31, 2022)
+## BirthDate(m=Month(name='December', n=12,
+## max_days=31), d=Day(n=31), y=Year(n=2022))
+## ------------------------------
 ```
 `Month` can be created using dataclasses, but it's more complicated than using `Enum`, with questionable benefits.
 
@@ -506,7 +581,10 @@ class Coordinates(NamedTuple):
 
 coords = Coordinates(51.5074, -0.1278)
 print(coords)
+## Coordinates(latitude=51.5074,
+## longitude=-0.1278)
 print(coords.latitude)
+## 51.5074
 # coords.latitude = 123.4567 # Runtime error
 ```
 
@@ -573,6 +651,8 @@ class User:
 
 
 print(User(id=1, name="Alice", status=Status.ACTIVE))
+## User(id=1, name='Alice', status=<Status.ACTIVE:
+## 'active'>)
 ```
 
 ## Domain-Driven Design (DDD)
