@@ -275,7 +275,7 @@ The solution is to create a new type that unifies the "answer" and "error" types
 We’ll call this `Result` and define it using generics to make it universally applicable:
 
 ```python
-#: result.py
+# result.py
 # Generic Result with Success & Failure subtypes
 
 from dataclasses import dataclass

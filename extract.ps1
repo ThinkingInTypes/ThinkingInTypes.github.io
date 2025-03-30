@@ -1,6 +1,8 @@
+# extract.ps1
 $directory = "C:\git\ThinkingInTypes_Examples"
+$chaptersDir = "C:\git\ThinkingInTypes.github.io\Chapters"
 
-mdvalid -d .\Chapters\
+mdvalid -d $chaptersDir
 Write-Host "WARNING: You are about to delete the examples in: $directory"
 $response = Read-Host "Are you sure? Type 'y' to continue"
 
@@ -14,7 +16,7 @@ if ($response -eq 'y') {
     }
 
     # Run mdextract
-    mdextract -d Chapters C:\git\ThinkingInTypes_Examples
+    mdextract -d $chaptersDir $directory
 }
 else {
     Write-Host "Operation canceled."
