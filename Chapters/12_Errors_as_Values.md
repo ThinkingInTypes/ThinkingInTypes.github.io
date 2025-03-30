@@ -203,6 +203,7 @@ Let’s start with a simple example where we populate a `List` with the results 
 ```python
 # discarded_state.py
 # Exception throws everything away
+from book_utils import Catch
 
 
 def func_a(i: int) -> int:
@@ -211,13 +212,9 @@ def func_a(i: int) -> int:
     return i
 
 
-result = [func_a(i) for i in range(3)]
-print(result)
-"""
-Traceback (most recent call last):
-  ...
-ValueError: func_a(1)
-"""
+with Catch():
+    result = [func_a(i) for i in range(3)]
+    print(result)
 ```
 
 `func_a` throws a `ValueError` if its argument is `1`.
@@ -278,12 +275,13 @@ The solution is to create a new type that unifies the "answer" and "error" types
 We’ll call this `Result` and define it using generics to make it universally applicable:
 
 ```python
-# result.py
+#: result.py
 # Generic Result with Success & Failure subtypes
-from dataclasses import dataclass
-from typing import Generic, TypeVar, NamedTuple
 
-ANSWER = TypeVar("ANSWER")  # Generic parameters
+from dataclasses import dataclass
+from typing import Generic, TypeVar
+
+ANSWER = TypeVar("ANSWER")
 ERROR = TypeVar("ERROR")
 
 
@@ -291,14 +289,16 @@ class Result(Generic[ANSWER, ERROR]):
     pass
 
 
-class Success(NamedTuple, Result[ANSWER, ERROR]):
+@dataclass(frozen=True)
+class Success(Result[ANSWER, ERROR]):
     answer: ANSWER  # Usage: return Success(answer)
 
     def unwrap(self) -> ANSWER:
         return self.answer
 
 
-class Failure(NamedTuple, Result[ANSWER, ERROR]):
+@dataclass(frozen=True)
+class Failure(Result[ANSWER, ERROR]):
     error: ERROR  # Usage: return Failure(error)
 ```
 

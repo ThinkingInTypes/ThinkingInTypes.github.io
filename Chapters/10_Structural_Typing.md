@@ -108,7 +108,7 @@ Imagine we have objects that need to support a `close()` method (like files or n
 We can define a protocol `Closable` and use it to write a function that closes a batch of resources:
 
 ```python
-# example_3.py
+# file_resource.py
 from typing import Protocol, Iterable
 
 
@@ -159,6 +159,7 @@ For example:
 ```python
 # example_4.py
 from typing import runtime_checkable, Protocol
+from file_resource import FileResource
 
 
 @runtime_checkable
@@ -192,7 +193,7 @@ You can define a protocol for the logger’s interface and program against that.
 For instance:
 
 ```python
-# example_5.py
+# logger_protocol.py
 from typing import Protocol
 
 
@@ -337,7 +338,7 @@ We can make it generic so that a `Container[int]` will be a protocol for "contai
 For example:
 
 ```python
-# example_6.py
+# container.py
 from typing import Protocol, TypeVar
 
 T = TypeVar("T")
@@ -353,7 +354,8 @@ Now we can implement this protocol for different types by providing concrete typ
 For instance, a container of strings and a container of integers:
 
 ```python
-# example_7.py
+# container_types.py
+
 class StringContainer:
     def __init__(self, value: str):
         self.value = value
@@ -375,9 +377,9 @@ They don’t subclass `Container`, but structurally they match `Container[str]` 
 We can write functions that use the generic protocol to accept any kind of container and preserve the type information of the contained item:
 
 ```python
-# example_8.py
-from typing import Container
-
+# generic_function.py
+from container import Container
+from container_types import StringContainer, IntContainer
 
 def print_item_and_return[C](container: Container[C]) -> C:
     item = container.get_item()
@@ -410,6 +412,7 @@ For example, if we have:
 ```python
 # example_9.py
 from typing import TypeVar
+from logger_protocol import Logger
 
 T = TypeVar("T", bound=Logger)  # using our Logger protocol from earlier
 ```
@@ -422,7 +425,7 @@ It’s also worth noting that Python 3.12 introduced an even more concise way to
 For instance, one could write something like:
 
 ```python
-# example_10.py
+# generic_method_in_protocol.py
 from typing import Protocol
 
 
