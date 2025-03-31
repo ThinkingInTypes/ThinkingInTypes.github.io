@@ -69,15 +69,17 @@ def f1(phone: str):
 def f2(phone_num: str):
     CHECK = re.compile(r"^\+?(\d{1,3})?[\s\-.()]*([\d\s\-.()]+)$")
     assert CHECK.match(phone_num), f"Invalid {phone_num}"
+    ...
 ```
 
 Each function has its own custom code and reports errors differently.
 There might be many such functions spread throughout the system.
 If there's a bug or any change in the way phone numbers are validated, all validation code must be hunted down and corrected, and any tests must also be updated.
 
-Although this is probably the worst-case scenario, it can happen a little at a time.
+Does anyone set out to write code like this?
+Probably not--it starts out seeming like "the simplest thing" and just continues to accumulate, one logical step at a time.
 Although *you* might not write code like this, systems like this exist, for phone numbers and for many other data items represented as strings.
-In this chapter we'll see how creating custom types can dramatically simplify validation.
+In this chapter we'll see how creating custom types can dramatically simplify validation and guarantee correctness throughout your system.
 
 ## Design by Contract
 
