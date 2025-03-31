@@ -128,7 +128,40 @@ def requires(*conditions: Condition):
     return decorator
 ```
 
-Now we can apply `require` to validate function arguments:
+A `Condition` combines each `check` with a description of the failure condition.
+`check` is a `Callable` (usually a function) that takes the same arguments as the function being decorated and returns a `bool` indicating whether the condition is satisfied.
+
+`requires` is a decorator factory; it returns a decorator that can be applied to any function. 
+It accepts any number of Condition instances.
+
+This inner function `decorator` is the actual decorator. It receives the target function func that’s being wrapped.
+
+`wrapper` is the new function that will replace `func`. `@wraps(func)` preserves metadata like the function name and docstring.
+
+Here's a basic example:
+
+```python
+# basic_requires.py
+from book_utils import Catch
+from require import requires, Condition
+
+positivity = Condition(
+    check=lambda x: x > 0,
+    message="x must be positive"
+)
+
+@requires(positivity)
+def sqrt(x):
+    return x ** 0.5
+
+sqrt(4)
+with Catch():
+    sqrt(-2)
+```
+
+`positivity` defines an instance of `Condition`, which is then imposed on `sqrt` using `requires`.
+
+`requires` implements an improved DbC for validating function arguments:
 
 ```python
 # bank_account.py
@@ -178,7 +211,9 @@ with Catch():
 ## Error: Amount cannot be negative
 ```
 
-This is an improvement over placing the testing code at the beginning of each function, as Eiffel does and as traditional Python functions do--assuming they test their arguments.
+Now we have two `Condition`s, and in `withdraw` you see multiple conditions applied in one `requires` decorator.
+
+This is an improvement over placing the validation code at the beginning of each function, as Eiffel does and as traditional Python functions do--assuming they check their arguments.
 The `@require` clearly shows that constraints have been placed on the arguments.
 `Condition` reduces duplicated code.
 
