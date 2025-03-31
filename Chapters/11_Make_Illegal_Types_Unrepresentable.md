@@ -7,12 +7,12 @@ In addition, data is checked when you create an instance, rather than when data 
 With this approach, you:
 
 1. Discover problems sooner.
-1. Clarify the meaning of your code.
-1. Share custom type benefits across all functions that use those types.
-1. Eliminate duplicate validation checks and their associated maintenance.
-1. Make changes easier by localizing validation to a single point.
-1. Eliminate the need for techniques such as Design By Contract (DBC).
-1. Enable more focused testing with finer granularity.
+2. Clarify the meaning of your code.
+3. Share custom type benefits across all functions that use those types.
+4. Eliminate duplicate validation checks and their associated maintenance.
+5. Make changes easier by localizing validation to a single point.
+6. Eliminate the need for techniques such as Design By Contract (DBC).
+7. Enable more focused testing with finer granularity.
 
 ## "Stringly Typed"
 
@@ -29,7 +29,55 @@ It is a daunting job to change the meaning of that stringly-typed item.
 You must look through every function that uses it and ensure that your change is reflected in the validations in every single function.
 Because the logic is distributed, it's highly likely you will miss some.
 
-[[Stringly typed example, possibly telephone numbers]]
+Consider representing phone numbers as strings. Here are just a few of the different formats you might have to deal with:
+
+```python
+# string_phone_numbers.py
+# Some problematic formats
+phone_numbers: list[str] = [
+    "5551234",         # No formatting – unclear area code
+    "555-1234",        # US format, but without area code
+    "(555) 123-4567",  # US format with punctuation
+    "555.123.4567",    # Inconsistent punctuation
+    "+1-555-123-4567", # International format
+    "+44 20 7946 0958",# UK format – space-separated
+    "5551234567",      # No formatting at all
+    "555 1234",        # Ambiguous – local format?
+    "555-12ab",        # Invalid characters
+    "CallMeMaybe",     # Completely invalid
+    "01234",           # Leading zero – looks like a zip code
+    "",                # Empty string
+    " 5551234 ",       # Whitespace issues
+]
+```
+
+Every time you write a function that takes a phone number represented as a string, you must first validate that number.
+Here's one of the worst approaches imaginable:
+
+```python
+# phone_number_functions.py
+from string_phone_numbers import phone_numbers
+import re
+
+def f1(phone: str):
+    VALID = re.compile(r"^\+?(\d{1,3})?[\s\-.()]*([\d\s\-.()]+)$")
+    if not VALID.match(phone):
+        print(f"Error {phone = }")
+        return
+    ...
+
+def f2(phone_num: str):
+    CHECK = re.compile(r"^\+?(\d{1,3})?[\s\-.()]*([\d\s\-.()]+)$")
+    assert CHECK.match(phone_num), f"Invalid {phone_num}"
+```
+
+Each function has its own custom code and reports errors differently.
+There might be many such functions spread throughout the system.
+If there's a bug or any change in the way phone numbers are validated, all validation code must be hunted down and corrected, and any tests must also be updated.
+
+Although this is probably the worst-case scenario, it can happen a little at a time.
+Although *you* might not write code like this, systems like this exist, for phone numbers and for many other data items represented as strings.
+In this chapter we'll see how creating custom types can dramatically simplify validation.
 
 ## Design by Contract
 
@@ -42,11 +90,11 @@ The argument-validation problem was observed by Bertrand Meyer and introduced as
 
 Eiffel provided explicit keywords to make DbC a first-class citizen in the language:
 
-| Keyword     | Purpose                |
-|-------------|------------------------|
-| `require`   | Preconditions          |
-| `ensure`    | Postconditions         |
-| `invariant` | Class-wide conditions  |
+| Keyword     | Purpose                                    |
+|-------------|--------------------------------------------|
+| `require`   | Preconditions                              |
+| `ensure`    | Postconditions                             |
+| `invariant` | Class-wide conditions                      |
 | `old`       | Refers to previous state in postconditions |
 
 The idea was that each function you wrote would use these to ensure the correctness of the inputs and outputs of that function.
@@ -135,11 +183,11 @@ The `@require` clearly shows that constraints have been placed on the arguments.
 DbC definitely helps, but it has limitations:
 
 1. A programmer can forget to use `requires`, or simply choose to perform argument checks by hand if DbC doesn't make sense to them.
-1. The tests are spread throughout your system. Using `Condition` centralizes the test logic but making changes still risks missing updates on functions.
+2. The tests are spread throughout your system. Using `Condition` centralizes the test logic but making changes still risks missing updates on functions.
 
 ## Centralizing Validation into Custom Types
 
-Instead of DbC, we can encode our validations into custom types.
+Instead of DbC, we can encode validations into custom types.
 This way, incorrect objects of those types cannot successfully be created.
 In addition, the types are usually *domain driven*, that is, they represent a concept from the problem domain.
 
@@ -236,5 +284,5 @@ Suppose, for example, we discover Python's implementation of `Decimal` is too sl
 We can modify `Amount` to use, for example, a Rust implementation of decimal numbers.
 We *only* need to change the code for `Amount` because the rest of the code simply uses `Amount`.
 
-Possibly best of all, any new code we write using our types transparently uses all the type validations built into those types.
+Possibly best of all, any new code we write using custom types transparently uses all the type validations built into those types.
 If we add more validations, they automatically propagate to each site where those types are used.
