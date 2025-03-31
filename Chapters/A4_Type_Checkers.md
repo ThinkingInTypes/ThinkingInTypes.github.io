@@ -26,11 +26,13 @@ Example:
 
 ```python
 # script.py
+from book_utils import Catch
+
 def greet(name: str) -> str:
     return f"Hello, {name}!"
 
-
-greet(123)  # R: Incorrect type
+with Catch():
+    greet(123)  # Incorrect type
 ```
 
 Running `mypy script.py` outputs:

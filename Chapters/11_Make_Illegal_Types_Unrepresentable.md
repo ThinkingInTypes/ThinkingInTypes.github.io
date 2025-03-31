@@ -151,17 +151,19 @@ positivity = Condition(
 )
 
 @requires(positivity)
-def sqrt(x):
+def sqrt(x) -> float:
     return x ** 0.5
 
-sqrt(4)
+print(sqrt(4))
+## 2.0
 with Catch():
     sqrt(-2)
+## Error: x must be positive
 ```
 
 `positivity` defines an instance of `Condition`, which is then imposed on `sqrt` using `requires`.
 
-`requires` implements an improved DbC for validating function arguments:
+`requires` produces an improved DbC for validating function arguments:
 
 ```python
 # bank_account.py
@@ -211,16 +213,17 @@ with Catch():
 ## Error: Amount cannot be negative
 ```
 
-Now we have two `Condition`s, and in `withdraw` you see multiple conditions applied in one `requires` decorator.
+In this case the `Condition`s are being applied to methods, so their `lambda`s both include `self`.
+In `withdraw` you see multiple `Condition`s applied in one `requires` decorator.
 
-This is an improvement over placing the validation code at the beginning of each function, as Eiffel does and as traditional Python functions do--assuming they check their arguments.
+This is an improvement over placing the validation code at the beginning of each function body, as Eiffel does and as traditional Python functions do--assuming they check their arguments.
 The `@require` clearly shows that constraints have been placed on the arguments.
 `Condition` reduces duplicated code.
 
 DbC definitely helps, but it has limitations:
 
 1. A programmer can forget to use `requires`, or simply choose to perform argument checks by hand if DbC doesn't make sense to them.
-2. The tests are spread throughout your system. Using `Condition` centralizes the test logic but making changes still risks missing updates on functions.
+2. Validations are spread throughout your system. Using `Condition` centralizes the logic, but making changes still risks missing updates on functions.
 
 ## Centralizing Validation into Custom Types
 
@@ -254,10 +257,15 @@ class Amount:
         return Amount(self.value - other.value)
 ```
 
-An `Amount` converts multiple forms of input into a `Decimal`, guaranteeing that it is non-negative.
+Although `Amount` is a frozen `dataclass`, it is still possible to write an `__init__` method.
+Here, it allows `Amount` to convert multiple forms of input into a `Decimal`, then check that it is non-negative.
+It then modifies itself using `object.__setattr__`, but other than that we want it safely immutable.
+Thus, you can modify a frozen `dataclass` using `object.__setattr__`, but this is best only done during construction, as seen here.
+You can also call `object.__setattr__` in `__post_init__`, but if you find yourself doing it in other methods you should reconsider whether your type is really frozen.
+Requiring `object.__setattr__` to modify a frozen `dataclass` means you can easily discover all modifications.
+
 Note that `__add__` and `__sub__` simply return new `Amount` objects without worrying whether they are non-negative--the constructor takes care of that.
 
-`Amount` is a `frozen` `dataclass` because it includes a constructor that modifies the object using `object.__setattr__`, but other than that we want it safely immutable.
 `Balance` contains an `Amount`, but it doesn't need any fancy construction behavior so we can produce an immutable using `NamedTuple`:
 
 ```python
@@ -276,8 +284,8 @@ class Balance(NamedTuple):
         return Balance(self.amount - withdrawal_amount)
 ```
 
-`Balance` produces new immutable objects when you `deposit` and `withdraw`.
-Because it is using `Amount`, it needs no special validation checks.
+Note that `Balance` simply produces new immutable objects when you `deposit` and `withdraw`.
+Because it uses `Amount`, it needs no special validation checks.
 
 In the new, improved `BankAccount`, the need for validation disappears because it is automatically enforced by the types:
 
@@ -316,7 +324,7 @@ with Catch():
 ```
 
 The code is significantly more straightforward to understand and change.
-If we need to change the underlying representation of `Amount` we only do it in one place.
+If we need to modify the underlying representation of `Amount` we only do it in one place.
 Suppose, for example, we discover Python's implementation of `Decimal` is too slow.
 We can modify `Amount` to use, for example, a Rust implementation of decimal numbers.
 We *only* need to change the code for `Amount` because the rest of the code simply uses `Amount`.

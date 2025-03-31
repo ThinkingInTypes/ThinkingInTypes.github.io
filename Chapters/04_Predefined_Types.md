@@ -237,11 +237,13 @@ Example error:
 
 ```python
 # example_17.py
+from book_utils import Catch
+
 def calculate_area(radius: int) -> float:
     return 3.14 * radius**2
 
-
-calculate_area(3.5)  # R: Flagged by static type checker
+with Catch():
+    calculate_area(3.5)  # Flagged by static type checker
 ```
 
 Careful use of annotations combined with static checking tools significantly enhances code robustness and readability.
