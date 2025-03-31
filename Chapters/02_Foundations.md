@@ -27,7 +27,6 @@ Assumptions I make about your Python & programming knowledge.
 - That example is in the Github repository in a subdirectory named for the chapter.
 - The examples do not have `__main__`s; everything is at the top level.
 - If a top-level-statement (TLS) produces output, that output will appear on the following line(s), commented with `##`.
-- If a program does not run successfully, you will see a `# R:` indicating an expected runtime error, typically followed by an explanation.
 - Lines to be called out in text are marked with comments
 - Black for consistent formatting
 - Listings 47 Characters wide: readable on a phone
