@@ -873,13 +873,15 @@ Here's one of the worst approaches imaginable:</p>
 </span><span id="__span-1-12"><a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a><span class="k">def</span> <span class="nf">f2</span><span class="p">(</span><span class="n">phone_num</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
 </span><span id="__span-1-13"><a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a>    <span class="n">CHECK</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;^\+?(\d{1,3})?[\s\-.()]*([\d\s\-.()]+)$&quot;</span><span class="p">)</span>
 </span><span id="__span-1-14"><a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a>    <span class="k">assert</span> <span class="n">CHECK</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">phone_num</span><span class="p">),</span> <span class="sa">f</span><span class="s2">&quot;Invalid </span><span class="si">{</span><span class="n">phone_num</span><span class="si">}</span><span class="s2">&quot;</span>
+</span><span id="__span-1-15"><a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a>    <span class="o">...</span>
 </span></code></pre></div>
 <p>Each function has its own custom code and reports errors differently.
 There might be many such functions spread throughout the system.
 If there's a bug or any change in the way phone numbers are validated, all validation code must be hunted down and corrected, and any tests must also be updated.</p>
-<p>Although this is probably the worst-case scenario, it can happen a little at a time.
+<p>Does anyone set out to write code like this?
+Probably not--it starts out seeming like "the simplest thing" and just continues to accumulate, one logical step at a time.
 Although <em>you</em> might not write code like this, systems like this exist, for phone numbers and for many other data items represented as strings.
-In this chapter we'll see how creating custom types can dramatically simplify validation.</p>
+In this chapter we'll see how creating custom types can dramatically simplify validation and guarantee correctness throughout your system.</p>
 <h2 id="design-by-contract">Design by Contract<a class="headerlink" href="#design-by-contract" title="Permanent link">#</a></h2>
 <p>The argument-validation problem was observed by Bertrand Meyer and introduced as a core concept in his Eiffel programming language, described in the book <em>Object-Oriented Software Construction</em> (1988).
 <em>Design By Contract</em> (DbC) tried to reduce errors by treating the interaction between software components as a formal agreement:</p>
