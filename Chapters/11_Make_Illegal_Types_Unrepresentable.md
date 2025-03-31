@@ -86,9 +86,9 @@ In this chapter we'll see how creating custom types can dramatically simplify va
 The argument-validation problem was observed by Bertrand Meyer and introduced as a core concept in his Eiffel programming language, described in the book *Object-Oriented Software Construction* (1988).
 *Design By Contract* (DbC) tried to reduce errors by treating the interaction between software components as a formal agreement:
 
-- Preconditions: What must be true before a function/method runs.
-- Postconditions: What must be true after the function completes.
-- Invariants: What must always be true about the object state.
+- **_Preconditions_**: What must be true before a function/method runs.
+- **_Postconditions_**: What must be true after the function completes.
+- **_Invariants_**: What must always be true about the object state.
 
 Eiffel provided explicit keywords to make DbC a first-class citizen in the language:
 
@@ -217,8 +217,7 @@ In this case the `Condition`s are being applied to methods, so their `lambda`s b
 In `withdraw` you see multiple `Condition`s applied in one `requires` decorator.
 
 This is an improvement over placing the validation code at the beginning of each function body, as Eiffel does and as traditional Python functions do--assuming they check their arguments.
-The `@require` clearly shows that constraints have been placed on the arguments.
-`Condition` reduces duplicated code.
+The `@requires` clearly shows that constraints have been placed on the arguments, while `Condition` reduces duplicated code.
 
 DbC definitely helps, but it has limitations:
 
@@ -232,7 +231,7 @@ This way, incorrect objects of those types cannot successfully be created.
 In addition, the types are usually *domain driven*, that is, they represent a concept from the problem domain.
 
 For the bank example, we start by creating an `Amount`, which is a `Decimal` value with the fundamental property that it cannot be negative.
-If an `Amount` object exists, you already know that it doesn't contain a negative value:
+If an `Amount` object exists, you know it cannot contain a negative value:
 
 ```python
 # amount.py
@@ -265,6 +264,24 @@ You can also call `object.__setattr__` in `__post_init__`, but if you find yours
 Requiring `object.__setattr__` to modify a frozen `dataclass` means you can easily discover all modifications.
 
 Note that `__add__` and `__sub__` simply return new `Amount` objects without worrying whether they are non-negative--the constructor takes care of that.
+
+If you provide an incorrect `value` to `Amount`, the `Decimal` constructor throws an exception:
+
+```python
+# bad_amount.py
+from amount import Amount
+from book_utils import Catch
+
+print(Amount(123))
+## Amount(value=Decimal('123'))
+print(Amount("123"))
+## Amount(value=Decimal('123'))
+print(Amount(1.23))
+## Amount(value=Decimal('1.23'))
+with Catch():
+    Amount("not-a-number")
+## Error: [<class 'decimal.ConversionSyntax'>]
+```
 
 `Balance` contains an `Amount`, but it doesn't need any fancy construction behavior so we can produce an immutable using `NamedTuple`:
 
@@ -331,3 +348,84 @@ We *only* need to change the code for `Amount` because the rest of the code simp
 
 Possibly best of all, any new code we write using custom types transparently uses all the type validations built into those types.
 If we add more validations, they automatically propagate to each site where those types are used.
+
+## A `PhoneNumber` Type
+
+Let's apply this approach to the stringly-typed phone number problem shown at the beginning of the chapter.
+
+```python
+# phone_number.py
+from dataclasses import dataclass
+from typing import Self
+import re
+
+@dataclass(frozen=True)
+class PhoneNumber:
+    """Represents a validated and normalized phone number."""
+    country_code: str
+    number: str  # Digits only, no formatting
+
+    PHONE_REGEX = re.compile(r"^\+?(\d{1,3})?[\s\-.()]*([\d\s\-.()]+)$")
+
+    @classmethod
+    def parse(cls, raw: str) -> Self:
+        """Parses and validates a raw phone number string."""
+        cleaned = raw.strip()
+        match = cls.PHONE_REGEX.match(cleaned)
+        if not match:
+            raise ValueError(f"Invalid phone number: {raw!r}")
+
+        cc, num = match.groups()
+        digits = re.sub(r"\D", "", num)
+        if not digits:
+            raise ValueError(f"No digits found in: {raw!r}")
+
+        country_code = cc if cc else "1"  # default to US
+        return cls(country_code=country_code, number=digits)
+
+    def __str__(self) -> str:
+        """Formats the phone number as +<country> <formatted number>."""
+        formatted = self.format_number()
+        return f"+{self.country_code} {formatted}"
+
+    def format_number(self) -> str:
+        """Applies simple formatting rules for 10-digit numbers."""
+        if len(self.number) == 10:
+            return f"({self.number[:3]}) {self.number[3:6]}-{self.number[6:]}"
+        return self.number  # fallback: just the digits
+
+    def __eq__(self, other: object) -> bool:
+        if not isinstance(other, PhoneNumber):
+            return NotImplemented
+        return (
+            self.country_code == other.country_code
+            and self.number == other.number
+        )
+```
+
+We can test this against the list in `string_phone_numbers.py`:
+
+```python
+# phone_numbers_as_types.py
+from phone_number import PhoneNumber
+from string_phone_numbers import phone_numbers
+from book_utils import Catch
+
+for raw in phone_numbers:
+    with Catch():
+        pn = PhoneNumber.parse(raw)
+        print(f"{raw!r} -> {pn}")
+## '5551234' -> +555 1234
+## '555-1234' -> +555 1234
+## '(555) 123-4567' -> +1 (555) 123-4567
+## '555.123.4567' -> +555 1234567
+## '+1-555-123-4567' -> +1 (555) 123-4567
+## '+44 20 7946 0958' -> +44 (207) 946-0958
+## '5551234567' -> +555 1234567
+## '555 1234' -> +555 1234
+## Error: Invalid phone number: '555-12ab'
+## Error: Invalid phone number: 'CallMeMaybe'
+## '01234' -> +012 34
+## Error: Invalid phone number: ''
+## ' 5551234 ' -> +555 1234
+```
