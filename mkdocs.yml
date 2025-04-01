@@ -38,12 +38,12 @@ nav:
   - '11: Make Illegal Types Unrepresentable': 11_Make_Illegal_Types_Unrepresentable.md
   - '12: Errors as Values': 12_Errors_as_Values.md
   - '13: Uncategorized Topics': 13_Uncategorized_Topics.md
-  - 'A1: Annotation Reference': A1_Annotation_Reference.md
-  - 'A2: Glossary': A2_Glossary.md
-  - 'A3: Guidelines': A3_Guidelines.md
-  - 'A4: Type Checkers': A4_Type_Checkers.md
-  - 'A5: Automatic Annotations': A5_Automatic_Annotations.md
-  - 'A6: Class Attributes': A6_Class_Attributes.md
-  - 'A7: Tools': A7_Tools.md
-  - 'A8: Book Utilities': A8_Book_Utilities.md
-  - 'A9: Book Notes': A9_Book_Notes.md
+  - 'A1: Annotation Reference': A01_Annotation_Reference.md
+  - 'A2: Glossary': A02_Glossary.md
+  - 'A3: Guidelines': A03_Guidelines.md
+  - 'A4: Type Checkers': A04_Type_Checkers.md
+  - 'A5: Automatic Annotations': A05_Automatic_Annotations.md
+  - 'A6: Class Attributes': A06_Class_Attributes.md
+  - 'A7: Tools': A07_Tools.md
+  - 'A8: Book Utilities': A08_Book_Utilities.md
+  - 'A9: Book Notes': A09_Book_Notes.md
