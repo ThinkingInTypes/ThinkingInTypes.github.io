@@ -501,6 +501,15 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#a-phonenumber-type" class="md-nav__link">
+    <span class="md-ellipsis">
+      A PhoneNumber Type
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -558,7 +567,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../A1_Annotation_Reference/" class="md-nav__link">
+      <a href="../A01_Annotation_Reference/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -579,7 +588,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../A2_Glossary/" class="md-nav__link">
+      <a href="../A02_Glossary/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -600,7 +609,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../A3_Guidelines/" class="md-nav__link">
+      <a href="../A03_Guidelines/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -621,7 +630,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../A4_Type_Checkers/" class="md-nav__link">
+      <a href="../A04_Type_Checkers/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -642,7 +651,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../A5_Automatic_Annotations/" class="md-nav__link">
+      <a href="../A05_Automatic_Annotations/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -663,7 +672,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../A6_Class_Attributes/" class="md-nav__link">
+      <a href="../A06_Class_Attributes/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -684,7 +693,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../A7_Tools/" class="md-nav__link">
+      <a href="../A07_Tools/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -705,7 +714,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../A8_Book_Utilities/" class="md-nav__link">
+      <a href="../A08_Book_Utilities/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -726,7 +735,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../A9_Book_Notes/" class="md-nav__link">
+      <a href="../A09_Book_Notes/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -788,6 +797,15 @@
   <a href="#centralizing-validation-into-custom-types" class="md-nav__link">
     <span class="md-ellipsis">
       Centralizing Validation into Custom Types
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#a-phonenumber-type" class="md-nav__link">
+    <span class="md-ellipsis">
+      A PhoneNumber Type
     </span>
   </a>
   
@@ -886,9 +904,9 @@ In this chapter we'll see how creating custom types can dramatically simplify va
 <p>The argument-validation problem was observed by Bertrand Meyer and introduced as a core concept in his Eiffel programming language, described in the book <em>Object-Oriented Software Construction</em> (1988).
 <em>Design By Contract</em> (DbC) tried to reduce errors by treating the interaction between software components as a formal agreement:</p>
 <ul>
-<li>Preconditions: What must be true before a function/method runs.</li>
-<li>Postconditions: What must be true after the function completes.</li>
-<li>Invariants: What must always be true about the object state.</li>
+<li><strong><em>Preconditions</em></strong>: What must be true before a function/method runs.</li>
+<li><strong><em>Postconditions</em></strong>: What must be true after the function completes.</li>
+<li><strong><em>Invariants</em></strong>: What must always be true about the object state.</li>
 </ul>
 <p>Eiffel provided explicit keywords to make DbC a first-class citizen in the language:</p>
 <table>
@@ -1020,8 +1038,7 @@ It accepts any number of Condition instances.</p>
 <p>In this case the <code>Condition</code>s are being applied to methods, so their <code>lambda</code>s both include <code>self</code>.
 In <code>withdraw</code> you see multiple <code>Condition</code>s applied in one <code>requires</code> decorator.</p>
 <p>This is an improvement over placing the validation code at the beginning of each function body, as Eiffel does and as traditional Python functions do--assuming they check their arguments.
-The <code>@require</code> clearly shows that constraints have been placed on the arguments.
-<code>Condition</code> reduces duplicated code.</p>
+The <code>@requires</code> clearly shows that constraints have been placed on the arguments, while <code>Condition</code> reduces duplicated code.</p>
 <p>DbC definitely helps, but it has limitations:</p>
 <ol>
 <li>A programmer can forget to use <code>requires</code>, or simply choose to perform argument checks by hand if DbC doesn't make sense to them.</li>
@@ -1032,7 +1049,7 @@ The <code>@require</code> clearly shows that constraints have been placed on the
 This way, incorrect objects of those types cannot successfully be created.
 In addition, the types are usually <em>domain driven</em>, that is, they represent a concept from the problem domain.</p>
 <p>For the bank example, we start by creating an <code>Amount</code>, which is a <code>Decimal</code> value with the fundamental property that it cannot be negative.
-If an <code>Amount</code> object exists, you already know that it doesn't contain a negative value:</p>
+If an <code>Amount</code> object exists, you know it cannot contain a negative value:</p>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="c1"># amount.py</span>
 </span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span>
 </span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="kn">from</span> <span class="nn">decimal</span> <span class="kn">import</span> <span class="n">Decimal</span>
@@ -1061,55 +1078,70 @@ Thus, you can modify a frozen <code>dataclass</code> using <code>object.__setatt
 You can also call <code>object.__setattr__</code> in <code>__post_init__</code>, but if you find yourself doing it in other methods you should reconsider whether your type is really frozen.
 Requiring <code>object.__setattr__</code> to modify a frozen <code>dataclass</code> means you can easily discover all modifications.</p>
 <p>Note that <code>__add__</code> and <code>__sub__</code> simply return new <code>Amount</code> objects without worrying whether they are non-negative--the constructor takes care of that.</p>
-<p><code>Balance</code> contains an <code>Amount</code>, but it doesn't need any fancy construction behavior so we can produce an immutable using <code>NamedTuple</code>:</p>
-<div class="language-python highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="c1"># balance.py</span>
-</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">NamedTuple</span>
-</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="kn">from</span> <span class="nn">amount</span> <span class="kn">import</span> <span class="n">Amount</span>
+<p>If you provide an incorrect <code>value</code> to <code>Amount</code>, the <code>Decimal</code> constructor throws an exception:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="c1"># bad_amount.py</span>
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="kn">from</span> <span class="nn">amount</span> <span class="kn">import</span> <span class="n">Amount</span>
+</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="kn">from</span> <span class="nn">book_utils</span> <span class="kn">import</span> <span class="n">Catch</span>
 </span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>
-</span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>
-</span><span id="__span-6-6"><a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a><span class="k">class</span> <span class="nc">Balance</span><span class="p">(</span><span class="n">NamedTuple</span><span class="p">):</span>
-</span><span id="__span-6-7"><a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a>    <span class="n">amount</span><span class="p">:</span> <span class="n">Amount</span>
-</span><span id="__span-6-8"><a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a>
-</span><span id="__span-6-9"><a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a>    <span class="k">def</span> <span class="nf">deposit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">deposit_amount</span><span class="p">:</span> <span class="n">Amount</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Balance&quot;</span><span class="p">:</span>
-</span><span id="__span-6-10"><a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a>        <span class="k">return</span> <span class="n">Balance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">amount</span> <span class="o">+</span> <span class="n">deposit_amount</span><span class="p">)</span>
-</span><span id="__span-6-11"><a id="__codelineno-6-11" name="__codelineno-6-11" href="#__codelineno-6-11"></a>
-</span><span id="__span-6-12"><a id="__codelineno-6-12" name="__codelineno-6-12" href="#__codelineno-6-12"></a>    <span class="k">def</span> <span class="nf">withdraw</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">withdrawal_amount</span><span class="p">:</span> <span class="n">Amount</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Balance&quot;</span><span class="p">:</span>
-</span><span id="__span-6-13"><a id="__codelineno-6-13" name="__codelineno-6-13" href="#__codelineno-6-13"></a>        <span class="k">return</span> <span class="n">Balance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">amount</span> <span class="o">-</span> <span class="n">withdrawal_amount</span><span class="p">)</span>
+</span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="nb">print</span><span class="p">(</span><span class="n">Amount</span><span class="p">(</span><span class="mi">123</span><span class="p">))</span>
+</span><span id="__span-6-6"><a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a><span class="c1">## Amount(value=Decimal(&#39;123&#39;))</span>
+</span><span id="__span-6-7"><a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a><span class="nb">print</span><span class="p">(</span><span class="n">Amount</span><span class="p">(</span><span class="s2">&quot;123&quot;</span><span class="p">))</span>
+</span><span id="__span-6-8"><a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a><span class="c1">## Amount(value=Decimal(&#39;123&#39;))</span>
+</span><span id="__span-6-9"><a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a><span class="nb">print</span><span class="p">(</span><span class="n">Amount</span><span class="p">(</span><span class="mf">1.23</span><span class="p">))</span>
+</span><span id="__span-6-10"><a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a><span class="c1">## Amount(value=Decimal(&#39;1.23&#39;))</span>
+</span><span id="__span-6-11"><a id="__codelineno-6-11" name="__codelineno-6-11" href="#__codelineno-6-11"></a><span class="k">with</span> <span class="n">Catch</span><span class="p">():</span>
+</span><span id="__span-6-12"><a id="__codelineno-6-12" name="__codelineno-6-12" href="#__codelineno-6-12"></a>    <span class="n">Amount</span><span class="p">(</span><span class="s2">&quot;not-a-number&quot;</span><span class="p">)</span>
+</span><span id="__span-6-13"><a id="__codelineno-6-13" name="__codelineno-6-13" href="#__codelineno-6-13"></a><span class="c1">## Error: [&lt;class &#39;decimal.ConversionSyntax&#39;&gt;]</span>
+</span></code></pre></div>
+<p><code>Balance</code> contains an <code>Amount</code>, but it doesn't need any fancy construction behavior so we can produce an immutable using <code>NamedTuple</code>:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="c1"># balance.py</span>
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">NamedTuple</span>
+</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="kn">from</span> <span class="nn">amount</span> <span class="kn">import</span> <span class="n">Amount</span>
+</span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a>
+</span><span id="__span-7-5"><a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a>
+</span><span id="__span-7-6"><a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a><span class="k">class</span> <span class="nc">Balance</span><span class="p">(</span><span class="n">NamedTuple</span><span class="p">):</span>
+</span><span id="__span-7-7"><a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a>    <span class="n">amount</span><span class="p">:</span> <span class="n">Amount</span>
+</span><span id="__span-7-8"><a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a>
+</span><span id="__span-7-9"><a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a>    <span class="k">def</span> <span class="nf">deposit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">deposit_amount</span><span class="p">:</span> <span class="n">Amount</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Balance&quot;</span><span class="p">:</span>
+</span><span id="__span-7-10"><a id="__codelineno-7-10" name="__codelineno-7-10" href="#__codelineno-7-10"></a>        <span class="k">return</span> <span class="n">Balance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">amount</span> <span class="o">+</span> <span class="n">deposit_amount</span><span class="p">)</span>
+</span><span id="__span-7-11"><a id="__codelineno-7-11" name="__codelineno-7-11" href="#__codelineno-7-11"></a>
+</span><span id="__span-7-12"><a id="__codelineno-7-12" name="__codelineno-7-12" href="#__codelineno-7-12"></a>    <span class="k">def</span> <span class="nf">withdraw</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">withdrawal_amount</span><span class="p">:</span> <span class="n">Amount</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Balance&quot;</span><span class="p">:</span>
+</span><span id="__span-7-13"><a id="__codelineno-7-13" name="__codelineno-7-13" href="#__codelineno-7-13"></a>        <span class="k">return</span> <span class="n">Balance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">amount</span> <span class="o">-</span> <span class="n">withdrawal_amount</span><span class="p">)</span>
 </span></code></pre></div>
 <p>Note that <code>Balance</code> simply produces new immutable objects when you <code>deposit</code> and <code>withdraw</code>.
 Because it uses <code>Amount</code>, it needs no special validation checks.</p>
 <p>In the new, improved <code>BankAccount</code>, the need for validation disappears because it is automatically enforced by the types:</p>
-<div class="language-python highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="c1"># typed_bank_account.py</span>
-</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span>
-</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="kn">from</span> <span class="nn">amount</span> <span class="kn">import</span> <span class="n">Amount</span>
-</span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="kn">from</span> <span class="nn">balance</span> <span class="kn">import</span> <span class="n">Balance</span>
-</span><span id="__span-7-5"><a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a><span class="kn">from</span> <span class="nn">book_utils</span> <span class="kn">import</span> <span class="n">Catch</span>
-</span><span id="__span-7-6"><a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a>
-</span><span id="__span-7-7"><a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a>
-</span><span id="__span-7-8"><a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a><span class="nd">@dataclass</span>
-</span><span id="__span-7-9"><a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a><span class="k">class</span> <span class="nc">BankAccount</span><span class="p">:</span>
-</span><span id="__span-7-10"><a id="__codelineno-7-10" name="__codelineno-7-10" href="#__codelineno-7-10"></a>    <span class="n">balance</span><span class="p">:</span> <span class="n">Balance</span>
-</span><span id="__span-7-11"><a id="__codelineno-7-11" name="__codelineno-7-11" href="#__codelineno-7-11"></a>
-</span><span id="__span-7-12"><a id="__codelineno-7-12" name="__codelineno-7-12" href="#__codelineno-7-12"></a>    <span class="k">def</span> <span class="nf">deposit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">amount</span><span class="p">:</span> <span class="n">Amount</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-</span><span id="__span-7-13"><a id="__codelineno-7-13" name="__codelineno-7-13" href="#__codelineno-7-13"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">balance</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">balance</span><span class="o">.</span><span class="n">deposit</span><span class="p">(</span><span class="n">amount</span><span class="p">)</span>
-</span><span id="__span-7-14"><a id="__codelineno-7-14" name="__codelineno-7-14" href="#__codelineno-7-14"></a>        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;Deposited </span><span class="si">{</span><span class="n">amount</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s2">, balance: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">balance</span><span class="o">.</span><span class="n">amount</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s2">&quot;</span>
-</span><span id="__span-7-15"><a id="__codelineno-7-15" name="__codelineno-7-15" href="#__codelineno-7-15"></a>
-</span><span id="__span-7-16"><a id="__codelineno-7-16" name="__codelineno-7-16" href="#__codelineno-7-16"></a>    <span class="k">def</span> <span class="nf">withdraw</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">amount</span><span class="p">:</span> <span class="n">Amount</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-</span><span id="__span-7-17"><a id="__codelineno-7-17" name="__codelineno-7-17" href="#__codelineno-7-17"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">balance</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">balance</span><span class="o">.</span><span class="n">withdraw</span><span class="p">(</span><span class="n">amount</span><span class="p">)</span>
-</span><span id="__span-7-18"><a id="__codelineno-7-18" name="__codelineno-7-18" href="#__codelineno-7-18"></a>        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;Withdrew </span><span class="si">{</span><span class="n">amount</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s2">, balance: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">balance</span><span class="o">.</span><span class="n">amount</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s2">&quot;</span>
-</span><span id="__span-7-19"><a id="__codelineno-7-19" name="__codelineno-7-19" href="#__codelineno-7-19"></a>
-</span><span id="__span-7-20"><a id="__codelineno-7-20" name="__codelineno-7-20" href="#__codelineno-7-20"></a>
-</span><span id="__span-7-21"><a id="__codelineno-7-21" name="__codelineno-7-21" href="#__codelineno-7-21"></a><span class="n">account</span> <span class="o">=</span> <span class="n">BankAccount</span><span class="p">(</span><span class="n">Balance</span><span class="p">(</span><span class="n">Amount</span><span class="p">(</span><span class="mi">100</span><span class="p">)))</span>
-</span><span id="__span-7-22"><a id="__codelineno-7-22" name="__codelineno-7-22" href="#__codelineno-7-22"></a><span class="nb">print</span><span class="p">(</span><span class="n">account</span><span class="o">.</span><span class="n">deposit</span><span class="p">(</span><span class="n">Amount</span><span class="p">(</span><span class="mi">50</span><span class="p">)))</span>
-</span><span id="__span-7-23"><a id="__codelineno-7-23" name="__codelineno-7-23" href="#__codelineno-7-23"></a><span class="c1">## Deposited 50, balance: 150</span>
-</span><span id="__span-7-24"><a id="__codelineno-7-24" name="__codelineno-7-24" href="#__codelineno-7-24"></a><span class="nb">print</span><span class="p">(</span><span class="n">account</span><span class="o">.</span><span class="n">withdraw</span><span class="p">(</span><span class="n">Amount</span><span class="p">(</span><span class="mi">30</span><span class="p">)))</span>
-</span><span id="__span-7-25"><a id="__codelineno-7-25" name="__codelineno-7-25" href="#__codelineno-7-25"></a><span class="c1">## Withdrew 30, balance: 120</span>
-</span><span id="__span-7-26"><a id="__codelineno-7-26" name="__codelineno-7-26" href="#__codelineno-7-26"></a><span class="k">with</span> <span class="n">Catch</span><span class="p">():</span>
-</span><span id="__span-7-27"><a id="__codelineno-7-27" name="__codelineno-7-27" href="#__codelineno-7-27"></a>    <span class="n">account</span><span class="o">.</span><span class="n">withdraw</span><span class="p">(</span><span class="n">Amount</span><span class="p">(</span><span class="mi">200</span><span class="p">))</span>
-</span><span id="__span-7-28"><a id="__codelineno-7-28" name="__codelineno-7-28" href="#__codelineno-7-28"></a><span class="c1">## Error: Amount(-80) cannot be negative</span>
-</span><span id="__span-7-29"><a id="__codelineno-7-29" name="__codelineno-7-29" href="#__codelineno-7-29"></a><span class="k">with</span> <span class="n">Catch</span><span class="p">():</span>
-</span><span id="__span-7-30"><a id="__codelineno-7-30" name="__codelineno-7-30" href="#__codelineno-7-30"></a>    <span class="n">account</span><span class="o">.</span><span class="n">deposit</span><span class="p">(</span><span class="n">Amount</span><span class="p">(</span><span class="o">-</span><span class="mi">10</span><span class="p">))</span>
-</span><span id="__span-7-31"><a id="__codelineno-7-31" name="__codelineno-7-31" href="#__codelineno-7-31"></a><span class="c1">## Error: Amount(-10) cannot be negative</span>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="c1"># typed_bank_account.py</span>
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span>
+</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="kn">from</span> <span class="nn">amount</span> <span class="kn">import</span> <span class="n">Amount</span>
+</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="kn">from</span> <span class="nn">balance</span> <span class="kn">import</span> <span class="n">Balance</span>
+</span><span id="__span-8-5"><a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a><span class="kn">from</span> <span class="nn">book_utils</span> <span class="kn">import</span> <span class="n">Catch</span>
+</span><span id="__span-8-6"><a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a>
+</span><span id="__span-8-7"><a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a>
+</span><span id="__span-8-8"><a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a><span class="nd">@dataclass</span>
+</span><span id="__span-8-9"><a id="__codelineno-8-9" name="__codelineno-8-9" href="#__codelineno-8-9"></a><span class="k">class</span> <span class="nc">BankAccount</span><span class="p">:</span>
+</span><span id="__span-8-10"><a id="__codelineno-8-10" name="__codelineno-8-10" href="#__codelineno-8-10"></a>    <span class="n">balance</span><span class="p">:</span> <span class="n">Balance</span>
+</span><span id="__span-8-11"><a id="__codelineno-8-11" name="__codelineno-8-11" href="#__codelineno-8-11"></a>
+</span><span id="__span-8-12"><a id="__codelineno-8-12" name="__codelineno-8-12" href="#__codelineno-8-12"></a>    <span class="k">def</span> <span class="nf">deposit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">amount</span><span class="p">:</span> <span class="n">Amount</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+</span><span id="__span-8-13"><a id="__codelineno-8-13" name="__codelineno-8-13" href="#__codelineno-8-13"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">balance</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">balance</span><span class="o">.</span><span class="n">deposit</span><span class="p">(</span><span class="n">amount</span><span class="p">)</span>
+</span><span id="__span-8-14"><a id="__codelineno-8-14" name="__codelineno-8-14" href="#__codelineno-8-14"></a>        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;Deposited </span><span class="si">{</span><span class="n">amount</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s2">, balance: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">balance</span><span class="o">.</span><span class="n">amount</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s2">&quot;</span>
+</span><span id="__span-8-15"><a id="__codelineno-8-15" name="__codelineno-8-15" href="#__codelineno-8-15"></a>
+</span><span id="__span-8-16"><a id="__codelineno-8-16" name="__codelineno-8-16" href="#__codelineno-8-16"></a>    <span class="k">def</span> <span class="nf">withdraw</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">amount</span><span class="p">:</span> <span class="n">Amount</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+</span><span id="__span-8-17"><a id="__codelineno-8-17" name="__codelineno-8-17" href="#__codelineno-8-17"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">balance</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">balance</span><span class="o">.</span><span class="n">withdraw</span><span class="p">(</span><span class="n">amount</span><span class="p">)</span>
+</span><span id="__span-8-18"><a id="__codelineno-8-18" name="__codelineno-8-18" href="#__codelineno-8-18"></a>        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;Withdrew </span><span class="si">{</span><span class="n">amount</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s2">, balance: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">balance</span><span class="o">.</span><span class="n">amount</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s2">&quot;</span>
+</span><span id="__span-8-19"><a id="__codelineno-8-19" name="__codelineno-8-19" href="#__codelineno-8-19"></a>
+</span><span id="__span-8-20"><a id="__codelineno-8-20" name="__codelineno-8-20" href="#__codelineno-8-20"></a>
+</span><span id="__span-8-21"><a id="__codelineno-8-21" name="__codelineno-8-21" href="#__codelineno-8-21"></a><span class="n">account</span> <span class="o">=</span> <span class="n">BankAccount</span><span class="p">(</span><span class="n">Balance</span><span class="p">(</span><span class="n">Amount</span><span class="p">(</span><span class="mi">100</span><span class="p">)))</span>
+</span><span id="__span-8-22"><a id="__codelineno-8-22" name="__codelineno-8-22" href="#__codelineno-8-22"></a><span class="nb">print</span><span class="p">(</span><span class="n">account</span><span class="o">.</span><span class="n">deposit</span><span class="p">(</span><span class="n">Amount</span><span class="p">(</span><span class="mi">50</span><span class="p">)))</span>
+</span><span id="__span-8-23"><a id="__codelineno-8-23" name="__codelineno-8-23" href="#__codelineno-8-23"></a><span class="c1">## Deposited 50, balance: 150</span>
+</span><span id="__span-8-24"><a id="__codelineno-8-24" name="__codelineno-8-24" href="#__codelineno-8-24"></a><span class="nb">print</span><span class="p">(</span><span class="n">account</span><span class="o">.</span><span class="n">withdraw</span><span class="p">(</span><span class="n">Amount</span><span class="p">(</span><span class="mi">30</span><span class="p">)))</span>
+</span><span id="__span-8-25"><a id="__codelineno-8-25" name="__codelineno-8-25" href="#__codelineno-8-25"></a><span class="c1">## Withdrew 30, balance: 120</span>
+</span><span id="__span-8-26"><a id="__codelineno-8-26" name="__codelineno-8-26" href="#__codelineno-8-26"></a><span class="k">with</span> <span class="n">Catch</span><span class="p">():</span>
+</span><span id="__span-8-27"><a id="__codelineno-8-27" name="__codelineno-8-27" href="#__codelineno-8-27"></a>    <span class="n">account</span><span class="o">.</span><span class="n">withdraw</span><span class="p">(</span><span class="n">Amount</span><span class="p">(</span><span class="mi">200</span><span class="p">))</span>
+</span><span id="__span-8-28"><a id="__codelineno-8-28" name="__codelineno-8-28" href="#__codelineno-8-28"></a><span class="c1">## Error: Amount(-80) cannot be negative</span>
+</span><span id="__span-8-29"><a id="__codelineno-8-29" name="__codelineno-8-29" href="#__codelineno-8-29"></a><span class="k">with</span> <span class="n">Catch</span><span class="p">():</span>
+</span><span id="__span-8-30"><a id="__codelineno-8-30" name="__codelineno-8-30" href="#__codelineno-8-30"></a>    <span class="n">account</span><span class="o">.</span><span class="n">deposit</span><span class="p">(</span><span class="n">Amount</span><span class="p">(</span><span class="o">-</span><span class="mi">10</span><span class="p">))</span>
+</span><span id="__span-8-31"><a id="__codelineno-8-31" name="__codelineno-8-31" href="#__codelineno-8-31"></a><span class="c1">## Error: Amount(-10) cannot be negative</span>
 </span></code></pre></div>
 <p>The code is significantly more straightforward to understand and change.
 If we need to modify the underlying representation of <code>Amount</code> we only do it in one place.
@@ -1118,6 +1150,80 @@ We can modify <code>Amount</code> to use, for example, a Rust implementation of 
 We <em>only</em> need to change the code for <code>Amount</code> because the rest of the code simply uses <code>Amount</code>.</p>
 <p>Possibly best of all, any new code we write using custom types transparently uses all the type validations built into those types.
 If we add more validations, they automatically propagate to each site where those types are used.</p>
+<h2 id="a-phonenumber-type">A <code>PhoneNumber</code> Type<a class="headerlink" href="#a-phonenumber-type" title="Permanent link">#</a></h2>
+<p>Let's apply this approach to the stringly-typed phone number problem shown at the beginning of the chapter.</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="c1"># phone_number.py</span>
+</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span>
+</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Self</span>
+</span><span id="__span-9-4"><a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="kn">import</span> <span class="nn">re</span>
+</span><span id="__span-9-5"><a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a>
+</span><span id="__span-9-6"><a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a><span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</span><span id="__span-9-7"><a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a><span class="k">class</span> <span class="nc">PhoneNumber</span><span class="p">:</span>
+</span><span id="__span-9-8"><a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Represents a validated and normalized phone number.&quot;&quot;&quot;</span>
+</span><span id="__span-9-9"><a id="__codelineno-9-9" name="__codelineno-9-9" href="#__codelineno-9-9"></a>    <span class="n">country_code</span><span class="p">:</span> <span class="nb">str</span>
+</span><span id="__span-9-10"><a id="__codelineno-9-10" name="__codelineno-9-10" href="#__codelineno-9-10"></a>    <span class="n">number</span><span class="p">:</span> <span class="nb">str</span>  <span class="c1"># Digits only, no formatting</span>
+</span><span id="__span-9-11"><a id="__codelineno-9-11" name="__codelineno-9-11" href="#__codelineno-9-11"></a>
+</span><span id="__span-9-12"><a id="__codelineno-9-12" name="__codelineno-9-12" href="#__codelineno-9-12"></a>    <span class="n">PHONE_REGEX</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;^\+?(\d{1,3})?[\s\-.()]*([\d\s\-.()]+)$&quot;</span><span class="p">)</span>
+</span><span id="__span-9-13"><a id="__codelineno-9-13" name="__codelineno-9-13" href="#__codelineno-9-13"></a>
+</span><span id="__span-9-14"><a id="__codelineno-9-14" name="__codelineno-9-14" href="#__codelineno-9-14"></a>    <span class="nd">@classmethod</span>
+</span><span id="__span-9-15"><a id="__codelineno-9-15" name="__codelineno-9-15" href="#__codelineno-9-15"></a>    <span class="k">def</span> <span class="nf">parse</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">raw</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Self</span><span class="p">:</span>
+</span><span id="__span-9-16"><a id="__codelineno-9-16" name="__codelineno-9-16" href="#__codelineno-9-16"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Parses and validates a raw phone number string.&quot;&quot;&quot;</span>
+</span><span id="__span-9-17"><a id="__codelineno-9-17" name="__codelineno-9-17" href="#__codelineno-9-17"></a>        <span class="n">cleaned</span> <span class="o">=</span> <span class="n">raw</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+</span><span id="__span-9-18"><a id="__codelineno-9-18" name="__codelineno-9-18" href="#__codelineno-9-18"></a>        <span class="n">match</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">PHONE_REGEX</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">cleaned</span><span class="p">)</span>
+</span><span id="__span-9-19"><a id="__codelineno-9-19" name="__codelineno-9-19" href="#__codelineno-9-19"></a>        <span class="k">if</span> <span class="ow">not</span> <span class="n">match</span><span class="p">:</span>
+</span><span id="__span-9-20"><a id="__codelineno-9-20" name="__codelineno-9-20" href="#__codelineno-9-20"></a>            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Invalid phone number: </span><span class="si">{</span><span class="n">raw</span><span class="si">!r}</span><span class="s2">&quot;</span><span class="p">)</span>
+</span><span id="__span-9-21"><a id="__codelineno-9-21" name="__codelineno-9-21" href="#__codelineno-9-21"></a>
+</span><span id="__span-9-22"><a id="__codelineno-9-22" name="__codelineno-9-22" href="#__codelineno-9-22"></a>        <span class="n">cc</span><span class="p">,</span> <span class="n">num</span> <span class="o">=</span> <span class="n">match</span><span class="o">.</span><span class="n">groups</span><span class="p">()</span>
+</span><span id="__span-9-23"><a id="__codelineno-9-23" name="__codelineno-9-23" href="#__codelineno-9-23"></a>        <span class="n">digits</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;\D&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">num</span><span class="p">)</span>
+</span><span id="__span-9-24"><a id="__codelineno-9-24" name="__codelineno-9-24" href="#__codelineno-9-24"></a>        <span class="k">if</span> <span class="ow">not</span> <span class="n">digits</span><span class="p">:</span>
+</span><span id="__span-9-25"><a id="__codelineno-9-25" name="__codelineno-9-25" href="#__codelineno-9-25"></a>            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;No digits found in: </span><span class="si">{</span><span class="n">raw</span><span class="si">!r}</span><span class="s2">&quot;</span><span class="p">)</span>
+</span><span id="__span-9-26"><a id="__codelineno-9-26" name="__codelineno-9-26" href="#__codelineno-9-26"></a>
+</span><span id="__span-9-27"><a id="__codelineno-9-27" name="__codelineno-9-27" href="#__codelineno-9-27"></a>        <span class="n">country_code</span> <span class="o">=</span> <span class="n">cc</span> <span class="k">if</span> <span class="n">cc</span> <span class="k">else</span> <span class="s2">&quot;1&quot;</span>  <span class="c1"># default to US</span>
+</span><span id="__span-9-28"><a id="__codelineno-9-28" name="__codelineno-9-28" href="#__codelineno-9-28"></a>        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">country_code</span><span class="o">=</span><span class="n">country_code</span><span class="p">,</span> <span class="n">number</span><span class="o">=</span><span class="n">digits</span><span class="p">)</span>
+</span><span id="__span-9-29"><a id="__codelineno-9-29" name="__codelineno-9-29" href="#__codelineno-9-29"></a>
+</span><span id="__span-9-30"><a id="__codelineno-9-30" name="__codelineno-9-30" href="#__codelineno-9-30"></a>    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+</span><span id="__span-9-31"><a id="__codelineno-9-31" name="__codelineno-9-31" href="#__codelineno-9-31"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Formats the phone number as +&lt;country&gt; &lt;formatted number&gt;.&quot;&quot;&quot;</span>
+</span><span id="__span-9-32"><a id="__codelineno-9-32" name="__codelineno-9-32" href="#__codelineno-9-32"></a>        <span class="n">formatted</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">format_number</span><span class="p">()</span>
+</span><span id="__span-9-33"><a id="__codelineno-9-33" name="__codelineno-9-33" href="#__codelineno-9-33"></a>        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;+</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">country_code</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">formatted</span><span class="si">}</span><span class="s2">&quot;</span>
+</span><span id="__span-9-34"><a id="__codelineno-9-34" name="__codelineno-9-34" href="#__codelineno-9-34"></a>
+</span><span id="__span-9-35"><a id="__codelineno-9-35" name="__codelineno-9-35" href="#__codelineno-9-35"></a>    <span class="k">def</span> <span class="nf">format_number</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+</span><span id="__span-9-36"><a id="__codelineno-9-36" name="__codelineno-9-36" href="#__codelineno-9-36"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Applies simple formatting rules for 10-digit numbers.&quot;&quot;&quot;</span>
+</span><span id="__span-9-37"><a id="__codelineno-9-37" name="__codelineno-9-37" href="#__codelineno-9-37"></a>        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">number</span><span class="p">)</span> <span class="o">==</span> <span class="mi">10</span><span class="p">:</span>
+</span><span id="__span-9-38"><a id="__codelineno-9-38" name="__codelineno-9-38" href="#__codelineno-9-38"></a>            <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;(</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">number</span><span class="p">[:</span><span class="mi">3</span><span class="p">]</span><span class="si">}</span><span class="s2">) </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">number</span><span class="p">[</span><span class="mi">3</span><span class="p">:</span><span class="mi">6</span><span class="p">]</span><span class="si">}</span><span class="s2">-</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">number</span><span class="p">[</span><span class="mi">6</span><span class="p">:]</span><span class="si">}</span><span class="s2">&quot;</span>
+</span><span id="__span-9-39"><a id="__codelineno-9-39" name="__codelineno-9-39" href="#__codelineno-9-39"></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">number</span>  <span class="c1"># fallback: just the digits</span>
+</span><span id="__span-9-40"><a id="__codelineno-9-40" name="__codelineno-9-40" href="#__codelineno-9-40"></a>
+</span><span id="__span-9-41"><a id="__codelineno-9-41" name="__codelineno-9-41" href="#__codelineno-9-41"></a>    <span class="k">def</span> <span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="nb">object</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+</span><span id="__span-9-42"><a id="__codelineno-9-42" name="__codelineno-9-42" href="#__codelineno-9-42"></a>        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">PhoneNumber</span><span class="p">):</span>
+</span><span id="__span-9-43"><a id="__codelineno-9-43" name="__codelineno-9-43" href="#__codelineno-9-43"></a>            <span class="k">return</span> <span class="bp">NotImplemented</span>
+</span><span id="__span-9-44"><a id="__codelineno-9-44" name="__codelineno-9-44" href="#__codelineno-9-44"></a>        <span class="k">return</span> <span class="p">(</span>
+</span><span id="__span-9-45"><a id="__codelineno-9-45" name="__codelineno-9-45" href="#__codelineno-9-45"></a>            <span class="bp">self</span><span class="o">.</span><span class="n">country_code</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">country_code</span>
+</span><span id="__span-9-46"><a id="__codelineno-9-46" name="__codelineno-9-46" href="#__codelineno-9-46"></a>            <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">number</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">number</span>
+</span><span id="__span-9-47"><a id="__codelineno-9-47" name="__codelineno-9-47" href="#__codelineno-9-47"></a>        <span class="p">)</span>
+</span></code></pre></div>
+<p>We can test this against the list in <code>string_phone_numbers.py</code>:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="c1"># phone_numbers_as_types.py</span>
+</span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="kn">from</span> <span class="nn">phone_number</span> <span class="kn">import</span> <span class="n">PhoneNumber</span>
+</span><span id="__span-10-3"><a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a><span class="kn">from</span> <span class="nn">string_phone_numbers</span> <span class="kn">import</span> <span class="n">phone_numbers</span>
+</span><span id="__span-10-4"><a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a><span class="kn">from</span> <span class="nn">book_utils</span> <span class="kn">import</span> <span class="n">Catch</span>
+</span><span id="__span-10-5"><a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a>
+</span><span id="__span-10-6"><a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a><span class="k">for</span> <span class="n">raw</span> <span class="ow">in</span> <span class="n">phone_numbers</span><span class="p">:</span>
+</span><span id="__span-10-7"><a id="__codelineno-10-7" name="__codelineno-10-7" href="#__codelineno-10-7"></a>    <span class="k">with</span> <span class="n">Catch</span><span class="p">():</span>
+</span><span id="__span-10-8"><a id="__codelineno-10-8" name="__codelineno-10-8" href="#__codelineno-10-8"></a>        <span class="n">pn</span> <span class="o">=</span> <span class="n">PhoneNumber</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">raw</span><span class="p">)</span>
+</span><span id="__span-10-9"><a id="__codelineno-10-9" name="__codelineno-10-9" href="#__codelineno-10-9"></a>        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">raw</span><span class="si">!r}</span><span class="s2"> -&gt; </span><span class="si">{</span><span class="n">pn</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</span><span id="__span-10-10"><a id="__codelineno-10-10" name="__codelineno-10-10" href="#__codelineno-10-10"></a><span class="c1">## &#39;5551234&#39; -&gt; +555 1234</span>
+</span><span id="__span-10-11"><a id="__codelineno-10-11" name="__codelineno-10-11" href="#__codelineno-10-11"></a><span class="c1">## &#39;555-1234&#39; -&gt; +555 1234</span>
+</span><span id="__span-10-12"><a id="__codelineno-10-12" name="__codelineno-10-12" href="#__codelineno-10-12"></a><span class="c1">## &#39;(555) 123-4567&#39; -&gt; +1 (555) 123-4567</span>
+</span><span id="__span-10-13"><a id="__codelineno-10-13" name="__codelineno-10-13" href="#__codelineno-10-13"></a><span class="c1">## &#39;555.123.4567&#39; -&gt; +555 1234567</span>
+</span><span id="__span-10-14"><a id="__codelineno-10-14" name="__codelineno-10-14" href="#__codelineno-10-14"></a><span class="c1">## &#39;+1-555-123-4567&#39; -&gt; +1 (555) 123-4567</span>
+</span><span id="__span-10-15"><a id="__codelineno-10-15" name="__codelineno-10-15" href="#__codelineno-10-15"></a><span class="c1">## &#39;+44 20 7946 0958&#39; -&gt; +44 (207) 946-0958</span>
+</span><span id="__span-10-16"><a id="__codelineno-10-16" name="__codelineno-10-16" href="#__codelineno-10-16"></a><span class="c1">## &#39;5551234567&#39; -&gt; +555 1234567</span>
+</span><span id="__span-10-17"><a id="__codelineno-10-17" name="__codelineno-10-17" href="#__codelineno-10-17"></a><span class="c1">## &#39;555 1234&#39; -&gt; +555 1234</span>
+</span><span id="__span-10-18"><a id="__codelineno-10-18" name="__codelineno-10-18" href="#__codelineno-10-18"></a><span class="c1">## Error: Invalid phone number: &#39;555-12ab&#39;</span>
+</span><span id="__span-10-19"><a id="__codelineno-10-19" name="__codelineno-10-19" href="#__codelineno-10-19"></a><span class="c1">## Error: Invalid phone number: &#39;CallMeMaybe&#39;</span>
+</span><span id="__span-10-20"><a id="__codelineno-10-20" name="__codelineno-10-20" href="#__codelineno-10-20"></a><span class="c1">## &#39;01234&#39; -&gt; +012 34</span>
+</span><span id="__span-10-21"><a id="__codelineno-10-21" name="__codelineno-10-21" href="#__codelineno-10-21"></a><span class="c1">## Error: Invalid phone number: &#39;&#39;</span>
+</span><span id="__span-10-22"><a id="__codelineno-10-22" name="__codelineno-10-22" href="#__codelineno-10-22"></a><span class="c1">## &#39; 5551234 &#39; -&gt; +555 1234</span>
+</span></code></pre></div>
 
 
 
