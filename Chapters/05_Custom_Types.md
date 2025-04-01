@@ -33,10 +33,12 @@ def f1(stars: int) -> int:
     assert 1 <= stars <= 10, f"f1: {stars}"
     return stars + 5
 
+
 def f2(stars: int) -> int:
     # ...each place it is used.
     assert 1 <= stars <= 10, f"f2: {stars}"
     return stars * 5
+
 
 stars1 = 6
 print(stars1)
@@ -73,7 +75,7 @@ class Stars:
         self._number = n_stars  # Private by convention
         self.condition()
 
-    def condition(self, s: int|None = None):
+    def condition(self, s: int | None = None):
         if s:
             assert 1 <= s <= 10, f"{self}: {s}"
         else:
@@ -81,7 +83,8 @@ class Stars:
 
     # Prevent external modification:
     @property
-    def number(self): return self._number
+    def number(self):
+        return self._number
 
     # Create readable output:
     def __str__(self) -> str:
@@ -99,6 +102,7 @@ class Stars:
         self._number = n_stars * 5
         self.condition()  # Postcondition
         return self._number
+
 
 stars1 = Stars(4)
 print(stars1)
@@ -135,11 +139,13 @@ They provide a structured, concise way to define data-holding objects:
 # messenger.py
 from dataclasses import dataclass, replace
 
+
 @dataclass
 class Messenger:
     name: str
     number: int
     depth: float = 0.0  # Default argument
+
 
 x = Messenger(name="x", number=9, depth=2.0)
 m = Messenger("foo", 12, 3.14)
@@ -182,11 +188,13 @@ Python data classes support immutability through a `frozen=True` parameter:
 # frozen_data_classes.py
 from dataclasses import dataclass
 
+
 @dataclass(frozen=True)
 class Messenger:
     name: str
     number: int
     depth: float = 0.0  # Default
+
 
 m = Messenger("foo", 12, 3.14)
 print(m)
@@ -212,14 +220,18 @@ from book_utils import Catch
 @dataclass(frozen=True)
 class Stars:
     number: int
+
     def __post_init__(self) -> None:
         assert 1 <= self.number <= 10, f"{self}"
+
 
 def f1(s: Stars) -> Stars:
     return Stars(s.number + 5)
 
+
 def f2(s: Stars) -> Stars:
     return Stars(s.number * 5)
+
 
 stars1 = Stars(4)
 print(stars1)
@@ -262,25 +274,31 @@ Consider a `Person` object composed of `FullName`, `BirthDate`, and `Email` data
 # dataclass_composition.py
 from dataclasses import dataclass
 
+
 @dataclass(frozen=True)
 class FullName:
     name: str
+
     def __post_init__(self) -> None:
         print(f"FullName checking {self.name}")
-        assert len(self.name.split()) > 1, \
-              f"'{self.name}' needs first and last names"
+        assert len(self.name.split()) > 1, f"'{self.name}' needs first and last names"
+
 
 @dataclass(frozen=True)
 class BirthDate:
     dob: str
+
     def __post_init__(self) -> None:
         print(f"BirthDate checking {self.dob}")
+
 
 @dataclass(frozen=True)
 class EmailAddress:
     address: str
+
     def __post_init__(self) -> None:
         print(f"EmailAddress checking {self.address}")
+
 
 @dataclass(frozen=True)
 class Person:
@@ -288,10 +306,11 @@ class Person:
     date_of_birth: BirthDate
     email: EmailAddress
 
+
 person = Person(
     FullName("Bruce Eckel"),
     BirthDate("7/8/1957"),
-    EmailAddress("mindviewinc@gmail.com")
+    EmailAddress("mindviewinc@gmail.com"),
 )
 ## FullName checking Bruce Eckel
 ## BirthDate checking 7/8/1957
@@ -365,6 +384,7 @@ from book_utils import Catch
 @dataclass(frozen=True)
 class Day:
     n: int
+
     def __post_init__(self) -> None:
         assert 1 <= self.n <= 31, f"{self}"
 
@@ -372,6 +392,7 @@ class Day:
 @dataclass(frozen=True)
 class Year:
     n: int
+
     def __post_init__(self) -> None:
         assert 1900 < self.n <= 2022, f"{self}"
 
@@ -407,6 +428,7 @@ class BirthDate:
     m: Month
     d: Day
     y: Year
+
     def __post_init__(self):
         self.m.check_day(self.d)
 
@@ -424,7 +446,7 @@ for date in [
     with Catch():
         print(date)
         print(BirthDate(Month.number(date[0]), Day(date[1]), Year(date[2])))
-        print('-' * 30)
+        print("-" * 30)
 ## (7, 8, 1957)
 ## BirthDate(m=JULY, d=Day(n=8), y=Year(n=1957))
 ## ------------------------------
@@ -457,6 +479,7 @@ from book_utils import Catch
 @dataclass(frozen=True)
 class Day:
     n: int
+
     def __post_init__(self) -> None:
         assert 1 <= self.n <= 31, f"Day({self.n})"
 
@@ -464,6 +487,7 @@ class Day:
 @dataclass(frozen=True)
 class Year:
     n: int
+
     def __post_init__(self) -> None:
         assert 1900 < self.n <= 2022, f"Year({self.n})"
 
@@ -473,6 +497,7 @@ class Month:
     name: str
     n: int
     max_days: int
+
     def __post_init__(self):
         assert 1 <= self.n <= 12, f"Month({self.n})"
         assert self.max_days in [28, 30, 31], f"Month max_days {self.max_days}"
@@ -482,20 +507,23 @@ class Month:
 
     @staticmethod
     def make_months():
-        return [Month(m[0], m[1], m[2]) for m in [
-            ("January", 1, 31),
-            ("February", 2, 28),
-            ("March", 3, 31),
-            ("April", 4, 30),
-            ("May", 5, 31),
-            ("June", 6, 30),
-            ("July", 7, 31),
-            ("August", 8, 31),
-            ("September", 9, 30),
-            ("October", 10, 31),
-            ("November", 11, 30),
-            ("December", 12, 31),
-        ]]
+        return [
+            Month(m[0], m[1], m[2])
+            for m in [
+                ("January", 1, 31),
+                ("February", 2, 28),
+                ("March", 3, 31),
+                ("April", 4, 30),
+                ("May", 5, 31),
+                ("June", 6, 30),
+                ("July", 7, 31),
+                ("August", 8, 31),
+                ("September", 9, 30),
+                ("October", 10, 31),
+                ("November", 11, 30),
+                ("December", 12, 31),
+            ]
+        ]
 
 
 @dataclass(frozen=True)
@@ -531,7 +559,7 @@ for date in [
     with Catch():
         print(date)
         print(BirthDate(months.number(date[0]), Day(date[1]), Year(date[2])))
-        print('-' * 30)
+        print("-" * 30)
 ## (7, 8, 1957)
 ## BirthDate(m=Month(name='July', n=7,
 ## max_days=31), d=Day(n=8), y=Year(n=1957))

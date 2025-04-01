@@ -24,7 +24,7 @@ Annotating lambdas directly isn't supported; however, annotations can be implied
 # example_2.py
 from typing import Callable
 
-adder: Callable[[int, int], int] = lambda x, y: x + y
+adder: Callable[[int, int], int] = lambda x, y: x + y  # noqa: E731
 ```
 
 This explicit approach ensures that lambda behavior is type-checked properly.

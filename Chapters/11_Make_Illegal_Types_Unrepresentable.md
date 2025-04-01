@@ -35,19 +35,19 @@ Consider representing phone numbers as strings. Here are just a few of the diffe
 # string_phone_numbers.py
 # Some problematic formats
 phone_numbers: list[str] = [
-    "5551234",         # No formatting – unclear area code
-    "555-1234",        # US format, but without area code
+    "5551234",  # No formatting – unclear area code
+    "555-1234",  # US format, but without area code
     "(555) 123-4567",  # US format with punctuation
-    "555.123.4567",    # Inconsistent punctuation
-    "+1-555-123-4567", # International format
-    "+44 20 7946 0958",# UK format – space-separated
-    "5551234567",      # No formatting at all
-    "555 1234",        # Ambiguous – local format?
-    "555-12ab",        # Invalid characters
-    "CallMeMaybe",     # Completely invalid
-    "01234",           # Leading zero – looks like a zip code
-    "",                # Empty string
-    " 5551234 ",       # Whitespace issues
+    "555.123.4567",  # Inconsistent punctuation
+    "+1-555-123-4567",  # International format
+    "+44 20 7946 0958",  # UK format – space-separated
+    "5551234567",  # No formatting at all
+    "555 1234",  # Ambiguous – local format?
+    "555-12ab",  # Invalid characters
+    "CallMeMaybe",  # Completely invalid
+    "01234",  # Leading zero – looks like a zip code
+    "",  # Empty string
+    " 5551234 ",  # Whitespace issues
 ]
 ```
 
@@ -56,8 +56,8 @@ Here's one of the worst approaches imaginable:
 
 ```python
 # phone_number_functions.py
-from string_phone_numbers import phone_numbers
 import re
+
 
 def f1(phone: str):
     VALID = re.compile(r"^\+?(\d{1,3})?[\s\-.()]*([\d\s\-.()]+)$")
@@ -65,6 +65,7 @@ def f1(phone: str):
         print(f"Error {phone = }")
         return
     ...
+
 
 def f2(phone_num: str):
     CHECK = re.compile(r"^\+?(\d{1,3})?[\s\-.()]*([\d\s\-.()]+)$")
@@ -145,14 +146,13 @@ Here's a basic example:
 from book_utils import Catch
 from require import requires, Condition
 
-positivity = Condition(
-    check=lambda x: x > 0,
-    message="x must be positive"
-)
+positivity = Condition(check=lambda x: x > 0, message="x must be positive")
+
 
 @requires(positivity)
 def sqrt(x) -> float:
-    return x ** 0.5
+    return x**0.5
+
 
 print(sqrt(4))
 ## 2.0
@@ -172,7 +172,6 @@ from decimal import Decimal
 
 from book_utils import Catch
 from require import requires, Condition
-from amount import Amount
 
 positive_amount = Condition(
     check=lambda self, amount: amount >= Decimal("0"),
@@ -180,8 +179,7 @@ positive_amount = Condition(
 )
 
 sufficient_balance = Condition(
-    check=lambda self, amount: self.balance >= amount,
-    message="Insufficient balance"
+    check=lambda self, amount: self.balance >= amount, message="Insufficient balance"
 )
 
 
@@ -359,9 +357,11 @@ from dataclasses import dataclass
 from typing import Self
 import re
 
+
 @dataclass(frozen=True)
 class PhoneNumber:
     """Represents a validated and normalized phone number."""
+
     country_code: str
     number: str  # Digits only, no formatting
 
@@ -397,10 +397,7 @@ class PhoneNumber:
     def __eq__(self, other: object) -> bool:
         if not isinstance(other, PhoneNumber):
             return NotImplemented
-        return (
-            self.country_code == other.country_code
-            and self.number == other.number
-        )
+        return self.country_code == other.country_code and self.number == other.number
 ```
 
 We can test this against the list in `string_phone_numbers.py`:

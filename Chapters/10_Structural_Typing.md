@@ -359,6 +359,7 @@ For instance, a container of strings and a container of integers:
 ```python
 # container_types.py
 
+
 class StringContainer:
     def __init__(self, value: str):
         self.value = value
@@ -383,6 +384,7 @@ We can write functions that use the generic protocol to accept any kind of conta
 # generic_function.py
 from container import Container
 from container_types import StringContainer, IntContainer
+
 
 def print_item_and_return[C](container: Container[C]) -> C:
     item = container.get_item()
