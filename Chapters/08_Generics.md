@@ -145,3 +145,46 @@ number_processor: Processor[float] = int_processor  # Valid due to contravarianc
 ```
 
 Understanding variance ensures accurate type relationships, especially when designing flexible APIs or libraries.
+
+## Currying
+
+Currying is the process of transforming a function that takes multiple arguments into a series of functions that each take a single argument.
+Python doesn’t intrinsically support currying the way functional languages like Haskell do, but you can implement it with the `functools` module:
+
+```python
+# pseudo_currying.py
+from functools import partial
+
+def add(x: int, y: int) -> int:
+    return x + y
+
+add_five = partial(add, 5)
+print(add_five(3)) 
+```
+
+`partial()` doesn’t strictly curry, but lets you fix some arguments and get back a new function.
+
+Here's a generic curry decorator for any two-arg function:
+
+```python
+# generic_currying_decorator.py
+from typing import Callable, TypeVar
+
+A = TypeVar("A")
+B = TypeVar("B")
+C = TypeVar("C")
+
+def curry(func: Callable[[A, B], C]) -> Callable[[A], Callable[[B], C]]:
+    def outer(a: A) -> Callable[[B], C]:
+        def inner(b: B) -> C:
+            return func(a, b)
+        return inner
+    return outer
+
+@curry
+def multiply(x: int, y: int) -> int:
+    return x * y
+
+times_ten = multiply(10)
+print(times_ten(3))
+```
