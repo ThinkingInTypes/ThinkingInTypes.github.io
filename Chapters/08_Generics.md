@@ -159,7 +159,8 @@ def add(x: int, y: int) -> int:
     return x + y
 
 add_five = partial(add, 5)
-print(add_five(3)) 
+print(add_five(3))
+## 8
 ```
 
 `partial()` doesn’t strictly curry, but lets you fix some arguments and get back a new function.
@@ -187,4 +188,5 @@ def multiply(x: int, y: int) -> int:
 
 times_ten = multiply(10)
 print(times_ten(3))
+## 30
 ```

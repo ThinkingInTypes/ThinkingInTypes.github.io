@@ -363,7 +363,6 @@ What if you need to compose a more complex function from multiple other function
 from pprint import pprint
 
 from return_result import func_a
-
 ## [(0, <Success: 0>),
 ##  (1, <Failure: func_a(1)>),
 ##  (2, <Success: 2>),
@@ -478,7 +477,6 @@ class Failure(Result[ANSWER, ERROR]):
 from pprint import pprint
 
 from composing_functions import func_a, func_b, func_c, func_d
-
 ## [(0, <Success: 0>),
 ##  (1, <Failure: func_a(1)>),
 ##  (2, <Success: 2>),
@@ -536,7 +534,6 @@ What if you need to create a `composed` function that takes multiple arguments? 
 from pprint import pprint
 
 from composing_functions import func_a, func_b, func_c
-
 ## [(0, <Success: 0>),
 ##  (1, <Failure: func_a(1)>),
 ##  (2, <Success: 2>),
