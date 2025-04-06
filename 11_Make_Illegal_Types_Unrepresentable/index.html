@@ -877,7 +877,8 @@ Every such function must start from scratch and analyze that string to see if it
 <p>It is a daunting job to change the meaning of that stringly-typed item.
 You must look through every function that uses it and ensure that your change is reflected in the validations in every single function.
 Because the logic is distributed, it's highly likely you will miss some.</p>
-<p>Consider representing phone numbers as strings. Here are just a few of the different formats you might have to deal with:</p>
+<p>Consider representing phone numbers as strings.
+Here are just a few of the different formats you might have to deal with:</p>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1"># string_phone_numbers.py</span>
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="c1"># Some problematic formats</span>
 </span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="n">phone_numbers</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span>
@@ -926,9 +927,12 @@ In this chapter we'll see how creating custom types can dramatically simplify va
 <p>The argument-validation problem was observed by Bertrand Meyer and introduced as a core concept in his Eiffel programming language, described in the book <em>Object-Oriented Software Construction</em> (1988).
 <em>Design By Contract</em> (DbC) tried to reduce errors by treating the interaction between software components as a formal agreement:</p>
 <ul>
-<li><strong><em>Preconditions</em></strong>: What must be true before a function/method runs.</li>
-<li><strong><em>Postconditions</em></strong>: What must be true after the function completes.</li>
-<li><strong><em>Invariants</em></strong>: What must always be true about the object state.</li>
+<li><strong><em>Preconditions</em></strong>:
+  What must be true before a function/method runs.</li>
+<li><strong><em>Postconditions</em></strong>:
+  What must be true after the function completes.</li>
+<li><strong><em>Invariants</em></strong>:
+  What must always be true about the object state.</li>
 </ul>
 <p>Eiffel provided explicit keywords to make DbC a first-class citizen in the language:</p>
 <table>
@@ -985,10 +989,12 @@ For preconditions in Python, we can create a <code>requires</code> decorator to 
 </span></code></pre></div>
 <p>A <code>Condition</code> combines each <code>check</code> with a description of the failure condition.
 <code>check</code> is a <code>Callable</code> (usually a function) that takes the same arguments as the function being decorated and returns a <code>bool</code> indicating whether the condition is satisfied.</p>
-<p><code>requires</code> is a decorator factory; it returns a decorator that can be applied to any function. 
+<p><code>requires</code> is a decorator factory; it returns a decorator that can be applied to any function.
 It accepts any number of Condition instances.</p>
-<p>This inner function <code>decorator</code> is the actual decorator. It receives the target function func that’s being wrapped.</p>
-<p><code>wrapper</code> is the new function that will replace <code>func</code>. <code>@wraps(func)</code> preserves metadata like the function name and docstring.</p>
+<p>This inner function <code>decorator</code> is the actual decorator.
+It receives the target function func that’s being wrapped.</p>
+<p><code>wrapper</code> is the new function that will replace <code>func</code>.
+<code>@wraps(func)</code> preserves metadata like the function name and docstring.</p>
 <p>Here's a basic example:</p>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="c1"># basic_requires.py</span>
 </span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="kn">from</span> <span class="nn">book_utils</span> <span class="kn">import</span> <span class="n">Catch</span>
@@ -1061,7 +1067,8 @@ The <code>@requires</code> clearly shows that constraints have been placed on th
 <p>DbC definitely helps, but it has limitations:</p>
 <ol>
 <li>A programmer can forget to use <code>requires</code>, or simply choose to perform argument checks by hand if DbC doesn't make sense to them.</li>
-<li>Validations are spread throughout your system. Using <code>Condition</code> centralizes the logic, but making changes still risks missing updates on functions.</li>
+<li>Validations are spread throughout your system.
+   Using <code>Condition</code> centralizes the logic, but making changes still risks missing updates on functions.</li>
 </ol>
 <h2 id="centralizing-validation-into-custom-types">Centralizing Validation into Custom Types<a class="headerlink" href="#centralizing-validation-into-custom-types" title="Permanent link">#</a></h2>
 <p>Instead of DbC, we can encode validations into custom types.

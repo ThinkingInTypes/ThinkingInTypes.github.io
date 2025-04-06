@@ -887,10 +887,8 @@ It's important to understand that this is special behavior created by the tool, 
 </span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="n">d</span><span class="o">.</span><span class="n">measurement2</span> <span class="o">=</span> <span class="mi">200</span>
 </span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="n">d</span><span class="o">.</span><span class="n">measurement3</span> <span class="o">=</span> <span class="mi">300</span>
 </span></code></pre></div>
-<p>Why give names and initialization values to <code>class</code> attributes, then when you
-make an object, immediately create and initialize instance variables with the
-<em>same names</em> as the class attributes? I began to suspect a misunderstanding
-about class attributes.</p>
+<p>Why give names and initialization values to <code>class</code> attributes, then when you make an object, immediately create and initialize instance variables with the <em>same names</em> as the class attributes?
+I began to suspect a misunderstanding about class attributes.</p>
 <p>I asked one of the coaches of the project (not the original author).
 They explained that this was the way you provide default values for Python objects.
 When I attempted to disagree, the effects were demonstrated using a debugger.
@@ -912,21 +910,14 @@ The argument looked something like this:</p>
 </span><span id="__span-1-15"><a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">a2</span><span class="o">.</span><span class="n">x</span><span class="w"> </span><span class="si">= }</span><span class="s2">&quot;</span><span class="p">)</span>
 </span><span id="__span-1-16"><a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a><span class="c1">## a2.x = 100</span>
 </span></code></pre></div>
-<p>(<code>f"{a.x = }"</code> is an f-string feature that eliminates the redundancy of
-displaying a variable.)</p>
-<p>Sure enough, if I create an <code>A</code> object called <code>a</code> and ask for <code>a.x</code>, it looks
-like <code>x</code> has the "default value" of <code>100</code>. I can set <code>a.x</code> to <code>-1</code> and create a
-second <code>A</code> object <code>a2</code> which once again is given the "default value" of
-100---separate storage appears to have been created and initialized for the <code>x</code>
-in both <code>a</code> and <code>a2</code>. Based on this simple example, Python class attributes
-seem to produce default value behavior.</p>
+<p>(<code>f"{a.x = }"</code> is an f-string feature that eliminates the redundancy of displaying a variable.)</p>
+<p>Sure enough, if I create an <code>A</code> object called <code>a</code> and ask for <code>a.x</code>, it looks like <code>x</code> has the "default value" of <code>100</code>.
+I can set <code>a.x</code> to <code>-1</code> and create a second <code>A</code> object <code>a2</code> which once again is given the "default value" of 100---separate storage appears to have been created and initialized for the <code>x</code> in both <code>a</code> and <code>a2</code>.
+Based on this simple example, Python class attributes seem to produce default value behavior.</p>
 <h2 id="where-did-this-idea-come-from">Where Did This Idea Come From?<a class="headerlink" href="#where-did-this-idea-come-from" title="Permanent link">#</a></h2>
-<p>Because of the way class attributes are defined, someone coming from either C++
-or Java might assume they work the same as in C++ or Java: Storage for those
-variables is allocated and initialized <em>before</em> the constructor[^1] is called.
-Indeed, the first time I saw class attributes used for automated constructor
-generation (a trick we shall visit later in this article), I wondered if I had
-previously missed something magical about class attributes.</p>
+<p>Because of the way class attributes are defined, someone coming from either C++ or Java might assume they work the same as in C++ or Java:
+Storage for those variables is allocated and initialized <em>before</em> the constructor[^1] is called.
+Indeed, the first time I saw class attributes used for automated constructor generation (a trick we shall visit later in this article), I wondered if I had previously missed something magical about class attributes.</p>
 <p>Here's a Java example exploring the same ideas:</p>
 <div class="language-java highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1">// DefaultValues.java</span>
 </span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="c1">// Java automatically initializes from defaults</span>
@@ -993,12 +984,15 @@ previously missed something magical about class attributes.</p>
 Changing the value of <code>a.x</code> doesn't influence further new <code>A</code> objects, which are initialized to <code>100</code>.</p>
 <p>In <code>class B</code>, <code>x</code> is changed to a <code>static</code> variable.
 This means there is only a single piece of <code>x</code> storage for the class---no matter how many instances of that class you create.
-This is how Python class attributes work: they are <code>static</code> variables without using the <code>static</code> keyword.</p>
-<p>In <code>B</code>'s <code>toString()</code>, notice that <code>B</code>'s <code>x</code> is accessed the same way it is in <code>Class A</code>'s <code>toString()</code>: as if it were an ordinary object field rather than a <code>static</code> field.
+This is how Python class attributes work:
+they are <code>static</code> variables without using the <code>static</code> keyword.</p>
+<p>In <code>B</code>'s <code>toString()</code>, notice that <code>B</code>'s <code>x</code> is accessed the same way it is in <code>Class A</code>'s <code>toString()</code>:
+as if it were an ordinary object field rather than a <code>static</code> field.
 When you do this, Java automatically uses the <code>static</code> <code>x</code> even though you are syntactically treating it like the object's <code>x</code>.</p>
 <p>In <code>statics()</code>, <code>x</code> is accessed <em>through the class</em> by saying <code>B.x</code>.
 If <code>x</code> were <em>not</em> a <code>static</code> you couldn't do this.</p>
-<p>At the end of <code>class B</code>, notice that we cannot "shadow" an identifier name like we can in Python: we cannot have both an ordinary and a <code>static</code> variable of the same name.
+<p>At the end of <code>class B</code>, notice that we cannot "shadow" an identifier name like we can in Python:
+we cannot have both an ordinary and a <code>static</code> variable of the same name.
 <code>main()</code> demonstrates that the <code>static x</code> in <code>B</code> is indeed associated with the class, and there's only one piece of storage shared by all objects of <code>class B</code>.</p>
 <p>C++ has virtually identical behavior, although <code>static</code> initialization syntax is different for variables:</p>
 <div class="language-cpp highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="c1">// default_values.cpp</span>
@@ -1064,15 +1058,12 @@ If <code>x</code> were <em>not</em> a <code>static</code> you couldn't do this.<
 </span><span id="__span-3-61"><a id="__codelineno-3-61" name="__codelineno-3-61" href="#__codelineno-3-61"></a><span class="p">}</span>
 </span></code></pre></div>
 <p>Just like Java, storage is allocated and initialized for <code>x</code> by the time the <code>A()</code> constructor is called.</p>
-<p>In <code>class B</code>, the <code>static int x</code> definition only indicates that <code>x</code> exists for
-<code>B</code>. To allocate and initialize static variable storage, the external definition
-<code>int B::x = 100</code> is required. If, however, the <code>static</code> is <code>const</code>, the
-initialization value is included in the definition as seen in <code>class C</code>. The
-compiler is able to inline <code>const</code> values where they are used, so no storage is
-required.</p>
+<p>In <code>class B</code>, the <code>static int x</code> definition only indicates that <code>x</code> exists for <code>B</code>.
+To allocate and initialize static variable storage, the external definition <code>int B::x = 100</code> is required.
+If, however, the <code>static</code> is <code>const</code>, the initialization value is included in the definition as seen in <code>class C</code>.
+The compiler is able to inline <code>const</code> values where they are used, so no storage is required.</p>
 <p>In <code>class B</code>, you see that, like Java, C++ also disallows name shadowing.
-<code>main()</code> shows that <code>static x</code> can be accessed either through the class or using
-an instance of the class.</p>
+<code>main()</code> shows that <code>static x</code> can be accessed either through the class or using an instance of the class.</p>
 <p>Notice that both Java and C++ have explicit <code>static</code> keywords, whereas Python does not.
 This adds to the confusion, so when a Java or C++ programmer (who has not learned about class attributes) sees something of the form:</p>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="c1"># no_static_keyword.py</span>
@@ -1085,12 +1076,10 @@ This adds to the confusion, so when a Java or C++ programmer (who has not learne
 After doing a few simple experiments as in <code>like_default_values.py</code>, a C++ or Java programmer might well conclude that Python does indeed work that way.
 And, because a class attribute is a single variable that is "global to the class," it can be mistaken for a default value.</p>
 <h2 id="how-things-break">How Things Break<a class="headerlink" href="#how-things-break" title="Permanent link">#</a></h2>
-<p>The worst thing about this is that code written with the assumption that class
-attributes are just default initialization values seems to work most of the time
-for simple situations like the one I encountered. The code passes its tests, so
-how can I call it "wrong?"</p>
-<p>The problem occurs when you're least expecting it. Here is just one
-configuration that produces a surprise:</p>
+<p>The worst thing about this is that code written with the assumption that class attributes are just default initialization values seems to work most of the time for simple situations like the one I encountered.
+The code passes its tests, so how can I call it "wrong?"</p>
+<p>The problem occurs when you're least expecting it.
+Here is just one configuration that produces a surprise:</p>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="c1"># it_all_goes_wrong.py</span>
 </span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>
 </span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>
@@ -1164,54 +1153,39 @@ configuration that produces a surprise:</p>
 </span><span id="__span-5-71"><a id="__codelineno-5-71" name="__codelineno-5-71" href="#__codelineno-5-71"></a><span class="c1">## a2.x = 100, a2.y = 17</span>
 </span><span id="__span-5-72"><a id="__codelineno-5-72" name="__codelineno-5-72" href="#__codelineno-5-72"></a><span class="c1">## a3.x = 100, a3.y = 200</span>
 </span></code></pre></div>
-<p>Every object instance has its own dictionary. When you assign to an instance
-variable, you add a binding to the instance dictionary. But a class definition
-creates a (class) object, which also has its own dictionary. When you
-define a class attribute, you add a binding to the class dictionary.</p>
-<p>When Python looks up an attribute, it (generally) starts at the instance and if
-it doesn't find the attribute there, falls back to looking it up in the
-associated class/type dictionary (the same way that C++ and Java do).</p>
-<p><code>class A</code> contains two class attributes. <code>change_x()</code> and <code>change_y()</code> are
-"class methods," which mean they operate on the class object, and not a
-particular instance of that class. The first parameter of a <code>classmethod</code> is
-thus not <code>self</code> (the instance reference) but instead <code>cls</code> (the class
-reference). <code>change_x()</code> and <code>change_y()</code> modify the class attributes, and
-<code>reset()</code> sets both class attributes back to their original values.</p>
-<p>The main code starts by creating three <code>A</code> references initialized to <code>None</code>, and
-a <code>display()</code> function that shows the <code>x</code> and <code>y</code> values for each non-<code>None</code>
-object.</p>
-<p>Everything looks like it exhibits "default value" behavior until we call
-<code>change_x()</code> and <code>change_y()</code>, then things get strange. The original <code>a1</code>
-produces the same results as before, but <code>a2</code> is partially affected (<code>x</code> changes
-but not <code>y</code>) and the new <code>a3</code> has different "default values." Calling <code>reset()</code>
-modifies <code>a2</code> (partially) and <code>a3</code> (completely), but not <code>a1</code>.</p>
-<p><code>reset()</code> changes objects it has no direct connection with. The changes
-themselves are inconsistent across the different objects. Imagine these kinds of
-errors appearing in your code base, and trying to track them down based on the
-varying behavior of these so-called "default values."</p>
+<p>Every object instance has its own dictionary.
+When you assign to an instance variable, you add a binding to the instance dictionary.
+But a class definition creates a (class) object, which also has its own dictionary.
+When you define a class attribute, you add a binding to the class dictionary.</p>
+<p>When Python looks up an attribute, it (generally) starts at the instance and if it doesn't find the attribute there, falls back to looking it up in the associated class/type dictionary (the same way that C++ and Java do).</p>
+<p><code>class A</code> contains two class attributes.
+<code>change_x()</code> and <code>change_y()</code> are "class methods," which mean they operate on the class object, and not a particular instance of that class.
+The first parameter of a <code>classmethod</code> is thus not <code>self</code> (the instance reference) but instead <code>cls</code> (the class reference).
+<code>change_x()</code> and <code>change_y()</code> modify the class attributes, and <code>reset()</code> sets both class attributes back to their original values.</p>
+<p>The main code starts by creating three <code>A</code> references initialized to <code>None</code>, and a <code>display()</code> function that shows the <code>x</code> and <code>y</code> values for each non-<code>None</code> object.</p>
+<p>Everything looks like it exhibits "default value" behavior until we call <code>change_x()</code> and <code>change_y()</code>, then things get strange.
+The original <code>a1</code> produces the same results as before, but <code>a2</code> is partially affected (<code>x</code> changes but not <code>y</code>) and the new <code>a3</code> has different "default values."
+Calling <code>reset()</code> modifies <code>a2</code> (partially) and <code>a3</code> (completely), but not <code>a1</code>.</p>
+<p><code>reset()</code> changes objects it has no direct connection with.
+The changes themselves are inconsistent across the different objects.
+Imagine these kinds of errors appearing in your code base, and trying to track them down based on the varying behavior of these so-called "default values."</p>
 <h2 id="class-attributes_1">Class Attributes<a class="headerlink" href="#class-attributes_1" title="Permanent link">#</a></h2>
 <p>The source of confusion is twofold:</p>
 <ol>
 <li>
-<p>Python's dynamic nature. Instance variables are not automatically created,
-   not even in the constructor. They are created the first time they are <em>assigned to</em>, which can happen just about anywhere.</p>
+<p>Python's dynamic nature.
+   Instance variables are not automatically created, not even in the constructor.
+   They are created the first time they are <em>assigned to</em>, which can happen just about anywhere.</p>
 </li>
 <li>
-<p>Unlike C++ and Java, Python allows instance variables to shadow (have the
-   same name as) class attributes. This feature gets significant use in
-   libraries that simplify configuration by using class attributes to
-   automatically generate constructors and other methods.</p>
+<p>Unlike C++ and Java, Python allows instance variables to shadow (have the same name as) class attributes.
+   This feature gets significant use in libraries that simplify configuration by using class attributes to automatically generate constructors and other methods.</p>
 </li>
 </ol>
-<p>The two confusions compound, because if you ask for an uncreated instance
-variable with the same name as a class attribute, Python quietly returns the
-class attribute. If at some later point the instance variable of the same name
-is created (by assigning something to its identifier), the object will from then
-on produce the instance variable instead of the class attribute. The same
-behavior that makes a class attribute look like a default value can cause subtle
-bugs.</p>
-<p>To see this in action, we need a function that displays the inside of classes
-and objects:</p>
+<p>The two confusions compound, because if you ask for an uncreated instance variable with the same name as a class attribute, Python quietly returns the class attribute.
+If at some later point the instance variable of the same name is created (by assigning something to its identifier), the object will from then on produce the instance variable instead of the class attribute.
+The same behavior that makes a class attribute look like a default value can cause subtle bugs.</p>
+<p>To see this in action, we need a function that displays the inside of classes and objects:</p>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="c1"># look_inside.py</span>
 </span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>
 </span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>
@@ -1227,11 +1201,10 @@ and objects:</p>
 </span><span id="__span-6-13"><a id="__codelineno-6-13" name="__codelineno-6-13" href="#__codelineno-6-13"></a>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;[Class </span><span class="si">{</span><span class="n">klass</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">] </span><span class="si">{</span><span class="n">attributes</span><span class="p">(</span><span class="n">klass</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 </span><span id="__span-6-14"><a id="__codelineno-6-14" name="__codelineno-6-14" href="#__codelineno-6-14"></a>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;[Object </span><span class="si">{</span><span class="n">obj_name</span><span class="si">}</span><span class="s2">] </span><span class="si">{</span><span class="n">attributes</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 </span></code></pre></div>
-<p><code>attributes()</code> can be applied to either a class or an object. It uses the
-builtin <code>vars()</code> function to produce the dictionary, skips dunder functions, and
-produces names and values or <code>"Empty"</code> if there are none. <code>attributes()</code> is used
-in <code>show()</code> to display both the class and an object of that class. Now we can
-see the details when using class attributes:</p>
+<p><code>attributes()</code> can be applied to either a class or an object.
+It uses the builtin <code>vars()</code> function to produce the dictionary, skips dunder functions, and produces names and values or <code>"Empty"</code> if there are none.
+<code>attributes()</code> is used in <code>show()</code> to display both the class and an object of that class.
+Now we can see the details when using class attributes:</p>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="c1"># class_attributes.py</span>
 </span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="kn">from</span> <span class="nn">look_inside</span> <span class="kn">import</span> <span class="n">show</span>
 </span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>
@@ -1261,10 +1234,9 @@ see the details when using class attributes:</p>
 </span><span id="__span-7-27"><a id="__codelineno-7-27" name="__codelineno-7-27" href="#__codelineno-7-27"></a><span class="c1">## [Class B] x: 100</span>
 </span><span id="__span-7-28"><a id="__codelineno-7-28" name="__codelineno-7-28" href="#__codelineno-7-28"></a><span class="c1">## [Object b] x: -99</span>
 </span></code></pre></div>
-<p>Creating an <code>A</code> requires no constructor arguments (because there is no
-constructor). There are no instance variables for <code>a</code> until after the assignment
-<code>a.x = 1</code>. <code>B</code>'s constructor requires an argument and uses it to assign to an
-instance variable (thus creating it).</p>
+<p>Creating an <code>A</code> requires no constructor arguments (because there is no constructor).
+There are no instance variables for <code>a</code> until after the assignment <code>a.x = 1</code>.
+<code>B</code>'s constructor requires an argument and uses it to assign to an instance variable (thus creating it).</p>
 <p>Let's look at the original example using <code>show()</code>:</p>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="c1"># like_default_values_shown.py</span>
 </span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="kn">from</span> <span class="nn">look_inside</span> <span class="kn">import</span> <span class="n">show</span>
@@ -1293,18 +1265,13 @@ instance variable (thus creating it).</p>
 </span><span id="__span-8-25"><a id="__codelineno-8-25" name="__codelineno-8-25" href="#__codelineno-8-25"></a><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">a2</span><span class="o">.</span><span class="n">x</span><span class="w"> </span><span class="si">= }</span><span class="s2">&quot;</span><span class="p">)</span>
 </span><span id="__span-8-26"><a id="__codelineno-8-26" name="__codelineno-8-26" href="#__codelineno-8-26"></a><span class="c1">## a2.x = 100</span>
 </span></code></pre></div>
-<p>In the first <code>print()</code>, the instance variable <code>x</code> has not yet been created, so
-Python helpfully produces the class attribute of the same name. But the
-assignment <code>a.x = -1</code> creates an instance variable, and so the second <code>print()</code>
-sees that instance variable. When we create a new <code>A</code> for <code>a2</code>, we're back to a
-new object without an instance variable so it once again produces the class
-attribute, making it look like a default value.</p>
-<p>If you never do anything more complex than this, you won't know there are
-lurking problems.</p>
+<p>In the first <code>print()</code>, the instance variable <code>x</code> has not yet been created, so Python helpfully produces the class attribute of the same name.
+But the assignment <code>a.x = -1</code> creates an instance variable, and so the second <code>print()</code> sees that instance variable.
+When we create a new <code>A</code> for <code>a2</code>, we're back to a new object without an instance variable so it once again produces the class attribute, making it look like a default value.</p>
+<p>If you never do anything more complex than this, you won't know there are lurking problems.</p>
 <h2 id="the-class-attribute-trick">The Class Attribute Trick<a class="headerlink" href="#the-class-attribute-trick" title="Permanent link">#</a></h2>
-<p>Name shadowing is an intentional part of Python's design, and has become an
-integral part of the way some libraries provide easy class configuration. The
-first time I saw it was in Django:</p>
+<p>Name shadowing is an intentional part of Python's design, and has become an integral part of the way some libraries provide easy class configuration.
+The first time I saw it was in Django:</p>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="c1"># example_9.py</span>
 </span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="c1"># class Blog(models.Model):</span>
 </span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="c1">#     name = models.CharField(max_length=100)</span>
@@ -1313,11 +1280,11 @@ first time I saw it was in Django:</p>
 </span><span id="__span-9-6"><a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a><span class="c1">#     def __str__(self):</span>
 </span><span id="__span-9-7"><a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a><span class="c1">#         return self.name</span>
 </span></code></pre></div>
-<p>This seemed magical and confusing. There's no visible constructor but somehow
-<code>__str__</code> can access <code>self.name</code>. Presumably the base-class constructor creates
-the instance variables by using the class attributes as a template.</p>
-<p>Python's <code>dataclasses</code> use a decorator to generate code for the constructor and
-other methods using class attributes as a template. Simply adding <code>dataclasses</code> to <code>it_all_goes_wrong.py</code> fixes the problem:</p>
+<p>This seemed magical and confusing.
+There's no visible constructor but somehow <code>__str__</code> can access <code>self.name</code>.
+Presumably the base-class constructor creates the instance variables by using the class attributes as a template.</p>
+<p>Python's <code>dataclasses</code> use a decorator to generate code for the constructor and other methods using class attributes as a template.
+Simply adding <code>dataclasses</code> to <code>it_all_goes_wrong.py</code> fixes the problem:</p>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="c1"># example_10.py</span>
 </span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span>
 </span><span id="__span-10-3"><a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>
@@ -1330,8 +1297,7 @@ other methods using class attributes as a template. Simply adding <code>dataclas
 <p>I suspect that the use of class attributes as code-generation templates will continue.</p>
 <h2 id="recommendations">Recommendations<a class="headerlink" href="#recommendations" title="Permanent link">#</a></h2>
 <p>The solution is to <em>not</em> make class attributes seem like default values.
-Instead, write proper constructors with default arguments, as you see in
-<code>class A</code>:</p>
+Instead, write proper constructors with default arguments, as you see in <code>class A</code>:</p>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="c1"># choices.py</span>
 </span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="kn">from</span> <span class="nn">look_inside</span> <span class="kn">import</span> <span class="n">show</span>
 </span><span id="__span-11-3"><a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a><span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span>
@@ -1392,20 +1358,20 @@ Instead, write proper constructors with default arguments, as you see in
 </span><span id="__span-11-58"><a id="__codelineno-11-58" name="__codelineno-11-58" href="#__codelineno-11-58"></a><span class="c1">## [Class AA] x: 42, y: 74, z: 22</span>
 </span><span id="__span-11-59"><a id="__codelineno-11-59" name="__codelineno-11-59" href="#__codelineno-11-59"></a><span class="c1">## [Object aa3] x: 100, y: 200, z: 300</span>
 </span></code></pre></div>
-<p>You can also use a <code>dataclass</code> as seen in <code>class AA</code>. Notice the result of
-<code>print(aa)</code> produces a useful description of the object because the <code>dataclass</code>
-automatically generates a <code>__repr__()</code>.</p>
-<p>The <code>dataclass</code> decorator generates a constructor with default arguments that
-match the class attributes. After that you can modify the class attributes and
-it has no effect on the constructed objects. It seems like <code>dataclasses</code> are
-what the original author of the code I encountered was hoping for.</p>
-<p>Although Python's syntax can make it look like other languages, its dynamic
-nature strongly influences the language's semantics. Assumptions that
-it works like C++ or Java will generally produce incorrect results.</p>
-<p>You can learn more about <code>dataclasses</code> from my Pycon 2022 presentation <em>Making
-Dataclasses Work for You</em>, on YouTube (not yet available at this writing).</p>
+<p>You can also use a <code>dataclass</code> as seen in <code>class AA</code>.
+Notice the result of <code>print(aa)</code> produces a useful description of the object because the <code>dataclass</code> automatically generates a <code>__repr__()</code>.</p>
+<p>The <code>dataclass</code> decorator generates a constructor with default arguments that match the class attributes.
+After that you can modify the class attributes and it has no effect on the constructed objects.
+It seems like <code>dataclasses</code> are what the original author of the code I encountered was hoping for.</p>
+<p>Although Python's syntax can make it look like other languages, its dynamic nature strongly influences the language's semantics.
+Assumptions that it works like C++ or Java will generally produce incorrect results.</p>
+<p>You can learn more about <code>dataclasses</code> from my Pycon 2022 presentation <em>Making Dataclasses Work for You</em>, on YouTube (not yet available at this writing).</p>
 <p>Thanks to Barry Warsaw for reviewing and giving feedback.</p>
-<p>[^1]: Languages like C++ and Java use <em>constructor</em> to mean "activities performed after storage allocation and basic initialization." C++ also has a <code>new()</code> for controlling memory allocation, calling it "operator new" rather than "constructor." In contrast, Python's constructor is usually defined as the <code>__new__()</code> function, and <code>__init__()</code> is called the initializer. C++'s operator <code>new()</code> and Python's <code>__new__()</code> are almost never overridden, and are rarely even mentioned (The common usage for Python's <code>__new__()</code> seems to be to create <em>Factory</em> functions). To keep things simple I just say "constructor" when referring to <code>__init__()</code>.</p>
+<p>[^1]: Languages like C++ and Java use <em>constructor</em> to mean "activities performed after storage allocation and basic initialization."
+    C++ also has a <code>new()</code> for controlling memory allocation, calling it "operator new" rather than "constructor."
+    In contrast, Python's constructor is usually defined as the <code>__new__()</code> function, and <code>__init__()</code> is called the initializer.
+    C++'s operator <code>new()</code> and Python's <code>__new__()</code> are almost never overridden, and are rarely even mentioned (The common usage for Python's <code>__new__()</code> seems to be to create <em>Factory</em> functions).
+    To keep things simple I just say "constructor" when referring to <code>__init__()</code>.</p>
 
 
 

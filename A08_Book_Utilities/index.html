@@ -923,11 +923,11 @@ In use, it is shortened to <code>cp</code> so it can also be used to make a code
 The <code>Catch</code> class implements this using:</p>
 <ul>
 <li>
-<p><strong><code>__enter__(self)</code></strong><br />
+<p><strong><code>__enter__(self)</code></strong>\
   When the context is entered, it returns the instance (<code>self</code>), making the methods of the class accessible within the block.</p>
 </li>
 <li>
-<p><strong><code>__exit__(self, exc_type, exc_value, traceback)</code></strong><br />
+<p><strong><code>__exit__(self, exc_type, exc_value, traceback)</code></strong>\
   Automatically called when the context manager block (<code>with</code> statement) finishes execution.
   It receives details about any exception raised inside the block:</p>
 </li>
