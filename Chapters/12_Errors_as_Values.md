@@ -9,7 +9,8 @@ Here’s my definition:
 
 This is less precise than some definitions.
 For example, composition in object-oriented programming means "putting objects inside other objects."
-When dealing with functions, composability means "calling functions within other functions." Both definitions fit my overall definition; they achieve the same goal but in different specific ways.
+When dealing with functions, composability means "calling functions within other functions."
+Both definitions fit my overall definition; they achieve the same goal but in different specific ways.
 
 To enable the easy construction of programs, we need to be able to effortlessly assemble components in the same way that a child assembles Legos—by simply sticking them together, without requiring extra activities.
 On top of that, such assemblages become their own components that can be stuck together just as easily.
@@ -84,7 +85,7 @@ Such an error message probably wasn’t friendly to the end-user of the system a
 
 Two of my first jobs were building embedded systems that controlled hardware.
 These systems had to work right.
-There was no point in reporting most errors because  an error normally meant the software was broken.
+There was no point in reporting most errors because an error normally meant the software was broken.
 
 For business and scientific programming, Fortran and Cobol were batch processed on punch cards.
 If something went wrong, either the compilation failed or the resulting data was bad.
@@ -96,14 +97,14 @@ Users began to expect more interactive experiences, so programmers had to begin 
 Programmers produced a scattered collection of solutions to the reporting problem:
 
 - Indicate failure by returning a special value from a function call.
-This only works when the special value doesn't occur from an ordinary call to that function.
-For example, if your function returns any `int`, you can't use `0` or `-1` to report an error.
-A bigger problem is that you rely on the client programmer to pay attention to the return value and know what to do about errors.
+  This only works when the special value doesn't occur from an ordinary call to that function.
+  For example, if your function returns any `int`, you can't use `0` or `-1` to report an error.
+  A bigger problem is that you rely on the client programmer to pay attention to the return value and know what to do about errors.
 
 - Indicate failure by [setting a global flag](https://en.wikipedia.org/wiki/Errno.h).
-This is a single flag shared by all functions in the program.
-The client programmer must know to watch that flag.
-If the flag isn't checked right away, it might get overwritten by a different function call in which case the error is lost.
+  This is a single flag shared by all functions in the program.
+  The client programmer must know to watch that flag.
+  If the flag isn't checked right away, it might get overwritten by a different function call in which case the error is lost.
 
 - Use [signals](https://en.wikipedia.org/wiki/C_signal_handling) if the operating system supports it.
 
@@ -131,7 +132,8 @@ Unifying error reporting and recovery
 
 There were different language implementations of exceptions:
 
-- Lisp (was this the origin of language-based exceptions?). Possibly ironic as Lisp is the first functional language.
+- Lisp (was this the origin of language-based exceptions?).
+  Possibly ironic as Lisp is the first functional language.
 - BASIC had "On Error Go To" (and "resume"?)
 - Pascal
 - C++
@@ -159,14 +161,15 @@ We only figure it out when scaling composability.
 
 ### 1. The Two Kinds of Errors are Conflated
 
-Recoverable vs panic
-(Recovering/Retrying requires programming)
-With exceptions, the two types are conflated.
+Recoverable vs panic (Recovering/Retrying requires programming) With exceptions, the two types are conflated.
 (Link to Error handling article)
 
 ### 2. Not Part of the Type System
 
-If the type system doesn’t include exceptions as part of a function signature, you can’t know what exceptions you must handle when calling other functions (i.e.: composing). Even if you track down all the possible exceptions thrown explicitly in the code (by hunting for them in their source code!), built-in exceptions can still happen without evidence in the code: divide-by-zero is a great example of this.
+If the type system doesn’t include exceptions as part of a function signature, you can’t know what exceptions you must handle when calling other functions (i.e.:
+composing).
+Even if you track down all the possible exceptions thrown explicitly in the code (by hunting for them in their source code!), built-in exceptions can still happen without evidence in the code:
+divide-by-zero is a great example of this.
 
 You can be using a library and handling all the exceptions from it (or perhaps just the ones you found in the documentation), and a newer version of that library can quietly add a new exception, and suddenly you are no longer detecting and/or handling all the exceptions.
 Even though you made no changes to your code.
@@ -225,7 +228,8 @@ However, we lose everything that we were calculating when the exception is throw
 This:
 
 1. Is computationally wasteful, especially with large calculations.
-2. Makes debugging harder. It would be quite valuable to see in `result` the parts that succeeded and those that failed.
+2. Makes debugging harder.
+   It would be quite valuable to see in `result` the parts that succeeded and those that failed.
 
 ## The Functional Solution
 
@@ -278,7 +282,8 @@ This means you won’t lose error type information during composition, so compos
 
 ## Creating a New Return Type
 
-We now have the unfortunate situation that `outputs` contains multiple types: both `int` and `str`.
+We now have the unfortunate situation that `outputs` contains multiple types:
+both `int` and `str`.
 The solution is to create a new type that unifies the "answer" and "error" types.
 We’ll call this `Result` and define it using generics to make it universally applicable:
 
@@ -312,7 +317,8 @@ class Failure(Result[ANSWER, ERROR]):
 
 A `TypeVar` defines a generic parameter.
 We want `Result` to contain a type for an `ANSWER` when the function call is successful, and an `ERROR` to indicate how the function call failed.
-Each subtype of `Result` only holds one field: `answer` for a successful `Success` calculation, and `error` for a `Failure`.
+Each subtype of `Result` only holds one field:
+`answer` for a successful `Success` calculation, and `error` for a `Failure`.
 Thus, if a `Failure` is returned, the client programmer cannot simply reach in and grab the `answer` field because it doesn’t exist.
 The client programmer is forced to properly analyze the `Result`.
 
@@ -356,7 +362,8 @@ The `returns` library has been slipped in here, but its basic form is that of `r
 ## Composing with `Result`
 
 The previous examples included very simple composition in the `composed` functions which just called a single other function.
-What if you need to compose a more complex function from multiple other functions? The `Result` type ensures that the `composed` function properly represents both the `Answer` type but also the various different errors that can occur:
+What if you need to compose a more complex function from multiple other functions?
+The `Result` type ensures that the `composed` function properly represents both the `Answer` type but also the various different errors that can occur:
 
 ```python
 # composing_functions.py
@@ -434,7 +441,8 @@ You are forced to deal with it at the point of origin, which is typically when y
 
 ## Simplifying Composition with `bind`
 
-There’s still a problem that impedes our ultimate goal of composability: every time you call a function within a composed function, you must write code to check the `Result` type and extract the `answer` with `unwrap`.
+There’s still a problem that impedes our ultimate goal of composability:
+every time you call a function within a composed function, you must write code to check the `Result` type and extract the `answer` with `unwrap`.
 This is extra repetitive work that interrupts the flow and readability of the program.
 We need some way to reduce or eliminate the extra code.
 
@@ -525,9 +533,10 @@ Once you produce a `Failure`, no more function calls occur (that is, it short-ci
 We could continue adding features to our `Result` library until it becomes a complete solution.
 However, others have worked on this problem so it makes more sense to reuse their libraries.
 The most popular Python library that includes this extra functionality is [Returns](https://github.com/dry-python/returns).
-`Returns` includes other features, but we will only focus on  `Result`.
+`Returns` includes other features, but we will only focus on `Result`.
 
-What if you need to create a `composed` function that takes multiple arguments? For this, we use something called "do notation," which you access using `Result.do`:
+What if you need to create a `composed` function that takes multiple arguments?
+For this, we use something called "do notation," which you access using `Result.do`:
 
 ```python
 # multiple_arguments.py
@@ -583,7 +592,7 @@ Notice that when the `outputs` list is created, the output from `reject0` only h
 The value `1` never gets to `func_b` because it is intercepted by the prior `composed` call to `func_a`.
 The value `0` causes `func_b` to produce a `ZeroDivisionError` when it tries to perform the division inside the `print`.
 
-[Explain rest of example]
+\[Explain rest of example]
 
 Note that there may be an issue with the `Returns` library, which is that for proper type checking it requires using a MyPy extension.
 So far I have been unable to get that extension to work (however, I have no experience with MyPy extensions).

@@ -22,4 +22,4 @@ order = Order(order_id=123)
 # order.order_id = 456  # Error: dataclass is frozen (immutable)
 ```
 
-- show _post_init_ with frozen
+- show *post\_init* with frozen

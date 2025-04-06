@@ -1,15 +1,13 @@
 # Custom Types
 
-- Add variations: NamedTuple, Enum
+- Add variations:
+  NamedTuple, Enum
 - Incorporate examples from <https://github.com/BruceEckel/DataClassesAsTypes>
 
-This chapter began as a presentation at a Python conference, inspired by conversations with fellow 
-programmers exploring functional programming techniques. 
-Specifically, the idea arose from a podcast discussion about Scala's smart types. 
-After extensive study of functional programming, several concepts coalesced into an approach that 
-leverages Python’s data classes effectively. 
-This chapter aims to share those insights and illustrate the practical benefits of Python data classes, guiding 
-you towards clearer, more reliable code.
+This chapter began as a presentation at a Python conference, inspired by conversations with fellow programmers exploring functional programming techniques.
+Specifically, the idea arose from a podcast discussion about Scala's smart types.
+After extensive study of functional programming, several concepts coalesced into an approach that leverages Python’s data classes effectively.
+This chapter aims to share those insights and illustrate the practical benefits of Python data classes, guiding you towards clearer, more reliable code.
 
 ## Misunderstanding Class Attributes
 
@@ -57,8 +55,7 @@ with Catch():
 ## Error: f2: 99
 ```
 
-However, each time the integer is used, its validity must be rechecked, leading to duplicated logic, 
-scattered validation, and potential mistakes.
+However, each time the integer is used, its validity must be rechecked, leading to duplicated logic, scattered validation, and potential mistakes.
 
 ## Traditional Object-Oriented Encapsulation
 
@@ -127,12 +124,12 @@ with Catch():
 # AttributeError: can't set attribute 'number'
 ```
 
-This approach centralizes validation, yet remains cumbersome. 
+This approach centralizes validation, yet remains cumbersome.
 Each method interacting with the attribute still requires pre-and post-condition checks, cluttering the code and potentially introducing errors if a developer neglects these checks.
 
 ## Data Classes
 
-Data classes, introduced in Python 3.7, significantly streamline this process by generating essential methods automatically. 
+Data classes, introduced in Python 3.7, significantly streamline this process by generating essential methods automatically.
 They provide a structured, concise way to define data-holding objects:
 
 ```python
@@ -173,15 +170,12 @@ print(m)
 # TypeError: unhashable type: 'Messenger'
 ```
 
-In a `dataclass`, validation logic resides exclusively in the `__post_init__` method, 
-executed automatically after initialization. 
-This guarantees that only valid `Stars` instances exist. 
-
+In a `dataclass`, validation logic resides exclusively in the `__post_init__` method, executed automatically after initialization.
+This guarantees that only valid `Stars` instances exist.
 
 ## Immutable Data Classes and Functional Programming
 
-Functional programming strongly advocates immutability, preventing accidental changes and thus simplifying 
-reasoning about your code.
+Functional programming strongly advocates immutability, preventing accidental changes and thus simplifying reasoning about your code.
 Python data classes support immutability through a `frozen=True` parameter:
 
 ```python
@@ -260,14 +254,14 @@ Modifying a `Stars` instance after creation raises an error, further safeguardin
 #    return Stars(rating.stars + increment)
 ```
 
-If this function tries to create an invalid rating, the data class validation immediately raises an error. 
+If this function tries to create an invalid rating, the data class validation immediately raises an error.
 This greatly simplifies code maintenance and readability.
 
 Additionally, immutable objects can safely serve as keys in dictionaries, allowing reliable data lookups and caching.
 
 ## Composing Data Classes
 
-Composition, another functional programming cornerstone, allows building complex data types from simpler ones. 
+Composition, another functional programming cornerstone, allows building complex data types from simpler ones.
 Consider a `Person` object composed of `FullName`, `BirthDate`, and `Email` data classes:
 
 ```python
@@ -321,7 +315,7 @@ print(person)
 ## EmailAddress(address='mindviewinc@gmail.com'))
 ```
 
-This hierarchical validation structure ensures correctness and clarity at every composition level. 
+This hierarchical validation structure ensures correctness and clarity at every composition level.
 Invalid data never propagates, vastly simplifying subsequent interactions.
 
 ## Simple Type Aliasing with `NewType`
@@ -586,9 +580,10 @@ for date in [
 ## max_days=31), d=Day(n=31), y=Year(n=2022))
 ## ------------------------------
 ```
+
 `Month` can be created using dataclasses, but it's more complicated than using `Enum`, with questionable benefits.
 
-Using enums makes code both readable and safely constrained, improving robustness. 
+Using enums makes code both readable and safely constrained, improving robustness.
 For simplicity and IDE interactivity, choose enums over data classes for fixed-value sets.
 
 ## Specialized Tools
@@ -712,7 +707,9 @@ Strongly-typed domain models help catch issues early, facilitating clearer, safe
 
 ## Conclusion
 
-Python data classes simplify managing data integrity and composition, reducing repetitive checks and centralizing validation. Combined with functional programming principles like immutability and type composition, data classes significantly enhance the clarity, maintainability, and robustness of your code. Once you adopt this method, you'll find your development process smoother, more reliable, and enjoyable.
+Python data classes simplify managing data integrity and composition, reducing repetitive checks and centralizing validation.
+Combined with functional programming principles like immutability and type composition, data classes significantly enhance the clarity, maintainability, and robustness of your code.
+Once you adopt this method, you'll find your development process smoother, more reliable, and enjoyable.
 
 ## (Generated) Dataclass Intro Notes
 

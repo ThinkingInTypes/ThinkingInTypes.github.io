@@ -65,10 +65,10 @@ This combination allows it to handle exceptions and display meaningful error mes
 A context manager in Python is used with the `with` statement, typically to set up and tear down resources or to catch exceptions.
 The `Catch` class implements this using:
 
-- **`__enter__(self)`**  
+- **`__enter__(self)`**\
   When the context is entered, it returns the instance (`self`), making the methods of the class accessible within the block.
 
-- **`__exit__(self, exc_type, exc_value, traceback)`**  
+- **`__exit__(self, exc_type, exc_value, traceback)`**\
   Automatically called when the context manager block (`with` statement) finishes execution.
   It receives details about any exception raised inside the block:
 

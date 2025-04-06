@@ -29,7 +29,8 @@ It is a daunting job to change the meaning of that stringly-typed item.
 You must look through every function that uses it and ensure that your change is reflected in the validations in every single function.
 Because the logic is distributed, it's highly likely you will miss some.
 
-Consider representing phone numbers as strings. Here are just a few of the different formats you might have to deal with:
+Consider representing phone numbers as strings.
+Here are just a few of the different formats you might have to deal with:
 
 ```python
 # string_phone_numbers.py
@@ -87,14 +88,17 @@ In this chapter we'll see how creating custom types can dramatically simplify va
 The argument-validation problem was observed by Bertrand Meyer and introduced as a core concept in his Eiffel programming language, described in the book *Object-Oriented Software Construction* (1988).
 *Design By Contract* (DbC) tried to reduce errors by treating the interaction between software components as a formal agreement:
 
-- **_Preconditions_**: What must be true before a function/method runs.
-- **_Postconditions_**: What must be true after the function completes.
-- **_Invariants_**: What must always be true about the object state.
+- ***Preconditions***:
+  What must be true before a function/method runs.
+- ***Postconditions***:
+  What must be true after the function completes.
+- ***Invariants***:
+  What must always be true about the object state.
 
 Eiffel provided explicit keywords to make DbC a first-class citizen in the language:
 
 | Keyword     | Purpose                                    |
-|-------------|--------------------------------------------|
+| ----------- | ------------------------------------------ |
 | `require`   | Preconditions                              |
 | `ensure`    | Postconditions                             |
 | `invariant` | Class-wide conditions                      |
@@ -132,12 +136,14 @@ def requires(*conditions: Condition):
 A `Condition` combines each `check` with a description of the failure condition.
 `check` is a `Callable` (usually a function) that takes the same arguments as the function being decorated and returns a `bool` indicating whether the condition is satisfied.
 
-`requires` is a decorator factory; it returns a decorator that can be applied to any function. 
+`requires` is a decorator factory; it returns a decorator that can be applied to any function.
 It accepts any number of Condition instances.
 
-This inner function `decorator` is the actual decorator. It receives the target function func that’s being wrapped.
+This inner function `decorator` is the actual decorator.
+It receives the target function func that’s being wrapped.
 
-`wrapper` is the new function that will replace `func`. `@wraps(func)` preserves metadata like the function name and docstring.
+`wrapper` is the new function that will replace `func`.
+`@wraps(func)` preserves metadata like the function name and docstring.
 
 Here's a basic example:
 
@@ -220,7 +226,8 @@ The `@requires` clearly shows that constraints have been placed on the arguments
 DbC definitely helps, but it has limitations:
 
 1. A programmer can forget to use `requires`, or simply choose to perform argument checks by hand if DbC doesn't make sense to them.
-2. Validations are spread throughout your system. Using `Condition` centralizes the logic, but making changes still risks missing updates on functions.
+2. Validations are spread throughout your system.
+   Using `Condition` centralizes the logic, but making changes still risks missing updates on functions.
 
 ## Centralizing Validation into Custom Types
 
