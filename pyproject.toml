@@ -4,9 +4,14 @@ version = "0.1.0"
 description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.13"
-dependencies = []
+dependencies = [
+    "pybooktools",
+]
 
 [dependency-groups]
 dev = [
     "mdformat>=0.7.22",
 ]
+
+[tool.uv.sources]
+pybooktools = { path = "../pybooktools", editable = true }
