@@ -138,8 +138,9 @@ Common type-checking errors and their resolutions:
 
 ```python
 # example_2.py
-# Error: Incompatible types in assignment (expression has type "int", variable has type "str")
-name: str = 123  # fix: name = "Alice"
+# Error: Incompatible types in assignment 
+# (expression has type "int", variable has type "str")
+name: str = 123  # type: ignore
 ```
 
 ### Missing Imports

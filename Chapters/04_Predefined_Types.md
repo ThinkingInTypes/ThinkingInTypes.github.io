@@ -245,7 +245,8 @@ def calculate_area(radius: int) -> float:
 
 
 with Catch():
-    calculate_area(3.5)  # Flagged by static type checker
+    # Flagged by static type checker:
+    calculate_area(3.5)  # type: ignore
 ```
 
 Careful use of annotations combined with static checking tools significantly enhances code robustness and readability.

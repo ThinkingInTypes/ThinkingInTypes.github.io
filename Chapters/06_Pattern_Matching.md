@@ -44,6 +44,8 @@ def process(response: Union[Success, Error]) -> str:
             return f"Success: {result}"
         case Error(error):
             return f"Error: {error}"
+        case _:
+            raise ValueError("Unhandled response type")
 ```
 
 This use of annotations and pattern matching simplifies complex decision-making logic.

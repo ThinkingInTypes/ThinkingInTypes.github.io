@@ -393,9 +393,13 @@ For example:
 
 ```python
 # example_15.py
-class MyBuilder:  
+from typing import Self
+
+
+class MyBuilder:
     def set_name(self, name: str) -> Self:  
-        self.name = name; return self  
+        self.name = name  # noqa: Instance attribute
+        return self
 ```
 
 The return type `Self` indicates that `set_name` returns the *exact same class* (`MyBuilder` in this case).
