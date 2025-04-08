@@ -15,3 +15,8 @@ dev = [
 
 [tool.uv.sources]
 pybooktools = { path = "../pybooktools", editable = true }
+
+[tool.docformatter]
+recursive = true
+wrap-summaries = 50
+blank = true
