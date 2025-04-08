@@ -46,9 +46,12 @@ For instance:
 
 ```python
 # example_2.py
+from typing import ClassVar
+
+
 class Starship:
     stats: ClassVar[dict[str, int]] = {}   # class variable  
-    damage: int = 10                       # instance variable  
+    damage: int = 10                       # instance variable
 ```
 
 Here `stats` is marked as a class-level attribute, whereas `damage` is an instance attribute ([typing — Support for type hints — Python 3.13.2 documentation](https://docs.python.org/3/library/typing.html#:~:text=ClassVar%20indicates%20that%20a%20given,Usage)).
@@ -112,7 +115,7 @@ For instance:
 # example_3.py
 from typing import NoReturn  
 def fatal_error(msg: str) -> NoReturn:  
-    raise RuntimeError(msg)  
+    raise RuntimeError(msg)
 ```
 
 Here, callers can know that `fatal_error()` will not return normally.
@@ -131,7 +134,7 @@ In Python 3.12+, you can declare aliases more explicitly with the **`type`** key
 
 ```python
 # example_4.py
-type Point = tuple[float, float]  
+type Point = tuple[float, float]
 ```
 
 This creates a type alias `Point` that static checkers will treat exactly as `tuple[float, float]` ([What’s New In Python 3.12 — Python 3.13.2 documentation](https://docs.python.org/3/whatsnew/3.12.html#:~:text=In%20addition%2C%20the%20PEP%20introduces,creates%20an%20instance%20of%20TypeAliasType)).
@@ -147,7 +150,7 @@ For example:
 ```python
 # example_5.py
 from typing import NewType  
-UserId = NewType('UserId', int)  
+UserId = NewType('UserId', int)
 ```
 
 This creates a new type `UserId` that behaves like an `int` at runtime (it’s essentially an identity function that returns the int you give it) ([typing — Support for type hints — Python 3.13.2 documentation](https://docs.python.org/3/library/typing.html#:~:text=Helper%20class%20to%20create%20low,distinct%20types)) ([typing — Support for type hints — Python 3.13.2 documentation](https://docs.python.org/3/library/typing.html#:~:text=A%20,returns%20its%20argument%20unchanged)), but static type checkers will consider `UserId` incompatible with plain `int` unless explicitly allowed.
@@ -169,7 +172,7 @@ For example, to write a function that returns the same type as it receives, you 
 from typing import TypeVar  
 T = TypeVar('T')  
 def identity(item: T) -> T:  
-    return item  
+    return item
 ```
 
 Here `T` is a type variable that can stand for any type, and the function `identity` is generic – if you pass an `int`, it returns an `int`, if you pass a `str`, it returns a `str`, etc.
@@ -178,7 +181,7 @@ As of Python 3.12, you can declare type parameters directly in the function sign
 ```python
 # example_7.py
 def identity[T](item: T) -> T:  
-    return item  
+    return item
 ```
 
 which is equivalent to the earlier definition ([What’s New In Python 3.12 — Python 3.13.2 documentation](https://docs.python.org/3/whatsnew/3.12.html#:~:text=PEP%20695%20introduces%20a%20new%2C,classes%20%20and%20%20141)).
@@ -200,7 +203,7 @@ class Box(Generic[T]):
     def __init__(self, content: T):  
         self.content = content  
     def get_content(self) -> T:  
-        return self.content  
+        return self.content
 ```
 
 `Box[T]` is a generic class that can hold a value of type T. One can create `Box[int]`, `Box[str]`, etc., and the methods will be type-safe.
@@ -229,7 +232,7 @@ For example:
 # example_9.py
 from typing import Protocol  
 class SupportsClose(Protocol):  
-    def close(self) -> None: ...  
+    def close(self) -> None: ...
 ```
 
 Any object with a `.close()` method returning None will be considered a `SupportsClose` for static typing purposes, even if it doesn’t inherit from `SupportsClose`.
@@ -254,8 +257,11 @@ An example usage:
 
 ```python
 # example_10.py
-def apply_to_ints(func: Callable[[int, int], int], a: int, b: int) -> int:  
-    return func(a, b)  
+from typing import Callable
+
+
+def apply_to_ints(func: Callable[[int, int], int], a: int, b: int) -> int:
+    return func(a, b)
 ```
 
 This function takes another function `func` that adds or combines two ints and returns int.
@@ -269,14 +275,20 @@ For example:
 
 ```python
 # example_11.py
-from typing import overload, Union  
-@overload  
-def read(data: bytes) -> str: ...  
-@overload  
-def read(data: str) -> str: ...  
-def read(data: Union[str, bytes]) -> str:  
+from typing import overload, Union
+
+
+@overload
+def read(data: bytes) -> str: ...
+
+
+@overload
+def read(data: str) -> str: ...
+
+
+def read(data: Union[str, bytes]) -> str:
     # single implementation handling both  
-    return data.decode() if isinstance(data, bytes) else data  
+    return data.decode() if isinstance(data, bytes) else data
 ```
 
 Here two overloads declare that `read()` accepts either bytes or str and always returns str.
@@ -310,7 +322,7 @@ def make_logged(func: Callable[P, int]) -> Callable[Concatenate[str, P], int]:
         result = func(*args, **kwargs)  
         print(prefix, "Result:", result)  
         return result  
-    return wrapper  
+    return wrapper
 ```
 
 In this example, `make_logged` takes a function `func` that returns an int and has some parameters P. It returns a new function that **adds a `prefix: str` in front of `func`’s parameters**.
@@ -338,10 +350,16 @@ For example:
 
 ```python
 # example_13.py
-def run_query(query: LiteralString): ...  
-run_query("SELECT * FROM users")           # OK, literal  
-q = "DROP TABLE users"  
-run_query(q)                               # type checker error (q is not literal)  
+from typing import LiteralString
+
+
+def run_query(query: LiteralString): ...
+
+
+run_query("SELECT * FROM users")  # OK, literal
+q = "DROP TABLE users"
+# type checker error (q is not literal):
+run_query(q)  # type: ignore
 ```
 
 Here, passing a non-literal string to `run_query` would be flagged by a type checker ([What’s New In Python 3.11 — Python 3.13.2 documentation](https://docs.python.org/3/whatsnew/3.11.html#:~:text=query_string%3A%20LiteralString%2C%20table_name%3A%20LiteralString%2C%20,arbitrary_string)).
@@ -377,7 +395,7 @@ For example:
 # example_14.py
 from typing import TypeGuard  
 def is_str_list(vals: list[object]) -> TypeGuard[list[str]]:  
-    return all(isinstance(x, str) for x in vals)  
+    return all(isinstance(x, str) for x in vals)
 ```
 
 Here, `is_str_list` returns a `bool`, but the `TypeGuard[list[str]]` annotation tells the checker that upon a True result, the input `vals` can be treated as `list[str]` (not just list of object).
@@ -419,7 +437,7 @@ For example:
 from typing import TypedDict  
 class Movie(TypedDict):  
     title: str  
-    year: int  
+    year: int
 ```
 
 This defines a type `Movie` that is a dict with keys `"title"` (str) and `"year"` (int) ([typing — Support for type hints — Python 3.13.2 documentation](https://docs.python.org/3/library/typing.html#:~:text=class%20typing)).
@@ -435,9 +453,12 @@ For example:
 
 ```python
 # example_17.py
-class Movie(TypedDict, total=False):  
+from typing import TypedDict, Required, NotRequired
+
+
+class Movie(TypedDict, total=False):
     title: Required[str]   # must have title  
-    year: NotRequired[int] # may omit year  
+    year: NotRequired[int] # may omit year
 ```
 
 This says `title` is always required, `year` can be omitted ([What’s New In Python 3.11 — Python 3.13.2 documentation](https://docs.python.org/3/whatsnew/3.11.html#:~:text=year%3A%20NotRequired)).
@@ -475,7 +496,7 @@ For example:
 ```python
 # example_18.py
 class Node:  
-    def add_child(self, child: "Node") -> None: ...  
+    def add_child(self, child: "Node") -> None: ...
 ```
 
 Without the quotes, `Node` wouldn’t be defined at the time of evaluation of the annotation.
