@@ -88,7 +88,7 @@ If there's a bug or any change in the way phone numbers are validated, all valid
 Does anyone set out to write code like this?
 Probably not--it starts out seeming like "the simplest thing" and just continues to accumulate, one logical step at a time.
 Although *you* might not write code like this, systems like this exist, for phone numbers and for many other data items represented as strings.
-In this chapter we'll see how creating custom types can dramatically simplify validation and guarantee correctness throughout your system.
+We'll learn how custom types dramatically simplify validation and guarantee correctness throughout your system.
 
 ## Design by Contract
 
@@ -111,7 +111,7 @@ Eiffel provided explicit keywords to make DbC a first-class citizen in the langu
 | `invariant` | Class-wide conditions                      |
 | `old`       | Refers to previous state in postconditions |
 
-The idea was that each function you wrote would use these to ensure the correctness of the inputs and outputs of that function.
+The intent was that each function used these to ensure the correctness of the inputs and outputs of that function, and the state of the object.
 In particular, `require` typically checks the argument values for correctness.
 For preconditions in Python, we can create a `requires` decorator to check argument values:
 
@@ -145,11 +145,11 @@ def requires(*conditions: Condition):
 A `Condition` combines each `check` with a description of the failure condition.
 `check` is a `Callable` (usually a function) that takes the same arguments as the function being decorated and returns a `bool` indicating whether the condition is satisfied.
 
-`requires` is a decorator factory; it returns a decorator that can be applied to any function.
-It accepts any number of Condition instances.
+`requires` is a *decorator factory*; it returns a decorator that can be applied to any function.
+It accepts any number of `Condition` instances.
 
 This inner function `decorator` is the actual decorator.
-It receives the target function func that’s being wrapped.
+It receives the target function `func` that’s being wrapped.
 
 `wrapper` is the new function that will replace `func`.
 `@wraps(func)` preserves metadata like the function name and docstring.
@@ -180,7 +180,7 @@ with Catch():
 
 `positivity` defines an instance of `Condition`, which is then imposed on `sqrt` using `requires`.
 
-`requires` produces an improved DbC for validating function arguments:
+`requires` produces an improved design-by-contract tool for validating function arguments:
 
 ```python
 # bank_account.py
