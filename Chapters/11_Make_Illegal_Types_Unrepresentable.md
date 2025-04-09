@@ -280,11 +280,11 @@ class Amount:
 ```
 
 Although `Amount` is a frozen `dataclass`, it is still possible to write an `__init__` method.
-Here, it allows `Amount` to convert multiple forms of input into a `Decimal`, then check that it is non-negative.
+Here, `__init__` allows `Amount` to convert multiple forms of input into a `Decimal`, then check that it is non-negative.
 It then modifies itself using `object.__setattr__`, but other than that we want it safely immutable.
-Thus, you can modify a frozen `dataclass` using `object.__setattr__`, but this is best only done during construction, as seen here.
+Modifying a frozen `dataclass` using `object.__setattr__` is best only done during construction.
 You can also call `object.__setattr__` in `__post_init__`, but if you find yourself doing it in other methods you should reconsider whether your type is really frozen.
-Requiring `object.__setattr__` to modify a frozen `dataclass` means you can easily discover all modifications.
+Requiring `object.__setattr__` to modify a frozen `dataclass` means you can easily search for modifications.
 
 Note that `__add__` and `__sub__` simply return new `Amount` objects without worrying whether they are non-negative--the constructor takes care of that.
 
@@ -306,7 +306,8 @@ with Catch():
 ## Error: [<class 'decimal.ConversionSyntax'>]
 ```
 
-`Balance` contains an `Amount`, but it doesn't need any fancy construction behavior so we can produce an immutable using `NamedTuple`:
+Now we define a bank-account `Balance` that contains an `Amount`, but doesn't need any fancy construction behavior.
+Thus we can produce an immutable using `NamedTuple`:
 
 ```python
 # balance.py
@@ -374,7 +375,7 @@ We can modify `Amount` to use, for example, a Rust implementation of decimal num
 We *only* need to change the code for `Amount` because the rest of the code simply uses `Amount`.
 
 Possibly best of all, any new code we write using custom types transparently uses all the type validations built into those types.
-If we add more validations, they automatically propagate to each site where those types are used.
+If we add more validations to `Amount` or `Balance`, they automatically propagate to each site where those types are used.
 
 ## A `PhoneNumber` Type
 
@@ -390,7 +391,7 @@ import re
 @dataclass(frozen=True)
 class PhoneNumber:
     """
-    Represents a validated and normalized phone number.
+    A validated and normalized phone number.
     """
 
     country_code: str
@@ -436,8 +437,7 @@ class PhoneNumber:
 
     def format_number(self) -> str:
         """
-        Applies simple formatting rules for 10-digit
-        numbers.
+        Simple formatting rules for 10-digit numbers.
         """
         if len(self.number) == 10:
             return f"({self.number[:3]}) {self.number[3:6]}-{self.number[6:]}"
