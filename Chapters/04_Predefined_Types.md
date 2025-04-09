@@ -163,7 +163,10 @@ Starting from Python 3.9, built-in collection types support direct annotations w
 ```python
 # example_13.py
 scores: list[int] = [95, 85, 75]
-user_data: dict[str, float] = {"Alice": 95.5, "Bob": 85.3}
+user_data: dict[str, float] = {
+    "Alice": 95.5,
+    "Bob": 85.3,
+}
 ```
 
 This simplified syntax enhances readability and reduces verbosity.

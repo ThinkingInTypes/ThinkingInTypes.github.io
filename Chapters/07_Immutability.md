@@ -23,8 +23,10 @@ One common convention is the use of **ALL_CAPS names for constants**. According 
 
 ```python
 # example_1.py
-MAX_OVERFLOW = 1000    # intended to be a constant
-DATABASE_URL = "postgres://localhost/db"  # constant configuration
+MAX_OVERFLOW = 1000  # intended to be a constant
+DATABASE_URL = (
+    "postgres://localhost/db"  # constant configuration
+)
 ```
 
 By writing these names in uppercase, we indicate to other developers (and ourselves) that these values should be treated as immutable constants. The Python interpreter won’t stop you from reassigning `MAX_OVERFLOW` to a different value – this is purely a human convention – but following this naming scheme makes the code’s intent clear. Many linters will flag reassignment of all-caps “constant” variables as a potential issue, reinforcing the convention.
@@ -103,8 +105,16 @@ Here, `User.name` and `User.id` are intended to never change after the object is
 # example_5.py
 from typing import Final, Sequence
 
-data1: Final = [1, 2, 3]            # `data1` won't be re-assigned, but list can mutate
-data2: Final[Sequence[int]] = [1, 2, 3]  # `data2` treated as Sequence, so no mutation methods
+data1: Final = [
+    1,
+    2,
+    3,
+]  # `data1` won't be re-assigned, but list can mutate
+data2: Final[Sequence[int]] = [
+    1,
+    2,
+    3,
+]  # `data2` treated as Sequence, so no mutation methods
 ```
 
 In the above, `data1.append(4)` is allowed by the type system (though `data1` name can’t be re-bound), whereas `data2.append(4)` would be rejected by a type checker because a `Sequence[int]` is assumed to be immutable (it lacks an `append` method) ([ Mimicking Immutability in Python with Type Hints | Justin Austin](https://justincaustin.com/blog/mimicking-immutability-python-type-hints/#:~:text=Here%27s%20an%20example%20of%20what,I%20mean)) ([ Mimicking Immutability in Python with Type Hints | Justin Austin](https://justincaustin.com/blog/mimicking-immutability-python-type-hints/#:~:text=,delitem)). This demonstrates the difference between preventing reassignment of a variable and ensuring true immutability of the object.
@@ -172,7 +182,7 @@ print(person.name)  # "Alice"
 ## Alice
 with Catch():
     # Trying to modify a frozen dataclass field:
-    person.age = 31   # noqa
+    person.age = 31  # noqa
 ## Error: cannot assign to field 'age'
 
 person.__dict__["age"] = 31  # Disable 'frozen'
@@ -213,11 +223,15 @@ from dataclasses import dataclass, field
 class Rectangle:
     width: float
     height: float
-    area: float = field(init=False)  # area will be computed, not passed by caller
+    area: float = field(
+        init=False
+    )  # area will be computed, not passed by caller
 
     def __post_init__(self):
         # Bypass immutability to set the derived field
-        object.__setattr__(self, 'area', self.width * self.height)
+        object.__setattr__(
+            self, "area", self.width * self.height
+        )
 ```
 
 Here, `area` is intended to be a derived attribute (width * height). We marked it with `field(init=False)` so that dataclasses knows not to expect it as a parameter. In `__post_init__`, we calculate the area and assign it using `object.__setattr__`. This is the crucial step to avoid the `FrozenInstanceError`. We could also use `super().__setattr__('area', self.width * self.height)` – since the immediate base class is `object`, this has the same effect ([Customizing dataclass initialization - Python Morsels](https://www.pythonmorsels.com/customizing-dataclass-initialization/#:~:text=def%20__post_init__%28self%29%3A%20super%28%29.__setattr__%28%27area%27%2C%20self.width%20,height)). After this post-init runs, our `Rectangle` instance will have `area` set, and still be frozen for any further modifications.

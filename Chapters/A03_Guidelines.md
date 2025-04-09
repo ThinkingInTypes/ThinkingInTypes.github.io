@@ -16,7 +16,9 @@ Clear type annotations significantly improve code quality and maintainability:
 
 ```python
 # example_1.py
-def calculate_area(width: float, height: float) -> float:
+def calculate_area(
+    width: float, height: float
+) -> float:
     return width * height
 ```
 
@@ -92,7 +94,9 @@ Avoid overly complex union types:
 from typing import Union
 
 
-def handle(value: Union[int, str, None, float]) -> None:
+def handle(
+    value: Union[int, str, None, float],
+) -> None:
     pass
 ```
 

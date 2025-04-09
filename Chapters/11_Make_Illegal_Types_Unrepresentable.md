@@ -74,7 +74,9 @@ def f2(phone_num: str):
     check = re.compile(
         r"^\+?(\d{1,3})?[\s\-.()]*([\d\s\-.()]+)$"
     )
-    assert check.match(phone_num), f"Invalid {phone_num}"
+    assert check.match(phone_num), (
+        f"Invalid {phone_num}"
+    )
     ...
 ```
 
@@ -128,7 +130,9 @@ def requires(*conditions: Condition):
         @wraps(func)
         def wrapper(*args, **kwargs):
             for condition in conditions:
-                if not condition.check(*args, **kwargs):
+                if not condition.check(
+                    *args, **kwargs
+                ):
                     raise ValueError(condition.message)
             return func(*args, **kwargs)
 
@@ -208,9 +212,7 @@ class BankAccount:
     @requires(positive_amount)
     def deposit(self, amount: Decimal) -> str:
         self.balance += amount
-        return (
-            f"Deposited {amount}, balance: {self.balance}"
-        )
+        return f"Deposited {amount}, balance: {self.balance}"
 
 
 account = BankAccount(Decimal(100))
@@ -265,7 +267,9 @@ class Amount:
             raise ValueError(
                 f"Amount({decimal_value}) cannot be negative"
             )
-        object.__setattr__(self, "value", decimal_value)
+        object.__setattr__(
+            self, "value", decimal_value
+        )
 
     def __add__(self, other: "Amount") -> "Amount":
         return Amount(self.value + other.value)
@@ -312,7 +316,9 @@ from amount import Amount
 class Balance(NamedTuple):
     amount: Amount
 
-    def deposit(self, deposit_amount: Amount) -> "Balance":
+    def deposit(
+        self, deposit_amount: Amount
+    ) -> "Balance":
         return Balance(self.amount + deposit_amount)
 
     def withdraw(
@@ -408,10 +414,16 @@ class PhoneNumber:
         cc, num = match.groups()
         digits = re.sub(r"\D", "", num)
         if not digits:
-            raise ValueError(f"No digits found in: {raw!r}")
+            raise ValueError(
+                f"No digits found in: {raw!r}"
+            )
 
-        country_code = cc if cc else "1"  # default to US
-        return cls(country_code=country_code, number=digits)
+        country_code = (
+            cc if cc else "1"
+        )  # default to US
+        return cls(
+            country_code=country_code, number=digits
+        )
 
     def __str__(self) -> str:
         """

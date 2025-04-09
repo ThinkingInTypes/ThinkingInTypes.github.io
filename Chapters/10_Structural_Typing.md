@@ -243,7 +243,9 @@ class ListLogger:
         self.messages.append(message)
 
 
-def run_process(task_name: str, logger: Logger) -> None:
+def run_process(
+    task_name: str, logger: Logger
+) -> None:
     logger.log(f"Starting {task_name}")
     # Perform the task ...
     logger.log(f"Finished {task_name}")
@@ -407,10 +409,15 @@ We can write functions that use the generic protocol to accept any kind of conta
 ```python
 # generic_function.py
 from container import Container
-from container_types import StringContainer, IntContainer
+from container_types import (
+    StringContainer,
+    IntContainer,
+)
 
 
-def print_item_and_return[C](container: Container[C]) -> C:
+def print_item_and_return[C](
+    container: Container[C],
+) -> C:
     item = container.get_item()
     print("Got:", item)
     return item  # The type of item is inferred as C

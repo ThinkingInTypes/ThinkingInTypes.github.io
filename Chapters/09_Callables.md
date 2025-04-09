@@ -43,7 +43,9 @@ def operate(
     return func(a, b)
 
 
-result = operate(5, 3, lambda x, y: x * y)  # returns 15
+result = operate(
+    5, 3, lambda x, y: x * y
+)  # returns 15
 ```
 
 Using `Callable` clearly defines expected function signatures, enhancing maintainability and correctness.
@@ -63,7 +65,9 @@ R = TypeVar("R")
 def logging_decorator(
     func: Callable[P, R],
 ) -> Callable[P, R]:
-    def wrapper(*args: P.args, **kwargs: P.kwargs) -> R:
+    def wrapper(
+        *args: P.args, **kwargs: P.kwargs
+    ) -> R:
         print(
             f"Calling {func.__name__} with {args} and {kwargs}"
         )
