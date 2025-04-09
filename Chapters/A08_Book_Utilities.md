@@ -7,8 +7,7 @@ Because the book examples are extracted into a flat layout in the examples repos
 ## Exception Catcher
 
 When a function call is known to succeed, the ordinary `print()` can be used.
-If a function call can fail with an exception, `call_and_print()` will catch and display the error.
-In use, it is shortened to `cp` so it can also be used to make a code line a tiny bit shorter than `print()`.
+If a function call can fail with an exception, `Catch` used as a context manager will catch and display the error.
 
 ```python
 # book_utils/exception_catcher.py
@@ -33,7 +32,7 @@ class Catch:
         return self
 
     def __exit__(self, exc_type: Any, exc_value: Any, traceback: Any) -> bool:
-        # __exit__ is only called if an exception escapes the block.
+        # Only called if an exception escapes the block.
         if exc_type is not None:
             print(f"Error: {exc_value}")
         return True
@@ -159,9 +158,9 @@ with Catch():  # Single-failure simple form
 with Catch():
     print(foo(42, Fob(42)))  # Must explicitly print
 ## foo(42, Fob(x=42)) succeeded
-with (
-    Catch() as catch
-):  # Lambda form displays successful result
+
+# Lambda form displays successful result:
+with Catch() as catch:  
     catch(lambda: foo(42, Fob(42)))
 ## foo(42, Fob(x=42)) succeeded
 
