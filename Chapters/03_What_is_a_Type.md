@@ -10,7 +10,8 @@ If a piece of data is labeled as an integer type, the language knows it can perf
 
 In **Python**, types are associated with _values_, not with variables.
 You don’t explicitly declare the type of a variable name; instead, any variable can reference any object, and that object carries its type with it.
-This is why we say in Python “an object knows its type.” You can always check an object’s type at runtime using the built-in `type()` function or `isinstance()` function:
+This is why we say in Python “an object knows its type.”
+You can always check an object’s type at runtime using the built-in `type()` function or `isinstance()` function:
 
 ```python
 # example_1.py
@@ -26,16 +27,10 @@ Types determine what operations are allowed; for instance, you can multiply inte
 
 **Why do types matter?** They act as a form of contract or promise about data. If a function expects a certain type, providing data of the wrong type can lead to errors. For example, giving a text string to a mathematical formula that expects a number will cause problems. In short, a type defines both a set of values and the permitted operations on those values ([Data type - Wikipedia](https://en.wikipedia.org/wiki/Data_type#:~:text=ImageThe%20standard%20type%20hierarchy%20of,Python%203)), setting the stage for how data is used in a program.
 
-([image]()) _Figure: The standard type hierarchy of Python 3.
-This diagram (from the Python documentation) illustrates how Python’s built-in types are organized into categories like Numbers, Sequences, Mappings, etc.
-The `NoneType` (type of `None`) stands alone.
-Note that all types ultimately derive from the base `object` type._
+Python comes with a rich set of **built-in types** (numbers, strings, lists, dictionaries, etc.), and you can also define **custom types** (classes) for more complex data – later chapters explore those.
+This chapter focuses on what a “type” means and how Python’s approach to types influences how we write and maintain code.
 
-Python comes with a rich set of **built-in types** (numbers, strings, lists, dictionaries, etc.), and you can also define **custom types** (classes) for more complex data – but we will explore those in later chapters.
-In this chapter, we focus on understanding what a “type” means and how Python’s approach to types influences the way we write and maintain code.
-
-## Dynamic vs.
-Static Typing
+## Dynamic vs Static Typing
 
 One of the core distinctions in programming language type systems is **dynamic typing vs. static typing**.
 Python is a _dynamically typed_ language, whereas languages like C++ or Java are typically _statically typed_.
@@ -43,18 +38,15 @@ Let’s unpack what that means and the pros and cons of each approach.
 
 - **Statically Typed Languages:** In a statically typed language, the type of each variable and expression is determined at compile time (before the program runs). You usually must declare the types of your variables (e.g., in Java: `int count = 5;`). The compiler uses these declarations to verify that you are using variables in a type-safe way. If you attempt an invalid operation, like adding a number to a string, a compile-time error is raised and the program won’t run until the error is fixed. In short, _static type checking finds type errors by analyzing the program’s source code before execution_ ([Comparison of programming languages by type system - Wikipedia](https://en.wikipedia.org/wiki/Comparison_of_programming_languages_by_type_system#:~:text=,time%29%20behavior)). This early detection can prevent many runtime errors. Static typing can also enable performance optimizations, since knowing the types in advance allows the compiler to produce more efficient machine code (for example, it doesn’t need to check types during each operation at runtime) ([
 Static vs.
-Dynamic Typing: Pros, Cons, and Key Differences   ](https://www.netguru.com/blog/static-vs-dynamic-typing#:~:text=Performance%20Implications)).
+Dynamic Typing: Pros, Cons, and Key Differences](https://www.netguru.com/blog/static-vs-dynamic-typing#:~:text=Performance%20Implications)).
 
 - **Dynamically Typed Languages:** In a dynamically typed language, the type of a variable is allowed to change over its lifetime, and type checks are done at runtime. You do **not** have to declare types explicitly. For example, in Python you can do:
 
-  ```python
-
+```python
 # example_2.py
-
   x = 10        # x is now an int
   x = "hello"   # now x is a str (Python allowed us to reassign a different type)
   print(x)      # Output: hello
-  
 ```
 
 Python will infer the type of `x` from whatever value it’s holding at the moment.
@@ -83,18 +75,15 @@ To summarize the difference:
 
 - In static typing, **type errors are caught early** – _before_ the program runs – which can make debugging easier and programs more reliable ([
 Static vs.
-Dynamic Typing: Pros, Cons, and Key Differences   ](https://www.netguru.com/blog/static-vs-dynamic-typing#:~:text=One%20of%20the%20main%20advantages,debugging%20and%20enhances%20code%20reliability)) ([         Static vs.
-Dynamic Typing: Pros, Cons, and Key Differences   ](https://www.netguru.com/blog/static-vs-dynamic-typing#:~:text=Typechecking%20is%20a%20critical%20aspect,detection%2C%20significantly%20reducing%20debugging%20time)).
+Dynamic Typing: Pros, Cons, and Key Differences](https://www.netguru.com/blog/static-vs-dynamic-typing#:~:text=One%20of%20the%20main%20advantages,debugging%20and%20enhances%20code%20reliability)) ([Static vs.
+Dynamic Typing: Pros, Cons, and Key Differences](https://www.netguru.com/blog/static-vs-dynamic-typing#:~:text=Typechecking%20is%20a%20critical%20aspect,detection%2C%20significantly%20reducing%20debugging%20time)).
 You also get better documentation from explicit type annotations in code.
 But static typing requires more upfront work: declaring types and sometimes contending with more rigid code, which can slow down initial development or make code less flexible to change.
-- In dynamic typing, **you get more flexibility** – you can write code faster without specifying types everywhere, and the same variable can hold different types of data over its lifetime ([
-Static vs.
-Dynamic Typing: Pros, Cons, and Key Differences   ](https://www.netguru.com/blog/static-vs-dynamic-typing#:~:text=On%20the%20other%20hand%2C%20dynamic,x%20%3D%20%E2%80%9Chello%E2%80%9D%20without%20errors)) ([         Static vs.
-Dynamic Typing: Pros, Cons, and Key Differences   ](https://www.netguru.com/blog/static-vs-dynamic-typing#:~:text=In%20terms%20of%20flexibility%20and,advantageous%20in%20rapid%20development%20scenarios)).
+- In dynamic typing, **you get more flexibility** – you can write code faster without specifying types everywhere, and the same variable can hold different types of data over its lifetime ([Static vs. Dynamic Typing: Pros, Cons, and Key Differences](https://www.netguru.com/blog/static-vs-dynamic-typing#:~:text=On%20the%20other%20hand%2C%20dynamic,x%20%3D%20%E2%80%9Chello%E2%80%9D%20without%20errors)) ([Static vs. Dynamic Typing: Pros, Cons, and Key Differences](https://www.netguru.com/blog/static-vs-dynamic-typing#:~:text=In%20terms%20of%20flexibility%20and,advantageous%20in%20rapid%20development%20scenarios)).
 This is great for quick iterations and when you want to write generic code.
 The downside is that type-related mistakes are only caught when that line of code runs, which might be far into a program’s execution.
-This can lead to runtime errors if not careful, and sometimes makes large codebases harder to reason about (you have to remember or check what type a variable might be at a given point) ([         Static vs.
-Dynamic Typing: Pros, Cons, and Key Differences   ](https://www.netguru.com/blog/static-vs-dynamic-typing#:~:text=This%20flexibility%20makes%20dynamic%20typing,runtime%2C%20potentially%20causing%20unexpected%20failures)).
+This can lead to runtime errors if not careful, and sometimes makes large codebases harder to reason about (you have to remember or check what type a variable might be at a given point) ([Static vs.
+Dynamic Typing: Pros, Cons, and Key Differences](https://www.netguru.com/blog/static-vs-dynamic-typing#:~:text=This%20flexibility%20makes%20dynamic%20typing,runtime%2C%20potentially%20causing%20unexpected%20failures)).
 
 It’s important to note that **dynamic vs. static** is about _when_ type checking happens (at runtime vs. compile time).
 It’s independent of another concept often mentioned: **strong vs. weak typing**, which is about how strictly types are treated.
@@ -107,8 +96,10 @@ The key takeaway is that Python is **dynamically and strongly typed**: type chec
 ## Duck Typing in Python
 
 Python’s dynamic typing is closely related to the idea of **duck typing**.
-The name comes from the phrase “If it looks like a duck and quacks like a duck, it must be a duck.” In programming, duck typing means that an object’s suitability for an operation is determined by the presence of certain methods or properties, rather than the actual type of the object itself.
-In other words, _“an object is considered compatible with a given type if it has all the methods and attributes that the type requires.”_ ([Duck Typing in Python: Writing Flexible and Decoupled Code – Real Python](https://realpython.com/duck-typing-python/#:~:text=Duck%20typing%20is%20a%20type,as%20long%20as%20they%20adhere)) The actual class or inheritance of the object is less important than whether it implements the needed interface.
+The name comes from the phrase “If it looks like a duck and quacks like a duck, it must be a duck.”
+In programming, duck typing means that an object’s suitability for an operation is determined by the presence of certain methods or properties, rather than the actual type of the object itself.
+In other words, _“an object is considered compatible with a given type if it has all the methods and attributes that the type requires.”
+([Duck Typing in Python: Writing Flexible and Decoupled Code – Real Python](https://realpython.com/duck-typing-python/#:~:text=Duck%20typing%20is%20a%20type,as%20long%20as%20they%20adhere)) The actual class or inheritance of the object is less important than whether it implements the needed interface.
 This is a very Pythonic idea: **“don’t check an object’s type to determine if it has the right interface; just try to use it, and it will either work or fail.”**
 
 In practice, duck typing means you often write functions that work on _any_ object that supports the operations you need, rather than only working on specific classes.
@@ -141,7 +132,8 @@ The function didn’t check types; it just invoked the method.
 
 But what if we call `quacks(42)` (an integer)?
 An int has no `quack()` method, so Python will raise an `AttributeError` at runtime (e.g., “`'int' object has no attribute 'quack'`”).
-This demonstrates duck typing’s approach: **“it’s better to ask for forgiveness than permission.”** We just try to use the object in a duck-like way.
+This demonstrates duck typing’s approach: **“it’s better to ask for forgiveness than permission.”**
+We just try to use the object in a duck-like way.
 If it quacks, great.
 If not, Python throws an error, and we handle that (or let it propagate).
 In code, you might handle this with try/except:
@@ -310,7 +302,8 @@ Two of the most popular type checking tools for Python are **mypy** and **pyrigh
 
 - **Mypy:** Mypy has been around since the early days of Python’s gradual typing experiment (it was developed alongside PEP 484). It’s a command-line tool (and a library) that you run on your Python code (or integrate into your editor/IDE) to static-check the types. Mypy reads your `.py` files, interprets the type hints, and reports any inconsistencies or errors. For example, if you have `def func(x: int) -> None:` and somewhere you call `func("hello")`, mypy will catch that and report an error. Mypy aims to be strict and thorough, catching subtle issues (it even tries to infer types of variables where possible and can warn if you, say, add a string and int without any hints given, etc.). The philosophy of mypy is to let you start with little to no annotations and gradually add them – it will treat unannotated code as basically `Any` types by default (which don’t produce errors), and as you add annotations, it will enforce them. As the official mypy documentation states, it “is an optional static type checker for Python that aims to combine the benefits of dynamic (or ‘duck’) typing and static typing” ([mypy - Optional Static Typing for Python](https://mypy-lang.org/#:~:text=Mypy%20is%20an%20optional%20static,with%20basically%20no%20runtime%20overhead)). You can run mypy as part of your development or CI (Continuous Integration) to prevent type regressions in a codebase.
 
-- **Pyright:** Pyright is a newer type checker, open-sourced by Microsoft. It is known for being **fast** and is designed to handle very large projects efficiently. In fact, Pyright powers the Python type checking in Microsoft’s VS Code editor (the Pylance extension). Pyright is written in TypeScript (running on Node.js), which might sound unusual, but it means it’s optimized for speed and can do things like watch files and re-check only what changed, etc. Pyright is also fully aware of all the latest PEPs and typing features. According to its documentation, **“Pyright is a full-featured, standards-based static type checker for Python. It is designed for high performance and can be used with large Python source bases.”** ([microsoft/pyright: Static Type Checker for Python - GitHub](https://github.com/microsoft/pyright#:~:text=Pyright%20is%20a%20full,)) In practice, many developers use Pyright via their editor for instant feedback as they code (and/or in CI as well). For instance, as you’re coding, Pyright can underline an inconsistent call in red immediately. Pyright is also available as a command-line tool (via npm) if you prefer that route. One of its selling points is performance – it’s been noted to be _much_ faster than mypy on large codebases ([Statically type checking Python code using Pyright - DEV Community](https://dev.to/saranshk/statically-type-checking-python-code-using-pyright-2p6p#:~:text=Statically%20type%20checking%20Python%20code,for%20large%20Python%20source%20bases)), though for small-to-medium projects both tools run quickly enough.
+- **Pyright:** Pyright is a newer type checker, open-sourced by Microsoft. It is known for being **fast** and is designed to handle very large projects efficiently. In fact, Pyright powers the Python type checking in Microsoft’s VS Code editor (the Pylance extension). Pyright is written in TypeScript (running on Node.js), which might sound unusual, but it means it’s optimized for speed and can do things like watch files and re-check only what changed, etc. Pyright is also fully aware of all the latest PEPs and typing features. According to its documentation, **“Pyright is a full-featured, standards-based static type checker for Python. It is designed for high performance and can be used with large Python source bases.”**
+([microsoft/pyright: Static Type Checker for Python - GitHub](https://github.com/microsoft/pyright#:~:text=Pyright%20is%20a%20full,)) In practice, many developers use Pyright via their editor for instant feedback as they code (and/or in CI as well). For instance, as you’re coding, Pyright can underline an inconsistent call in red immediately. Pyright is also available as a command-line tool (via npm) if you prefer that route. One of its selling points is performance – it’s been noted to be _much_ faster than mypy on large codebases ([Statically type checking Python code using Pyright - DEV Community](https://dev.to/saranshk/statically-type-checking-python-code-using-pyright-2p6p#:~:text=Statically%20type%20checking%20Python%20code,for%20large%20Python%20source%20bases)), though for small-to-medium projects both tools run quickly enough.
 
 Both mypy and pyright adhere to Python’s typing rules (PEP 484 and successors) pretty closely.
 There are some minor differences and configuration options (for example, how strict they are about certain default behaviors, or handling of untyped code).
@@ -348,7 +341,8 @@ We can then fix the code (e.g., by converting `"5"` to an integer, or by correct
 The use of these tools ties back to the earlier benefits: they help maintain **maintainability, readability, and safety** of the code by acting as an automated guardrail.
 As one article succinctly put it, even though Python is dynamically typed, using type hints with tools like mypy or pyright “provides numerous benefits, including early error detection, improved readability and maintainability, enhanced tooling support, better documentation, [and] overall code quality improvement” ([Precision Python](https://dzone.com/articles/typing-in-python#:~:text=Typechecking%20in%20Python%20provides%20numerous,maintain%20large%20codebases%20more%20effectively)).
 
-## Runtime vs.
+## Runtime vs
+
 Static Type Checking: Clarifying the Difference
 
 To wrap up, let’s clearly distinguish between **runtime type checking** and **static type checking**, because this is crucial to understanding Python’s type system:
@@ -359,9 +353,11 @@ To wrap up, let’s clearly distinguish between **runtime type checking** and **
 
 One consequence of this design is that you can have a program that passes all static type checks but still crashes or behaves incorrectly at runtime if you made an assumption that wasn’t actually guaranteed by the language.
 Conversely, you might have a program that does something tricky that the static checker flags as a possible type issue, but at runtime it never fails because of the particular way you use it.
-In those cases, you can often adjust your type hints or use casts/`# type: ignore` comments to tell the checker “trust me, I know what I’m doing here.” This disconnect between static analysis and actual running code is something to be aware of – it’s the price of keeping the type system optional.
+In those cases, you can often adjust your type hints or use casts/`# type: ignore` comments to tell the checker “trust me, I know what I’m doing here.”
+This disconnect between static analysis and actual running code is something to be aware of – it’s the price of keeping the type system optional.
 A quote from Python’s documentation highlights this separation: _“The Python runtime does not enforce function and variable type annotations.
-They can be used by third party tools such as type checkers, IDEs, linters, etc.”_ ([Python's "Type Hints" are a bit of a disappointment to me](https://www.uninformativ.de/blog/postings/2022-04-21/0/POSTING-en.html#:~:text=The%20documentation%20says%3A)).
+They can be used by third party tools such as type checkers, IDEs, linters, etc.”
+([Python's "Type Hints" are a bit of a disappointment to me](https://www.uninformativ.de/blog/postings/2022-04-21/0/POSTING-en.html#:~:text=The%20documentation%20says%3A)).
 In other words, **if you want enforcement of those annotations, you need to use a tool** (or implement your own checks).
 
 To drive the point home, consider this final example:
@@ -402,9 +398,4 @@ It’s important to remember that Python will not enforce types at runtime (unle
 The type system is there to help developers, not to make the language strict or verbose by force.
 You can adopt it gradually and use it to the degree that it adds value for your projects.
 
-In the following chapters, we will build on this understanding of types.
-We’ll look at Python’s built-in types in detail (Chapter _Predefined Types_), how to create your own classes and types (Chapter _Custom Types_), and advanced concepts like pattern matching and immutability in Python’s context.
-With the foundation of “what is a type” laid down, you’ll be well-equipped to dive into those topics, understanding the role types play in each case.
-
-Types are a rich topic, and even in Python (often praised for being easy and dynamic) they form a backbone of how the language and programs operate.
 Embracing Python’s type system – both its dynamic nature and its optional static features – will make you a more effective Python programmer, writing code that is clear, correct, and robust.
