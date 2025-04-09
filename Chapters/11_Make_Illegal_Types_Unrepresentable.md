@@ -230,7 +230,7 @@ with Catch():
 ```
 
 In this case the `Condition`s are being applied to methods, so their `lambda`s both include `self`.
-In `withdraw` you see multiple `Condition`s applied in one `requires` decorator.
+In `withdraw` you see multiple `Condition`s applied within one `requires` decorator.
 
 This is an improvement over placing the validation code at the beginning of each function body, as Eiffel does and as traditional Python functions do--assuming they check their arguments.
 The `@requires` clearly shows that constraints have been placed on the arguments, while `Condition` reduces duplicated code.
