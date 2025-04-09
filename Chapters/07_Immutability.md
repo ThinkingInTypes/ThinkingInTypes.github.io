@@ -134,10 +134,12 @@ class Point:
 
 p = Point(x=1, y=2)
 print(p.x, p.y)  # Outputs: 1 2
+## 1 2
 
 with Catch():
     # Attempting to modify a field produces an error:
     p.x = 5  # noqa
+## Error: cannot assign to field 'x'
 
 p.__dict__["x"] = 5  # Bypassing 'frozen'
 ```
@@ -167,9 +169,11 @@ class Person:
 
 person = Person(name="Alice", age=30)
 print(person.name)  # "Alice"
+## Alice
 with Catch():
     # Trying to modify a frozen dataclass field:
     person.age = 31   # noqa
+## Error: cannot assign to field 'age'
 
 person.__dict__["age"] = 31  # Disable 'frozen'
 ```
@@ -227,6 +231,7 @@ from example_8 import Rectangle
 
 r = Rectangle(3.0, 4.0)
 print(r.area)  # Outputs: 12.0
+## 12.0
 # Try to modify attributes (should fail)
 with Catch():
     # 'Rectangle' object attribute 'width' is read-only:
