@@ -377,7 +377,8 @@ For example:
 from typing import LiteralString
 
 
-def run_query(query: LiteralString): ...
+def run_query(query: LiteralString):  # noqua
+    ...
 
 
 run_query("SELECT * FROM users")  # OK, literal

@@ -65,12 +65,14 @@ from typing import Final
 
 RATE: Final = 3000
 
+
 class BaseConfig:
     TIMEOUT: Final[int] = 60
 
+
 class SubConfig(BaseConfig):
-    # The following line would be an error in static type checking:
-    TIMEOUT = 30  # Error: can't override a final attribute in BaseConfig
+    # Error: can't override a final attribute in BaseConfig
+    TIMEOUT = 30  # type: ignore
 ```
 
 In the above code, `RATE` is a module-level constant. If somewhere else we had `RATE = 2500`, a tool like mypy would report an error (“can't assign to final name ‘RATE’”). Similarly, `BaseConfig.TIMEOUT` is a constant class attribute; attempting to override it in `SubConfig` would be flagged (“can't override a final attribute”) ([Type qualifiers — typing  documentation](https://typing.python.org/en/latest/spec/qualifiers.html#:~:text=from%20typing%20import%20Final)). This helps maintain invariants in class hierarchies.
@@ -82,10 +84,11 @@ It’s important to note that `Final` can also be used for instance attributes i
 from typing import Final
 from dataclasses import dataclass
 
+
 @dataclass
 class User:
-    name: Final[str]
-    id: Final[int]
+    name: Final[str] = "Uninitialized"
+    id: Final[int] = -1
 
     def __init__(self, name: str, id: int):
         object.__setattr__(self, "name", name)
@@ -120,15 +123,23 @@ Here’s how it works in practice:
 # example_6.py
 from dataclasses import dataclass
 
+from book_utils import Catch
+
+
 @dataclass(frozen=True)
 class Point:
     x: int
     y: int
 
-p = Point(x=1, y=2)
-print(p.x, p.y)    # Outputs: 1 2
 
-p.x = 5            # Attempt to modify a field
+p = Point(x=1, y=2)
+print(p.x, p.y)  # Outputs: 1 2
+
+with Catch():
+    # Attempting to modify a field produces an error:
+    p.x = 5  # noqa
+
+p.__dict__["x"] = 5  # Bypassing 'frozen'
 ```
 
 Running this code will result in a runtime error at the line `p.x = 5`. Specifically, Python will raise a `dataclasses.FrozenInstanceError` with the message "cannot assign to field 'x'" ([ Mimicking Immutability in Python with Type Hints | Justin Austin](https://justincaustin.com/blog/mimicking-immutability-python-type-hints/#:~:text=state)). The dataclass machinery has made the `Point` class’s instances immutable by overriding the attribute-setting behavior: any attempt to set an attribute on a frozen instance triggers that exception.
@@ -145,14 +156,22 @@ Let’s illustrate with a more detailed example, and show what happens if we att
 # example_7.py
 from dataclasses import dataclass
 
+from book_utils import Catch
+
+
 @dataclass(frozen=True)
 class Person:
     name: str
     age: int
 
+
 person = Person(name="Alice", age=30)
-print(person.name)    # "Alice"
-person.age = 31       # trying to modify a frozen dataclass field
+print(person.name)  # "Alice"
+with Catch():
+    # Trying to modify a frozen dataclass field:
+    person.age = 31   # noqa
+
+person.__dict__["age"] = 31  # Disable 'frozen'
 ```
 
 If you run this, you will get a traceback similar to:
@@ -185,6 +204,7 @@ Let’s demonstrate this with an example. Suppose we want to have a `Rectangle` 
 # example_8.py
 from dataclasses import dataclass, field
 
+
 @dataclass(frozen=True)
 class Rectangle:
     width: float
@@ -202,10 +222,16 @@ Let's test this behavior:
 
 ```python
 # example_9.py
+from book_utils import Catch
+from example_8 import Rectangle
+
 r = Rectangle(3.0, 4.0)
-print(r.area)        # Outputs: 12.0
+print(r.area)  # Outputs: 12.0
 # Try to modify attributes (should fail)
-r.width = 5.0        # Raises dataclasses.FrozenInstanceError
+with Catch():
+    # 'Rectangle' object attribute 'width' is read-only:
+    # r.width = 5.0
+    r.__dict__["width"] = 5.0  # Cheat to change
 ```
 
 As expected, printing `r.area` gives 12.0, which means our `__post_init__` successfully set the value. And attempting to assign `r.width` after creation raises an error, confirming the instance is immutable. We have effectively created an immutable data object with some logic in its initialization.

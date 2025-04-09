@@ -28,10 +28,11 @@ Example:
 
 
 def greet(name: str) -> str:
-    print(f"Hello, {name}!")
+    return f"Hello, {name}!"
 
 
-greet(123)  # Incorrect type
+# Incorrect type:
+print(greet(123))  # type: ignore
 ## Hello, 123!
 ```
 

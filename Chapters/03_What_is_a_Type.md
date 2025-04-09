@@ -168,7 +168,8 @@ def add(a: int, b: int) -> int:
 
 
 with Catch():
-    add(1, "2")  # Static type checker flags this
+    # Static type checker flags this:
+    add(1, "2")  # type: ignore
 ## Error: unsupported operand type(s) for +: 'int'
 ## and 'str'
 ```
