@@ -13,6 +13,7 @@ With this approach, you:
 5. Make changes easier by localizing validation to a single point.
 6. Eliminate the need for techniques such as Design By Contract (DBC).
 7. Enable more focused testing with finer granularity.
+8. Naturally move towards Domain-Driven Design.
 
 ## "Stringly Typed"
 
@@ -25,12 +26,12 @@ Unless it's actually text, classifying something as a string doesn't tell you an
 When a function receives a string that is meant to represent a type, that function can assume precisely nothing about it.
 Every such function must start from scratch and analyze that string to see if it conforms to what that function needs.
 
-It is a daunting job to change the meaning of that stringly-typed item.
+Changing the meaning of a stringly-typed item is a daunting job.
 You must look through every function that uses it and ensure that your change is reflected in the validations in every single function.
 Because the logic is distributed, it's highly likely you will miss some.
 
 Consider representing phone numbers as strings.
-Here are just a few of the different formats you might have to deal with:
+Here are just a few of the different formats you might encounter:
 
 ```python
 # string_phone_numbers.py
@@ -52,7 +53,7 @@ phone_numbers: list[str] = [
 ]
 ```
 
-Every time you write a function that takes a phone number represented as a string, you must first validate that number.
+Any function that takes a phone number represented as a string must first validate that number.
 Here's one of the worst approaches imaginable:
 
 ```python
