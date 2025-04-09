@@ -33,7 +33,9 @@ One of the core distinctions in programming language type systems is **dynamic t
 - **Dynamically Typed Languages:** In a dynamically typed language, the type of a variable is allowed to change over its lifetime, and type checks are done at runtime. You do **not** have to declare types explicitly. For example, in Python you can do:
 
   ```python
+
 # example_2.py
+
   x = 10        # x is now an int
   x = "hello"   # now x is a str (Python allowed us to reassign a different type)
   print(x)      # Output: hello
@@ -95,7 +97,8 @@ quacks(donald)  # Quack!
 quacks(tesla)   # I can quack, too!
 ```
 
-In this code, we defined two classes: `Duck` and `Car`, each with a `quack()` method. The function `quacks(entity)` simply calls `entity.quack()` without caring what type `entity` is. Thanks to duck typing, both a `Duck` instance and a `Car` instance can be passed to `quacks` and it will work, as long as they implement `quack()`. The `quacks(donald)` call prints **“Quack!”**, and `quacks(tesla)` prints **“I can quack, too!”**, even though `tesla` is not a Duck – it’s a Car that happens to know how to quack. The function didn’t check types; it just invoked the method.
+`Duck` and `Car` each have a `quack()` method.
+The function `quacks(entity)` simply calls `entity.quack()` without caring what type `entity` is. Thanks to duck typing, both a `Duck` instance and a `Car` instance can be passed to `quacks` and it will work, as long as they implement `quack()`. The `quacks(donald)` call prints **“Quack!”**, and `quacks(tesla)` prints **“I can quack, too!”**, even though `tesla` is not a Duck – it’s a Car that happens to know how to quack. The function didn’t check types; it just invoked the method.
 
 But what if we call `quacks(42)` (an integer)? An int has no `quack()` method, so Python will raise an `AttributeError` at runtime (e.g., “`'int' object has no attribute 'quack'`”). This demonstrates duck typing’s approach: **“it’s better to ask for forgiveness than permission.”** We just try to use the object in a duck-like way. If it quacks, great. If not, Python throws an error, and we handle that (or let it propagate). In code, you might handle this with try/except:
 
@@ -158,7 +161,9 @@ Over the past several Python releases (3.5 through 3.13), the type hinting synta
 - You can annotate variables (since Python 3.6) in addition to function params and returns:
 
   ```python
+
 # example_8.py
+
   count: int = 0
   texts: list[str] = ["hello", "world"]  # using list[str] instead of typing.List
   
