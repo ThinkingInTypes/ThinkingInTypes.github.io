@@ -188,5 +188,6 @@ To allow these utilities to be easily imported using `from book_utils`, we must 
 ```python
 # book_utils/__init__.py
 from .exception_catcher import Catch
+
 __all__ = ["Catch"]
 ```
