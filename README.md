@@ -12,4 +12,5 @@
 [![Built with Material for MkDocs](https://img.shields.io/badge/Material_for_MkDocs-526CFE?style=for-the-badge&logo=MaterialForMkDocs&logoColor=white)](https://squidfunk.github.io/mkdocs-material/).
 
 - `docker run -v ${PWD}:/data ghcr.io/bobheadxi/readable fmt *`  Formats Markdown files including [Semantic Line Breaks](https://sembr.org/)
+- [sembr](https://github.com/admk/sembr) Just does semantic line breaks using AI, but it also breaks at clauses rather than just sentences.
 - `uvx mdformat`  Formats fenced code blocks in markdown files
