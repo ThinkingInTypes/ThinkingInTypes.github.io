@@ -61,16 +61,20 @@ import re
 
 
 def f1(phone: str):
-    VALID = re.compile(r"^\+?(\d{1,3})?[\s\-.()]*([\d\s\-.()]+)$")
-    if not VALID.match(phone):
+    valid = re.compile(
+        r"^\+?(\d{1,3})?[\s\-.()]*([\d\s\-.()]+)$"
+    )
+    if not valid.match(phone):
         print(f"Error {phone = }")
         return
     ...
 
 
 def f2(phone_num: str):
-    CHECK = re.compile(r"^\+?(\d{1,3})?[\s\-.()]*([\d\s\-.()]+)$")
-    assert CHECK.match(phone_num), f"Invalid {phone_num}"
+    check = re.compile(
+        r"^\+?(\d{1,3})?[\s\-.()]*([\d\s\-.()]+)$"
+    )
+    assert check.match(phone_num), f"Invalid {phone_num}"
     ...
 ```
 
@@ -152,7 +156,9 @@ Here's a basic example:
 from book_utils import Catch
 from require import requires, Condition
 
-positivity = Condition(check=lambda x: x > 0, message="x must be positive")
+positivity = Condition(
+    check=lambda x: x > 0, message="x must be positive"
+)
 
 
 @requires(positivity)
@@ -185,7 +191,8 @@ positive_amount = Condition(
 )
 
 sufficient_balance = Condition(
-    check=lambda self, amount: self.balance >= amount, message="Insufficient balance"
+    check=lambda self, amount: self.balance >= amount,
+    message="Insufficient balance",
 )
 
 
@@ -201,7 +208,9 @@ class BankAccount:
     @requires(positive_amount)
     def deposit(self, amount: Decimal) -> str:
         self.balance += amount
-        return f"Deposited {amount}, balance: {self.balance}"
+        return (
+            f"Deposited {amount}, balance: {self.balance}"
+        )
 
 
 account = BankAccount(Decimal(100))
@@ -248,10 +257,14 @@ from decimal import Decimal
 class Amount:
     value: Decimal
 
-    def __init__(self, value: int | float | str | Decimal) -> None:
+    def __init__(
+        self, value: int | float | str | Decimal
+    ) -> None:
         decimal_value = Decimal(str(value))
         if decimal_value < Decimal("0"):
-            raise ValueError(f"Amount({decimal_value}) cannot be negative")
+            raise ValueError(
+                f"Amount({decimal_value}) cannot be negative"
+            )
         object.__setattr__(self, "value", decimal_value)
 
     def __add__(self, other: "Amount") -> "Amount":
@@ -302,7 +315,9 @@ class Balance(NamedTuple):
     def deposit(self, deposit_amount: Amount) -> "Balance":
         return Balance(self.amount + deposit_amount)
 
-    def withdraw(self, withdrawal_amount: Amount) -> "Balance":
+    def withdraw(
+        self, withdrawal_amount: Amount
+    ) -> "Balance":
         return Balance(self.amount - withdrawal_amount)
 ```
 
@@ -367,20 +382,28 @@ import re
 
 @dataclass(frozen=True)
 class PhoneNumber:
-    """Represents a validated and normalized phone number."""
+    """
+    Represents a validated and normalized phone number.
+    """
 
     country_code: str
     number: str  # Digits only, no formatting
 
-    PHONE_REGEX = re.compile(r"^\+?(\d{1,3})?[\s\-.()]*([\d\s\-.()]+)$")
+    PHONE_REGEX = re.compile(
+        r"^\+?(\d{1,3})?[\s\-.()]*([\d\s\-.()]+)$"
+    )
 
     @classmethod
     def parse(cls, raw: str) -> Self:
-        """Parses and validates a raw phone number string."""
+        """
+        Parses and validates a raw phone number string.
+        """
         cleaned = raw.strip()
         match = cls.PHONE_REGEX.match(cleaned)
         if not match:
-            raise ValueError(f"Invalid phone number: {raw!r}")
+            raise ValueError(
+                f"Invalid phone number: {raw!r}"
+            )
 
         cc, num = match.groups()
         digits = re.sub(r"\D", "", num)
@@ -391,12 +414,18 @@ class PhoneNumber:
         return cls(country_code=country_code, number=digits)
 
     def __str__(self) -> str:
-        """Formats the phone number as +<country> <formatted number>."""
+        """
+        Formats the phone number as +<country> <formatted
+        number>.
+        """
         formatted = self.format_number()
         return f"+{self.country_code} {formatted}"
 
     def format_number(self) -> str:
-        """Applies simple formatting rules for 10-digit numbers."""
+        """
+        Applies simple formatting rules for 10-digit
+        numbers.
+        """
         if len(self.number) == 10:
             return f"({self.number[:3]}) {self.number[3:6]}-{self.number[6:]}"
         return self.number  # fallback: just the digits
@@ -404,7 +433,10 @@ class PhoneNumber:
     def __eq__(self, other: object) -> bool:
         if not isinstance(other, PhoneNumber):
             return NotImplemented
-        return self.country_code == other.country_code and self.number == other.number
+        return (
+            self.country_code == other.country_code
+            and self.number == other.number
+        )
 ```
 
 We can test this against the list in `string_phone_numbers.py`:

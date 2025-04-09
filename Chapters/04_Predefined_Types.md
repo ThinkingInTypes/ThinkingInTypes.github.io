@@ -194,7 +194,9 @@ def average(numbers: Sequence[float]) -> float:
 from typing import Mapping
 
 
-def get_user_age(users: Mapping[str, int], username: str) -> int:
+def get_user_age(
+    users: Mapping[str, int], username: str
+) -> int:
     return users.get(username, 0)
 ```
 

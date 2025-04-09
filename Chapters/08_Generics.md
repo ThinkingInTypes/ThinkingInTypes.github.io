@@ -120,7 +120,9 @@ class ReadOnlyList(Generic[T_co]):
 
 
 ints: ReadOnlyList[int] = ReadOnlyList([1, 2, 3])
-numbers: ReadOnlyList[float] = ints  # Valid due to covariance
+numbers: ReadOnlyList[float] = (
+    ints  # Valid due to covariance
+)
 ```
 
 ### Contravariance (`contravariant=True`)
@@ -140,7 +142,9 @@ class Processor(Generic[T_contra]):
 
 
 int_processor: Processor[int] = Processor()
-number_processor: Processor[float] = int_processor  # Valid due to contravariance
+number_processor: Processor[float] = (
+    int_processor  # Valid due to contravariance
+)
 ```
 
 Understanding variance ensures accurate type relationships, especially when designing flexible APIs or libraries.
@@ -154,8 +158,10 @@ Python doesn’t intrinsically support currying the way functional languages lik
 # pseudo_currying.py
 from functools import partial
 
+
 def add(x: int, y: int) -> int:
     return x + y
+
 
 add_five = partial(add, 5)
 print(add_five(3))
@@ -174,16 +180,23 @@ A = TypeVar("A")
 B = TypeVar("B")
 C = TypeVar("C")
 
-def curry(func: Callable[[A, B], C]) -> Callable[[A], Callable[[B], C]]:
+
+def curry(
+    func: Callable[[A, B], C],
+) -> Callable[[A], Callable[[B], C]]:
     def outer(a: A) -> Callable[[B], C]:
         def inner(b: B) -> C:
             return func(a, b)
+
         return inner
+
     return outer
+
 
 @curry
 def multiply(x: int, y: int) -> int:
     return x * y
+
 
 times_ten = multiply(10)
 print(times_ten(3))

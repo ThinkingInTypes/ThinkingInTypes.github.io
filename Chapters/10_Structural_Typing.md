@@ -144,7 +144,11 @@ def close_all(resources: Iterable[Closable]) -> None:
 
 
 # Using the close_all function with different resource types
-closables = [FileResource("data.txt"), SocketResource(), open("other.txt", "w")]
+closables = [
+    FileResource("data.txt"),
+    SocketResource(),
+    open("other.txt", "w"),
+]
 close_all(
     closables
 )  # OK: FileResource, SocketResource, and file objects all have close()
@@ -178,10 +182,15 @@ class Closable(Protocol):
     def close(self) -> None: ...
 
 
-isinstance(FileResource("data.txt"), Closable)  # True, because FileResource has close()
+isinstance(
+    FileResource("data.txt"), Closable
+)  # True, because FileResource has close()
 ```
 
-Now `Closable` can be used in `isinstance` and `issubclass` as a structural check ([Abstract Base Classes and Protocols: What Are They?&#x20;When To Use Them??&#x20;Lets Find Out! - Justin A.&#x20;Ellis](https://jellis18.github.io/post/2022-01-11-abc-vs-protocol/#:~:text=One%20last%20thing%20to%20mention,check%20with%20the%20runtime_checkable%20decorator)).
+Now `Closable` can be used in `isinstance` and `issubclass` as a structural check ([Abstract Base Classes and Protocols: What Are They?
+&#x20;When To Use Them??
+&#x20;Lets Find Out! - Justin A.
+&#x20;Ellis](https://jellis18.github.io/post/2022-01-11-abc-vs-protocol/#:~:text=One%20last%20thing%20to%20mention,check%20with%20the%20runtime_checkable%20decorator)).
 Use this feature carefully – it’s useful for type introspection in frameworks or for asserting an object meets an interface at runtime, but it only checks the presence of attributes and not their types, and could give false positives if an attribute name matches but semantics differ.
 In most cases, protocols are used purely for static checking and documentation.
 
@@ -209,7 +218,9 @@ class Logger(Protocol):
 
 
 class FileLogger:
-    """Concrete logger that writes to a file."""
+    """
+    Concrete logger that writes to a file.
+    """
 
     def __init__(self, filename: str):
         self.filename = filename
@@ -220,7 +231,10 @@ class FileLogger:
 
 
 class ListLogger:
-    """Concrete logger that stores messages in a list (e.g., for testing)."""
+    """
+    Concrete logger that stores messages in a list (e.g.,
+    for testing).
+    """
 
     def __init__(self):
         self.messages: list[str] = []
@@ -236,9 +250,13 @@ def run_process(task_name: str, logger: Logger) -> None:
 
 
 # Using the run_process with different loggers
-run_process("DataCleanup", FileLogger("app.log"))  # logs to file
+run_process(
+    "DataCleanup", FileLogger("app.log")
+)  # logs to file
 test_logger = ListLogger()
-run_process("DataCleanup", test_logger)  # logs to list in memory
+run_process(
+    "DataCleanup", test_logger
+)  # logs to list in memory
 print("Captured logs:", test_logger.messages)
 ## Captured logs: ['Starting DataCleanup',
 ## 'Finished DataCleanup']
@@ -253,7 +271,10 @@ This design is very flexible: you can add new logger classes later (say, a`Datab
 During testing, as shown, we can use`ListLogger`to capture logs and make assertions on them.
 The static type checker will ensure that any object we pass as a`logger`to`run\_process`has a`log(str)`method.
 In a nominal type system, you might have to define an abstract base class`Logger\` and make every logger inherit it.
-With protocols, you get the benefit of an interface without the inheritance – this reduces coupling and makes it easier to integrate third-party classes that weren’t written with your ABC in mind ([Python Protocols: Leveraging Structural Subtyping – Real Python](https://realpython.com/python-protocol/#:~:text=Protocols%20are%20particularly%20useful%20when,to%20design%20complex%20inheritance%20relationships)) ([Abstract Base Classes and Protocols: What Are They?&#x20;When To Use Them??&#x20;Lets Find Out! - Justin A.&#x20;Ellis](https://jellis18.github.io/post/2022-01-11-abc-vs-protocol/#:~:text=,interfaces%20for%203rd%20party%20libraries)).
+With protocols, you get the benefit of an interface without the inheritance – this reduces coupling and makes it easier to integrate third-party classes that weren’t written with your ABC in mind ([Python Protocols: Leveraging Structural Subtyping – Real Python](https://realpython.com/python-protocol/#:~:text=Protocols%20are%20particularly%20useful%20when,to%20design%20complex%20inheritance%20relationships)) ([Abstract Base Classes and Protocols: What Are They?
+&#x20;When To Use Them??
+&#x20;Lets Find Out! - Justin A.
+&#x20;Ellis](https://jellis18.github.io/post/2022-01-11-abc-vs-protocol/#:~:text=,interfaces%20for%203rd%20party%20libraries)).
 
 **2. Testing with fake or mock objects:** Building on the above example, protocols are extremely handy for unit testing.
 In tests, we often use fake objects or mocks to simulate real components (like databases, web services, etc.)
@@ -273,7 +294,10 @@ In short, whenever you say "I need an object that can do X in my code, and I mig
 Even if you’re not writing multiple implementations immediately, defining a protocol for a role in your system can clarify the design.
 For example, you might define a `DataStore` protocol with methods like `save(item)` and `load(id)` that any storage backend should implement.
 Today you only have a database implementation, but tomorrow you might add an in-memory or file-based implementation – the protocol makes the contract clear.
-Moreover, if you want to accept objects from a third-party library that already have the necessary methods, protocols let you do so **without subclassing or modifying those classes** ([Abstract Base Classes and Protocols: What Are They?&#x20;When To Use Them??&#x20;Lets Find Out! - Justin A.&#x20;Ellis](https://jellis18.github.io/post/2022-01-11-abc-vs-protocol/#:~:text=,interfaces%20for%203rd%20party%20libraries)).
+Moreover, if you want to accept objects from a third-party library that already have the necessary methods, protocols let you do so **without subclassing or modifying those classes** ([Abstract Base Classes and Protocols: What Are They?
+&#x20;When To Use Them??
+&#x20;Lets Find Out! - Justin A.
+&#x20;Ellis](https://jellis18.github.io/post/2022-01-11-abc-vs-protocol/#:~:text=,interfaces%20for%203rd%20party%20libraries)).
 Suppose you’re writing a function that can output data to any "file-like" object (something with a `.write()` method).
 The `io.TextIOBase` abstract class in Python is nominal, but not every file-like object will inherit it.
 By defining your own protocol with a `write(str)` method, your function can accept a wide range of objects (actual file handles, `io.StringIO` instances, custom writer objects) as long as they implement `write`.
@@ -393,9 +417,13 @@ def print_item_and_return[C](container: Container[C]) -> C:
 
 
 # Using the generic function with different container types:
-x = print_item_and_return(StringContainer("hello"))  # prints "hello", x is str
+x = print_item_and_return(
+    StringContainer("hello")
+)  # prints "hello", x is str
 ## Got: hello
-y = print_item_and_return(IntContainer(42))  # prints "42", y is int
+y = print_item_and_return(
+    IntContainer(42)
+)  # prints "42", y is int
 ## Got: 42
 ```
 
@@ -423,7 +451,9 @@ from logger_protocol import Logger
 ## Captured logs: ['Starting DataCleanup',
 ## 'Finished DataCleanup']
 
-T = TypeVar("T", bound=Logger)  # using our Logger protocol from earlier
+T = TypeVar(
+    "T", bound=Logger
+)  # using our Logger protocol from earlier
 ```
 
 This means any type filling in for T must have a `.log(str) -> None` method.
@@ -481,12 +511,18 @@ Here are some guidelines, pros and cons, and best practices to help decide:
   Protocols are great for defining a narrow interface that multiple disparate classes can implement without formal coupling.
   If you only care about one or a few methods on an object (and not about its exact type), a protocol lets you specify just that.
   This is especially useful for function parameters:
-  you can annotate a function to accept any object that has a `.close()` method, or a `.write()` method, etc., without forcing a common base class ([Abstract Base Classes and Protocols: What Are They?  &#x20;When To Use Them??  &#x20;Lets Find Out! - Justin A.  &#x20;Ellis](https://jellis18.github.io/post/2022-01-11-abc-vs-protocol/#:~:text=,interfaces%20for%203rd%20party%20libraries)).
+  you can annotate a function to accept any object that has a `.close()` method, or a `.write()` method, etc., without forcing a common base class ([Abstract Base Classes and Protocols: What Are They?
+  &#x20;When To Use Them??
+  &#x20;Lets Find Out! - Justin A.
+  &#x20;Ellis](https://jellis18.github.io/post/2022-01-11-abc-vs-protocol/#:~:text=,interfaces%20for%203rd%20party%20libraries)).
 
 - You are working with **third-party or existing classes** that you can’t modify to fit into your class hierarchy.
   Structural typing shines here because you can define a protocol that matches the external class’s capabilities.
   For example, if a 3rd-party library gives you objects that have a `.to_json()` method, and you want to treat those objects uniformly in your code, you can create a `ToJsonable` protocol with `to_json(self) -> str` and use that in your type hints.
-  Any object from the library will satisfy the protocol if it has the method, without you needing to make it inherit from anything ([Abstract Base Classes and Protocols: What Are They?  &#x20;When To Use Them??  &#x20;Lets Find Out! - Justin A.  &#x20;Ellis](https://jellis18.github.io/post/2022-01-11-abc-vs-protocol/#:~:text=,interfaces%20for%203rd%20party%20libraries)).
+  Any object from the library will satisfy the protocol if it has the method, without you needing to make it inherit from anything ([Abstract Base Classes and Protocols: What Are They?
+  &#x20;When To Use Them??
+  &#x20;Lets Find Out! - Justin A.
+  &#x20;Ellis](https://jellis18.github.io/post/2022-01-11-abc-vs-protocol/#:~:text=,interfaces%20for%203rd%20party%20libraries)).
   This decoupling is very powerful in a language as dynamic as Python, where often we "duck type" through frameworks – now you can put an actual type hint on it.
 
 - You need **generic interfaces or extension of existing ones**.

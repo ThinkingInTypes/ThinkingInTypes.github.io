@@ -26,8 +26,10 @@ Example:
 ```python
 # script.py
 
+
 def greet(name: str) -> str:
     print(f"Hello, {name}!")
+
 
 greet(123)  # Incorrect type
 ## Hello, 123!
@@ -138,7 +140,7 @@ Common type-checking errors and their resolutions:
 
 ```python
 # example_2.py
-# Error: Incompatible types in assignment 
+# Error: Incompatible types in assignment
 # (expression has type "int", variable has type "str")
 name: str = 123  # type: ignore
 ```
@@ -168,7 +170,9 @@ from typing import Optional
 
 
 # Error: Incompatible return value type (got "None", expected "int")
-def find_index(item: str, items: list[str]) -> Optional[int]:
+def find_index(
+    item: str, items: list[str]
+) -> Optional[int]:
     try:
         return items.index(item)
     except ValueError:

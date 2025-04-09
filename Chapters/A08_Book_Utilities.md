@@ -137,7 +137,9 @@ class Fob:
 
     def __post_init__(self) -> None:
         if self.x < 0:
-            raise ValueError(f"Fob arg {self.x} must be positive")
+            raise ValueError(
+                f"Fob arg {self.x} must be positive"
+            )
 
 
 def foo(a: int, b: Fob) -> str:
@@ -157,7 +159,9 @@ with Catch():  # Single-failure simple form
 with Catch():
     print(foo(42, Fob(42)))  # Must explicitly print
 ## foo(42, Fob(x=42)) succeeded
-with Catch() as catch:  # Lambda form displays successful result
+with (
+    Catch() as catch
+):  # Lambda form displays successful result
     catch(lambda: foo(42, Fob(42)))
 ## foo(42, Fob(x=42)) succeeded
 

@@ -37,7 +37,9 @@ The `Callable` type is essential for annotating functions that accept or return 
 from typing import Callable
 
 
-def operate(a: int, b: int, func: Callable[[int, int], int]) -> int:
+def operate(
+    a: int, b: int, func: Callable[[int, int], int]
+) -> int:
     return func(a, b)
 
 
@@ -58,9 +60,13 @@ P = ParamSpec("P")
 R = TypeVar("R")
 
 
-def logging_decorator(func: Callable[P, R]) -> Callable[P, R]:
+def logging_decorator(
+    func: Callable[P, R],
+) -> Callable[P, R]:
     def wrapper(*args: P.args, **kwargs: P.kwargs) -> R:
-        print(f"Calling {func.__name__} with {args} and {kwargs}")
+        print(
+            f"Calling {func.__name__} with {args} and {kwargs}"
+        )
         return func(*args, **kwargs)
 
     return wrapper
@@ -71,7 +77,9 @@ def multiply(a: int, b: int) -> int:
     return a * b
 
 
-multiply(2, 3)  # Output: Calling multiply with (2, 3) and {} then returns 6
+multiply(
+    2, 3
+)  # Output: Calling multiply with (2, 3) and {} then returns 6
 ## Calling multiply with (2, 3) and {}
 ```
 
@@ -127,7 +135,9 @@ from typing import Callable, TypeAlias
 RequestHandler: TypeAlias = Callable[[str, dict], dict]
 
 
-def handle_request(path: str, handler: RequestHandler) -> dict:
+def handle_request(
+    path: str, handler: RequestHandler
+) -> dict:
     response = handler(path, {})
     return response
 ```
@@ -149,7 +159,9 @@ class Handler(Protocol):
     def __call__(self, request: dict) -> dict: ...
 
 
-def process_request(handler: Handler, request: dict) -> dict:
+def process_request(
+    handler: Handler, request: dict
+) -> dict:
     return handler(request)
 ```
 

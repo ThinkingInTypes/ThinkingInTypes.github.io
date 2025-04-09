@@ -59,6 +59,7 @@ If it looks like a duck and quacks like a duck, it's treated as a duck:
 ```python
 # example_2.py
 class Duck:
+    # noinspection PyMethodMayBeStatic
     def quack(self):
         print("Quack!")
 

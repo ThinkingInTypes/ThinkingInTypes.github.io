@@ -50,8 +50,8 @@ from typing import ClassVar
 
 
 class Starship:
-    stats: ClassVar[dict[str, int]] = {}   # class variable  
-    damage: int = 10                       # instance variable
+    stats: ClassVar[dict[str, int]] = {}  # class variable
+    damage: int = 10  # instance variable
 ```
 
 Here `stats` is marked as a class-level attribute, whereas `damage` is an instance attribute ([typing — Support for type hints — Python 3.13.2 documentation](https://docs.python.org/3/library/typing.html#:~:text=ClassVar%20indicates%20that%20a%20given,Usage)).
@@ -113,8 +113,10 @@ For instance:
 
 ```python
 # example_3.py
-from typing import NoReturn  
-def fatal_error(msg: str) -> NoReturn:  
+from typing import NoReturn
+
+
+def fatal_error(msg: str) -> NoReturn:
     raise RuntimeError(msg)
 ```
 
@@ -149,8 +151,9 @@ For example:
 
 ```python
 # example_5.py
-from typing import NewType  
-UserId = NewType('UserId', int)
+from typing import NewType
+
+UserId = NewType("UserId", int)
 ```
 
 This creates a new type `UserId` that behaves like an `int` at runtime (it’s essentially an identity function that returns the int you give it) ([typing — Support for type hints — Python 3.13.2 documentation](https://docs.python.org/3/library/typing.html#:~:text=Helper%20class%20to%20create%20low,distinct%20types)) ([typing — Support for type hints — Python 3.13.2 documentation](https://docs.python.org/3/library/typing.html#:~:text=A%20,returns%20its%20argument%20unchanged)), but static type checkers will consider `UserId` incompatible with plain `int` unless explicitly allowed.
@@ -169,9 +172,12 @@ For example, to write a function that returns the same type as it receives, you 
 
 ```python
 # example_6.py
-from typing import TypeVar  
-T = TypeVar('T')  
-def identity(item: T) -> T:  
+from typing import TypeVar
+
+T = TypeVar("T")
+
+
+def identity(item: T) -> T:
     return item
 ```
 
@@ -180,7 +186,7 @@ As of Python 3.12, you can declare type parameters directly in the function sign
 
 ```python
 # example_7.py
-def identity[T](item: T) -> T:  
+def identity[T](item: T) -> T:
     return item
 ```
 
@@ -197,12 +203,16 @@ For example:
 
 ```python
 # example_8.py
-from typing import Generic, TypeVar  
-T = TypeVar('T')  
-class Box(Generic[T]):  
-    def __init__(self, content: T):  
-        self.content = content  
-    def get_content(self) -> T:  
+from typing import Generic, TypeVar
+
+T = TypeVar("T")
+
+
+class Box(Generic[T]):
+    def __init__(self, content: T):
+        self.content = content
+
+    def get_content(self) -> T:
         return self.content
 ```
 
@@ -230,8 +240,10 @@ For example:
 
 ```python
 # example_9.py
-from typing import Protocol  
-class SupportsClose(Protocol):  
+from typing import Protocol
+
+
+class SupportsClose(Protocol):
     def close(self) -> None: ...
 ```
 
@@ -260,7 +272,9 @@ An example usage:
 from typing import Callable
 
 
-def apply_to_ints(func: Callable[[int, int], int], a: int, b: int) -> int:
+def apply_to_ints(
+    func: Callable[[int, int], int], a: int, b: int
+) -> int:
     return func(a, b)
 ```
 
@@ -287,8 +301,10 @@ def read(data: str) -> str: ...
 
 
 def read(data: Union[str, bytes]) -> str:
-    # single implementation handling both  
-    return data.decode() if isinstance(data, bytes) else data
+    # single implementation handling both
+    return (
+        data.decode() if isinstance(data, bytes) else data
+    )
 ```
 
 Here two overloads declare that `read()` accepts either bytes or str and always returns str.
@@ -314,14 +330,22 @@ For example, you might write:
 
 ```python
 # example_12.py
-from typing import ParamSpec, Callable, Concatenate  
-P = ParamSpec("P")  
-def make_logged(func: Callable[P, int]) -> Callable[Concatenate[str, P], int]:  
-    def wrapper(prefix: str, *args: P.args, **kwargs: P.kwargs) -> int:  
-        print(prefix, "Calling:", func.__name__)  
-        result = func(*args, **kwargs)  
-        print(prefix, "Result:", result)  
-        return result  
+from typing import ParamSpec, Callable, Concatenate
+
+P = ParamSpec("P")
+
+
+def make_logged(
+    func: Callable[P, int],
+) -> Callable[Concatenate[str, P], int]:
+    def wrapper(
+        prefix: str, *args: P.args, **kwargs: P.kwargs
+    ) -> int:
+        print(prefix, "Calling:", func.__name__)
+        result = func(*args, **kwargs)
+        print(prefix, "Result:", result)
+        return result
+
     return wrapper
 ```
 
@@ -393,8 +417,10 @@ For example:
 
 ```python
 # example_14.py
-from typing import TypeGuard  
-def is_str_list(vals: list[object]) -> TypeGuard[list[str]]:  
+from typing import TypeGuard
+
+
+def is_str_list(vals: list[object]) -> TypeGuard[list[str]]:
     return all(isinstance(x, str) for x in vals)
 ```
 
@@ -415,7 +441,7 @@ from typing import Self
 
 
 class MyBuilder:
-    def set_name(self, name: str) -> Self:  
+    def set_name(self, name: str) -> Self:
         self.name = name  # noqa: Instance attribute
         return self
 ```
@@ -434,9 +460,11 @@ For example:
 
 ```python
 # example_16.py
-from typing import TypedDict  
-class Movie(TypedDict):  
-    title: str  
+from typing import TypedDict
+
+
+class Movie(TypedDict):
+    title: str
     year: int
 ```
 
@@ -457,8 +485,8 @@ from typing import TypedDict, Required, NotRequired
 
 
 class Movie(TypedDict, total=False):
-    title: Required[str]   # must have title  
-    year: NotRequired[int] # may omit year
+    title: Required[str]  # must have title
+    year: NotRequired[int]  # may omit year
 ```
 
 This says `title` is always required, `year` can be omitted ([What’s New In Python 3.11 — Python 3.13.2 documentation](https://docs.python.org/3/whatsnew/3.11.html#:~:text=year%3A%20NotRequired)).
@@ -495,7 +523,7 @@ For example:
 
 ```python
 # example_18.py
-class Node:  
+class Node:
     def add_child(self, child: "Node") -> None: ...
 ```
 

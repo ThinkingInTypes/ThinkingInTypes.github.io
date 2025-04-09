@@ -390,7 +390,9 @@ def func_c(i: int) -> Result[int, ZeroDivisionError]:
     try:
         1 / (i - 3)
     except ZeroDivisionError as e:
-        return Failure(ZeroDivisionError(f"func_c({i}): {e}"))
+        return Failure(
+            ZeroDivisionError(f"func_c({i}): {e}")
+        )
     return Success(i)
 
 
@@ -459,7 +461,9 @@ ERROR = TypeVar("ERROR")
 
 @dataclass(frozen=True)
 class Result(Generic[ANSWER, ERROR]):
-    def bind(self, func: Callable[[ANSWER], "Result"]) -> "Result[ANSWER, ERROR]":
+    def bind(
+        self, func: Callable[[ANSWER], "Result"]
+    ) -> "Result[ANSWER, ERROR]":
         if isinstance(self, Success):
             return func(self.unwrap())
         return self  # Pass the Failure forward
@@ -484,7 +488,12 @@ class Failure(Result[ANSWER, ERROR]):
 # composing_with_bind.py
 from pprint import pprint
 
-from composing_functions import func_a, func_b, func_c, func_d
+from composing_functions import (
+    func_a,
+    func_b,
+    func_c,
+    func_d,
+)
 ## [(0, <Success: 0>),
 ##  (1, <Failure: func_a(1)>),
 ##  (2, <Success: 2>),
@@ -560,7 +569,9 @@ def add(first: int, second: int, third: int) -> str:
     return f"add({first} + {second} + {third}): {first + second + third}"
 
 
-def composed(i: int, j: int) -> Result[str, str | ZeroDivisionError | ValueError]:
+def composed(
+    i: int, j: int
+) -> Result[str, str | ZeroDivisionError | ValueError]:
     # fmt: off
     return Result.do(
         add(first, second, third)

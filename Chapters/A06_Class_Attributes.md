@@ -361,7 +361,13 @@ To see this in action, we need a function that displays the inside of classes an
 
 def attributes(d: object) -> str:
     return (
-        ", ".join([f"{k}: {v}" for k, v in vars(d).items() if not k.startswith("__")])
+        ", ".join(
+            [
+                f"{k}: {v}"
+                for k, v in vars(d).items()
+                if not k.startswith("__")
+            ]
+        )
         or "Empty"
     )
 
@@ -459,7 +465,7 @@ The first time I saw it was in Django:
 # class Blog(models.Model):
 #     name = models.CharField(max_length=100)
 #     tagline = models.TextField()
-# 
+#
 #     def __str__(self):
 #         return self.name
 ```
@@ -496,7 +502,9 @@ from dataclasses import dataclass
 
 
 class A:
-    def __init__(self, x: int = 100, y: int = 200, z: int = 300):
+    def __init__(
+        self, x: int = 100, y: int = 200, z: int = 300
+    ):
         self.x = x
         self.y = y
         self.z = z

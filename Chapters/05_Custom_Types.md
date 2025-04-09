@@ -275,7 +275,9 @@ class FullName:
 
     def __post_init__(self) -> None:
         print(f"FullName checking {self.name}")
-        assert len(self.name.split()) > 1, f"'{self.name}' needs first and last names"
+        assert len(self.name.split()) > 1, (
+            f"'{self.name}' needs first and last names"
+        )
 
 
 @dataclass(frozen=True)
@@ -407,7 +409,9 @@ class Month(Enum):
 
     @staticmethod
     def number(month_number: int):
-        assert 1 <= month_number <= 12, f"Month({month_number})"
+        assert 1 <= month_number <= 12, (
+            f"Month({month_number})"
+        )
         return list(Month)[month_number - 1]
 
     def check_day(self, day: Day):
@@ -439,7 +443,13 @@ for date in [
 ]:
     with Catch():
         print(date)
-        print(BirthDate(Month.number(date[0]), Day(date[1]), Year(date[2])))
+        print(
+            BirthDate(
+                Month.number(date[0]),
+                Day(date[1]),
+                Year(date[2]),
+            )
+        )
         print("-" * 30)
 ## (7, 8, 1957)
 ## BirthDate(m=JULY, d=Day(n=8), y=Year(n=1957))
@@ -494,7 +504,9 @@ class Month:
 
     def __post_init__(self):
         assert 1 <= self.n <= 12, f"Month({self.n})"
-        assert self.max_days in [28, 30, 31], f"Month max_days {self.max_days}"
+        assert self.max_days in [28, 30, 31], (
+            f"Month max_days {self.max_days}"
+        )
 
     def check_day(self, day: Day):
         assert day.n <= self.max_days, f"{self} {day}"
@@ -522,10 +534,14 @@ class Month:
 
 @dataclass(frozen=True)
 class Months:
-    months: List[Month] = field(default_factory=Month.make_months)
+    months: List[Month] = field(
+        default_factory=Month.make_months
+    )
 
     def number(self, month_number: int):
-        assert 1 <= month_number <= 12, f"Month({month_number})"
+        assert 1 <= month_number <= 12, (
+            f"Month({month_number})"
+        )
         return self.months[month_number - 1]
 
 
@@ -552,7 +568,13 @@ for date in [
 ]:
     with Catch():
         print(date)
-        print(BirthDate(months.number(date[0]), Day(date[1]), Year(date[2])))
+        print(
+            BirthDate(
+                months.number(date[0]),
+                Day(date[1]),
+                Year(date[2]),
+            )
+        )
         print("-" * 30)
 ## (7, 8, 1957)
 ## BirthDate(m=Month(name='July', n=7,
@@ -629,7 +651,11 @@ class UserProfile(TypedDict):
     age: int
 
 
-user: UserProfile = {"username": "alice", "email": "alice@example.com", "age": 30}
+user: UserProfile = {
+    "username": "alice",
+    "email": "alice@example.com",
+    "age": 30,
+}
 ```
 
 `TypedDict` clarifies expected keys and types, providing type safety for dictionary data.
@@ -700,7 +726,9 @@ class Order:
     products: List[Product]
 
     def total(self) -> float:
-        return sum(product.price for product in self.products)
+        return sum(
+            product.price for product in self.products
+        )
 ```
 
 Strongly-typed domain models help catch issues early, facilitating clearer, safer, and more maintainable codebases.
