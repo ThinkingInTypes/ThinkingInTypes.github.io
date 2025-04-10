@@ -404,9 +404,8 @@ An `Iterable` describes any object that you can loop over (using a `for` loop or
 If the object has an `__iter__()` method, it implements the `Iterable` protocol.
 Examples include `list`s, `set`s, `tuple`s, `dict`s (iterating over keys), file objects (iterating over lines), and more.
 
-An `Iterator` is a subtype of `Iterable` that represents the actual iterator object returned by calling `iter()` on an `Iterable`.
-An `Iterator` yields items one at a time until it's exhausted.
-It implements a `__next__()` method that returns the next item or raises `StopIteration` when done.
+An `Iterator` is a subtype of `Iterable` that represents the actual `Iterator` object returned by calling `iter()` on an `Iterable`.
+It implements a `__next__()` method that returns the next item or raises `StopIteration` when there are no more items.
 *Generator functions* (functions using the `yield` keyword) produce iterators.
 
 ```python
@@ -425,7 +424,7 @@ def generate_numbers(n: int) -> Iterator[int]:
 ```
 
 `items` can be any iterable of strings.
-This means you can pass a `list` of strings, a `set` of strings, a `tuple` of strings, or any object that yields strings when iterated.
+This means you can pass a `list`, a `set`, a `tuple`, or any object that yields strings when iterated.
 `print_items` does not care about the concrete type that holds the `str`s.
 Restricting `items` to, say, `list[str]`, means we wouldn't be able to pass a `set` of strings, even though you can print each item of a `set`.
 `Iterable[str]` makes the function more general purpose.
@@ -444,5 +443,8 @@ By using these abstract collection types, you make your code flexible while stil
 ## Faster Development, Clearer Results
 
 Type annotations make intentions explicit.
-This leads to code that is easier to understand and maintain, and it allows static checkers to assist you by catching type mismatches early in development.
-The type system in Python is gradually typed and opt-in--you can use as much or as little as makes sense for your project--but knowing how to use it effectively is a powerful skill for an intermediate Python programmer.
+This produces code that is easier to understand and maintain.
+Type checkers catch type mismatches early in development.
+The type system in Python is gradually typed and opt-in.
+You can use as much or as little as makes sense for your project.
+Using types effectively is a powerful skill.
