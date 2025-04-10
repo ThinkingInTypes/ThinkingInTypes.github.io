@@ -64,6 +64,7 @@ Python typically uses a private attribute (indicated with a single leading under
 
 ```python
 # stars_class.py
+from typing import Optional
 from book_utils import Catch
 
 
@@ -72,7 +73,7 @@ class Stars:
         self._number = n_stars  # Private by convention
         self.condition()
 
-    def condition(self, s: int | None = None):
+    def condition(self, s: Optional[int] = None):
         if s:
             assert 1 <= s <= 10, f"{self}: {s}"
         else:
@@ -635,6 +636,8 @@ print(coords.latitude)
 
 `NamedTuple` provides clarity, immutability, and easy unpacking, ideal for simple structured data.
 For brevity and cleanliness, this book will used `NamedTuple`s instead of frozen `dataclass`es whenever possible.
+
+[what generated methods are different between NamedTuple and dataclass?]
 
 ### Leveraging TypedDicts for Structured Data
 

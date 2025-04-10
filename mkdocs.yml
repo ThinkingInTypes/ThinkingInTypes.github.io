@@ -28,7 +28,7 @@ nav:
   - '1: Preface': 01_Preface.md
   - '2: Foundations': 02_Foundations.md
   - '3: What is a Type': 03_What_is_a_Type.md
-  - '4: Predefined Types': 04_Predefined_Types.md
+  - '4: Using Types': 04_Using_Types.md
   - '5: Custom Types': 05_Custom_Types.md
   - '6: Pattern Matching': 06_Pattern_Matching.md
   - '7: Immutability': 07_Immutability.md
