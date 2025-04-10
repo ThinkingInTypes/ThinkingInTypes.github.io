@@ -924,7 +924,7 @@ use nominal typing for clarity and runtime consistency with class relationships,
 A protocol in Python is essentially an interface or template for a set of methods and attributes.
 It’s defined by inheriting from <code>typing.Protocol</code> (available in the standard library <code>typing</code> module as of Python 3.8, or in <code>typing_extensions</code> for earlier versions).
 By creating a class that subclasses <code>Protocol</code>, you declare a group of methods and properties that form a "protocol" – any class that has those methods and properties (with compatible types) will be considered an implementation of that protocol by static type checkers, <strong>even if it doesn’t formally inherit from the protocol</strong>.</p>
-<p><strong>How to define a protocol:</strong> You simply create a class that inherits <code>Protocol</code> and define the method signatures (and any attribute types) that are required.
+<p><strong>How to define a protocol:</strong> You create a class that inherits <code>Protocol</code> and define the method signatures (and any attribute types) that are required.
 Protocol methods typically have empty bodies (often using <code>...</code> or <code>pass</code>) because you’re not providing an implementation, just a definition of the interface.
 For example, suppose we want a protocol for "speaking" creatures or objects:
 it should have a method <code>speak()</code> that returns a string.
@@ -1210,7 +1210,7 @@ A <em>generic protocol</em> allows you to define a protocol that is parameterize
 Many built-in protocols are generic – for example, <code>Iterable[T]</code> is a protocol that can be <code>Iterable[int]</code>, <code>Iterable[str]</code>, etc., depending on what type it yields.
 We can do the same with our own protocols.</p>
 <p>To define a generic protocol, we use <code>TypeVar</code> and put the type variable in brackets after <code>Protocol</code> when defining the class (<a href="https://realpython.com/python-protocol/#:~:text=class%20GenericProtocol%28Protocol,T%3A">Python Protocols: Leveraging Structural Subtyping – Real Python</a>).
-Let’s say we want to define a simple container protocol that yields items of some type.
+Let’s say we want to define a container protocol that yields items of some type.
 We can make it generic so that a <code>Container[int]</code> will be a protocol for "container of ints" and <code>Container[str]</code> for "container of strings," but both are based on the same generic interface.
 For example:</p>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="c1"># container.py</span>
@@ -1387,13 +1387,12 @@ Python won’t stop you from passing an object that doesn’t fulfill the protoc
 So if you need guaranteed enforcement in a running program, protocols alone won’t give you that (they are optional).
 That said, in a team or project using type checks as part of CI, protocols can prevent a lot of mistakes.
 Another minor con is that protocols, if overused, could make it less obvious which classes actually implement which interface; with nominal typing you can always search for subclasses of an ABC.
-In practice, a mix is often best:
-use protocols for the broad "this is what we expect" contracts especially for external boundaries and flexible APIs, and use concrete classes or ABCs internally when you want more structure or reuse.</p>
+A mix is often best: use protocols for the broad "this is what we expect" contracts especially for external boundaries and flexible APIs, and use concrete classes or ABCs internally when you want more structure or reuse.</p>
 <p><strong>Best practices:</strong> It’s not an either/or choice – you can use both in the same codebase.
 For example, you might define an ABC with some default methods for a complex interface, but also define a protocol for a subset of that interface for use in a more generic function.
 Choose structural typing when you want <strong>minimal coupling</strong> and maximum flexibility, especially at boundaries of your system or for "pluggable" functionality.
 Choose nominal typing when you want an <strong>explicit, enforced contract</strong> and possibly to leverage inheritance of code.
-Remember that protocols are most valuable when you are using static type checking; if your project doesn’t use type checks, then a protocol is simply a <code>abc.ABC</code> with no abstract methods – it won’t enforce anything by itself at runtime.
+Remember that protocols are most valuable when you are using static type checking; if your project doesn’t use type checks, then a protocol is a <code>abc.ABC</code> with no abstract methods – it won’t enforce anything by itself at runtime.
 In such cases, if enforcement is needed, an ABC with abstract methods (or even just documentation) might be better.
 However, even in purely dynamic contexts, many developers find protocols useful as documentation:
 by reading the Protocol class, you know what an object is expected to do.</p>

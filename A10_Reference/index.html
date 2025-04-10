@@ -1730,7 +1730,7 @@ ClassVar helps type checkers distinguish the two.
 Modern Python prefers explicit annotation syntax, but you might encounter type comments or stub files in some codebases.</p>
 <h2 id="core-built-in-types-and-collections-in-annotations">Core Built-in Types and Collections in Annotations<a class="headerlink" href="#core-built-in-types-and-collections-in-annotations" title="Permanent link">#</a></h2>
 <h3 id="built-in-types">Built-in Types<a class="headerlink" href="#built-in-types" title="Permanent link">#</a></h3>
-<p>For simple types like <code>int</code>, <code>str</code>, <code>bool</code>, etc., you can use the type name directly as an annotation.
+<p>For types like <code>int</code>, <code>str</code>, <code>bool</code>, etc., you can use the type name directly as an annotation.
 For example, <code>x: int = 5</code> or <code>user: str</code>.
 The same goes for classes and custom types – you annotate with the class itself (e.g. <code>file: io.TextIOBase</code>).</p>
 <h3 id="generic-collections-pep-585">Generic Collections (PEP 585)<a class="headerlink" href="#generic-collections-pep-585" title="Permanent link">#</a></h3>
@@ -1777,7 +1777,7 @@ Static analyzers use it to understand control flow (e.g. after a call to a NoRet
 <h2 id="type-aliases-and-custom-types">Type Aliases and Custom Types<a class="headerlink" href="#type-aliases-and-custom-types" title="Permanent link">#</a></h2>
 <h3 id="type-aliases">Type Aliases<a class="headerlink" href="#type-aliases" title="Permanent link">#</a></h3>
 <p>Sometimes you have a complex type and want to give it a short name (alias) for readability.
-You can create a type alias by simple assignment or using the new <code>type</code> statement.
+You can create a type alias by assignment or using the new <code>type</code> statement.
 For example:
 <code>Address = tuple[str, int]</code> creates an alias <code>Address</code> for “tuple of (str, int)”.
 In Python 3.12+, you can declare aliases more explicitly with the <strong><code>type</code></strong> keyword (PEP 695):</p>
@@ -2100,12 +2100,12 @@ This “postponed evaluation” was optional in 3.7–3.9 and was meant to becom
 <strong>PEP 563’s default activation was put on hold</strong> (<a href="https://docs.python.org/3/whatsnew/3.11.html#:~:text=PEP%20563%20may%20not%20be,the%20future%C2%B6">What’s New In Python 3.11 — Python 3.13.2 documentation</a>).
 The Python steering council decided not to turn on the automatic stringification by default due to various issues it caused for runtime introspection and decided to explore a different approach (PEP 649).</p>
 <h3 id="pep-649-deferred-annotations">PEP 649 (Deferred Annotations)<a class="headerlink" href="#pep-649-deferred-annotations" title="Permanent link">#</a></h3>
-<p>PEP 649, accepted for Python’s future (targeted for 3.13+), proposes a new mechanism where annotations are neither evaluated at function definition time nor simply stored as strings.
+<p>PEP 649, accepted for Python’s future (targeted for 3.13+), proposes a new mechanism where annotations are neither evaluated at function definition time nor stored as strings.
 Instead, annotations would be stored as code in a special function (<code>__annotate__</code>) that computes them on demand (<a href="https://peps.python.org/pep-0649/#:~:text=Python%20solved%20this%20by%20accepting,for%20runtime%20users%20of%20annotations">PEP 649 – Deferred Evaluation Of Annotations Using Descriptors | peps.python.org</a>) (<a href="https://peps.python.org/pep-0649/#:~:text=approach%2C%20when%20combined%20with%20a,foster%20future%20innovations%20in%20annotations">PEP 649 – Deferred Evaluation Of Annotations Using Descriptors | peps.python.org</a>).
 This aims to solve forward references and performance issues more elegantly:
 the evaluation of annotations is deferred until needed, without losing the actual object references or incurring the issues of stringified annotations.
 As of the latest Python (3.12), this is still in progress – by default, Python 3.12 still evaluates annotations normally (unless you use the future import).
-In practice, when writing modern code, you can rely on <code>from __future__ import annotations</code> to handle most forward references conveniently (or just use quotes for specific cases).
+When writing modern code, you can rely on <code>from __future__ import annotations</code> to handle most forward references conveniently (or just use quotes for specific cases).
 Static type checkers themselves resolve forward references even if you leave them as raw names, so this is mostly a runtime concern for introspection via <code>inspect.get_annotations</code> or similar.
 The takeaway:
 <strong>forward references</strong> are supported via quoting or future imports, and the language is evolving to make annotation evaluation <strong>lazy by default</strong> in a robust way (<a href="https://docs.python.org/3/whatsnew/3.11.html#:~:text=PEP%20563%20may%20not%20be,the%20future%C2%B6">What’s New In Python 3.11 — Python 3.13.2 documentation</a>).</p>

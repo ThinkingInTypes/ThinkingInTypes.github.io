@@ -1076,7 +1076,7 @@ In <code>withdraw</code> you see multiple <code>Condition</code>s applied within
 The <code>@requires</code> clearly shows that constraints have been placed on the arguments, while <code>Condition</code> reduces duplicated code.</p>
 <p>DbC definitely helps, but it has limitations:</p>
 <ol>
-<li>A programmer can forget to use <code>requires</code>, or simply choose to perform argument checks by hand if DbC doesn't make sense to them.</li>
+<li>A programmer can forget to use <code>requires</code>, or choose to perform argument checks by hand if DbC doesn't make sense to them.</li>
 <li>Validations are spread throughout your system.
    Using <code>Condition</code> centralizes the logic, but making changes still risks missing updates on functions.</li>
 </ol>
@@ -1117,7 +1117,7 @@ It then modifies itself using <code>object.__setattr__</code>, but other than th
 Modifying a frozen <code>dataclass</code> using <code>object.__setattr__</code> is best only done during construction.
 You can also call <code>object.__setattr__</code> in <code>__post_init__</code>, but if you find yourself doing it in other methods you should reconsider whether your type is really frozen.
 Requiring <code>object.__setattr__</code> to modify a frozen <code>dataclass</code> means you can easily search for modifications.</p>
-<p>Note that <code>__add__</code> and <code>__sub__</code> simply return new <code>Amount</code> objects without worrying whether they are non-negative--the constructor takes care of that.</p>
+<p>Note that <code>__add__</code> and <code>__sub__</code> return new <code>Amount</code> objects without worrying whether they are non-negative--the constructor takes care of that.</p>
 <p>If you provide an incorrect <code>value</code> to <code>Amount</code>, the <code>Decimal</code> constructor throws an exception:</p>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="c1"># bad_amount.py</span>
 </span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="kn">from</span> <span class="nn">amount</span> <span class="kn">import</span> <span class="n">Amount</span>
@@ -1151,7 +1151,7 @@ Thus we can produce an immutable using <code>NamedTuple</code>:</p>
 </span><span id="__span-7-14"><a id="__codelineno-7-14" name="__codelineno-7-14" href="#__codelineno-7-14"></a>    <span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Balance&quot;</span><span class="p">:</span>
 </span><span id="__span-7-15"><a id="__codelineno-7-15" name="__codelineno-7-15" href="#__codelineno-7-15"></a>        <span class="k">return</span> <span class="n">Balance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">amount</span> <span class="o">-</span> <span class="n">withdrawal_amount</span><span class="p">)</span>
 </span></code></pre></div>
-<p>Note that <code>Balance</code> simply produces new immutable objects when you <code>deposit</code> and <code>withdraw</code>.
+<p>Note that <code>Balance</code> produces new immutable objects when you <code>deposit</code> and <code>withdraw</code>.
 Because it uses <code>Amount</code>, it needs no special validation checks.</p>
 <p>In the new, improved <code>BankAccount</code>, the need for validation disappears because it is automatically enforced by the types:</p>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="c1"># typed_bank_account.py</span>
@@ -1190,7 +1190,7 @@ Because it uses <code>Amount</code>, it needs no special validation checks.</p>
 If we need to modify the underlying representation of <code>Amount</code> we only do it in one place.
 Suppose, for example, we discover Python's implementation of <code>Decimal</code> is too slow.
 We can modify <code>Amount</code> to use, for example, a Rust implementation of decimal numbers.
-We <em>only</em> need to change the code for <code>Amount</code> because the rest of the code simply uses <code>Amount</code>.</p>
+We <em>only</em> need to change the code for <code>Amount</code> because the rest of the code uses <code>Amount</code>.</p>
 <p>Possibly best of all, any new code we write using custom types transparently uses all the type validations built into those types.
 If we add more validations to <code>Amount</code> or <code>Balance</code>, they automatically propagate to each site where those types are used.</p>
 <h2 id="a-phonenumber-type">A <code>PhoneNumber</code> Type<a class="headerlink" href="#a-phonenumber-type" title="Permanent link">#</a></h2>
@@ -1244,7 +1244,7 @@ If we add more validations to <code>Amount</code> or <code>Balance</code>, they 
 </span><span id="__span-9-47"><a id="__codelineno-9-47" name="__codelineno-9-47" href="#__codelineno-9-47"></a>
 </span><span id="__span-9-48"><a id="__codelineno-9-48" name="__codelineno-9-48" href="#__codelineno-9-48"></a>    <span class="k">def</span> <span class="nf">format_number</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 </span><span id="__span-9-49"><a id="__codelineno-9-49" name="__codelineno-9-49" href="#__codelineno-9-49"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-</span><span id="__span-9-50"><a id="__codelineno-9-50" name="__codelineno-9-50" href="#__codelineno-9-50"></a><span class="sd">        Simple formatting rules for 10-digit numbers.</span>
+</span><span id="__span-9-50"><a id="__codelineno-9-50" name="__codelineno-9-50" href="#__codelineno-9-50"></a><span class="sd">        formatting rules for 10-digit numbers.</span>
 </span><span id="__span-9-51"><a id="__codelineno-9-51" name="__codelineno-9-51" href="#__codelineno-9-51"></a><span class="sd">        &quot;&quot;&quot;</span>
 </span><span id="__span-9-52"><a id="__codelineno-9-52" name="__codelineno-9-52" href="#__codelineno-9-52"></a>        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">number</span><span class="p">)</span> <span class="o">==</span> <span class="mi">10</span><span class="p">:</span>
 </span><span id="__span-9-53"><a id="__codelineno-9-53" name="__codelineno-9-53" href="#__codelineno-9-53"></a>            <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;(</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">number</span><span class="p">[:</span><span class="mi">3</span><span class="p">]</span><span class="si">}</span><span class="s2">) </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">number</span><span class="p">[</span><span class="mi">3</span><span class="p">:</span><span class="mi">6</span><span class="p">]</span><span class="si">}</span><span class="s2">-</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">number</span><span class="p">[</span><span class="mi">6</span><span class="p">:]</span><span class="si">}</span><span class="s2">&quot;</span>
