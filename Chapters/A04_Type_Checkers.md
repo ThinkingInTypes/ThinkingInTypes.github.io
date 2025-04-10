@@ -125,7 +125,7 @@ jobs:
       - uses: actions/checkout@v3
       - uses: actions/setup-python@v3
         with:
-          python-version: '3.11'
+          python-version: "3.11"
 
       - run: pip install mypy
       - run: mypy .

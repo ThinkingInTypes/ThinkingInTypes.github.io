@@ -20,7 +20,7 @@ d.measurement3 = 300
 ```
 
 Why give names and initialization values to `class` attributes, then when you make an object,
-immediately create and initialize instance variables with the *same names* as the class attributes?
+immediately create and initialize instance variables with the _same names_ as the class attributes?
 I began to suspect a misunderstanding about class attributes.
 
 I asked one of the coaches of the project (not the original author).
@@ -56,7 +56,7 @@ Based on this example, Python class attributes seem to produce default value beh
 ## Where Did This Idea Come From?
 
 Because of the way class attributes are defined, someone coming from either C++ or Java might assume they work the same as in C++ or Java:
-Storage for those variables is allocated and initialized *before* the constructor[^1] is called.
+Storage for those variables is allocated and initialized _before_ the constructor[^1] is called.
 Indeed, the first time I saw class attributes used for automated constructor generation (shown later in this appendix), I wondered if I had previously missed something magical about class attributes.
 
 Here's a Java example exploring the same ideas:
@@ -136,8 +136,8 @@ In `B`'s `toString()`, notice that `B`'s `x` is accessed the same way it is in `
 as if it were an ordinary object field rather than a `static` field.
 When you do this, Java automatically uses the `static` `x` even though you are syntactically treating it like the object's `x`.
 
-In `statics()`, `x` is accessed *through the class* by saying `B.x`.
-If `x` were *not* a `static` you couldn't do this.
+In `statics()`, `x` is accessed _through the class_ by saying `B.x`.
+If `x` were _not_ a `static` you couldn't do this.
 
 At the end of `class B`, notice that we cannot "shadow" an identifier name like we can in Python:
 we cannot have both an ordinary and a `static` variable of the same name.
@@ -347,7 +347,7 @@ The source of confusion is twofold:
 
 1. Python's dynamic nature.
    Instance variables are not automatically created, not even in the constructor.
-   They are created the first time they are *assigned to*, which can happen just about anywhere.
+   They are created the first time they are _assigned to_, which can happen just about anywhere.
 
 2. Unlike C++ and Java, Python allows instance variables to shadow (have the same name as) class attributes.
    This feature gets significant use in libraries that simplify configuration by using class attributes to automatically generate constructors and other methods.
@@ -495,7 +495,7 @@ I suspect that the use of class attributes as code-generation templates will con
 
 ## Recommendations
 
-The solution is to *not* make class attributes seem like default values.
+The solution is to _not_ make class attributes seem like default values.
 Instead, write proper constructors with default arguments, as you see in `class A`:
 
 ```python
@@ -572,12 +572,13 @@ It seems like `dataclasses` are what the original author of the code I encounter
 Although Python's syntax can make it look like other languages, its dynamic nature strongly influences the language's semantics.
 Assumptions that it works like C++ or Java will generally produce incorrect results.
 
-You can learn more about `dataclasses` from my Pycon 2022 presentation *Making Dataclasses Work for You*, on YouTube (not yet available at this writing).
+You can learn more about `dataclasses` from my Pycon 2022 presentation _Making Dataclasses Work for You_, on YouTube (not yet available at this writing).
 
 Thanks to Barry Warsaw for reviewing and giving feedback.
 
-[^1]: Languages like C++ and Java use *constructor* to mean "activities performed after storage allocation and basic initialization."
+[^1]:
+    Languages like C++ and Java use _constructor_ to mean "activities performed after storage allocation and basic initialization."
     C++ also has a `new()` for controlling memory allocation, calling it "operator new" rather than "constructor."
     In contrast, Python's constructor is usually defined as the `__new__()` function, and `__init__()` is called the initializer.
-    C++'s operator `new()` and Python's `__new__()` are almost never overridden, and are rarely even mentioned (The common usage for Python's `__new__()` seems to be to create *Factory* functions).
+    C++'s operator `new()` and Python's `__new__()` are almost never overridden, and are rarely even mentioned (The common usage for Python's `__new__()` seems to be to create _Factory_ functions).
     To keep things I just say "constructor" when referring to `__init__()`.

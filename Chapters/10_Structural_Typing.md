@@ -7,17 +7,17 @@
 
 In type systems, there are two fundamental ways to decide if one type is compatible with another:
 **nominal typing** and **structural typing**.
-*Nominal typing*\* (name-based typing) means type compatibility is determined by explicit declarations and the class hierarchy – an object’s type is what its class name (or inheritance) says it is ([Protocols and structural subtyping - mypy 1.15.0 documentation](https://mypy.readthedocs.io/en/stable/protocols.html#:~:text=Nominal%20subtyping%20is%20strictly%20based,%E2%80%93%20based%20on%20class%20hierarchy)).
-For example, if class `Dog` inherits from class `Animal`, then `Dog` *is-a* subtype of `Animal` by definition, and a `Dog` instance can be used wherever an `Animal` is expected ([Protocols and structural subtyping - mypy 1.15.0 documentation](https://mypy.readthedocs.io/en/stable/protocols.html#:~:text=Nominal%20subtyping%20is%20strictly%20based,%E2%80%93%20based%20on%20class%20hierarchy)).
+_Nominal typing_\* (name-based typing) means type compatibility is determined by explicit declarations and the class hierarchy – an object’s type is what its class name (or inheritance) says it is ([Protocols and structural subtyping - mypy 1.15.0 documentation](https://mypy.readthedocs.io/en/stable/protocols.html#:~:text=Nominal%20subtyping%20is%20strictly%20based,%E2%80%93%20based%20on%20class%20hierarchy)).
+For example, if class `Dog` inherits from class `Animal`, then `Dog` _is-a_ subtype of `Animal` by definition, and a `Dog` instance can be used wherever an `Animal` is expected ([Protocols and structural subtyping - mypy 1.15.0 documentation](https://mypy.readthedocs.io/en/stable/protocols.html#:~:text=Nominal%20subtyping%20is%20strictly%20based,%E2%80%93%20based%20on%20class%20hierarchy)).
 This is how traditional object-oriented languages like Java or C++ work, and it’s also the primary mode in Python’s type system by default.
 
-On the other hand, **structural typing** determines type compatibility by *the actual structure or capabilities of the object*, not its explicit inheritance.
+On the other hand, **structural typing** determines type compatibility by _the actual structure or capabilities of the object_, not its explicit inheritance.
 In a structural type system, if an object has all the required methods and attributes of a type, then it qualifies as that type, regardless of its class name or parent classes ([Protocols and structural subtyping - mypy 1.15.0 documentation](https://mypy.readthedocs.io/en/stable/protocols.html#:~:text=Structural%20subtyping%20is%20based%20on,latter%2C%20and%20with%20compatible%20types)).
 In other words, if it "walks like a duck and quacks like a duck, then it’s treated as a duck" – this is the essence of the famous **duck typing** principle.
 Duck typing is a runtime concept in Python:
 you invoke methods or attributes on an object, and as long as it supports those operations, things work (if a required method is missing, you get an `AttributeError` at runtime) ([What's the Difference Between Nominal, Structural, and Duck Typing? - DEV Community](https://dev.to/awwsmm/whats-the-difference-between-nominal-structural-and-duck-typing-11f8#:~:text=%3E%20The%20name%20,longer%20looks%20like%20a%20duck)) ([Duck typing - Wikipedia](https://en.wikipedia.org/wiki/Duck_typing#:~:text=With%20nominative%20typing%20%2C%20an,the%20requirements%20of%20a%20type)).
-*Structural typing*\* can be seen as the static, compile-time equivalent of duck typing ([Protocols and structural subtyping - mypy 1.15.0 documentation](https://mypy.readthedocs.io/en/stable/protocols.html#:~:text=Structural%20subtyping%20can%20be%20seen,See%20PEP%20544%20for%20the)).
-Instead of waiting for a runtime error, a structural type system (with the help of a static type checker) can verify *ahead of time* that an object has the necessary attributes to be used in a given context.
+_Structural typing_\* can be seen as the static, compile-time equivalent of duck typing ([Protocols and structural subtyping - mypy 1.15.0 documentation](https://mypy.readthedocs.io/en/stable/protocols.html#:~:text=Structural%20subtyping%20can%20be%20seen,See%20PEP%20544%20for%20the)).
+Instead of waiting for a runtime error, a structural type system (with the help of a static type checker) can verify _ahead of time_ that an object has the necessary attributes to be used in a given context.
 This approach is more flexible than nominal typing because it doesn’t require pre-planned inheritance relationships.
 It is also more explicit and safe than unguarded duck typing because the structure is checked (by a type checker) before the code runs.
 
@@ -28,7 +28,7 @@ you would use abstract base classes or concrete classes to hint the types, and a
 This could make it awkward to type-hint code that was written in a duck-typed style.
 For instance, if you had a function that worked with any object that had a `.read()` method, there wasn’t a straightforward way to express that in a type hint without making all such objects share a common base class or using `typing.Any`.
 Python 3.8 remedied this by introducing **protocols** in the `typing` module ([Python Protocols: Leveraging Structural Subtyping – Real Python](https://realpython.com/python-protocol/#:~:text=Static%20Duck%20Typing%20With%20Protocols)).
-Protocols allow you to define a *structural interface* that other classes can fulfill just by having the right methods/attributes, without inheritance.
+Protocols allow you to define a _structural interface_ that other classes can fulfill just by having the right methods/attributes, without inheritance.
 This brings the flexibility of duck typing into the realm of static type checking – essentially formalizing "If it quacks like a duck, it can be treated as a duck" in the type system.
 
 In summary, **nominal typing** ties compatibility to declared relationships (e.g., subclassing an interface or abstract class), whereas **structural typing** ties compatibility to an object’s actual shape (the presence of specific methods/attributes).
@@ -89,13 +89,13 @@ announce(Robot())  # OK, Robot has speak()
 
 Even though `Dog` and `Robot` do not inherit from `Speaker` (and are not related to each other at all), the static type checker will accept them as valid arguments to `announce` because they structurally conform to the `Speaker` protocol by implementing the required method.
 This is the power of structural typing.
-In fact, the type checker treats `Dog` and `Robot` as subtypes of `Speaker` *because* they have the right `speak()` method signature ([Protocols and structural subtyping - mypy 1.15.0 documentation](https://mypy.readthedocs.io/en/stable/protocols.html#:~:text=,close)).
+In fact, the type checker treats `Dog` and `Robot` as subtypes of `Speaker` _because_ they have the right `speak()` method signature ([Protocols and structural subtyping - mypy 1.15.0 documentation](https://mypy.readthedocs.io/en/stable/protocols.html#:~:text=,close)).
 If we tried to pass an object that lacks a `speak()` method (or has an incompatible signature), the type checker would flag an error, ensuring type safety.
 
 It’s important to note that protocols are primarily a static concept – they are enforced by type checkers, not by the Python runtime (by default).
 Unlike an abstract base class (ABC), a protocol doesn’t actually require classes to formally subclass it, and Python won’t automatically error at runtime if a required method is missing.
 For example, in the code above, if we call `announce(Dog())` and `Dog.speak` is missing or misnamed, we would only find out at runtime via an `AttributeError`.
-The protocol helps catch such issues *before* runtime by using tools like Mypy.
+The protocol helps catch such issues _before_ runtime by using tools like Mypy.
 The protocols defined in `typing` are **optional and have no runtime effect on their own** ([PEP 544 – Protocols: Structural subtyping (static duck typing) | peps.python.org](https://peps.python.org/pep-0544/#:~:text=are%20completely%20optional%3A)).
 This means you can use them freely for type hints without incurring runtime overhead or restrictions.
 Protocols do inherit from `abc.ABC` under the hood, but by default `isinstance()` and `issubclass()` checks against a protocol will not work without an explicit opt-in, as we’ll discuss shortly.)
@@ -263,13 +263,13 @@ print("Captured logs:", test_logger.messages)
 ```
 
 In `Logger(Protocol)`, we specify that a logger must have a `.log(str)` method.
-Our `run_process` function doesn’t care *how* the logging is done, just that the object passed in can `.log` a message.
+Our `run_process` function doesn’t care _how_ the logging is done, just that the object passed in can `.log` a message.
 FileLogger`and`ListLogger`are two implementations – one writes to a file, the other stores messages in a Python list.
 Notice that neither`FileLogger`nor`ListLogger`subclasses`Logger`; they don’t need to.
 They implicitly satisfy the protocol by having the correct`log`method.
 This design is very flexible: you can add new logger classes later (say, a`DatabaseLogger`that writes to a database, or reuse Python’s built-in`logging.Logger`by writing an adapter that has a`log`method) without changing the code that uses the logger.
 During testing, as shown, we can use`ListLogger`to capture logs and make assertions on them.
-The static type checker will ensure that any object we pass as a`logger`to`run\_process`has a`log(str)`method.
+The static type checker will ensure that any object we pass as a`logger`to`run_process`has a`log(str)`method.
 In a nominal type system, you might have to define an abstract base class`Logger\` and make every logger inherit it.
 With protocols, you get the benefit of an interface without the inheritance – this reduces coupling and makes it easier to integrate third-party classes that weren’t written with your ABC in mind ([Python Protocols: Leveraging Structural Subtyping – Real Python](https://realpython.com/python-protocol/#:~:text=Protocols%20are%20particularly%20useful%20when,to%20design%20complex%20inheritance%20relationships)) ([Abstract Base Classes and Protocols: What Are They?
 &#x20;When To Use Them??
@@ -355,7 +355,7 @@ print_id(Product(101, 19.99))
 ## Combining Protocols with Generics
 
 Just like classes and functions can be generic (using `TypeVar` to operate over a range of types), protocol classes can be generic as well.
-A *generic protocol* allows you to define a protocol that is parameterized by a type (or multiple types), enabling more precise typing of method arguments and return values.
+A _generic protocol_ allows you to define a protocol that is parameterized by a type (or multiple types), enabling more precise typing of method arguments and return values.
 Many built-in protocols are generic – for example, `Iterable[T]` is a protocol that can be `Iterable[int]`, `Iterable[str]`, etc., depending on what type it yields.
 We can do the same with our own protocols.
 
@@ -439,7 +439,7 @@ This is the benefit of generic protocols:
 they let you write flexible code that is still type-safe and retains specific type information.
 In other words, one protocol can work for many types without losing the ability to distinguish those types when it matters.
 The syntax we used (`Container[C]` inside the function annotation) leverages Python’s ability to support generics in type hints.
-Under the hood, `Container[int]` is a *parameterized protocol* instance, but conceptually you can think of it like an interface template.)
+Under the hood, `Container[int]` is a _parameterized protocol_ instance, but conceptually you can think of it like an interface template.)
 
 Keep in mind that user-defined generic protocols follow the same rules as normal generic classes for type checking ([PEP 544 – Protocols: Structural subtyping (static duck typing) | peps.python.org](https://peps.python.org/pep-0544/#:~:text=Generic%20protocol%20types%20follow%20the,classes%2C%20except%20for%20using%20structural)).
 You can declare variance for type variables if needed (covariant, contravariant) using `typing.Final` or by special syntax in `TypeVar`, although if you don’t declare, the type checker will assume invariance (meaning `Container[SubClass]` is not a subtype of `Container[BaseClass]` unless you marked variance).
@@ -506,7 +506,7 @@ Here are some guidelines, pros and cons, and best practices to help decide:
   For example, if you have a plugin system where all plugins must register as subclasses of `BasePlugin` to be discovered, that’s a nominal approach.
 
 - The interface is **large or complex**, with many methods, and tightly coupled to an implementation.
-  While you *could* model this with a protocol, it may be clearer to use an abstract class to group behavior.
+  While you _could_ model this with a protocol, it may be clearer to use an abstract class to group behavior.
   If multiple methods are meant to be overridden together, an ABC can enforce that at instantiation time (trying to instantiate a subclass that hasn’t implemented all abstract methods raises an error).
   In short, for class designs that naturally form an "is-a" hierarchy and possibly share some code, nominal typing fits well.
 
@@ -562,7 +562,7 @@ In such cases, if enforcement is needed, an ABC with abstract methods (or even j
 However, even in purely dynamic contexts, many developers find protocols useful as documentation:
 by reading the Protocol class, you know what an object is expected to do.
 
-In Python’s type system evolution, protocols were introduced to *complement* nominal typing, not to replace it ([PEP 544 – Protocols: Structural subtyping (static duck typing) | peps.python.org](https://peps.python.org/pep-0544/#:~:text=Structural%20subtyping%20is%20natural%20for,this%20PEP%20for%20additional%20motivation)).
+In Python’s type system evolution, protocols were introduced to _complement_ nominal typing, not to replace it ([PEP 544 – Protocols: Structural subtyping (static duck typing) | peps.python.org](https://peps.python.org/pep-0544/#:~:text=Structural%20subtyping%20is%20natural%20for,this%20PEP%20for%20additional%20motivation)).
 They give you the freedom to write code in the Pythonic duck-typed style while still reaping the benefits of static analysis.
-A good guideline is to use protocols to describe roles that can be played by objects of *different class hierarchies*, and use nominal typing for relationships *within a class hierarchy*.
+A good guideline is to use protocols to describe roles that can be played by objects of _different class hierarchies_, and use nominal typing for relationships _within a class hierarchy_.
 By following these practices, you can make your code both flexible and robust, leveraging the best of both worlds in Python’s type system.

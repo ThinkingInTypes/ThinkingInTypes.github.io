@@ -18,7 +18,7 @@ With this approach, you:
 ## "Stringly Typed"
 
 Years ago I came across some research looking at the way generic components like `List`, `Set` and `Map` were being used in Java.
-Only a tiny percentage of the code reviewed used anything *except* strings as type parameters.
+Only a tiny percentage of the code reviewed used anything _except_ strings as type parameters.
 This study suggested that the vast majority of systems were using strings as their primary data type.
 
 Because you can put any characters in any format into a string, such "stringly typed" systems (an ironic play on "strongly typed") may be the worst of all possible worlds.
@@ -85,19 +85,19 @@ If there's a bug or any change in the way phone numbers are validated, all valid
 
 Does anyone set out to write code like this?
 Probably not--it starts out seeming like "the simplest thing" and just continues to accumulate, one logical step at a time.
-Although *you* might not write code like this, systems like this exist, for phone numbers and for many other data items represented as strings.
+Although _you_ might not write code like this, systems like this exist, for phone numbers and for many other data items represented as strings.
 We'll learn how custom types dramatically simplify validation and guarantee correctness throughout your system.
 
 ## Design by Contract
 
-The argument-validation problem was observed by Bertrand Meyer and introduced as a core concept in his Eiffel programming language, described in the book *Object-Oriented Software Construction* (1988).
-*Design By Contract* (DbC) tried to reduce errors by treating the interaction between software components as a formal agreement:
+The argument-validation problem was observed by Bertrand Meyer and introduced as a core concept in his Eiffel programming language, described in the book _Object-Oriented Software Construction_ (1988).
+_Design By Contract_ (DbC) tried to reduce errors by treating the interaction between software components as a formal agreement:
 
-- ***Preconditions***:
+- **_Preconditions_**:
   What must be true before a function/method runs.
-- ***Postconditions***:
+- **_Postconditions_**:
   What must be true after the function completes.
-- ***Invariants***:
+- **_Invariants_**:
   What must always be true about the object state.
 
 Eiffel provided explicit keywords to make DbC a first-class citizen in the language:
@@ -141,7 +141,7 @@ def requires(*conditions: Condition):
 A `Condition` combines each `check` with a description of the failure condition.
 `check` is a `Callable` (usually a function) that takes the same arguments as the function being decorated and returns a `bool` indicating whether the condition is satisfied.
 
-`requires` is a *decorator factory*; it returns a decorator that can be applied to any function.
+`requires` is a _decorator factory_; it returns a decorator that can be applied to any function.
 It accepts any number of `Condition` instances.
 
 This inner function `decorator` is the actual decorator.
@@ -243,7 +243,7 @@ DbC definitely helps, but it has limitations:
 
 Instead of DbC, we can encode validations into custom types.
 This way, incorrect objects of those types cannot successfully be created.
-In addition, the types are usually *domain driven*, that is, they represent a concept from the problem domain.
+In addition, the types are usually _domain driven_, that is, they represent a concept from the problem domain.
 
 For the bank example, we start by creating an `Amount`, which is a `Decimal` value with the fundamental property that it cannot be negative.
 If an `Amount` object exists, you know it cannot contain a negative value:
@@ -366,7 +366,7 @@ The code is significantly more straightforward to understand and change.
 If we need to modify the underlying representation of `Amount` we only do it in one place.
 Suppose, for example, we discover Python's implementation of `Decimal` is too slow.
 We can modify `Amount` to use, for example, a Rust implementation of decimal numbers.
-We *only* need to change the code for `Amount` because the rest of the code uses `Amount`.
+We _only_ need to change the code for `Amount` because the rest of the code uses `Amount`.
 
 Possibly best of all, any new code we write using custom types transparently uses all the type validations built into those types.
 If we add more validations to `Amount` or `Balance`, they automatically propagate to each site where those types are used.

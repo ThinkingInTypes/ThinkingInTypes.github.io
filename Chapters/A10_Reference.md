@@ -8,16 +8,16 @@ Originally generated with ChatGPT 4o in "Deep Research" mode.
 ### Purpose and Nature
 
 Type annotations (or “type hints”) declare the expected data types of variables, function parameters, and return values.
-Python remains *dynamically typed* at runtime – these hints are **not enforced** by the interpreter and are mainly for static analysis and documentation ([typing — Support for type hints — Python 3.13.2 documentation](https://docs.python.org/3/library/typing.html#:~:text=Note)) ([PEP 484 – Type Hints | peps.python.org](https://peps.python.org/pep-0484/#:~:text=performance%20optimizations%20is%20left%20as,an%20exercise%20for%20the%20reader)).
+Python remains _dynamically typed_ at runtime – these hints are **not enforced** by the interpreter and are mainly for static analysis and documentation ([typing — Support for type hints — Python 3.13.2 documentation](https://docs.python.org/3/library/typing.html#:~:text=Note)) ([PEP 484 – Type Hints | peps.python.org](https://peps.python.org/pep-0484/#:~:text=performance%20optimizations%20is%20left%20as,an%20exercise%20for%20the%20reader)).
 Tools like type checkers (e.g. mypy, Pyright) and IDEs use the hints to catch errors or suggest code completions ([PEP 484 – Type Hints | peps.python.org](https://peps.python.org/pep-0484/#:~:text=Of%20these%20goals%2C%20static%20analysis,for%20code%20completion%20and%20refactoring)).
 Python’s core team has no plan to make type hints mandatory; they are optional aids to improve code quality ([PEP 484 – Type Hints | peps.python.org](https://peps.python.org/pep-0484/#:~:text=performance%20optimizations%20is%20left%20as,an%20exercise%20for%20the%20reader)).
 
 ### Introduction via PEPs
 
 Function annotation syntax was first introduced by **PEP 3107** (Python 3.0) with no fixed semantics.
-**PEP 484** (Python 3.5) later defined a standard for using these annotations as *type hints*, establishing a formal type hinting system ([PEP 484 – Type Hints | peps.python.org](https://peps.python.org/pep-0484/#:~:text=PEP%203107%20added%20support%20for,use%20case%20in%20said%20PEP)).
+**PEP 484** (Python 3.5) later defined a standard for using these annotations as _type hints_, establishing a formal type hinting system ([PEP 484 – Type Hints | peps.python.org](https://peps.python.org/pep-0484/#:~:text=PEP%203107%20added%20support%20for,use%20case%20in%20said%20PEP)).
 The `typing` module was added to provide a standard vocabulary of types.
-This enabled *gradual typing* – code can be partially or fully annotated, and type checkers will treat unannotated parts as dynamically typed (effectively type `Any`) ([PEP 484 – Type Hints | peps.python.org](https://peps.python.org/pep-0484/#:~:text=The%20type%20system%20supports%20unions%2C,are%20explained%20in%20PEP%20483)) ([PEP 484 – Type Hints | peps.python.org](https://peps.python.org/pep-0484/#:~:text=Any%20function%20without%20annotations%20should,treated%20as%20having%20no%20annotations)).
+This enabled _gradual typing_ – code can be partially or fully annotated, and type checkers will treat unannotated parts as dynamically typed (effectively type `Any`) ([PEP 484 – Type Hints | peps.python.org](https://peps.python.org/pep-0484/#:~:text=The%20type%20system%20supports%20unions%2C,are%20explained%20in%20PEP%20483)) ([PEP 484 – Type Hints | peps.python.org](https://peps.python.org/pep-0484/#:~:text=Any%20function%20without%20annotations%20should,treated%20as%20having%20no%20annotations)).
 
 ## Basic Annotation Syntax and Usage
 
@@ -85,7 +85,7 @@ Tuples can also be annotated, e.g. `tuple[int, str]` for a fixed-length 2-tuple,
 
 ### Union Types and Optional (PEP 604)
 
-A *union* type means a value could be one of several types.
+A _union_ type means a value could be one of several types.
 You can write a union as `typing.Union[X, Y]` or, more readably in Python 3.10+, using the `|` operator:
 `X | Y` ([typing — Support for type hints — Python 3.13.2 documentation](https://docs.python.org/3/library/typing.html#:~:text=Union%20type%3B%20%60Union,means%20either%20X%20or%20Y)) ([typing — Support for type hints — Python 3.13.2 documentation](https://docs.python.org/3/library/typing.html#:~:text=Changed%20in%20version%203,subclasses%20from%20unions%20at%20runtime)).
 For example, `def parse(data: str | bytes) -> None:` indicates `data` can be either a string or bytes.
@@ -93,7 +93,7 @@ If one of the types is `None`, there’s a shorthand:
 `Optional[T]` is equivalent to `T | None` ([typing — Support for type hints — Python 3.13.2 documentation](https://docs.python.org/3/library/typing.html#:~:text=typing)).
 For example, `Optional[int]` (or `int | None`) means the value can be an int or None.\*\*Important
 
-“Optional” in type hinting refers to "may be None"; it does *not* mean an argument is optional in the sense of having a default.
+“Optional” in type hinting refers to "may be None"; it does _not_ mean an argument is optional in the sense of having a default.
 An argument with a default value isn’t automatically `Optional` unless you explicitly want to allow `None` as a value ([typing — Support for type hints — Python 3.13.2 documentation](https://docs.python.org/3/library/typing.html#:~:text=%60Optional,X%2C%20None)).
 
 ### The `Any` Type
@@ -103,7 +103,7 @@ A value of type `Any` is allowed to be passed or assigned to any type, and vice 
 Every type is compatible with `Any`, and `Any` is compatible with every type ([typing — Support for type hints — Python 3.13.2 documentation](https://docs.python.org/3/library/typing.html#:~:text=typing)).
 You might use `Any` when you genuinely cannot predict the type (e.g. a function that can return any type depending on usage).
 However, overusing `Any` undermines the benefits of static typing, so it’s best used sparingly when other typing features can’t express the concept.
-(If a function can accept literally *any* object, a best practice is to annotate it as `object` rather than `Any` to signal that no specific behavior is assumed ([Typing Best Practices — typing documentation](https://typing.python.org/en/latest/reference/best_practices.html#:~:text=For%20arguments%2C%20prefer%20protocols%20and,Any)).)
+(If a function can accept literally _any_ object, a best practice is to annotate it as `object` rather than `Any` to signal that no specific behavior is assumed ([Typing Best Practices — typing documentation](https://typing.python.org/en/latest/reference/best_practices.html#:~:text=For%20arguments%2C%20prefer%20protocols%20and,Any)).)
 
 ### NoReturn / Never
 
@@ -121,7 +121,7 @@ def fatal_error(msg: str) -> NoReturn:
 ```
 
 Here, callers can know that `fatal_error()` will not return normally.
-`Never`/`NoReturn` is the *bottom type* in the type system, meaning no value can ever have this type (except in a theoretical sense) ([typing — Support for type hints — Python 3.13.2 documentation](https://docs.python.org/3/library/typing.html#:~:text=typing)).
+`Never`/`NoReturn` is the _bottom type_ in the type system, meaning no value can ever have this type (except in a theoretical sense) ([typing — Support for type hints — Python 3.13.2 documentation](https://docs.python.org/3/library/typing.html#:~:text=typing)).
 Static analyzers use it to understand control flow (e.g. after a call to a NoReturn function, execution doesn’t continue).
 
 ## Type Aliases and Custom Types
@@ -146,7 +146,7 @@ PEP 695 deprecates the need for `TypeAlias` by introducing the explicit alias sy
 
 ### NewType – Distinct Types Based on Existing Ones
 
-The `typing.NewType` helper lets you define a *distinct* type that is interchangeable with some base type at runtime but treated as a separate type by type checkers.
+The `typing.NewType` helper lets you define a _distinct_ type that is interchangeable with some base type at runtime but treated as a separate type by type checkers.
 For example:
 
 ```python
@@ -166,7 +166,7 @@ In Python 3.10+ `NewType` is implemented as a class for better performance ([typ
 
 ### Generic Functions and TypeVar
 
-Python supports *parametric polymorphism* (generics) in functions and classes.
+Python supports _parametric polymorphism_ (generics) in functions and classes.
 A **Type Variable** (created with `typing.TypeVar`) represents an unknown type that can vary between calls or instances.
 For example, to write a function that returns the same type as it receives, you can do:
 
@@ -223,7 +223,7 @@ When subclassing generics or creating more complex hierarchies, you might need t
 
 ### `typing.Type` for Class Objects
 
-When you want to hint that a function parameter or return is not an *instance* of a class but rather a *class itself*, use `Type[T]` (or `type[T]` in Python 3.9+) where T is a class.
+When you want to hint that a function parameter or return is not an _instance_ of a class but rather a _class itself_, use `Type[T]` (or `type[T]` in Python 3.9+) where T is a class.
 For example, `def factory(cls: type[T]) -> T:` indicates that `factory` expects a class (subclass) of T and will return an instance of that class.
 If you want to accept specific subclasses, you can union them:
 e.g., `user_class: type[BasicUser]` means a class object inheriting from `BasicUser` ([typing — Support for type hints — Python 3.13.2 documentation](https://docs.python.org/3/library/typing.html#:~:text=def%20new_non_team_user%28user_class%3A%20type%5BBasicUser%20,)).
@@ -234,7 +234,7 @@ This is helpful for functions that need to work with class constructors or class
 
 ### Protocols (PEP 544)
 
-Python’s static typing supports *structural typing* via **Protocol** classes.
+Python’s static typing supports _structural typing_ via **Protocol** classes.
 A `Protocol` defines a set of methods and properties that a type must have to satisfy the protocol, without requiring inheritance.
 For example:
 
@@ -324,8 +324,8 @@ Using `@override` can make code maintenance safer in large class hierarchies.
 
 ### ParamSpec and Concatenate
 
-**PEP 612** introduced `ParamSpec` (Parameter Specification Variables) to support typing of *higher-order functions* – functions that accept or return other functions with arbitrary signatures.
-A ParamSpec, denoted typically as `P = ParamSpec("P")`, captures a *list of parameters* (types and kinds) of a callable.
+**PEP 612** introduced `ParamSpec` (Parameter Specification Variables) to support typing of _higher-order functions_ – functions that accept or return other functions with arbitrary signatures.
+A ParamSpec, denoted typically as `P = ParamSpec("P")`, captures a _list of parameters_ (types and kinds) of a callable.
 For example, you might write:
 
 ```python
@@ -365,8 +365,8 @@ A **Literal** type allows you to indicate that a value is not just of a general 
 For example, `Literal["GET", "POST"]` can be used to type a variable that should only ever equal `"GET"` or `"POST"`.
 This is helpful for functions that behave differently based on constant string or numeric inputs.
 In Python 3.8, **PEP 586** introduced `typing.Literal`.
-E.g. `def set_mode(mode: Literal["fast", "slow"]) -> None: ...` means mode *must* be one of those two strings ([typing — Support for type hints — Python 3.13.2 documentation](https://docs.python.org/3/library/typing.html#:~:text=concat%28,cannot%20mix%20str%20and%20bytes)) ([typing — Support for type hints — Python 3.13.2 documentation](https://docs.python.org/3/library/typing.html#:~:text=def%20greet_proper%28cond%3A%20bool%29%20,greetings)).
-More recently, **PEP 675** (Python 3.11) added `LiteralString`, a special type to mark *literal strings* for security-sensitive APIs ([What’s New In Python 3.11 — Python 3.13.2 documentation](https://docs.python.org/3/whatsnew/3.11.html#:~:text=PEP%20675%3A%20Arbitrary%20literal%20string,type%C2%B6)).
+E.g. `def set_mode(mode: Literal["fast", "slow"]) -> None: ...` means mode _must_ be one of those two strings ([typing — Support for type hints — Python 3.13.2 documentation](https://docs.python.org/3/library/typing.html#:~:text=concat%28,cannot%20mix%20str%20and%20bytes)) ([typing — Support for type hints — Python 3.13.2 documentation](https://docs.python.org/3/library/typing.html#:~:text=def%20greet_proper%28cond%3A%20bool%29%20,greetings)).
+More recently, **PEP 675** (Python 3.11) added `LiteralString`, a special type to mark _literal strings_ for security-sensitive APIs ([What’s New In Python 3.11 — Python 3.13.2 documentation](https://docs.python.org/3/whatsnew/3.11.html#:~:text=PEP%20675%3A%20Arbitrary%20literal%20string,type%C2%B6)).
 `LiteralString` is a subtype of `str` that static analyzers treat as strings that are either literal in the source or derived from other literal strings.
 The goal is to prevent untrusted or dynamic strings from flowing into places where they could cause injection attacks (SQL queries, shell commands, etc.)
 ([What’s New In Python 3.11 — Python 3.13.2 documentation](https://docs.python.org/3/whatsnew/3.11.html#:~:text=The%20new%20LiteralString%20annotation%20may,providing%20protection%20against%20injection%20attacks)) ([What’s New In Python 3.11 — Python 3.13.2 documentation](https://docs.python.org/3/whatsnew/3.11.html#:~:text=%29%20,)).
@@ -412,7 +412,7 @@ In short, `Annotated` wraps a base type with extra info that third-party consume
 
 ### Type Guards (PEP 647)
 
-A *type guard* is a special kind of function that informs the type checker of a type refinement.
+A _type guard_ is a special kind of function that informs the type checker of a type refinement.
 Introduced in Python 3.10, `typing.TypeGuard` is used as a return annotation on a boolean function to indicate that if the function returns True, its argument is of a certain type.
 For example:
 
@@ -449,7 +449,7 @@ class MyBuilder:
         return self
 ```
 
-The return type `Self` indicates that `set_name` returns the *exact same class* (`MyBuilder` in this case).
+The return type `Self` indicates that `set_name` returns the _exact same class_ (`MyBuilder` in this case).
 In subclasses, it will correctly infer the subclass type ([typing — Support for type hints — Python 3.13.2 documentation](https://docs.python.org/3/library/typing.html#:~:text=from%20typing%20import%20Self%2C%20reveal_type)) ([typing — Support for type hints — Python 3.13.2 documentation](https://docs.python.org/3/library/typing.html#:~:text=In%20general%2C%20if%20something%20returns,SubclassOfFoo)).
 Without `Self`, one would have to use a type variable bound to the class, or a string annotation of the class name – both less convenient.
 Common use cases for `Self` are fluent interfaces (where methods return `self`), alternative constructors (often classmethods that return an instance of `cls`), and methods like `__enter__` in context managers that conventionally return self ([typing — Support for type hints — Python 3.13.2 documentation](https://docs.python.org/3/library/typing.html#:~:text=Other%20common%20use%20cases%20include%3A)).
@@ -477,7 +477,7 @@ At runtime, a `TypedDict` is just a plain `dict` (there’s no special dictionar
 You can also create TypedDict types using a functional syntax:
 `Movie = TypedDict('Movie', {'title': str, 'year': int})` ([typing — Support for type hints — Python 3.13.2 documentation](https://docs.python.org/3/library/typing.html#:~:text=match%20at%20L2372%20An%20alternative,must%20be%20a%20literal%20dict)).
 By default all keys are required, but you can make some optional.
-Initially, you could specify `total=False` on the TypedDict to make *all* keys optional.
+Initially, you could specify `total=False` on the TypedDict to make _all_ keys optional.
 Later, **PEP 655** (Python 3.11) introduced `Required` and `NotRequired` markers to allow fine-grained control:
 you can mark individual keys as optional in an otherwise total TypedDict ([What’s New In Python 3.11 — Python 3.13.2 documentation](https://docs.python.org/3/whatsnew/3.11.html#:~:text=year%3A%20NotRequired)) ([What’s New In Python 3.11 — Python 3.13.2 documentation](https://docs.python.org/3/whatsnew/3.11.html#:~:text=The%20following%20definition%20is%20equivalent%3A)).
 For example:
@@ -561,7 +561,7 @@ Run these checkers as part of your development or CI process to catch bugs early
 
 ### Stub Files (PEP 484 & PEP 561)
 
-If you are using a library that isn’t annotated, or you cannot modify source code to add annotations (e.g. C extension modules or third-party code), you can use *stub files* (`.pyi` files) to provide type information.
+If you are using a library that isn’t annotated, or you cannot modify source code to add annotations (e.g. C extension modules or third-party code), you can use _stub files_ (`.pyi` files) to provide type information.
 A stub file is a skeletal version of a module with only `pass` statements and type hints.
 PEP 561 describes how libraries can distribute these stubs so that your type checker picks them up ([Distributing type information — typing documentation](https://typing.python.org/en/latest/spec/distributing.html#:~:text=Distributing%20type%20information%20%E2%80%94%20typing,Stub%20files%20serve)).
 For instance, popular libraries often ship a `py.typed` marker and include inline types or separate stub packages (e.g. `types-requests`).
@@ -570,33 +570,33 @@ But it’s good to know that the ecosystem supports them, enabling gradual adopt
 
 ### General Best Practices
 
-- *Adopt Gradually:* You don’t have to annotate everything at once.
+- _Adopt Gradually:_ You don’t have to annotate everything at once.
   It’s common to start by annotating function signatures of key modules or adding stubs for critical libraries.
   Unannotated code defaults to `Any` types, which type checkers will by default let pass (or you can configure them to be strict).
-- *Be Comprehensive in Signatures:* For a function that you’re annotating, try to annotate **all parameters and the return type**.
+- _Be Comprehensive in Signatures:_ For a function that you’re annotating, try to annotate **all parameters and the return type**.
   Partial annotations can sometimes mislead type inference.
   If a function returns nothing, use `-> None` for clarity ([PEP 484 – Type Hints | peps.python.org](https://peps.python.org/pep-0484/#:~:text=cannot%20be%20represented%20using%20the,available%20type%20notation)).
   If a parameter has a default, remember that doesn’t automatically make it Optional unless you intend `None` as a valid value ([typing — Support for type hints — Python 3.13.2 documentation](https://docs.python.org/3/library/typing.html#:~:text=%60Optional,X%2C%20None)).
-- *Prefer Specific Types or Protocols:* When annotating arguments, use the most general type that works for your function (Liskov substitution principle).
+- _Prefer Specific Types or Protocols:_ When annotating arguments, use the most general type that works for your function (Liskov substitution principle).
   For example, if your function only needs to read from a collection, annotate it as `Iterable[T]` or `Sequence[T]` instead of `list[T]`, to allow more types (like tuples, sets) ([Typing Best Practices — typing documentation](https://typing.python.org/en/latest/reference/best_practices.html#:~:text=For%20arguments%2C%20prefer%20protocols%20and,Any)).
   If a parameter can be any object with a certain method, consider using a Protocol instead of a concrete class.
   Conversely, for return types, it’s usually best to be as specific as possible (don’t return `Any` if you can return a concrete type).
-- *Use Modern Syntax:* Prefer the new concise annotation syntax that Python now supports.
+- _Use Modern Syntax:_ Prefer the new concise annotation syntax that Python now supports.
   This means using built-in collection types (e.g. `list[int]` rather than `typing.List[int]`) ([Typing Best Practices — typing documentation](https://typing.python.org/en/latest/reference/best_practices.html#:~:text=Use%20built,where%20possible)), using `X | Y` for unions rather than `typing.Union[X, Y]` ([typing — Support for type hints — Python 3.13.2 documentation](https://docs.python.org/3/library/typing.html#:~:text=Union%20type%3B%20%60Union,means%20either%20X%20or%20Y)), and `X | None` instead of `typing.Optional[X]`.
   These make annotations more readable.
   The older syntax is still accepted for compatibility, but the newer syntax is encouraged in current code.
-- *Limit `Any` and Unsafe Casts:* Try to avoid using `Any` unless absolutely necessary.
+- _Limit `Any` and Unsafe Casts:_ Try to avoid using `Any` unless absolutely necessary.
   If you find yourself needing to bypass the type system (via casts or `# type: ignore` comments), consider if there’s a better way – such as using Union types, overloading, or restructuring code.
   If you do use `Any` (for example, when interfacing with dynamically typed libraries), isolate it at the boundary of your code.
-- *Leverage Type Narrowing:* Write code in a type-friendly way.
+- _Leverage Type Narrowing:_ Write code in a type-friendly way.
   Use `isinstance` checks or guard functions (even custom TypeGuard functions) to narrow types, instead of, say, `assert isinstance(x, SomeType)` which some type checkers might not understand.
   Many checkers can infer that after `if isinstance(obj, str): ... else: ...`, in the else branch `obj` is not a str.
   This makes your code safer and your type checker happier.
-- *Keep Types Up to Date:* Treat type hints as part of the code documentation.
+- _Keep Types Up to Date:_ Treat type hints as part of the code documentation.
   If the code changes, update the annotations to match.
   Inconsistencies between code and annotations can be more confusing than no annotations.
   Running a type checker will catch these mismatches.
-- *Performance Consideration:* Annotations are designed to have minimal runtime overhead.
+- _Performance Consideration:_ Annotations are designed to have minimal runtime overhead.
   They’re stored as metadata and can be turned into strings with `from __future__ import annotations`.
   Unless you introspect them at runtime (with `typing.get_type_hints()`), they won’t slow down your program.
   That said, using a type checker in development might slightly slow down your build/test cycle, but it’s usually worth the trade-off for the bugs it prevents.

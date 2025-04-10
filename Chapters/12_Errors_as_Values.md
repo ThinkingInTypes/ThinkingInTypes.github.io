@@ -1,6 +1,6 @@
 # Errors as Values
 
-> *Most of what we've been working towards in programming—whether we are aware of it or not—is composability.*
+> _Most of what we've been working towards in programming—whether we are aware of it or not—is composability._
 
 Discovering the meaning of composability is part of this path--there are different definitions depending on the programming language paradigm under scrutiny.
 Here’s my definition:
@@ -70,7 +70,7 @@ At one time, however, the lack of modularity was a significant roadblock to code
 Object-oriented programming has a bit of a tortured history.
 Although the first OO language was Simula-67 (a compiled language), OO found its first real success with Smalltalk.
 But Smalltalk might be the most dynamic language you’ll ever encounter—literally everything is evaluated at runtime.
-While this worked well for the kinds of problems Smalltalk was good at solving, it turned out that taking the ideas of Smalltalk and imprinting them into a statically-typed language lost a *lot* in translation.
+While this worked well for the kinds of problems Smalltalk was good at solving, it turned out that taking the ideas of Smalltalk and imprinting them into a statically-typed language lost a _lot_ in translation.
 
 ## Error Handling
 
@@ -113,7 +113,7 @@ As programmers found themselves rewriting the same basic code over and over agai
 
 A fundamental question that designers were trying to understand during this evolution was:
 
-> *Who is responsible for error handling, the OS or the language?*
+> _Who is responsible for error handling, the OS or the language?_
 
 Since every program has the potential for errors, it initially seemed obvious that this activity should be the domain of the operating system.
 Some early operating systems allowed the program to invoke an error which would then jump to the operating system, and a few OSes even experimented with the ability to "resume" back to the point where the error occurred, so the handler could fix the problem and continue processing.
@@ -174,7 +174,7 @@ divide-by-zero is a great example of this.
 You can be using a library and handling all the exceptions from it (or perhaps just the ones you found in the documentation), and a newer version of that library can quietly add a new exception, and suddenly you are no longer detecting and/or handling all the exceptions.
 Even though you made no changes to your code.
 
-Languages like C++ and Java attempted to solve this problem by adding *exception specifications,* a notation that allows you to add the exception types that may be thrown, as part of the function’s type signature.
+Languages like C++ and Java attempted to solve this problem by adding _exception specifications,_ a notation that allows you to add the exception types that may be thrown, as part of the function’s type signature.
 
 Object-oriented languages that enforce exception specifications (C++, Java) and create exception hierarchies introduce another problem.
 Exception hierarchies allow the library programmer to use an exception base type in the exception specification.
@@ -238,7 +238,7 @@ Instead of only returning the answer, we return this package from the function.
 
 This package is a new type, with operations that prevent the programmer from plucking the result from the package without dealing with error conditions (a failing of the Go language approach).
 
-A first attempt uses *type unions* to create a nameless return package:
+A first attempt uses _type unions_ to create a nameless return package:
 
 ```python
 # return_union.py
@@ -538,7 +538,7 @@ pprint([(i, composed(i)) for i in range(5)])
 
 In `composed`, we call `func_a(i)` which returns a `Result`.
 The `bind` method is called on that `Result`, passing it the next function we want to call (`func_b`) as an argument.
-The return value of `bind` is *also* a `Result`, so we can call `bind` again upon that `Result`, passing it the third function we want to call (`func_c`), and so on.
+The return value of `bind` is _also_ a `Result`, so we can call `bind` again upon that `Result`, passing it the third function we want to call (`func_c`), and so on.
 
 At each "chaining point" in `func_a(i).bind(func_b).bind(func_c).bind(func_d)`, `bind` checks the `Result` type to see if it `Success`.
 If so, it passes the result `answer` from that call as the argument to the next function in the chain.
