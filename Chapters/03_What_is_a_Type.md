@@ -61,8 +61,9 @@ For example, in Python you can do:
 
 ```python
 # example_2.py
-x = 10        # x is now an int
-x = "hello"   # now x is a str (Python allowed us to reassign a different type)
+x = 10        # x is an int
+# Reassign to a different type:
+x = "hello"   # now x is a str
 print(x)      # Output: hello
 ## hello
 ```
@@ -142,9 +143,9 @@ def quacks(entity):
 
 donald = Duck()
 studebaker = Car()
-quacks(donald)  # Quack!
+quacks(donald)
 ## Quack!
-quacks(studebaker)   # I can quack, too!
+quacks(studebaker)   
 ## I can quack, too!
 ```
 
@@ -222,7 +223,7 @@ The benefits of type hints are seen during development: they serve as documentat
 By reading the annotated `greet` function, a developer (or an IDE) immediately knows that `name` is expected to be a string, which improves readability.
 If somewhere else in the code we call `greet(123)`, a type-checking tool can warn us that we're calling `greet` with the wrong type of argument.
 
-Let's illustrate this with a quick example that a static type checker like Mypy or Pyright could catch:
+A type checker will catch this:
 
 ```python
 # example_7.py
@@ -256,19 +257,17 @@ Python will happily run code with or without type annotations, and you can mix a
 This means you can adopt type hints in a legacy codebase incrementally, or use them only for the trickiest parts of a new project.
 
 Over the past several Python releases (3.5 through 3.13), the type hinting syntax and capabilities have expanded significantly.
-For instance:
-
-- You can annotate variables (since Python 3.6) in addition to function params and returns:
+For instance, you can annotate variables (since Python 3.6) in addition to function params and returns:
 
 ```python
 # example_8.py
 count: int = 0
-texts: list[str] = ["hello", "world"]  # using list[str] instead of typing.List
+# list[str] instead of typing.List:
+texts: list[str] = ["hello", "world"]   
 ```
 
-- You can use union types with a nice shorthand.
-Python 3.10 introduced the `|` operator for types, so instead of writing `typing.Union[str, bytes]` you can just write `str | bytes`.
-For example:
+You can use union types with a nice shorthand.
+Python 3.10 introduced the `|` operator for types, so instead of writing `typing.Union[str, bytes]` you can just write `str | bytes`:
 
 ```python
 # example_9.py
@@ -297,10 +296,11 @@ with Catch():
 ## str, not 'int'
 ```
 
-In this example, the function `is_file` can accept either a file path as a normal string or a `Path` object (from the `pathlib` module)--thanks to the union type `str | Path`.
+The function `is_file` can accept either a file path as a normal string or a `Path` object (from the `pathlib` module)--thanks to the union type `str | Path`.
 Inside the function we convert whatever it is to a `Path` for uniform processing.
-Passing an integer produces an error when trying to make a `Path(12345)` (because an `int` isn't a valid path).
-The type checker warns us about this right away and very specifically, while waiting until runtime produces errors that take time and effort to untangle.
+Passing an integer produces an error when trying to make a `Path(12345)`, because an `int` isn't a valid path.
+The type checker tells us about this right away, and very specifically.
+Waiting until runtime produces errors that take time and effort to untangle.
 
 The standard library `typing` module provides many advanced types and constructs, which we cover in later chapters:
 
@@ -319,8 +319,8 @@ The interpreter will not refuse to run your program if the types don't match:
 ```python
 # example_10.py
 value: float = 3.14159
-value = "Pi"  # reassignment to a str
-print(value)  # Output: Pi
+value = "Pi"  # Reassign to str
+print(value)
 ## Pi
 ```
 
@@ -503,11 +503,11 @@ Consider:
 def f(x: int) -> int:
     return x * 2
 
-print(f(5))      # 10, type is correct
+print(f(5))      # Correct type
 ## 10
-print(f("hi"))   # This will actually raise a TypeError at runtime, 
+print(f("hi"))   # Does NOT cause a TypeError
 ## hihi
-                 # because Python tries to do "hi" * 2 (which surprisingly works for strings by repetition!)
+# Strings can be "multiplied"
 ```
 
 This example is a bit tricky--Python will not error on `f("hi")` because `"hi" * 2` in Python is valid (it repeats the string, resulting in `"hihi"`).
