@@ -44,9 +44,9 @@ Dynamic Typing: Pros, Cons, and Key Differences](https://www.netguru.com/blog/st
 
 ```python
 # example_2.py
-  x = 10        # x is now an int
-  x = "hello"   # now x is a str (Python allowed us to reassign a different type)
-  print(x)      # Output: hello
+x = 10        # x is now an int
+x = "hello"   # now x is a str (Python allowed us to reassign a different type)
+print(x)      # Output: hello
 ```
 
 Python will infer the type of `x` from whatever value it’s holding at the moment.
@@ -61,9 +61,12 @@ For instance:
 
 ```python
 # example_3.py
+from book_utils import Catch
+
 x = 10
-# If we try to use x as a string, we'll get a runtime error
-result = x + "world"  # TypeError: unsupported operand type(s) for +: 'int' and 'str'
+with Catch():
+    # Can't add a str to an int:
+    result = x + "world"  # type: ignore
 ```
 
 In the snippet above, `x` is an integer, and we attempted to “add” a string `"world"` to it.
@@ -140,10 +143,12 @@ In code, you might handle this with try/except:
 
 ```python
 # example_5.py
+from example_4 import quacks
+
 try:
     quacks(42)
 except AttributeError as e:
-    print("Oops:", e)
+    print(f"Oops: {e = }")
 ```
 
 This would catch the error and print something like `Oops: 'int' object has no attribute 'quack'`.
@@ -192,13 +197,16 @@ Let’s illustrate this with a quick example that a static type checker like Myp
 
 ```python
 # example_7.py
+from book_utils import Catch
+
+
 def add(a: int, b: int) -> int:
     return a + b
 
-result = add(10, 5)
-print(result)         # 15
 
-result = add(10, "5")  # This will run, but likely cause a TypeError at runtime
+print(add(10, 5))
+with Catch():
+    add(10, "5")  # type: ignore
 ```
 
 The second call `add(10, "5")` is clearly a mistake: we intended both arguments to be integers.
@@ -220,29 +228,40 @@ For instance:
 
 - You can annotate variables (since Python 3.6) in addition to function params and returns:
 
-  ```python
-
+```python
 # example_8.py
-
-  count: int = 0
-  texts: list[str] = ["hello", "world"]  # using list[str] instead of typing.List
-  
+count: int = 0
+texts: list[str] = ["hello", "world"]  # using list[str] instead of typing.List
 ```
 
 - You can use **union types** with a nice shorthand. Python 3.10 introduced the `|` operator for types, so instead of writing `typing.Union[str, bytes]` you can just write `str | bytes`. For example:
 
-  ```python
+```python
 # example_9.py
-  from pathlib import Path
-  
-  def read_first_line(path: str | Path) -> str:
-      p = Path(path)            # convert string or Path to a Path object
-      return p.read_text().splitlines()[0]
-  
-  print(read_first_line("example.txt"))        # works with a string path
-  print(read_first_line(Path("example.txt")))  # works with a Path object
-  # print(read_first_line(12345))  # would raise a TypeError at runtime (and static checker would flag it)
-  
+from pathlib import Path
+
+from book_utils import Catch
+
+this_dir = Path(__file__).parent.resolve()
+
+
+def read_first_line(file: str | Path) -> str:
+    print(f"read_first_line({file})")
+    # Converts string or Path to a Path object:
+    p = this_dir / file
+    print(f"read_first_line: {p = }")
+    first = p.read_text().splitlines()[0]
+    print(f"read_first_line({file}) -> {first}")
+    return p.read_text().splitlines()[0]
+
+
+# Works with a string path:
+print(read_first_line("./example_9.py"))
+# Works with a Path object:
+print(read_first_line(Path("./example_9.py")))
+with Catch():
+    # Raises TypeError, static checker flags it:
+    read_first_line(12345)  # type: ignore
 ```
 
 In this example, the function `read_first_line` can accept either a file path as a normal string or a `Path` object (from the `pathlib` module) – thanks to the union type `str | Path`.
@@ -321,11 +340,17 @@ As an example of using a type checker, imagine we save the earlier `add` functio
 
 ```python
 # example_11.py
+from book_utils import Catch
+
+
 def add(a: int, b: int) -> int:
     return a + b
 
-result1 = add(10, 5)
-result2 = add(10, "5")  # oops, second argument is str
+
+print(add(10, 5))
+with Catch():
+    # Second arg is not an int:
+    add(10, "5")  # type: ignore
 ```
 
 If we run **mypy** on this file, we might get an output like:
