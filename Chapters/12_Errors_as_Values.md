@@ -162,7 +162,7 @@ We only figure it out when scaling composability.
 ### 1. The Two Kinds of Errors are Conflated
 
 Recoverable vs panic (Recovering/Retrying requires programming) With exceptions, the two types are conflated.
-(Link to Error handling article)
+One of the best explanations of this is by [Joe Duffy](https://joeduffyblog.com/2016/02/07/the-error-model/).
 
 ### 2. Not Part of the Type System
 

@@ -19,7 +19,8 @@ d.measurement2 = 200
 d.measurement3 = 300
 ```
 
-Why give names and initialization values to `class` attributes, then when you make an object, immediately create and initialize instance variables with the *same names* as the class attributes?
+Why give names and initialization values to `class` attributes, then when you make an object,
+immediately create and initialize instance variables with the *same names* as the class attributes?
 I began to suspect a misunderstanding about class attributes.
 
 I asked one of the coaches of the project (not the original author).
@@ -56,7 +57,7 @@ Based on this simple example, Python class attributes seem to produce default va
 
 Because of the way class attributes are defined, someone coming from either C++ or Java might assume they work the same as in C++ or Java:
 Storage for those variables is allocated and initialized *before* the constructor[^1] is called.
-Indeed, the first time I saw class attributes used for automated constructor generation (a trick we shall visit later in this article), I wondered if I had previously missed something magical about class attributes.
+Indeed, the first time I saw class attributes used for automated constructor generation (shown later in this appendix), I wondered if I had previously missed something magical about class attributes.
 
 Here's a Java example exploring the same ideas:
 
@@ -235,7 +236,9 @@ And, because a class attribute is a single variable that is "global to the class
 
 ## How Things Break
 
-The worst thing about this is that code written with the assumption that class attributes are just default initialization values seems to work most of the time for simple situations like the one I encountered.
+Here's the worst thing.
+Code written with the assumption that class attributes are just default initialization values seems to work most of the time.
+It seemed to work for the simple situation I encountered.
 The code passes its tests, so how can I call it "wrong?"
 
 The problem occurs when you're least expecting it.
