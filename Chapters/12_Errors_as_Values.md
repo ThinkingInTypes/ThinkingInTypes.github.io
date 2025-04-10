@@ -370,7 +370,6 @@ The `Result` type ensures that the `composed` function properly represents both 
 from pprint import pprint
 
 from return_result import func_a
-
 ## [(0, <Success: 0>),
 ##  (1, <Failure: func_a(1)>),
 ##  (2, <Success: 2>),
@@ -502,7 +501,6 @@ from composing_functions import (
     func_c,
     func_d,
 )
-
 ## [(0, <Success: 0>),
 ##  (1, <Failure: func_a(1)>),
 ##  (2, <Success: 2>),
@@ -561,7 +559,6 @@ For this, we use something called "do notation," which you access using `Result.
 from pprint import pprint
 
 from composing_functions import func_a, func_b, func_c
-
 ## [(0, <Success: 0>),
 ##  (1, <Failure: func_a(1)>),
 ##  (2, <Success: 2>),
