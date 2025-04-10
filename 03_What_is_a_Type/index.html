@@ -1039,16 +1039,16 @@ For example, consider a function that makes an object quack:</p>
 </span><span id="__span-3-11"><a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a>    <span class="n">entity</span><span class="o">.</span><span class="n">quack</span><span class="p">()</span>
 </span><span id="__span-3-12"><a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a>
 </span><span id="__span-3-13"><a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a><span class="n">donald</span> <span class="o">=</span> <span class="n">Duck</span><span class="p">()</span>
-</span><span id="__span-3-14"><a id="__codelineno-3-14" name="__codelineno-3-14" href="#__codelineno-3-14"></a><span class="n">tesla</span> <span class="o">=</span> <span class="n">Car</span><span class="p">()</span>
+</span><span id="__span-3-14"><a id="__codelineno-3-14" name="__codelineno-3-14" href="#__codelineno-3-14"></a><span class="n">studebaker</span> <span class="o">=</span> <span class="n">Car</span><span class="p">()</span>
 </span><span id="__span-3-15"><a id="__codelineno-3-15" name="__codelineno-3-15" href="#__codelineno-3-15"></a><span class="n">quacks</span><span class="p">(</span><span class="n">donald</span><span class="p">)</span>  <span class="c1"># Quack!</span>
 </span><span id="__span-3-16"><a id="__codelineno-3-16" name="__codelineno-3-16" href="#__codelineno-3-16"></a><span class="c1">## Quack!</span>
-</span><span id="__span-3-17"><a id="__codelineno-3-17" name="__codelineno-3-17" href="#__codelineno-3-17"></a><span class="n">quacks</span><span class="p">(</span><span class="n">tesla</span><span class="p">)</span>   <span class="c1"># I can quack, too!</span>
+</span><span id="__span-3-17"><a id="__codelineno-3-17" name="__codelineno-3-17" href="#__codelineno-3-17"></a><span class="n">quacks</span><span class="p">(</span><span class="n">studebaker</span><span class="p">)</span>   <span class="c1"># I can quack, too!</span>
 </span><span id="__span-3-18"><a id="__codelineno-3-18" name="__codelineno-3-18" href="#__codelineno-3-18"></a><span class="c1">## I can quack, too!</span>
 </span></code></pre></div>
 <p><code>Duck</code> and <code>Car</code> each have a <code>quack()</code> method.
 The function <code>quacks(entity)</code> simply calls <code>entity.quack()</code> without caring what type <code>entity</code> is.
 Thanks to duck typing, both a <code>Duck</code> instance and a <code>Car</code> instance can be passed to <code>quacks</code> and it will work, as long as they implement <code>quack()</code>.
-The <code>quacks(donald)</code> call prints "Quack!", and <code>quacks(tesla)</code> prints "I can quack, too!", even though <code>tesla</code> is not a Duck--it's a Car that happens to know how to quack.
+The <code>quacks(donald)</code> call prints "Quack!", and <code>quacks(studebaker)</code> prints "I can quack, too!", even though <code>studebaker</code> is not a Duck--it's a Car that happens to know how to quack.
 The function didn't check types; it just invoked the method.</p>
 <p>But what if we call <code>quacks(42)</code> (an integer)?
 An int has no <code>quack()</code> method, so Python will raise an <code>AttributeError</code> at runtime (e.g., "<code>'int' object has no attribute 'quack'</code>").
