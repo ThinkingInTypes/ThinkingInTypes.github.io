@@ -17,7 +17,7 @@ Read the [Class Attributes](A06_Class_Attributes.md) appendix for deeper underst
 
 ## The Initial Problem: Ensuring Correctness
 
-Imagine building a simple customer feedback system using a rating from one to ten stars.
+Imagine building a customer feedback system using a rating from one to ten stars.
 Traditionally, Python programmers use an integer type, checking its validity whenever it's used:
 
 ```python
@@ -611,7 +611,7 @@ print(coords.latitude)
 # coords.latitude = 123.4567 # Runtime error
 ```
 
-`NamedTuple` provides clarity, immutability, and easy unpacking, ideal for simple structured data.
+`NamedTuple` provides clarity, immutability, and easy unpacking, ideal for structured data.
 For brevity and cleanliness, this book will used `NamedTuple`s instead of frozen `dataclass`es whenever possible.
 
 [what generated methods are different between NamedTuple and dataclass?]

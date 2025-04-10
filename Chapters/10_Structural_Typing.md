@@ -42,7 +42,7 @@ A protocol in Python is essentially an interface or template for a set of method
 It’s defined by inheriting from `typing.Protocol` (available in the standard library `typing` module as of Python 3.8, or in `typing_extensions` for earlier versions).
 By creating a class that subclasses `Protocol`, you declare a group of methods and properties that form a "protocol" – any class that has those methods and properties (with compatible types) will be considered an implementation of that protocol by static type checkers, **even if it doesn’t formally inherit from the protocol**.
 
-**How to define a protocol:** You simply create a class that inherits `Protocol` and define the method signatures (and any attribute types) that are required.
+**How to define a protocol:** You create a class that inherits `Protocol` and define the method signatures (and any attribute types) that are required.
 Protocol methods typically have empty bodies (often using `...` or `pass`) because you’re not providing an implementation, just a definition of the interface.
 For example, suppose we want a protocol for "speaking" creatures or objects:
 it should have a method `speak()` that returns a string.
@@ -360,7 +360,7 @@ Many built-in protocols are generic – for example, `Iterable[T]` is a protocol
 We can do the same with our own protocols.
 
 To define a generic protocol, we use `TypeVar` and put the type variable in brackets after `Protocol` when defining the class ([Python Protocols: Leveraging Structural Subtyping – Real Python](https://realpython.com/python-protocol/#:~:text=class%20GenericProtocol%28Protocol,T%3A)).
-Let’s say we want to define a simple container protocol that yields items of some type.
+Let’s say we want to define a container protocol that yields items of some type.
 We can make it generic so that a `Container[int]` will be a protocol for "container of ints" and `Container[str]` for "container of strings," but both are based on the same generic interface.
 For example:
 
@@ -557,7 +557,7 @@ A mix is often best: use protocols for the broad "this is what we expect" contra
 For example, you might define an ABC with some default methods for a complex interface, but also define a protocol for a subset of that interface for use in a more generic function.
 Choose structural typing when you want **minimal coupling** and maximum flexibility, especially at boundaries of your system or for "pluggable" functionality.
 Choose nominal typing when you want an **explicit, enforced contract** and possibly to leverage inheritance of code.
-Remember that protocols are most valuable when you are using static type checking; if your project doesn’t use type checks, then a protocol is simply a `abc.ABC` with no abstract methods – it won’t enforce anything by itself at runtime.
+Remember that protocols are most valuable when you are using static type checking; if your project doesn’t use type checks, then a protocol is a `abc.ABC` with no abstract methods – it won’t enforce anything by itself at runtime.
 In such cases, if enforcement is needed, an ABC with abstract methods (or even just documentation) might be better.
 However, even in purely dynamic contexts, many developers find protocols useful as documentation:
 by reading the Protocol class, you know what an object is expected to do.

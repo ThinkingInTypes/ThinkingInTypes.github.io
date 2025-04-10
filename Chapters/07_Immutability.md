@@ -54,7 +54,7 @@ Python itself has immutable types like `int`, `float`, `str`, `tuple`, and `froz
 When you want to prevent modifications to a collection of values, you might use a tuple instead of a list, or a frozenset instead of a set.
 For instance, if you have a fixed set of options, using a tuple (`options = ("red", "green", "blue")`) conveys that this sequence is not to be altered.
 This isn't enforced by syntax, but the type’s lack of mutating methods provides some safety.
-Trying to call a mutating method on an immutable type will simply result in an `AttributeError` or a runtime error (for example, attempting to append to a tuple will fail since tuples have no `append` method).
+Trying to call a mutating method on an immutable type will result in an `AttributeError` or a runtime error (for example, attempting to append to a tuple will fail since tuples have no `append` method).
 
 In summary, before formal language support for immutability, Python developers used naming conventions and choice of immutable types to **signal** immutability.
 This approach relies on discipline: the interpreter won't stop someone from breaking the rules, but clear conventions help maintain correctness.
@@ -293,7 +293,7 @@ Any attempt to do `self.field = value` in `__post_init__` will trigger a `Frozen
 So how can we set up derived fields or perform adjustments in `__post_init__` for a frozen class? The answer is to bypass the frozen `__setattr__` using the base class (`object`) method.
 Python lets us call the underlying `object.__setattr__` method directly, which will ignore our dataclass’s override and actually set the attribute.
 This is exactly how dataclasses themselves initialize fields for frozen instances.
-In fact, the dataclass documentation notes: *“There is a tiny performance penalty when using `frozen=True`: `__init__()` cannot use simple assignment to initialize fields, and must use `object.__setattr__()`.”* ([dataclasses — Data Classes — Python 3.13.3 documentation](https://docs.python.org/3/library/dataclasses.html#:~:text=There%20is%20a%20tiny%20performance,object.__setattr)).
+In fact, the dataclass documentation notes: *“There is a tiny performance penalty when using `frozen=True`: `__init__()` cannot use assignment to initialize fields, and must use `object.__setattr__()`.”* ([dataclasses — Data Classes — Python 3.13.3 documentation](https://docs.python.org/3/library/dataclasses.html#:~:text=There%20is%20a%20tiny%20performance,object.__setattr)).
 The dataclass-generated `__init__` knows to do this for the fields that are set in the constructor.
 We can apply the same technique in `__post_init__`.
 

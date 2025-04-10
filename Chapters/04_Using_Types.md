@@ -72,7 +72,7 @@ For instance, `def log_message(msg: str) -> None:` tells you the function is onl
 
 If a variable or a function argument is optional, it can either hold a value of a certain type *or* be `None` to indicate the absence of a value.
 To represent this in type hints, Python provides `Optional` in the `typing` module.
-An `Optional[T]` is simply a shorthand for "either type `T` or `None`".
+`Optional[T]` is shorthand for "either type `T` or `None`".
 
 For example, consider a function that tries to find a user by ID and returns the user's name if found, or `None` if not found:
 
@@ -184,7 +184,7 @@ For example, you might have a `dict` with nested structures or a `tuple` with ma
 Writing out these types every time can get unwieldy.
 Type aliases assign a name to a type (especially a complex one) to make annotations cleaner and more maintainable.
 
-A type alias is simply a name assignment at the top level of your code.
+A type alias is a name assignment at the top level of your code.
 We normally name type aliases with CamelCase to indicate they are types:
 
 ```python

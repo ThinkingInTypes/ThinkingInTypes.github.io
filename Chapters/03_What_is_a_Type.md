@@ -110,7 +110,7 @@ Dynamic Typing: Pros, Cons, and Key Differences](https://www.netguru.com/blog/st
 It's important to note that dynamic vs. static is about *when* type checking happens (at runtime vs. compile time).
 It's independent of another concept often mentioned: strong vs. weak typing, which is about how strictly types are treated.
 Python, for example, is strongly typed--it won't implicitly convert types for you in unchecked ways.
-Trying to add a number to a string, as we saw, is not allowed (Python won't guess that maybe you meant `"10" + "world"` or something--it simply errors out).
+Trying to add a number to a string, as we saw, is not allowed (Python won't guess that maybe you meant `"10" + "world"` or something--it errors out).
 In Python, values have a definite type, and you can't treat a value as a different type without an explicit conversion.
 Many static languages are also strongly typed, but some languages are *weakly typed* (they might, for instance, automatically convert strings to numbers in certain contexts, which can lead to subtle bugs).
 The key takeaway is that Python is dynamically and strongly typed: type checks happen at runtime, and the interpreter will raise an error if you attempt an operation on incompatible types ([Python's "Type Hints" are a bit of a disappointment to me](https://www.uninformativ.de/blog/postings/2022-04-21/0/POSTING-en.html#:~:text=It%20gets%20a%20little%20more,indeed%20check%20types%20during%20runtime)).
@@ -152,7 +152,7 @@ quacks(studebaker)
 ```
 
 `Duck` and `Car` each have a `quack()` method.
-The function `quacks(entity)` simply calls `entity.quack()` without caring what type `entity` is.
+The function `quacks(entity)` calls `entity.quack()` without caring what type `entity` is.
 Thanks to duck typing, both a `Duck` instance and a `Car` instance can be passed to `quacks` and it will work, as long as they implement `quack()`.
 The `quacks(donald)` call prints "Quack!", and `quacks(studebaker)` prints "I can quack, too!", even though `studebaker` is not a Duck--it's a Car that happens to know how to quack.
 The function didn't check types; it just invoked the method.
@@ -201,7 +201,7 @@ These are optional annotations that you can add to function definitions, variabl
 Crucially, these type hints do not change how the code runs; Python remains dynamically typed at runtime.
 The hints are mainly for the benefit of the developers and tooling.
 
-For example, here's a simple function without type hints, and then with type hints:
+For example, here's a function without type hints, and then with type hints:
 
 ```python
 # example_6.py
@@ -219,7 +219,7 @@ In the second version, the `str` in `name: str` and `-> str` is a type annotatio
 It indicates that `name` should be a string, and that the function returns a string.
 If you run this code, Python will not enforce that `name` is a string--if you pass an integer, it will still run, and likely error out only when it tries to do `"Hello, " + 5`.
 In other words, *type hints don't make Python statically typed*.
-They are simply metadata attached to the functions and variables ([What Are Python Type-Hints and How to Use Them? — Andres Berejnoi | by Andrés Berejnoi | Medium](https://medium.com/@andresberejnoi/what-are-python-type-hints-and-how-to-use-them-andres-berejnoi-31835b92b038#:~:text=They%20allow%20you%20to%20declare,affect%20how%20your%20program%20runs)).
+They are metadata attached to the functions and variables ([What Are Python Type-Hints and How to Use Them? — Andres Berejnoi | by Andrés Berejnoi | Medium](https://medium.com/@andresberejnoi/what-are-python-type-hints-and-how-to-use-them-andres-berejnoi-31835b92b038#:~:text=They%20allow%20you%20to%20declare,affect%20how%20your%20program%20runs)).
 The official Python documentation makes this clear: the Python runtime does not enforce function and variable type annotations; they are meant to be used by third-party tools (like type checkers, IDEs, linters) ([Python's "Type Hints" are a bit of a disappointment to me](https://www.uninformativ.de/blog/postings/2022-04-21/0/POSTING-en.html#:~:text=The%20documentation%20says%3A)).
 
 The benefits of type hints are seen during development: they serve as documentation and enable static analysis tools to catch errors before running the code.
@@ -375,7 +375,7 @@ However, many find that for anything beyond small scripts, the time spent adding
 - **Learning Curve:** Python's typing system has grown quite rich, with generics, protocols, type variables, etc.
 Using these effectively may require learning new concepts.
 For intermediate Python programmers, there's a learning curve to understanding things like `Optional`, `Union`, or generics.
-The good news is you can start simple (just annotate basic types) and only delve into advanced typing features as needed.
+The good news is you can start (just annotate basic types) and only delve into advanced typing features as needed.
 
 - **Runtime Overhead:** By default, there is virtually no runtime overhead for having type annotations (since Python ignores them at runtime).
 However, if you use certain libraries or decorators to enforce type checking at runtime, those will add overhead.

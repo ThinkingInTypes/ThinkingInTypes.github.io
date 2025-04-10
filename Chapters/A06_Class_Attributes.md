@@ -51,7 +51,7 @@ print(f"{a2.x = }")
 
 Sure enough, if I create an `A` object called `a` and ask for `a.x`, it looks like `x` has the "default value" of `100`.
 I can set `a.x` to `-1` and create a second `A` object `a2` which once again is given the "default value" of 100---separate storage appears to have been created and initialized for the `x` in both `a` and `a2`.
-Based on this simple example, Python class attributes seem to produce default value behavior.
+Based on this example, Python class attributes seem to produce default value behavior.
 
 ## Where Did This Idea Come From?
 
@@ -231,14 +231,14 @@ class X:
 ```
 
 It is quite reasonable to expect the same results as from similar-looking C++ or Java code.
-After doing a few simple experiments as in `like_default_values.py`, a C++ or Java programmer might well conclude that Python does indeed work that way.
+After doing a few experiments as in `like_default_values.py`, a C++ or Java programmer might well conclude that Python does indeed work that way.
 And, because a class attribute is a single variable that is "global to the class," it can be mistaken for a default value.
 
 ## How Things Break
 
 Here's the worst thing.
 Code written with the assumption that class attributes are just default initialization values seems to work most of the time.
-It seemed to work for the simple situation I encountered.
+It seemed to work for the situation I encountered.
 The code passes its tests, so how can I call it "wrong?"
 
 The problem occurs when you're least expecting it.
@@ -478,7 +478,7 @@ There's no visible constructor but somehow `__str__` can access `self.name`.
 Presumably the base-class constructor creates the instance variables by using the class attributes as a template.
 
 Python's `dataclasses` use a decorator to generate code for the constructor and other methods using class attributes as a template.
-Simply adding `dataclasses` to `it_all_goes_wrong.py` fixes the problem:
+adding `dataclasses` to `it_all_goes_wrong.py` fixes the problem:
 
 ```python
 # example_10.py
@@ -580,4 +580,4 @@ Thanks to Barry Warsaw for reviewing and giving feedback.
     C++ also has a `new()` for controlling memory allocation, calling it "operator new" rather than "constructor."
     In contrast, Python's constructor is usually defined as the `__new__()` function, and `__init__()` is called the initializer.
     C++'s operator `new()` and Python's `__new__()` are almost never overridden, and are rarely even mentioned (The common usage for Python's `__new__()` seems to be to create *Factory* functions).
-    To keep things simple I just say "constructor" when referring to `__init__()`.
+    To keep things I just say "constructor" when referring to `__init__()`.

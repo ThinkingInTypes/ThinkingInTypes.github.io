@@ -12,7 +12,7 @@ For example, composition in object-oriented programming means "putting objects i
 When dealing with functions, composability means "calling functions within other functions."
 Both definitions fit my overall definition; they achieve the same goal but in different specific ways.
 
-To enable the easy construction of programs, we need to be able to effortlessly assemble components in the same way that a child assembles Legos—by simply sticking them together, without requiring extra activities.
+To enable the easy construction of programs, we need to be able to effortlessly assemble components in the same way that a child assembles Legos—by sticking them together, without requiring extra activities.
 On top of that, such assemblages become their own components that can be stuck together just as easily.
 This composability scales up regardless of the size of the components.
 
@@ -80,7 +80,7 @@ Error reporting and handling has been a significant impediment to composability.
 
 Original programs were small (by present-day standards), written in assembly language (machine code quickly became too unwieldy), and tightly coupled to the underlying hardware.
 If something went wrong, the only way to report it was to change the output on a wire, to turn on a light or a buzzer.
-If you had one, you put a message on the console—this might as simple as a dot-matrix display.
+If you had one, you put a message on the console—this might as as a dot-matrix display.
 Such an error message probably wasn’t friendly to the end-user of the system and usually required a tech support call to the manufacturer.
 
 Two of my first jobs were building embedded systems that controlled hardware.
@@ -201,7 +201,7 @@ Both systems (the original C++ dynamic exception specifications, and Java except
 
 ### 4. Exceptions Destroy Partial Calculations
 
-Let’s start with a simple example where we populate a `List` with the results of a sequence of calls to the function `func_a`:
+Let’s start with a example where we populate a `List` with the results of a sequence of calls to the function `func_a`:
 
 ```python
 # discarded_state.py
@@ -236,7 +236,7 @@ This:
 Instead of creating a complex implementation to report and handle errors, the functional approach creates a "return package" containing the answer along with the (potential) error information.
 Instead of only returning the answer, we return this package from the function.
 
-This package is a new type, with operations that prevent the programmer from simply plucking the result from the package without dealing with error conditions (a failing of the Go language approach).
+This package is a new type, with operations that prevent the programmer from plucking the result from the package without dealing with error conditions (a failing of the Go language approach).
 
 A first attempt uses *type unions* to create a nameless return package:
 
@@ -319,7 +319,7 @@ A `TypeVar` defines a generic parameter.
 We want `Result` to contain a type for an `ANSWER` when the function call is successful, and an `ERROR` to indicate how the function call failed.
 Each subtype of `Result` only holds one field:
 `answer` for a successful `Success` calculation, and `error` for a `Failure`.
-Thus, if a `Failure` is returned, the client programmer cannot simply reach in and grab the `answer` field because it doesn’t exist.
+Thus, if a `Failure` is returned, the client programmer cannot reach in and grab the `answer` field because it doesn’t exist.
 The client programmer is forced to properly analyze the `Result`.
 
 We could use a frozen `dataclass` instead of a `NamedTuple` here, but the latter is more concise.
@@ -361,7 +361,7 @@ The `returns` library has been slipped in here, but its basic form is that of `r
 
 ## Composing with `Result`
 
-The previous examples included very simple composition in the `composed` functions which just called a single other function.
+The previous examples included very composition in the `composed` functions which just called a single other function.
 What if you need to compose a more complex function from multiple other functions?
 The `Result` type ensures that the `composed` function properly represents both the `Answer` type but also the various different errors that can occur:
 
@@ -438,7 +438,7 @@ pprint([(i, composed(i)) for i in range(5)])
 ```
 
 The `a`, `b` and `c` functions each have argument values that are unacceptable.
-Notice that `b` and `c` both use built-in exception types as arguments to `Failure`, but those exceptions are never raised—they are simply used to convey information, just like the `str` in `a`.
+Notice that `b` and `c` both use built-in exception types as arguments to `Failure`, but those exceptions are never raised—they are used to convey information, just like the `str` in `a`.
 
 In `composed`, we call `a`, `b` and `c` in sequence.
 After each call, we check to see if the result type is `Failure`.

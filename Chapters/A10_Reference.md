@@ -67,7 +67,7 @@ Modern Python prefers explicit annotation syntax, but you might encounter type c
 
 ### Built-in Types
 
-For simple types like `int`, `str`, `bool`, etc., you can use the type name directly as an annotation.
+For types like `int`, `str`, `bool`, etc., you can use the type name directly as an annotation.
 For example, `x: int = 5` or `user: str`.
 The same goes for classes and custom types – you annotate with the class itself (e.g. `file: io.TextIOBase`).
 
@@ -129,7 +129,7 @@ Static analyzers use it to understand control flow (e.g. after a call to a NoRet
 ### Type Aliases
 
 Sometimes you have a complex type and want to give it a short name (alias) for readability.
-You can create a type alias by simple assignment or using the new `type` statement.
+You can create a type alias by assignment or using the new `type` statement.
 For example:
 `Address = tuple[str, int]` creates an alias `Address` for “tuple of (str, int)”.
 In Python 3.12+, you can declare aliases more explicitly with the **`type`** keyword (PEP 695):
@@ -539,7 +539,7 @@ The Python steering council decided not to turn on the automatic stringification
 
 ### PEP 649 (Deferred Annotations)
 
-PEP 649, accepted for Python’s future (targeted for 3.13+), proposes a new mechanism where annotations are neither evaluated at function definition time nor simply stored as strings.
+PEP 649, accepted for Python’s future (targeted for 3.13+), proposes a new mechanism where annotations are neither evaluated at function definition time nor stored as strings.
 Instead, annotations would be stored as code in a special function (`__annotate__`) that computes them on demand ([PEP 649 – Deferred Evaluation Of Annotations Using Descriptors | peps.python.org](https://peps.python.org/pep-0649/#:~:text=Python%20solved%20this%20by%20accepting,for%20runtime%20users%20of%20annotations)) ([PEP 649 – Deferred Evaluation Of Annotations Using Descriptors | peps.python.org](https://peps.python.org/pep-0649/#:~:text=approach%2C%20when%20combined%20with%20a,foster%20future%20innovations%20in%20annotations)).
 This aims to solve forward references and performance issues more elegantly:
 the evaluation of annotations is deferred until needed, without losing the actual object references or incurring the issues of stringified annotations.

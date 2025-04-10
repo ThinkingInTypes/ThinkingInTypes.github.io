@@ -235,7 +235,7 @@ The `@requires` clearly shows that constraints have been placed on the arguments
 
 DbC definitely helps, but it has limitations:
 
-1. A programmer can forget to use `requires`, or simply choose to perform argument checks by hand if DbC doesn't make sense to them.
+1. A programmer can forget to use `requires`, or choose to perform argument checks by hand if DbC doesn't make sense to them.
 2. Validations are spread throughout your system.
    Using `Condition` centralizes the logic, but making changes still risks missing updates on functions.
 
@@ -282,7 +282,7 @@ Modifying a frozen `dataclass` using `object.__setattr__` is best only done duri
 You can also call `object.__setattr__` in `__post_init__`, but if you find yourself doing it in other methods you should reconsider whether your type is really frozen.
 Requiring `object.__setattr__` to modify a frozen `dataclass` means you can easily search for modifications.
 
-Note that `__add__` and `__sub__` simply return new `Amount` objects without worrying whether they are non-negative--the constructor takes care of that.
+Note that `__add__` and `__sub__` return new `Amount` objects without worrying whether they are non-negative--the constructor takes care of that.
 
 If you provide an incorrect `value` to `Amount`, the `Decimal` constructor throws an exception:
 
@@ -323,7 +323,7 @@ class Balance(NamedTuple):
         return Balance(self.amount - withdrawal_amount)
 ```
 
-Note that `Balance` simply produces new immutable objects when you `deposit` and `withdraw`.
+Note that `Balance` produces new immutable objects when you `deposit` and `withdraw`.
 Because it uses `Amount`, it needs no special validation checks.
 
 In the new, improved `BankAccount`, the need for validation disappears because it is automatically enforced by the types:
@@ -366,7 +366,7 @@ The code is significantly more straightforward to understand and change.
 If we need to modify the underlying representation of `Amount` we only do it in one place.
 Suppose, for example, we discover Python's implementation of `Decimal` is too slow.
 We can modify `Amount` to use, for example, a Rust implementation of decimal numbers.
-We *only* need to change the code for `Amount` because the rest of the code simply uses `Amount`.
+We *only* need to change the code for `Amount` because the rest of the code uses `Amount`.
 
 Possibly best of all, any new code we write using custom types transparently uses all the type validations built into those types.
 If we add more validations to `Amount` or `Balance`, they automatically propagate to each site where those types are used.
@@ -425,7 +425,7 @@ class PhoneNumber:
 
     def format_number(self) -> str:
         """
-        Simple formatting rules for 10-digit numbers.
+        formatting rules for 10-digit numbers.
         """
         if len(self.number) == 10:
             return f"({self.number[:3]}) {self.number[3:6]}-{self.number[6:]}"
