@@ -1,11 +1,11 @@
 # Using Types
 
-Annotating code with expected types improves clarity and enables static type checkers to catch errors early.
+Type annotations improve clarity and enable static type checkers to catch errors early.
 We'll look at Python's `typing` module and apply type annotations to variables, functions, and data structures.
 
 ## Built-in Types (`int`, `str`, `float`, `bool`, `None`)
 
-Annotating variables with types like `int`, `str`, `float`, `bool`, or `None` explicitly communicates the expected of data.
+Annotating variables with `int`, `str`, `float`, `bool`, or `None` explicitly communicates the expected type of data.
 This makes code more readable and helps tools catch mismatches.
 For example:
 
@@ -23,8 +23,8 @@ A reader can immediately see that `age` should be an integer, `name` a string, a
 Type annotations do not change the runtime behavior of the code--Python will not enforce them at runtime--but they serve as important documentation.
 They also enable static type checkers and IDEs to detect errors (for instance, if you later try to treat `age` as a string, a type checker would warn you).
 
-Annotating with `None` as a type (as shown for `no_value`) indicates that the variable should hold no value (Python's `NoneType`).
-It's equivalent to saying the variable's type is "NoneType".
+Annotating with `None` as a type (as shown for `no_value`) indicates that the variable should hold no value.
+It's equivalent to saying the variable's type is `NoneType`.
 In summary, using built-in type names in annotations is straightforward and is the foundation for more complex types.
 
 ## Variables and Functions
@@ -34,7 +34,7 @@ In both cases, they clarify what type of data is expected, which helps in reason
 
 ### Variables
 
-To annotate variablesat the time of assignment, place a colon (`:`) after the variable name, followed by the type, and then the assignment:
+To annotate variables at the time of assignment, place a colon (`:`) after the variable name, followed by the type, and then the assignment:
 
 ```python
 # example_2.py
@@ -52,8 +52,6 @@ We annotate each function parameter as well as the return type of the function, 
 
 ```python
 # example_3.py
-
-
 def greet_user(username: str) -> str:
     return f"Welcome, {username}!"
 ```
@@ -80,7 +78,6 @@ For example, consider a function that tries to find a user by ID and returns the
 # example_4.py
 from typing import Optional
 
-
 def find_user(user_id: int) -> Optional[str]:
     if user_id == 1:
         return "Alice"
@@ -97,7 +94,6 @@ The type annotation makes it clear that `None` is a possible outcome.
 ```python
 # example_5.py
 from typing import Optional
-
 
 def greet(name: Optional[str] = None) -> str:
     if name:
@@ -123,7 +119,6 @@ Before Python 3.10, the typical way to declare a union of types was to use `typi
 # example_6.py
 from typing import Union
 
-
 def process_value(value: Union[int, str]) -> str:
     return str(value)
 ```
@@ -139,18 +134,17 @@ However, if you write union that includes `None` (like `Union[X, None]`), rememb
 ### The `|` Union Operator
 
 Python 3.10 introduced a more concise syntax for union types using the `|` operator.
-Unions written this way indicate use the idea of the logical "OR" to combine the differnt types.
+Unions written this way indicate use the idea of the logical "OR" to combine the different types.
 This rewritten `process_value` definition is equivalent to the previous one using `Union[int, str]`:
 
 ```python
 # example_7.py
 
-
 def process_value(value: int | str) -> str:
     return str(value)
 ```
 
-This syntax is shorter and often clearer--you can read it as, "value is an int or str".
+This syntax is shorter and often clearer--you can read it as, "value is an `int` or `str`".
 
 You can chain the `|` operator to include multiple types (e.g., `int | str | float`), and you can use it with `None`: `str | None` is the same as `Optional[str]`:
 
@@ -158,18 +152,14 @@ You can chain the `|` operator to include multiple types (e.g., `int | str | flo
 # union_plus_optional.py
 from typing import Optional
 
-
 def f1(value: int | str | None) -> str:
     return str(value)
-
 
 print(f1(42), f1("forty-two"), f1(None))
 ## 42 forty-two None
 
-
 def f2(value: Optional[int | str]) -> str:
     return str(value)
-
 
 print(f2(42), f2("forty-two"), f2(None))
 ## 42 forty-two None
@@ -193,7 +183,6 @@ from typing import List
 
 UserIDs = List[int]  # Type ailias
 
-
 def process_users(user_ids: UserIDs) -> None:
     for uid in user_ids:
         print(f"Processing user {uid}")
@@ -209,13 +198,13 @@ This is functionally identical to writing the annotation as `list[int]` or `List
 
 Type aliases do not create new types at runtime; they are purely for the benefit of the type system and the developer.
 `UserIDs` are treated exactly as `List[int]` by a type checker.
-You can create aliases for any type; for example the union `Number = Union[int, float]`.
+You can create aliases for any type; for example, the union `Number = Union[int, float]`.
 
 ### `NewType`
 
-A type alias is a notational convienience, but it doesn't create a new type recognized by the type checker.
+A type alias is a notational convenience, but it doesn't create a new type recognized by the type checker.
 `NewType` does create a new, distinct type, preventing accidental misuse of similar underlying types.
-In general you'll want to use `NewType` instead of type aliasing:
+In general, you'll want to use `NewType` instead of type aliasing:
 
 ```python
 # new_type.py
@@ -255,7 +244,7 @@ The type checker requires `UserID` for `increment` and `IDs` for `increment_user
 
 Python's built-in collection types are generic, meaning they can hold items of any type.
 With type hints, we can specify what type of items a particular collection is supposed to contain.
-This makes our intentions clear (e.g. a list of integers vs. a list of strings) and helps catch errors (accidentally putting the wrong type of item in a collection).
+This makes our intentions clear (e.g., a list of integers vs. a list of strings) and helps catch errors such as accidentally putting the wrong type of item in a collection.
 
 The `typing` module provides specialized generic classes for common collections: `List`, `Tuple`, `Set`, and `Dict` (note: in Python 3.9+, you can use the built-in class names with brackets, which we will discuss in the next section).
 We use these to annotate collections with their element types.
@@ -310,7 +299,7 @@ unique_ids: Set[str] = {"abc", "xyz", "123"}
 
 The annotation `Set[str]` indicates that every element of the set should be a string.
 If code later tries to add a non-string to `unique_ids`, a type checker will report an error.
-As with lists, specifying the element type of a set makes the intended content clear.
+As with lists, specifying the element type as `Set` makes the intended content clear.
 It also helps readers understand what kind of data `unique_ids` holds (e.g., user identifiers, in this case represented as strings).
 
 ### Dictionaries
@@ -413,8 +402,8 @@ An `Iterable` describes any object that you can loop over (using a `for` loop or
 If the object has an `__iter__()` method, it implements the `Iterable` protocol.
 Examples include `list`s, `set`s, `tuple`s, `dict`s (iterating over keys), file objects (iterating over lines), and more.
 
-An `Iterator` is a subtype of `Iterable` that represents the actual iterator object returned by calling `iter()` on an iterable.
-An `Iterator` yields items one at a time and produces values until it's exhausted.
+An `Iterator` is a subtype of `Iterable` that represents the actual iterator object returned by calling `iter()` on an `Iterable`.
+An `Iterator` yields items one at a time until it's exhausted.
 It implements a `__next__()` method that returns the next item or raises `StopIteration` when done.
 *Generator functions* (functions using the `yield` keyword) produce iterators.
 
