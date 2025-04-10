@@ -87,6 +87,7 @@ For example, consider a function that tries to find a user by ID and returns the
 # example_4.py
 from typing import Optional
 
+
 def find_user(user_id: int) -> Optional[str]:
     if user_id == 1:
         return "Alice"
@@ -105,6 +106,7 @@ Consider a greeting function that can optionally personalize the message:
 ```python
 # example_5.py
 from typing import Optional
+
 
 def greet(name: Optional[str] = None) -> str:
     if name:
@@ -138,6 +140,7 @@ For instance:
 ```python
 # example_6.py
 from typing import Union
+
 
 def process_value(value: Union[int, str]) -> str:
     return str(value)
@@ -189,6 +192,7 @@ Here’s an example:
 from typing import List
 
 UserIDs = List[int]
+
 
 def process_users(user_ids: UserIDs) -> None:
     for uid in user_ids:
@@ -345,6 +349,7 @@ This includes Python’s `list`, `tuple`, `range`, and even `str` (a string can 
 # example_14.py
 from typing import Sequence
 
+
 def average(numbers: Sequence[float]) -> float:
     return sum(numbers) / len(numbers)
 ```
@@ -364,7 +369,10 @@ A `Mapping[K, V]` has keys of type `K` and values of type `V`.
 # example_15.py
 from typing import Mapping
 
-def get_user_age(users: Mapping[str, int], username: str) -> int:
+
+def get_user_age(
+    users: Mapping[str, int], username: str
+) -> int:
     return users.get(username, 0)
 ```
 
@@ -389,9 +397,11 @@ In practice, *generator functions* (functions using the `yield` keyword) produce
 # example_16.py
 from typing import Iterable, Iterator
 
+
 def print_items(items: Iterable[str]) -> None:
     for item in items:
         print(item)
+
 
 def generate_numbers(n: int) -> Iterator[int]:
     for i in range(n):

@@ -17,7 +17,7 @@ You can always check that type at runtime using the built-in `type()` function o
 
 ```python
 # example_1.py
-print(type(42)) 
+print(type(42))
 ## <class 'int'>
 print(type("Hello"))
 ## <class 'str'>
@@ -61,10 +61,10 @@ For example, in Python you can do:
 
 ```python
 # example_2.py
-x = 10        # x is an int
+x = 10  # x is an int
 # Reassign to a different type:
-x = "hello"   # now x is a str
-print(x)      # Output: hello
+x = "hello"  # now x is a str
+print(x)  # Output: hello
 ## hello
 ```
 
@@ -134,18 +134,21 @@ class Duck:
     def quack(self):
         print("Quack!")
 
+
 class Car:
     def quack(self):
         print("I can quack, too!")
 
+
 def quacks(entity):
     entity.quack()
+
 
 donald = Duck()
 studebaker = Car()
 quacks(donald)
 ## Quack!
-quacks(studebaker)   
+quacks(studebaker)
 ## I can quack, too!
 ```
 
@@ -207,6 +210,7 @@ For example, here's a simple function without type hints, and then with type hin
 def greet(name):
     return "Hello, " + name
 
+
 # With type hints:
 def greet(name: str) -> str:
     return "Hello, " + name
@@ -263,7 +267,7 @@ For instance, you can annotate variables (since Python 3.6) in addition to funct
 # example_8.py
 count: int = 0
 # list[str] instead of typing.List:
-texts: list[str] = ["hello", "world"]   
+texts: list[str] = ["hello", "world"]
 ```
 
 You can use union types with a nice shorthand.
@@ -503,9 +507,10 @@ Consider:
 def f(x: int) -> int:
     return x * 2
 
-print(f(5))      # Correct type
+
+print(f(5))  # Correct type
 ## 10
-print(f("hi"))   # Does NOT cause a TypeError
+print(f("hi"))  # Does NOT cause a TypeError
 ## hihi
 # Strings can be "multiplied"
 ```
