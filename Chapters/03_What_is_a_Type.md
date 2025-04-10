@@ -88,7 +88,7 @@ In a statically typed language, such an error would be caught *before* running t
 
 To summarize the difference:
 
-- In static typing, type errors are caught early--_before_ the program runs--which can make debugging easier and programs more reliable ([
+- In static typing, type errors are caught early--*before* the program runs--which can make debugging easier and programs more reliable ([
 Static vs.
 Dynamic Typing: Pros, Cons, and Key Differences](https://www.netguru.com/blog/static-vs-dynamic-typing#:~:text=One%20of%20the%20main%20advantages,debugging%20and%20enhances%20code%20reliability)) ([Static vs.
 Dynamic Typing: Pros, Cons, and Key Differences](https://www.netguru.com/blog/static-vs-dynamic-typing#:~:text=Typechecking%20is%20a%20critical%20aspect,detection%2C%20significantly%20reducing%20debugging%20time)).
@@ -134,17 +134,17 @@ def quacks(entity):
     entity.quack()
 
 donald = Duck()
-tesla = Car()
+studebaker = Car()
 quacks(donald)  # Quack!
 ## Quack!
-quacks(tesla)   # I can quack, too!
+quacks(studebaker)   # I can quack, too!
 ## I can quack, too!
 ```
 
 `Duck` and `Car` each have a `quack()` method.
 The function `quacks(entity)` simply calls `entity.quack()` without caring what type `entity` is.
 Thanks to duck typing, both a `Duck` instance and a `Car` instance can be passed to `quacks` and it will work, as long as they implement `quack()`.
-The `quacks(donald)` call prints "Quack!", and `quacks(tesla)` prints "I can quack, too!", even though `tesla` is not a Duck--it's a Car that happens to know how to quack.
+The `quacks(donald)` call prints "Quack!", and `quacks(studebaker)` prints "I can quack, too!", even though `studebaker` is not a Duck--it's a Car that happens to know how to quack.
 The function didn't check types; it just invoked the method.
 
 But what if we call `quacks(42)` (an integer)?
