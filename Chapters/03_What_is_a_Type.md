@@ -90,9 +90,8 @@ with Catch():
 ## and 'str'
 ```
 
-In the snippet above, `x` is an integer, and we attempted to "add" a string `"world"` to it.
-Python doesn't know at write-time (since there is no compile step for types) that this is an error--it finds out while running the line, realizes it can't add an `int` and `str`, and throws a `TypeError` exception.
-This is a prime example of a type error caught at runtime in a dynamically typed language.
+We attempted to "add" a string `"world"` to `x`, which is an integer.
+Python only discovers the problem while running the line: realizing it can't add an `int` and `str`, it throws a `TypeError` exception.
 In a statically typed language, such an error would be caught *before* running the program (the code wouldn't compile).
 
 To summarize the difference:

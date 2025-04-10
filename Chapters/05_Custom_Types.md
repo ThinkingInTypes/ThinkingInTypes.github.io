@@ -321,29 +321,6 @@ print(person)
 This hierarchical validation structure ensures correctness and clarity at every composition level.
 Invalid data never propagates, vastly simplifying subsequent interactions.
 
-## Simple Type Aliasing with `NewType`
-
-`NewType` creates distinct types for stronger type checking without runtime overhead:
-
-```python
-# simple_type_aliasing.py
-from typing import NewType
-
-UserId = NewType("UserId", int)
-
-user_id = UserId(42)
-
-
-def get_user(uid: UserId) -> str:
-    return f"User {uid}"
-
-
-# get_user(42)  # type checker error
-get_user(user_id)  # correct usage
-```
-
-`NewType` improves clarity, preventing accidental misuse of similar underlying types.
-
 ## Literal Types
 
 Literal types allow specifying exact permissible values, enhancing type specificity and correctness:
