@@ -34,7 +34,8 @@ In both cases, they clarify what type of data is expected, which helps in reason
 
 ### Variables
 
-To annotate variables at the time of assignment, place a colon (`:`) after the variable name, followed by the type, and then the assignment:
+To annotate variables at the time of assignment, place a colon after the variable name,
+followed by the type, and then the assignment:
 
 ```python
 # example_2.py
@@ -43,7 +44,8 @@ username: str = "admin"
 level: float
 ```
 
-Even if we don't immediately assign a value, we can still provide a type hint to indicate the intended usage of that variable.
+Even if we don't immediately assign a value, as in `level`,
+we can still provide a type hint to indicate the intended usage of that variable.
 
 ### Functions
 
@@ -240,7 +242,7 @@ Notice that `IDs` uses `UserID` in its definition.
 The type checker requires `UserID` for `increment` and `IDs` for `increment_users`, even though we can transparently access the underlying elements of each type (`int` and `list[UserID]`).
 
 
-## Lists, Tuples, Sets, and Dictionaries
+## `List`s, `Tuple`s, `Set`s, and `Dict`s
 
 Python's built-in collection types are generic, meaning they can hold items of any type.
 With type hints, we can specify what type of items a particular collection is supposed to contain.
@@ -266,11 +268,11 @@ The annotation `List[int]` tells us and the type checker that every element of `
 If somewhere else in the code we mistakenly append a string to `scores`, a type checker would complain.
 The benefit is clear: by reading the annotation, we know exactly what `scores` contains, and we get early warnings if we misuse it.
 
-### Tuples
+### `Tuple`s
 
-Tuples are fixed-size sequences, often used for grouping heterogeneous data.
-Unlike lists, where all elements are usually of one type, tuples often have a fixed structure (e.g., a pair of a float and a float for coordinates).
-We can annotate tuples by listing the types of each position:
+`Tuple`s are fixed-size sequences, often used for grouping heterogeneous data.
+Unlike lists, where all elements are usually of one type, `Tuple`s often have a fixed structure (e.g., a pair of a `float` and a `float` for coordinates).
+We can annotate `Tuple`s by listing the types of each position:
 
 ```python
 # example_10.py
@@ -279,12 +281,12 @@ from typing import Tuple
 coordinates: Tuple[float, float] = (23.5, 45.8)
 ```
 
-The annotation `Tuple[float, float]` means: a tuple with exactly two elements, the first a `float` and the second a `float`.
+The annotation `Tuple[float, float]` means: a `Tuple` with exactly two elements, the first a `float` and the second a `float`.
 If we tried to assign `coordinates = (23.5, "north")`, a static checker would flag it, because the second element isn't a `float` as expected.
 
-For tuples of variable length where all elements are the same type, you can use an ellipsis in the annotation (e.g., `Tuple[int, ...]` for "a tuple of ints of any length").
+For `Tuple`s of variable length where all elements are the same type, you can use an ellipsis in the annotation (e.g., `Tuple[int, ...]` for "a `Tuple` of `int` of any length").
 However, in many cases where you have a sequence of varying length, a list might be more appropriate.
-Use the tuple annotation when the position and count of elements are fixed and meaningful.
+Use the `Tuple` annotation when the position and count of elements are fixed and meaningful.
 
 ### Sets
 
@@ -368,7 +370,7 @@ def average(numbers: Sequence[float]) -> float:
 ```
 
 In `average`, we accept `numbers` as a `Sequence[float]`.
-This means you can pass in a list of floats, a tuple of floats, or any sequence (ordered collection) of `float`s, and the function will calculate the average.
+This means you can pass in a list of floats, a `tuple` of floats, or any sequence (ordered collection) of `float`s, and the function will calculate the average.
 If we annotate `numbers` as `List[float]`, the type checker complains if you pass anything that's not explicitly a `list`.
 By using the broader `Sequence` type, we allow any suitable container, which makes the function more flexible while still ensuring the elements are `float`s.
 
