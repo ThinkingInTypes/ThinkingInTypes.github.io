@@ -369,10 +369,9 @@ By using these abstract collection types, you make your code flexible while stil
 
 ## Type Aliases & `NewType`
 
-As codebases grow, type annotations can become complex.
-For example, you might have a `dict` with nested structures or a `tuple` with many elements.
+Suppose you have a `dict` with nested structures or a `tuple` with many elements.
 Writing out these types every time can get unwieldy.
-Type aliases assign a name to a type (especially a complex one) to make annotations cleaner and more maintainable.
+Type aliases assign a name to a type to make annotations cleaner and more maintainable.
 
 A type alias is a name assignment at the top level of your code.
 We normally name type aliases with CamelCase to indicate they are types:
