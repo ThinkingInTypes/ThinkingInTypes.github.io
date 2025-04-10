@@ -169,79 +169,6 @@ print(f2(42), f2("forty-two"), f2(None))
 
 If you must support older Python versions, use `Union`.
 
-## Type Aliases & `NewType`
-
-As codebases grow, type annotations can become complex.
-For example, you might have a `dict` with nested structures or a `tuple` with many elements.
-Writing out these types every time can get unwieldy.
-Type aliases assign a name to a type (especially a complex one) to make annotations cleaner and more maintainable.
-
-A type alias is a name assignment at the top level of your code.
-We normally name type aliases with CamelCase to indicate they are types:
-
-```python
-# simple_type_aliasing.py
-from typing import List
-
-UserIDs = List[int]  # Type ailias
-
-def process_users(user_ids: UserIDs) -> None:
-    for uid in user_ids:
-        print(f"Processing user {uid}")
-```
-
-Here, `UserIDs` is a type alias for "list of integers" (`List[int]`).
-This is functionally identical to writing the annotation as `list[int]` or `List[int]` in the function, but using the alias has advantages:
-
-- It gives a meaningful name to the type, indicating what the `list` of `int`s represents--in this case, a collection of user IDs.
-- It avoids repeating a complex type annotation in multiple places.
-- If the definition of `UserIDs` changes (say we decide to use a different type to represent user IDs), we can update the alias in one place.
-- It improves readability by abstracting away the details of the type structure.
-
-Type aliases do not create new types at runtime; they are purely for the benefit of the type system and the developer.
-`UserIDs` are treated exactly as `List[int]` by a type checker.
-You can create aliases for any type; for example, the union `Number = Union[int, float]`.
-
-### `NewType`
-
-A type alias is a notational convenience, but it doesn't create a new type recognized by the type checker.
-`NewType` does create a new, distinct type, preventing accidental misuse of similar underlying types.
-In general, you'll want to use `NewType` instead of type aliasing:
-
-```python
-# new_type.py
-from typing import NewType
-
-UserID = NewType("UserID", int)
-IDs = NewType("IDs", list[UserID])
-
-user_ids = IDs([UserID(2), UserID(5), UserID(42)])
-
-
-def increment(uid: UserID) -> UserID:
-    # Transparently access underlying value:
-    return UserID(uid + 1)
-
-
-# increment(42)  # Type check error
-
-# Access underlying list operation:
-print(increment(user_ids[-1]))
-## 43
-
-
-def increment_users(user_ids: IDs) -> IDs:
-    return IDs([increment(uid) for uid in user_ids])
-
-
-print(increment_users(user_ids))
-## [3, 6, 43]
-```
-
-Notice that `IDs` uses `UserID` in its definition.
-The type checker requires `UserID` for `increment` and `IDs` for `increment_users`, even though we can transparently access the underlying elements of each type (`int` and `list[UserID]`).
-
-
 ## `List`s, `Tuple`s, `Set`s, and `Dict`s
 
 Python's built-in collection types are generic, meaning they can hold items of any type.
@@ -439,6 +366,79 @@ As a side note, if a function is meant to never return normally (for instance, o
 Specialized annotations like `Sequence`, `Mapping`, `Iterable`, and `Iterator` let you capture the interface or behavior you require, rather than a specific concrete type.
 They are especially useful in library or API design, where being too specific with types can needlessly limit the utility of a function or class.
 By using these abstract collection types, you make your code flexible while still retaining the benefits of type checking.
+
+## Type Aliases & `NewType`
+
+As codebases grow, type annotations can become complex.
+For example, you might have a `dict` with nested structures or a `tuple` with many elements.
+Writing out these types every time can get unwieldy.
+Type aliases assign a name to a type (especially a complex one) to make annotations cleaner and more maintainable.
+
+A type alias is a name assignment at the top level of your code.
+We normally name type aliases with CamelCase to indicate they are types:
+
+```python
+# simple_type_aliasing.py
+from typing import List
+
+UserIDs = List[int]  # Type ailias
+
+def process_users(user_ids: UserIDs) -> None:
+    for uid in user_ids:
+        print(f"Processing user {uid}")
+```
+
+Here, `UserIDs` is a type alias for "list of integers" (`List[int]`).
+This is functionally identical to writing the annotation as `list[int]` or `List[int]` in the function, but using the alias has advantages:
+
+- It gives a meaningful name to the type, indicating what the `list` of `int`s represents--in this case, a collection of user IDs.
+- It avoids repeating a complex type annotation in multiple places.
+- If the definition of `UserIDs` changes (say we decide to use a different type to represent user IDs), we can update the alias in one place.
+- It improves readability by abstracting away the details of the type structure.
+
+Type aliases do not create new types at runtime; they are purely for the benefit of the type system and the developer.
+`UserIDs` are treated exactly as `List[int]` by a type checker.
+You can create aliases for any type; for example, the union `Number = Union[int, float]`.
+
+### `NewType`
+
+A type alias is a notational convenience, but it doesn't create a new type recognized by the type checker.
+`NewType` does create a new, distinct type, preventing accidental misuse of similar underlying types.
+In general, you'll want to use `NewType` instead of type aliasing:
+
+```python
+# new_type.py
+from typing import NewType
+
+UserID = NewType("UserID", int)
+IDs = NewType("IDs", list[UserID])
+
+user_ids = IDs([UserID(2), UserID(5), UserID(42)])
+
+
+def increment(uid: UserID) -> UserID:
+    # Transparently access underlying value:
+    return UserID(uid + 1)
+
+
+# increment(42)  # Type check error
+
+# Access underlying list operation:
+print(increment(user_ids[-1]))
+## 43
+
+
+def increment_users(user_ids: IDs) -> IDs:
+    return IDs([increment(uid) for uid in user_ids])
+
+
+print(increment_users(user_ids))
+## [3, 6, 43]
+```
+
+Notice that `IDs` uses `UserID` in its definition.
+The type checker requires `UserID` for `increment` and `IDs` for `increment_users`, even though we can transparently access the underlying elements of each type (`int` and `list[UserID]`).
+
 
 ## Faster Development, Clearer Results
 
