@@ -272,76 +272,81 @@ For example:
 
 ```python
 # example_9.py
-# TODO: This doesn't do output injection correctly
 from pathlib import Path
 
 from book_utils import Catch
 
-this_dir = Path(__file__).parent.resolve()
 
-
-def read_second_line(file: str | Path) -> str:
+def is_file(file: str | Path) -> bool:
     # Converts string or Path to a Path object:
-    p = this_dir / file
-    return p.read_text().splitlines()[1]
+    p = Path(file)
+    return p.exists() and p.is_file()
 
 
 # Works with a string path:
-print(read_second_line("example_9.py"))
-## from pathlib import Path
+print(is_file("nonexistent.txt"))
+## False
 # Works with a Path object:
-print(read_second_line(Path("example_9.py")))
-## from pathlib import Path
+print(is_file(Path("nonexistent.txt")))
+## False
 with Catch():
     # Raises TypeError, static checker flags it:
-    read_second_line(12345)  # type: ignore
-## Error: unsupported operand type(s) for /: 'WindowsPath' and 'int'
+    is_file(12345)  # type: ignore
+## Error: argument should be a str or an
+## os.PathLike object where __fspath__ returns a
+## str, not 'int'
 ```
 
-In this example, the function `read_second_line` can accept either a file path as a normal string or a `Path` object (from the `pathlib` module)--thanks to the union type `str | Path`.
+In this example, the function `is_file` can accept either a file path as a normal string or a `Path` object (from the `pathlib` module)--thanks to the union type `str | Path`.
 Inside the function we convert whatever it is to a `Path` for uniform processing.
-If we accidentally pass an integer, Python will error out when trying to make a `Path(12345)` (because an `int` isn't a valid path), and a type checker would warn us *before* running that we gave an int where a `str | Path` was expected.
+Passing an integer produces an error when trying to make a `Path(12345)` (because an `int` isn't a valid path).
+The type checker warns us about this right away and very specifically, while waiting until runtime produces errors that take time and effort to untangle.
 
-- The standard library `typing` module provides many advanced types and constructs: generics (like `list[int]` or `dict[str, int]`), `Optional[X]` (which is just shorthand for `X | None` in newer Python versions), `Literal` types (specific allowed values), `TypedDict` (dicts with specific shape), and even a way to express *protocols* (PEP 544) which are basically static duck typing (you can define an interface that says "this type must have methods X, Y, Z" without caring about inheritance).
-Going into detail on these is beyond the scope of this chapter, but it's good to know that Python's type system today is quite powerful while remaining optional.
+The standard library `typing` module provides many advanced types and constructs, which we cover in later chapters:
 
-Important: Even as Python's type hints have evolved, they remain *optional* and *mostly* ignored at runtime.
+- Generics (like `list[int]` or `dict[str, int]`)
+- `Optional[X]` (which is just shorthand for `X | None` in newer Python versions)
+- `Literal` types (specific allowed values)
+- `TypedDict` (dicts with specific shape)
+- *protocols* (PEP 544) which are basically static duck typing (you can define an interface that says "this type must have methods X, Y, Z" without caring about inheritance).
+
+## Typing is Optional
+
+Python's type hints are *optional*, and ignored at runtime.
 They are a developer tool.
-The interpreter will not refuse to run your program if the types don't match.
-As a simple demonstration:
+The interpreter will not refuse to run your program if the types don't match:
 
 ```python
 # example_10.py
 value: float = 3.14159
-value = "Pi"  # reassignment to a str, Python won't stop you
+value = "Pi"  # reassignment to a str
 print(value)  # Output: Pi
 ## Pi
 ```
 
 We annotated `value` as a float, but then assigned a string to it.
 Python does not enforce the annotation--the code runs and `value` ends up as `"Pi"`.
-A type-checking tool would have warned about that reassignment, but Python itself doesn't mind.
+A type checker warns about that reassignment, but Python itself doesn't mind.
 As one author put it, type hints in Python are "not enforced at runtime, they are just metadata" ([Python's "Type Hints" are a bit of a disappointment to me](https://www.uninformativ.de/blog/postings/2022-04-21/0/POSTING-en.html#:~:text=The%20documentation%20says%3A)).
-Keep this in mind: adding type hints doesn't change Python's runtime behavior (unless you use additional frameworks or decorators to actively enforce types, which some libraries can do).
+Adding type hints doesn't change Python's runtime behavior, unless you use additional frameworks or decorators to enforce types at runtime.
 
-## Why Use Type Annotations? (Pros and Cons)
+## Why Use Type Annotations?
 
-If type hints are optional and not required to get Python code running, why bother with them at all?
-It turns out they bring several benefits, especially for larger projects:
+If type hints are optional, why bother with them?
+They produce significant benefits, especially for larger projects:
 
 - Clarity and Readability: Type hints serve as *documentation*.
 When you see a function signature `def process(data: list[str]) -> bool`, it's immediately clear what is expected: a list of strings goes in, and a boolean comes out.
 You don't have to read through the function body or comments to guess the types.
-This makes it easier for others (and yourself, a few months later) to understand the code's intent ([mypy - Optional Static Typing for Python](https://mypy-lang.org/#:~:text=Compile,Python%20code%20to%20static%20typing)).
-In a way, annotated code is self-documenting.
+This makes it easier for others (and yourself, in the future) to understand the code's intent.
+Type annotations are a form of documentation.
 
 - Early Error Detection: Perhaps the biggest practical advantage is catching bugs before running the code.
-With static analysis tools (like mypy or Pyright, which we'll discuss next), many type mismatches or mistakes can be caught while you're coding.
-For example, if you accidentally treat a string as a number in some calculation, a type checker will point it out.
+Type checkers catch mistakes while you're coding.
 This is especially useful in large codebases where you might change something in one module and inadvertently break an assumption in another--a type checker can often catch such issues at build time or in your editor, rather than letting them slip into runtime.
 This early detection of type errors significantly improves reliability of the code ([Precision Python](https://dzone.com/articles/typing-in-python#:~:text=Typechecking%20in%20Python%20provides%20numerous,maintain%20large%20codebases%20more%20effectively)).
 
-- **Better IDE/Editor Support:** Modern editors and IDEs (like VS Code, PyCharm, etc.) use type information to provide features like autocompletion, jump-to-definition, and inline error highlighting.
+- **Better IDE/Editor Support:** Modern editors and IDEs (like VSCode, PyCharm, etc.) use type information to provide features like autocompletion, jump-to-definition, and inline error highlighting.
 If you declare types, the IDE can help you more.
 For instance, if a function returns an `Employee` object and you've annotated that, the IDE can auto-suggest `employee.` methods and attributes when you use the result, because it knows the type.
 It can also immediately warn you if you try to call a list method on something that's annotated as a string, for example.
@@ -398,7 +403,7 @@ You can run mypy as part of your development or CI (Continuous Integration) to p
 
 - **Pyright:** Pyright is a newer type checker, open-sourced by Microsoft.
 It is known for being fast and is designed to handle very large projects efficiently.
-In fact, Pyright powers the Python type checking in Microsoft's VS Code editor (the Pylance extension).
+In fact, Pyright powers the Python type checking in Microsoft's VSCode editor (the Pylance extension).
 Pyright is written in TypeScript (running on Node.js), which might sound unusual, but it means it's optimized for speed and can do things like watch files and re-check only what changed, etc.
 Pyright is also fully aware of all the latest PEPs and typing features.
 According to its documentation, "Pyright is a full-featured, standards-based static type checker for Python.
@@ -447,7 +452,7 @@ with Catch():
 
 If we run mypy on this file, we might get an output like:
 
-```
+```text
 error: Argument 2 to "add" has incompatible type "str"; expected "int"
 Found 1 error in 1 file (checked 1 source file)
 ```
@@ -515,19 +520,16 @@ The moral is: use static type checks as a complement to Python's dynamic checks.
 The dynamic runtime checks will catch issues when the code runs, but you want to catch as many issues as possible earlier.
 Static typing tools help find mistakes without having to run every possible code path.
 
-## Conclusion
+## The Benefits of Types
 
-In this chapter, we introduced the concept of "type" in programming and examined how Python deals with types.
 A type is a fundamental attribute of data that constrains what you can do with that data ([Data type - Wikipedia](https://en.wikipedia.org/wiki/Data_type#:~:text=ImageThe%20standard%20type%20hierarchy%20of,Python%203)).
 Python's approach to types is flexible--it is dynamically typed, meaning you don't have to declare types and can freely mix and change them at runtime, which gives a lot of power and agility at the cost of potential runtime type errors if you're not careful.
 Python emphasizes duck typing, relying on the actual capabilities of objects rather than explicit type declarations, which makes code very flexible and reuseable.
 
-We also discussed how Python has evolved to include optional static typing via type hints.
-These annotations, introduced in Python 3.5 and improved in subsequent versions, let us have the best of both worlds to some extent: we can retain dynamic behavior, but also use tools to catch mistakes early.
-Type hints improve code clarity and maintainability, and when used with static type checkers like mypy or pyright, they act as a safety net that catches many common errors (and even some uncommon ones) before we ever run our programs.
+Type annotations provide best of both worlds: dynamic behavior plus tools to catch mistakes early.
+Type hints improve code clarity and maintainability and act as a safety net, catching errors while coding.
 This can dramatically increase confidence in code, especially as codebases grow.
 
-It's important to remember that Python will not enforce types at runtime (unless explicitly asked to with additional libraries) ([Python's "Type Hints" are a bit of a disappointment to me](https://www.uninformativ.de/blog/postings/2022-04-21/0/POSTING-en.html#:~:text=The%20documentation%20says%3A)).
 The type system is there to help developers, not to make the language strict or verbose by force.
 You can adopt it gradually and use it to the degree that it adds value for your projects.
 
