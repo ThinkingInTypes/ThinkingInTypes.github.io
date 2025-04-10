@@ -175,7 +175,7 @@ print(f2(42), f2("forty-two"), f2(None))
 ## 42 forty-two None
 ```
 
-If you need to support older Python versions, use `Union`.
+If you must support older Python versions, use `Union`.
 
 ## Type Aliases & `NewType`
 
@@ -224,9 +224,7 @@ from typing import NewType
 UserID = NewType("UserID", int)
 IDs = NewType("IDs", list[UserID])
 
-user_ids = IDs(
-    [UserID(2), UserID(3), UserID(5), UserID(42)]
-)
+user_ids = IDs([UserID(2), UserID(5), UserID(42)])
 
 
 def increment(uid: UserID) -> UserID:
@@ -246,8 +244,12 @@ def increment_users(user_ids: IDs) -> IDs:
 
 
 print(increment_users(user_ids))
-## [3, 4, 6, 43]
+## [3, 6, 43]
 ```
+
+Notice that `IDs` uses `UserID` in its definition.
+The type checker requires `UserID` for `increment` and `IDs` for `increment_users`, even though we can transparently access the underlying elements of each type (`int` and `list[UserID]`).
+
 
 ## Lists, Tuples, Sets, and Dictionaries
 
@@ -288,9 +290,8 @@ from typing import Tuple
 coordinates: Tuple[float, float] = (23.5, 45.8)
 ```
 
-In this example, `coordinates` is a tuple of two floats.
-The annotation `Tuple[float, float]` means: a tuple with exactly two elements, the first a float and the second a float.
-If we tried to assign `coordinates = (23.5, "north")`, a static checker would flag it, because the second element isn't a float as expected.
+The annotation `Tuple[float, float]` means: a tuple with exactly two elements, the first a `float` and the second a `float`.
+If we tried to assign `coordinates = (23.5, "north")`, a static checker would flag it, because the second element isn't a `float` as expected.
 
 For tuples of variable length where all elements are the same type, you can use an ellipsis in the annotation (e.g., `Tuple[int, ...]` for "a tuple of ints of any length").
 However, in many cases where you have a sequence of varying length, a list might be more appropriate.
@@ -298,7 +299,6 @@ Use the tuple annotation when the position and count of elements are fixed and m
 
 ### Sets
 
-A set is an unordered collection of unique elements.
 To annotate a set, we specify the type of its elements:
 
 ```python
@@ -308,7 +308,6 @@ from typing import Set
 unique_ids: Set[str] = {"abc", "xyz", "123"}
 ```
 
-Here, `unique_ids` is a set of strings.
 The annotation `Set[str]` indicates that every element of the set should be a string.
 If code later tries to add a non-string to `unique_ids`, a type checker will report an error.
 As with lists, specifying the element type of a set makes the intended content clear.
@@ -316,8 +315,7 @@ It also helps readers understand what kind of data `unique_ids` holds (e.g., use
 
 ### Dictionaries
 
-A dictionary is a collection of key-value pairs.
-When annotating dictionaries, we need to specify two types: one for keys and one for values:
+When annotating dictionaries, we must specify two types: one for keys and one for values:
 
 ```python
 # example_12.py
@@ -326,9 +324,8 @@ from typing import Dict
 user_data: Dict[str, int] = {"Alice": 30, "Bob": 25}
 ```
 
-In `user_data`, the keys are strings and the values are integers, indicated by the annotation `Dict[str, int]`.
-This tells us that `user_data` maps names (strings) to ages (ints).
-If a function expects a dictionary of user ages, using this type hint ensures that someone doesn't accidentally pass in, say, a dict mapping names to something else like phone numbers (unless it matches the specified types).
+The annotation tells us that `user_data` maps names (`str`) to ages (`int`).
+The type hint ensures that someone doesn't accidentally pass in, say, a dict mapping names to something else like phone numbers (unless it matches the specified types).
 
 Using these collection type annotations (`List`, `Tuple`, `Set`, `Dict`) greatly enhances code documentation.
 They specify not just that a variable is a list or dict, but what's inside it.
@@ -337,12 +334,10 @@ Next, we will see that Python has even more convenient ways to write these annot
 
 ## Annotations without Imports
 
-When Python's types were first introduced (PEP 484 and subsequent enhancements), using generics like lists and dictionaries in annotations required importing their `typing` counterparts (`typing.List`, `typing.Dict`, etc.).
-However, starting with Python 3.9, the language allows the use of built-in collection types directly as generic types.
+Starting with Python 3.9, Python allows the use of built-in collection types directly as generic types.
 This means you can write `list[int]` instead of importing `List` from `typing`, and similarly for `dict`, `tuple`, and `set`.
 
-This change (specified in PEP 585) ([PEP 585--Type Hinting Generics In Standard Collections | peps.python.org](https://peps.python.org/pep-0585/#:~:text=contexts,to%20parameterize%20contained%20types)) simplifies type annotations by removing the need for extra imports and making the syntax more natural.
-Compare the following with the earlier examples:
+This removes the extra imports and makes the syntax more natural:
 
 ```python
 # example_13.py
@@ -353,31 +348,25 @@ user_data: dict[str, float] = {
 }
 ```
 
-This code is equivalent to previous examples but uses the built-in `list` and `dict` with bracketed type parameters.
-`scores` is a list of ints, and `user_data` is a dict with string keys and float values.
-No `from typing import List, Dict` is required here.
+You can do the same for `tuple` and `set` (e.g., `coordinates: tuple[float, float] = (23.5, 45.8)` or `unique_ids: set[str] = {"a", "b"}`), and the other standard library collection types.
 
-You can do the same for `tuple` and `set` (e.g., `coordinates: tuple[float, float] = (23.5, 45.8)` or `unique_ids: set[str] = {"a", "b"}`), and it works for other collection types introduced in the standard library as well.
-Using the built-in generics often makes code cleaner.
-It's recommended for new code if you are on Python 3.9+.
-
-One thing to note: if you need to support Python versions earlier than 3.9, you should stick to the `typing.List` / `typing.Dict` style, because the bracketed syntax for built-in types won't be recognized in older versions.
+If you must support Python versions earlier than 3.9, you should stick to the `typing.List` / `typing.Dict` style, because the bracketed syntax for built-in types won't be recognized in older versions.
 There is also a mechanism called `from __future__ import annotations` that can ease adoption of newer annotation features by treating annotations as strings (to avoid evaluation issues), but that is an advanced detail beyond our current scope.
+TODO: Add an example
 
 ## Specialized Annotations (`Sequence`, `Mapping`, `Iterable`, `Iterator`)
 
-So far, we've annotated variables with concrete types (like "list of int" or "dict of str to int").
-Sometimes, however, you may want to hint at a more abstract concept of a type.
-For example, suppose you write a function that takes anything you can iterate over (it doesn't need to specifically be a list or a tuple).
-Or a function that can accept any kind of mapping (not just a built-in `dict`, but maybe an `OrderedDict` or a custom mapping type).
+Sometimes you want a more abstract concept of a type.
+For example, suppose you write a function that takes anything you can iterate over, rather than a specific type like `list` or `tuple` or `set`.
+Or a function that can accept any kind of mapping; not just a built-in `dict`, but maybe an `OrderedDict` or a custom mapping type.
 For such cases, the `typing` module provides specialized abstract types: `Sequence`, `Mapping`, `Iterable`, `Iterator`, and others.
 
 These abstract annotations allow broader compatibility.
-By using them, you indicate the function or variable isn't tied to one specific implementation, but rather to a category of types that share certain behavior.
+They indicate the function or variable isn't tied to one specific implementation, but rather to a category of types that share certain behavior.
 
 ### `Sequence`
 
-- Sequence represents any ordered collection that supports element access by index and has a length.
+A `Sequence` represents any ordered collection that supports element access by index and has a length.
 This includes Python's `list`, `tuple`, `range`, and even `str` (a string can be seen as a sequence of characters).
 
 ```python
@@ -390,14 +379,14 @@ def average(numbers: Sequence[float]) -> float:
 ```
 
 In `average`, we accept `numbers` as a `Sequence[float]`.
-This means you can pass in a list of floats, a tuple of floats, or any sequence (ordered collection) of floats, and the function will calculate the average.
-If we had annotated `numbers` as `List[float]`, the function would technically still work with a tuple or a NumPy array (if it supports `__iter__` and `__len__`), but a type checker would complain if you passed anything that's not explicitly a `list`.
-By using the broader `Sequence` type, we allow any suitable container, which makes the function more flexible while still ensuring the elements are floats.
+This means you can pass in a list of floats, a tuple of floats, or any sequence (ordered collection) of `float`s, and the function will calculate the average.
+If we annotate `numbers` as `List[float]`, the type checker complains if you pass anything that's not explicitly a `list`.
+By using the broader `Sequence` type, we allow any suitable container, which makes the function more flexible while still ensuring the elements are `float`s.
 
 ### `Mapping`
 
-- Mapping represents an object with key-value pairs, like dictionaries.
-It is an abstract supertype of `dict` (and other mappings).
+A `Mapping` represents an object with key-value pairs, like dictionaries.
+It is an abstract supertype of `dict` and other mappings.
 A `Mapping[K, V]` has keys of type `K` and values of type `V`.
 
 ```python
@@ -412,21 +401,22 @@ def get_user_age(
 ```
 
 `get_user_age` takes a `users` argument annotated as `Mapping[str, int]`.
-This means any mapping from strings to ints is acceptable.
-It could be a normal Python dict, but it could also be something like `collections.UserDict` or any custom object that implements the mapping protocol.
+This accepts any mapping from `str` to `int`.
+It can be anything from a normal `dict` to something like `collections.UserDict` or any custom object that implements the mapping protocol.
 The function body uses `users.get(username, 0)` to retrieve an integer age, defaulting to 0 if the username is not found.
-By annotating with `Mapping[str, int]` instead of `Dict[str, int]`, we are not forcing the caller to provide a built-in dict — any mapping will do.
-This gives the function flexibility (for example, it could work with an `os.environ` mapping, which behaves like a dict for environment variables, or a database proxy that implements the mapping interface).
+By annotating with `Mapping[str, int]` instead of `Dict[str, int]`, we are not forcing the caller to provide a built-in `dict`--any mapping will do.
+This gives the function flexibility; for example, it could work with an `os.environ` mapping, which behaves like a dict for environment variables, or a database proxy that implements the mapping interface.
 
 ### `Iterable` and `Iterator`
 
-- Iterable describes any object that you can loop over (using a `for` loop or other iteration contexts).
-This means the object has an `__iter__()` method (or in Python terms, it implements the Iterable protocol).
-Examples include lists, sets, tuples, dictionaries (iterating over keys), file objects (iterating over lines), and many more.
-- Iterator is a subtype of Iterable that represents the actual iterator object returned by calling `iter()` on an iterable.
-An iterator yields items one at a time and produces values until it's exhausted.
+An `Iterable` describes any object that you can loop over (using a `for` loop or other iteration contexts).
+If the object has an `__iter__()` method, it implements the `Iterable` protocol.
+Examples include `list`s, `set`s, `tuple`s, `dict`s (iterating over keys), file objects (iterating over lines), and more.
+
+An `Iterator` is a subtype of `Iterable` that represents the actual iterator object returned by calling `iter()` on an iterable.
+An `Iterator` yields items one at a time and produces values until it's exhausted.
 It implements a `__next__()` method that returns the next item or raises `StopIteration` when done.
-In practice, *generator functions* (functions using the `yield` keyword) produce iterators.
+*Generator functions* (functions using the `yield` keyword) produce iterators.
 
 ```python
 # example_16.py
@@ -443,13 +433,13 @@ def generate_numbers(n: int) -> Iterator[int]:
         yield i
 ```
 
-In `print_items`, we specify that `items` can be any iterable of strings.
-That means you can pass a list of strings, a set of strings, a tuple of strings, or any object that yields strings when iterated.
-The function simply loops and prints each item, not caring about the concrete type of `items`.
-If we had restricted `items` to, say, `List[str]`, we wouldn't be able to pass a set of strings, even though printing each item of a set would work just fine.
-Thus, `Iterable[str]` makes the function more general purpose.
+`items` can be any iterable of strings.
+This means you can pass a `list` of strings, a `set` of strings, a `tuple` of strings, or any object that yields strings when iterated.
+`print_items` does not care about the concrete type that holds the `str`s.
+Restricting `items` to, say, `list[str]`, means we wouldn't be able to pass a `set` of strings, even though you can print each item of a `set`.
+`Iterable[str]` makes the function more general purpose.
 
-The `generate_numbers` function is a simple example of a generator.
+`generate_numbers` is an example of a generator.
 It uses `yield` to produce a sequence of integers from 0 up to `n-1`.
 The return type is annotated as `Iterator[int]` because calling `generate_numbers(5)` will produce an iterator of integers.
 Annotating this helps users of `generate_numbers` know what to expect: they will get an iterator (which they might loop over or convert to a list, etc.) rather than, say, a fully realized list.

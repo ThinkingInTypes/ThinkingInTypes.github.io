@@ -551,8 +551,7 @@ Python won’t stop you from passing an object that doesn’t fulfill the protoc
 So if you need guaranteed enforcement in a running program, protocols alone won’t give you that (they are optional).
 That said, in a team or project using type checks as part of CI, protocols can prevent a lot of mistakes.
 Another minor con is that protocols, if overused, could make it less obvious which classes actually implement which interface; with nominal typing you can always search for subclasses of an ABC.
-In practice, a mix is often best:
-use protocols for the broad "this is what we expect" contracts especially for external boundaries and flexible APIs, and use concrete classes or ABCs internally when you want more structure or reuse.
+A mix is often best: use protocols for the broad "this is what we expect" contracts especially for external boundaries and flexible APIs, and use concrete classes or ABCs internally when you want more structure or reuse.
 
 **Best practices:** It’s not an either/or choice – you can use both in the same codebase.
 For example, you might define an ABC with some default methods for a complex interface, but also define a protocol for a subset of that interface for use in a more generic function.

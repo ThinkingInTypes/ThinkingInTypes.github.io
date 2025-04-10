@@ -124,7 +124,7 @@ In other words, "an object is considered compatible with a given type if it has 
 ([Duck Typing in Python: Writing Flexible and Decoupled Code--Real Python](https://realpython.com/duck-typing-python/#:~:text=Duck%20typing%20is%20a%20type,as%20long%20as%20they%20adhere)) The actual class or inheritance of the object is less important than whether it implements the needed interface.
 This is a very Pythonic idea: "don't check an object's type to determine if it has the right interface; just try to use it, and it will either work or fail."
 
-In practice, duck typing means you often write functions that work on *any* object that supports the operations you need, rather than only working on specific classes.
+Duck typing means you often write functions that work on *any* object that supports the operations you need, rather than only working on specific classes.
 For example, consider a function that makes an object quack:
 
 ```python
@@ -411,7 +411,7 @@ Pyright is written in TypeScript (running on Node.js), which might sound unusual
 Pyright is also fully aware of all the latest PEPs and typing features.
 According to its documentation, "Pyright is a full-featured, standards-based static type checker for Python.
 It is designed for high performance and can be used with large Python source bases."
-([microsoft/pyright: Static Type Checker for Python - GitHub](https://github.com/microsoft/pyright#:~:text=Pyright%20is%20a%20full,)) In practice, many developers use Pyright via their editor for instant feedback as they code (and/or in CI as well).
+([microsoft/pyright: Static Type Checker for Python - GitHub](https://github.com/microsoft/pyright#:~:text=Pyright%20is%20a%20full,)) Many developers use Pyright via their editor for instant feedback as they code (and/or in CI as well).
 For instance, as you're coding, Pyright can underline an inconsistent call in red immediately.
 Pyright is also available as a command-line tool (via npm) if you prefer that route.
 One of its selling points is performance--it's been noted to be *much* faster than mypy on large codebases ([Statically type checking Python code using Pyright - DEV Community](https://dev.to/saranshk/statically-type-checking-python-code-using-pyright-2p6p#:~:text=Statically%20type%20checking%20Python%20code,for%20large%20Python%20source%20bases)), though for small-to-medium projects both tools run quickly enough.

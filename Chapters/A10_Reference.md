@@ -544,7 +544,7 @@ Instead, annotations would be stored as code in a special function (`__annotate_
 This aims to solve forward references and performance issues more elegantly:
 the evaluation of annotations is deferred until needed, without losing the actual object references or incurring the issues of stringified annotations.
 As of the latest Python (3.12), this is still in progress – by default, Python 3.12 still evaluates annotations normally (unless you use the future import).
-In practice, when writing modern code, you can rely on `from __future__ import annotations` to handle most forward references conveniently (or just use quotes for specific cases).
+When writing modern code, you can rely on `from __future__ import annotations` to handle most forward references conveniently (or just use quotes for specific cases).
 Static type checkers themselves resolve forward references even if you leave them as raw names, so this is mostly a runtime concern for introspection via `inspect.get_annotations` or similar.
 The takeaway:
 **forward references** are supported via quoting or future imports, and the language is evolving to make annotation evaluation **lazy by default** in a robust way ([What’s New In Python 3.11 — Python 3.13.2 documentation](https://docs.python.org/3/whatsnew/3.11.html#:~:text=PEP%20563%20may%20not%20be,the%20future%C2%B6)).
