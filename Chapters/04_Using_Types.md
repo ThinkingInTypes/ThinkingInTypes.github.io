@@ -66,11 +66,11 @@ A type checker flags calls like `greet_user(123)` as errors because `123` is not
 Imagine a function with multiple parameters or a complex return type--having those types explicitly stated can prevent misuse.
 
 If a function does not return anything, you can annotate its return type as `None`, or omit the return annotation, which implies `None`.
-For instance, `def log_message(msg: str) -> None:` tells you the function is only called to perform *side effects*.
+For instance, `def log_message(msg: str) -> None:` tells you the function is only called to perform _side effects_.
 
 ## Optional Types and Default Values
 
-If a variable or a function argument is optional, it can either hold a value of a certain type *or* be `None` to indicate the absence of a value.
+If a variable or a function argument is optional, it can either hold a value of a certain type _or_ be `None` to indicate the absence of a value.
 To represent this in type hints, Python provides `Optional` in the `typing` module.
 `Optional[T]` is shorthand for "either type `T` or `None`".
 
@@ -110,7 +110,7 @@ You can also write the above annotation as `Union[str, None]` or `str | None`; `
 
 ## Union Types
 
-A *union type* indicates that a variable or function parameter can accept several different types instead of just one.
+A _union type_ indicates that a variable or function parameter can accept several different types instead of just one.
 The `typing` module provides `Union` for this purpose, and in more recent versions of Python you can use the `|` operator.
 
 ### `Union`
@@ -333,7 +333,7 @@ Examples include `list`s, `set`s, `tuple`s, `dict`s (iterating over keys), file 
 
 An `Iterator` is a subtype of `Iterable` that represents the actual `Iterator` object returned by calling `iter()` on an `Iterable`.
 It implements a `__next__()` method that returns the next item or raises `StopIteration` when there are no more items.
-*Generator functions* (functions using the `yield` keyword) produce iterators.
+_Generator functions_ (functions using the `yield` keyword) produce iterators.
 
 ```python
 # example_16.py
@@ -438,7 +438,6 @@ print(increment_users(user_ids))
 
 Notice that `IDs` uses `UserID` in its definition.
 The type checker requires `UserID` for `increment` and `IDs` for `increment_users`, even though we can transparently access the underlying elements of each type (`int` and `list[UserID]`).
-
 
 ## Faster Development, Clearer Results
 
