@@ -514,30 +514,6 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#type-aliases-newtype" class="md-nav__link">
-    <span class="md-ellipsis">
-      Type Aliases &amp; NewType
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Type Aliases &amp; NewType">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#newtype" class="md-nav__link">
-    <span class="md-ellipsis">
-      NewType
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#faster-development-clearer-results" class="md-nav__link">
     <span class="md-ellipsis">
       Faster Development, Clearer Results
@@ -1166,30 +1142,6 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#type-aliases-newtype" class="md-nav__link">
-    <span class="md-ellipsis">
-      Type Aliases &amp; NewType
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Type Aliases &amp; NewType">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#newtype" class="md-nav__link">
-    <span class="md-ellipsis">
-      NewType
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#faster-development-clearer-results" class="md-nav__link">
     <span class="md-ellipsis">
       Faster Development, Clearer Results
@@ -1483,66 +1435,6 @@ As a side note, if a function is meant to never return normally (for instance, o
 <p>Specialized annotations like <code>Sequence</code>, <code>Mapping</code>, <code>Iterable</code>, and <code>Iterator</code> let you capture the interface or behavior you require, rather than a specific concrete type.
 They are especially useful in library or API design, where being too specific with types can needlessly limit the utility of a function or class.
 By using these abstract collection types, you make your code flexible while still retaining the benefits of type checking.</p>
-<h2 id="type-aliases-newtype">Type Aliases &amp; <code>NewType</code><a class="headerlink" href="#type-aliases-newtype" title="Permanent link">#</a></h2>
-<p>Suppose you have a <code>dict</code> with nested structures or a <code>tuple</code> with many elements.
-Writing out these types every time can get unwieldy.
-Type aliases assign a name to a type to make annotations cleaner and more maintainable.</p>
-<p>A type alias is a name assignment at the top level of your code.
-We normally name type aliases with CamelCase to indicate they are types:</p>
-<div class="language-python highlight"><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="c1"># simple_type_aliasing.py</span>
-</span><span id="__span-16-2"><a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span>
-</span><span id="__span-16-3"><a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a>
-</span><span id="__span-16-4"><a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a><span class="n">UserIDs</span> <span class="o">=</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span>  <span class="c1"># Type ailias</span>
-</span><span id="__span-16-5"><a id="__codelineno-16-5" name="__codelineno-16-5" href="#__codelineno-16-5"></a>
-</span><span id="__span-16-6"><a id="__codelineno-16-6" name="__codelineno-16-6" href="#__codelineno-16-6"></a><span class="k">def</span> <span class="nf">process_users</span><span class="p">(</span><span class="n">user_ids</span><span class="p">:</span> <span class="n">UserIDs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-</span><span id="__span-16-7"><a id="__codelineno-16-7" name="__codelineno-16-7" href="#__codelineno-16-7"></a>    <span class="k">for</span> <span class="n">uid</span> <span class="ow">in</span> <span class="n">user_ids</span><span class="p">:</span>
-</span><span id="__span-16-8"><a id="__codelineno-16-8" name="__codelineno-16-8" href="#__codelineno-16-8"></a>        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Processing user </span><span class="si">{</span><span class="n">uid</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-</span></code></pre></div>
-<p>Here, <code>UserIDs</code> is a type alias for "list of integers" (<code>List[int]</code>).
-This is functionally identical to writing the annotation as <code>list[int]</code> or <code>List[int]</code> in the function, but using the alias has advantages:</p>
-<ul>
-<li>It gives a meaningful name to the type, indicating what the <code>list</code> of <code>int</code>s represents--in this case, a collection of user IDs.</li>
-<li>It avoids repeating a complex type annotation in multiple places.</li>
-<li>If the definition of <code>UserIDs</code> changes (say we decide to use a different type to represent user IDs), we can update the alias in one place.</li>
-<li>It improves readability by abstracting away the details of the type structure.</li>
-</ul>
-<p>Type aliases do not create new types at runtime; they are purely for the benefit of the type system and the developer.
-<code>UserIDs</code> are treated exactly as <code>List[int]</code> by a type checker.
-You can create aliases for any type; for example, the union <code>Number = Union[int, float]</code>.</p>
-<h3 id="newtype"><code>NewType</code><a class="headerlink" href="#newtype" title="Permanent link">#</a></h3>
-<p>A type alias is a notational convenience, but it doesn't create a new type recognized by the type checker.
-<code>NewType</code> does create a new, distinct type, preventing accidental misuse of similar underlying types.
-In general, you'll want to use <code>NewType</code> instead of type aliasing:</p>
-<div class="language-python highlight"><pre><span></span><code><span id="__span-17-1"><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a><span class="c1"># new_type.py</span>
-</span><span id="__span-17-2"><a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">NewType</span>
-</span><span id="__span-17-3"><a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a>
-</span><span id="__span-17-4"><a id="__codelineno-17-4" name="__codelineno-17-4" href="#__codelineno-17-4"></a><span class="n">UserID</span> <span class="o">=</span> <span class="n">NewType</span><span class="p">(</span><span class="s2">&quot;UserID&quot;</span><span class="p">,</span> <span class="nb">int</span><span class="p">)</span>
-</span><span id="__span-17-5"><a id="__codelineno-17-5" name="__codelineno-17-5" href="#__codelineno-17-5"></a><span class="n">IDs</span> <span class="o">=</span> <span class="n">NewType</span><span class="p">(</span><span class="s2">&quot;IDs&quot;</span><span class="p">,</span> <span class="nb">list</span><span class="p">[</span><span class="n">UserID</span><span class="p">])</span>
-</span><span id="__span-17-6"><a id="__codelineno-17-6" name="__codelineno-17-6" href="#__codelineno-17-6"></a>
-</span><span id="__span-17-7"><a id="__codelineno-17-7" name="__codelineno-17-7" href="#__codelineno-17-7"></a><span class="n">user_ids</span> <span class="o">=</span> <span class="n">IDs</span><span class="p">([</span><span class="n">UserID</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="n">UserID</span><span class="p">(</span><span class="mi">5</span><span class="p">),</span> <span class="n">UserID</span><span class="p">(</span><span class="mi">42</span><span class="p">)])</span>
-</span><span id="__span-17-8"><a id="__codelineno-17-8" name="__codelineno-17-8" href="#__codelineno-17-8"></a>
-</span><span id="__span-17-9"><a id="__codelineno-17-9" name="__codelineno-17-9" href="#__codelineno-17-9"></a>
-</span><span id="__span-17-10"><a id="__codelineno-17-10" name="__codelineno-17-10" href="#__codelineno-17-10"></a><span class="k">def</span> <span class="nf">increment</span><span class="p">(</span><span class="n">uid</span><span class="p">:</span> <span class="n">UserID</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">UserID</span><span class="p">:</span>
-</span><span id="__span-17-11"><a id="__codelineno-17-11" name="__codelineno-17-11" href="#__codelineno-17-11"></a>    <span class="c1"># Transparently access underlying value:</span>
-</span><span id="__span-17-12"><a id="__codelineno-17-12" name="__codelineno-17-12" href="#__codelineno-17-12"></a>    <span class="k">return</span> <span class="n">UserID</span><span class="p">(</span><span class="n">uid</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
-</span><span id="__span-17-13"><a id="__codelineno-17-13" name="__codelineno-17-13" href="#__codelineno-17-13"></a>
-</span><span id="__span-17-14"><a id="__codelineno-17-14" name="__codelineno-17-14" href="#__codelineno-17-14"></a>
-</span><span id="__span-17-15"><a id="__codelineno-17-15" name="__codelineno-17-15" href="#__codelineno-17-15"></a><span class="c1"># increment(42)  # Type check error</span>
-</span><span id="__span-17-16"><a id="__codelineno-17-16" name="__codelineno-17-16" href="#__codelineno-17-16"></a>
-</span><span id="__span-17-17"><a id="__codelineno-17-17" name="__codelineno-17-17" href="#__codelineno-17-17"></a><span class="c1"># Access underlying list operation:</span>
-</span><span id="__span-17-18"><a id="__codelineno-17-18" name="__codelineno-17-18" href="#__codelineno-17-18"></a><span class="nb">print</span><span class="p">(</span><span class="n">increment</span><span class="p">(</span><span class="n">user_ids</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]))</span>
-</span><span id="__span-17-19"><a id="__codelineno-17-19" name="__codelineno-17-19" href="#__codelineno-17-19"></a><span class="c1">## 43</span>
-</span><span id="__span-17-20"><a id="__codelineno-17-20" name="__codelineno-17-20" href="#__codelineno-17-20"></a>
-</span><span id="__span-17-21"><a id="__codelineno-17-21" name="__codelineno-17-21" href="#__codelineno-17-21"></a>
-</span><span id="__span-17-22"><a id="__codelineno-17-22" name="__codelineno-17-22" href="#__codelineno-17-22"></a><span class="k">def</span> <span class="nf">increment_users</span><span class="p">(</span><span class="n">user_ids</span><span class="p">:</span> <span class="n">IDs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">IDs</span><span class="p">:</span>
-</span><span id="__span-17-23"><a id="__codelineno-17-23" name="__codelineno-17-23" href="#__codelineno-17-23"></a>    <span class="k">return</span> <span class="n">IDs</span><span class="p">([</span><span class="n">increment</span><span class="p">(</span><span class="n">uid</span><span class="p">)</span> <span class="k">for</span> <span class="n">uid</span> <span class="ow">in</span> <span class="n">user_ids</span><span class="p">])</span>
-</span><span id="__span-17-24"><a id="__codelineno-17-24" name="__codelineno-17-24" href="#__codelineno-17-24"></a>
-</span><span id="__span-17-25"><a id="__codelineno-17-25" name="__codelineno-17-25" href="#__codelineno-17-25"></a>
-</span><span id="__span-17-26"><a id="__codelineno-17-26" name="__codelineno-17-26" href="#__codelineno-17-26"></a><span class="nb">print</span><span class="p">(</span><span class="n">increment_users</span><span class="p">(</span><span class="n">user_ids</span><span class="p">))</span>
-</span><span id="__span-17-27"><a id="__codelineno-17-27" name="__codelineno-17-27" href="#__codelineno-17-27"></a><span class="c1">## [3, 6, 43]</span>
-</span></code></pre></div>
-<p>Notice that <code>IDs</code> uses <code>UserID</code> in its definition.
-The type checker requires <code>UserID</code> for <code>increment</code> and <code>IDs</code> for <code>increment_users</code>, even though we can transparently access the underlying elements of each type (<code>int</code> and <code>list[UserID]</code>).</p>
 <h2 id="faster-development-clearer-results">Faster Development, Clearer Results<a class="headerlink" href="#faster-development-clearer-results" title="Permanent link">#</a></h2>
 <p>Type annotations make intentions explicit.
 This produces code that is easier to understand and maintain.
