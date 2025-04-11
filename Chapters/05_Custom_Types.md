@@ -15,7 +15,7 @@ This chapter contains additional tools that modify the normal behavior of class 
 It's important to understand that this behavior is created by the tool, and that ordinary classes do not behave this way.
 Read the [Class Attributes](A06_Class_Attributes.md) appendix for deeper understanding.
 
-## The Initial Problem: Ensuring Correctness
+## Ensuring Correctness
 
 Imagine building a customer feedback system using a rating from one to ten stars.
 Traditionally, Python programmers use an integer type, checking its validity whenever it's used:
@@ -125,8 +125,81 @@ with Catch():
 # AttributeError: can't set attribute 'number'
 ```
 
-This approach centralizes validation, yet remains cumbersome.
+This approach centralizes validation yet remains cumbersome.
 Each method interacting with the attribute still requires pre-and post-condition checks, cluttering the code and potentially introducing errors if a developer neglects these checks.
+
+## Type Aliases & `NewType`
+
+TODO: Apply to "stars"
+
+Suppose you have a `dict` with nested structures or a `tuple` with many elements.
+Writing out these types every time can get unwieldy.
+Type aliases assign a name to a type to make annotations cleaner and more maintainable.
+
+A type alias is a name assignment at the top level of your code.
+We normally name type aliases with CamelCase to indicate they are types:
+
+```python
+# simple_type_aliasing.py
+from typing import List
+
+UserIDs = List[int]  # Type ailias
+
+def process_users(user_ids: UserIDs) -> None:
+    for uid in user_ids:
+        print(f"Processing user {uid}")
+```
+
+Here, `UserIDs` is a type alias for "list of integers" (`List[int]`).
+This is functionally identical to writing the annotation as `list[int]` or `List[int]` in the function, but using the alias has advantages:
+
+- It gives a meaningful name to the type, indicating what the `list` of `int`s represents--in this case, a collection of user IDs.
+- It avoids repeating a complex type annotation in multiple places.
+- If the definition of `UserIDs` changes (say we decide to use a different type to represent user IDs), we can update the alias in one place.
+- It improves readability by abstracting away the details of the type structure.
+
+Type aliases do not create new types at runtime; they are purely for the benefit of the type system and the developer.
+`UserIDs` are treated exactly as `List[int]` by a type checker.
+You can create aliases for any type; for example, the union `Number = Union[int, float]`.
+
+### `NewType`
+
+A type alias is a notational convenience, but it doesn't create a new type recognized by the type checker.
+`NewType` does create a new, distinct type, preventing accidental misuse of similar underlying types.
+In general, you'll want to use `NewType` instead of type aliasing:
+
+```python
+# new_type.py
+from typing import NewType
+
+UserID = NewType("UserID", int)
+IDs = NewType("IDs", list[UserID])
+
+user_ids = IDs([UserID(2), UserID(5), UserID(42)])
+
+
+def increment(uid: UserID) -> UserID:
+    # Transparently access underlying value:
+    return UserID(uid + 1)
+
+
+# increment(42)  # Type check error
+
+# Access underlying list operation:
+print(increment(user_ids[-1]))
+## 43
+
+
+def increment_users(user_ids: IDs) -> IDs:
+    return IDs([increment(uid) for uid in user_ids])
+
+
+print(increment_users(user_ids))
+## [3, 6, 43]
+```
+
+Notice that `IDs` uses `UserID` in its definition.
+The type checker requires `UserID` for `increment` and `IDs` for `increment_users`, even though we can transparently access the underlying elements of each type (`int` and `list[UserID]`).
 
 ## Data Classes
 
