@@ -114,15 +114,16 @@ with Catch():
     stars2 = Stars(11)
 ## Error: Stars(11)
 stars3 = Stars(5)
-with Catch():
-    print(stars3.f1(4))
+print(stars3.f1(4))
 ## 9
 with Catch():
     print(stars3.f2(22))
 ## Error: Stars(9): 22
 # @property without setter prevents mutation:
-# stars1.number = 99
-# AttributeError: can't set attribute 'number'
+with Catch():
+    stars1.number = 99
+## Error: property 'number' of 'Stars' object has
+## no setter
 ```
 
 This approach centralizes validation yet remains cumbersome.
@@ -133,7 +134,7 @@ Each method interacting with the attribute still requires pre-and post-condition
 TODO: Apply to "stars"
 
 Suppose you have a `dict` with nested structures or a `tuple` with many elements.
-Writing out these types every time can get unwieldy.
+Writing out these types every time is unwieldy.
 Type aliases assign a name to a type to make annotations cleaner and more maintainable.
 
 A type alias is a name assignment at the top level of your code.
@@ -141,20 +142,34 @@ We normally name type aliases with CamelCase to indicate they are types:
 
 ```python
 # simple_type_aliasing.py
-Number = int | float
+from typing import get_type_hints
+
+Number = int | float | str
 Measurements = list[Number]
 
 
 def process_measurements(data: Measurements) -> None:
+    print(get_type_hints(process_measurements))
     for n in data:
-        print(f"Processing {n = }, {type(n) = }")
+        print(f"{n = }, {type(n) = }")
 
 
-process_measurements([11, 3.14, 1.618, 0])
-## Processing n = 11, type(n) = <class 'int'>
-## Processing n = 3.14, type(n) = <class 'float'>
-## Processing n = 1.618, type(n) = <class 'float'>
-## Processing n = 0, type(n) = <class 'int'>
+process_measurements(Measurements([11, 3.14, "1.618"]))
+## {'data': list[int | float | str], 'return':
+## <class 'NoneType'>}
+## n = 11, type(n) = <class 'int'>
+## n = 3.14, type(n) = <class 'float'>
+## n = '1.618', type(n) = <class 'str'>
+process_measurements([11, 3.14, "1.618"])
+## {'data': list[int | float | str], 'return':
+## <class 'NoneType'>}
+## n = 11, type(n) = <class 'int'>
+## n = 3.14, type(n) = <class 'float'>
+## n = '1.618', type(n) = <class 'str'>
+# Not allowed:
+# process_measurements(Measurements(
+#     [Number(11), Number(3.14), Number("1.618")])
+# )
 ```
 
 Using `Number` and `Measurements` is functionally identical to writing the annotation as `int | float` or `list[Number]`.
@@ -162,18 +177,51 @@ The alias:
 
 - Gives a meaningful name to the type, indicating what the `list` of `int`s represents--in this case, a collection of user IDs.
 - Avoids repeating a complex type annotation in multiple places.
-- If the definition of `UserIDs` changes (say we decide to use a different type to represent user IDs), we can update the alias in one place.
 - Improves readability by abstracting away the details of the type structure.
+- If the definition of `Measurements` changes (say we decide to use a different type to represent `Number`), we can update the alias in one place.
 
-Type aliases do not create new types at runtime; they are purely for the benefit of the type system and the developer.
-`UserIDs` are treated exactly as `List[int]` by a type checker.
-You can create aliases for any type; for example, the union ``.
+You can see from the output that type aliases do not create new types at runtime;
+they are purely for the benefit of the type system and the developer.
 
 ### `NewType`
 
 A type alias is a notational convenience, but it doesn't create a new type recognized by the type checker.
 `NewType` does create a new, distinct type, preventing accidental misuse of similar underlying types.
 In general, you'll want to use `NewType` instead of type aliasing:
+
+```python
+# simple_new_type.py
+from typing import NewType, get_type_hints
+
+Number = NewType("Number", int | float | str)
+Measurements = NewType("Measurements", list[Number])
+
+
+def process_measurements(data: Measurements) -> None:
+    print(get_type_hints(process_measurements))
+    for n in data:
+        print(f"{n = }, {type(n) = }")
+
+
+process_measurements(
+    Measurements(
+        [Number(11), Number(3.14), Number("1.618")]
+    )
+)
+## {'data': __main__.Measurements, 'return':
+## <class 'NoneType'>}
+## n = 11, type(n) = <class 'int'>
+## n = 3.14, type(n) = <class 'float'>
+## n = '1.618', type(n) = <class 'str'>
+process_measurements(Measurements([11, 3.14, "1.618"]))
+## {'data': __main__.Measurements, 'return':
+## <class 'NoneType'>}
+## n = 11, type(n) = <class 'int'>
+## n = 3.14, type(n) = <class 'float'>
+## n = '1.618', type(n) = <class 'str'>
+# Not allowed:
+# process_measurements([11, 3.14, "1.618"])
+```
 
 ```python
 # new_type.py
@@ -210,7 +258,9 @@ The type checker requires `UserID` for `increment` and `IDs` for `increment_user
 
 ## Data Classes
 
-Data classes, introduced in Python 3.7, significantly streamline this process by generating essential methods automatically.
+Data classes,
+introduced in Python 3.7,
+significantly streamline the process of creating types by generating essential methods automatically.
 They provide a structured, concise way to define data-holding objects:
 
 ```python
@@ -251,7 +301,7 @@ print(m)
 # TypeError: unhashable type: 'Messenger'
 ```
 
-In a `dataclass`, validation logic resides exclusively in the `__post_init__` method, executed automatically after initialization.
+In a `dataclass`, validation logic resides in the `__post_init__` method, executed automatically after initialization.
 This guarantees that only valid `Stars` instances exist.
 
 ## Immutable Data Classes and Functional Programming
@@ -827,6 +877,7 @@ Dataclasses support default factories, immutability, and more:
 ```python
 # example_9.py
 from dataclasses import dataclass, field
+from book_utils import Catch
 
 
 @dataclass(frozen=True)
@@ -836,5 +887,7 @@ class Order:
 
 
 order = Order(order_id=123)
-# order.order_id = 456  # Error: dataclass is frozen (immutable)
+with Catch():
+    order.order_id = 456
+## Error: cannot assign to field 'order_id'
 ```
