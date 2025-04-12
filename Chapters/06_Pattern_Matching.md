@@ -46,12 +46,15 @@ The rule is that _named constants must appear as dotted names_ (or attributes) i
 For example, to match an `Enum` member:
 
 ```python
-# example_2.py
+# colors.py
 from enum import Enum
+
+
 class Color(Enum):
     RED = 1
     GREEN = 2
     BLUE = 3
+
 
 color = Color.GREEN
 match color:
@@ -135,12 +138,12 @@ Common uses of the wildcard pattern include:
 # example_4.py
 def wildcard(status):
     match status:
-      case 200:
-          message = "OK"
-      case 404:
-          message = "Not Found"
-      case _:
-          message = "Unknown"   # `_` matches anything not matched above
+        case 200:
+            message = "OK"
+        case 404:
+            message = "Not Found"
+        case _:
+            message = "Unknown"  # `_` matches anything not matched above
 ```
 
 - Ignoring one or more elements in a sequence pattern:
@@ -149,8 +152,8 @@ def wildcard(status):
 # example_5.py
 def wildcard_ignore(point):
     match point:
-      case (x, _, _):
-          print(f"x-coordinate is {x}")
+        case (x, _, _):
+            print(f"x-coordinate is {x}")
 ```
 
 Here we assume `point` is a sequence with at least 3 elements.
@@ -163,14 +166,16 @@ The underscores indicate we do not need those values. (If the sequence had a dif
 # example_6.py
 from typing import NamedTuple
 
+
 class Player(NamedTuple):
     name: str
     score: int
 
+
 def player_score(player: Player):
     match player:
-      case Player(name=_, score=s):
-          print(f"Player has score {s}")
+        case Player(name=_, score=s):
+            print(f"Player has score {s}")
 ```
 
 This matches a `Player` object of any name, capturing only the `score` attribute into `s`.
@@ -247,8 +252,10 @@ Some key points about sequence patterns:
 # example_8.py
 
 match values:
-  case [first, second, *rest]:
-      print(f"First={first}, second={second}, rest={rest}")
+    case [first, second, *rest]:
+        print(
+            f"First={first}, second={second}, rest={rest}"
+        )
 ```
 
 This pattern matches any sequence of length _>= 2_.
@@ -331,7 +338,11 @@ Key rules and features of mapping patterns:
 
 ```python
 # double_star_wildcard.py
-user_info = {"name": "Alice", "age": 30, "country": "US"}
+user_info = {
+    "name": "Alice",
+    "age": 30,
+    "country": "US",
+}
 match user_info:
     case {"name": name, **rest}:
         print(f"Name is {name}, other info: {rest}")
@@ -362,10 +373,12 @@ For example, suppose we have a simple data class representing a user:
 # example_10.py
 from dataclasses import dataclass
 
+
 @dataclass
 class User:
     name: str
     age: int
+
 
 user = User("Carol", 25)
 
@@ -538,7 +551,9 @@ A simple scenario: matching a sequence but also retaining it:
 pair = [4, 5]
 match pair:
     case [first, second] as full_pair:
-        print(f"First element: {first}, second: {second}, pair: {full_pair}")
+        print(
+            f"First element: {first}, second: {second}, pair: {full_pair}"
+        )
 ```
 
 This will match if `pair` is a sequence of length 2 (since the subpattern is `[first, second]`).
@@ -584,13 +599,17 @@ For example:
 
 ```python
 # example_16.py
-from example_2 import Color
+from colors import Color
+
+
 def handle_color(color: Color):
     match color:
         case Color.RED | Color.GREEN | Color.BLUE:
             ...  # handle known colors
         case _ as unknown:
-            raise ValueError(f"Unknown color: {unknown}")
+            raise ValueError(
+                f"Unknown color: {unknown}"
+            )
 ```
 
 Here, `_ as unknown` catches anything not handled and gives it the name `unknown` so we can include it in the error message.
@@ -649,7 +668,9 @@ Combining mapping patterns with guards can handle situations like "match a dict 
 # example_18.py
 request = {"method": "POST", "payload": {"id": 42}}
 match request:
-    case {"method": m, "payload": data} if m == "POST" and "id" in data:
+    case {"method": m, "payload": data} if (
+        m == "POST" and "id" in data
+    ):
         print(f"POST request with id {data['id']}")
     case {"method": m}:
         print(f"Other request method: {m}")
@@ -674,11 +695,16 @@ For example:
 ```python
 # example_19.py
 
+
 def narrow(obj):
     match obj:
-        case list() as lst if all(isinstance(x, int) for x in lst):
+        case list() as lst if all(
+            isinstance(x, int) for x in lst
+        ):
             # here, lst is a list and we asserted all elements are int
-            total: int = sum(lst)  # type checker can assume lst is list[int]
+            total: int = sum(
+                lst
+            )  # type checker can assume lst is list[int]
 ```
 
 In this contrived example, the guard ensures every element in the list is int, so inside the case it might be safe to treat it as `list[int]`.

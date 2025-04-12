@@ -16,7 +16,9 @@ Clear type annotations significantly improve code quality and maintainability:
 
 ```python
 # example_1.py
-def calculate_area(width: float, height: float) -> float:
+def calculate_area(
+    width: float, height: float
+) -> float:
     return width * height
 ```
 
