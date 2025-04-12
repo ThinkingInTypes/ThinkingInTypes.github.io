@@ -141,26 +141,33 @@ We normally name type aliases with CamelCase to indicate they are types:
 
 ```python
 # simple_type_aliasing.py
-from typing import List
+Number = int | float
+Measurements = list[Number]
 
-UserIDs = List[int]  # Type ailias
 
-def process_users(user_ids: UserIDs) -> None:
-    for uid in user_ids:
-        print(f"Processing user {uid}")
+def process_measurements(data: Measurements) -> None:
+    for n in data:
+        print(f"Processing {n = }, {type(n) = }")
+
+
+process_measurements([11, 3.14, 1.618, 0])
+## Processing n = 11, type(n) = <class 'int'>
+## Processing n = 3.14, type(n) = <class 'float'>
+## Processing n = 1.618, type(n) = <class 'float'>
+## Processing n = 0, type(n) = <class 'int'>
 ```
 
-Here, `UserIDs` is a type alias for "list of integers" (`List[int]`).
-This is functionally identical to writing the annotation as `list[int]` or `List[int]` in the function, but using the alias has advantages:
+Using `Number` and `Measurements` is functionally identical to writing the annotation as `int | float` or `list[Number]`.
+The alias:
 
-- It gives a meaningful name to the type, indicating what the `list` of `int`s represents--in this case, a collection of user IDs.
-- It avoids repeating a complex type annotation in multiple places.
+- Gives a meaningful name to the type, indicating what the `list` of `int`s represents--in this case, a collection of user IDs.
+- Avoids repeating a complex type annotation in multiple places.
 - If the definition of `UserIDs` changes (say we decide to use a different type to represent user IDs), we can update the alias in one place.
-- It improves readability by abstracting away the details of the type structure.
+- Improves readability by abstracting away the details of the type structure.
 
 Type aliases do not create new types at runtime; they are purely for the benefit of the type system and the developer.
 `UserIDs` are treated exactly as `List[int]` by a type checker.
-You can create aliases for any type; for example, the union `Number = Union[int, float]`.
+You can create aliases for any type; for example, the union ``.
 
 ### `NewType`
 
@@ -526,7 +533,6 @@ for date in [
 ```python
 # month_data_class.py
 from dataclasses import dataclass, field
-from typing import List
 
 from book_utils import Catch
 
@@ -585,7 +591,7 @@ class Month:
 
 @dataclass(frozen=True)
 class Months:
-    months: List[Month] = field(
+    months: list[Month] = field(
         default_factory=Month.make_months
     )
 
@@ -765,7 +771,7 @@ Define domain entities explicitly to enhance domain logic expressiveness:
 ```python
 # ddd.py
 from dataclasses import dataclass
-from typing import List, NamedTuple
+from typing import NamedTuple
 
 
 class Product(NamedTuple):
@@ -776,7 +782,7 @@ class Product(NamedTuple):
 @dataclass
 class Order:
     order_id: int
-    products: List[Product]
+    products: list[Product]
 
     def total(self) -> float:
         return sum(
@@ -821,13 +827,12 @@ Dataclasses support default factories, immutability, and more:
 ```python
 # example_9.py
 from dataclasses import dataclass, field
-from typing import List
 
 
 @dataclass(frozen=True)
 class Order:
     order_id: int
-    items: List[str] = field(default_factory=list)
+    items: list[str] = field(default_factory=list)
 
 
 order = Order(order_id=123)

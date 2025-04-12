@@ -80,6 +80,7 @@ For example, consider a function that tries to find a user by ID and returns the
 # example_4.py
 from typing import Optional
 
+
 def find_user(user_id: int) -> Optional[str]:
     if user_id == 1:
         return "Alice"
@@ -96,6 +97,7 @@ The type annotation makes it clear that `None` is a possible outcome.
 ```python
 # example_5.py
 from typing import Optional
+
 
 def greet(name: Optional[str] = None) -> str:
     if name:
@@ -121,6 +123,7 @@ Before Python 3.10, the typical way to declare a union of types was to use `typi
 # example_6.py
 from typing import Union
 
+
 def process_value(value: Union[int, str]) -> str:
     return str(value)
 ```
@@ -142,6 +145,7 @@ This rewritten `process_value` definition is equivalent to the previous one usin
 ```python
 # example_7.py
 
+
 def process_value(value: int | str) -> str:
     return str(value)
 ```
@@ -154,14 +158,18 @@ You can chain the `|` operator to include multiple types (e.g., `int | str | flo
 # union_plus_optional.py
 from typing import Optional
 
+
 def f1(value: int | str | None) -> str:
     return str(value)
+
 
 print(f1(42), f1("forty-two"), f1(None))
 ## 42 forty-two None
 
+
 def f2(value: Optional[int | str]) -> str:
     return str(value)
+
 
 print(f2(42), f2("forty-two"), f2(None))
 ## 42 forty-two None
@@ -252,7 +260,7 @@ Next, we will see that Python has even more convenient ways to write these annot
 
 ## Annotations without Imports
 
-Starting with Python 3.9, Python allows the use of built-in collection types directly as generic types.
+Starting with Python 3.9, Python allows the direct use of built-in collection type names.
 This means you can write `list[int]` instead of importing `List` from `typing`, and similarly for `dict`, `tuple`, and `set`.
 
 This removes the extra imports and makes the syntax more natural:
@@ -269,6 +277,8 @@ user_data: dict[str, float] = {
 You can do the same for `tuple` and `set` (e.g., `coordinates: tuple[float, float] = (23.5, 45.8)` or `unique_ids: set[str] = {"a", "b"}`), and the other standard library collection types.
 
 If you must support Python versions earlier than 3.9, you should stick to the `typing.List` / `typing.Dict` style, because the bracketed syntax for built-in types won't be recognized in older versions.
+This book will use the built-in names whenever possible
+
 There is also a mechanism called `from __future__ import annotations` that can ease adoption of newer annotation features by treating annotations as strings (to avoid evaluation issues), but that is an advanced detail beyond our current scope.
 TODO: Add an example
 

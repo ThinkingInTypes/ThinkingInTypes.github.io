@@ -27,7 +27,7 @@ Annotations can clarify patterns used in structural matching, making code cleare
 
 ```python
 # example_2.py
-from typing import Union, NamedTuple
+from typing import NamedTuple
 
 
 class Success(NamedTuple):
@@ -38,7 +38,7 @@ class Error(NamedTuple):
     error: str
 
 
-def process(response: Union[Success, Error]) -> str:
+def process(response: Success | Error) -> str:
     match response:
         case Success(result):
             return f"Success: {result}"
@@ -91,7 +91,6 @@ Pattern matching works best with clearly annotated and structurally consistent t
 
 ```python
 # example_4.py
-from typing import Union
 
 
 class Cat:
@@ -104,7 +103,7 @@ class Dog:
         return "Woof"
 
 
-def animal_sound(animal: Union[Cat, Dog]) -> str:
+def animal_sound(animal: Cat | Dog) -> str:
     match animal:
         case Cat():
             return animal.meow()

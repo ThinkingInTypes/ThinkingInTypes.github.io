@@ -11,12 +11,12 @@ Custom generics allow functions and classes to handle various types flexibly:
 
 ```python
 # example_1.py
-from typing import TypeVar, List
+from typing import TypeVar
 
 T = TypeVar("T")
 
 
-def first_item(items: List[T]) -> T:
+def first_item(items: list[T]) -> T:
     return items[0]
 
 

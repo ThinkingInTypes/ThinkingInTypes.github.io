@@ -91,7 +91,7 @@ Python allows specifying multiple function signatures through the `@overload` de
 
 ```python
 # example_5.py
-from typing import overload, Union
+from typing import overload
 
 
 @overload
@@ -102,7 +102,7 @@ def double(value: int) -> int: ...
 def double(value: str) -> str: ...
 
 
-def double(value: Union[int, str]) -> Union[int, str]:
+def double(value: int | str) -> int | str:
     if isinstance(value, int):
         return value * 2
     return value + value
