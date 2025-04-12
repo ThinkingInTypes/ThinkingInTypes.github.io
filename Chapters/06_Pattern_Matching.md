@@ -1,10 +1,10 @@
 # Pattern Matching
 
-Python 3.10 introduced _structural pattern matching_ via the `match ... case` statement.
-Pattern matching compares a value (the *subject*) against a series of *patterns*, and execute codes based on the pattern that fits.
+Python 3.10 added _structural pattern matching_ via the `match ... case` statement.
+Pattern matching compares a value (the _subject_) against a series of _patterns_, and execute codes based on the pattern that fits.
 Unlike a simple switch on a single value, structural pattern matching lets you destructure complex data and test for conditions in one expressive syntax.
 
-A `match` statement looks similar to a **switch**/**case** from other languages, but Python's patterns can match *structure* (like the shape of a sequence or the attributes of an object) and bind variables.
+A `match` statement looks similar to a **switch**/**case** from other languages, but Python's patterns can match _structure_ (like the shape of a sequence or the attributes of an object) and bind variables.
 Python tries each `case` in order and executes the first one that matches, with a wildcard `_` as a catch-all default ([Structural pattern matching in Python 3.10](https://benhoyt.com/writings/python-pattern-matching/#:~:text=Python%20evaluates%20the%20,case%20if%20no%20others%20match)).
 Patterns can include literals, names, and even nested sub-patterns to unpack data.
 We will cover each pattern type in detail, with examples and tips on how they interact with Python's type system and static analysis.
@@ -18,6 +18,7 @@ The pattern matches if the subject is equal to that value (using `==` comparison
 For example, consider matching an HTTP status code to a message:
 
 ```python
+# example_1.py
 status = 404
 match status:
     case 200:
@@ -34,17 +35,18 @@ Because `status == 404`, the second case matches and `result` becomes `"Not Foun
 If `status` had been something else, the wildcard `_` (covered later) would catch it as a default.
 
 **How literal matching works:** Most literal constants match by equality.
-However, Python's three singletons – `True`, `False`, and `None` – are matched by identity (i.e., the subject *is* that object) ([What's New In Python 3.10 — Python 3.13.3 documentation](https://docs.python.org/3/whatsnew/3.10.html#:~:text=,are%20compared%20by%20identity)).
+However, Python's three singletons – `True`, `False`, and `None` – are matched by identity (i.e., the subject _is_ that object) ([What's New In Python 3.10 — Python 3.13.3 documentation](https://docs.python.org/3/whatsnew/3.10.html#:~:text=,are%20compared%20by%20identity)).
 This distinction rarely matters in practice (since there's only one `True` etc.), but it's a defined part of the rules.
 You can also combine multiple literals in one pattern using the OR operator `|` (described in the OR Patterns section) to match any of several constants (e.g., `case 401 | 403 | 404:` to handle multiple error codes in one branch ([What's New In Python 3.10 — Python 3.13.3 documentation](https://docs.python.org/3/whatsnew/3.10.html#:~:text=You%20can%20combine%20several%20literals,%28%E2%80%9Cor%E2%80%9D))).
 
 **Named constants in patterns:** A common desire is to match against a constant defined elsewhere (like an enumeration member or a module-level constant).
-In pattern matching, a bare name is treated as a capture variable (see _Capture Patterns_ below), *not* a constant.
+In pattern matching, a bare name is treated as a capture variable (see _Capture Patterns_ below), _not_ a constant.
 To use a named value as a literal pattern, you must qualify it so that it's not seen as a new variable.
-The rule is that *named constants must appear as dotted names* (or attributes) in patterns ([What's New In Python 3.10 — Python 3.13.3 documentation](https://docs.python.org/3/whatsnew/3.10.html#:~:text=,interpreted%20as%20a%20capture%20variable)).
+The rule is that _named constants must appear as dotted names_ (or attributes) in patterns ([What's New In Python 3.10 — Python 3.13.3 documentation](https://docs.python.org/3/whatsnew/3.10.html#:~:text=,interpreted%20as%20a%20capture%20variable)).
 For example, to match an `Enum` member:
 
 ```python
+# example_2.py
 from enum import Enum
 class Color(Enum):
     RED = 1
@@ -66,7 +68,7 @@ This will correctly match the enum value in `color`. (If you had written just `R
 
 **Static analysis angle:** Literal patterns work great with type hints for `Literal` types and Enums.
 If a variable is annotated with a union of literal values or an `Enum` type, a series of literal `case` clauses can cover all possibilities.
-Modern static type checkers (like mypy or Pyright) can perform *exhaustiveness checking* on `match` statements ([Literal types and Enums - mypy 1.15.0 documentation](https://mypy.readthedocs.io/en/stable/literal_types.html#:~:text=Exhaustiveness%20checking%20is%20also%20supported,10%20and%20later)) ([Literal types and Enums - mypy 1.15.0 documentation](https://mypy.readthedocs.io/en/stable/literal_types.html#:~:text=Exhaustiveness%20checking%C2%B6)).
+Modern static type checkers (like mypy or Pyright) can perform _exhaustiveness checking_ on `match` statements ([Literal types and Enums - mypy 1.15.0 documentation](https://mypy.readthedocs.io/en/stable/literal_types.html#:~:text=Exhaustiveness%20checking%20is%20also%20supported,10%20and%20later)) ([Literal types and Enums - mypy 1.15.0 documentation](https://mypy.readthedocs.io/en/stable/literal_types.html#:~:text=Exhaustiveness%20checking%C2%B6)).
 This means if you forget to handle one of the specified values, the type checker can warn you.
 For instance, if `status` was of type `Literal[200, 404]`, the checker would expect all those values to be matched.
 Similarly, with the `Color` enum above, a checker knows there are three members; if you omit a case for one of them, it could flag it.
@@ -75,21 +77,22 @@ This benefit ensures your pattern matching stays in sync with your data definiti
 ## Capture Patterns
 
 A _capture pattern_ is simply a name (identifier) used in a pattern, which will "capture" the value from the subject if that pattern position matches.
-In other words, instead of testing for a specific value, a capture pattern matches *anything* and binds a variable to the subject (or sub-component of the subject).
+In other words, instead of testing for a specific value, a capture pattern matches _anything_ and binds a variable to the subject (or sub-component of the subject).
 Capture patterns let you extract pieces of data for use in the body of the case.
 
 **Syntax:** Writing a bare name in a pattern creates a capture.
-For example, `case x:` will match *any* subject value and assign it to the variable `x`.
+For example, `case x:` will match _any_ subject value and assign it to the variable `x`.
 Capture patterns can also appear inside compound patterns (like inside a sequence or mapping), where they bind a part of the structure.
 
 **Important:** `_` (underscore) is not a capture; it's a special wildcard pattern that discards the value.
 Any other name will be treated as a capture.
-If the name wasn't already defined in the surrounding scope, it will be a new variable set in that case. (If it *was* defined outside, pattern matching will _not_ automatically compare against it – it still creates a new binding shadowing the outer variable.
+If the name wasn't already defined in the surrounding scope, it will be a new variable set in that case. (If it _was_ defined outside, pattern matching will _not_ automatically compare against it – it still creates a new binding shadowing the outer variable.
 As mentioned, to match an existing variable's value, use a literal or value pattern with a dotted name.)
 
 Consider this simple use of capture patterns:
 
 ```python
+# example_3.py
 command = "hello"
 match command:
     case "quit":
@@ -112,7 +115,7 @@ Similarly, `case {"user": name, "id": id}:` on a dictionary would capture the va
 We will see more of these in Sequence and Mapping patterns next.
 
 **Irrefutable patterns:** A capture pattern (on its own) always matches, because it imposes no conditions on the value.
-Patterns that always succeed are called *irrefutable*.
+Patterns that always succeed are called _irrefutable_.
 If an irrefutable pattern is used as a top-level case (like `case x:` at the same indent as case), it will match everything and typically must be the last case (otherwise it would prevent any subsequent cases from ever running).
 Using a capture as the last case is one way to handle "default" scenarios while still naming the value.
 Often, though, a simple wildcard `_` is used for a default case when the value itself doesn't need to be referenced.
@@ -120,39 +123,57 @@ Often, though, a simple wildcard `_` is used for a default case when the value i
 ## Wildcard Patterns (`_`)
 
 The _wildcard pattern_ is written as a single underscore `_`.
-It matches *anything*, just like a capture pattern does, but it does not bind any variable.
+It matches _anything_, just like a capture pattern does, but it does not bind any variable.
 Think of `_` as "I don't care what's here." It's typically used to ignore certain values or as a catch-all default case.
 Since `_` is not a valid variable name (in pattern context it's special-cased), you can use it freely without worrying about collisions or overwriting something.
 
 Common uses of the wildcard pattern include:
 
 - The final case of a match (default case) to catch all situations not handled by earlier cases:
-  ```python
-  match status:
+
+```python
+# example_4.py
+def wildcard(status):
+    match status:
       case 200:
           message = "OK"
       case 404:
           message = "Not Found"
       case _:
           message = "Unknown"   # `_` matches anything not matched above
-  ```
+```
+
 - Ignoring one or more elements in a sequence pattern:
-  ```python
-  match point:
+
+```python
+# example_5.py
+def wildcard_ignore(point):
+    match point:
       case (x, _, _):
-          print(f"x-coordinate is {x}")  
-  ```
-  Here we assume `point` is a sequence with at least 3 elements.
+          print(f"x-coordinate is {x}")
+```
+
+Here we assume `point` is a sequence with at least 3 elements.
 The pattern `(x, _, _)` will match a sequence of length 3, bind the first element to `x`, and ignore the second and third elements.
 The underscores indicate we do not need those values. (If the sequence had a different length or structure, this pattern would fail to match.)
 
 - Ignoring a value in a class or mapping pattern:
-  ```python
-  match player:
+
+```python
+# example_6.py
+from typing import NamedTuple
+
+class Player(NamedTuple):
+    name: str
+    score: int
+
+def player_score(player: Player):
+    match player:
       case Player(name=_, score=s):
           print(f"Player has score {s}")
-  ```
-  This matches a `Player` object of any name, capturing only the `score` attribute into `s`.
+```
+
+This matches a `Player` object of any name, capturing only the `score` attribute into `s`.
 The name attribute is ignored.
 
 You can use multiple wildcards in a single pattern if needed (each `_` is independent and just means "ignore this part").
@@ -173,6 +194,7 @@ This is a powerful way to destructure sequence data.
 For example, suppose we want to categorize a 2D point given as a tuple `(x, y)`:
 
 ```python
+# example_7.py
 point = (0, 5)
 match point:
     case (0, 0):
@@ -186,9 +208,10 @@ match point:
 ```
 
 This match has four sequence patterns, each a tuple of two elements:
+
 - `(0, 0)` is a sequence pattern of two literals, matching only the point `(0, 0)` exactly.
 - `(0, y)` matches any 2-tuple whose first element is 0 and captures the second element as `y`.
-So `(0, 5)` fits here, and `y` would be 5, resulting in "On the Y-axis at y=5".
+  So `(0, 5)` fits here, and `y` would be 5, resulting in "On the Y-axis at y=5".
 - `(x, 0)` matches any 2-tuple with second element 0, capturing the first element as `x`.
 - `(x, y)` (the most general) matches any 2-tuple, capturing both elements.
 
@@ -198,33 +221,37 @@ The remaining cases are skipped.
 
 Some key points about sequence patterns:
 
-- **Types that qualify:** Sequence patterns work on any iterable that is *sequence-like*.
-This generally means instances of `collections.abc.Sequence` (such as list, tuple, range, str) *except* that mappings (dicts) are treated by the mapping pattern instead (covered in next section).
-For built-in sequences like list or tuple, the match will check the length and elements.
-For custom sequence classes, Python uses the sequence protocol (`__len__` and `__getitem__`) to attempt a match ([Structural Pattern Matching in Python – Real Python](https://realpython.com/structural-pattern-matching/#:~:text=if%20isinstance,Point%28%7Bx%3D%7D%2C%20%7By)).
-Strings are considered sequences of characters, so be cautious: a pattern like `case ['H','i']:` would match the string `"Hi"` (as a sequence of two chars) as well as a list `['H','i']`.
-If you specifically want to match a list and not a tuple or other sequence, you can use a class pattern like `case list([...])` as described below.
+- **Types that qualify:** Sequence patterns work on any iterable that is _sequence-like_.
+  This generally means instances of `collections.abc.Sequence` (such as list, tuple, range, str) _except_ that mappings (dicts) are treated by the mapping pattern instead (covered in next section).
+  For built-in sequences like list or tuple, the match will check the length and elements.
+  For custom sequence classes, Python uses the sequence protocol (`__len__` and `__getitem__`) to attempt a match ([Structural Pattern Matching in Python – Real Python](https://realpython.com/structural-pattern-matching/#:~:text=if%20isinstance,Point%28%7Bx%3D%7D%2C%20%7By)).
+  Strings are considered sequences of characters, so be cautious: a pattern like `case ['H','i']:` would match the string `"Hi"` (as a sequence of two chars) as well as a list `['H','i']`.
+  If you specifically want to match a list and not a tuple or other sequence, you can use a class pattern like `case list([...])` as described below.
 
 - **Length matching:** The number of subpatterns in brackets must match the length of the sequence (unless you use a starred pattern for variable length).
-If the lengths differ, the pattern fails.
-In the example above, each pattern has 2 elements, so only sequences of length 2 can match any of those.
-If `point` were a 3-tuple, none of those cases would match (unless we added a case for 3-length).
+  If the lengths differ, the pattern fails.
+  In the example above, each pattern has 2 elements, so only sequences of length 2 can match any of those.
+  If `point` were a 3-tuple, none of those cases would match (unless we added a case for 3-length).
 
 - **Element matching:** Each position in the pattern can be any kind of subpattern (literal, capture, wildcard, even another nested pattern).
-All subpatterns must match their corresponding element for the whole pattern to succeed ([Structural pattern matching in Python 3.10](https://benhoyt.com/writings/python-pattern-matching/#:~:text=match%20at%20L123%20case%20,a%27%2C%20%7Bx%21r%7D%2C%20%27c)).
-In `(0, y)`, the first subpattern `0` must equal the first element and the second subpattern `y` will always succeed (capturing that element).
-If any subpattern fails, the whole pattern fails and the next case is tried.
+  All subpatterns must match their corresponding element for the whole pattern to succeed ([Structural pattern matching in Python 3.10](https://benhoyt.com/writings/python-pattern-matching/#:~:text=match%20at%20L123%20case%20,a%27%2C%20%7Bx%21r%7D%2C%20%27c)).
+  In `(0, y)`, the first subpattern `0` must equal the first element and the second subpattern `y` will always succeed (capturing that element).
+  If any subpattern fails, the whole pattern fails and the next case is tried.
 
 - **Starred subpattern (`*`):** Sequence patterns support a "rest" pattern using `*`.
-This is similar to unpacking with a star in assignments.
-You can write one subpattern as `*name` (or `*_` to ignore) to soak up the remaining elements of a sequence.
-For example:
-  ```python
-  match values:
-      case [first, second, *rest]:
-          print(f"First={first}, second={second}, rest={rest}")
-  ```
-  This pattern matches any sequence of length _>= 2_.
+  This is similar to unpacking with a star in assignments.
+  You can write one subpattern as `*name` (or `*_` to ignore) to soak up the remaining elements of a sequence.
+  For example:
+
+```python
+# example_8.py
+
+match values:
+  case [first, second, *rest]:
+      print(f"First={first}, second={second}, rest={rest}")
+```
+
+This pattern matches any sequence of length _>= 2_.
 The first element is bound to `first`, second to `second`, and the rest of the sequence (which could be zero-length if there were exactly two) is bound as a list to `rest`.
 If `values` is `[10, 20, 30, 40]`, the output would be "First=10, second=20, rest=[30, 40]".
 If `values` is `[10, 20]`, then `rest` would be an empty list `[]`.
@@ -233,8 +260,8 @@ You can only use one starred subpattern in a sequence pattern.
 Also note that `*rest` will always be a list, even if the original sequence is a tuple (Python creates a new list for the remaining elements when matching).
 
 - **Nested patterns:** You can nest sequence patterns within sequences for multidimensional data.
-For instance, `case [(x, y), *rest]:` would match a sequence whose first element is a 2-tuple – that first element is matched by the subpattern `(x, y)` and subsequent elements go into `rest`.
-This lets you destructure complex list-of-tuples or tuple-of-tuples structures in one pattern.
+  For instance, `case [(x, y), *rest]:` would match a sequence whose first element is a 2-tuple – that first element is matched by the subpattern `(x, y)` and subsequent elements go into `rest`.
+  This lets you destructure complex list-of-tuples or tuple-of-tuples structures in one pattern.
 
 Sequence patterns basically generalize what you might do with a series of `isinstance` checks and tuple unpacking.
 They make the code for handling sequences much more declarative.
@@ -256,6 +283,7 @@ This is immensely useful for working with JSON-like data or configuration dictio
 For example, imagine we receive event data as dictionaries, and we want to handle different event types:
 
 ```python
+# example_9.py
 event = {"type": "keypress", "key": "Enter"}
 match event:
     case {"type": "keypress", "key": k}:
@@ -267,38 +295,39 @@ match event:
 ```
 
 In this match:
+
 - The first case `{"type": "keypress", "key": k}` matches any mapping that has at least the keys `"type"` and `"key"`, with the `"type"` value equal to the string `"keypress"`, and it captures the `"key"` value into variable `k`.
-For our `event`, this matches (since `event["type"] == "keypress"`), so it would print "Key pressed: Enter".
+  For our `event`, this matches (since `event["type"] == "keypress"`), so it would print "Key pressed: Enter".
 - The second case looks for a `"type"` of `"mousemove"` and keys `"x"` and `"y"` present, capturing their values into `x` and `y`.
 - The default case `_` handles any other shape of event (or if an expected key is missing).
 
 Key rules and features of mapping patterns:
 
 - **Required keys:** All keys listed in the pattern must be present in the subject mapping for a match.
-If any of those keys is missing in the dict, the pattern fails.
-In the example, if `event` lacked an `"x"` key, it wouldn't match the second pattern.
+  If any of those keys is missing in the dict, the pattern fails.
+  In the example, if `event` lacked an `"x"` key, it wouldn't match the second pattern.
 
 - **Literal keys:** The keys in the pattern are taken as literal constants (not variables).
-Typically they will be quoted strings (as above) or other hashable constants (like numbers or enum values).
-You cannot use a capture for a key name – that wouldn't make sense because a capture binds to a value, not a key. (If you need to iterate or check arbitrary keys, pattern matching isn't the tool; you'd use normal dict methods in that case.)
+  Typically they will be quoted strings (as above) or other hashable constants (like numbers or enum values).
+  You cannot use a capture for a key name – that wouldn't make sense because a capture binds to a value, not a key. (If you need to iterate or check arbitrary keys, pattern matching isn't the tool; you'd use normal dict methods in that case.)
 
 - **Value subpatterns:** For each key in the pattern, you provide a subpattern that will be matched against the value for that key.
-In `{"key": k}`, the subpattern is the capture `k` which matches any value and binds it.
-In `{"type": "keypress"}`, the subpattern is the literal `"keypress"`, so that requires the subject's `"type"` value to equal that string.
-You can nest deeper patterns too; e.g., `case {"pos": (x, y)}` would require a `"pos"` key whose value is a sequence of length 2 (tuple/list) matching the subpattern `(x, y)`.
+  In `{"key": k}`, the subpattern is the capture `k` which matches any value and binds it.
+  In `{"type": "keypress"}`, the subpattern is the literal `"keypress"`, so that requires the subject's `"type"` value to equal that string.
+  You can nest deeper patterns too; e.g., `case {"pos": (x, y)}` would require a `"pos"` key whose value is a sequence of length 2 (tuple/list) matching the subpattern `(x, y)`.
 
-- **Extra keys:** By default, a mapping pattern does *not* require that the subject has no other keys besides the ones listed.
-It only insists those specified keys exist with matching values.
-Additional keys in the dictionary are ignored (they don't make the match fail).
-In our example, if `event` had other keys (like `"time": 12345`), the first pattern could still match as long as `"type"` and `"key"` were there and correct.
-If you want to ensure no extra keys, you can use the double-star wildcard .
-For example, `case {"type": t, \*\*rest}:` will match and capture *all* other keys and values into a new dict `rest`.
-Conversely, `case {"type": t} if len(event) == 1:` could be used with a guard to ensure only that key is present, but `\*\*rest` is the idiomatic way to capture "the rest" of a mapping.
+- **Extra keys:** By default, a mapping pattern does _not_ require that the subject has no other keys besides the ones listed.
+  It only insists those specified keys exist with matching values.
+  Additional keys in the dictionary are ignored (they don't make the match fail).
+  In our example, if `event` had other keys (like `"time": 12345`), the first pattern could still match as long as `"type"` and `"key"` were there and correct.
+  If you want to ensure no extra keys, you can use the double-star wildcard .
+  For example, `case {"type": t, \*\*rest}:` will match and capture _all_ other keys and values into a new dict `rest`.
+  Conversely, `case {"type": t} if len(event) == 1:` could be used with a guard to ensure only that key is present, but `\*\*rest` is the idiomatic way to capture "the rest" of a mapping.
 
 - **Mapping type:** By default, the mapping pattern works on `dict` and other `Mapping` implementations (it checks for the presence of a mapping interface).
-If the subject is not a mapping, the pattern will fail.
-If you specifically want to narrow the type (say you only want to match actual `dict` objects), you could combine a class pattern with a mapping pattern using the syntax `case dict({...})` similarly to how we did `list([...])` for sequences.
-This would first check `isinstance(subject, dict)` then apply the mapping subpattern.
+  If the subject is not a mapping, the pattern will fail.
+  If you specifically want to narrow the type (say you only want to match actual `dict` objects), you could combine a class pattern with a mapping pattern using the syntax `case dict({...})` similarly to how we did `list([...])` for sequences.
+  This would first check `isinstance(subject, dict)` then apply the mapping subpattern.
 
 ```python
 # double_star_wildcard.py
@@ -323,13 +352,14 @@ If you have a fixed schema for a dict, pattern matching can clearly express the 
 
 Class patterns allow you to match objects of a specific class and extract their attributes.
 They use a syntax reminiscent of calling a constructor, but _no object is actually being created in a case pattern_ – instead, Python checks the subject is an instance of that class and then pulls out specified attributes.
-This is a form of *structured binding* or deconstruction for user-defined types.
+This is a form of _structured binding_ or deconstruction for user-defined types.
 
 The basic form is `ClassName(attr1=subpattern1, attr2=subpattern2, ...)`.
 You list the class to match and the attributes you want to check or capture.
 For example, suppose we have a simple data class representing a user:
 
 ```python
+# example_10.py
 from dataclasses import dataclass
 
 @dataclass
@@ -349,46 +379,47 @@ match user:
 ```
 
 What happens here:
+
 - `case User(name="Alice", age=age)`: This matches if `user` is an instance of `User` _and_ its `name` attribute equals `"Alice"`.
-If so, it captures the `age` attribute into the variable `age`.
-In our example `user.name` is "Carol", not "Alice", so this case fails.
+  If so, it captures the `age` attribute into the variable `age`.
+  In our example `user.name` is "Carol", not "Alice", so this case fails.
 - `case User(name=name, age=age)`: This matches any `User` instance (since no literal value restrictions now, just captures).
-It will bind `name = user.name` and `age = user.age`.
-For our `User("Carol", 25)`, this matches, setting `name = "Carol"` and `age = 25`, and prints "User Carol is 25 years old".
+  It will bind `name = user.name` and `age = user.age`.
+  For our `User("Carol", 25)`, this matches, setting `name = "Carol"` and `age = 25`, and prints "User Carol is 25 years old".
 - `case _`: If `user` wasn't a `User` at all (say it was an int or some other type), the first two patterns would fail and the wildcard would catch it.
-Here we put a message for non-User instances.
+  Here we put a message for non-User instances.
 
 So effectively, `User(name=X, age=Y)` in a pattern means "is the subject a `User`? If yes, let X = subject.name and Y = subject.age, and proceed; otherwise this pattern fails." The class pattern is doing an `isinstance(subject, User)` check and attribute lookups under the hood.
 
 ### Details
 
 - **Type check**: When you use a class in a pattern, Python will call `isinstance(subject, ClassName)`.
-If that fails, the pattern doesn't match, period.
-This means class patterns naturally filter by type.
-This is great for branching logic based on object type without manually calling `isinstance` in your code.
+  If that fails, the pattern doesn't match, period.
+  This means class patterns naturally filter by type.
+  This is great for branching logic based on object type without manually calling `isinstance` in your code.
 - **Attribute matching**: By specifying `attr=...` in the pattern, Python will retrieve that attribute from the object and attempt to match it to the given subpattern.
-All specified attributes must exist, and all their subpatterns must match, for the class pattern to succeed.
-In the `User(name=name, age=age)` case, it checks that `user.name` exists (it does) and binds it, and `user.age` exists and binds it.
-You can also put literal patterns for attributes (like the `"Alice"` literal for `name` in the first case), requiring that attribute to equal a specific value ([Structural pattern matching in Python 3.10](https://benhoyt.com/writings/python-pattern-matching/#:~:text=case%20%7B%27x%27%3A%20x%2C%20,Car%28%7Bkey%21r%7D%2C%20%27TESLA)).
+  All specified attributes must exist, and all their subpatterns must match, for the class pattern to succeed.
+  In the `User(name=name, age=age)` case, it checks that `user.name` exists (it does) and binds it, and `user.age` exists and binds it.
+  You can also put literal patterns for attributes (like the `"Alice"` literal for `name` in the first case), requiring that attribute to equal a specific value ([Structural pattern matching in Python 3.10](https://benhoyt.com/writings/python-pattern-matching/#:~:text=case%20%7B%27x%27%3A%20x%2C%20,Car%28%7Bkey%21r%7D%2C%20%27TESLA)).
 - **Positional parameters and `__match_args__`:** The example above used `name=` and `age=` as keyword patterns.
-Python's pattern matching also allows *positional* subpatterns in class patterns, which are matched against attributes defined by the class's `__match_args__`.
-By default, dataclasses and normal classes don't set `__match_args__` automatically (it's an attribute you can define as a tuple of attribute names).
-For example, if `User.__match_args__ = ("name", "age")`, then you could write `case User("Alice", age)` as shorthand for the same pattern.
-In the absence of `__match_args__`, you must use keyword `attr=value` form to match attributes.
-Using positional patterns on a class without `__match_args__` will result in a MatchError at runtime.
-For clarity, many developers prefer the keyword form even if `__match_args__` is set, because it's explicit about which attribute is being matched.
+  Python's pattern matching also allows _positional_ subpatterns in class patterns, which are matched against attributes defined by the class's `__match_args__`.
+  By default, dataclasses and normal classes don't set `__match_args__` automatically (it's an attribute you can define as a tuple of attribute names).
+  For example, if `User.__match_args__ = ("name", "age")`, then you could write `case User("Alice", age)` as shorthand for the same pattern.
+  In the absence of `__match_args__`, you must use keyword `attr=value` form to match attributes.
+  Using positional patterns on a class without `__match_args__` will result in a MatchError at runtime.
+  For clarity, many developers prefer the keyword form even if `__match_args__` is set, because it's explicit about which attribute is being matched.
 - **Multiple class patterns and inheritance:** If you have a class hierarchy, a class pattern will match subclasses as well (since it's based on `isinstance`).
-If you need to differentiate subclasses, you can use different class patterns or guards.
-Class patterns can also be combined with OR patterns to accept an object of one of several classes.
-For example, `case Cat(name=n) | Dog(name=n): ...` could match either a `Cat` or `Dog` instance and capture a `name` attribute from either.
+  If you need to differentiate subclasses, you can use different class patterns or guards.
+  Class patterns can also be combined with OR patterns to accept an object of one of several classes.
+  For example, `case Cat(name=n) | Dog(name=n): ...` could match either a `Cat` or `Dog` instance and capture a `name` attribute from either.
 
 One subtle aspect to remember is that writing something like `case User("Bob")` in a pattern does _not_ call the `User` constructor.
-It might *look* like a construction, but in a `case` context it's pattern syntax.
+It might _look_ like a construction, but in a `case` context it's pattern syntax.
 Whatever appears after `case` is interpreted purely as a pattern, not normal executable code.
-If `User` were a dataclass with a `__post_init__` that prints when an object is created, doing `match User("Alice"):` as the subject expression would create a `User("Alice")` instance (since that's a normal Python expression being matched *against*).
+If `User` were a dataclass with a `__post_init__` that prints when an object is created, doing `match User("Alice"):` as the subject expression would create a `User("Alice")` instance (since that's a normal Python expression being matched _against_).
 But `case User("Bob"):` does not create a new user; it just means "match a User with some attribute equal to Bob".
 This distinction is important ([Structural Pattern Matching in Python – Real Python](https://realpython.com/structural-pattern-matching/#:~:text=Copied%21)).
-In summary: class patterns let you *destructure* objects, not create them.
+In summary: class patterns let you _destructure_ objects, not create them.
 
 **Customizing class matching:** If you are designing your own classes to be matched frequently, you might consider adding a `__match_args__` for convenience, or even defining a special `__match_repr__` (in Python 3.11+, some classes can control matching via `__match_args__` and `__match_self__`, but that's beyond the scope of this chapter).
 For most uses, using keyword patterns as shown is sufficient.
@@ -396,16 +427,31 @@ For most uses, using keyword patterns as shown is sufficient.
 **Static analysis benefits:** Class patterns go hand-in-hand with type hints.
 If a variable is annotated as a base class or a union of classes, a match statement with class patterns can effectively act as a type-safe downcast.
 For example, if a function parameter `shape: Shape` where `Shape` is a union of `Circle | Square`, you might do:
+
 ```python
-match shape:
-    case Circle(radius=r):
-        ... # here shape is type Circle
-    case Square(side=s):
-        ... # here shape is type Square
+# example_11.py
+from typing_extensions import NamedTuple
+
+
+class Circle(NamedTuple):
+    radius: float
+
+
+class Square(NamedTuple):
+    side: float
+
+
+def shape_area(shape: Circle | Square) -> float:
+    match shape:
+        case Circle(radius=r):
+            ...  # here shape is type Circle
+        case Square(side=s):
+            ...  # here shape is type Square
 ```
+
 Within each case, static type checkers know `shape` (or the captured attributes) have the specific class type, so you get auto-completion and type checking on those attributes.
 Furthermore, like with enums, a checker can warn if your match isn't exhaustive over all possible classes in the union.
-Class patterns thus enable a form of *type narrowing* similar to `isinstance()` checks, but often more cleanly.
+Class patterns thus enable a form of _type narrowing_ similar to `isinstance()` checks, but often more cleanly.
 
 ## OR Patterns (`|`)
 
@@ -419,6 +465,7 @@ A simple example of OR patterns is handling multiple literals in one go.
 For instance, if you want to check if some input is an affirmative "yes" in various forms:
 
 ```python
+# example_12.py
 user_input = "y"
 match user_input.lower():
     case "yes" | "y" | "yeah":
@@ -444,7 +491,7 @@ For example:
 Each alternative pattern is tried in order (left to right) as part of the same case.
 If any one succeeds, the whole OR pattern succeeds and that case executes.
 If an OR pattern is complex, be mindful that all subpatterns should make sense in the same context because they share the same action block.
-Also, variables bound in an OR pattern must be bound in *all* alternatives to be usable in the block (otherwise it'd be ambiguous which value they have).
+Also, variables bound in an OR pattern must be bound in _all_ alternatives to be usable in the block (otherwise it'd be ambiguous which value they have).
 For instance, `case ("a", x) | ("b", x):` is valid because either way an `x` will be bound (if the tuple second element, whether pattern matched "a" or "b" as first element).
 But `case ("a", x) | "foo":` is tricky – in the first alternative `x` would be bound, but in the second alternative (just the string "foo"), there's no `x`.
 In such cases, the capture `x` is not allowed because it wouldn't always have a value.
@@ -455,13 +502,19 @@ However, for things like multiple literal aliases (as shown with "yes"/"y"/"yeah
 
 **Type checking with OR patterns:** If your patterns correspond to different types, a static type checker will infer the subject is one of those types after the match.
 For example, if you do:
+
 ```python
-match data:
-    case int(x) | float(x):
-        # handle as numeric (x will be int or float here)
-    case str(s):
-        # handle as string
+# example_13.py
+def type_narrowing(data: int | float | str):
+    match data:
+        case int(x) | float(x):
+            ...
+            # handle as numeric (x will be int or float here)
+        case str(s):
+            ...
+            # handle as string
 ```
+
 Here `int(x) | float(x)` uses two class patterns in an OR.
 In the action block, `x` is either int or float.
 Some type checkers might narrow it to a common supertype (like `x: float` if float and int are both numbers – int is subtype of float in the type system).
@@ -470,17 +523,18 @@ But if the handling is same (say you treat int and float uniformly as "number"),
 For literal OR patterns, as mentioned, exhaustiveness can be checked.
 For class OR patterns, you should ensure you cover the needed types.
 Generally, OR patterns complement union types in annotations: if a variable is `X | Y`, a match with `case X(...)|Y(...):` will cover those.
-Just remember that the action block sees the union of the possibilities.
+Remember that the action block sees the union of the possibilities.
 
 ## AS Patterns (`pattern as name`)
 
-An _AS pattern_ allows you to capture a matched value under a name *while still enforcing a subpattern on it*.
+An _AS pattern_ allows you to capture a matched value under a name _while still enforcing a subpattern on it_.
 It uses the syntax `<pattern> as <variable>`.
 This is extremely handy when you want to both check a complex pattern and keep a reference to the whole thing (or a large part of it) for use in the code.
 
 A simple scenario: matching a sequence but also retaining it:
 
 ```python
+# example_14.py
 pair = [4, 5]
 match pair:
     case [first, second] as full_pair:
@@ -496,6 +550,7 @@ Another use case: suppose you have nested structures and want to both break them
 For instance, consider parsing a nested coordinate:
 
 ```python
+# example_15.py
 data = {"coords": [7, 3]}
 match data:
     case {"coords": [x, y] as point}:
@@ -508,17 +563,18 @@ In our example, it would print: "Point [7, 3] has x=7, y=3".
 We got to both validate the structure (`"coords"` exists, has two elements) and keep the list `[7,3]` intact in `point` for convenient use (perhaps to pass it somewhere as a whole).
 
 Key points for `as` patterns:
+
 - The subpattern before `as` is fully matched first.
-Only if it succeeds will the `as` binding happen.
-If the subpattern fails, the whole pattern fails (and nothing is bound).
+  Only if it succeeds will the `as` binding happen.
+  If the subpattern fails, the whole pattern fails (and nothing is bound).
 - The name after `as` will be bound to the exact value that the subpattern matched.
-If the subpattern spans multiple elements (like `[x, y]` matching a list), the name gets the entire matched object (the list).
-If the subpattern is just part of the structure, you essentially get a reference to that part.
+  If the subpattern spans multiple elements (like `[x, y]` matching a list), the name gets the entire matched object (the list).
+  If the subpattern is just part of the structure, you essentially get a reference to that part.
 - You can use `as` after any complex pattern, not just sequences.
-For example: `case User(name=n, age=a) as u:` would match a `User` into `n` and `a` and also bind `u` to the whole User object.
-This might seem redundant (since you already have the object in the variable being matched, e.g., `user`), but it becomes useful in OR patterns or nested patterns where you don't have a simple name for the whole thing in that scope.
+  For example: `case User(name=n, age=a) as u:` would match a `User` into `n` and `a` and also bind `u` to the whole User object.
+  This might seem redundant (since you already have the object in the variable being matched, e.g., `user`), but it becomes useful in OR patterns or nested patterns where you don't have a simple name for the whole thing in that scope.
 - Only one `as` is allowed at the same pattern level (you can't do `A as x as y`).
-However, you can nest them in different parts of a pattern if needed.
+  However, you can nest them in different parts of a pattern if needed.
 
 **Why use `as`?** Sometimes after matching a structure, you need the whole object for something (like logging it, or passing it to another function), and reconstructing it from parts would be inconvenient. `as` provides a shorthand to avoid repeated computation.
 It also improves clarity when you want to refer to "the thing we just matched" without losing the context after destructuring it.
@@ -527,6 +583,8 @@ One common pattern is using `as` in the default case to bind the unmatched value
 For example:
 
 ```python
+# example_16.py
+from example_2 import Color
 def handle_color(color: Color):
     match color:
         case Color.RED | Color.GREEN | Color.BLUE:
@@ -546,7 +604,7 @@ It's mainly a convenience; the presence of `as` doesn't affect whether a pattern
 ## Guard Patterns (Pattern Guards)
 
 Sometimes a pattern needs an additional condition beyond just structural matching.
-A _Guard_ specifies an `if <condition>` at the end of a case pattern, making the case only match if the pattern succeeds *and* the condition is true.
+A _Guard_ specifies an `if <condition>` at the end of a case pattern, making the case only match if the pattern succeeds _and_ the condition is true.
 This is useful for imposing value constraints that can't be expressed by the pattern alone.
 
 The syntax is: `case <pattern> if <boolean expression>:`.
@@ -555,6 +613,7 @@ The guard expression can use the variables bound by the pattern (as well as any 
 For example, suppose we want to match a pair of numbers but only if they satisfy some relationship:
 
 ```python
+# example_17.py
 pair = (5, 5)
 match pair:
     case (x, y) if x == y:
@@ -564,18 +623,19 @@ match pair:
 ```
 
 Here the first case is a sequence pattern `(x, y)` with a guard `if x == y`.
-This will match any 2-tuple (binding `x` and `y`), *then* check the guard condition.
+This will match any 2-tuple (binding `x` and `y`), _then_ check the guard condition.
 If `x == y`, then and only then does the case succeed.
-In our example, `pair` is `(5,5)`, so it matches `(x,y)` with `x=5, y=5`, then the guard `5 == 5` is true, so it prints "The two values are equal." If `pair` were `(5, 7)`, the first pattern would match structurally (`x=5,y=7`), but the guard `5 == 7` would be false, causing that case to *fail* overall and move to the next case.
+In our example, `pair` is `(5,5)`, so it matches `(x,y)` with `x=5, y=5`, then the guard `5 == 5` is true, so it prints "The two values are equal." If `pair` were `(5, 7)`, the first pattern would match structurally (`x=5,y=7`), but the guard `5 == 7` would be false, causing that case to _fail_ overall and move to the next case.
 The second case has no guard and would then match by default, printing "The values are different."
 
 Guards effectively let you refine a pattern match with arbitrary logic:
+
 - Use guards to check relationships between captured variables (like x == y, or one value greater than another, etc.).
 - Use guards to call functions or methods for deeper checks (e.g., `case User(age=a) if a >= 18:` to only match adult users, or `case s if validate(s):` to apply an external predicate).
 - Guards can also prevent a case from handling a scenario that should be passed to a later case.
-For instance, if you have overlapping patterns, a guard can differentiate them.
+  For instance, if you have overlapping patterns, a guard can differentiate them.
 
-It's important to note that the guard is evaluated *after* the pattern matches.
+It's important to note that the guard is evaluated _after_ the pattern matches.
 If the pattern doesn't match, Python doesn't even evaluate the guard.
 If the pattern matches but the guard is False, the overall result is as if the pattern didn't match at all, and the next case is tried.
 
@@ -586,6 +646,7 @@ They should ideally just inspect the bound variables or the subject.
 Combining mapping patterns with guards can handle situations like "match a dict with a key and then check something about the value":
 
 ```python
+# example_18.py
 request = {"method": "POST", "payload": {"id": 42}}
 match request:
     case {"method": m, "payload": data} if m == "POST" and "id" in data:
@@ -609,26 +670,31 @@ Both work; using patterns for structural conditions and guards for non-structura
 **Static analysis:** Guards are essentially runtime checks, and static type checkers typically don't reason about them much.
 However, if a guard uses an `isinstance` or similar, a smart type checker might narrow types in the true branch.
 For example:
+
 ```python
-match obj:
-    case list() as lst if all(isinstance(x, int) for x in lst):
-        # here, lst is a list and we asserted all elements are int
-        total: int = sum(lst)  # type checker can assume lst is list[int]
+# example_19.py
+
+def narrow(obj):
+    match obj:
+        case list() as lst if all(isinstance(x, int) for x in lst):
+            # here, lst is a list and we asserted all elements are int
+            total: int = sum(lst)  # type checker can assume lst is list[int]
 ```
+
 In this contrived example, the guard ensures every element in the list is int, so inside the case it might be safe to treat it as `list[int]`.
 Type checkers are not guaranteed to catch that nuance, but you as the programmer know it.
 More commonly, you'd have already annotated or known types.
 Guards are mainly for logic, not for static type discrimination (that's what class patterns are for).
 
+## Pattern Matching vs. Inheritance
+
 ## Conclusion
 
-Structural pattern matching in Python 3.10+ provides a robust toolkit for branching on data shape and content in a clear, declarative style.
-We covered literal patterns for simple value matches, capture and wildcard patterns for binding or ignoring values, sequence and mapping patterns for unpacking collections, class patterns for matching objects and types, OR patterns for combining alternatives, AS patterns for retaining matched values, and guard patterns for extra conditions.
-These can be composed in various ways – you can nest patterns arbitrarily, use OR inside sequence patterns, add guards to class patterns, and so on, to model the logic you need.
+Structural pattern matching can be composed in various ways – you can nest patterns arbitrarily, use OR inside sequence patterns, add guards to class patterns, and so on, to model the logic you need.
 
 When used thoughtfully, pattern matching can make code more readable by aligning it closely with the structure of the data it's handling.
-It can also reduce boilerplate (no more long chains of `isinstance` and indexing) and help catch errors (exhaustiveness checks with static typing, for example).
-As with any powerful feature, it's important to not over-complicate patterns – strive for clarity.
+It can reduce boilerplate (no more long chains of `isinstance` and indexing) and help catch errors (exhaustiveness checks with static typing, for example).
+Your code will be more readable and maintainable if you do not overcomplicate patterns – strive for clarity.
 Often a straightforward series of cases is better than one mega-pattern that is hard to understand.
 
 With practice, you'll find pattern matching to be a natural extension of Python's ethos of readable and expressive code.
@@ -637,7 +703,7 @@ Use the references and examples in this chapter as a guide to the various forms,
 
 ## Sources
 
-- PEP 634 – *Structural Pattern Matching: Specification* ([What's New In Python 3.10 — Python 3.13.3 documentation](https://docs.python.org/3/whatsnew/3.10.html#:~:text=,are%20compared%20by%20identity)) ([What's New In Python 3.10 — Python 3.13.3 documentation](https://docs.python.org/3/whatsnew/3.10.html#:~:text=,interpreted%20as%20a%20capture%20variable)) (details on literal, value, and wildcard patterns)
+- PEP 634 – _Structural Pattern Matching: Specification_ ([What's New In Python 3.10 — Python 3.13.3 documentation](https://docs.python.org/3/whatsnew/3.10.html#:~:text=,are%20compared%20by%20identity)) ([What's New In Python 3.10 — Python 3.13.3 documentation](https://docs.python.org/3/whatsnew/3.10.html#:~:text=,interpreted%20as%20a%20capture%20variable)) (details on literal, value, and wildcard patterns)
 - Python 3.10+ Official Documentation (Pattern Matching Tutorial and Reference) ([What's New In Python 3.10 — Python 3.13.3 documentation](https://docs.python.org/3/whatsnew/3.10.html#:~:text=You%20can%20combine%20several%20literals,%28%E2%80%9Cor%E2%80%9D)) ([Structural Pattern Matching in Python – Real Python](https://realpython.com/structural-pattern-matching/#:~:text=match%20subject%3A%20case%20list%28%5Bint%28%29%20,Point%28%7Bx%3D%7D%2C%20%7By))
-- Real Python – *Structural Pattern Matching in Python* ([Structural Pattern Matching in Python – Real Python](https://realpython.com/structural-pattern-matching/#:~:text=match%20subject%3A%20case%20list%28%5Bint%28%29%20,Point%28%7Bx%3D%7D%2C%20%7By)) ([Structural Pattern Matching in Python – Real Python](https://realpython.com/structural-pattern-matching/#:~:text=Copied%21)) (examples and explanations of pattern matching semantics)
-- Mypy Documentation – *Literal types and Enums* ([Literal types and Enums - mypy 1.15.0 documentation](https://mypy.readthedocs.io/en/stable/literal_types.html#:~:text=Exhaustiveness%20checking%20is%20also%20supported,10%20and%20later)) (exhaustiveness checking for match with literal patterns and enums)
+- Real Python – _Structural Pattern Matching in Python_ ([Structural Pattern Matching in Python – Real Python](https://realpython.com/structural-pattern-matching/#:~:text=match%20subject%3A%20case%20list%28%5Bint%28%29%20,Point%28%7Bx%3D%7D%2C%20%7By)) ([Structural Pattern Matching in Python – Real Python](https://realpython.com/structural-pattern-matching/#:~:text=Copied%21)) (examples and explanations of pattern matching semantics)
+- Mypy Documentation – _Literal types and Enums_ ([Literal types and Enums - mypy 1.15.0 documentation](https://mypy.readthedocs.io/en/stable/literal_types.html#:~:text=Exhaustiveness%20checking%20is%20also%20supported,10%20and%20later)) (exhaustiveness checking for match with literal patterns and enums)
