@@ -173,12 +173,12 @@ process_measurements([11, 3.14, "1.618"])
 ```
 
 Using `Number` and `Measurements` is functionally identical to writing the annotation as `int | float` or `list[Number]`.
-The alias:
+The aliases:
 
-- Gives a meaningful name to the type, indicating what the `list` of `int`s represents--in this case, a collection of user IDs.
+- Gives a meaningful name to the type, indicating what the `list` of `Number`s represents--in this case, a collection called `Measurements`.
 - Avoids repeating a complex type annotation in multiple places.
 - Improves readability by abstracting away the details of the type structure.
-- If the definition of `Measurements` changes (say we decide to use a different type to represent `Number`), we can update the alias in one place.
+- If the definition of `Measurements` changes (if we use a different type to represent `Number`), we can update the alias in one place.
 
 You can see from the output that type aliases do not create new types at runtime;
 they are purely for the benefit of the type system and the developer.
@@ -187,10 +187,10 @@ they are purely for the benefit of the type system and the developer.
 
 A type alias is a notational convenience, but it doesn't create a new type recognized by the type checker.
 `NewType` does create a new, distinct type, preventing accidental misuse of similar underlying types.
-In general, you'll want to use `NewType` instead of type aliasing:
+You'll often want to use `NewType` instead of type aliasing:
 
 ```python
-# simple_new_type.py
+# new_type.py
 from typing import NewType, get_type_hints
 
 Number = NewType("Number", int | float | str)
@@ -223,14 +223,23 @@ process_measurements(Measurements([11, 3.14, "1.618"]))
 # process_measurements([11, 3.14, "1.618"])
 ```
 
+`get_type_hints` produces information about the function.
+
+`NewType` is intended to create a distinct type at the type-checking level that is based on some other
+(usually simpler) type.
+Its primary goal is 
+to help prevent the mixing of semantically different values that are represented by the same underlying type;
+for example, differentiating `UserID` from `ProductID`, even though both are `int`s:
+
 ```python
-# new_type.py
+# new_type_users.py
 from typing import NewType
 
 UserID = NewType("UserID", int)
-IDs = NewType("IDs", list[UserID])
+ProductID = NewType("ProductID", int)
+Users = NewType("Users", list[UserID])
 
-user_ids = IDs([UserID(2), UserID(5), UserID(42)])
+users = Users([UserID(2), UserID(5), UserID(42)])
 
 
 def increment(uid: UserID) -> UserID:
@@ -241,20 +250,21 @@ def increment(uid: UserID) -> UserID:
 # increment(42)  # Type check error
 
 # Access underlying list operation:
-print(increment(user_ids[-1]))
+print(increment(users[-1]))
 ## 43
 
 
-def increment_users(user_ids: IDs) -> IDs:
-    return IDs([increment(uid) for uid in user_ids])
+def increment_users(users: Users) -> Users:
+    return Users([increment(uid) for uid in users])
 
 
-print(increment_users(user_ids))
+print(increment_users(users))
 ## [3, 6, 43]
 ```
 
-Notice that `IDs` uses `UserID` in its definition.
-The type checker requires `UserID` for `increment` and `IDs` for `increment_users`, even though we can transparently access the underlying elements of each type (`int` and `list[UserID]`).
+Notice that `Users` uses `UserID` in its definition.
+The type checker requires `UserID` for `increment` and `Users` for `increment_users`,
+even though we can transparently access the underlying elements of each type (`int` and `list[UserID]`).
 
 ## Data Classes
 
@@ -749,21 +759,36 @@ ParamType = Union[float, Literal["MIN", "MAX", "DEF"]]
 Both approaches improve type safety,
 but if you need more robust functionality or runtime introspection, an `Enum` might be the better choice.
 
-## Choosing Between `Enum`s, `Literal`s, and `Set`s
+### Converting a `Literal` to a `Set`
 
-Below is a detailed comparison of three approaches—`Literal`s,
-`Enum`s, and `Set`s—for restricting a value to a fixed set of options.
-Each method has its strengths and trade‐offs,
-and the best choice depends on your requirements for type safety, runtime behavior, and code clarity.
+You can write an expression that looks like it's checking for membership in a `Literal` but it won't work:
 
----
+```python
+# literal_to_set.py
+from typing import Literal
 
-## 1. `Literal`s
+ParamVal = Literal["MIN", "MAX", "DEF"]
+print(ParamVal)
+print("MIN" in ParamVal)
+print("NOPE" in ParamVal)
 
-Description:  
-`Literal`s (using `Literal` from the `typing` module)
-let you declare that a variable must be one of a fixed set of constant values.
-For example, you might say:
+# Convert literal values to a set:
+allowed_set = set(ParamVal.__args__)  # type: ignore
+print(allowed_set)
+print("MIN" in allowed_set)
+print("NOPE" in allowed_set)
+```
+
+To check for membership, you must convert it to a `set` using the `__args__` property.
+
+## Choosing Between `Enum`, `Literal`, and `Set`
+
+Each approach has its strengths and trade‐offs.
+The best choice depends on your requirements for type safety, runtime behavior, and code clarity.
+
+### `Literal`
+
+`Literal`s declare that a variable must be one of a fixed set of constant values, such as:
 
 ```python
 from typing import Literal, Union
@@ -772,39 +797,38 @@ ParamType = Union[float, Literal["MIN", "MAX", "DEF"]]
 ```
 
 Pros:
-- Static Type Safety: Type checkers (like mypy or pyright) can enforce that only the allowed constant values appear in your code.
+- Static Type Safety: Type checkers can enforce that only the allowed constant values appear in your code.
 - Minimal Overhead: `Literal`s have no runtime cost; they serve solely as hints at the type level.
 - Simplicity: Using literals is straightforward and requires no extra boilerplate code.
 
 Cons:
-- No Runtime Distinction: At runtime, `"MIN"`, `"MAX"`, and `"DEF"` are ordinary strings. You lose benefits like custom methods or iteration over members.
+- No Runtime Distinction: At runtime, `"MIN"`, `"MAX"`, and `"DEF"` are ordinary strings. 
+  You lose benefits like custom methods or iteration over members.
 - Limited Expressiveness: `Literal`s only provide type-checking constraints and no additional behavior beyond that.
 
 When to Use:
 - Use `Literal`s when you need to enforce a small set of constant values at the type level, and you are comfortable relying on static type checkers and IDEs for guidance.
 - They are ideal for simple cases where you want to ensure that only a few specific string values (alongside other types, like numbers) are accepted.
 
----
-
-## 2. `Enum`s
+### `Enum`
 
 `Enum`s create a distinct type at runtime and define a collection of symbolic names bound to constant values. For example:
 
 ```python
 from enum import Enum
-from typing import Union
 
 class ParamKeyword(Enum):
     MIN = "MIN"
     MAX = "MAX"
     DEF = "DEF"
 
-ParamType = Union[float, ParamKeyword]
+ParamType = float | ParamKeyword
 ```
 
 Pros:
 - Runtime Features: `Enum`s are real classes at runtime, so they support iteration, comparison, and custom methods.
-- Clarity and Self-Documentation: Using an `Enum` clearly signals that the parameter is one of a predetermined, fixed set. IDE autocompletion can also list the valid members.
+- Clarity and Self-Documentation: Using an `Enum` clearly signals that the parameter is one of a predetermined, fixed set. 
+  IDE autocompletion can also list the valid members.
 - Extra Functionality: You can add methods or properties to an `Enum` if the values need to carry extra meaning (for instance, mapping to specific instrument settings).
 
 Cons:
@@ -812,12 +836,10 @@ Cons:
 - Slightly Heavier: While typically negligible, there is a bit more runtime overhead as enums are actual objects.
 
 When to Use:
-- Use `Enum`s when you need not only type safety at the static level but also runtime assurance—such as when you need to iterate over allowed options or attach extra behavior.
+- Use `Enum`s when you need not only type safety at the static level but also runtime assurance--such as when you need to iterate over allowed options or attach extra behavior.
 - `Enum`s are excellent for cases where the set of allowed values is fixed, and you might want to use them throughout your codebase in a uniform, well-documented manner.
 
----
-
-## 3. `Set`s
+### `Set`
 
 A set is a built-in Python data structure that holds unique elements.
 In the context of allowed values, you might define:
@@ -829,7 +851,7 @@ ALLOWED_KEYWORDS = {"MIN", "MAX", "DEF"}
 Pros:
 - Dynamic Membership Testing: `Set`s allow you to easily check if a given value is in the allowed collection using the `in` operator.
 - Runtime Flexibility: You can modify the set at runtime if needed (though for constants this might not be necessary).
-- Simplicity in Validation: When writing custom validation code, a set makes it straightforward to confirm membership.
+- Simplicity in Validation: When writing custom validation code, a set easily confirms membership.
 
 Cons:
 - Not a Type Annotation: `Set`s do not integrate with static type checkers. They only serve at runtime to check if a value belongs to the allowed set.
@@ -841,32 +863,15 @@ When to Use:
 
 ### Choosing
 
-- `Literal`s:  
-  Use when: You want a lightweight, compile-time restriction on values with zero runtime overhead,
-  and your focus is primarily on static type safety.  
-  Example: Defining `ParamType = Union[float, Literal["MIN", "MAX", "DEF"]]` for simple parameter type checking.
-
-- `Enum`s:  
-  Use when: You need both compile-time and runtime safety with a well-defined set of options.
-  s are preferable if you plan to iterate over the allowed values, attach methods, or need a more self-documenting API.  
-  Example: Creating a `ParamKeyword(Enum)` class to represent allowed keywords,
-  then using `Union[float, ParamKeyword]` for parameters.
-
-- `Set`s:  
-  Use when: You require a dynamic, runtime mechanism for validating values but do not need static type enforcement.
-  s are best suited for helper functions or validation routines
-  where you check membership in a collection of allowed strings.  
-  Example: Using `ALLOWED_KEYWORDS = {"MIN", "MAX", "DEF"}` in a helper function to validate user input.
-
-Each approach has its specific use cases. For a robust SCPI command model:
+Each approach has its specific use cases:
 - `Literal`s provide a quick and easy way to inform static type checkers without extra runtime behavior.
 - `Enum`s add clarity and runtime functionality at the cost of a little extra complexity.
 - `Set`s work well if your validation is purely runtime-oriented and you don’t need the additional benefits of static type restrictions.
 
 Choosing between them depends on whether you prioritize compile-time type checking and better IDE support
-(favoring `Literal`s or `Enum`s) or need flexible, dynamic validation (favoring sets).
-In many cases, combining these approaches can be effective—for example,
-using `Literal`s in type annotations and a set for quick runtime membership checks in helper functions.
+(favoring `Literal`s or `Enum`s) or need flexible, dynamic validation (favoring `set`s).
+In many cases, combining these approaches can be effective--for example,
+using `Literal`s in type annotations and a `set` for quick runtime membership checks in helper functions.
 
 ## Specialized Tools
 
