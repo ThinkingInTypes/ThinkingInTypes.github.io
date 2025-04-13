@@ -1,11 +1,8 @@
 from dataclasses import dataclass
-from typing import Union
+from typing import Literal, Union
 
-# Allowed special keywords for parameters.
-ALLOWED_KEYWORDS = {"MIN", "MAX", "DEF"}
-
-# Parameter type alias to allow either a numeric value or a special keyword.
-ParamType = Union[float, str]
+# Define the allowed literals for parameter keywords.
+ParamType = Union[float, Literal["MIN", "MAX", "DEF"]]
 
 
 def _validate_param(value: ParamType, name: str) -> ParamType:
@@ -13,12 +10,12 @@ def _validate_param(value: ParamType, name: str) -> ParamType:
     Validate and normalize a parameter value.
 
     Args:
-        value: The parameter value, expected to be either a float (or int)
-               or one of the allowed keyword strings.
+        value: The parameter value as either a numeric value (float or int)
+               or one of the literal strings "MIN", "MAX", "DEF".
         name: The name of the parameter (for error messages).
 
     Returns:
-        The normalized value (if string, converted to uppercase) or the numeric value.
+        The normalized value (for strings, converted to uppercase) or the numeric value.
 
     Raises:
         ValueError: If the value is invalid or of an unexpected type.
@@ -26,7 +23,7 @@ def _validate_param(value: ParamType, name: str) -> ParamType:
     match value:
         case str(s):
             s = s.upper()
-            if s not in ALLOWED_KEYWORDS:
+            if s not in {"MIN", "MAX", "DEF"}:
                 raise ValueError(f"Invalid {name} parameter: {s}")
             return s
         case int() | float() as numeric if numeric > 0:
@@ -41,10 +38,10 @@ class MeasureVoltageDC:
     Models the MEASure:VOLTage:DC? command for the Keysight 34401A.
 
     Attributes:
-        range: Voltage measurement range as a float or special keyword ("MIN", "MAX", "DEF").
-        resolution: Voltage resolution as a float or special keyword ("MIN", "MAX", "DEF").
+        range: Voltage measurement range as a float or a special keyword ("MIN", "MAX", "DEF").
+        resolution: Voltage resolution as a float or a special keyword ("MIN", "MAX", "DEF").
 
-    The __post_init__ method uses pattern matching via _validate_param to validate the fields.
+    The __post_init__ method validates the fields using pattern matching via _validate_param.
     """
 
     range: ParamType = "DEF"
@@ -58,7 +55,7 @@ class MeasureVoltageDC:
         if (
             isinstance(self.range, str)
             and self.range == "DEF"
-            and not (isinstance(self.resolution, str) and self.resolution == "DEF")
+            and (isinstance(self.resolution, str) and self.resolution != "DEF")
         ):
             raise ValueError("Resolution specified without a valid (non-'DEF') range.")
 
@@ -72,12 +69,14 @@ class MeasureVoltageDC:
         base = "MEAS:VOLT:DC?"
         if self.range == "DEF" and self.resolution == "DEF":
             return base
+
         parts = []
         if self.range != "DEF":
             parts.append(str(self.range))
         if self.resolution != "DEF":
             parts.append(str(self.resolution))
-        return f"{base} {'/'.join(parts)}".replace("/", ",")  # join with commas
+
+        return f"{base} {','.join(parts)}"
 
 
 @dataclass
@@ -86,10 +85,10 @@ class ConfigCurrentAC:
     Models the CONFigure:CURRent:AC command for the Keysight 34401A.
 
     Attributes:
-        range: Current measurement range as a float or special keyword ("MIN", "MAX", "DEF").
-        resolution: Current resolution as a float or special keyword ("MIN", "MAX", "DEF").
+        range: Current measurement range as a float or a special keyword ("MIN", "MAX", "DEF").
+        resolution: Current resolution as a float or a special keyword ("MIN", "MAX", "DEF").
 
-    The __post_init__ method uses _validate_param to handle duplicated validation logic.
+    The __post_init__ method validates the fields using pattern matching via _validate_param.
     """
 
     range: ParamType = "DEF"
@@ -103,7 +102,7 @@ class ConfigCurrentAC:
         if (
             isinstance(self.range, str)
             and self.range == "DEF"
-            and not (isinstance(self.resolution, str) and self.resolution == "DEF")
+            and (isinstance(self.resolution, str) and self.resolution != "DEF")
         ):
             raise ValueError("Resolution specified without a valid (non-'DEF') range.")
 
@@ -117,12 +116,14 @@ class ConfigCurrentAC:
         base = "CONF:CURR:AC"
         if self.range == "DEF" and self.resolution == "DEF":
             return base
+
         parts = []
         if self.range != "DEF":
             parts.append(str(self.range))
         if self.resolution != "DEF":
             parts.append(str(self.resolution))
-        return f"{base} {'/'.join(parts)}".replace("/", ",")  # join with commas
+
+        return f"{base} {','.join(parts)}"
 
 
 # Demonstration of usage:
@@ -131,11 +132,11 @@ if __name__ == "__main__":
     mv_cmd = MeasureVoltageDC(range=10.0, resolution=0.001)
     print("MeasureVoltageDC command:", mv_cmd.command())
 
-    # Valid command using special keywords (input as lower case, but validated to upper case).
+    # Valid command using special keywords (input as lower case, normalized to uppercase).
     cc_cmd = ConfigCurrentAC(range="min", resolution="max")
     print("ConfigCurrentAC command:", cc_cmd.command())
 
-    # An attempt that should fail: specifying a non-default resolution without a non-default range.
+    # An attempt that should fail: specifying a non-default resolution while leaving range as default.
     try:
         bad_cmd = MeasureVoltageDC(resolution=0.001)
     except ValueError as error:
