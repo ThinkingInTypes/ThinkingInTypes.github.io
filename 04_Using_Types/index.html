@@ -1366,7 +1366,8 @@ This means you can write <code>list[int]</code> instead of importing <code>List<
 </span><span id="__span-12-6"><a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a><span class="p">}</span>
 </span></code></pre></div>
 <p>You can do the same for <code>tuple</code> and <code>set</code> (e.g., <code>coordinates: tuple[float, float] = (23.5, 45.8)</code> or <code>unique_ids: set[str] = {"a", "b"}</code>), and the other standard library collection types.</p>
-<p>If you must support Python versions earlier than 3.9, you should stick to the <code>typing.List</code> / <code>typing.Dict</code> style, because the bracketed syntax for built-in types won't be recognized in older versions.
+<p>To support Python versions earlier than 3.9, use <code>typing.List</code> / <code>typing.Dict</code> style,
+because bracketed syntax for built-in types won't be recognized in older versions.
 This book will use the built-in names whenever possible</p>
 <p>There is also a mechanism called <code>from __future__ import annotations</code> that can ease adoption of newer annotation features by treating annotations as strings (to avoid evaluation issues), but that is an advanced detail beyond our current scope.
 TODO: Add an example</p>

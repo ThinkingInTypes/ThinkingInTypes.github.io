@@ -510,6 +510,15 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#the-programmable-meter" class="md-nav__link">
+    <span class="md-ellipsis">
+      The Programmable Meter
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -832,6 +841,15 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#the-programmable-meter" class="md-nav__link">
+    <span class="md-ellipsis">
+      The Programmable Meter
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -873,7 +891,7 @@ Only a tiny percentage of the code reviewed used anything <em>except</em> string
 This study suggested that the vast majority of systems were using strings as their primary data type.</p>
 <p>Because you can put any characters in any format into a string, such "stringly typed" systems (an ironic play on "strongly typed") may be the worst of all possible worlds.
 Unless it's actually text, classifying something as a string doesn't tell you anything.
-When a function receives a string that is meant to represent a type, that function can assume precisely nothing about it.
+When a function receives a string meant to represent a type, that function can assume precisely nothing about it.
 Every such function must start from scratch and analyze that string to see if it conforms to what that function needs.</p>
 <p>Changing the meaning of a stringly-typed item is a daunting job.
 You must look through every function that uses it and ensure that your change is reflected in the validations in every single function.
@@ -926,7 +944,7 @@ There might be many such functions spread throughout the system.
 If there's a bug or any change in the way phone numbers are validated, all validation code must be hunted down and corrected, and any tests must also be updated.</p>
 <p>Does anyone set out to write code like this?
 Probably not--it starts out seeming like "the simplest thing" and just continues to accumulate, one logical step at a time.
-Although <em>you</em> might not write code like this, systems like this exist, for phone numbers and for many other data items represented as strings.
+Although <em>you</em> might not write code like this, systems like this exist for phone numbers and for many other data items represented as strings.
 We'll learn how custom types dramatically simplify validation and guarantee correctness throughout your system.</p>
 <h2 id="design-by-contract">Design by Contract<a class="headerlink" href="#design-by-contract" title="Permanent link">#</a></h2>
 <p>The argument-validation problem was observed by Bertrand Meyer and introduced as a core concept in his Eiffel programming language, described in the book <em>Object-Oriented Software Construction</em> (1988).
@@ -1072,8 +1090,10 @@ It receives the target function <code>func</code> that’s being wrapped.</p>
 </span></code></pre></div>
 <p>In this case the <code>Condition</code>s are being applied to methods, so their <code>lambda</code>s both include <code>self</code>.
 In <code>withdraw</code> you see multiple <code>Condition</code>s applied within one <code>requires</code> decorator.</p>
-<p>This is an improvement over placing the validation code at the beginning of each function body, as Eiffel does and as traditional Python functions do--assuming they check their arguments.
-The <code>@requires</code> clearly shows that constraints have been placed on the arguments, while <code>Condition</code> reduces duplicated code.</p>
+<p>The Eiffel approach is an improvement over placing the validation code at the beginning of each function body.
+It's an improvement over what traditional Python functions do (assuming they check their arguments).
+The <code>@requires</code> clearly shows that the arguments are constrained. 
+<code>Condition</code>s reduce duplicated code.</p>
 <p>DbC definitely helps, but it has limitations:</p>
 <ol>
 <li>A programmer can forget to use <code>requires</code>, or choose to perform argument checks by hand if DbC doesn't make sense to them.</li>
@@ -1112,12 +1132,16 @@ If an <code>Amount</code> object exists, you know it cannot contain a negative v
 </span><span id="__span-5-24"><a id="__codelineno-5-24" name="__codelineno-5-24" href="#__codelineno-5-24"></a>        <span class="k">return</span> <span class="n">Amount</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">-</span> <span class="n">other</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
 </span></code></pre></div>
 <p>Although <code>Amount</code> is a frozen <code>dataclass</code>, it is still possible to write an <code>__init__</code> method.
-Here, <code>__init__</code> allows <code>Amount</code> to convert multiple forms of input into a <code>Decimal</code>, then check that it is non-negative.
-It then modifies itself using <code>object.__setattr__</code>, but other than that we want it safely immutable.
+Doing so replaces the constructor generated by <code>dataclass</code>.
+Here, the <code>__init__</code> allows <code>Amount</code> to accept multiple types of input.
+It turns <code>value</code> by converting it to a <code>str</code>.
+This is passed to <code>Decimal</code> and the result is checked to ensure it is non-negative.</p>
+<p><code>__init__</code> modifies itself using <code>object.__setattr__</code>, but other than that we want it safely immutable.
 Modifying a frozen <code>dataclass</code> using <code>object.__setattr__</code> is best only done during construction.
-You can also call <code>object.__setattr__</code> in <code>__post_init__</code>, but if you find yourself doing it in other methods you should reconsider whether your type is really frozen.
-Requiring <code>object.__setattr__</code> to modify a frozen <code>dataclass</code> means you can easily search for modifications.</p>
-<p>Note that <code>__add__</code> and <code>__sub__</code> return new <code>Amount</code> objects without worrying whether they are non-negative--the constructor takes care of that.</p>
+You'll more commonly call <code>object.__setattr__</code> in <code>__post_init__</code>, but if you find yourself using it in other methods, reconsider whether your type is really frozen.
+Requiring <code>object.__setattr__</code> to modify a frozen <code>dataclass</code> means you have a way to search for modifications.</p>
+<p>Note that <code>__add__</code> and <code>__sub__</code> return new <code>Amount</code> objects without checking whether they are non-negative
+The <code>Amount</code> initialization takes care of that.</p>
 <p>If you provide an incorrect <code>value</code> to <code>Amount</code>, the <code>Decimal</code> constructor throws an exception:</p>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="c1"># bad_amount.py</span>
 </span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="kn">from</span> <span class="nn">amount</span> <span class="kn">import</span> <span class="n">Amount</span>
@@ -1133,8 +1157,8 @@ Requiring <code>object.__setattr__</code> to modify a frozen <code>dataclass</co
 </span><span id="__span-6-12"><a id="__codelineno-6-12" name="__codelineno-6-12" href="#__codelineno-6-12"></a>    <span class="n">Amount</span><span class="p">(</span><span class="s2">&quot;not-a-number&quot;</span><span class="p">)</span>
 </span><span id="__span-6-13"><a id="__codelineno-6-13" name="__codelineno-6-13" href="#__codelineno-6-13"></a><span class="c1">## Error: [&lt;class &#39;decimal.ConversionSyntax&#39;&gt;]</span>
 </span></code></pre></div>
-<p>Now we define a bank-account <code>Balance</code> that contains an <code>Amount</code>, but doesn't need any fancy construction behavior.
-Thus we can produce an immutable using <code>NamedTuple</code>:</p>
+<p>Now we define a bank-account <code>Balance</code> that contains an <code>Amount</code>, but doesn't need special construction behavior.
+Thus, we can produce an immutable using <code>NamedTuple</code>:</p>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="c1"># balance.py</span>
 </span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">NamedTuple</span>
 </span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="kn">from</span> <span class="nn">amount</span> <span class="kn">import</span> <span class="n">Amount</span>
@@ -1210,7 +1234,7 @@ If we add more validations to <code>Amount</code> or <code>Balance</code>, they 
 </span><span id="__span-9-13"><a id="__codelineno-9-13" name="__codelineno-9-13" href="#__codelineno-9-13"></a>    <span class="n">country_code</span><span class="p">:</span> <span class="nb">str</span>
 </span><span id="__span-9-14"><a id="__codelineno-9-14" name="__codelineno-9-14" href="#__codelineno-9-14"></a>    <span class="n">number</span><span class="p">:</span> <span class="nb">str</span>  <span class="c1"># Digits only, no formatting</span>
 </span><span id="__span-9-15"><a id="__codelineno-9-15" name="__codelineno-9-15" href="#__codelineno-9-15"></a>
-</span><span id="__span-9-16"><a id="__codelineno-9-16" name="__codelineno-9-16" href="#__codelineno-9-16"></a>    <span class="n">PHONE_REGEX</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span>
+</span><span id="__span-9-16"><a id="__codelineno-9-16" name="__codelineno-9-16" href="#__codelineno-9-16"></a>    <span class="n">phone_number_re</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span>
 </span><span id="__span-9-17"><a id="__codelineno-9-17" name="__codelineno-9-17" href="#__codelineno-9-17"></a>        <span class="sa">r</span><span class="s2">&quot;^\+?(\d{1,3})?[\s\-.()]*([\d\s\-.()]+)$&quot;</span>
 </span><span id="__span-9-18"><a id="__codelineno-9-18" name="__codelineno-9-18" href="#__codelineno-9-18"></a>    <span class="p">)</span>
 </span><span id="__span-9-19"><a id="__codelineno-9-19" name="__codelineno-9-19" href="#__codelineno-9-19"></a>
@@ -1220,7 +1244,7 @@ If we add more validations to <code>Amount</code> or <code>Balance</code>, they 
 </span><span id="__span-9-23"><a id="__codelineno-9-23" name="__codelineno-9-23" href="#__codelineno-9-23"></a><span class="sd">        Parses and validates a raw phone number string.</span>
 </span><span id="__span-9-24"><a id="__codelineno-9-24" name="__codelineno-9-24" href="#__codelineno-9-24"></a><span class="sd">        &quot;&quot;&quot;</span>
 </span><span id="__span-9-25"><a id="__codelineno-9-25" name="__codelineno-9-25" href="#__codelineno-9-25"></a>        <span class="n">cleaned</span> <span class="o">=</span> <span class="n">raw</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
-</span><span id="__span-9-26"><a id="__codelineno-9-26" name="__codelineno-9-26" href="#__codelineno-9-26"></a>        <span class="n">match</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">PHONE_REGEX</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">cleaned</span><span class="p">)</span>
+</span><span id="__span-9-26"><a id="__codelineno-9-26" name="__codelineno-9-26" href="#__codelineno-9-26"></a>        <span class="n">match</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">phone_number_re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">cleaned</span><span class="p">)</span>
 </span><span id="__span-9-27"><a id="__codelineno-9-27" name="__codelineno-9-27" href="#__codelineno-9-27"></a>        <span class="k">if</span> <span class="ow">not</span> <span class="n">match</span><span class="p">:</span>
 </span><span id="__span-9-28"><a id="__codelineno-9-28" name="__codelineno-9-28" href="#__codelineno-9-28"></a>            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
 </span><span id="__span-9-29"><a id="__codelineno-9-29" name="__codelineno-9-29" href="#__codelineno-9-29"></a>                <span class="sa">f</span><span class="s2">&quot;Invalid phone number: </span><span class="si">{</span><span class="n">raw</span><span class="si">!r}</span><span class="s2">&quot;</span>
@@ -1244,11 +1268,11 @@ If we add more validations to <code>Amount</code> or <code>Balance</code>, they 
 </span><span id="__span-9-47"><a id="__codelineno-9-47" name="__codelineno-9-47" href="#__codelineno-9-47"></a>
 </span><span id="__span-9-48"><a id="__codelineno-9-48" name="__codelineno-9-48" href="#__codelineno-9-48"></a>    <span class="k">def</span> <span class="nf">format_number</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 </span><span id="__span-9-49"><a id="__codelineno-9-49" name="__codelineno-9-49" href="#__codelineno-9-49"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-</span><span id="__span-9-50"><a id="__codelineno-9-50" name="__codelineno-9-50" href="#__codelineno-9-50"></a><span class="sd">        formatting rules for 10-digit numbers.</span>
+</span><span id="__span-9-50"><a id="__codelineno-9-50" name="__codelineno-9-50" href="#__codelineno-9-50"></a><span class="sd">        Formatting rules for 10-digit numbers.</span>
 </span><span id="__span-9-51"><a id="__codelineno-9-51" name="__codelineno-9-51" href="#__codelineno-9-51"></a><span class="sd">        &quot;&quot;&quot;</span>
 </span><span id="__span-9-52"><a id="__codelineno-9-52" name="__codelineno-9-52" href="#__codelineno-9-52"></a>        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">number</span><span class="p">)</span> <span class="o">==</span> <span class="mi">10</span><span class="p">:</span>
 </span><span id="__span-9-53"><a id="__codelineno-9-53" name="__codelineno-9-53" href="#__codelineno-9-53"></a>            <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;(</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">number</span><span class="p">[:</span><span class="mi">3</span><span class="p">]</span><span class="si">}</span><span class="s2">) </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">number</span><span class="p">[</span><span class="mi">3</span><span class="p">:</span><span class="mi">6</span><span class="p">]</span><span class="si">}</span><span class="s2">-</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">number</span><span class="p">[</span><span class="mi">6</span><span class="p">:]</span><span class="si">}</span><span class="s2">&quot;</span>
-</span><span id="__span-9-54"><a id="__codelineno-9-54" name="__codelineno-9-54" href="#__codelineno-9-54"></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">number</span>  <span class="c1"># fallback: just the digits</span>
+</span><span id="__span-9-54"><a id="__codelineno-9-54" name="__codelineno-9-54" href="#__codelineno-9-54"></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">number</span>  <span class="c1"># Fallback: just the digits</span>
 </span><span id="__span-9-55"><a id="__codelineno-9-55" name="__codelineno-9-55" href="#__codelineno-9-55"></a>
 </span><span id="__span-9-56"><a id="__codelineno-9-56" name="__codelineno-9-56" href="#__codelineno-9-56"></a>    <span class="k">def</span> <span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="nb">object</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 </span><span id="__span-9-57"><a id="__codelineno-9-57" name="__codelineno-9-57" href="#__codelineno-9-57"></a>        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">PhoneNumber</span><span class="p">):</span>
@@ -1282,6 +1306,16 @@ If we add more validations to <code>Amount</code> or <code>Balance</code>, they 
 </span><span id="__span-10-21"><a id="__codelineno-10-21" name="__codelineno-10-21" href="#__codelineno-10-21"></a><span class="c1">## Error: Invalid phone number: &#39;&#39;</span>
 </span><span id="__span-10-22"><a id="__codelineno-10-22" name="__codelineno-10-22" href="#__codelineno-10-22"></a><span class="c1">## &#39; 5551234 &#39; -&gt; +555 1234</span>
 </span></code></pre></div>
+<p>Every function that works with phone numbers only uses the <code>PhoneNumber</code> type.
+If you need to modify the behavior of a <code>PhoneNumber</code>, you do it in only one place.
+If you need to improve the performance of <code>PhoneNumber</code> creation and use, you do it in only one place,
+for example, by converting the <code>PhoneNumber</code> type into a Rust module.</p>
+<h2 id="the-programmable-meter">The Programmable Meter<a class="headerlink" href="#the-programmable-meter" title="Permanent link">#</a></h2>
+<p>I recently visited my friend Matt, who is a physics professor (we were undergraduate physics students together).
+He has a stellar reputation as a teacher, and I realized I had never watched him teach, so I decided to see him in action.
+This was an electronics lab, and the students were using programmable measurement tools, and the interface language these tools used was Python.
+To send commands to the programmable meter, the meter developers had decided to go the stringly-typed route.
+The students ended up wasting time trying to get the format of the strings correct.</p>
 
 
 

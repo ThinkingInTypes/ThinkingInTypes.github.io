@@ -1070,7 +1070,7 @@ It does <strong>not</strong> make the object itself immutable – it only preven
 For instance, if you declare <code>numbers: Final[list[int]] = [1, 2, 3]</code>, you are not supposed to reassign <code>numbers</code> to a new list, but you <em>can still mutate the list itself</em> (e.g. <code>numbers.append(4)</code> will succeed) because the list object is still mutable.
 The type checker might warn you if the type is <code>Final[Sequence[int]]</code> instead (since <code>Sequence</code> has no <code>append</code> method), but with <code>Final[list[int]]</code> the list methods are available.
 In short, marking something <code>Final</code> guarantees that the <em>name</em> won’t be re-bound to a different object, but it does not magically make the object’s contents immutable (<a href="https://typing.python.org/en/latest/spec/qualifiers.html#:~:text=Note%20that%20declaring%20a%20name,to%20prevent%20mutating%20such%20values">Type qualifiers — typing documentation</a>) (<a href="https://typing.python.org/en/latest/spec/qualifiers.html#:~:text=x%3A%20Final%20%3D%20,OK">Type qualifiers — typing documentation</a>).
-If true immutability of the content is needed, you should combine <code>Final</code> with an immutable type (e.g. use a tuple or use an immutable interface like <code>Sequence</code> instead of <code>list</code>).
+If true immutability of the content is needed, combine <code>Final</code> with an immutable type (e.g. use a tuple or use an immutable interface like <code>Sequence</code> instead of <code>list</code>).
 For example:</p>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="c1"># example_5.py</span>
 </span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Final</span><span class="p">,</span> <span class="n">Sequence</span>
@@ -1273,7 +1273,7 @@ Generally, use this technique only to set up <strong>derived fields or cached va
   For <code>Final</code> type hints, there is virtually no runtime cost at all, since it doesn’t inject any checking – it’s purely a compile-time concept.</p>
 </li>
 <li>
-<p><strong>Combining <code>Final</code> and frozen dataclasses:</strong> You might wonder if you should use <code>Final</code> annotations inside a frozen dataclass.
+<p><strong>Combining <code>Final</code> and frozen dataclasses:</strong> You might wonder whether to use <code>Final</code> annotations inside a frozen dataclass.
   Generally, you do not need to.
   If a dataclass is frozen, all its fields are effectively final by design (you can’t rebind them on the instance after construction).
   Type checkers are aware of frozen dataclasses in this regard.
