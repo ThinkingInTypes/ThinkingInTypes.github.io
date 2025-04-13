@@ -276,7 +276,8 @@ user_data: dict[str, float] = {
 
 You can do the same for `tuple` and `set` (e.g., `coordinates: tuple[float, float] = (23.5, 45.8)` or `unique_ids: set[str] = {"a", "b"}`), and the other standard library collection types.
 
-If you must support Python versions earlier than 3.9, you should stick to the `typing.List` / `typing.Dict` style, because the bracketed syntax for built-in types won't be recognized in older versions.
+To support Python versions earlier than 3.9, use `typing.List` / `typing.Dict` style,
+because bracketed syntax for built-in types won't be recognized in older versions.
 This book will use the built-in names whenever possible
 
 There is also a mechanism called `from __future__ import annotations` that can ease adoption of newer annotation features by treating annotations as strings (to avoid evaluation issues), but that is an advanced detail beyond our current scope.

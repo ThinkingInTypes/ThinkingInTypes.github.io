@@ -23,7 +23,7 @@ This study suggested that the vast majority of systems were using strings as the
 
 Because you can put any characters in any format into a string, such "stringly typed" systems (an ironic play on "strongly typed") may be the worst of all possible worlds.
 Unless it's actually text, classifying something as a string doesn't tell you anything.
-When a function receives a string that is meant to represent a type, that function can assume precisely nothing about it.
+When a function receives a string meant to represent a type, that function can assume precisely nothing about it.
 Every such function must start from scratch and analyze that string to see if it conforms to what that function needs.
 
 Changing the meaning of a stringly-typed item is a daunting job.
@@ -85,7 +85,7 @@ If there's a bug or any change in the way phone numbers are validated, all valid
 
 Does anyone set out to write code like this?
 Probably not--it starts out seeming like "the simplest thing" and just continues to accumulate, one logical step at a time.
-Although _you_ might not write code like this, systems like this exist, for phone numbers and for many other data items represented as strings.
+Although _you_ might not write code like this, systems like this exist for phone numbers and for many other data items represented as strings.
 We'll learn how custom types dramatically simplify validation and guarantee correctness throughout your system.
 
 ## Design by Contract
@@ -103,7 +103,7 @@ _Design By Contract_ (DbC) tried to reduce errors by treating the interaction be
 Eiffel provided explicit keywords to make DbC a first-class citizen in the language:
 
 | Keyword     | Purpose                                    |
-| ----------- | ------------------------------------------ |
+|-------------|--------------------------------------------|
 | `require`   | Preconditions                              |
 | `ensure`    | Postconditions                             |
 | `invariant` | Class-wide conditions                      |
@@ -279,10 +279,11 @@ Although `Amount` is a frozen `dataclass`, it is still possible to write an `__i
 Here, `__init__` allows `Amount` to convert multiple forms of input into a `Decimal`, then check that it is non-negative.
 It then modifies itself using `object.__setattr__`, but other than that we want it safely immutable.
 Modifying a frozen `dataclass` using `object.__setattr__` is best only done during construction.
-You can also call `object.__setattr__` in `__post_init__`, but if you find yourself doing it in other methods you should reconsider whether your type is really frozen.
-Requiring `object.__setattr__` to modify a frozen `dataclass` means you can easily search for modifications.
+You can also call `object.__setattr__` in `__post_init__`, but if you find yourself doing it in other methods, reconsider whether your type is really frozen.
+Requiring `object.__setattr__` to modify a frozen `dataclass` means you have a way to search for modifications.
 
-Note that `__add__` and `__sub__` return new `Amount` objects without worrying whether they are non-negative--the constructor takes care of that.
+Note that `__add__` and `__sub__` return new `Amount` objects
+without checking whether they are non-negative--the constructor takes care of that.
 
 If you provide an incorrect `value` to `Amount`, the `Decimal` constructor throws an exception:
 
@@ -302,8 +303,8 @@ with Catch():
 ## Error: [<class 'decimal.ConversionSyntax'>]
 ```
 
-Now we define a bank-account `Balance` that contains an `Amount`, but doesn't need any fancy construction behavior.
-Thus we can produce an immutable using `NamedTuple`:
+Now we define a bank-account `Balance` that contains an `Amount`, but doesn't need special construction behavior.
+Thus, we can produce an immutable using `NamedTuple`:
 
 ```python
 # balance.py

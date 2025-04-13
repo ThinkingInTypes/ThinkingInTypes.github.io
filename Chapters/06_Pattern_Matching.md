@@ -600,7 +600,7 @@ Some type checkers might narrow it to a common supertype (like `x: float` if flo
 If you need to handle each type differently, it's better to split into separate cases.
 But if the handling is same (say you treat int and float uniformly as "number"), OR is perfect.
 For literal OR patterns, as mentioned, exhaustiveness can be checked.
-For class OR patterns, you should ensure you cover the needed types.
+Ensure you cover the needed types for class OR patterns. 
 Generally, OR patterns complement union types in annotations: if a variable is `X | Y`, a match with `case X(...)|Y(...):` will cover those.
 Remember that the action block sees the union of the possibilities.
 

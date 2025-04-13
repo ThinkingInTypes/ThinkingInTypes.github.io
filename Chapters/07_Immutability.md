@@ -150,7 +150,7 @@ It does **not** make the object itself immutable – it only prevents the name f
 For instance, if you declare `numbers: Final[list[int]] = [1, 2, 3]`, you are not supposed to reassign `numbers` to a new list, but you _can still mutate the list itself_ (e.g. `numbers.append(4)` will succeed) because the list object is still mutable.
 The type checker might warn you if the type is `Final[Sequence[int]]` instead (since `Sequence` has no `append` method), but with `Final[list[int]]` the list methods are available.
 In short, marking something `Final` guarantees that the _name_ won’t be re-bound to a different object, but it does not magically make the object’s contents immutable ([Type qualifiers — typing documentation](https://typing.python.org/en/latest/spec/qualifiers.html#:~:text=Note%20that%20declaring%20a%20name,to%20prevent%20mutating%20such%20values)) ([Type qualifiers — typing documentation](https://typing.python.org/en/latest/spec/qualifiers.html#:~:text=x%3A%20Final%20%3D%20,OK)).
-If true immutability of the content is needed, you should combine `Final` with an immutable type (e.g. use a tuple or use an immutable interface like `Sequence` instead of `list`).
+If true immutability of the content is needed, combine `Final` with an immutable type (e.g. use a tuple or use an immutable interface like `Sequence` instead of `list`).
 For example:
 
 ```python
@@ -386,7 +386,7 @@ It’s helpful to understand how these features are implemented, to fully apprec
   Accessing attributes and all other operations on a frozen dataclass are just as fast as on a regular class; it’s only the initialization that’s marginally slower.
   For `Final` type hints, there is virtually no runtime cost at all, since it doesn’t inject any checking – it’s purely a compile-time concept.
 
-- **Combining `Final` and frozen dataclasses:** You might wonder if you should use `Final` annotations inside a frozen dataclass.
+- **Combining `Final` and frozen dataclasses:** You might wonder whether to use `Final` annotations inside a frozen dataclass.
   Generally, you do not need to.
   If a dataclass is frozen, all its fields are effectively final by design (you can’t rebind them on the instance after construction).
   Type checkers are aware of frozen dataclasses in this regard.
