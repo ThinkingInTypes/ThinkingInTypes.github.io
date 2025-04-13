@@ -1,7 +1,7 @@
 # Custom Types
 
 - Add variations:
-  NamedTuple, Enum
+  NamedTuple, `Enum`
 - Incorporate examples from <https://github.com/BruceEckel/DataClassesAsTypes>
 
 This chapter began as a presentation at a Python conference, inspired by conversations with fellow programmers exploring functional programming techniques.
@@ -12,8 +12,8 @@ This chapter aims to share those insights and illustrate the practical benefits 
 ## Misunderstanding Class Attributes
 
 This chapter contains additional tools that modify the normal behavior of class attributes.
-It's important to understand that this behavior is created by the tool, and that ordinary classes do not behave this way.
-Read the [Class Attributes](A06_Class_Attributes.md) appendix for deeper understanding.
+It's important to understand that this behavior is created by the tool and that ordinary classes do not behave this way.
+Read the [Class Attributes](A06_Class_Attributes.md) appendix for a deeper understanding.
 
 ## Ensuring Correctness
 
@@ -451,30 +451,10 @@ print(person)
 This hierarchical validation structure ensures correctness and clarity at every composition level.
 Invalid data never propagates, vastly simplifying subsequent interactions.
 
-## Literal Types
+## `Enum`s
 
-Literal types allow specifying exact permissible values, enhancing type specificity and correctness:
-
-```python
-# literal_types.py
-from typing import Literal
-
-
-def set_mode(mode: Literal["auto", "manual"]) -> None:
-    print(f"Mode set to {mode}")
-
-
-set_mode("auto")  # valid
-## Mode set to auto
-# set_mode('automatic')  # invalid, detected by type checker
-```
-
-Literal types ensure values match expected exact constants, improving type safety.
-
-## Leveraging Enums for Type Safety
-
-An Enum is also a type, and is preferable when you have a smaller set of values.
-Enums provide additional type safety for fixed-value sets, such as months:
+An `Enum` is also a type and is preferable when you have a smaller set of values.
+`Enum`s provide additional type safety for fixed-value sets, such as months:
 
 ```python
 # birth_date.py
@@ -715,6 +695,179 @@ for date in [
 Using enums makes code both readable and safely constrained, improving robustness.
 For simplicity and IDE interactivity, choose enums over data classes for fixed-value sets.
 
+## `Literal`: The Lightweight `Enum`
+
+`Literal` types specify a set of permissible values to ensure values match expected exact constants:
+
+```python
+# literal_types.py
+from typing import Literal
+
+
+def set_mode(mode: Literal["auto", "manual"]) -> None:
+    print(f"Mode set to {mode}")
+
+
+set_mode("auto")  # valid
+## Mode set to auto
+# set_mode('automatic')  # invalid, detected by type checker
+```
+
+`Literal`s can serve as a lightweight substitute for `Enum`s when you only need to restrict values at the type level
+and do not require the additional runtime features of `Enum`s. 
+This makes `Literal`s attractive for scenarios
+like defining a parameter that only accepts a small set of constant values without adding extra code complexity.
+
+### Similarities
+- Value Restriction:  
+  Both `Literal`s and `Enum`s let you restrict a variable to a fixed set of values.
+  For example, using
+```python
+ParamType = Union[float, Literal["MIN", "MAX", "DEF"]]
+```  
+  tells a type checker that only these string values are allowed (aside from floats),
+  similar to how an `Enum` restricts possible members.
+
+### Differences
+- Type Checking vs. Runtime Behavior:
+  - `Literal`: `Literal`s are a static type hint introduced in PEP 586. They exist solely for type checking and do not create a distinct runtime type. The type checker (and your IDE) knows that only those exact values are allowed, but at runtime, they are just ordinary values (e.g., ordinary strings).
+  - `Enum`: An `Enum` is a real class (inheriting from `enum.Enum`) that creates distinct runtime objects. `Enum`s provide additional functionality like iteration over members, comparison, and custom methods. They work both at runtime and during static type checking.
+
+- Overhead and Simplicity:
+  - `Literal`: Using `Literal`s is simple and lightweight if you just want to specify allowed constant values. There’s no additional boilerplate, so it’s a good choice when you only need type constraints.
+  - `Enum`: `Enum`s come with more structure and can encapsulate behavior. However, they require defining a class and are slightly heavier in terms of syntax and runtime footprint.
+
+### When to Choose One Over the Other
+- Use `Literal`s if:
+  - You need a simple, compile-time constraint on allowed values without extra runtime behavior.
+  - You want minimal boilerplate and are comfortable relying on your static type checker and IDE for guidance.
+
+- Use `Enum`s if:
+  - You need runtime features, such as iterating over allowed values, custom methods, or more semantic richness (e.g., when each value might need its own behavior or additional attributes).
+  - You want a self-documenting interface that clearly models a set of related constants as a distinct type.
+
+Both approaches improve type safety,
+but if you need more robust functionality or runtime introspection, an `Enum` might be the better choice.
+
+## Choosing Between `Enum`s, `Literal`s, and `Set`s
+
+Below is a detailed comparison of three approaches—`Literal`s,
+`Enum`s, and `Set`s—for restricting a value to a fixed set of options.
+Each method has its strengths and trade‐offs,
+and the best choice depends on your requirements for type safety, runtime behavior, and code clarity.
+
+---
+
+## 1. `Literal`s
+
+Description:  
+`Literal`s (using `Literal` from the `typing` module)
+let you declare that a variable must be one of a fixed set of constant values.
+For example, you might say:
+
+```python
+from typing import Literal, Union
+
+ParamType = Union[float, Literal["MIN", "MAX", "DEF"]]
+```
+
+Pros:
+- Static Type Safety: Type checkers (like mypy or pyright) can enforce that only the allowed constant values appear in your code.
+- Minimal Overhead: `Literal`s have no runtime cost; they serve solely as hints at the type level.
+- Simplicity: Using literals is straightforward and requires no extra boilerplate code.
+
+Cons:
+- No Runtime Distinction: At runtime, `"MIN"`, `"MAX"`, and `"DEF"` are ordinary strings. You lose benefits like custom methods or iteration over members.
+- Limited Expressiveness: `Literal`s only provide type-checking constraints and no additional behavior beyond that.
+
+When to Use:
+- Use `Literal`s when you need to enforce a small set of constant values at the type level, and you are comfortable relying on static type checkers and IDEs for guidance.
+- They are ideal for simple cases where you want to ensure that only a few specific string values (alongside other types, like numbers) are accepted.
+
+---
+
+## 2. `Enum`s
+
+`Enum`s create a distinct type at runtime and define a collection of symbolic names bound to constant values. For example:
+
+```python
+from enum import Enum
+from typing import Union
+
+class ParamKeyword(Enum):
+    MIN = "MIN"
+    MAX = "MAX"
+    DEF = "DEF"
+
+ParamType = Union[float, ParamKeyword]
+```
+
+Pros:
+- Runtime Features: `Enum`s are real classes at runtime, so they support iteration, comparison, and custom methods.
+- Clarity and Self-Documentation: Using an `Enum` clearly signals that the parameter is one of a predetermined, fixed set. IDE autocompletion can also list the valid members.
+- Extra Functionality: You can add methods or properties to an `Enum` if the values need to carry extra meaning (for instance, mapping to specific instrument settings).
+
+Cons:
+- Additional Overhead: `Enum`s require a bit more code and syntax compared to `Literal`s.
+- Slightly Heavier: While typically negligible, there is a bit more runtime overhead as enums are actual objects.
+
+When to Use:
+- Use `Enum`s when you need not only type safety at the static level but also runtime assurance—such as when you need to iterate over allowed options or attach extra behavior.
+- `Enum`s are excellent for cases where the set of allowed values is fixed, and you might want to use them throughout your codebase in a uniform, well-documented manner.
+
+---
+
+## 3. `Set`s
+
+A set is a built-in Python data structure that holds unique elements.
+In the context of allowed values, you might define:
+
+```python
+ALLOWED_KEYWORDS = {"MIN", "MAX", "DEF"}
+```
+
+Pros:
+- Dynamic Membership Testing: `Set`s allow you to easily check if a given value is in the allowed collection using the `in` operator.
+- Runtime Flexibility: You can modify the set at runtime if needed (though for constants this might not be necessary).
+- Simplicity in Validation: When writing custom validation code, a set makes it straightforward to confirm membership.
+
+Cons:
+- Not a Type Annotation: `Set`s do not integrate with static type checkers. They only serve at runtime to check if a value belongs to the allowed set.
+- No Static Safety: Unlike `Literal`s or `Enum`s, sets don’t give you compile-time guarantees or IDE autocompletion for allowed values.
+
+When to Use:
+- Use sets for runtime validation where you need a simple way to confirm membership (e.g., inside a helper function that checks if a value is valid).
+- They are ideal when the allowed values are defined once and only used for dynamic checks, not for type annotations.
+
+### Choosing
+
+- `Literal`s:  
+  Use when: You want a lightweight, compile-time restriction on values with zero runtime overhead,
+  and your focus is primarily on static type safety.  
+  Example: Defining `ParamType = Union[float, Literal["MIN", "MAX", "DEF"]]` for simple parameter type checking.
+
+- `Enum`s:  
+  Use when: You need both compile-time and runtime safety with a well-defined set of options.
+  s are preferable if you plan to iterate over the allowed values, attach methods, or need a more self-documenting API.  
+  Example: Creating a `ParamKeyword(Enum)` class to represent allowed keywords,
+  then using `Union[float, ParamKeyword]` for parameters.
+
+- `Set`s:  
+  Use when: You require a dynamic, runtime mechanism for validating values but do not need static type enforcement.
+  s are best suited for helper functions or validation routines
+  where you check membership in a collection of allowed strings.  
+  Example: Using `ALLOWED_KEYWORDS = {"MIN", "MAX", "DEF"}` in a helper function to validate user input.
+
+Each approach has its specific use cases. For a robust SCPI command model:
+- `Literal`s provide a quick and easy way to inform static type checkers without extra runtime behavior.
+- `Enum`s add clarity and runtime functionality at the cost of a little extra complexity.
+- `Set`s work well if your validation is purely runtime-oriented and you don’t need the additional benefits of static type restrictions.
+
+Choosing between them depends on whether you prioritize compile-time type checking and better IDE support
+(favoring `Literal`s or `Enum`s) or need flexible, dynamic validation (favoring sets).
+In many cases, combining these approaches can be effective—for example,
+using `Literal`s in type annotations and a set for quick runtime membership checks in helper functions.
+
 ## Specialized Tools
 
 ### Typed NamedTuples
@@ -741,7 +894,7 @@ print(coords.latitude)
 ```
 
 `NamedTuple` provides clarity, immutability, and easy unpacking, ideal for structured data.
-For brevity and cleanliness, this book will used `NamedTuple`s instead of frozen `dataclass`es whenever possible.
+For brevity and cleanliness, this book will use `NamedTuple`s instead of frozen `dataclass`es whenever possible.
 
 [what generated methods are different between NamedTuple and dataclass?]
 
@@ -786,9 +939,9 @@ class UserSettings(TypedDict):
 settings: UserSettings = {"theme": "dark"}
 ```
 
-This flexibility allows clear definitions for complex, partially-optional data structures.
+This flexibility allows clear definitions for complex, partially optional data structures.
 
-## Combining Dataclasses and Enums
+## Combining Dataclasses and `Enum`s
 
 ```python
 # dataclasses_and_enums.py
@@ -815,7 +968,7 @@ print(User(id=1, name="Alice", status=Status.ACTIVE))
 
 ## Domain-Driven Design (DDD)
 
-Strongly-typed domain models help clearly represent domain logic, improving robustness and maintainability.
+Strongly typed domain models help clearly represent domain logic, improving robustness and maintainability.
 Define domain entities explicitly to enhance domain logic expressiveness:
 
 ```python
@@ -840,12 +993,14 @@ class Order:
         )
 ```
 
-Strongly-typed domain models help catch issues early, facilitating clearer, safer, and more maintainable codebases.
+Strongly typed domain models help catch issues early, facilitating clearer, safer, and more maintainable codebases.
 
 ## Conclusion
 
-Python data classes simplify managing data integrity and composition, reducing repetitive checks and centralizing validation.
-Combined with functional programming principles like immutability and type composition, data classes significantly enhance the clarity, maintainability, and robustness of your code.
+Python data classes simplify managing data integrity and composition,
+reducing repetitive checks, and centralizing validation.
+Combined with functional programming principles like immutability and type composition,
+data classes significantly enhance the clarity, maintainability, and robustness of your code.
 Once you adopt this method, you'll find your development process smoother, more reliable, and enjoyable.
 
 ## (Generated) Dataclass Intro Notes
