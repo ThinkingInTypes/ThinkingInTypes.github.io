@@ -2,7 +2,7 @@
 
 Assumptions I make about your Python & programming knowledge.
 
-## Your Python Knowlege
+## Your Python Knowledge
 
 - You have intermediate-level understanding of the language, including a reasonable grasp of classes
 - You understand core language features and know how to look up and learn features you haven't seen
@@ -21,6 +21,7 @@ Assumptions I make about your Python & programming knowledge.
 - Use the most modern/elegant coding mechanisms available (latest Python)
 - Classes are for creating types.
   As much as possible, pretend inheritance doesn't exist.
+- Performance issues can be solved (sometimes by converting types or functions to Rust)
 
 ## Examples
 
