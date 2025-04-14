@@ -426,7 +426,7 @@ If you have a fixed schema for a dict, pattern matching can clearly express the 
 ## Class Patterns
 
 Class patterns allow you to match objects of a specific class and extract their attributes.
-They use a syntax reminiscent of calling a constructor, but _no object is actually being created in a case pattern_--instead, Python checks the subject is an instance of that class and then pulls out specified attributes.
+They use a syntax reminiscent of calling a constructor, but _no object is actually created in a case pattern_--instead, Python checks the subject is an instance of that class and then pulls out specified attributes.
 This is a form of _structured binding_ or deconstruction for user-defined types.
 
 The basic form is `ClassName(attr1=subpattern1, attr2=subpattern2, ...)`.
@@ -485,7 +485,7 @@ So effectively, `User(name=X, age=Y)` in a pattern means "is the subject a `User
   For example, if `User.__match_args__ = ("name", "age")`, then you could write `case User("Alice", age)` as shorthand for the same pattern.
   In the absence of `__match_args__`, you must use keyword `attr=value` form to match attributes.
   Using positional patterns on a class without `__match_args__` will result in a MatchError at runtime.
-  For clarity, many developers prefer the keyword form even if `__match_args__` is set, because it's explicit about which attribute is being matched.
+  For clarity, many developers prefer the keyword form even if `__match_args__` is set, because it's explicit about which attribute is matched.
 - **Multiple class patterns and inheritance:** If you have a class hierarchy, a class pattern will match subclasses as well (since it's based on `isinstance`).
   If you need to differentiate subclasses, you can use different class patterns or guards.
   Class patterns can also be combined with OR patterns to accept an object of one of several classes.
@@ -494,7 +494,7 @@ So effectively, `User(name=X, age=Y)` in a pattern means "is the subject a `User
 One subtle aspect to remember is that writing something like `case User("Bob")` in a pattern does _not_ call the `User` constructor.
 It might _look_ like a construction, but in a `case` context it's pattern syntax.
 Whatever appears after `case` is interpreted purely as a pattern, not normal executable code.
-If `User` were a dataclass with a `__post_init__` that prints when an object is created, doing `match User("Alice"):` as the subject expression would create a `User("Alice")` instance (since that's a normal Python expression being matched _against_).
+If `User` were a dataclass with a `__post_init__` that prints when an object is created, a subject expression of `match User("Alice"):` creates a `User("Alice")` instance as an expression to matched _against_).
 But `case User("Bob"):` does not create a new user; it just means "match a User with some attribute equal to Bob".
 This distinction is important ([Structural Pattern Matching in Python--Real Python](https://realpython.com/structural-pattern-matching/#:~:text=Copied%21)).
 In summary: class patterns let you _destructure_ objects, not create them.

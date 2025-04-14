@@ -294,7 +294,7 @@ Any attempt to do `self.field = value` in `__post_init__` will trigger a `Frozen
 So how can we set up derived fields or perform adjustments in `__post_init__` for a frozen class? The answer is to bypass the frozen `__setattr__` using the base class (`object`) method.
 Python lets us call the underlying `object.__setattr__` method directly, which will ignore our dataclass’s override and actually set the attribute.
 This is exactly how dataclasses themselves initialize fields for frozen instances.
-In fact, the dataclass documentation notes: _“There is a tiny performance penalty when using `frozen=True`: `__init__()` cannot use assignment to initialize fields, and must use `object.__setattr__()`.”_ ([dataclasses — Data Classes — Python 3.13.3 documentation](https://docs.python.org/3/library/dataclasses.html#:~:text=There%20is%20a%20tiny%20performance,object.__setattr)).
+The dataclass documentation notes: _“There is a tiny performance penalty when using `frozen=True`: `__init__()` cannot use assignment to initialize fields, and must use `object.__setattr__()`.”_ ([dataclasses — Data Classes — Python 3.13.3 documentation](https://docs.python.org/3/library/dataclasses.html#:~:text=There%20is%20a%20tiny%20performance,object.__setattr)).
 The dataclass-generated `__init__` knows to do this for the fields that are set in the constructor.
 We can apply the same technique in `__post_init__`.
 
@@ -355,7 +355,8 @@ And attempting to assign `r.width` after creation raises an error, confirming th
 We have effectively created an immutable data object with some logic in its initialization.
 
 A word of caution: using `object.__setattr__` is a bit of a loophole – it’s meant to be used only during object initialization.
-You wouldn’t normally call `object.__setattr__` on a frozen instance outside of `__init__`/`__post_init__` because that would defeat the point of immutability. (If someone is determined to bypass immutability, they can, but that’s not normal usage.) In fact, if you find yourself needing to change a frozen object after creation via such tricks, it may be a sign that the design should be reconsidered (maybe that piece of data shouldn’t be frozen).
+You wouldn’t normally call `object.__setattr__` on a frozen instance outside of `__init__`/`__post_init__` because that would defeat the point of immutability. (If someone is determined to bypass immutability, they can, but that’s not normal usage.)
+If you find yourself needing to change a frozen object after creation via such tricks, it may be a sign that the design should be reconsidered (maybe that piece of data shouldn’t be frozen).
 Generally, use this technique only to set up **derived fields or cached values at construction time**.
 
 ## Under the Hood: How `Final` and `frozen` Work

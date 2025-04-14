@@ -17,7 +17,7 @@ With this approach, you:
 
 ## "Stringly Typed"
 
-Years ago I came across some research looking at the way generic components like `List`, `Set` and `Map` were being used in Java.
+Years ago I came across some research looking at the way generic components like `List`, `Set` and `Map` were used in Java.
 Only a tiny percentage of the code reviewed used anything _except_ strings as type parameters.
 This study suggested that the vast majority of systems were using strings as their primary data type.
 
@@ -139,18 +139,18 @@ def requires(*conditions: Condition):
 ```
 
 A `Condition` combines each `check` with a description of the failure condition.
-`check` is a `Callable` (usually a function) that takes the same arguments as the function being decorated and returns a `bool` indicating whether the condition is satisfied.
+`check` is a `Callable` (usually a function) that takes the same arguments as the decorated function and returns a `bool` indicating whether the condition is satisfied.
 
 `requires` is a _decorator factory_; it returns a decorator that can be applied to any function.
 It accepts any number of `Condition` instances.
 
 This inner function `decorator` is the actual decorator.
-It receives the target function `func` that’s being wrapped.
+It receives the target function `func` to be wrapped.
 
 `wrapper` is the new function that will replace `func`.
 `@wraps(func)` preserves metadata like the function name and docstring.
 
-Here's a basic example:
+To use it, create one or more `Condition` objects and decorate functions with them using `requires`:
 
 ```python
 # basic_requires.py
@@ -174,9 +174,8 @@ with Catch():
 ## Error: x must be positive
 ```
 
-`positivity` defines an instance of `Condition`, which is then imposed on `sqrt` using `requires`.
-
-`requires` produces an improved design-by-contract tool for validating function arguments:
+`requires` produces an improved design-by-contract tool for validating function arguments.
+Consider managing a bank account:
 
 ```python
 # bank_account.py
@@ -227,7 +226,7 @@ with Catch():
 ## Error: Amount cannot be negative
 ```
 
-In this case the `Condition`s are being applied to methods, so their `lambda`s both include `self`.
+Here, the `Condition`s are applied to methods, so their `lambda`s both include `self`.
 In `withdraw` you see multiple `Condition`s applied within one `requires` decorator.
 
 The Eiffel approach is an improvement over placing the validation code at the beginning of each function body.

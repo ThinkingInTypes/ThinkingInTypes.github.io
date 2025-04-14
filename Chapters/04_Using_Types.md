@@ -255,7 +255,7 @@ The type hint ensures that someone doesn't accidentally pass in, say, a dict map
 
 Using these collection type annotations (`List`, `Tuple`, `Set`, `Dict`) greatly enhances code documentation.
 They specify not just that a variable is a list or dict, but what's inside it.
-This is crucial for writing correct code, as many bugs come from misunderstanding what type of data is being handled.
+This is crucial for writing correct code--many bugs come from misunderstanding data types.
 Next, we will see that Python has even more convenient ways to write these annotations, especially in newer versions.
 
 ## Annotations without Imports
@@ -375,7 +375,7 @@ Also, it signals that the function uses `yield` internally.
 As a side note, if a function is meant to never return normally (for instance, one that enters an infinite loop or always raises an exception), you could use the special return type `NoReturn` from `typing`, but such cases are rare and beyond our current scope.
 
 Specialized annotations like `Sequence`, `Mapping`, `Iterable`, and `Iterator` let you capture the interface or behavior you require, rather than a specific concrete type.
-They are especially useful in library or API design, where being too specific with types can needlessly limit the utility of a function or class.
+They are especially useful in library or API design, where over-specifying types can needlessly limit the utility of a function or class.
 By using these abstract collection types, you make your code flexible while still retaining the benefits of type checking.
 
 ## Faster Development, Clearer Results

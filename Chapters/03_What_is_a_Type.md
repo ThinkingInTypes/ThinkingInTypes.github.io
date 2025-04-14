@@ -254,7 +254,7 @@ This early detection of the bug can save you from having to debug a runtime cras
 Python's adoption of type hints has been gradual and very much _optional_.
 You can start adding types to a few functions, or even one variable at a time.
 This approach is sometimes called gradual typing or optional static typing.
-In fact, the designers of Mypy describe it as an attempt to "combine the benefits of dynamic (or 'duck') typing and static typing" ([mypy - Optional Static Typing for Python](https://mypy-lang.org/#:~:text=Mypy%20is%20an%20optional%20static,with%20basically%20no%20runtime%20overhead)).
+The designers of Mypy describe it as an attempt to "combine the benefits of dynamic (or 'duck') typing and static typing" ([mypy - Optional Static Typing for Python](https://mypy-lang.org/#:~:text=Mypy%20is%20an%20optional%20static,with%20basically%20no%20runtime%20overhead)).
 You don't have to choose one or the other for the whole program; you can get the flexibility of dynamic typing where needed, and the safety/net of static typing where it helps.
 Python will happily run code with or without type annotations, and you can mix annotated and unannotated code freely.
 This means you can adopt type hints in a legacy codebase incrementally, or use them only for the trickiest parts of a new project.
@@ -405,8 +405,8 @@ Two of the most popular type checking tools for Python are mypy and pyright.
   You can run mypy as part of your development or CI (Continuous Integration) to prevent type regressions in a codebase.
 
 - **Pyright:** Pyright is a newer type checker, open-sourced by Microsoft.
-  It is known for being fast and is designed to handle very large projects efficiently.
-  In fact, Pyright powers the Python type checking in Microsoft's VSCode editor (the Pylance extension).
+  It is known for speed and is designed to handle very large projects efficiently.
+  Pyright powers the Python type checking in Microsoft's VSCode editor (the Pylance extension).
   Pyright is written in TypeScript (running on Node.js), which might sound unusual, but it means it's optimized for speed and can do things like watch files and re-check only what changed, etc.
   Pyright is also fully aware of all the latest PEPs and typing features.
   According to its documentation, "Pyright is a full-featured, standards-based static type checker for Python.
