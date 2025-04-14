@@ -841,7 +841,7 @@ You can write an expression that looks like it's checking for membership in a `L
 # literal_to_set.py
 from typing import Literal
 
-ParamVal = Literal["MIN", "MAX", "DEF"]
+ParamVal = Literal["DEF", "MIN", "MAX"]
 print(ParamVal)
 print("MIN" in ParamVal)
 print("NOPE" in ParamVal)
