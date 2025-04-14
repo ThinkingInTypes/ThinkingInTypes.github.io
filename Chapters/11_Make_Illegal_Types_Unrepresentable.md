@@ -144,8 +144,7 @@ A `Condition` combines each `check` with a description of the failure condition.
 `requires` is a _decorator factory_; it returns a decorator that can be applied to any function.
 It accepts any number of `Condition` instances.
 
-This inner function `decorator` is the actual decorator.
-It receives the target function `func` to be wrapped.
+This inner function `decorator` is the actual decorator; it wraps the target function `func`.
 
 `wrapper` is the new function that will replace `func`.
 `@wraps(func)` preserves metadata like the function name and docstring.
@@ -229,16 +228,15 @@ with Catch():
 Here, the `Condition`s are applied to methods, so their `lambda`s both include `self`.
 In `withdraw` you see multiple `Condition`s applied within one `requires` decorator.
 
-The Eiffel approach is an improvement over placing the validation code at the beginning of each function body.
-It's an improvement over what traditional Python functions do (assuming they check their arguments).
-The `@requires` clearly shows that the arguments are constrained. 
-`Condition`s reduce duplicated code.
+The Eiffel approach is an improvement over duplicating validation code at the beginning of each function body,
+i.e., what traditional Python functions do (assuming they _do_ check their arguments).
+The `@requires` clearly shows that the arguments are constrained, and `Condition`s reduce duplicated code.
 
-DbC definitely helps, but it has limitations:
+DbC helps, but it has limitations:
 
 1. A programmer can forget to use `requires`, or choose to perform argument checks by hand if DbC doesn't make sense to them.
 2. Validations are spread throughout your system.
-   Using `Condition` centralizes the logic, but making changes still risks missing updates on functions.
+   Using `Condition` reduces logic duplication, but making changes still risks missing updates on functions.
 
 ## Centralizing Validation into Custom Types
 
