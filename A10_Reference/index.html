@@ -1655,7 +1655,7 @@
 
 <h1 id="reference">Reference<a class="headerlink" href="#reference" title="Permanent link">#</a></h1>
 <p>Type annotations (or "type hints") declare the expected data types of variables, function parameters, and return values.
-Python remains <em>dynamically typed</em> at runtime--these hints are <strong>not enforced</strong> by the interpreter and are mainly for static analysis and documentation  .
+Python remains <em>dynamically typed</em> at runtime--these hints are <strong>not enforced</strong> by the interpreter and are mainly for static analysis and documentation .
 Tools like type checkers (e.g.
 mypy, Pyright) and IDEs use the hints to catch errors or suggest code completions .
 Python's core team has no plan to make type hints mandatory; they are optional aids to improve code quality .</p>
@@ -1777,7 +1777,7 @@ For example:</p>
 This is useful when you want to prevent mix-ups of semantically different values that share an underlying type (e.g.
 <code>UserId</code> vs <code>ProductId</code> both as ints).
 Using <code>NewType</code>, you can catch such mix-ups in static analysis.
-(Under the hood, calling <code>UserId(5)</code> just returns 5 at runtime, so there's no extra performance cost beyond a function call  .
+(Under the hood, calling <code>UserId(5)</code> just returns 5 at runtime, so there's no extra performance cost beyond a function call .
 In Python 3.10+ <code>NewType</code> is implemented as a class for better performance .)</p>
 <h2 id="generics-and-type-variables">Generics and Type Variables<a class="headerlink" href="#generics-and-type-variables" title="Permanent link">#</a></h2>
 <h3 id="generic-functions-and-typevar">Generic Functions and TypeVar<a class="headerlink" href="#generic-functions-and-typevar" title="Permanent link">#</a></h3>
@@ -1866,7 +1866,7 @@ An example usage:</p>
 </span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>
 </span><span id="__span-9-4"><a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a>
 </span><span id="__span-9-5"><a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a><span class="k">def</span> <span class="nf">apply_to_ints</span><span class="p">(</span>
-</span><span id="__span-9-6"><a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a>    <span class="n">func</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">],</span> <span class="nb">int</span><span class="p">],</span> <span class="n">a</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="nb">int</span>
+</span><span id="__span-9-6"><a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a>        <span class="n">func</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">],</span> <span class="nb">int</span><span class="p">],</span> <span class="n">a</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="nb">int</span>
 </span><span id="__span-9-7"><a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
 </span><span id="__span-9-8"><a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a>    <span class="k">return</span> <span class="n">func</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
 </span></code></pre></div>
@@ -1916,10 +1916,10 @@ For example, you might write:</p>
 </span><span id="__span-11-5"><a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a>
 </span><span id="__span-11-6"><a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a>
 </span><span id="__span-11-7"><a id="__codelineno-11-7" name="__codelineno-11-7" href="#__codelineno-11-7"></a><span class="k">def</span> <span class="nf">make_logged</span><span class="p">(</span>
-</span><span id="__span-11-8"><a id="__codelineno-11-8" name="__codelineno-11-8" href="#__codelineno-11-8"></a>    <span class="n">func</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[</span><span class="n">P</span><span class="p">,</span> <span class="nb">int</span><span class="p">],</span>
+</span><span id="__span-11-8"><a id="__codelineno-11-8" name="__codelineno-11-8" href="#__codelineno-11-8"></a>        <span class="n">func</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[</span><span class="n">P</span><span class="p">,</span> <span class="nb">int</span><span class="p">],</span>
 </span><span id="__span-11-9"><a id="__codelineno-11-9" name="__codelineno-11-9" href="#__codelineno-11-9"></a><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">[</span><span class="n">Concatenate</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">P</span><span class="p">],</span> <span class="nb">int</span><span class="p">]:</span>
 </span><span id="__span-11-10"><a id="__codelineno-11-10" name="__codelineno-11-10" href="#__codelineno-11-10"></a>    <span class="k">def</span> <span class="nf">wrapper</span><span class="p">(</span>
-</span><span id="__span-11-11"><a id="__codelineno-11-11" name="__codelineno-11-11" href="#__codelineno-11-11"></a>        <span class="n">prefix</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">P</span><span class="o">.</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">P</span><span class="o">.</span><span class="n">kwargs</span>
+</span><span id="__span-11-11"><a id="__codelineno-11-11" name="__codelineno-11-11" href="#__codelineno-11-11"></a>            <span class="n">prefix</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">P</span><span class="o">.</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">P</span><span class="o">.</span><span class="n">kwargs</span>
 </span><span id="__span-11-12"><a id="__codelineno-11-12" name="__codelineno-11-12" href="#__codelineno-11-12"></a>    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
 </span><span id="__span-11-13"><a id="__codelineno-11-13" name="__codelineno-11-13" href="#__codelineno-11-13"></a>        <span class="nb">print</span><span class="p">(</span><span class="n">prefix</span><span class="p">,</span> <span class="s2">&quot;Calling:&quot;</span><span class="p">,</span> <span class="n">func</span><span class="o">.</span><span class="vm">__name__</span><span class="p">)</span>
 </span><span id="__span-11-14"><a id="__codelineno-11-14" name="__codelineno-11-14" href="#__codelineno-11-14"></a>        <span class="n">result</span> <span class="o">=</span> <span class="n">func</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
@@ -1943,11 +1943,11 @@ For example, <code>Literal["GET", "POST"]</code> can be used to type a variable 
 This is helpful for functions that behave differently based on constant string or numeric inputs.
 In Python 3.8, <strong>PEP 586</strong> introduced <code>typing.Literal</code>.
 E.g.
-<code>def set_mode(mode: Literal["fast", "slow"]) -&gt; None: ...</code> means mode <em>must</em> be one of those two strings  .
+<code>def set_mode(mode: Literal["fast", "slow"]) -&gt; None: ...</code> means mode <em>must</em> be one of those two strings .
 More recently, <strong>PEP 675</strong> (Python 3.11) added <code>LiteralString</code>, a special type to mark literal strings for security-sensitive APIs .
 <code>LiteralString</code> is a subtype of <code>str</code> that static analyzers treat as strings that are either literal in the source or derived from other literal strings.
 The goal is to prevent untrusted or dynamic strings from flowing into places where they could cause injection attacks (SQL queries, shell commands, etc.)
- .
+.
 For example:</p>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="c1"># example_13.py</span>
 </span><span id="__span-12-2"><a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">LiteralString</span>
@@ -1990,7 +1990,7 @@ For example:</p>
 </span><span id="__span-13-3"><a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a>
 </span><span id="__span-13-4"><a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a>
 </span><span id="__span-13-5"><a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a><span class="k">def</span> <span class="nf">is_str_list</span><span class="p">(</span>
-</span><span id="__span-13-6"><a id="__codelineno-13-6" name="__codelineno-13-6" href="#__codelineno-13-6"></a>    <span class="n">vals</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">object</span><span class="p">],</span>
+</span><span id="__span-13-6"><a id="__codelineno-13-6" name="__codelineno-13-6" href="#__codelineno-13-6"></a>        <span class="n">vals</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">object</span><span class="p">],</span>
 </span><span id="__span-13-7"><a id="__codelineno-13-7" name="__codelineno-13-7" href="#__codelineno-13-7"></a><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">TypeGuard</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]]:</span>
 </span><span id="__span-13-8"><a id="__codelineno-13-8" name="__codelineno-13-8" href="#__codelineno-13-8"></a>    <span class="k">return</span> <span class="nb">all</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">vals</span><span class="p">)</span>
 </span></code></pre></div>
@@ -1999,7 +1999,7 @@ This enables writing custom <code>isinstance</code>-like helpers that narrow typ
 Python's <code>match</code> statement and <code>isinstance</code> checks also perform narrowing; TypeGuard extends this to user-defined predicates .
 This concept helps make code with conditional type logic (like parsing JSON to specific shapes) more type-safe and clear to the type checker.</p>
 <h3 id="self-type-pep-673"><code>Self</code> Type (PEP 673)<a class="headerlink" href="#self-type-pep-673" title="Permanent link">#</a></h3>
-<p>In class methods that return <code>self</code> (or class/instance attributes of the same class type), Python 3.11 introduced <code>typing.Self</code> to simplify the annotation  .
+<p>In class methods that return <code>self</code> (or class/instance attributes of the same class type), Python 3.11 introduced <code>typing.Self</code> to simplify the annotation .
 Using <code>Self</code> in a method return type or parameter type means "the same type as the class in which this method is defined."
 For example:</p>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="c1"># example_15.py</span>
@@ -2008,11 +2008,11 @@ For example:</p>
 </span><span id="__span-14-4"><a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a>
 </span><span id="__span-14-5"><a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a><span class="k">class</span> <span class="nc">MyBuilder</span><span class="p">:</span>
 </span><span id="__span-14-6"><a id="__codelineno-14-6" name="__codelineno-14-6" href="#__codelineno-14-6"></a>    <span class="k">def</span> <span class="nf">set_name</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Self</span><span class="p">:</span>
-</span><span id="__span-14-7"><a id="__codelineno-14-7" name="__codelineno-14-7" href="#__codelineno-14-7"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>  <span class="c1"># noqa: Instance attribute</span>
+</span><span id="__span-14-7"><a id="__codelineno-14-7" name="__codelineno-14-7" href="#__codelineno-14-7"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>  <span class="c1"># type: ignore</span>
 </span><span id="__span-14-8"><a id="__codelineno-14-8" name="__codelineno-14-8" href="#__codelineno-14-8"></a>        <span class="k">return</span> <span class="bp">self</span>
 </span></code></pre></div>
 <p>The return type <code>Self</code> indicates that <code>set_name</code> returns the exact same class (<code>MyBuilder</code> in this case).
-In subclasses, it will correctly infer the subclass type  .
+In subclasses, it will correctly infer the subclass type .
 Without <code>Self</code>, one would have to use a type variable bound to the class, or a string annotation of the class name--both less convenient.
 Common use cases for <code>Self</code> are fluent interfaces (where methods return <code>self</code>), alternative constructors (often classmethods that return an instance of <code>cls</code>), and methods like <code>__enter__</code> in context managers that conventionally return self .
 <code>Self</code> ensures the return type is automatically updated in subclasses, preventing type checkers from thinking a subclass method returning <code>self</code> is returning the base class.</p>
@@ -2036,7 +2036,7 @@ You can also create TypedDict types using a functional syntax:
 By default all keys are required, but you can make some optional.
 Initially, you could specify <code>total=False</code> on the TypedDict to make all keys optional.
 Later, <strong>PEP 655</strong> (Python 3.11) introduced <code>Required</code> and <code>NotRequired</code> markers to allow fine-grained control:
-you can mark individual keys as optional in an otherwise total TypedDict  .
+you can mark individual keys as optional in an otherwise total TypedDict .
 For example:</p>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="c1"># example_17.py</span>
 </span><span id="__span-16-2"><a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">TypedDict</span><span class="p">,</span> <span class="n">Required</span><span class="p">,</span> <span class="n">NotRequired</span>
@@ -2060,7 +2060,7 @@ This is helpful to model immutable data within dictionaries.
 TypedDicts are particularly useful for structures like configuration dicts or JSON data, where you want static validation of keys.
 They are also used in <strong>kwargs type annotations:
 Python 3.11 allows "spreading" a TypedDict into function arguments with</strong>kwargs (PEP 692).
-For instance, <code>def create_movie(**kwargs: Unpack[Movie]) -&gt; None:</code> will ensure that the keyword arguments match the Movie TypedDict schema  .
+For instance, <code>def create_movie(**kwargs: Unpack[Movie]) -&gt; None:</code> will ensure that the keyword arguments match the Movie TypedDict schema .
 Here <code>typing.Unpack</code> is used to unpack the TypedDict type.
 This feature helps in writing functions that explicitly accept a set of keyword arguments without enumerating them in the function signature.</p>
 <h3 id="data-class-transform-pep-681">Data Class Transform (PEP 681)<a class="headerlink" href="#data-class-transform-pep-681" title="Permanent link">#</a></h3>
@@ -2086,7 +2086,7 @@ However, that plan was revised:
 The Python steering council decided not to turn on the automatic stringification by default due to various issues it caused for runtime introspection and decided to explore a different approach (PEP 649).</p>
 <h3 id="pep-649-deferred-annotations">PEP 649 (Deferred Annotations)<a class="headerlink" href="#pep-649-deferred-annotations" title="Permanent link">#</a></h3>
 <p>PEP 649, accepted for Python's future (targeted for 3.13+), proposes a new mechanism where annotations are neither evaluated at function definition time nor stored as strings.
-Instead, annotations would be stored as code in a special function (<code>__annotate__</code>) that computes them on demand  .
+Instead, annotations would be stored as code in a special function (<code>__annotate__</code>) that computes them on demand .
 This aims to solve forward references and performance issues more elegantly:
 the evaluation of annotations is deferred until needed, without losing the actual object references or incurring the issues of stringified annotations.
 As of the latest Python (3.12), this is still in progress--by default, Python 3.12 still evaluates annotations normally (unless you use the future import).
@@ -2125,7 +2125,7 @@ But it's good to know that the ecosystem supports them, enabling gradual adoptio
   Conversely, for return types, it's usually best to be as specific as possible (don't return <code>Any</code> if you can return a concrete type).</li>
 <li>Use Modern Syntax: Prefer the new concise annotation syntax that Python now supports.
   This means using built-in collection types (e.g.
-<code>list[int]</code> rather than <code>typing.List[int]</code>) , using <code>X | Y</code> for unions rather than <code>typing.Union[X, Y]</code> , and <code>X | None</code> instead of <code>typing.Optional[X]</code>.
+  <code>list[int]</code> rather than <code>typing.List[int]</code>) , using <code>X | Y</code> for unions rather than <code>typing.Union[X, Y]</code> , and <code>X | None</code> instead of <code>typing.Optional[X]</code>.
   These make annotations more readable.
   The older syntax is still accepted for compatibility, but the newer syntax is encouraged in current code.</li>
 <li>Limit <code>Any</code> and Unsafe Casts: Try to avoid using <code>Any</code> unless absolutely necessary.
@@ -2145,8 +2145,8 @@ else: ...</code>, in the else branch <code>obj</code> is not a str.
   Unless you introspect them at runtime (with <code>typing.get_type_hints()</code>), they won't slow down your program.
   That said, using a type checker in development might slightly slow down your build/test cycle, but it's usually worth the trade-off for the bugs it prevents.</li>
 </ul>
-<p>Each of these topics is elaborated in the official  and Python Enhancement Proposals.
-For further reading, the   and the <strong>Static Typing</strong> section on Python's documentation site  are excellent resources.
+<p>Each of these topics is elaborated in the official and Python Enhancement Proposals.
+For further reading, the and the <strong>Static Typing</strong> section on Python's documentation site are excellent resources.
 They provide code examples and deeper explanations for advanced scenarios, helping you stay up-to-date with the evolving landscape of type annotations in modern Python.</p>
 <h2 id="references">References<a class="headerlink" href="#references" title="Permanent link">#</a></h2>
 <ol>

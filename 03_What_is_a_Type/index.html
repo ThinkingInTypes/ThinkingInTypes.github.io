@@ -318,7 +318,7 @@
         <li class="md-nav__item">
   <a href="#dynamic-vs-static-typing" class="md-nav__link">
     <span class="md-ellipsis">
-      Dynamic vs Static Typing
+      Dynamic vs. Static Typing
     </span>
   </a>
   
@@ -372,7 +372,7 @@
         <li class="md-nav__item">
   <a href="#runtime-vs-static-type-checking" class="md-nav__link">
     <span class="md-ellipsis">
-      Runtime vs Static Type Checking
+      Runtime vs. Static Type Checking
     </span>
   </a>
   
@@ -862,7 +862,7 @@
         <li class="md-nav__item">
   <a href="#dynamic-vs-static-typing" class="md-nav__link">
     <span class="md-ellipsis">
-      Dynamic vs Static Typing
+      Dynamic vs. Static Typing
     </span>
   </a>
   
@@ -916,7 +916,7 @@
         <li class="md-nav__item">
   <a href="#runtime-vs-static-type-checking" class="md-nav__link">
     <span class="md-ellipsis">
-      Runtime vs Static Type Checking
+      Runtime vs. Static Type Checking
     </span>
   </a>
   
@@ -962,13 +962,13 @@
 <h1 id="what-is-a-type">What is a Type?<a class="headerlink" href="#what-is-a-type" title="Permanent link">#</a></h1>
 <p>A <em>type</em> is a set of values.
 It classifies and categorizes data.
-It can also define operations .</p>
+It can also define operations.</p>
 <h2 id="defining-type-in-programming">Defining "Type" in Programming<a class="headerlink" href="#defining-type-in-programming" title="Permanent link">#</a></h2>
 <p>For example, the integer type allows arithmetic operations like addition or subtraction, while a string type supports operations like concatenation.
 The purpose of having types is to give meaning to data and to inform the program (and the programmer) what kinds of behavior are valid for that data.
 If a piece of data is labeled as an integer type, the language knows it can perform numerical calculations on it; if it's a string type, it knows operations like splitting or joining make sense.</p>
 <p>In Python, types are associated with values, not with variables.
-You don't explicitly declare the type of a variable name; instead, any variable can reference any object, and that object carries its type with it.
+You don't explicitly declare variable types; instead, any variable can reference any object, and that object carries its type with it.
 In Python, an object knows its type.
 You can always check that type at runtime using the built-in <code>type()</code> function or <code>isinstance()</code> function:</p>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1"># example_1.py</span>
@@ -986,11 +986,11 @@ Types determine what operations are allowed; for instance, you can multiply inte
 <p>Types act as a contract or promise about data.
 If a function expects a certain type, providing data of the wrong type can lead to errors.
 For example, giving a text string to a mathematical formula that expects a number will cause problems.
-In short, a type defines both a set of values and the permitted operations on those values , setting the stage for how data is used in a program.</p>
+In short, a type defines both a set of values and the permitted operations on those values, setting the stage for how data is used in a program.</p>
 <p>Python comes with a rich set of built-in types (numbers, strings, lists, dictionaries, etc.).
 You can also define custom types (classes) for more complex data.
 This chapter focuses on what a "type" means and how Python's approach to types influences how we write and maintain code.</p>
-<h2 id="dynamic-vs-static-typing">Dynamic vs Static Typing<a class="headerlink" href="#dynamic-vs-static-typing" title="Permanent link">#</a></h2>
+<h2 id="dynamic-vs-static-typing">Dynamic vs. Static Typing<a class="headerlink" href="#dynamic-vs-static-typing" title="Permanent link">#</a></h2>
 <p>One of the core distinctions in programming language type systems is dynamic typing vs.
 static typing.
 Python is a <em>dynamically typed</em> language, whereas languages like C++ or Java are typically <em>statically typed</em>.
@@ -1001,12 +1001,12 @@ Let's unpack what that means and the pros and cons of each approach.</p>
   You usually must declare the types of your variables (e.g., in Java: <code>int count = 5;</code>).
   The compiler uses these declarations to verify that you are using variables in a type-safe way.
   If you attempt an invalid operation, like adding a number to a string, a compile-time error is raised and the program won't run until the error is fixed.
-  In short, static type checking finds type errors by analyzing the program's source code before execution .
+  In short, static type checking finds type errors by analyzing the program's source code before execution.
   This early detection can prevent many runtime errors.
-  Static typing can also enable performance optimizations, since knowing the types in advance allows the compiler to produce more efficient machine code (for example, it doesn't need to check types during each operation at runtime) .</p>
+  Static typing can also enable performance optimizations, since knowing the types in advance allows the compiler to produce more efficient machine code (for example, it doesn't need to check types during each operation at runtime).</p>
 </li>
 <li>
-<p><strong>Dynamically Typed Languages:</strong> In a dynamically typed language, the type of a variable is allowed to change over its lifetime, and type checks are done at runtime.
+<p><strong>Dynamically Typed Languages:</strong> In a dynamically typed language, the variable type is allowed to change over its lifetime, and type checks are done at runtime.
   You do not have to declare types explicitly.
   For example, in Python you can do:</p>
 </li>
@@ -1021,7 +1021,7 @@ Let's unpack what that means and the pros and cons of each approach.</p>
 <p>Python will infer the type of <code>x</code> from whatever value it's holding at the moment.
 Here <code>x</code> started as an integer and later became a string.
 This is perfectly valid in Python.
-The flexibility of dynamic typing makes it easy to write quick scripts and prototype, because you don't have to constantly specify types--the interpreter figures it out as the program runs .</p>
+The flexibility of dynamic typing makes it easy to write quick scripts and prototypes because you don't have to constantly specify types--the interpreter figures it out as the program runs.</p>
 <p>The example above shows Python's dynamic nature: you can assign a value of any type to <code>x</code>, and later even assign a value of a different type to the same <code>x</code>.
 However, this flexibility comes at a price.
 Because type checks are done as the code runs, if you perform an operation that the data type doesn't support, you'll only find out at runtime (perhaps causing your program to crash if not handled).
@@ -1041,14 +1041,13 @@ Python only discovers the problem while running the line: realizing it can't add
 In a statically typed language, such an error would be caught before running the program (the code wouldn't compile).</p>
 <p>To summarize the difference:</p>
 <ul>
-<li>In static typing, type errors are caught early--before the program runs--which can make debugging easier and programs more reliable
-   .
+<li>In static typing, type errors are caught early--before the program runs--which can make debugging easier and programs more reliable.
   You also get better documentation from explicit type annotations in code.
   But static typing requires more upfront work: declaring types and sometimes contending with more rigid code, which can slow down initial development or make code less flexible to change.</li>
-<li>In dynamic typing, you get more flexibility--you can write code faster without specifying types everywhere, and the same variable can hold different types of data over its lifetime  .
+<li>In dynamic typing, you get more flexibility--you can write code faster without specifying types everywhere, and the same variable can hold different types of data over its lifetime.
   This is great for quick iterations and when you want to write generic code.
   The downside is that type-related mistakes are only caught when that line of code runs, which might be far into a program's execution.
-  This can lead to runtime errors if not careful, and sometimes makes large codebases harder to reason about (you have to remember or check what type a variable might be at a given point) .</li>
+  This can lead to runtime errors and sometimes makes large codebases harder to reason about (you have to remember or check what type a variable might be at a given point).</li>
 </ul>
 <p>It's important to note that dynamic vs.
 static is about when type checking happens (at runtime vs.
@@ -1059,13 +1058,13 @@ Python, for example, is strongly typed--it won't implicitly convert types for yo
 Trying to add a number to a string, as we saw, is not allowed (Python won't guess that maybe you meant <code>"10" + "world"</code> or something--it errors out).
 In Python, values have a definite type, and you can't treat a value as a different type without an explicit conversion.
 Many static languages are also strongly typed, but some languages are <em>weakly typed</em> (they might, for instance, automatically convert strings to numbers in certain contexts, which can lead to subtle bugs).
-The key takeaway is that Python is dynamically and strongly typed: type checks happen at runtime, and the interpreter will raise an error if you attempt an operation on incompatible types .</p>
+The key takeaway is that Python is dynamically and strongly typed: type checks happen at runtime, and the interpreter will raise an error if you attempt an operation on incompatible types.</p>
 <h2 id="duck-typing-in-python">Duck Typing in Python<a class="headerlink" href="#duck-typing-in-python" title="Permanent link">#</a></h2>
 <p>Python's dynamic typing is closely related to the idea of duck typing.
 The name comes from the phrase "If it looks like a duck and quacks like a duck, it must be a duck."
 In programming, duck typing means that an object's suitability for an operation is determined by the presence of certain methods or properties, rather than the actual type of the object itself.
 In other words, "an object is considered compatible with a given type if it has all the methods and attributes that the type requires."
- The actual class or inheritance of the object is less important than whether it implements the needed interface.
+The actual class or inheritance of the object is less important than whether it implements the interface.
 This is a very Pythonic idea: "don't check an object's type to determine if it has the right interface; just try to use it, and it will either work or fail."</p>
 <p>Duck typing means you often write functions that work on any object that supports the operations you need, rather than only working on specific classes.
 For example, consider a function that makes an object quack:</p>
@@ -1105,15 +1104,16 @@ If not, Python throws an error, and we handle that (or let it propagate).
 In code, you might handle this with try/except:</p>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="c1"># example_5.py</span>
 </span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="kn">from</span> <span class="nn">example_4</span> <span class="kn">import</span> <span class="n">quacks</span>
-</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="c1">## Quack!</span>
-</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="c1">## I can quack, too!</span>
-</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>
-</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="k">try</span><span class="p">:</span>
-</span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a>    <span class="n">quacks</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
-</span><span id="__span-4-8"><a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a><span class="k">except</span> <span class="ne">AttributeError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-</span><span id="__span-4-9"><a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Oops: </span><span class="si">{</span><span class="n">e</span><span class="w"> </span><span class="si">= }</span><span class="s2">&quot;</span><span class="p">)</span>
-</span><span id="__span-4-10"><a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a><span class="c1">## Oops: e = AttributeError(&quot;&#39;int&#39; object has no</span>
-</span><span id="__span-4-11"><a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a><span class="c1">## attribute &#39;quack&#39;&quot;)</span>
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="c1">## Quack!</span>
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="c1">## I can quack, too!</span>
+</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>
+</span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="k">try</span><span class="p">:</span>
+</span><span id="__span-4-8"><a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a>    <span class="n">quacks</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
+</span><span id="__span-4-9"><a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a><span class="k">except</span> <span class="ne">AttributeError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+</span><span id="__span-4-10"><a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Oops: </span><span class="si">{</span><span class="n">e</span><span class="w"> </span><span class="si">= }</span><span class="s2">&quot;</span><span class="p">)</span>
+</span><span id="__span-4-11"><a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a><span class="c1">## Oops: e = AttributeError(&quot;&#39;int&#39; object has no</span>
+</span><span id="__span-4-12"><a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a><span class="c1">## attribute &#39;quack&#39;&quot;)</span>
 </span></code></pre></div>
 <p>In Python, it's idiomatic to write code that assumes objects have the right methods (duck typing) and deal with exceptions if they don't, rather than explicitly checking types upfront.</p>
 <p>Duck-typed functions are extremely flexible.
@@ -1123,31 +1123,32 @@ As long as the object passed in has those methods, the function will work.</p>
 <p>However, duck typing can sometimes make it harder to reason about code in large projects--because any object with a <code>quack</code> method will do, you might accidentally pass the wrong object to a function and only find out at runtime.
 This is where the balance between flexibility and safety comes into play, which leads us to the evolution of Python's type system in recent years.</p>
 <h2 id="from-duck-typing-to-type-hints">From Duck Typing to Type Hints<a class="headerlink" href="#from-duck-typing-to-type-hints" title="Permanent link">#</a></h2>
-<p>Historically, Python has been a dynamically-typed language.
-The language didn't have a way to explicitly declare the type of a variable or function parameter in code.
+<p>Historically, Python has been a dynamically typed language.
+The language didn't have a way to explicitly declare the type of variable or function parameter in code.
 Developers used documentation or naming conventions to indicate expected types (for example, a comment like <code># param x is an int</code>), but these were not enforced.
-As codebases grew, this lack of explicit type information started to become a pain point for some projects--it's easy to lose track of what types are flowing through the code, which can lead to bugs or make the code harder to maintain.</p>
-<p>Python 3.5 introduced optional syntax for adding type hints to your code (as specified in ).
+As codebases grew, this lack of explicit type information started to become a pain point for some projects.
+It's easy to lose track of what types are flowing through the code, which can lead to bugs or make the code harder to maintain.</p>
+<p>Python 3.5 introduced optional syntax for adding type hints to your code.
 These are optional annotations that you can add to function definitions, variables, and class attributes to declare what type they are supposed to be.
 Crucially, these type hints do not change how the code runs; Python remains dynamically typed at runtime.
 The hints are mainly for the benefit of the developers and tooling.</p>
 <p>For example, here's a function without type hints, and then with type hints:</p>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="c1"># example_6.py</span>
 </span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="c1"># Without type hints:</span>
-</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="k">def</span> <span class="nf">greet</span><span class="p">(</span><span class="n">name</span><span class="p">):</span>
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="k">def</span> <span class="nf">greet1</span><span class="p">(</span><span class="n">name</span><span class="p">):</span>
 </span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>    <span class="k">return</span> <span class="s2">&quot;Hello, &quot;</span> <span class="o">+</span> <span class="n">name</span>
 </span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>
 </span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>
 </span><span id="__span-5-7"><a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a><span class="c1"># With type hints:</span>
-</span><span id="__span-5-8"><a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a><span class="k">def</span> <span class="nf">greet</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+</span><span id="__span-5-8"><a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a><span class="k">def</span> <span class="nf">greet2</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 </span><span id="__span-5-9"><a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a>    <span class="k">return</span> <span class="s2">&quot;Hello, &quot;</span> <span class="o">+</span> <span class="n">name</span>
 </span></code></pre></div>
 <p>In the second version, the <code>str</code> in <code>name: str</code> and <code>-&gt; str</code> is a type annotation.
 It indicates that <code>name</code> should be a string, and that the function returns a string.
 If you run this code, Python will not enforce that <code>name</code> is a string--if you pass an integer, it will still run, and likely error out only when it tries to do <code>"Hello, " + 5</code>.
 In other words, type hints don't make Python statically typed.
-They are metadata attached to the functions and variables .
-The official Python documentation makes this clear: the Python runtime does not enforce function and variable type annotations; they are meant to be used by third-party tools (like type checkers, IDEs, linters) .</p>
+They are metadata attached to the functions and variables.
+The official Python documentation makes this clear: the Python runtime does not enforce function and variable type annotations; they are meant to be used by third-party tools (like type checkers, IDEs, linters).</p>
 <p>The benefits of type hints are seen during development: they serve as documentation and enable static analysis tools to catch errors before running the code.
 By reading the annotated <code>greet</code> function, a developer (or an IDE) immediately knows that <code>name</code> is expected to be a string, which improves readability.
 If somewhere else in the code we call <code>greet(123)</code>, a type-checking tool can warn us that we're calling <code>greet</code> with the wrong type of argument.</p>
@@ -1167,7 +1168,7 @@ If somewhere else in the code we call <code>greet(123)</code>, a type-checking t
 </span><span id="__span-6-13"><a id="__codelineno-6-13" name="__codelineno-6-13" href="#__codelineno-6-13"></a><span class="c1">## Error: unsupported operand type(s) for +: &#39;int&#39;</span>
 </span><span id="__span-6-14"><a id="__codelineno-6-14" name="__codelineno-6-14" href="#__codelineno-6-14"></a><span class="c1">## and &#39;str&#39;</span>
 </span></code></pre></div>
-<p>The second call <code>add(10, "5")</code> is clearly a mistake: we intended both arguments to be integers.
+<p>The second call <code>add(10, "5")</code> is a mistake: we intended both arguments to be <code>int</code>s.
 Running this code would produce a runtime error when trying to add an integer to a string (<code>TypeError: unsupported operand type(s) for +: 'int' and 'str'</code>).
 A static type checker, however, would catch this before running the program.
 For instance, Mypy (one of the most popular Python type checkers) would emit an error like: <code>error: Argument 2 to "add" has incompatible type "str"; expected "int"</code>.
@@ -1175,10 +1176,10 @@ This early detection of the bug can save you from having to debug a runtime cras
 <p>Python's adoption of type hints has been gradual and very much optional.
 You can start adding types to a few functions, or even one variable at a time.
 This approach is sometimes called gradual typing or optional static typing.
-The designers of Mypy describe it as an attempt to "combine the benefits of dynamic (or 'duck') typing and static typing" .
+The designers of Mypy describe it as an attempt to "combine the benefits of dynamic (or 'duck') typing and static typing."
 You don't have to choose one or the other for the whole program; you can get the flexibility of dynamic typing where needed, and the safety/net of static typing where it helps.
 Python will happily run code with or without type annotations, and you can mix annotated and unannotated code freely.
-This means you can adopt type hints in a legacy codebase incrementally, or use them only for the trickiest parts of a new project.</p>
+This means you can adopt type hints in a legacy codebase incrementally or use them only for the trickiest parts of a new project.</p>
 <p>Over the past several Python releases (3.5 through 3.13), the type hinting syntax and capabilities have expanded significantly.
 For instance, you can annotate variables (since Python 3.6) in addition to function params and returns:</p>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="c1"># example_8.py</span>
@@ -1186,7 +1187,7 @@ For instance, you can annotate variables (since Python 3.6) in addition to funct
 </span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="c1"># list[str] instead of typing.List:</span>
 </span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="n">texts</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;hello&quot;</span><span class="p">,</span> <span class="s2">&quot;world&quot;</span><span class="p">]</span>
 </span></code></pre></div>
-<p>You can use union types with a nice shorthand.
+<p>You can use union types with nice shorthand.
 Python 3.10 introduced the <code>|</code> operator for types, so instead of writing <code>typing.Union[str, bytes]</code> you can just write <code>str | bytes</code>:</p>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="c1"># example_9.py</span>
 </span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
@@ -1227,20 +1228,20 @@ Waiting until runtime produces errors that take time and effort to untangle.</p>
 <li><em>protocols</em> (PEP 544) which are basically static duck typing (you can define an interface that says "this type must have methods X, Y, Z" without caring about inheritance).</li>
 </ul>
 <h2 id="typing-is-optional">Typing is Optional<a class="headerlink" href="#typing-is-optional" title="Permanent link">#</a></h2>
-<p>Python's type hints are optional, and ignored at runtime.
+<p>Python's type hints are optional and ignored at runtime.
 They are a developer tool.
 The interpreter will not refuse to run your program if the types don't match:</p>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="c1"># example_10.py</span>
 </span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="n">value</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">3.14159</span>
-</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="n">value</span> <span class="o">=</span> <span class="s2">&quot;Pi&quot;</span>  <span class="c1"># Reassign to str</span>
-</span><span id="__span-9-4"><a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="nb">print</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
-</span><span id="__span-9-5"><a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a><span class="c1">## Pi</span>
+</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="c1"># Reassign to str:</span>
+</span><span id="__span-9-4"><a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="n">value</span> <span class="o">=</span> <span class="s2">&quot;Pi&quot;</span>  <span class="c1"># type: ignore</span>
+</span><span id="__span-9-5"><a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a><span class="nb">print</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+</span><span id="__span-9-6"><a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a><span class="c1">## Pi</span>
 </span></code></pre></div>
 <p>We annotated <code>value</code> as a float, but then assigned a string to it.
 Python does not enforce the annotation--the code runs and <code>value</code> ends up as <code>"Pi"</code>.
 A type checker warns about that reassignment, but Python itself doesn't mind.
-As one author put it, type hints in Python are "not enforced at runtime, they are just metadata" .
-Adding type hints doesn't change Python's runtime behavior, unless you use additional frameworks or decorators to enforce types at runtime.</p>
+Adding type hints doesn't change Python's runtime behavior unless you use additional frameworks or decorators to enforce types at runtime.</p>
 <h2 id="why-use-type-annotations">Why Use Type Annotations?<a class="headerlink" href="#why-use-type-annotations" title="Permanent link">#</a></h2>
 <p>If type hints are optional, why bother with them?
 They produce significant benefits, especially for larger projects:</p>
@@ -1255,13 +1256,14 @@ They produce significant benefits, especially for larger projects:</p>
 <li>
 <p>Early Error Detection: Perhaps the biggest practical advantage is catching bugs before running the code.
   Type checkers catch mistakes while you're coding.
-  This is especially useful in large codebases where you might change something in one module and inadvertently break an assumption in another--a type checker can often catch such issues at build time or in your editor, rather than letting them slip into runtime.
-  This early detection of type errors significantly improves reliability of the code .</p>
+  This is especially useful in large codebases where you might change something in one module and inadvertently break an assumption in another.
+  A type checker can often catch such issues at build time or in your editor, rather than letting them slip into runtime.
+  This early detection of type errors significantly improves code reliability.</p>
 </li>
 <li>
 <p><strong>Better IDE/Editor Support:</strong> Modern editors and IDEs (like VSCode, PyCharm, etc.) use type information to provide features like autocompletion, jump-to-definition, and inline error highlighting.
   If you declare types, the IDE can help you more.
-  For instance, if a function returns an <code>Employee</code> object and you've annotated that, the IDE can auto-suggest <code>employee.</code> methods and attributes when you use the result, because it knows the type.
+  For instance, if a function returns an <code>Employee</code> object, and you've annotated that, the IDE can auto-suggest <code>employee.</code> methods and attributes when you use the result, because it knows the type.
   It can also immediately warn you if you try to call a list method on something that's annotated as a string, for example.
   Type information makes tooling smarter and developer experience better.</p>
 </li>
@@ -1270,7 +1272,7 @@ They produce significant benefits, especially for larger projects:</p>
   They make it harder to misuse a function or variable inadvertently.
   If you change a function's expected types, all the callers that pass the wrong type will light up in your type checker.
   This makes large-scale refactoring more manageable--you can confidently change the internals of a function or module and rely on the type system to tell you if something incompatible is being done somewhere else.
-  This leads to more maintainable code in the long run .</p>
+  This leads to more maintainable code in the long run.</p>
 </li>
 <li>
 <p><strong>Communication of Intent:</strong> Sometimes you might intentionally allow multiple types (using a union) or a very generic type (like <code>Any</code> or a base class).
@@ -1290,7 +1292,7 @@ They produce significant benefits, especially for larger projects:</p>
 <p><strong>Learning Curve:</strong> Python's typing system has grown quite rich, with generics, protocols, type variables, etc.
   Using these effectively may require learning new concepts.
   For intermediate Python programmers, there's a learning curve to understanding things like <code>Optional</code>, <code>Union</code>, or generics.
-  The good news is you can start (just annotate basic types) and only delve into advanced typing features as needed.</p>
+  The good news is you can start annotating basic types and only delve into advanced typing features as needed.</p>
 </li>
 <li>
 <p><strong>Runtime Overhead:</strong> By default, there is virtually no runtime overhead for having type annotations (since Python ignores them at runtime).
@@ -1301,11 +1303,11 @@ They produce significant benefits, especially for larger projects:</p>
 <p><strong>False Sense of Security:</strong> It's worth remembering that type hints are not a cure-all.
   You can annotate everything and have a clean bill of health from the type checker, and your program can still have bugs (logic errors, runtime issues unrelated to types, etc.).
   Also, if you're interfacing with dynamic parts of Python (like using <code>hasattr</code> or doing dynamic attribute setting, or dealing with JSON data), the type checker might not catch misuse because you might be using <code>Any</code> or ignoring types in those spots.
-  So, use type hints as a helpful tool, but still test and validate your code.</p>
+  So, use type hints as a helpful tool but still test and validate your code.</p>
 </li>
 </ul>
-<p>Overall, the Python community has increasingly embraced type hints because the benefits (especially for larger projects) have proven valuable: fewer bugs, easier collaboration, improved code quality .
-It's a way to get some of the advantages of statically typed languages without giving up Python's dynamic flexibility entirely.</p>
+<p>Overall, the Python community has increasingly embraced type hints because the benefits (especially for larger projects) have proven valuable: fewer bugs, easier collaboration, improved code quality.
+It's a way to get some advantages of statically typed languages without giving up Python's dynamic flexibility entirely.</p>
 <h2 id="static-type-checkers-mypy-pyright-and-friends">Static Type Checkers: <code>mypy</code>, <code>pyright</code>, and Friends<a class="headerlink" href="#static-type-checkers-mypy-pyright-and-friends" title="Permanent link">#</a></h2>
 <p>Type hints by themselves do nothing unless you use a tool to check those hints against your code.
 While you might visually inspect code and spot a type mismatch, it's much more reliable to use automated tools.
@@ -1318,21 +1320,21 @@ Two of the most popular type checking tools for Python are mypy and pyright.</p>
   For example, if you have <code>def func(x: int) -&gt; None:</code> and somewhere you call <code>func("hello")</code>, mypy will catch that and report an error.
   Mypy aims to be strict and thorough, catching subtle issues (it even tries to infer types of variables where possible and can warn if you, say, add a string and int without any hints given, etc.).
   The philosophy of mypy is to let you start with little to no annotations and gradually add them--it will treat unannotated code as basically <code>Any</code> types by default (which don't produce errors), and as you add annotations, it will enforce them.
-  As the official mypy documentation states, it "is an optional static type checker for Python that aims to combine the benefits of dynamic (or 'duck') typing and static typing" .
+  As the official mypy documentation states, it "is an optional static type checker for Python that aims to combine the benefits of dynamic (or 'duck') typing and static typing."
   You can run mypy as part of your development or CI (Continuous Integration) to prevent type regressions in a codebase.</p>
 </li>
 <li>
 <p><strong>Pyright:</strong> Pyright is a newer type checker, open-sourced by Microsoft.
-  It is known for speed and is designed to handle very large projects efficiently.
+  It is known for speed and is designed to handle large projects efficiently.
   Pyright powers the Python type checking in Microsoft's VSCode editor (the Pylance extension).
   Pyright is written in TypeScript (running on Node.js), which might sound unusual, but it means it's optimized for speed and can do things like watch files and re-check only what changed, etc.
   Pyright is also fully aware of all the latest PEPs and typing features.
   According to its documentation, "Pyright is a full-featured, standards-based static type checker for Python.
   It is designed for high performance and can be used with large Python source bases."
-   Many developers use Pyright via their editor for instant feedback as they code (and/or in CI as well).
+  Many developers use Pyright via their editor for instant feedback as they code (and/or in CI as well).
   For instance, as you're coding, Pyright can underline an inconsistent call in red immediately.
   Pyright is also available as a command-line tool (via npm) if you prefer that route.
-  One of its selling points is performance--it's been noted to be much faster than mypy on large codebases , though for small-to-medium projects both tools run quickly enough.</p>
+  One of its selling points is performance--it's been noted to be much faster than mypy on large codebases, though for small-to-medium projects both tools run quickly enough.</p>
 </li>
 </ul>
 <p>Both mypy and pyright adhere to Python's typing rules (PEP 484 and successors) pretty closely.
@@ -1345,7 +1347,7 @@ The good news is you don't need to lock yourself in--you can try them out and se
   It's not as configurable as mypy/pyright, but it often catches many of the same things in real-time.</li>
 <li><strong>Pylint and Flake8:</strong> These are linters that primarily focus on code style issues, but they have basic type checking rules or plugins (e.g., Pylint can catch some obvious type errors, though it's not as comprehensive as a dedicated type checker).</li>
 <li><strong>Pyre:</strong> A type checker from Facebook (written in OCaml).
-  It's also very fast and aimed at large applications.
+  It's also fast and aimed at large applications.
   Its usage is less widespread in the community compared to mypy/pyright, but it's an alternative.</li>
 <li><strong>Typeguard, Enforce, etc.:</strong> These are runtime type checking helpers.
   For example, <code>typeguard</code> is a library that can be used to enforce type hints at runtime by wrapping functions (so if someone calls <code>func("hello")</code> when it expects an int, it will raise an error at call time).
@@ -1374,41 +1376,49 @@ The good news is you don't need to lock yourself in--you can try them out and se
 </span></code></pre></div>
 <p>This tells us exactly what and where the problem is.
 We can then fix the code (e.g., by converting <code>"5"</code> to an integer, or by correcting the input).</p>
-<p>The use of these tools ties back to the earlier benefits: they help maintain maintainability, readability, and safety of the code by acting as an automated guardrail.
-As one article succinctly put it, even though Python is dynamically typed, using type hints with tools like mypy or pyright "provides numerous benefits, including early error detection, improved readability and maintainability, enhanced tooling support, better documentation, [and] overall code quality improvement" .</p>
-<h2 id="runtime-vs-static-type-checking">Runtime vs Static Type Checking<a class="headerlink" href="#runtime-vs-static-type-checking" title="Permanent link">#</a></h2>
+<p>The use of these tools ties back to the earlier benefits.
+By acting as an automated guardrail, they produce overall code quality improvement through:</p>
+<ul>
+<li>maintainability</li>
+<li>readability</li>
+<li>safety</li>
+<li>early error detection</li>
+<li>enhanced tooling support</li>
+<li>better documentation</li>
+</ul>
+<h2 id="runtime-vs-static-type-checking">Runtime vs. Static Type Checking<a class="headerlink" href="#runtime-vs-static-type-checking" title="Permanent link">#</a></h2>
 <p>Let's clearly distinguish between runtime type checking and static type checking, because this is crucial to understanding Python's type system:</p>
 <ul>
 <li>
 <p><strong>Runtime Type Checking:</strong> This is what Python does natively.
   The interpreter checks types on the fly as operations are executed.
-  If you try to do something invalid (like call a method that doesn't exist, or use an operator on incompatible types), Python will raise an error at that moment.
-  For example, if you do <code>3 + "3"</code>, Python immediately raises a <code>TypeError</code> when it hits that line, because it finds an integer and a string and doesn't know how to add them .
+  If you try to do something invalid (like call a method that doesn't exist or use an operator on incompatible types), Python will raise an error at that moment.
+  For example, if you do <code>3 + "3"</code>, Python immediately raises a <code>TypeError</code> when it hits that line, because it finds an integer and a string and doesn't know how to add them.
   Another example: calling <code>quacks(42)</code> in the earlier duck typing example raised an <code>AttributeError</code> at runtime, because 42 didn't have the required method.
-  Runtime type checking is built into the language's operations--every time you do something with an object, the object's type (or more precisely, its capabilities) determine what happens.
+  Runtime type checking is built into the language's operations.
+  When you do something with an object, the object's type (or more precisely, its capabilities) determines what happens.
   Python will never silently do the wrong thing with a wrong type; it will error out (that's part of being strongly typed).
   But the key is, these errors happen during execution.</p>
 </li>
 <li>
 <p><strong>Static Type Checking:</strong> This does not happen by default in Python--it's something you opt into by writing type annotations and using external tools.
-  Static checking means examining the code without running it, and ensuring that, according to the type hints and language rules, the operations make sense.
+  Static checking means examining the code without running it and ensuring that, according to the type hints and language rules, the operations make sense.
   It's like a dry run of the program in terms of types.
   If you say a function returns an <code>int</code> but you return a <code>str</code> somewhere, a static checker can catch that.
   If you pass the wrong type to a function, it's caught before running.
   This is what mypy, pyright, etc., do.
   They look at your code as data, not as a running program.
-  The Python interpreter itself does not do static analysis--it doesn't look at annotations and refuse to run the program.
+  The Python interpreter itself does not do static analysis--it doesn't look at annotations and refuses to run the program.
   You (or your development environment) have to invoke a tool to get static checking.
   This is why we call Python's type system "gradual" or "optional static typing"--the static part is bolted on by tools, not enforced by the language runtime.</p>
 </li>
 </ul>
-<p>One consequence of this design is that you can have a program that passes all static type checks but still crashes or behaves incorrectly at runtime if you made an assumption that wasn't actually guaranteed by the language.
+<p>One consequence of this design is that you can have a program that passes all static type checks but still crashes or behaves incorrectly at runtime if you made an assumption that wasn't guaranteed by the language.
 Conversely, you might have a program that does something tricky that the static checker flags as a possible type issue, but at runtime it never fails because of the particular way you use it.
 In those cases, you can often adjust your type hints or use casts/<code># type: ignore</code> comments to tell the checker "trust me, I know what I'm doing here."
 This disconnect between static analysis and actual running code is something to be aware of--it's the price of keeping the type system optional.
 A quote from Python's documentation highlights this separation: _"The Python runtime does not enforce function and variable type annotations.
 They can be used by third party tools such as type checkers, IDEs, linters, etc."
-.
 In other words, if you want enforcement of those annotations, you need to use a tool (or implement your own checks).</p>
 <p>Consider:</p>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="c1"># example_12.py</span>
@@ -1418,23 +1428,25 @@ In other words, if you want enforcement of those annotations, you need to use a 
 </span><span id="__span-12-5"><a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a>
 </span><span id="__span-12-6"><a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a><span class="nb">print</span><span class="p">(</span><span class="n">f</span><span class="p">(</span><span class="mi">5</span><span class="p">))</span>  <span class="c1"># Correct type</span>
 </span><span id="__span-12-7"><a id="__codelineno-12-7" name="__codelineno-12-7" href="#__codelineno-12-7"></a><span class="c1">## 10</span>
-</span><span id="__span-12-8"><a id="__codelineno-12-8" name="__codelineno-12-8" href="#__codelineno-12-8"></a><span class="nb">print</span><span class="p">(</span><span class="n">f</span><span class="p">(</span><span class="s2">&quot;hi&quot;</span><span class="p">))</span>  <span class="c1"># Does NOT cause a TypeError</span>
-</span><span id="__span-12-9"><a id="__codelineno-12-9" name="__codelineno-12-9" href="#__codelineno-12-9"></a><span class="c1">## hihi</span>
-</span><span id="__span-12-10"><a id="__codelineno-12-10" name="__codelineno-12-10" href="#__codelineno-12-10"></a><span class="c1"># Strings can be &quot;multiplied&quot;</span>
+</span><span id="__span-12-8"><a id="__codelineno-12-8" name="__codelineno-12-8" href="#__codelineno-12-8"></a><span class="c1"># Expected type &#39;int&#39;, got &#39;str&#39; instead:</span>
+</span><span id="__span-12-9"><a id="__codelineno-12-9" name="__codelineno-12-9" href="#__codelineno-12-9"></a><span class="nb">print</span><span class="p">(</span><span class="n">f</span><span class="p">(</span><span class="s2">&quot;hi&quot;</span><span class="p">))</span>  <span class="c1"># type: ignore</span>
+</span><span id="__span-12-10"><a id="__codelineno-12-10" name="__codelineno-12-10" href="#__codelineno-12-10"></a><span class="c1">## hihi</span>
+</span><span id="__span-12-11"><a id="__codelineno-12-11" name="__codelineno-12-11" href="#__codelineno-12-11"></a><span class="c1"># Strings can be &quot;multiplied&quot;</span>
 </span></code></pre></div>
 <p>This example is a bit tricky--Python will not error on <code>f("hi")</code> because <code>"hi" * 2</code> in Python is valid (it repeats the string, resulting in <code>"hihi"</code>).
-So our type annotation said <code>x</code> should be an int, but we passed a str, and Python didn't crash--it did something that perhaps we didn't intend.
+So our type annotation said <code>x</code> should be an int, but we passed a str, and Python didn't crash--it did something that perhaps we did not intend.
 A static type checker would have warned us that <code>f("hi")</code> is not consistent with the annotation.
 If this were a bug (say we truly only wanted numbers there), the static check catches it, whereas at runtime Python happily did something else.
-On the flip side, if we had a case where passing a wrong type would crash (like <code>f(None)</code> would error, since <code>None * 2</code> is invalid), that would be caught at runtime if the line executes, but again a static checker would warn beforehand.</p>
-<p>The moral is: use static type checks as a complement to Python's dynamic checks.
+If we had a case where passing a wrong type would crash (e.g., <code>f(None)</code> fails since <code>None * 2</code> is invalid), a static checker warns you.</p>
+<p>Static type checks are a complement to Python's dynamic checks.
 The dynamic runtime checks will catch issues when the code runs, but you want to catch as many issues as possible earlier.
 Static typing tools help find mistakes without having to run every possible code path.</p>
 <h2 id="the-benefits-of-types">The Benefits of Types<a class="headerlink" href="#the-benefits-of-types" title="Permanent link">#</a></h2>
-<p>A type is a fundamental attribute of data that constrains what you can do with that data .
-Python's approach to types is flexible--it is dynamically typed, meaning you don't have to declare types and can freely mix and change them at runtime, which gives a lot of power and agility at the cost of potential runtime type errors if you're not careful.
-Python emphasizes duck typing, relying on the actual capabilities of objects rather than explicit type declarations, which makes code very flexible and reuseable.</p>
-<p>Type annotations provide best of both worlds: dynamic behavior plus tools to catch mistakes early.
+<p>A type is a fundamental attribute of data that constrains what you can do with that data.
+Python's is dynamically typed, meaning you don't have to declare types and can freely mix and change them at runtime.
+This provides a lot of power and agility at the cost of potential runtime type errors.
+Python emphasizes duck typing, relying on the actual capabilities of objects rather than explicit type declarations, which makes code very flexible and reusable.</p>
+<p>Type annotations provide the best of both worlds: dynamic behavior plus tools to catch mistakes early.
 Type hints improve code clarity and maintainability and act as a safety net, catching errors while coding.
 This can dramatically increase confidence in code, especially as codebases grow.</p>
 <p>The type system is there to help developers, not to make the language strict or verbose by force.
@@ -1443,16 +1455,16 @@ You can adopt it gradually and use it to the degree that it adds value for your 
 <h2 id="references">References<a class="headerlink" href="#references" title="Permanent link">#</a></h2>
 <ol>
 <li><a href="https://en.wikipedia.org/wiki/Data_type">Data type - Wikipedia</a></li>
-<li><a href="https://en.wikipedia.org/wiki/Comparison_of_programming_languages_by_type_system">Comparison of programming languages by type system - Wikipedia</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Comparison_of_programming_languages_by_type_system">Comparison of programming languages by type system--Wikipedia</a></li>
 <li><a href="https://dzone.com/articles/typing-in-python">Precision Python</a></li>
 <li><a href="https://www.netguru.com/blog/static-vs-dynamic-typing">Static vs. Dynamic Typing: Pros, Cons, and Key Differences</a></li>
 <li><a href="https://www.uninformativ.de/blog/postings/2022-04-21/0/POSTING-en.html">Python's "Type Hints" are a bit of a disappointment to me</a></li>
 <li><a href="https://realpython.com/duck-typing-python/">Duck Typing in Python: Writing Flexible and Decoupled Code--Real Python</a></li>
 <li><a href="https://peps.python.org/pep-0484/">PEP 484</a></li>
-<li><a href="https://medium.com/@andresberejnoi/what-are-python-type-hints-and-how-to-use-them-andres-berejnoi-31835b92b038">What Are Python Type-Hints and How to Use Them?--Andres Berejnoi | by Andrés Berejnoi | Medium</a></li>
-<li><a href="https://mypy-lang.org/">mypy - Optional Static Typing for Python</a></li>
-<li><a href="https://github.com/microsoft/pyright">microsoft/pyright: Static Type Checker for Python - GitHub</a></li>
-<li><a href="https://dev.to/saranshk/statically-type-checking-python-code-using-pyright-2p6p">Statically type checking Python code using Pyright - DEV Community</a></li>
+<li><a href="https://medium.com/@andresberejnoi/what-are-python-type-hints-and-how-to-use-them-andres-berejnoi-31835b92b038">What Are Python Type-Hints and How to Use Them?--Andres Berejnoi</a></li>
+<li><a href="https://mypy-lang.org/">mypy--Optional Static Typing for Python</a></li>
+<li><a href="https://github.com/microsoft/pyright">microsoft/pyright: Static Type Checker for Python--GitHub</a></li>
+<li><a href="https://dev.to/saranshk/statically-type-checking-python-code-using-pyright-2p6p">Statically type checking Python code using Pyright--DEV Community</a></li>
 </ol>
 
 
