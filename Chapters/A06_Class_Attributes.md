@@ -14,9 +14,9 @@ class DataPoint:
 
 
 d = DataPoint()
-d.measurement1 = 100
-d.measurement2 = 200
-d.measurement3 = 300
+d.measurement1 = 100  # type: ignore
+d.measurement2 = 200  # type: ignore
+d.measurement3 = 300  # type: ignore
 ```
 
 Why give names and initialization values to `class` attributes, then when you make an object,
@@ -66,61 +66,65 @@ Here's a Java example exploring the same ideas:
 // Java automatically initializes from defaults
 
 class A {
-  int x = 100;
-  public A() {
-    // x is already initialized:
-    System.out.println("In A constructor: " + this);
-  }
-  @Override
-  public String toString() {
-    return "x = " + x;
-  }
+    int x = 100;
+
+    public A() {
+        // x is already initialized:
+        System.out.println("In A constructor: " + this);
+    }
+
+    @Override
+    public String toString() {
+        return "x = " + x;
+    }
 }
 
 class B {
-  static int x = 100;
-  @Override
-  public String toString() {
-    // Accessing static via instance:
-    return "x = " + x;
-    // Same as "x = " + this.x;
-  }
-  static public String statics() {
-    return "B.statics(): B.x = " + B.x;
-  }
-  // Cannot shadow identifier names:
-  // int x = -1;
-  // Variable 'x' is already defined in the scope
+    static int x = 100;
+
+    @Override
+    public String toString() {
+        // Accessing static via instance:
+        return "x = " + x;
+        // Same as "x = " + this.x;
+    }
+
+    static public String statics() {
+        return "B.statics(): B.x = " + B.x;
+    }
+    // Cannot shadow identifier names:
+    // int x = -1;
+    // Variable 'x' is already defined in the scope
 }
 
 public class DefaultValues {
-  public static void main(String[] args) {
-    A a = new A();
-    // In A constructor: x = 100
-    System.out.println("a: " + a);
-    // a: x = 100
-    a.x = -1;
-    System.out.println("a: " + a);
-    // a: x = -1
-    System.out.println("new A(): " + new A());
-    // In A constructor: x = 100
-    // new A(): x = 100
+    public static void main(String[] args) {
+        A a = new A();
+        // In A constructor: x = 100
+        System.out.println("a: " + a);
+        // a: x = 100
+        a.x = -1;
+        System.out.println("a: " + a);
+        // a: x = -1
+        System.out.println("new A(): " + new A());
+        // In A constructor: x = 100
+        // new A(): x = 100
 
-    B b = new B();
-    System.out.println("b: " + b);
-    // b: x = 100
-    System.out.println(B.statics());
-    // B.statics(): B.x = 100
-    // Accessing static via class:
-    B.x = -1;
-    System.out.println("b: " + b);
-    // b: x = -1
-    System.out.println(B.statics());
-    // B.statics(): B.x = -1
-    B b2 = new B();
-    System.out.println("b2: " + b2);
-    // b2: x = -1
-  }
+        B b = new B();
+        System.out.println("b: " + b);
+        // b: x = 100
+        System.out.println(B.statics());
+        // B.statics(): B.x = 100
+        // Accessing static via class:
+        B.x = -1;
+        System.out.println("b: " + b);
+        // b: x = -1
+        System.out.println(B.statics());
+        // B.statics(): B.x = -1
+        B b2 = new B();
+        System.out.println("b2: " + b2);
+        // b2: x = -1
+    }
 }
 ```
 
@@ -364,14 +368,14 @@ To see this in action, we need a function that displays the inside of classes an
 
 def attributes(d: object) -> str:
     return (
-        ", ".join(
-            [
-                f"{k}: {v}"
-                for k, v in vars(d).items()
-                if not k.startswith("__")
-            ]
-        )
-        or "Empty"
+            ", ".join(
+                [
+                    f"{k}: {v}"
+                    for k, v in vars(d).items()
+                    if not k.startswith("__")
+                ]
+            )
+            or "Empty"
     )
 
 
@@ -506,7 +510,7 @@ from dataclasses import dataclass
 
 class A:
     def __init__(
-        self, x: int = 100, y: int = 200, z: int = 300
+            self, x: int = 100, y: int = 200, z: int = 300
     ):
         self.x = x
         self.y = y
@@ -577,8 +581,8 @@ You can learn more about `dataclasses` from my Pycon 2022 presentation _Making D
 Thanks to Barry Warsaw for reviewing and giving feedback.
 
 [^1]:
-    Languages like C++ and Java use _constructor_ to mean "activities performed after storage allocation and basic initialization."
-    C++ also has a `new()` for controlling memory allocation, calling it "operator new" rather than "constructor."
-    In contrast, Python's constructor is usually defined as the `__new__()` function, and `__init__()` is called the initializer.
-    C++'s operator `new()` and Python's `__new__()` are almost never overridden, and are rarely even mentioned (The common usage for Python's `__new__()` seems to be to create _Factory_ functions).
-    To keep things I just say "constructor" when referring to `__init__()`.
+Languages like C++ and Java use _constructor_ to mean "activities performed after storage allocation and basic initialization."
+C++ also has a `new()` for controlling memory allocation, calling it "operator new" rather than "constructor."
+In contrast, Python's constructor is usually defined as the `__new__()` function, and `__init__()` is called the initializer.
+C++'s operator `new()` and Python's `__new__()` are almost never overridden, and are rarely even mentioned (The common usage for Python's `__new__()` seems to be to create _Factory_ functions).
+To keep things I just say "constructor" when referring to `__init__()`.

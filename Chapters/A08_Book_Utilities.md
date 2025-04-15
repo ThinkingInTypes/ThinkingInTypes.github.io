@@ -31,14 +31,14 @@ class Catch:
         return self
 
     def __exit__(
-        self, exc_type: Any, exc_value: Any, traceback: Any
+            self, exc_type: Any, exc_value: Any, traceback: Any
     ) -> bool:
         # Only called if an exception escapes the block.
         if exc_type is not None:
             print(f"Error: {exc_value}")
         return True
 
-    def __call__(self, func: Callable[[], R]) -> R:
+    def __call__(self, func: Callable[[], R]) -> R | None:
         """
         Execute a zero-argument callable, catching and
         printing errors so that subsequent calls run.
@@ -72,9 +72,9 @@ The `Catch` class implements this using:
   Automatically called when the context manager block (`with` statement) finishes execution.
   It receives details about any exception raised inside the block:
 
-  - `exc_type`: the type of exception raised (e.g., `ValueError`)
-  - `exc_value`: the actual exception object containing the message
-  - `traceback`: the traceback object detailing where the exception occurred
+    - `exc_type`: the type of exception raised (e.g., `ValueError`)
+    - `exc_value`: the actual exception object containing the message
+    - `traceback`: the traceback object detailing where the exception occurred
 
   If an exception occurs (`exc_type is not None`), the `Catch` class prints the error message and returns `True` to indicate that the exception has been handled and should not propagate further.
 
@@ -85,7 +85,7 @@ Example usage as a context manager:
 from book_utils import Catch
 
 with Catch():
-    1 / 0
+    _ = 1 / 0
 ## Error: division by zero
 ```
 
@@ -111,7 +111,7 @@ with Catch() as catch:
     catch(lambda: 1 / 0)
     catch(lambda: 1 / 0)
     print("No lambda aborts the context:")
-    1 / 0
+    _ = 1 / 0
     print("This doesn't run:")
     catch(lambda: 1 / 0)
 ## Error: division by zero
