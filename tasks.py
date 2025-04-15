@@ -2,12 +2,12 @@
 """
 'Invoke' command file.
 """
-
 import sys
 from pathlib import Path
 
 from invoke import Collection, task
 from pybooktools.invoke_tasks import prettier, rewrite_with_semantic_breaks
+from pybooktools.md_cleaner import clean_markdown
 from rich.console import Console
 from rich.prompt import Confirm
 
@@ -46,4 +46,17 @@ def sembr(ctx, chapter: Path):
     rewrite_with_semantic_breaks(chapter)
 
 
-namespace = Collection(z, sembr, prettier)
+@task
+def cleanmd(ctx, chapter: Path):
+    """
+    clean markdown files
+    """
+    _ = ctx
+    if not isinstance(chapter, Path):
+        chapter = Path(chapter)
+    markdown = chapter.read_text(encoding="utf-8")
+    cleaned_markdown = clean_markdown(markdown)
+    chapter.write_text(cleaned_markdown, encoding="utf-8")
+
+
+namespace = Collection(z, sembr, prettier, cleanmd)
