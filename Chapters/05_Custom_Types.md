@@ -119,7 +119,7 @@ with Catch():
 ## Error: Stars(9): 22
 # @property without setter prevents mutation:
 with Catch():
-    stars1.number = 99
+    stars1.number = 99  # type: ignore
 ## Error: property 'number' of 'Stars' object has
 ## no setter
 ```
@@ -191,17 +191,18 @@ You'll often want to use `NewType` instead of type aliasing:
 # new_type.py
 from typing import NewType, get_type_hints
 
-Number = NewType("Number", int | float | str)
+# Correct, but not all type checkers have caught up:
+Number = NewType("Number", int | float | str)  # type: ignore
 Measurements = NewType("Measurements", list[Number])
 
 
-def process_measurements(data: Measurements) -> None:
-    print(get_type_hints(process_measurements))
+def process(data: Measurements) -> None:
+    print(get_type_hints(process))
     for n in data:
         print(f"{n = }, {type(n) = }")
 
 
-process_measurements(
+process(
     Measurements(
         [Number(11), Number(3.14), Number("1.618")]
     )
@@ -211,7 +212,7 @@ process_measurements(
 ## n = 11, type(n) = <class 'int'>
 ## n = 3.14, type(n) = <class 'float'>
 ## n = '1.618', type(n) = <class 'str'>
-process_measurements(Measurements([11, 3.14, "1.618"]))
+process(Measurements([11, 3.14, "1.618"]))  # type: ignore
 ## {'data': __main__.Measurements, 'return':
 ## <class 'NoneType'>}
 ## n = 11, type(n) = <class 'int'>
@@ -700,8 +701,8 @@ from typing import Literal
 
 ParamVal = Literal["DEF", "MIN", "MAX"]
 print(ParamVal)
-print("MIN" in ParamVal)
-print("NOPE" in ParamVal)
+print("MIN" in ParamVal)  # type: ignore
+print("NOPE" in ParamVal)  # type: ignore
 
 # Convert literal values to a set:
 allowed_set = set(ParamVal.__args__)  # type: ignore
@@ -937,6 +938,6 @@ class Order:
 
 order = Order(order_id=123)
 with Catch():
-    order.order_id = 456
+    order.order_id = 456  # type: ignore
 ## Error: cannot assign to field 'order_id'
 ```

@@ -215,7 +215,7 @@ print(p.x, p.y)  # Outputs: 1 2
 
 with Catch():
     # Attempting to modify a field produces an error:
-    p.x = 5  # noqa
+    p.x = 5  # type: ignore
 ## Error: cannot assign to field 'x'
 
 p.__dict__["x"] = 5  # Bypassing 'frozen'
@@ -256,7 +256,7 @@ print(person.name)  # "Alice"
 ## Alice
 with Catch():
     # Trying to modify a frozen dataclass field:
-    person.age = 31  # noqa
+    person.age = 31  # type: ignore
 ## Error: cannot assign to field 'age'
 
 person.__dict__["age"] = 31  # Disable 'frozen'
@@ -294,7 +294,7 @@ print(messenger := Messenger("foo", 12, 3.14))
 ## Messenger(name='foo', number=12, depth=3.14)
 # Frozen dataclass is immutable:
 with Catch():
-    messenger.name = "bar"
+    messenger.name = "bar"  # type: ignore
 
 # Automatically creates __hash__():
 d = {messenger: "value"}

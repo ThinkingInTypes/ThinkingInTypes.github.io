@@ -1,7 +1,7 @@
 # Reference
 
 Type annotations (or "type hints") declare the expected data types of variables, function parameters, and return values.
-Python remains _dynamically typed_ at runtime--these hints are **not enforced** by the interpreter and are mainly for static analysis and documentation  .
+Python remains _dynamically typed_ at runtime--these hints are **not enforced** by the interpreter and are mainly for static analysis and documentation .
 Tools like type checkers (e.g.
 mypy, Pyright) and IDEs use the hints to catch errors or suggest code completions .
 Python's core team has no plan to make type hints mandatory; they are optional aids to improve code quality .
@@ -164,7 +164,7 @@ This creates a new type `UserId` that behaves like an `int` at runtime (it's ess
 This is useful when you want to prevent mix-ups of semantically different values that share an underlying type (e.g.
 `UserId` vs `ProductId` both as ints).
 Using `NewType`, you can catch such mix-ups in static analysis.
-(Under the hood, calling `UserId(5)` just returns 5 at runtime, so there's no extra performance cost beyond a function call  .
+(Under the hood, calling `UserId(5)` just returns 5 at runtime, so there's no extra performance cost beyond a function call .
 In Python 3.10+ `NewType` is implemented as a class for better performance .)
 
 ## Generics and Type Variables
@@ -280,7 +280,7 @@ from typing import Callable
 
 
 def apply_to_ints(
-    func: Callable[[int, int], int], a: int, b: int
+        func: Callable[[int, int], int], a: int, b: int
 ) -> int:
     return func(a, b)
 ```
@@ -343,10 +343,10 @@ P = ParamSpec("P")
 
 
 def make_logged(
-    func: Callable[P, int],
+        func: Callable[P, int],
 ) -> Callable[Concatenate[str, P], int]:
     def wrapper(
-        prefix: str, *args: P.args, **kwargs: P.kwargs
+            prefix: str, *args: P.args, **kwargs: P.kwargs
     ) -> int:
         print(prefix, "Calling:", func.__name__)
         result = func(*args, **kwargs)
@@ -374,11 +374,11 @@ For example, `Literal["GET", "POST"]` can be used to type a variable that should
 This is helpful for functions that behave differently based on constant string or numeric inputs.
 In Python 3.8, **PEP 586** introduced `typing.Literal`.
 E.g.
-`def set_mode(mode: Literal["fast", "slow"]) -> None: ...` means mode _must_ be one of those two strings  .
+`def set_mode(mode: Literal["fast", "slow"]) -> None: ...` means mode _must_ be one of those two strings .
 More recently, **PEP 675** (Python 3.11) added `LiteralString`, a special type to mark literal strings for security-sensitive APIs .
 `LiteralString` is a subtype of `str` that static analyzers treat as strings that are either literal in the source or derived from other literal strings.
 The goal is to prevent untrusted or dynamic strings from flowing into places where they could cause injection attacks (SQL queries, shell commands, etc.)
- .
+.
 For example:
 
 ```python
@@ -432,7 +432,7 @@ from typing import TypeGuard
 
 
 def is_str_list(
-    vals: list[object],
+        vals: list[object],
 ) -> TypeGuard[list[str]]:
     return all(isinstance(x, str) for x in vals)
 ```
@@ -444,7 +444,7 @@ This concept helps make code with conditional type logic (like parsing JSON to s
 
 ### `Self` Type (PEP 673)
 
-In class methods that return `self` (or class/instance attributes of the same class type), Python 3.11 introduced `typing.Self` to simplify the annotation  .
+In class methods that return `self` (or class/instance attributes of the same class type), Python 3.11 introduced `typing.Self` to simplify the annotation .
 Using `Self` in a method return type or parameter type means "the same type as the class in which this method is defined."
 For example:
 
@@ -455,12 +455,12 @@ from typing import Self
 
 class MyBuilder:
     def set_name(self, name: str) -> Self:
-        self.name = name  # noqa: Instance attribute
+        self.name = name  # type: ignore
         return self
 ```
 
 The return type `Self` indicates that `set_name` returns the exact same class (`MyBuilder` in this case).
-In subclasses, it will correctly infer the subclass type  .
+In subclasses, it will correctly infer the subclass type .
 Without `Self`, one would have to use a type variable bound to the class, or a string annotation of the class name--both less convenient.
 Common use cases for `Self` are fluent interfaces (where methods return `self`), alternative constructors (often classmethods that return an instance of `cls`), and methods like `__enter__` in context managers that conventionally return self .
 `Self` ensures the return type is automatically updated in subclasses, preventing type checkers from thinking a subclass method returning `self` is returning the base class.
@@ -489,7 +489,7 @@ You can also create TypedDict types using a functional syntax:
 By default all keys are required, but you can make some optional.
 Initially, you could specify `total=False` on the TypedDict to make all keys optional.
 Later, **PEP 655** (Python 3.11) introduced `Required` and `NotRequired` markers to allow fine-grained control:
-you can mark individual keys as optional in an otherwise total TypedDict  .
+you can mark individual keys as optional in an otherwise total TypedDict .
 For example:
 
 ```python
@@ -516,7 +516,7 @@ This is helpful to model immutable data within dictionaries.
 TypedDicts are particularly useful for structures like configuration dicts or JSON data, where you want static validation of keys.
 They are also used in **kwargs type annotations:
 Python 3.11 allows "spreading" a TypedDict into function arguments with**kwargs (PEP 692).
-For instance, `def create_movie(**kwargs: Unpack[Movie]) -> None:` will ensure that the keyword arguments match the Movie TypedDict schema  .
+For instance, `def create_movie(**kwargs: Unpack[Movie]) -> None:` will ensure that the keyword arguments match the Movie TypedDict schema .
 Here `typing.Unpack` is used to unpack the TypedDict type.
 This feature helps in writing functions that explicitly accept a set of keyword arguments without enumerating them in the function signature.
 
@@ -552,7 +552,7 @@ The Python steering council decided not to turn on the automatic stringification
 ### PEP 649 (Deferred Annotations)
 
 PEP 649, accepted for Python's future (targeted for 3.13+), proposes a new mechanism where annotations are neither evaluated at function definition time nor stored as strings.
-Instead, annotations would be stored as code in a special function (`__annotate__`) that computes them on demand  .
+Instead, annotations would be stored as code in a special function (`__annotate__`) that computes them on demand .
 This aims to solve forward references and performance issues more elegantly:
 the evaluation of annotations is deferred until needed, without losing the actual object references or incurring the issues of stringified annotations.
 As of the latest Python (3.12), this is still in progress--by default, Python 3.12 still evaluates annotations normally (unless you use the future import).
@@ -597,7 +597,7 @@ But it's good to know that the ecosystem supports them, enabling gradual adoptio
   Conversely, for return types, it's usually best to be as specific as possible (don't return `Any` if you can return a concrete type).
 - Use Modern Syntax: Prefer the new concise annotation syntax that Python now supports.
   This means using built-in collection types (e.g.
-`list[int]` rather than `typing.List[int]`) , using `X | Y` for unions rather than `typing.Union[X, Y]` , and `X | None` instead of `typing.Optional[X]`.
+  `list[int]` rather than `typing.List[int]`) , using `X | Y` for unions rather than `typing.Union[X, Y]` , and `X | None` instead of `typing.Optional[X]`.
   These make annotations more readable.
   The older syntax is still accepted for compatibility, but the newer syntax is encouraged in current code.
 - Limit `Any` and Unsafe Casts: Try to avoid using `Any` unless absolutely necessary.
@@ -617,11 +617,12 @@ else: ...`, in the else branch `obj` is not a str.
   Unless you introspect them at runtime (with `typing.get_type_hints()`), they won't slow down your program.
   That said, using a type checker in development might slightly slow down your build/test cycle, but it's usually worth the trade-off for the bugs it prevents.
 
-Each of these topics is elaborated in the official  and Python Enhancement Proposals.
-For further reading, the   and the **Static Typing** section on Python's documentation site  are excellent resources.
+Each of these topics is elaborated in the official and Python Enhancement Proposals.
+For further reading, the and the **Static Typing** section on Python's documentation site are excellent resources.
 They provide code examples and deeper explanations for advanced scenarios, helping you stay up-to-date with the evolving landscape of type annotations in modern Python.
 
 ## References
+
 1. [typing--Support for type hints--Python 3.13.2 documentation](https://docs.python.org/3/library/typing.html)
 2. [PEP 484--Type Hints | peps.python.org](https://peps.python.org/pep-0484/)
 3. [Did You Know Some Types in Python's Typing Module Are Now ...](https://medium.com/@onurbaskin/did-you-know-some-types-in-pythons-typing-module-are-now-deprecated-551ab9ac1ba1)

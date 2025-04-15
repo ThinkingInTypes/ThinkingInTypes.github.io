@@ -23,7 +23,7 @@ Annotating lambdas directly isn't supported; however, annotations can be implied
 # example_2.py
 from typing import Callable
 
-adder: Callable[[int, int], int] = lambda x, y: x + y  # noqa: E731
+adder: Callable[[int, int], int] = lambda x, y: x + y  # type: ignore: E731
 ```
 
 This explicit approach ensures that lambda behavior is type-checked properly.
@@ -38,7 +38,7 @@ from typing import Callable
 
 
 def operate(
-    a: int, b: int, func: Callable[[int, int], int]
+        a: int, b: int, func: Callable[[int, int], int]
 ) -> int:
     return func(a, b)
 
@@ -61,7 +61,7 @@ R = TypeVar("R")
 
 
 def logging_decorator(
-    func: Callable[P, R],
+        func: Callable[P, R],
 ) -> Callable[P, R]:
     def wrapper(*args: P.args, **kwargs: P.kwargs) -> R:
         print(
@@ -136,7 +136,7 @@ RequestHandler: TypeAlias = Callable[[str, dict], dict]
 
 
 def handle_request(
-    path: str, handler: RequestHandler
+        path: str, handler: RequestHandler
 ) -> dict:
     response = handler(path, {})
     return response
@@ -160,7 +160,7 @@ class Handler(Protocol):
 
 
 def process_request(
-    handler: Handler, request: dict
+        handler: Handler, request: dict
 ) -> dict:
     return handler(request)
 ```

@@ -404,29 +404,29 @@ def func_c(i: int) -> Result[int, ZeroDivisionError]:
 
 @safe  # Convert existing function
 def func_d(
-    i: int,
+        i: int,
 ) -> str:  # Result[str, ZeroDivisionError]
     1 / i
     return f"func_d({i})"
 
 
 def composed(
-    i: int,
+        i: int,
 ) -> Result[str, str | ValueError | ZeroDivisionError]:
     result_a = func_a(i)
     if isinstance(result_a, Failure):
-        return result_a  # noqa
+        return result_a  # type: ignore
 
     # unwrap() gets the answer from Success:
     result_b = func_b(result_a.unwrap())
     if isinstance(result_b, Failure):
-        return result_b  # noqa
+        return result_b  # type: ignore
 
     result_c = func_c(result_b.unwrap())
     if isinstance(result_c, Failure):
-        return result_c  # noqa
+        return result_c  # type: ignore
 
-    return func_d(result_c.unwrap())  # noqa
+    return func_d(result_c.unwrap())  # type: ignore
 
 
 pprint([(i, composed(i)) for i in range(5)])
@@ -470,7 +470,7 @@ ERROR = TypeVar("ERROR")
 @dataclass(frozen=True)
 class Result(Generic[ANSWER, ERROR]):
     def bind(
-        self, func: Callable[[ANSWER], "Result"]
+            self, func: Callable[[ANSWER], "Result"]
     ) -> "Result[ANSWER, ERROR]":
         if isinstance(self, Success):
             return func(self.unwrap())
@@ -517,7 +517,7 @@ from returns.result import Result
 
 
 def composed(
-    i: int,
+        i: int,
 ) -> Result[str, str | ZeroDivisionError | ValueError]:
     # fmt: off
     return (
@@ -580,7 +580,7 @@ def add(first: int, second: int, third: int) -> str:
 
 
 def composed(
-    i: int, j: int
+        i: int, j: int
 ) -> Result[str, str | ZeroDivisionError | ValueError]:
     # fmt: off
     return Result.do(
