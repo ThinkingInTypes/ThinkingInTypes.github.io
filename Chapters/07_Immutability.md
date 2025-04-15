@@ -213,7 +213,7 @@ p = Point(x=1, y=2)
 print(p.x, p.y)  # Outputs: 1 2
 ## 1 2
 
-with Catch:
+with Catch():
     # Attempting to modify a field produces an error:
     p.x = 5  # noqa
 ## Error: cannot assign to field 'x'
@@ -254,7 +254,7 @@ class Person:
 person = Person(name="Alice", age=30)
 print(person.name)  # "Alice"
 ## Alice
-with Catch:
+with Catch():
     # Trying to modify a frozen dataclass field:
     person.age = 31  # noqa
 ## Error: cannot assign to field 'age'
@@ -349,7 +349,7 @@ r = Rectangle(3.0, 4.0)
 print(r.area)  # Outputs: 12.0
 ## 12.0
 # Try to modify attributes (should fail)
-with Catch:
+with Catch():
     # 'Rectangle' object attribute 'width' is read-only:
     # r.width = 5.0
     r.__dict__["width"] = 5.0  # Cheat to change
@@ -373,7 +373,8 @@ It's helpful to understand how these features are implemented, to fully apprecia
   When you declare a variable or attribute with `Final`, the Python interpreter records that in the `__annotations__` of the module or class, but it does not prevent assignments at runtime.
   The enforcement comes from type checkers.
   Tools like mypy will scan your code and, if you try to reassign a `Final` variable, they will emit an error and refuse to consider the code type-safe.
-  As of Python 3.11, marking classes or methods with the `@final` decorator will set a `__final__ = True` attribute on the object, which is mostly for introspection or tooling--Python won't stop you from subclassing a `@final` class or overriding a `@final` method at runtime, but doing so would likely cause your type checker to complain or your linter to warn you.
+  As of Python 3.11, marking classes or methods with the `@final` decorator will set a `__final__ = True` attribute on the object, which is mostly for introspection or tooling--Python won't stop you from subclassing a `@final` class or overriding a
+  `@final` method at runtime, but doing so would likely cause your type checker to complain or your linter to warn you.
   One key thing to remember is that `Final` is about the name binding, not the object's mutability: a `Final` list can still be changed in content, and `Final` doesn't make a dataclass frozen or anything of that sort.
   It's a tool for design-by-contract: signaling intent and catching mistakes early.
 
@@ -411,6 +412,7 @@ Immutability in Python is ultimately a matter of developer intent supported by l
 With `Final` and frozen dataclasses, we now have the means to clearly communicate and enforce that intent, leading to more robust and maintainable codebases.
 
 ## References
+
 1. [Mimicking Immutability in Python with Type Hints | Justin Austin](https://justincaustin.com/blog/mimicking-immutability-python-type-hints/)
 2. [dataclasses--Data Classes--Python 3.13.3 documentation](https://docs.python.org/3/library/dataclasses.html)
 3. [PEP 8--Style Guide for Python Code | peps.python.org](https://peps.python.org/pep-0008/)
