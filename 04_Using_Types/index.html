@@ -1352,7 +1352,7 @@ It also helps readers understand what kind of data <code>unique_ids</code> holds
 The type hint ensures that someone doesn't accidentally pass in, say, a dict mapping names to something else like phone numbers (unless it matches the specified types).</p>
 <p>Using these collection type annotations (<code>List</code>, <code>Tuple</code>, <code>Set</code>, <code>Dict</code>) greatly enhances code documentation.
 They specify not just that a variable is a list or dict, but what's inside it.
-This is crucial for writing correct code, as many bugs come from misunderstanding what type of data is being handled.
+This is crucial for writing correct code--many bugs come from misunderstanding data types.
 Next, we will see that Python has even more convenient ways to write these annotations, especially in newer versions.</p>
 <h2 id="annotations-without-imports">Annotations without Imports<a class="headerlink" href="#annotations-without-imports" title="Permanent link">#</a></h2>
 <p>Starting with Python 3.9, Python allows the direct use of built-in collection type names.
@@ -1443,7 +1443,7 @@ Annotating this helps users of <code>generate_numbers</code> know what to expect
 Also, it signals that the function uses <code>yield</code> internally.
 As a side note, if a function is meant to never return normally (for instance, one that enters an infinite loop or always raises an exception), you could use the special return type <code>NoReturn</code> from <code>typing</code>, but such cases are rare and beyond our current scope.</p>
 <p>Specialized annotations like <code>Sequence</code>, <code>Mapping</code>, <code>Iterable</code>, and <code>Iterator</code> let you capture the interface or behavior you require, rather than a specific concrete type.
-They are especially useful in library or API design, where being too specific with types can needlessly limit the utility of a function or class.
+They are especially useful in library or API design, where over-specifying types can needlessly limit the utility of a function or class.
 By using these abstract collection types, you make your code flexible while still retaining the benefits of type checking.</p>
 <h2 id="faster-development-clearer-results">Faster Development, Clearer Results<a class="headerlink" href="#faster-development-clearer-results" title="Permanent link">#</a></h2>
 <p>Type annotations make intentions explicit.

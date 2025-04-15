@@ -463,9 +463,9 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#as-patterns-pattern-as-name" class="md-nav__link">
+  <a href="#as-patterns" class="md-nav__link">
     <span class="md-ellipsis">
-      AS Patterns (pattern as name)
+      AS Patterns
     </span>
   </a>
   
@@ -481,9 +481,9 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#pattern-matching-vs-inheritance" class="md-nav__link">
+  <a href="#pattern-matching-vs" class="md-nav__link">
     <span class="md-ellipsis">
-      Pattern Matching vs. Inheritance
+      Pattern Matching vs.
     </span>
   </a>
   
@@ -499,9 +499,9 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#sources" class="md-nav__link">
+  <a href="#references" class="md-nav__link">
     <span class="md-ellipsis">
-      Sources
+      References
     </span>
   </a>
   
@@ -992,9 +992,9 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#as-patterns-pattern-as-name" class="md-nav__link">
+  <a href="#as-patterns" class="md-nav__link">
     <span class="md-ellipsis">
-      AS Patterns (pattern as name)
+      AS Patterns
     </span>
   </a>
   
@@ -1010,9 +1010,9 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#pattern-matching-vs-inheritance" class="md-nav__link">
+  <a href="#pattern-matching-vs" class="md-nav__link">
     <span class="md-ellipsis">
-      Pattern Matching vs. Inheritance
+      Pattern Matching vs.
     </span>
   </a>
   
@@ -1028,9 +1028,9 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#sources" class="md-nav__link">
+  <a href="#references" class="md-nav__link">
     <span class="md-ellipsis">
-      Sources
+      References
     </span>
   </a>
   
@@ -1056,11 +1056,11 @@
 
 
 <h1 id="pattern-matching">Pattern Matching<a class="headerlink" href="#pattern-matching" title="Permanent link">#</a></h1>
-<p>Python 3.10 added <em>structural pattern matching</em> via the <code>match ... case</code> statement.
+<p>Python 3.10 added <em>structural pattern matching</em> via the <code>match...case</code> statement.
 Pattern matching compares a value (the <em>subject</em>) against a series of <em>patterns</em>, and execute codes based on the pattern that fits.
 Unlike a simple switch on a single value, structural pattern matching lets you destructure complex data and test for conditions in one expressive syntax.</p>
-<p>A <code>match</code> statement looks similar to a <strong>switch</strong>/<strong>case</strong> from other languages, but Python's patterns can match <em>structure</em> (like the shape of a sequence or the attributes of an object) and bind variables.
-Python tries each <code>case</code> in order and executes the first one that matches, with a wildcard <code>_</code> as a catch-all default (<a href="https://benhoyt.com/writings/python-pattern-matching/#:~:text=Python%20evaluates%20the%20,case%20if%20no%20others%20match">Structural pattern matching in Python 3.10</a>).
+<p>A <code>match</code> statement looks similar to a <strong>switch</strong>/<strong>case</strong> from other languages, but Python's patterns can match structure (like the shape of a sequence or the attributes of an object) and bind variables.
+Python tries each <code>case</code> in order and executes the first one that matches, with a wildcard <code>_</code> as a catch-all default.
 Patterns can include literals, names, and even nested sub-patterns to unpack data.
 We will cover each pattern type in detail, with examples and tips on how they interact with Python's type system and static analysis.</p>
 <h2 id="literal-patterns">Literal Patterns<a class="headerlink" href="#literal-patterns" title="Permanent link">#</a></h2>
@@ -1079,18 +1079,18 @@ For example, consider matching an HTTP status code to a message:</p>
 </span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>    <span class="k">case</span><span class="w"> </span><span class="k">_</span><span class="p">:</span>
 </span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>        <span class="n">result</span> <span class="o">=</span> <span class="s2">&quot;Unknown status&quot;</span>
 </span></code></pre></div>
-<p>In this snippet, the cases <code>200</code> and <code>404</code> are literal patterns.
-The <code>match</code> will compare <code>status</code> against each literal in turn.
+<p>The cases <code>200</code> and <code>404</code> are literal patterns.
+The <code>match</code> compares <code>status</code> against each literal in turn.
 Because <code>status == 404</code>, the second case matches and <code>result</code> becomes <code>"Not Found"</code>.
 If <code>status</code> had been something else, the wildcard <code>_</code> (covered later) would catch it as a default.</p>
 <p><strong>How literal matching works:</strong> Most literal constants match by equality.
-However, Python's three singletons--<code>True</code>, <code>False</code>, and <code>None</code>--are matched by identity (i.e., the subject <em>is</em> that object) (<a href="https://docs.python.org/3/whatsnew/3.10.html#:~:text=,are%20compared%20by%20identity">What's New In Python 3.10 — Python 3.13.3 documentation</a>).
+However, Python's three singletons--<code>True</code>, <code>False</code>, and <code>None</code>--are matched by identity (i.e., the subject <em>is</em> that object).
 This distinction rarely matters in practice (since there's only one <code>True</code> etc.), but it's a defined part of the rules.
-You can also combine multiple literals in one pattern using the OR operator <code>|</code> (described in the OR Patterns section) to match any of several constants (e.g., <code>case 401 | 403 | 404:</code> to handle multiple error codes in one branch (<a href="https://docs.python.org/3/whatsnew/3.10.html#:~:text=You%20can%20combine%20several%20literals,%28%E2%80%9Cor%E2%80%9D">What's New In Python 3.10 — Python 3.13.3 documentation</a>)).</p>
+You can also combine multiple literals in one pattern using the OR operator <code>|</code> (described in the OR Patterns section) to match any of several constants (e.g., <code>case 401 | 403 | 404:</code> to handle multiple error codes in one branch).</p>
 <p><strong>Named constants in patterns:</strong> A common desire is to match against a constant defined elsewhere (like an enumeration member or a module-level constant).
-In pattern matching, a bare name is treated as a capture variable (see <em>Capture Patterns</em> below), <em>not</em> a constant.
+In pattern matching, a bare name is treated as a capture variable (see <em>Capture Patterns</em> below), not a constant.
 To use a named value as a literal pattern, you must qualify it so that it's not seen as a new variable.
-The rule is that <em>named constants must appear as dotted names</em> (or attributes) in patterns (<a href="https://docs.python.org/3/whatsnew/3.10.html#:~:text=,interpreted%20as%20a%20capture%20variable">What's New In Python 3.10 — Python 3.13.3 documentation</a>).
+The rule is that named constants must appear as dotted names (or attributes) in patterns.
 For example, to match an <code>Enum</code> member:</p>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="c1"># colors.py</span>
 </span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="kn">from</span> <span class="nn">enum</span> <span class="kn">import</span> <span class="n">Enum</span>
@@ -1112,25 +1112,28 @@ For example, to match an <code>Enum</code> member:</p>
 </span><span id="__span-1-18"><a id="__codelineno-1-18" name="__codelineno-1-18" href="#__codelineno-1-18"></a>        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;It&#39;s blue!&quot;</span><span class="p">)</span>
 </span><span id="__span-1-19"><a id="__codelineno-1-19" name="__codelineno-1-19" href="#__codelineno-1-19"></a><span class="c1">## It&#39;s green!</span>
 </span></code></pre></div>
-<p>Here <code>Color.RED</code> etc. are dotted names, so the pattern treats them as specific constant values rather than capturing new variables named <code>RED</code>, <code>GREEN</code>, <code>BLUE</code>.
-This will correctly match the enum value in <code>color</code>. (If you had written just <code>RED</code> as a pattern, it would be a capture pattern instead, which is likely not what you want.)</p>
+<p>Here <code>Color.RED</code> etc.
+are dotted names, so the pattern treats them as specific constant values rather than capturing new variables named <code>RED</code>, <code>GREEN</code>, <code>BLUE</code>.
+This will correctly match the enum value in <code>color</code>.
+(If you had written just <code>RED</code> as a pattern, it would be a capture pattern instead, which is likely not what you want.)</p>
 <p><strong>Static analysis angle:</strong> Literal patterns work great with type hints for <code>Literal</code> types and Enums.
 If a variable is annotated with a union of literal values or an <code>Enum</code> type, a series of literal <code>case</code> clauses can cover all possibilities.
-Modern static type checkers (like mypy or Pyright) can perform <em>exhaustiveness checking</em> on <code>match</code> statements (<a href="https://mypy.readthedocs.io/en/stable/literal_types.html#:~:text=Exhaustiveness%20checking%20is%20also%20supported,10%20and%20later">Literal types and Enums--mypy 1.15.0 documentation</a>) (<a href="https://mypy.readthedocs.io/en/stable/literal_types.html#:~:text=Exhaustiveness%20checking%C2%B6">Literal types and Enums--mypy 1.15.0 documentation</a>).
+Modern static type checkers (like mypy or Pyright) can perform <em>exhaustiveness checking</em> on <code>match</code> statements.
 This means if you forget to handle one of the specified values, the type checker can warn you.
 For instance, if <code>status</code> was of type <code>Literal[200, 404]</code>, the checker would expect all those values to be matched.
 Similarly, with the <code>Color</code> enum above, a checker knows there are three members; if you omit a case for one of them, it could flag it.
 This benefit ensures your pattern matching stays in sync with your data definitions, making your code more robust.</p>
 <h2 id="capture-patterns">Capture Patterns<a class="headerlink" href="#capture-patterns" title="Permanent link">#</a></h2>
 <p>A <em>capture pattern</em> is simply a name (identifier) used in a pattern, which will "capture" the value from the subject if that pattern position matches.
-In other words, instead of testing for a specific value, a capture pattern matches <em>anything</em> and binds a variable to the subject (or sub-component of the subject).
+Instead of testing for a specific value, a capture pattern matches anything and binds a variable to the subject (or sub-component of the subject).
 Capture patterns let you extract pieces of data for use in the body of the case.</p>
 <p><strong>Syntax:</strong> Writing a bare name in a pattern creates a capture.
-For example, <code>case x:</code> will match <em>any</em> subject value and assign it to the variable <code>x</code>.
+For example, <code>case x:</code> will match any subject value and assign it to the variable <code>x</code>.
 Capture patterns can also appear inside compound patterns (like inside a sequence or mapping), where they bind a part of the structure.</p>
 <p><strong>Important:</strong> <code>_</code> (underscore) is not a capture; it's a special wildcard pattern that discards the value.
 Any other name will be treated as a capture.
-If the name wasn't already defined in the surrounding scope, it will be a new variable set in that case. (If it <em>was</em> defined outside, pattern matching will <em>not</em> automatically compare against it--it still creates a new binding shadowing the outer variable.
+If the name wasn't already defined in the surrounding scope, it will be a new variable set in that case.
+(If it was defined outside, pattern matching will not automatically compare against it--it still creates a new binding shadowing the outer variable.
 As mentioned, to match an existing variable's value, use a literal or value pattern with a dotted name.)</p>
 <p>Consider this simple use of capture patterns:</p>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1"># example_3.py</span>
@@ -1150,24 +1153,25 @@ The result is that it prints: <code>Received unknown command: 'hello'</code>.
 Essentially, <code>other</code> serves as a catch-all variable for "anything else".
 In this role, a capture is similar to the wildcard <code>_</code> (which also matches anything) except that we actually get to use the captured value in the code.</p>
 <p>Capture patterns are extremely useful when you need to extract parts of a structure.
-For example, if you match a tuple <code>case (x, y):</code>, that actually uses two capture sub-patterns <code>x</code> and <code>y</code> to pull out the elements of the tuple.
-Similarly, <code>case {"user": name, "id": id}:</code> on a dictionary would capture the values of the <code>"user"</code> and <code>"id"</code> keys into the variables <code>name</code> and <code>id</code> respectively.
-We will see more of these in Sequence and Mapping patterns next.</p>
+For example, matching a tuple <code>case (x, y):</code> uses two capture sub-patterns <code>x</code> and <code>y</code> to pull out the elements of the tuple.
+Similarly, <code>case {"user": name, "id": id}:</code> on a dictionary captures the values of the <code>"user"</code> and <code>"id"</code> keys into the variables <code>name</code> and <code>id</code> respectively.
+We will show more of these in Sequence and Mapping patterns.</p>
 <p><strong>Irrefutable patterns:</strong> A capture pattern (on its own) always matches, because it imposes no conditions on the value.
 Patterns that always succeed are called <em>irrefutable</em>.
-If an irrefutable pattern is used as a top-level case (like <code>case x:</code> at the same indent as case), it will match everything and typically must be the last case (otherwise it would prevent any subsequent cases from ever running).
+If an irrefutable pattern is used as a top-level case (like <code>case x:</code> at the same indent as case), it matches everything and typically must be the last case (otherwise it would prevent any subsequent cases from ever running).
 Using a capture as the last case is one way to handle "default" scenarios while still naming the value.
 Often, though, a simple wildcard <code>_</code> is used for a default case when the value itself doesn't need to be referenced.</p>
 <h2 id="wildcard-patterns-_">Wildcard Patterns (<code>_</code>)<a class="headerlink" href="#wildcard-patterns-_" title="Permanent link">#</a></h2>
 <p>The <em>wildcard pattern</em> is written as a single underscore <code>_</code>.
-It matches <em>anything</em>, just like a capture pattern does, but it does not bind any variable.
-Think of <code>_</code> as "I don't care what's here." It's typically used to ignore certain values or as a catch-all default case.
-Since <code>_</code> is not a valid variable name (in pattern context it's special-cased), you can use it freely without worrying about collisions or overwriting something.</p>
+It matches anything, just like a capture pattern does, but it does not bind any variable.
+It means, "I don't care what's here."
+It's typically used to ignore certain values or as a catch-all default case.
+Since <code>_</code> is not a valid variable name (in pattern context it's special-cased), you can use it freely without worrying about collisions or overwriting.</p>
 <p>Common uses of the wildcard pattern include:</p>
 <ul>
 <li>The final case of a match (default case) to catch all situations not handled by earlier cases:</li>
 </ul>
-<div class="language-python highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="c1"># example_4.py</span>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="c1"># wildcard_final_case.py</span>
 </span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="k">def</span> <span class="nf">wildcard</span><span class="p">(</span><span class="n">status</span><span class="p">):</span>
 </span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>    <span class="k">match</span> <span class="n">status</span><span class="p">:</span>
 </span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>        <span class="k">case</span> <span class="mi">200</span><span class="p">:</span>
@@ -1180,19 +1184,21 @@ Since <code>_</code> is not a valid variable name (in pattern context it's speci
 <ul>
 <li>Ignoring one or more elements in a sequence pattern:</li>
 </ul>
-<div class="language-python highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="c1"># example_5.py</span>
-</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="k">def</span> <span class="nf">wildcard_ignore</span><span class="p">(</span><span class="n">point</span><span class="p">):</span>
-</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>    <span class="k">match</span> <span class="n">point</span><span class="p">:</span>
-</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>        <span class="k">case</span><span class="w"> </span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="k">_</span><span class="p">,</span> <span class="n">_</span><span class="p">):</span>
-</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;x-coordinate is </span><span class="si">{</span><span class="n">x</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="c1"># wildcard_ignore_elements.py</span>
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span>
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="k">def</span> <span class="nf">wildcard_ignore</span><span class="p">(</span><span class="n">point</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>    <span class="k">match</span> <span class="n">point</span><span class="p">:</span>
+</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>        <span class="k">case</span><span class="w"> </span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="k">_</span><span class="p">,</span> <span class="n">_</span><span class="p">):</span>
+</span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a>            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;x-coordinate is </span><span class="si">{</span><span class="n">x</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 </span></code></pre></div>
-<p>Here we assume <code>point</code> is a sequence with at least 3 elements.
-The pattern <code>(x, _, _)</code> will match a sequence of length 3, bind the first element to <code>x</code>, and ignore the second and third elements.
-The underscores indicate we do not need those values. (If the sequence had a different length or structure, this pattern would fail to match.)</p>
+<p>The pattern <code>(x, _, _)</code> binds the first element to <code>x</code> and ignores the second and third elements.
+The underscores indicate we do not need those values.
+(If the sequence had a different length or structure, this pattern would fail to match.)</p>
 <ul>
 <li>Ignoring a value in a class or mapping pattern:</li>
 </ul>
-<div class="language-python highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="c1"># example_6.py</span>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="c1"># wildcard_ignore_value.py</span>
 </span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">NamedTuple</span>
 </span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>
 </span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>
@@ -1209,7 +1215,7 @@ The underscores indicate we do not need those values. (If the sequence had a dif
 <p>This matches a <code>Player</code> object of any name, capturing only the <code>score</code> attribute into <code>s</code>.
 The name attribute is ignored.</p>
 <p>You can use multiple wildcards in a single pattern if needed (each <code>_</code> is independent and just means "ignore this part").
-Under the hood, all <code>_</code> in a pattern are effectively the same anonymous throwaway—none of them create variables.
+Under the hood, all <code>_</code> in a pattern are effectively the same anonymous throwaway--none of them create variables.
 This makes <code>_</code> safe to use in any number of places in the pattern.</p>
 <p>In summary, wildcard patterns are a convenient way to say "match anything here, and I don't intend to use it".
 They improve readability by explicitly marking unneeded parts of the structure and are essential for default cases.
@@ -1217,9 +1223,9 @@ Every <code>match</code> statement should usually end with either a wildcard cas
 <h2 id="sequence-patterns">Sequence Patterns<a class="headerlink" href="#sequence-patterns" title="Permanent link">#</a></h2>
 <p><em>Sequence patterns</em> let you match sequence types (like lists, tuples, etc.) by their contents.
 They look much like unpacking assignments.
-By placing subpatterns in square brackets <code>[...]</code> or parentheses <code>(…)</code>, you can match on the length of the sequence and the patterns of each element.
+By placing subpatterns in square brackets <code>[...]</code> or parentheses <code>(...)</code>, you can match on the length of the sequence and the patterns of each element.
 This is a powerful way to destructure sequence data.</p>
-<p>For example, suppose we want to categorize a 2D point given as a tuple <code>(x, y)</code>:</p>
+<p>Suppose we want to categorize a 2D point given as a tuple <code>(x, y)</code>:</p>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="c1"># example_7.py</span>
 </span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="n">point</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
 </span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="k">match</span> <span class="n">point</span><span class="p">:</span>
@@ -1247,10 +1253,10 @@ The remaining cases are skipped.</p>
 <h3 id="details">Details<a class="headerlink" href="#details" title="Permanent link">#</a></h3>
 <ul>
 <li>
-<p><strong>Types that qualify:</strong> Sequence patterns work on any iterable that is <em>sequence-like</em>.
-  This generally means instances of <code>collections.abc.Sequence</code> (such as list, tuple, range, str) <em>except</em> that mappings (dicts) are treated by the mapping pattern instead (covered in next section).
+<p><strong>Types that qualify:</strong> Sequence patterns work on any iterable that is sequence-like.
+  This generally means instances of <code>collections.abc.Sequence</code> (such as list, tuple, range, str) except that mappings (dicts) are treated by the mapping pattern instead (covered in next section).
   For built-in sequences like list or tuple, the match will check the length and elements.
-  For custom sequence classes, Python uses the sequence protocol (<code>__len__</code> and <code>__getitem__</code>) to attempt a match (<a href="https://realpython.com/structural-pattern-matching/#:~:text=if%20isinstance,Point%28%7Bx%3D%7D%2C%20%7By">Structural Pattern Matching in Python--Real Python</a>).
+  For custom sequence classes, Python uses the sequence protocol (<code>__len__</code> and <code>__getitem__</code>) to attempt a match.
   Strings are considered sequences of characters, so be cautious: a pattern like <code>case ['H','i']:</code> would match the string <code>"Hi"</code> (as a sequence of two chars) as well as a list <code>['H','i']</code>.
   If you specifically want to match a list and not a tuple or other sequence, you can use a class pattern like <code>case list([...])</code> as described below.</p>
 </li>
@@ -1262,7 +1268,7 @@ The remaining cases are skipped.</p>
 </li>
 <li>
 <p><strong>Element matching:</strong> Each position in the pattern can be any kind of subpattern (literal, capture, wildcard, even another nested pattern).
-  All subpatterns must match their corresponding element for the whole pattern to succeed (<a href="https://benhoyt.com/writings/python-pattern-matching/#:~:text=match%20at%20L123%20case%20,a%27%2C%20%7Bx%21r%7D%2C%20%27c">Structural pattern matching in Python 3.10</a>).
+  All subpatterns must match their corresponding element for the whole pattern to succeed.
   In <code>(0, y)</code>, the first subpattern <code>0</code> must equal the first element and the second subpattern <code>y</code> will always succeed (capturing that element).
   If any subpattern fails, the whole pattern fails and the next case is tried.</p>
 </li>
@@ -1274,20 +1280,18 @@ The remaining cases are skipped.</p>
 </li>
 </ul>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="c1"># example_8.py</span>
-</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>
-</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>
-</span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="k">def</span> <span class="nf">rest_pattern</span><span class="p">(</span><span class="o">*</span><span class="n">values</span><span class="p">):</span>
-</span><span id="__span-7-5"><a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a>    <span class="k">match</span> <span class="n">values</span><span class="p">:</span>
-</span><span id="__span-7-6"><a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a>        <span class="k">case</span> <span class="p">[</span><span class="n">first</span><span class="p">,</span> <span class="n">second</span><span class="p">,</span> <span class="o">*</span><span class="n">rest</span><span class="p">]:</span>
-</span><span id="__span-7-7"><a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a>            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">first</span><span class="w"> </span><span class="si">= }</span><span class="s2">, </span><span class="si">{</span><span class="n">second</span><span class="w"> </span><span class="si">= }</span><span class="s2">, </span><span class="si">{</span><span class="n">rest</span><span class="w"> </span><span class="si">= }</span><span class="s2">&quot;</span><span class="p">)</span>
-</span><span id="__span-7-8"><a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a>
-</span><span id="__span-7-9"><a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a>
-</span><span id="__span-7-10"><a id="__codelineno-7-10" name="__codelineno-7-10" href="#__codelineno-7-10"></a><span class="n">rest_pattern</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">40</span><span class="p">)</span>
-</span><span id="__span-7-11"><a id="__codelineno-7-11" name="__codelineno-7-11" href="#__codelineno-7-11"></a><span class="c1">## first = 10, second = 20, rest = [30, 40]</span>
-</span><span id="__span-7-12"><a id="__codelineno-7-12" name="__codelineno-7-12" href="#__codelineno-7-12"></a><span class="n">rest_pattern</span><span class="p">(</span><span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">,</span> <span class="s2">&quot;c&quot;</span><span class="p">,</span> <span class="s2">&quot;d&quot;</span><span class="p">)</span>
-</span><span id="__span-7-13"><a id="__codelineno-7-13" name="__codelineno-7-13" href="#__codelineno-7-13"></a><span class="c1">## first = &#39;a&#39;, second = &#39;b&#39;, rest = [&#39;c&#39;, &#39;d&#39;]</span>
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="k">def</span> <span class="nf">rest_pattern</span><span class="p">(</span><span class="o">*</span><span class="n">values</span><span class="p">):</span>
+</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>    <span class="k">match</span> <span class="n">values</span><span class="p">:</span>
+</span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a>        <span class="k">case</span> <span class="p">[</span><span class="n">first</span><span class="p">,</span> <span class="n">second</span><span class="p">,</span> <span class="o">*</span><span class="n">rest</span><span class="p">]:</span>
+</span><span id="__span-7-5"><a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a>            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">first</span><span class="w"> </span><span class="si">= }</span><span class="s2">, </span><span class="si">{</span><span class="n">second</span><span class="w"> </span><span class="si">= }</span><span class="s2">, </span><span class="si">{</span><span class="n">rest</span><span class="w"> </span><span class="si">= }</span><span class="s2">&quot;</span><span class="p">)</span>
+</span><span id="__span-7-6"><a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a>
+</span><span id="__span-7-7"><a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a>
+</span><span id="__span-7-8"><a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a><span class="n">rest_pattern</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">40</span><span class="p">)</span>
+</span><span id="__span-7-9"><a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a><span class="c1">## first = 10, second = 20, rest = [30, 40]</span>
+</span><span id="__span-7-10"><a id="__codelineno-7-10" name="__codelineno-7-10" href="#__codelineno-7-10"></a><span class="n">rest_pattern</span><span class="p">(</span><span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">,</span> <span class="s2">&quot;c&quot;</span><span class="p">,</span> <span class="s2">&quot;d&quot;</span><span class="p">)</span>
+</span><span id="__span-7-11"><a id="__codelineno-7-11" name="__codelineno-7-11" href="#__codelineno-7-11"></a><span class="c1">## first = &#39;a&#39;, second = &#39;b&#39;, rest = [&#39;c&#39;, &#39;d&#39;]</span>
 </span></code></pre></div>
-<p>This pattern matches any sequence of length <em>&gt;= 2</em>.
+<p>This pattern matches any sequence of length <code>&gt;= 2</code>.
 The first element is bound to <code>first</code>, second to <code>second</code>, and the rest of the sequence (which could be zero-length if there were exactly two) is bound as a list to <code>rest</code>.
 If <code>values</code> is <code>[10, 20, 30, 40]</code>, the output would be "First=10, second=20, rest=[30, 40]".
 If <code>values</code> is <code>[10, 20]</code>, then <code>rest</code> would be an empty list <code>[]</code>.
@@ -1295,9 +1299,9 @@ Using <code>*rest</code> makes the length flexible.
 You can only use one starred subpattern in a sequence pattern.
 Also note that <code>*rest</code> will always be a list, even if the original sequence is a tuple (Python creates a new list for the remaining elements when matching).</p>
 <p>The pattern matching syntax (the structure you write after <code>case</code>) is not designed to include inline type hints.
-Thus, you <em>cannot</em> write something like:
+Thus, you cannot write something like:
 <code>case [first: int, second: int, *rest: list[int]]:</code>
-However, we <em>can</em> put an annotation on the argument passed to the <code>match</code> expression, which is <code>values</code>: </p>
+However, we can put an annotation on the argument passed to the <code>match</code> expression, which is <code>values</code>:</p>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="c1"># subject_annotations.py</span>
 </span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Tuple</span>
 </span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>
@@ -1318,24 +1322,22 @@ However, we <em>can</em> put an annotation on the argument passed to the <code>m
 </span></code></pre></div>
 <p><strong>Nested patterns:</strong> You can nest sequence patterns within sequences for multidimensional data.:</p>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="c1"># nested_patterns.py</span>
-</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>
-</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>
-</span><span id="__span-9-4"><a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="k">def</span> <span class="nf">nested_pattern</span><span class="p">(</span><span class="o">*</span><span class="n">values</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-</span><span id="__span-9-5"><a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a>    <span class="k">match</span> <span class="n">values</span><span class="p">:</span>
-</span><span id="__span-9-6"><a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a>        <span class="k">case</span> <span class="p">[</span><span class="n">first</span><span class="p">,</span> <span class="n">second</span><span class="p">,</span> <span class="o">*</span><span class="n">rest</span><span class="p">]:</span>
-</span><span id="__span-9-7"><a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a>            <span class="c1"># Here the type checker infers:</span>
-</span><span id="__span-9-8"><a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a>            <span class="c1">#--first: int</span>
-</span><span id="__span-9-9"><a id="__codelineno-9-9" name="__codelineno-9-9" href="#__codelineno-9-9"></a>            <span class="c1">#--second: int</span>
-</span><span id="__span-9-10"><a id="__codelineno-9-10" name="__codelineno-9-10" href="#__codelineno-9-10"></a>            <span class="c1">#--rest: list[int]</span>
-</span><span id="__span-9-11"><a id="__codelineno-9-11" name="__codelineno-9-11" href="#__codelineno-9-11"></a>            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">first</span><span class="w"> </span><span class="si">= }</span><span class="s2">, </span><span class="si">{</span><span class="n">second</span><span class="w"> </span><span class="si">= }</span><span class="s2">, </span><span class="si">{</span><span class="n">rest</span><span class="w"> </span><span class="si">= }</span><span class="s2">&quot;</span><span class="p">)</span>
-</span><span id="__span-9-12"><a id="__codelineno-9-12" name="__codelineno-9-12" href="#__codelineno-9-12"></a>        <span class="k">case</span> <span class="p">[(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">),</span> <span class="o">*</span><span class="n">rest</span><span class="p">]:</span>
-</span><span id="__span-9-13"><a id="__codelineno-9-13" name="__codelineno-9-13" href="#__codelineno-9-13"></a>            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;(</span><span class="si">{</span><span class="n">x</span><span class="si">=}</span><span class="s2">, </span><span class="si">{</span><span class="n">y</span><span class="si">=}</span><span class="s2">), *</span><span class="si">{</span><span class="n">rest</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-</span><span id="__span-9-14"><a id="__codelineno-9-14" name="__codelineno-9-14" href="#__codelineno-9-14"></a>
-</span><span id="__span-9-15"><a id="__codelineno-9-15" name="__codelineno-9-15" href="#__codelineno-9-15"></a>
-</span><span id="__span-9-16"><a id="__codelineno-9-16" name="__codelineno-9-16" href="#__codelineno-9-16"></a><span class="n">nested_pattern</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">40</span><span class="p">)</span>
-</span><span id="__span-9-17"><a id="__codelineno-9-17" name="__codelineno-9-17" href="#__codelineno-9-17"></a><span class="c1">## first = 10, second = 20, rest = [30, 40]</span>
-</span><span id="__span-9-18"><a id="__codelineno-9-18" name="__codelineno-9-18" href="#__codelineno-9-18"></a><span class="n">nested_pattern</span><span class="p">((</span><span class="mi">50</span><span class="p">,</span> <span class="mi">60</span><span class="p">),</span> <span class="mi">70</span><span class="p">,</span> <span class="mi">80</span><span class="p">)</span>
-</span><span id="__span-9-19"><a id="__codelineno-9-19" name="__codelineno-9-19" href="#__codelineno-9-19"></a><span class="c1">## first = (50, 60), second = 70, rest = [80]</span>
+</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="k">def</span> <span class="nf">nested_pattern</span><span class="p">(</span><span class="o">*</span><span class="n">values</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>    <span class="k">match</span> <span class="n">values</span><span class="p">:</span>
+</span><span id="__span-9-4"><a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a>        <span class="k">case</span> <span class="p">[</span><span class="n">first</span><span class="p">,</span> <span class="n">second</span><span class="p">,</span> <span class="o">*</span><span class="n">rest</span><span class="p">]:</span>
+</span><span id="__span-9-5"><a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a>            <span class="c1"># Here the type checker infers:</span>
+</span><span id="__span-9-6"><a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a>            <span class="c1">#--first: int</span>
+</span><span id="__span-9-7"><a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a>            <span class="c1">#--second: int</span>
+</span><span id="__span-9-8"><a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a>            <span class="c1">#--rest: list[int]</span>
+</span><span id="__span-9-9"><a id="__codelineno-9-9" name="__codelineno-9-9" href="#__codelineno-9-9"></a>            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">first</span><span class="w"> </span><span class="si">= }</span><span class="s2">, </span><span class="si">{</span><span class="n">second</span><span class="w"> </span><span class="si">= }</span><span class="s2">, </span><span class="si">{</span><span class="n">rest</span><span class="w"> </span><span class="si">= }</span><span class="s2">&quot;</span><span class="p">)</span>
+</span><span id="__span-9-10"><a id="__codelineno-9-10" name="__codelineno-9-10" href="#__codelineno-9-10"></a>        <span class="k">case</span> <span class="p">[(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">),</span> <span class="o">*</span><span class="n">rest</span><span class="p">]:</span>
+</span><span id="__span-9-11"><a id="__codelineno-9-11" name="__codelineno-9-11" href="#__codelineno-9-11"></a>            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;(</span><span class="si">{</span><span class="n">x</span><span class="si">=}</span><span class="s2">, </span><span class="si">{</span><span class="n">y</span><span class="si">=}</span><span class="s2">), *</span><span class="si">{</span><span class="n">rest</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</span><span id="__span-9-12"><a id="__codelineno-9-12" name="__codelineno-9-12" href="#__codelineno-9-12"></a>
+</span><span id="__span-9-13"><a id="__codelineno-9-13" name="__codelineno-9-13" href="#__codelineno-9-13"></a>
+</span><span id="__span-9-14"><a id="__codelineno-9-14" name="__codelineno-9-14" href="#__codelineno-9-14"></a><span class="n">nested_pattern</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">40</span><span class="p">)</span>
+</span><span id="__span-9-15"><a id="__codelineno-9-15" name="__codelineno-9-15" href="#__codelineno-9-15"></a><span class="c1">## first = 10, second = 20, rest = [30, 40]</span>
+</span><span id="__span-9-16"><a id="__codelineno-9-16" name="__codelineno-9-16" href="#__codelineno-9-16"></a><span class="n">nested_pattern</span><span class="p">((</span><span class="mi">50</span><span class="p">,</span> <span class="mi">60</span><span class="p">),</span> <span class="mi">70</span><span class="p">,</span> <span class="mi">80</span><span class="p">)</span>
+</span><span id="__span-9-17"><a id="__codelineno-9-17" name="__codelineno-9-17" href="#__codelineno-9-17"></a><span class="c1">## first = (50, 60), second = 70, rest = [80]</span>
 </span></code></pre></div>
 <p>The first element, a 2-tuple, is matched by the subpattern <code>(x, y)</code>.
 The remaining elements go into <code>rest</code>.
@@ -1344,15 +1346,17 @@ This destructures a complex list-of-tuples or tuple-of-tuples structures in a si
 They make the code for handling sequences declarative.
 Instead of writing length checks and index accesses, you describe the shape of the data you expect.
 This can be both clearer and less error-prone.</p>
-<p><strong>Type hints and static analysis:</strong> If a variable is annotated with a sequence type of a fixed length (e.g. <code>tuple[int, int, int]</code> for a triple), a corresponding sequence pattern (like <code>[x, y, z]</code>) naturally fits that structure.
+<p><strong>Type hints and static analysis:</strong> If a variable is annotated with a sequence type of a fixed length (e.g.
+<code>tuple[int, int, int]</code> for a triple), a corresponding sequence pattern (like <code>[x, y, z]</code>) naturally fits that structure.
 Static type checkers can verify that your patterns make sense given the declared types.
 For example, if a function parameter is <code>coords: tuple[int, int]</code>, then a pattern with two elements will always match, whereas a pattern with three would be flagged as possibly unreachable (since a tuple[int,int] can't have length 3).
 Additionally, the types of captured variables can be inferred: if <code>coords</code> is <code>tuple[int,int]</code>, then in <code>case (x, y):</code> the checker knows <code>x</code> and <code>y</code> are <code>int</code>.
 This synergy makes pattern matching with sequences both convenient and type-safe in well-typed code.</p>
 <h2 id="mapping-patterns">Mapping Patterns<a class="headerlink" href="#mapping-patterns" title="Permanent link">#</a></h2>
 <p>Mapping patterns are designed to match dictionary-like objects by their keys and values.
-They use a <code>{...}</code> pattern syntax that resembles a dictionary literal, but in a <code>case</code> pattern it means "match a mapping with these keys and corresponding value patterns".
-This is immensely useful for working with JSON-like data or configuration dictionaries.</p>
+They use a <code>{...}</code> pattern syntax that resembles a dictionary literal,
+but in a <code>case</code> pattern it means "match a mapping with these keys and corresponding value patterns".
+This is useful for working with JSON-like data or configuration dictionaries.</p>
 <p>For example, imagine we receive event data as dictionaries, and we want to handle different event types:</p>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="c1"># example_9.py</span>
 </span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="n">event</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;keypress&quot;</span><span class="p">,</span> <span class="s2">&quot;key&quot;</span><span class="p">:</span> <span class="s2">&quot;Enter&quot;</span><span class="p">}</span>
@@ -1382,7 +1386,8 @@ This is immensely useful for working with JSON-like data or configuration dictio
 <li>
 <p><strong>Literal keys:</strong> The keys in the pattern are taken as literal constants (not variables).
   Typically they will be quoted strings (as above) or other hashable constants (like numbers or enum values).
-  You cannot use a capture for a key name--that wouldn't make sense because a capture binds to a value, not a key. (If you need to iterate or check arbitrary keys, pattern matching isn't the tool; you'd use normal dict methods in that case.)</p>
+  You cannot use a capture for a key name--that wouldn't make sense because a capture binds to a value, not a key.
+(If you need to iterate or check arbitrary keys, pattern matching isn't the tool; you'd use normal dict methods in that case.)</p>
 </li>
 <li>
 <p><strong>Value subpatterns:</strong> For each key in the pattern, you provide a subpattern that will be matched against the value for that key.
@@ -1391,12 +1396,12 @@ This is immensely useful for working with JSON-like data or configuration dictio
   You can nest deeper patterns too; e.g., <code>case {"pos": (x, y)}</code> would require a <code>"pos"</code> key whose value is a sequence of length 2 (tuple/list) matching the subpattern <code>(x, y)</code>.</p>
 </li>
 <li>
-<p><strong>Extra keys:</strong> By default, a mapping pattern does <em>not</em> require that the subject has no other keys besides the ones listed.
+<p><strong>Extra keys:</strong> By default, a mapping pattern does not require that the subject has no other keys besides the ones listed.
   It only insists those specified keys exist with matching values.
   Additional keys in the dictionary are ignored (they don't make the match fail).
   In our example, if <code>event</code> had other keys (like <code>"time": 12345</code>), the first pattern could still match as long as <code>"type"</code> and <code>"key"</code> were there and correct.
   If you want to ensure no extra keys, you can use the double-star wildcard .
-  For example, <code>case {"type": t, \*\*rest}:</code> will match and capture <em>all</em> other keys and values into a new dict <code>rest</code>.
+  For example, <code>case {"type": t, \*\*rest}:</code> will match and capture all other keys and values into a new dict <code>rest</code>.
   Conversely, <code>case {"type": t} if len(event) == 1:</code> could be used with a guard to ensure only that key is present, but <code>\*\*rest</code> is the idiomatic way to capture "the rest" of a mapping.</p>
 </li>
 <li>
@@ -1427,10 +1432,11 @@ If it had no <code>"name"</code> key, the pattern would not match at all.</p>
 <p><strong>Static analysis and mappings:</strong> For dicts, static type checking is less precise than with sequences because the set of keys is not always known through type hints (unless using <code>TypedDict</code> or specific <code>Literal</code> keys).
 However, if you use something like <code>TypedDict</code> or <code>Mapping[str, X]</code>, a type checker can ensure the values you capture are of the expected type <code>X</code>.
 Pattern matching shines in expressiveness rather than static type rigor for mappings.
-If you have a fixed schema for a dict, pattern matching can clearly express the shape, and a tool like mypy can check that you at least treat captured values consistently with their annotated types. (For truly fixed keys, a dataclass or custom class might be a better fit, which leads us to class patterns.)</p>
+If you have a fixed schema for a dict, pattern matching can clearly express the shape, and a tool like mypy can check that you at least treat captured values consistently with their annotated types.
+(For truly fixed keys, a dataclass or custom class might be a better fit, which leads us to class patterns.)</p>
 <h2 id="class-patterns">Class Patterns<a class="headerlink" href="#class-patterns" title="Permanent link">#</a></h2>
 <p>Class patterns allow you to match objects of a specific class and extract their attributes.
-They use a syntax reminiscent of calling a constructor, but <em>no object is actually being created in a case pattern</em>--instead, Python checks the subject is an instance of that class and then pulls out specified attributes.
+They use a syntax reminiscent of calling a constructor, but no object is actually created in a case pattern--instead, Python checks the subject is an instance of that class and then pulls out specified attributes.
 This is a form of <em>structured binding</em> or deconstruction for user-defined types.</p>
 <p>The basic form is <code>ClassName(attr1=subpattern1, attr2=subpattern2, ...)</code>.
 You list the class to match and the attributes you want to check or capture.
@@ -1458,7 +1464,7 @@ For example, suppose we have a simple data class representing a user:</p>
 </span></code></pre></div>
 <p>What happens here:</p>
 <ul>
-<li><code>case User(name="Alice", age=age)</code>: This matches if <code>user</code> is an instance of <code>User</code> <em>and</em> its <code>name</code> attribute equals <code>"Alice"</code>.
+<li><code>case User(name="Alice", age=age)</code>: This matches if <code>user</code> is an instance of <code>User</code> and its <code>name</code> attribute equals <code>"Alice"</code>.
   If so, it captures the <code>age</code> attribute into the variable <code>age</code>.
   In our example <code>user.name</code> is "Carol", not "Alice", so this case fails.</li>
 <li><code>case User(name=name, age=age)</code>: This matches any <code>User</code> instance (since no literal value restrictions now, just captures).
@@ -1467,7 +1473,8 @@ For example, suppose we have a simple data class representing a user:</p>
 <li><code>case _</code>: If <code>user</code> wasn't a <code>User</code> at all (say it was an int or some other type), the first two patterns would fail and the wildcard would catch it.
   Here we put a message for non-User instances.</li>
 </ul>
-<p>So effectively, <code>User(name=X, age=Y)</code> in a pattern means "is the subject a <code>User</code>? If yes, let X = subject.name and Y = subject.age, and proceed; otherwise this pattern fails." The class pattern is doing an <code>isinstance(subject, User)</code> check and attribute lookups under the hood.</p>
+<p>So effectively, <code>User(name=X, age=Y)</code> in a pattern means "is the subject a <code>User</code>?
+If yes, let X = subject.name and Y = subject.age, and proceed; otherwise this pattern fails." The class pattern is doing an <code>isinstance(subject, User)</code> check and attribute lookups under the hood.</p>
 <h3 id="details_1">Details<a class="headerlink" href="#details_1" title="Permanent link">#</a></h3>
 <ul>
 <li><strong>Type check</strong>: When you use a class in a pattern, Python will call <code>isinstance(subject, ClassName)</code>.
@@ -1477,26 +1484,26 @@ For example, suppose we have a simple data class representing a user:</p>
 <li><strong>Attribute matching</strong>: By specifying <code>attr=...</code> in the pattern, Python will retrieve that attribute from the object and attempt to match it to the given subpattern.
   All specified attributes must exist, and all their subpatterns must match, for the class pattern to succeed.
   In the <code>User(name=name, age=age)</code> case, it checks that <code>user.name</code> exists (it does) and binds it, and <code>user.age</code> exists and binds it.
-  You can also put literal patterns for attributes (like the <code>"Alice"</code> literal for <code>name</code> in the first case), requiring that attribute to equal a specific value (<a href="https://benhoyt.com/writings/python-pattern-matching/#:~:text=case%20%7B%27x%27%3A%20x%2C%20,Car%28%7Bkey%21r%7D%2C%20%27TESLA">Structural pattern matching in Python 3.10</a>).</li>
+  You can also put literal patterns for attributes (like the <code>"Alice"</code> literal for <code>name</code> in the first case), requiring that attribute to equal a specific value.</li>
 <li><strong>Positional parameters and <code>__match_args__</code>:</strong> The example above used <code>name=</code> and <code>age=</code> as keyword patterns.
   Python's pattern matching also allows <em>positional</em> subpatterns in class patterns, which are matched against attributes defined by the class's <code>__match_args__</code>.
   By default, dataclasses and normal classes don't set <code>__match_args__</code> automatically (it's an attribute you can define as a tuple of attribute names).
   For example, if <code>User.__match_args__ = ("name", "age")</code>, then you could write <code>case User("Alice", age)</code> as shorthand for the same pattern.
   In the absence of <code>__match_args__</code>, you must use keyword <code>attr=value</code> form to match attributes.
   Using positional patterns on a class without <code>__match_args__</code> will result in a MatchError at runtime.
-  For clarity, many developers prefer the keyword form even if <code>__match_args__</code> is set, because it's explicit about which attribute is being matched.</li>
+  For clarity, many developers prefer the keyword form even if <code>__match_args__</code> is set, because it's explicit about which attribute is matched.</li>
 <li><strong>Multiple class patterns and inheritance:</strong> If you have a class hierarchy, a class pattern will match subclasses as well (since it's based on <code>isinstance</code>).
   If you need to differentiate subclasses, you can use different class patterns or guards.
   Class patterns can also be combined with OR patterns to accept an object of one of several classes.
   For example, <code>case Cat(name=n) | Dog(name=n): ...</code> could match either a <code>Cat</code> or <code>Dog</code> instance and capture a <code>name</code> attribute from either.</li>
 </ul>
-<p>One subtle aspect to remember is that writing something like <code>case User("Bob")</code> in a pattern does <em>not</em> call the <code>User</code> constructor.
-It might <em>look</em> like a construction, but in a <code>case</code> context it's pattern syntax.
+<p>One subtle aspect to remember is that writing something like <code>case User("Bob")</code> in a pattern does not call the <code>User</code> constructor.
+It might look like a construction, but in a <code>case</code> context it's pattern syntax.
 Whatever appears after <code>case</code> is interpreted purely as a pattern, not normal executable code.
-If <code>User</code> were a dataclass with a <code>__post_init__</code> that prints when an object is created, doing <code>match User("Alice"):</code> as the subject expression would create a <code>User("Alice")</code> instance (since that's a normal Python expression being matched <em>against</em>).
+If <code>User</code> were a dataclass with a <code>__post_init__</code> that prints when an object is created, a subject expression of <code>match User("Alice"):</code> creates a <code>User("Alice")</code> instance as an expression to matched against).
 But <code>case User("Bob"):</code> does not create a new user; it just means "match a User with some attribute equal to Bob".
-This distinction is important (<a href="https://realpython.com/structural-pattern-matching/#:~:text=Copied%21">Structural Pattern Matching in Python--Real Python</a>).
-In summary: class patterns let you <em>destructure</em> objects, not create them.</p>
+This distinction is important.
+In summary: class patterns let you destructure objects, not create them.</p>
 <p><strong>Customizing class matching:</strong> If you are designing your own classes to be matched frequently, you might consider adding a <code>__match_args__</code> for convenience, or even defining a special <code>__match_repr__</code> (in Python 3.11+, some classes can control matching via <code>__match_args__</code> and <code>__match_self__</code>, but that's beyond the scope of this chapter).
 For most uses, using keyword patterns as shown is sufficient.</p>
 <p><strong>Static analysis benefits:</strong> Class patterns go hand-in-hand with type hints.
@@ -1523,18 +1530,18 @@ For example, if a function parameter <code>shape: Shape</code> where <code>Shape
 </span></code></pre></div>
 <p>Within each case, static type checkers know <code>shape</code> (or the captured attributes) have the specific class type, so you get auto-completion and type checking on those attributes.
 Furthermore, like with enums, a checker can warn if your match isn't exhaustive over all possible classes in the union.
-Class patterns thus enable a form of <em>type narrowing</em> similar to <code>isinstance()</code> checks, but often more cleanly.</p>
+Class patterns thus enable a form of <em>type narrowing</em> similar to <code>isinstance</code> checks, but often more cleanly.</p>
 <h2 id="or-patterns">OR Patterns (<code>|</code>)<a class="headerlink" href="#or-patterns" title="Permanent link">#</a></h2>
 <p>An <em>OR pattern</em> (also called alternative pattern) allows one case to match multiple different patterns.
 You use the vertical bar <code>|</code> to separate two or more subpatterns.
-The whole pattern matches if <em>any one</em> of the subpatterns matches.
+The whole pattern matches if any one of the subpatterns matches.
 OR patterns are quite flexible--the subpatterns can be of completely different shapes or types.
 This is useful to avoid repetition when the action for multiple cases would be the same.</p>
 <p>A simple example of OR patterns is handling multiple literals in one go.
 For instance, if you want to check if some input is an affirmative "yes" in various forms:</p>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="c1"># example_12.py</span>
 </span><span id="__span-14-2"><a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a><span class="n">user_input</span> <span class="o">=</span> <span class="s2">&quot;y&quot;</span>
-</span><span id="__span-14-3"><a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a><span class="k">match</span> <span class="n">user_input</span><span class="o">.</span><span class="n">lower</span><span class="p">():</span>
+</span><span id="__span-14-3"><a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a><span class="k">match</span> <span class="n">user_input</span><span class="o">.</span><span class="n">lower</span><span class="p">:</span>
 </span><span id="__span-14-4"><a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a>    <span class="k">case</span> <span class="s2">&quot;yes&quot;</span> <span class="o">|</span> <span class="s2">&quot;y&quot;</span> <span class="o">|</span> <span class="s2">&quot;yeah&quot;</span><span class="p">:</span>
 </span><span id="__span-14-5"><a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a>        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;User said yes&quot;</span><span class="p">)</span>
 </span><span id="__span-14-6"><a id="__codelineno-14-6" name="__codelineno-14-6" href="#__codelineno-14-6"></a>    <span class="k">case</span> <span class="s2">&quot;no&quot;</span> <span class="o">|</span> <span class="s2">&quot;n&quot;</span> <span class="o">|</span> <span class="s2">&quot;nope&quot;</span><span class="p">:</span>
@@ -1544,7 +1551,8 @@ For instance, if you want to check if some input is an affirmative "yes" in vari
 </span><span id="__span-14-10"><a id="__codelineno-14-10" name="__codelineno-14-10" href="#__codelineno-14-10"></a><span class="c1">## User said yes</span>
 </span></code></pre></div>
 <p>Here <code>"yes" | "y" | "yeah"</code> is a single pattern that will match the subject if it equals any of those three strings.
-The first case will trigger for "yes", "Y", "yeah", etc. (we lowercased the input to handle capital letters).
+The first case will trigger for "yes", "Y", "yeah", etc.
+(we lowercased the input to handle capital letters).
 Similarly for the negative responses.
 This is more concise than writing separate cases for each variant, and it keeps logically related alternatives together.</p>
 <p>OR patterns are not limited to literals; you can alternate between any pattern types.
@@ -1557,7 +1565,7 @@ For example:</p>
 <p>Each alternative pattern is tried in order (left to right) as part of the same case.
 If any one succeeds, the whole OR pattern succeeds and that case executes.
 If an OR pattern is complex, be mindful that all subpatterns should make sense in the same context because they share the same action block.
-Also, variables bound in an OR pattern must be bound in <em>all</em> alternatives to be usable in the block (otherwise it'd be ambiguous which value they have).
+Also, variables bound in an OR pattern must be bound in all alternatives to be usable in the block (otherwise it'd be ambiguous which value they have).
 For instance, <code>case ("a", x) | ("b", x):</code> is valid because either way an <code>x</code> will be bound (if the tuple second element, whether pattern matched "a" or "b" as first element).
 But <code>case ("a", x) | "foo":</code> is tricky--in the first alternative <code>x</code> would be bound, but in the second alternative (just the string "foo"), there's no <code>x</code>.
 In such cases, the capture <code>x</code> is not allowed because it wouldn't always have a value.
@@ -1582,11 +1590,11 @@ Some type checkers might narrow it to a common supertype (like <code>x: float</c
 If you need to handle each type differently, it's better to split into separate cases.
 But if the handling is same (say you treat int and float uniformly as "number"), OR is perfect.
 For literal OR patterns, as mentioned, exhaustiveness can be checked.
-Ensure you cover the needed types for class OR patterns. 
-Generally, OR patterns complement union types in annotations: if a variable is <code>X | Y</code>, a match with <code>case X(...)|Y(...):</code> will cover those.
+Ensure you cover the needed types for class OR patterns.</p>
+<p>Generally, OR patterns complement union types in annotations: if a variable is <code>X | Y</code>, a match with <code>case X(...)|Y(...):</code> will cover those.
 Remember that the action block sees the union of the possibilities.</p>
-<h2 id="as-patterns-pattern-as-name">AS Patterns (<code>pattern as name</code>)<a class="headerlink" href="#as-patterns-pattern-as-name" title="Permanent link">#</a></h2>
-<p>An <em>AS pattern</em> allows you to capture a matched value under a name <em>while still enforcing a subpattern on it</em>.
+<h2 id="as-patterns">AS Patterns<a class="headerlink" href="#as-patterns" title="Permanent link">#</a></h2>
+<p>An <em>AS pattern</em> allows you to capture a matched value under a name while still enforcing a subpattern on it.
 It uses the syntax <code>&lt;pattern&gt; as &lt;variable&gt;</code>.
 This is extremely handy when you want to both check a complex pattern and keep a reference to the whole thing (or a large part of it) for use in the code.</p>
 <p>A simple scenario: matching a sequence but also retaining it:</p>
@@ -1630,7 +1638,8 @@ We got to both validate the structure (<code>"coords"</code> exists, has two ele
 <li>Only one <code>as</code> is allowed at the same pattern level (you can't do <code>A as x as y</code>).
   However, you can nest them in different parts of a pattern if needed.</li>
 </ul>
-<p><strong>Why use <code>as</code>?</strong> Sometimes after matching a structure, you need the whole object for something (like logging it, or passing it to another function), and reconstructing it from parts would be inconvenient. <code>as</code> provides a shorthand to avoid repeated computation.
+<p><strong>Why use <code>as</code>?</strong> Sometimes after matching a structure, you need the whole object for something (like logging it, or passing it to another function), and reconstructing it from parts would be inconvenient.
+<code>as</code> provides a shorthand to avoid repeated computation.
 It also improves clarity when you want to refer to "the thing we just matched" without losing the context after destructuring it.</p>
 <p>One common pattern is using <code>as</code> in the default case to bind the unmatched value for error reporting or assertion.
 For example:</p>
@@ -1654,7 +1663,7 @@ In the example with <code>{"coords": [x,y] as point}</code>, if <code>data</code
 It's mainly a convenience; the presence of <code>as</code> doesn't affect whether a pattern matches or not, so it doesn't factor into exhaustiveness or type narrowing decisions beyond providing a new symbol.</p>
 <h2 id="guard-patterns-pattern-guards">Guard Patterns (Pattern Guards)<a class="headerlink" href="#guard-patterns-pattern-guards" title="Permanent link">#</a></h2>
 <p>Sometimes a pattern needs an additional condition beyond just structural matching.
-A <em>Guard</em> specifies an <code>if &lt;condition&gt;</code> at the end of a case pattern, making the case only match if the pattern succeeds <em>and</em> the condition is true.
+A <em>Guard</em> specifies an <code>if &lt;condition&gt;</code> at the end of a case pattern, making the case only match if the pattern succeeds and the condition is true.
 This is useful for imposing value constraints that can't be expressed by the pattern alone.</p>
 <p>The syntax is: <code>case &lt;pattern&gt; if &lt;boolean expression&gt;:</code>.
 The guard expression can use the variables bound by the pattern (as well as any other in-scope names) to decide whether to accept the match.</p>
@@ -1669,9 +1678,9 @@ The guard expression can use the variables bound by the pattern (as well as any 
 </span><span id="__span-19-8"><a id="__codelineno-19-8" name="__codelineno-19-8" href="#__codelineno-19-8"></a><span class="c1">## The two values are equal.</span>
 </span></code></pre></div>
 <p>Here the first case is a sequence pattern <code>(x, y)</code> with a guard <code>if x == y</code>.
-This will match any 2-tuple (binding <code>x</code> and <code>y</code>), <em>then</em> check the guard condition.
+This will match any 2-tuple (binding <code>x</code> and <code>y</code>), then check the guard condition.
 If <code>x == y</code>, then and only then does the case succeed.
-In our example, <code>pair</code> is <code>(5,5)</code>, so it matches <code>(x,y)</code> with <code>x=5, y=5</code>, then the guard <code>5 == 5</code> is true, so it prints "The two values are equal." If <code>pair</code> were <code>(5, 7)</code>, the first pattern would match structurally (<code>x=5,y=7</code>), but the guard <code>5 == 7</code> would be false, causing that case to <em>fail</em> overall and move to the next case.
+In our example, <code>pair</code> is <code>(5,5)</code>, so it matches <code>(x,y)</code> with <code>x=5, y=5</code>, then the guard <code>5 == 5</code> is true, so it prints "The two values are equal." If <code>pair</code> were <code>(5, 7)</code>, the first pattern would match structurally (<code>x=5,y=7</code>), but the guard <code>5 == 7</code> would be false, causing that case to fail overall and move to the next case.
 The second case has no guard and would then match by default, printing "The values are different."</p>
 <p>Guards effectively let you refine a pattern match with arbitrary logic:</p>
 <ul>
@@ -1680,7 +1689,7 @@ The second case has no guard and would then match by default, printing "The valu
 <li>Guards can also prevent a case from handling a scenario that should be passed to a later case.
   For instance, if you have overlapping patterns, a guard can differentiate them.</li>
 </ul>
-<p>It's important to note that the guard is evaluated <em>after</em> the pattern matches.
+<p>It's important to note that the guard is evaluated after the pattern matches.
 If the pattern doesn't match, Python doesn't even evaluate the guard.
 If the pattern matches but the guard is False, the overall result is as if the pattern didn't match at all, and the next case is tried.</p>
 <p>One must be careful with guards: since they can run arbitrary code, they could have side effects or be slow.
@@ -1704,7 +1713,7 @@ The guard then checks that <code>m</code> is "POST" and that the dictionary <cod
 Only if both are true does the case run.
 Otherwise, it falls through to perhaps a more general case (second one handles any other method).</p>
 <p><strong>Guard vs multiple patterns:</strong> Sometimes you can express the same logic with either a more complex pattern or a guard.
-For example, <code>case (x, y) if x == y:</code> could also be expressed by a single pattern if Python allowed something like <code>(x, x)</code> (which it currently does <em>not</em>--you can't repeat the same capture name in one pattern, since that would be ambiguous).
+For example, <code>case (x, y) if x == y:</code> could also be expressed by a single pattern if Python allowed something like <code>(x, x)</code> (which it currently does not--you can't repeat the same capture name in one pattern, since that would be ambiguous).
 In this case, the guard was necessary to enforce equality.
 In other situations, you might have the choice: e.g., <code>case [*_] if len(some_list) &gt; 5:</code> versus <code>case [_, _, _, _, _, *_]:</code> to check "at least 6 elements."
 The latter uses a pattern with star to check length in structure, the former uses a guard with a length check.
@@ -1717,7 +1726,7 @@ For example:</p>
 </span><span id="__span-21-3"><a id="__codelineno-21-3" name="__codelineno-21-3" href="#__codelineno-21-3"></a>
 </span><span id="__span-21-4"><a id="__codelineno-21-4" name="__codelineno-21-4" href="#__codelineno-21-4"></a><span class="k">def</span> <span class="nf">narrow</span><span class="p">(</span><span class="n">obj</span><span class="p">):</span>
 </span><span id="__span-21-5"><a id="__codelineno-21-5" name="__codelineno-21-5" href="#__codelineno-21-5"></a>    <span class="k">match</span> <span class="n">obj</span><span class="p">:</span>
-</span><span id="__span-21-6"><a id="__codelineno-21-6" name="__codelineno-21-6" href="#__codelineno-21-6"></a>        <span class="k">case</span> <span class="nb">list</span><span class="p">()</span> <span class="k">as</span> <span class="n">lst</span> <span class="k">if</span> <span class="nb">all</span><span class="p">(</span>
+</span><span id="__span-21-6"><a id="__codelineno-21-6" name="__codelineno-21-6" href="#__codelineno-21-6"></a>        <span class="k">case</span> <span class="nb">list</span> <span class="k">as</span> <span class="n">lst</span> <span class="k">if</span> <span class="nb">all</span><span class="p">(</span>
 </span><span id="__span-21-7"><a id="__codelineno-21-7" name="__codelineno-21-7" href="#__codelineno-21-7"></a>            <span class="nb">isinstance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="nb">int</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">lst</span>
 </span><span id="__span-21-8"><a id="__codelineno-21-8" name="__codelineno-21-8" href="#__codelineno-21-8"></a>        <span class="p">):</span>
 </span><span id="__span-21-9"><a id="__codelineno-21-9" name="__codelineno-21-9" href="#__codelineno-21-9"></a>            <span class="c1"># Here, lst is a list and we asserted all elements are int.</span>
@@ -1727,7 +1736,8 @@ For example:</p>
 Type checkers are not guaranteed to catch that nuance, but you as the programmer know it.
 More commonly, you'd have already annotated or known types.
 Guards are mainly for logic, not for static type discrimination (that's what class patterns are for).</p>
-<h2 id="pattern-matching-vs-inheritance">Pattern Matching vs. Inheritance<a class="headerlink" href="#pattern-matching-vs-inheritance" title="Permanent link">#</a></h2>
+<h2 id="pattern-matching-vs">Pattern Matching vs.<a class="headerlink" href="#pattern-matching-vs" title="Permanent link">#</a></h2>
+<p>Inheritance</p>
 <h2 id="conclusion">Conclusion<a class="headerlink" href="#conclusion" title="Permanent link">#</a></h2>
 <p>Structural pattern matching can be composed in various ways--you can nest patterns arbitrarily, use OR inside sequence patterns, add guards to class patterns, and so on, to model the logic you need.</p>
 <p>When used thoughtfully, pattern matching can make code more readable by aligning it closely with the structure of the data it's handling.
@@ -1737,13 +1747,13 @@ Often a straightforward series of cases is better than one mega-pattern that is 
 <p>With practice, you'll find pattern matching to be a natural extension of Python's ethos of readable and expressive code.
 It brings Python closer to languages like Scala or Haskell in this regard, but in a Pythonic way.
 Use the references and examples in this chapter as a guide to the various forms, and happy matching!</p>
-<h2 id="sources">Sources<a class="headerlink" href="#sources" title="Permanent link">#</a></h2>
-<ul>
-<li>PEP 634--<em>Structural Pattern Matching: Specification</em> (<a href="https://docs.python.org/3/whatsnew/3.10.html#:~:text=,are%20compared%20by%20identity">What's New In Python 3.10 — Python 3.13.3 documentation</a>) (<a href="https://docs.python.org/3/whatsnew/3.10.html#:~:text=,interpreted%20as%20a%20capture%20variable">What's New In Python 3.10 — Python 3.13.3 documentation</a>) (details on literal, value, and wildcard patterns)</li>
-<li>Python 3.10+ Official Documentation (Pattern Matching Tutorial and Reference) (<a href="https://docs.python.org/3/whatsnew/3.10.html#:~:text=You%20can%20combine%20several%20literals,%28%E2%80%9Cor%E2%80%9D">What's New In Python 3.10 — Python 3.13.3 documentation</a>) (<a href="https://realpython.com/structural-pattern-matching/#:~:text=match%20subject%3A%20case%20list%28%5Bint%28%29%20,Point%28%7Bx%3D%7D%2C%20%7By">Structural Pattern Matching in Python--Real Python</a>)</li>
-<li>Real Python--<em>Structural Pattern Matching in Python</em> (<a href="https://realpython.com/structural-pattern-matching/#:~:text=match%20subject%3A%20case%20list%28%5Bint%28%29%20,Point%28%7Bx%3D%7D%2C%20%7By">Structural Pattern Matching in Python--Real Python</a>) (<a href="https://realpython.com/structural-pattern-matching/#:~:text=Copied%21">Structural Pattern Matching in Python--Real Python</a>) (examples and explanations of pattern matching semantics)</li>
-<li>Mypy Documentation--<em>Literal types and Enums</em> (<a href="https://mypy.readthedocs.io/en/stable/literal_types.html#:~:text=Exhaustiveness%20checking%20is%20also%20supported,10%20and%20later">Literal types and Enums--mypy 1.15.0 documentation</a>) (exhaustiveness checking for match with literal patterns and enums)</li>
-</ul>
+<h2 id="references">References<a class="headerlink" href="#references" title="Permanent link">#</a></h2>
+<ol>
+<li><a href="https://benhoyt.com/writings/python-pattern-matching/">Structural pattern matching in Python 3.10</a></li>
+<li><a href="https://docs.python.org/3/whatsnew/3.10.html">What's New In Python 3.10--Python 3.13.3 documentation</a></li>
+<li><a href="https://mypy.readthedocs.io/en/stable/literal_types.html">Literal types and Enums--mypy 1.15.0 documentation</a></li>
+<li><a href="https://realpython.com/structural-pattern-matching/">Structural Pattern Matching in Python--Real Python</a></li>
+</ol>
 
 
 
