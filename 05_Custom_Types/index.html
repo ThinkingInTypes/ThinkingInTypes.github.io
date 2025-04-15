@@ -1511,7 +1511,7 @@ You'll often want to use <code>NewType</code> instead of type aliasing:</p>
 <p><code>get_type_hints</code> produces information about the function.</p>
 <p><code>NewType</code> is intended to create a distinct type at the type-checking level that is based on some other
 (usually simpler) type.
-Its primary goal is 
+Its primary goal is
 to help prevent the mixing of semantically different values that are represented by the same underlying type;
 for example, differentiating <code>UserID</code> from <code>ProductID</code>, even though both are <code>int</code>s:</p>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="c1"># new_type_users.py</span>
@@ -1533,15 +1533,17 @@ for example, differentiating <code>UserID</code> from <code>ProductID</code>, ev
 </span><span id="__span-4-17"><a id="__codelineno-4-17" name="__codelineno-4-17" href="#__codelineno-4-17"></a>
 </span><span id="__span-4-18"><a id="__codelineno-4-18" name="__codelineno-4-18" href="#__codelineno-4-18"></a><span class="c1"># Access underlying list operation:</span>
 </span><span id="__span-4-19"><a id="__codelineno-4-19" name="__codelineno-4-19" href="#__codelineno-4-19"></a><span class="nb">print</span><span class="p">(</span><span class="n">increment</span><span class="p">(</span><span class="n">users</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]))</span>
-</span><span id="__span-4-20"><a id="__codelineno-4-20" name="__codelineno-4-20" href="#__codelineno-4-20"></a><span class="c1">## 43</span>
+</span><span id="__span-4-20"><a id="__codelineno-4-20" name="__codelineno-4-20" href="#__codelineno-4-20"></a>
 </span><span id="__span-4-21"><a id="__codelineno-4-21" name="__codelineno-4-21" href="#__codelineno-4-21"></a>
-</span><span id="__span-4-22"><a id="__codelineno-4-22" name="__codelineno-4-22" href="#__codelineno-4-22"></a>
-</span><span id="__span-4-23"><a id="__codelineno-4-23" name="__codelineno-4-23" href="#__codelineno-4-23"></a><span class="k">def</span> <span class="nf">increment_users</span><span class="p">(</span><span class="n">users</span><span class="p">:</span> <span class="n">Users</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Users</span><span class="p">:</span>
-</span><span id="__span-4-24"><a id="__codelineno-4-24" name="__codelineno-4-24" href="#__codelineno-4-24"></a>    <span class="k">return</span> <span class="n">Users</span><span class="p">([</span><span class="n">increment</span><span class="p">(</span><span class="n">uid</span><span class="p">)</span> <span class="k">for</span> <span class="n">uid</span> <span class="ow">in</span> <span class="n">users</span><span class="p">])</span>
-</span><span id="__span-4-25"><a id="__codelineno-4-25" name="__codelineno-4-25" href="#__codelineno-4-25"></a>
-</span><span id="__span-4-26"><a id="__codelineno-4-26" name="__codelineno-4-26" href="#__codelineno-4-26"></a>
-</span><span id="__span-4-27"><a id="__codelineno-4-27" name="__codelineno-4-27" href="#__codelineno-4-27"></a><span class="nb">print</span><span class="p">(</span><span class="n">increment_users</span><span class="p">(</span><span class="n">users</span><span class="p">))</span>
-</span><span id="__span-4-28"><a id="__codelineno-4-28" name="__codelineno-4-28" href="#__codelineno-4-28"></a><span class="c1">## [3, 6, 43]</span>
+</span><span id="__span-4-22"><a id="__codelineno-4-22" name="__codelineno-4-22" href="#__codelineno-4-22"></a><span class="c1">## 43</span>
+</span><span id="__span-4-23"><a id="__codelineno-4-23" name="__codelineno-4-23" href="#__codelineno-4-23"></a>
+</span><span id="__span-4-24"><a id="__codelineno-4-24" name="__codelineno-4-24" href="#__codelineno-4-24"></a>
+</span><span id="__span-4-25"><a id="__codelineno-4-25" name="__codelineno-4-25" href="#__codelineno-4-25"></a><span class="k">def</span> <span class="nf">increment_users</span><span class="p">(</span><span class="n">users</span><span class="p">:</span> <span class="n">Users</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Users</span><span class="p">:</span>
+</span><span id="__span-4-26"><a id="__codelineno-4-26" name="__codelineno-4-26" href="#__codelineno-4-26"></a>    <span class="k">return</span> <span class="n">Users</span><span class="p">([</span><span class="n">increment</span><span class="p">(</span><span class="n">uid</span><span class="p">)</span> <span class="k">for</span> <span class="n">uid</span> <span class="ow">in</span> <span class="n">users</span><span class="p">])</span>
+</span><span id="__span-4-27"><a id="__codelineno-4-27" name="__codelineno-4-27" href="#__codelineno-4-27"></a>
+</span><span id="__span-4-28"><a id="__codelineno-4-28" name="__codelineno-4-28" href="#__codelineno-4-28"></a>
+</span><span id="__span-4-29"><a id="__codelineno-4-29" name="__codelineno-4-29" href="#__codelineno-4-29"></a><span class="nb">print</span><span class="p">(</span><span class="n">increment_users</span><span class="p">(</span><span class="n">users</span><span class="p">))</span>
+</span><span id="__span-4-30"><a id="__codelineno-4-30" name="__codelineno-4-30" href="#__codelineno-4-30"></a><span class="c1">## [3, 6, 43]</span>
 </span></code></pre></div>
 <p>Notice that <code>Users</code> uses <code>UserID</code> in its definition.
 The type checker requires <code>UserID</code> for <code>increment</code> and <code>Users</code> for <code>increment_users</code>,
@@ -1711,7 +1713,7 @@ If the <code>dataclass</code> is mutable (<code>frozen=False</code>, which is de
 (unless you specifically use <code>unsafe_hash=True</code>).
 Mutable objects of any kind should generally not be hashed because the hash can change from one access to another.
 If the <code>dataclass</code> is frozen (immutable), then a hash method is automatically provided.
-You can add ordering methods (e.g., lt, le, etc.) by setting <code>order=True</code> when declaring the <code>dataclass</code>. 
+You can add ordering methods (e.g., lt, le, etc.) by setting <code>order=True</code> when declaring the <code>dataclass</code>.
 Otherwise, no ordering is generated.
 Dataclasses provide a post_init method that runs immediately after the generated init method.
 This is a convenient place for additional initialization or validation.
@@ -1779,12 +1781,14 @@ Invalid data never propagates, vastly simplifying subsequent interactions.</p>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="c1"># param_keyword.py</span>
 </span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="kn">from</span> <span class="nn">enum</span> <span class="kn">import</span> <span class="n">Enum</span>
 </span><span id="__span-11-3"><a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a>
-</span><span id="__span-11-4"><a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a><span class="k">class</span> <span class="nc">ParamKeyword</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
-</span><span id="__span-11-5"><a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a>    <span class="n">MIN</span> <span class="o">=</span> <span class="s2">&quot;MIN&quot;</span>
-</span><span id="__span-11-6"><a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a>    <span class="n">MAX</span> <span class="o">=</span> <span class="s2">&quot;MAX&quot;</span>
-</span><span id="__span-11-7"><a id="__codelineno-11-7" name="__codelineno-11-7" href="#__codelineno-11-7"></a>    <span class="n">DEF</span> <span class="o">=</span> <span class="s2">&quot;DEF&quot;</span>
-</span><span id="__span-11-8"><a id="__codelineno-11-8" name="__codelineno-11-8" href="#__codelineno-11-8"></a>
-</span><span id="__span-11-9"><a id="__codelineno-11-9" name="__codelineno-11-9" href="#__codelineno-11-9"></a><span class="n">ParamType</span> <span class="o">=</span> <span class="nb">float</span> <span class="o">|</span> <span class="n">ParamKeyword</span>
+</span><span id="__span-11-4"><a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a>
+</span><span id="__span-11-5"><a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a><span class="k">class</span> <span class="nc">ParamKeyword</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
+</span><span id="__span-11-6"><a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a>    <span class="n">MIN</span> <span class="o">=</span> <span class="s2">&quot;MIN&quot;</span>
+</span><span id="__span-11-7"><a id="__codelineno-11-7" name="__codelineno-11-7" href="#__codelineno-11-7"></a>    <span class="n">MAX</span> <span class="o">=</span> <span class="s2">&quot;MAX&quot;</span>
+</span><span id="__span-11-8"><a id="__codelineno-11-8" name="__codelineno-11-8" href="#__codelineno-11-8"></a>    <span class="n">DEF</span> <span class="o">=</span> <span class="s2">&quot;DEF&quot;</span>
+</span><span id="__span-11-9"><a id="__codelineno-11-9" name="__codelineno-11-9" href="#__codelineno-11-9"></a>
+</span><span id="__span-11-10"><a id="__codelineno-11-10" name="__codelineno-11-10" href="#__codelineno-11-10"></a>
+</span><span id="__span-11-11"><a id="__codelineno-11-11" name="__codelineno-11-11" href="#__codelineno-11-11"></a><span class="n">ParamType</span> <span class="o">=</span> <span class="nb">float</span> <span class="o">|</span> <span class="n">ParamKeyword</span>
 </span></code></pre></div>
 <p>such as months:</p>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="c1"># birth_date.py</span>
@@ -2035,7 +2039,7 @@ For simplicity and IDE interactivity, choose <code>Enum</code>s over data classe
 </span><span id="__span-14-11"><a id="__codelineno-14-11" name="__codelineno-14-11" href="#__codelineno-14-11"></a><span class="c1"># set_mode(&#39;automatic&#39;)  # invalid, detected by type checker</span>
 </span></code></pre></div>
 <p><code>Literal</code>s can serve as a lightweight substitute for <code>Enum</code>s when you only need to restrict values at the type level
-and do not require the additional runtime features of <code>Enum</code>s. 
+and do not require the additional runtime features of <code>Enum</code>s.
 This makes <code>Literal</code>s attractive for scenarios
 like defining a parameter that only accepts a small set of constant values without adding extra code complexity.</p>
 <h3 id="similarities">Similarities<a class="headerlink" href="#similarities" title="Permanent link">#</a></h3>
@@ -2048,29 +2052,38 @@ like defining a parameter that only accepts a small set of constant values witho
 </ul>
 <h3 id="differences">Differences<a class="headerlink" href="#differences" title="Permanent link">#</a></h3>
 <ul>
-<li>Type Checking vs. Runtime Behavior:</li>
-<li><code>Literal</code>: <code>Literal</code>s are a static type hint introduced in PEP 586. They exist solely for type checking and do not create a distinct runtime type. The type checker (and your IDE) knows that only those exact values are allowed, but at runtime, they are just ordinary values (e.g., ordinary strings).</li>
 <li>
-<p><code>Enum</code>: An <code>Enum</code> is a real class (inheriting from <code>enum.Enum</code>) that creates distinct runtime objects. <code>Enum</code>s provide additional functionality like iteration over members, comparison, and custom methods. They work both at runtime and during static type checking.</p>
+<p>Type Checking vs. Runtime Behavior:</p>
+<ul>
+<li><code>Literal</code>:
+  <code>Literal</code>s are a static type hint introduced in PEP 586. They exist solely for type checking and do not create a distinct runtime type. The type checker (and your IDE) knows that only those exact values are allowed, but at runtime, they are just ordinary values (e.g., ordinary strings).</li>
+<li><code>Enum</code>: An <code>Enum</code> is a real class (inheriting from <code>enum.Enum</code>) that creates distinct runtime objects. <code>Enum</code>s provide additional functionality like iteration over members, comparison, and custom methods. They work both at runtime and during static type checking.</li>
+</ul>
 </li>
 <li>
 <p>Overhead and Simplicity:</p>
-</li>
+<ul>
 <li><code>Literal</code>: Using <code>Literal</code>s is simple and lightweight if you just want to specify allowed constant values. There’s no additional boilerplate, so it’s a good choice when you only need type constraints.</li>
 <li><code>Enum</code>: <code>Enum</code>s come with more structure and can encapsulate behavior. However, they require defining a class and are slightly heavier in terms of syntax and runtime footprint.</li>
 </ul>
+</li>
+</ul>
 <h3 id="choosing-between-literal-and-enum">Choosing between <code>Literal</code> and <code>Enum</code><a class="headerlink" href="#choosing-between-literal-and-enum" title="Permanent link">#</a></h3>
 <ul>
-<li>Use <code>Literal</code>s if:</li>
-<li>You need a simple, compile-time constraint on allowed values without extra runtime behavior.</li>
 <li>
-<p>You want minimal boilerplate and are comfortable relying on your static type checker and IDE for guidance.</p>
+<p>Use <code>Literal</code>s if:</p>
+<ul>
+<li>You need a simple, compile-time constraint on allowed values without extra runtime behavior.</li>
+<li>You want minimal boilerplate and are comfortable relying on your static type checker and IDE for guidance.</li>
+</ul>
 </li>
 <li>
 <p>Use <code>Enum</code>s if:</p>
-</li>
+<ul>
 <li>You need runtime features, such as iterating over allowed values, custom methods, or more semantic richness (e.g., when each value might need its own behavior or additional attributes).</li>
 <li>You want a self-documenting interface that clearly models a set of related constants as a distinct type.</li>
+</ul>
+</li>
 </ul>
 <p>Both approaches improve type safety,
 but if you need more robust functionality or runtime introspection, an <code>Enum</code> might be the better choice.</p>
@@ -2095,49 +2108,69 @@ but if you need more robust functionality or runtime introspection, an <code>Enu
 <p>Each approach has its strengths and trade‐offs.
 The best choice depends on your requirements for type safety, runtime behavior, and code clarity.</p>
 <h3 id="literal"><code>Literal</code><a class="headerlink" href="#literal" title="Permanent link">#</a></h3>
-<p>Pros:
-- Static Type Safety: Type checkers can enforce that only the allowed constant values appear in your code.
-- Minimal Overhead: <code>Literal</code>s have no runtime cost; they serve solely as hints at the type level.
-- Simplicity: Using literals is straightforward and requires no extra boilerplate code.</p>
-<p>Cons:
-- No Runtime Distinction: At runtime, <code>"MIN"</code>, <code>"MAX"</code>, and <code>"DEF"</code> are ordinary strings. 
-  You lose benefits like custom methods or iteration over members.
-- Limited Expressiveness: <code>Literal</code>s only provide type-checking constraints and no additional behavior beyond that.</p>
-<p>When to Use:
-- Use <code>Literal</code>s when you need to enforce a small set of constant values at the type level, and you are comfortable relying on static type checkers and IDEs for guidance.
-- They are ideal for simple cases where you want to ensure that only a few specific string values (alongside other types, like numbers) are accepted.</p>
+<p>Pros:</p>
+<ul>
+<li>Static Type Safety: Type checkers can enforce that only the allowed constant values appear in your code.</li>
+<li>Minimal Overhead: <code>Literal</code>s have no runtime cost; they serve solely as hints at the type level.</li>
+<li>Simplicity: Using literals is straightforward and requires no extra boilerplate code.</li>
+</ul>
+<p>Cons:</p>
+<ul>
+<li>No Runtime Distinction: At runtime, <code>"MIN"</code>, <code>"MAX"</code>, and <code>"DEF"</code> are ordinary strings.
+  You lose benefits like custom methods or iteration over members.</li>
+<li>Limited Expressiveness: <code>Literal</code>s only provide type-checking constraints and no additional behavior beyond that.</li>
+</ul>
+<p>When to Use:</p>
+<ul>
+<li>Use <code>Literal</code>s when you need to enforce a small set of constant values at the type level, and you are comfortable relying on static type checkers and IDEs for guidance.</li>
+<li>They are ideal for simple cases where you want to ensure that only a few specific string values (alongside other types, like numbers) are accepted.</li>
+</ul>
 <h3 id="enum"><code>Enum</code><a class="headerlink" href="#enum" title="Permanent link">#</a></h3>
 <p><code>Enum</code>s create a distinct type at runtime and define a collection of symbolic names bound to constant values. For example:</p>
-<p>Pros:
-- Runtime Features: <code>Enum</code>s are real classes at runtime, so they support iteration, comparison, and custom methods.
-- Clarity and Self-Documentation: Using an <code>Enum</code> clearly signals that the parameter is one of a predetermined, fixed set. 
-  IDE autocompletion can also list the valid members.
-- Extra Functionality: You can add methods or properties to an <code>Enum</code> if the values need to carry extra meaning (for instance, mapping to specific instrument settings).</p>
-<p>Cons:
-- Additional Overhead: <code>Enum</code>s require a bit more code and syntax compared to <code>Literal</code>s.
-- Slightly Heavier: While typically negligible, there is a bit more runtime overhead as <code>Enum</code>s are actual objects.</p>
-<p>When to Use:
-- Use <code>Enum</code>s when you need not only type safety at the static level but also runtime assurance--such as when you need to iterate over allowed options or attach extra behavior.
-- <code>Enum</code>s are excellent for cases where the set of allowed values is fixed, and you might want to use them throughout your codebase in a uniform, well-documented manner.</p>
+<p>Pros:</p>
+<ul>
+<li>Runtime Features: <code>Enum</code>s are real classes at runtime, so they support iteration, comparison, and custom methods.</li>
+<li>Clarity and Self-Documentation: Using an <code>Enum</code> clearly signals that the parameter is one of a predetermined, fixed set.
+  IDE autocompletion can also list the valid members.</li>
+<li>Extra Functionality: You can add methods or properties to an <code>Enum</code> if the values need to carry extra meaning (for instance, mapping to specific instrument settings).</li>
+</ul>
+<p>Cons:</p>
+<ul>
+<li>Additional Overhead: <code>Enum</code>s require a bit more code and syntax compared to <code>Literal</code>s.</li>
+<li>Slightly Heavier: While typically negligible, there is a bit more runtime overhead as <code>Enum</code>s are actual objects.</li>
+</ul>
+<p>When to Use:</p>
+<ul>
+<li>Use <code>Enum</code>s when you need not only type safety at the static level but also runtime assurance--such as when you need to iterate over allowed options or attach extra behavior.</li>
+<li><code>Enum</code>s are excellent for cases where the set of allowed values is fixed, and you might want to use them throughout your codebase in a uniform, well-documented manner.</li>
+</ul>
 <h3 id="set"><code>Set</code><a class="headerlink" href="#set" title="Permanent link">#</a></h3>
 <p>A set is a built-in Python data structure that holds unique elements.
 In the context of allowed values, you might define
 <code>ALLOWED_KEYWORDS = {"MIN", "MAX", "DEF"}</code></p>
-<p>Pros:
-- Dynamic Membership Testing: <code>Set</code>s allow you to easily check if a given value is in the allowed collection using the <code>in</code> operator.
-- Runtime Flexibility: You can modify the set at runtime if needed (though for constants this might not be necessary).
-- Simplicity in Validation: When writing custom validation code, a set easily confirms membership.</p>
-<p>Cons:
-- Not a Type Annotation: <code>Set</code>s do not integrate with static type checkers. They only serve at runtime to check if a value belongs to the allowed set.
-- No Static Safety: Unlike <code>Literal</code>s or <code>Enum</code>s, sets don’t give you compile-time guarantees or IDE autocompletion for allowed values.</p>
-<p>When to Use:
-- Use sets for runtime validation where you need a simple way to confirm membership (e.g., inside a helper function that checks if a value is valid).
-- They are ideal when the allowed values are defined once and only used for dynamic checks, not for type annotations.</p>
+<p>Pros:</p>
+<ul>
+<li>Dynamic Membership Testing: <code>Set</code>s check if a given value is in the allowed collection using the <code>in</code> operator.</li>
+<li>Runtime Flexibility: You can modify the set at runtime if needed (though for constants this might not be necessary).</li>
+<li>Simplicity in Validation: When writing custom validation code, a set easily confirms membership.</li>
+</ul>
+<p>Cons:</p>
+<ul>
+<li>Not a Type Annotation: <code>Set</code>s do not integrate with static type checkers. They only serve at runtime to check if a value belongs to the allowed set.</li>
+<li>No Static Safety: Unlike <code>Literal</code>s or <code>Enum</code>s, sets don’t give you compile-time guarantees or IDE autocompletion for allowed values.</li>
+</ul>
+<p>When to Use:</p>
+<ul>
+<li>Use sets for runtime validation where you need a simple way to confirm membership (e.g., inside a helper function that checks if a value is valid).</li>
+<li>They are ideal when the allowed values are defined once and only used for dynamic checks, not for type annotations.</li>
+</ul>
 <h3 id="choosing">Choosing<a class="headerlink" href="#choosing" title="Permanent link">#</a></h3>
-<p>Each approach has its specific use cases:
-- <code>Literal</code>s provide a quick and easy way to inform static type checkers without extra runtime behavior.
-- <code>Enum</code>s add clarity and runtime functionality at the cost of a little extra complexity.
-- <code>Set</code>s work well if your validation is purely runtime-oriented and you don’t need the additional benefits of static type restrictions.</p>
+<p>Each approach has its specific use cases:</p>
+<ul>
+<li><code>Literal</code>s provide a quick and easy way to inform static type checkers without extra runtime behavior.</li>
+<li><code>Enum</code>s add clarity and runtime functionality at the cost of a little extra complexity.</li>
+<li><code>Set</code>s work well if your validation is purely runtime-oriented and you don’t need the additional benefits of static type restrictions.</li>
+</ul>
 <p>Choosing between them depends on whether you prioritize compile-time type checking and better IDE support
 (favoring <code>Literal</code>s or <code>Enum</code>s) or need flexible, dynamic validation (favoring <code>set</code>s).
 In many cases, combining these approaches can be effective--for example,
