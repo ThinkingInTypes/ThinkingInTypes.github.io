@@ -33,7 +33,7 @@ print(echo("Hello"))
 In `echo`, the type variable `T` represents the type of the `value` parameter and the return type.
 The type checker will enforce that both are the same.
 When you call `echo(42)`, `T` is inferred as `int` (so the function returns an `int`), and for `echo("Hello")`, `T` is `str`.
-This way, one function works for any type, but always returns the same type it was given.
+This way, one function works for any type but always returns the same type it was given.
 
 Generic functions are useful for algorithms that work uniformly on multiple types.
 Common examples include utility functions like `identity`, data retrieval functions that return the type of whatever they fetch, or factory functions that construct objects of a type.
@@ -270,7 +270,7 @@ By default, if you do nothing special, your generics are invariant.
 
 ## Function Currying with Generics
 
-Function currying is the technique of transforming a function that takes multiple arguments into a chain of functions each taking a single argument (or fewer arguments).
+Function currying is the technique of transforming a function that takes multiple arguments into a chain of functions, each taking a single argument (or fewer arguments).
 In Python, we can leverage generics to curry functions while preserving type information.
 
 For example, imagine a function that takes two arguments, and we want to get a new function that has the first argument fixed (a partial application).
@@ -472,7 +472,7 @@ Overly deep recursion can sometimes confuse type checkers or lead to performance
 Recursive aliases cannot be directly made generic with `TypeVar` in the current typing system
 (you can wrap recursive structures inside generic classes if needed).
 
-## Structural Subtyping with Protocol
+## Structural Subtyping with Protocols
 
 Python's static typing supports two forms of subtype compatibility: *nominal* and *structural*.
 Nominal subtyping is the traditional style; an object of class `C` is a subtype of class `B` if `C` subclasses `B`.
@@ -554,12 +554,12 @@ def greet(entity: Named) -> None:
 Any object with a string attribute `name` qualifies as `Named`.
 If you pass an object to `greet` that has a `name` attribute (say an instance of a class that defines `name`), it will be accepted.
 
-**Generic Protocols:** Protocols themselves can be generic.
+**Generic Protocols:** Protocols can be generic.
 For example, the built-in `Iterable[T]` protocol (from `collections.abc` or `typing`) is a generic protocol that requires an `__iter__` method yielding type `T`.
 You can define your own:
 
 ```python
-# example_17.py
+# iterable_protocol.py
 from typing import Iterator, TypeVar, Protocol
 
 T = TypeVar('T')
@@ -581,7 +581,7 @@ Suppose we want a function that can write to any file or file-like object (like 
 We can define a protocol for the methods we need (say, a `write` method) and use it as the parameter type:
 
 ```python
-# example_18.py
+# file_protocol.py
 from typing import Protocol
 from pathlib import Path
 from io import StringIO
@@ -612,11 +612,11 @@ We demonstrated it with a real file (opened via `pathlib.Path`) and a `StringIO`
 Both work because both have a compatible `write` method.
 The protocol approach allows `save_message` to work with any current or future file-like object, without needing a common base class or inheritance.
 
-`@runtime_checkable`: By default, Protocols are a static concept.
+By default, Protocols are a static concept.
 You typically wouldn't use `isinstance(x, Drawable)` or `issubclass(C, Drawable)` with a protocol at runtime, because `Protocol` classes by themselves don't have special status as base classes.
 However, if you need to do runtime checks, the `typing.runtime_checkable` decorator can be applied to a Protocol class, which then allows using
 `isinstance(obj, ProtocolName)` to check if an object conforms (this requires that either the object's class explicitly inherits the Protocol or that the Protocol is annotated with `runtime_checkable`; a purely structural match at runtime without explicit registration isn't directly supported).
-In general, it's more common to rely on static checking for protocols and use normal duck typing at runtime (EAFP--"it's easier to ask forgiveness than permission").
+In general, it's more common to rely on static checking for protocols and use normal duck typing at runtime, "asking forgiveness rather than permission."
 
 **Use cases:** Protocols are useful when you want to accept "any object that has these methods."
 For example:
@@ -625,7 +625,7 @@ For example:
 - Defining callback signatures via protocols (PEP 544 allows a special case of protocols with `__call__` to match callables).
 
 Protocols bring the flexibility of dynamic typing (duck typing) to the static type world.
-They help avoid over-constraining function arguments to specific classes when all you care about is the presence of a method or attribute.
+They avoid over-constraining function arguments to specific classes when all you care about is the presence of a method or attribute.
 
 ## Generic Type Aliases
 
@@ -633,7 +633,7 @@ Type aliases in Python let you create alternative names for types, which can imp
 For example, you might write `Coordinate = tuple[float, float]` to give a semantic name to a tuple of two floats.
 *Generic type aliases* extend this idea by allowing aliases to be parameterized with type variables.
 
-Creating a generic type alias is straightforward: you simply use a `TypeVar` in the definition of the alias.
+Creating a generic type alias is straightforward: use a `TypeVar` in the definition of the alias.
 For instance:
 
 ```python
@@ -672,12 +672,13 @@ from generic_alias import Pair
 r: Pair = ("x", 5)  # type checker treats this as tuple[Any, Any]
 ```
 
-This will not raise an immediate error, because `Pair` unqualified is basically `tuple[Any, Any]`, but it defeats the purpose of the alias since it's not enforcing that both elements share the same type.
-**Best practice:** always supply type parameters for a generic alias to avoid inadvertently falling back to `Any`.
+This will not raise an immediate error, because `Pair` unqualified is basically `tuple[Any, Any]`,
+but it defeats the purpose of the alias since it's not enforcing that both elements share the same type.
+Always supply type parameters for a generic alias to avoid inadvertently falling back to `Any`.
 
 **Alias vs direct use:** Type aliases don't create new types at runtime; they are solely for type checking and readability.
 In code, `Pair[int]` does not exist as a real class, it's just an alias for `tuple[int, int]`.
-If you inspect `Pair[int]` at runtime, you'll just get the underlying type.
+If you inspect `Pair[int]` at runtime, you'll get the underlying type.
 For example:
 
 ```python
@@ -710,7 +711,7 @@ def scale_points(points: Vector[int], factor: int) -> Vector[int]:
 Here `Vector[int]` is easier to read than `list[tuple[int, int]]`.
 The type checker ensures consistency just as if we wrote the full type.
 
-**Declaring aliases explicitly:** Python 3.10 introduced the special annotation `TypeAlias` in `typing` to explicitly declare that an assignment is a type alias (especially when the right-hand side might be ambiguous).
+**Declaring aliases explicitly:** Python 3.10 introduced the `TypeAlias` annotation to explicitly declare that an assignment is a type alias (especially when the right-hand side might be ambiguous).
 For example:
 
 ```python
@@ -726,7 +727,6 @@ However, for simple cases, just using a capitalized variable name for the alias 
 ## Common Pitfalls and Best Practices
 
 Generics greatly enhance the expressiveness of Python's type system, but they can also introduce complexity.
-Here we discuss some common pitfalls to avoid and best practices to follow when working with generics.
 
 ### Pitfall: Assuming Runtime Enforcement
 
@@ -746,14 +746,14 @@ This code will not raise an error at runtime even though we annotated `box` as `
 At runtime, `box.content` is just a reference and Python is dynamically typed.
 The type parameter `T` in `Box[T]` is erased at runtime.
 
-**Best Practice:** Always use a static type checker on your code to actually get the benefits of generics.
+Always use a static type checker on your code to actually get the benefits of generics.
 Type hints are most effective when paired with tools (or an IDE) that will warn you of violations.
 Don't rely on type hints for runtime logic; if something absolutely must be validated at runtime (e.g., an API input), you still need explicit checks or use libraries like Pydantic.
 
 ### Pitfall: Invariance Confusion
 
 As mentioned earlier, most types are invariant.
-A common mistake is expecting container types to be interchangeable covariantly:
+A common mistake is expecting container types to be covariantly interchangeable:
 
 ```python
 # example_26.py
@@ -764,7 +764,7 @@ dogs: list[Dog] = [Dog()]
 animals = dogs  # Type checker error! Incompatible types
 ```
 
-Here a newcomer might think "a list of Dogs is a list of Animals", but that's not allowed because of invariance.
+Here a newcomer might think "a list of Dogs is a list of Animals," but that's not allowed because of invariance.
 The pitfall is not realizing that mutation of the list could break type assumptions.
 If you find yourself needing to treat a `list[SubType]` as a `list[BaseType]`, reconsider your design or use abstract interfaces (`Sequence[BaseType]` which is covariant for reading, or `Collection[BaseType]`).
 Alternatively, copy the list to a new covariant container if needed for output only.
@@ -810,10 +810,10 @@ def sort_items(items: list[U]) -> list[U]:
 Now `sort_items` explicitly requires that the item type implements `<` (as per the `Comparable` protocol).
 Alternatively, we could use `TypeVar('U', int, float, str, ...)` to enumerate types that are known to be comparable, but a protocol is more extensible.
 
-**Best Practice:** Don't use a totally unconstrained `TypeVar` if the function or class really needs the type to have some capability.
+Don't use a totally unconstrained `TypeVar` if the function or class really needs the type to have some capability.
 Either use a `bound=` or a protocol to encode that requirement.
 Conversely, if you truly intend a function to accept anything (like a generic passthrough that just returns what it was given), then using `Any` might be appropriate, or a `TypeVar` with no constraints if you need to preserve the type identity.
-But be cautious: a function using `Any` will accept and return anything without errors--you lose all type checking for its internals.
+A function using `Any` will accept and return anything without errors--it turns off type checking for that element.
 
 ### Pitfall: Ignoring `TypeVar` Scope
 
@@ -835,7 +835,7 @@ def set_value(x: T) -> None:
 ```
 
 If `global_var` is not also parameterized by `T` somehow, this use of `T` is misleading.
-The function `set_value` as written can accept any type, and the type of `global_var` cannot be described properly after calling it (it could be int if called with int, str if called with str, etc.).
+The function `set_value` as written can accept any type, and the type of `global_var` cannot be described properly after calling it (it could be `int` if called with `int`, `str` if called with `str`, etc.).
 This is probably a design mistake.
 In such cases, use a normal specific type (or `Any`) if the function isn't meant to be generic.
 Use `TypeVar` only for functions that really need to be generic.
@@ -857,7 +857,7 @@ class BiMap(Generic[KT, VT]):
     ...
 ```
 
-This can make the code more self-documenting, especially if there are multiple type parameters that have roles (key vs value, input vs output, etc.).
+This can make the code more self-documenting, especially if there are multiple type parameters that have roles (key vs. value, input vs. output, etc.).
 Python 3.12+ will even allow using these names in the syntax (like `def func[KeyType, ValueType](...) -> ...:`), which encourages descriptive names.
 In current Python, you can still achieve clarity by the variable name itself (e.g., `KeyType = TypeVar('KeyType')`) though the external name in the code is what you use.
 
@@ -891,6 +891,6 @@ Be mindful of the Python version you are targeting:
 
 ## References
 
-1. [Generics--typing  documentation](https://typing.python.org/en/latest/reference/generics.html)
-2. [Protocols and structural subtyping--typing  documentation](https://typing.python.org/en/latest/reference/protocols.html)
-3. [Protocols and structural subtyping--typing  documentation](https://typing.python.org/en/latest/reference/protocols.html#protocol-types#:~:text=Structural%20subtyping%20is%20based%20on,latter%2C%20and%20with%20compatible%20types)
+1. [Generics--typing documentation](https://typing.python.org/en/latest/reference/generics.html)
+2. [Protocols and structural subtyping--typing documentation](https://typing.python.org/en/latest/reference/protocols.html)
+3. [Protocols and structural subtyping--typing documentation](https://typing.python.org/en/latest/reference/protocols.html#protocol-types#:~:text=Structural%20subtyping%20is%20based%20on,latter%2C%20and%20with%20compatible%20types)
