@@ -20,13 +20,13 @@ Some concrete advantages of embracing immutability:
 
 - **Easier Reasoning:** You can trust that values won't change unexpectedly, making functions behave more predictably.
 - **Thread-Safety:** Immutable objects can be freely shared between threads without synchronization, since no thread can alter them and cause race conditions.
-- **Avoiding Bugs:** Accidental mutations are caught early--either by a runtime exception or by a type checker--instead of corrupting state silently.
+- **Avoiding Bugs:** Accidental mutations are caught early--either by a runtime exception or by a type checker--instead of silently corrupting state.
 - **Safe Sharing and Caching:** You can safely reuse or cache immutable objects (even as keys in dictionaries or members of sets) since their hash or contents won't change after creation.
   This aligns with Python's rule that objects used as dictionary keys must be immutable (e.g., using a tuple instead of a list for a key).
 
-In summary, designing with immutability leads to code that is safer, more robust in concurrent environments, and easier to understand.
-Python, as a dynamic language, doesn't enforce immutability by default, but it provides patterns and tools to achieve immutable-like behavior where beneficial.
-Next, we'll explore how Python historically handles immutability through convention, and then dive into modern features for enforcing immutability via typing and dataclasses.
+Functional programming strongly advocates immutability, preventing accidental changes and thus simplifying reasoning about your code.
+Designing with immutability leads to code that is safer, more robust in concurrent environments, and easier to understand.
+As a dynamic language, Python doesn't enforce immutability by default, but it provides patterns and tools to achieve immutable-like behavior where beneficial.
 
 ## Immutability by Convention in Python
 
@@ -35,7 +35,7 @@ Instead, Python developers have traditionally relied on conventions and certain 
 
 One common convention is the use of ALL_CAPS names for constants.
 According to PEP 8 (Python's style guide),
-"constants are usually defined on a module level and written in all capital letters with underscores separating words".
+"constants are usually defined on a module level and written in all capital letters with underscores separating words."
 For example, one might write:
 
 ```python
@@ -67,9 +67,9 @@ These provide a more formal way to achieve immutability beyond just convention.
 
 ## Using `Final` for Constants and Immutable References
 
-Python 3.8 introduced the `Final` qualifier in the `typing` module (as described in ).
-The `typing.Final` annotation allows you to declare that a name--whether a module-level variable, a class attribute, or an instance attribute--is intended to never be reassigned after its initialization.
-This is a purely static indication; it's enforced by type checkers (like mypy, pyright, etc.), not by the Python runtime.
+Python 3.8 introduced the `Final` qualifier.
+`Final` allows you to declare that a name--whether a module-level variable, a class attribute, or an instance attribute--cannot be reassigned after initialization.
+This is a purely static indication; it's enforced by the type checker but not by the Python runtime.
 
 ### Declaring Final Variables
 
@@ -87,7 +87,7 @@ MAX_CONNECTIONS: Final = 100  # type inferred as int
 Here, `PI` and `MAX_CONNECTIONS` are marked as `Final`, signaling that these names should never be re-bound to a new value.
 A type checker will enforce this.
 If later in the code you attempt to do `PI = 3.14` (reassigning the constant), the type checker will emit an error, e.g.
-"Error: can't assign to final attribute".
+"Error: can't assign to final attribute."
 The same goes for changing `MAX_CONNECTIONS`.
 The Python interpreter itself will not stop you from doing this reassignment, but using `Final` elevates the constant from a mere convention to something that static analysis tools can verify.
 
@@ -95,7 +95,7 @@ According to the Python typing documentation, _"Final names cannot be reassigned
 Final names declared in class scopes cannot be overridden in subclasses."_.
 In other words, marking a variable as `Final` means:
 
-- **No rebinding:** You can assign to it only once; the type checker flags subsequent assignments in code.
+- **No rebinding:** You can assign to it only once; the type checker flags any further assignments.
 - **No override in subclass:** If you mark a class attribute as `Final`, a subclass cannot override that attribute with a new value.
 
 Let's illustrate this with a quick example:
@@ -184,14 +184,13 @@ It can be useful in design to ensure certain classes remain closed for extension
 At runtime, as of Python 3.11, the `@final` decorator sets a `__final__ = True` attribute on the class or function to help introspection, but it doesn't enforce anything on its own.
 Like the `Final` annotation, `@final` is a tool for communicating intent and catching errors early with the help of static analysis.
 
-In summary, `Final` in Python typing is a lightweight way to get some of the benefits of immutability by preventing reassignments.
+`Final` in Python typing is a lightweight way to get the benefits of immutability by preventing reassignments.
 It formalizes the "ALL_CAPS means constant" convention into something a type checker can understand.
 Combined with immutable types or interfaces, it can help you create APIs that promise not to mutate state.
 However, for more complex state (especially when you want to bundle multiple values), Python's dataclasses offer another approach to enforce immutability at runtime.
 
 ## Immutable Data Classes
 
-Functional programming strongly advocates immutability, preventing accidental changes and thus simplifying reasoning about your code.
 By default, dataclass instances are mutable (their fields can be assigned to freely).
 However, `dataclasses` support an immutability feature: if you specify `frozen=True` in the `@dataclass` decorator, the resulting class will prevent any assignment to its fields after object creation.
 In other words, a frozen dataclass instance is effectively immutable (or "frozen") once it's constructed.
@@ -236,7 +235,7 @@ It's especially handy for value objects (like points, coordinates, config object
 
 ### Example: Frozen Dataclass in Action
 
-Let's illustrate with a more detailed example and show what happens if we attempt mutation:
+Let's illustrate with a more detailed example and show what happens if we attempt to mutate a frozen `dataclass`:
 
 ```python
 # frozen_person.py
@@ -382,9 +381,9 @@ When you use `frozen=True`, the dataclass decorator modifies your class definiti
 It creates a custom `__setattr__` and `__delattr__` on the class that will raise `FrozenInstanceError` whenever someone tries to set or delete an attribute on an instance.
 During object creation, the dataclass-generated `__init__` uses `object.__setattr__` internally for each field to bypass the restriction while initializing values.
 Once construction is done, any further attribute setting goes through the overridden `__setattr__` and is blocked.
-Because this is done in pure Python, it's not absolutely unbreakable (a savvy user could call `object.__setattr__` themselves, or manipulate low-level object state), but it is more than sufficient for ensuring standard use of the class remains immutable.
-The design principle is that _"It is not possible to create truly immutable Python objects.
-However, by using `frozen=True` you can emulate immutability."_ In day-to-day practice, a frozen dataclass is as good as immutable.
+It's not unbreakable; a savvy user could call `object.__setattr__` themselves, or manipulate low-level object state.
+Although you cannot create truly immutable Python objects, `frozen=True` emulates immutability.
+In day-to-day practice, a frozen dataclass is as good as immutable.
 
 ### Performance considerations
 
@@ -414,14 +413,14 @@ Any attempt to do `self.field = value` in `__post_init__` will trigger a `Frozen
 
 So how can we set up derived fields or perform adjustments in `__post_init__` for a frozen class?
 The answer is to bypass the frozen `__setattr__` using the base class (`object`) method.
-Python lets us call the underlying `object.__setattr__` method directly, which will ignore our dataclass's override and actually set the attribute.
+Python lets us call the underlying `object.__setattr__` method directly, which sets the attribute.
 This is exactly how dataclasses themselves initialize fields for frozen instances.
 The dataclass documentation notes: _"There is a tiny performance penalty when using `frozen=True`: `__init__` cannot use assignment to initialize fields, and must use `object.__setattr__`."_.
 The dataclass-generated `__init__` knows to do this for the fields that are set in the constructor.
 We can apply the same technique in `__post_init__`.
 
 **Correct approach:** Use `object.__setattr__(self, 'field_name', value)` in your `__post_init__` for any field that needs to be set on a frozen dataclass.
-This calls the built-in `object` class's `__setattr__` implementation, which actually writes to the instance's `__dict__` (bypassing our dataclass's restriction).
+This calls the built-in `object` class's `__setattr__` implementation, which writes to the instance's `__dict__`.
 
 Let's demonstrate this with an example.
 Suppose we want to have a `Rectangle` dataclass that stores width and height, and we also want to store the area as a field for quick access.
@@ -547,7 +546,7 @@ that allows fine-tuning of instances behavior.
 Python's approach to immutability is a mix of convention, static assurance, and runtime enforcement:
 
 - Use `Final` (and `@final`) to convey and enforce via static analysis that certain variables or attributes shouldn't change or be overridden.
-- Use `@dataclass(frozen=True)` (or other techniques like `NamedTuple`s or custom `__setattr__` overrides) to actually prevent changes to object state at runtime.
+- Use `@dataclass(frozen=True)` (or other techniques like `NamedTuple`s or custom `__setattr__` overrides) to prevent changes to object state at runtime.
 
 With immutability, you get clarity, safety, and bug prevention--while still working within Python's flexible and dynamic nature.
 Immutability in Python is ultimately a matter of developer intent supported by language features that make it easier to achieve and maintain.
@@ -562,4 +561,4 @@ With `Final` and frozen dataclasses, we now have the means to clearly communicat
 5. [Type qualifiers--typing documentation](https://typing.python.org/en/latest/spec/qualifiers.html)
 6. [typing--Support for type hints--Python 3.13.3 documentation](https://docs.python.org/3/library/typing.html)
 7. [Customizing dataclass initialization--Python Morsels](https://www.pythonmorsels.com/customizing-dataclass-initialization/)
-8. [python--How to set the value of dataclass field in post_init when frozen=True?--Stack Overflow](https://stackoverflow.com/questions/53756788/how-to-set-the-value-of-dataclass-field-in-post-init-when-frozen-true)
+8. [python--How to set the value of a dataclass field in post_init when frozen=True?--Stack Overflow](https://stackoverflow.com/questions/53756788/how-to-set-the-value-of-dataclass-field-in-post-init-when-frozen-true)
