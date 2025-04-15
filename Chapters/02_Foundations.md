@@ -10,7 +10,7 @@ Assumptions I make about your Python & programming knowledge.
 
 ## This book uses
 
-- Version control with github
+- Version control with GitHub
 - Project management with uv
 - Testing with Pytest (noting that there are valid reasons to use other systems)
 - Project organization (src directory)
@@ -27,10 +27,9 @@ Assumptions I make about your Python & programming knowledge.
 ## Examples
 
 - Each example has a "slug line" which is the name of the file in a single-line comment as line one of the example.
-- That example is in the Github repository in a subdirectory named for the chapter.
+- That example is in the GitHub repository in a subdirectory named for the chapter.
 - The examples do not have `__main__`s; everything is at the top level.
 - If a top-level-statement (TLS) produces output, that output will appear on the following line(s), commented with `##`.
 - Lines to be called out in text are marked with comments
 - Black for consistent formatting
-- Listings 47 Characters wide:
-  readable on a phone
+- Listings 47 Characters wide: readable on a phone
