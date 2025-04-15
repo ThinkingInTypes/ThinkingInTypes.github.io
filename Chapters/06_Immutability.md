@@ -189,9 +189,9 @@ It formalizes the "ALL_CAPS means constant" convention into something a type che
 Combined with immutable types or interfaces, it can help you create APIs that promise not to mutate state.
 However, for more complex state (especially when you want to bundle multiple values), Python's dataclasses offer another approach to enforce immutability at runtime.
 
-## Immutability with Frozen Dataclasses
+## Immutable Data Classes
 
-Python's `dataclass` decorator (introduced in Python 3.7) provides an easy way to create classes that bundle multiple attributes.
+Functional programming strongly advocates immutability, preventing accidental changes and thus simplifying reasoning about your code.
 By default, dataclass instances are mutable (their fields can be assigned to freely).
 However, `dataclasses` support an immutability feature: if you specify `frozen=True` in the `@dataclass` decorator, the resulting class will prevent any assignment to its fields after object creation.
 In other words, a frozen dataclass instance is effectively immutable (or "frozen") once it's constructed.
@@ -239,7 +239,7 @@ It's especially handy for value objects (like points, coordinates, config object
 Let's illustrate with a more detailed example and show what happens if we attempt mutation:
 
 ```python
-# example_7.py
+# frozen_person.py
 from dataclasses import dataclass
 
 from book_utils import Catch
@@ -262,21 +262,10 @@ with Catch():
 person.__dict__["age"] = 31  # Disable 'frozen'
 ```
 
-If you run this, you will get a traceback similar to:
-
-```
-Traceback (most recent call last):
-  File "...", line 8, in <module>
-    person.age = 31
-  File "<string>", line 4, in __setattr__
-dataclasses.FrozenInstanceError: cannot assign to field 'age'
-```
-
-The line `File "<string>", line 4, in __setattr__` is pointing to the auto-generated `__setattr__` method of the dataclass, which raised the error.
+The auto-generated `__setattr__` method of the dataclass raises an error.
 This demonstrates that our `Person` instance is effectively read-only.
 
-It's worth noting that true immutability in Python can't be absolutely enforced in all cases--a determined developer could still bypass these restrictions (for instance, by using `object.__setattr__` to poke at the object, or by manipulating `person.__dict__`).
-Python trusts the programmer; if you go out of your way to subvert immutability, you can.
+True immutability in Python can't be enforced; if you go out of your way to subvert immutability, you can.
 The goal of frozen dataclasses is to protect against _accidental or careless_ mutations, not to provide an unbreakable security boundary.
 In normal usage, you would treat the frozen instance as completely immutable.
 
@@ -287,6 +276,134 @@ Specifically, if `eq=True` and `frozen=True`, Python will automatically add a `_
 This makes sense: an object that is equal based on its field values and cannot change those values can safely be hashed.
 Conversely, a mutable dataclass (eq=True, frozen=False) gets a `__hash__ = None` by default, marking it as unhashable (since its hash could change if fields changed).
 This is an example of how immutability (or lack thereof) interacts with Python's runtime behavior.
+
+```python
+# frozen_data_classes.py
+from dataclasses import dataclass
+from book_utils import Catch
+
+
+@dataclass(frozen=True)
+class Messenger:
+    name: str
+    number: int
+    depth: float = 0.0  # Default
+
+
+print(messenger := Messenger("foo", 12, 3.14))
+## Messenger(name='foo', number=12, depth=3.14)
+# Frozen dataclass is immutable:
+with Catch():
+    messenger.name = "bar"
+
+# Automatically creates __hash__():
+d = {messenger: "value"}
+print(d[messenger])
+## value
+```
+
+We can apply this approach to the `Stars` example:
+
+```python
+# stars.py
+from dataclasses import dataclass
+
+from book_utils import Catch
+
+
+@dataclass(frozen=True)
+class Stars:
+    number: int
+
+    def __post_init__(self) -> None:
+        assert 1 <= self.number <= 10, f"{self}"
+
+
+def f1(s: Stars) -> Stars:
+    return Stars(s.number + 5)
+
+
+def f2(s: Stars) -> Stars:
+    return Stars(s.number * 5)
+
+
+stars1 = Stars(4)
+print(stars1)
+## Stars(number=4)
+print(f1(stars1))
+## Stars(number=9)
+with Catch():
+    print(f2(f1(stars1)))
+## Error: Stars(number=45)
+with Catch():
+    stars2 = Stars(11)
+## Error: Stars(number=11)
+with Catch():
+    print(f1(Stars(11)))
+## Error: Stars(number=11)
+```
+
+Subsequent functions operating on `Stars` no longer require redundant checks.
+Modifying a `Stars` instance after creation raises an error, further safeguarding the data integrity:
+
+```python
+# modify_stars.py
+from stars import Stars
+
+
+def increase_stars(rating: Stars, increment: int) -> Stars:
+    return Stars(rating.number + increment)
+```
+
+If this function tries to create an invalid rating, the data class validation immediately raises an error.
+This greatly simplifies code maintenance and readability.
+
+Additionally, immutable objects can safely serve as keys in dictionaries, allowing reliable data lookups and caching.
+
+### How `Final` and `frozen` Work
+
+Understanding how these features are implemented gives insight into their guarantees and limitations.
+
+#### `Final`
+
+This is entirely a compile-time (static) concept.
+When you declare a variable or attribute with `Final`, the Python interpreter records that in the `__annotations__` of the module or class, but it does not prevent assignments at runtime.
+The enforcement comes from type checkers.
+Tools like mypy will scan your code and, if you try to reassign a `Final` variable, they will emit an error and refuse to consider the code type-safe.
+As of Python 3.11, marking classes or methods with the `@final` decorator will set a `__final__ = True` attribute on the object, which is mostly for introspection or tooling--Python won't stop you from subclassing a `@final` class or overriding a
+`@final` method at runtime, but doing so would likely cause your type checker to complain or your linter to warn you.
+One key thing to remember is that `Final` is about the name binding, not the object's mutability: a `Final` list can still be changed in content, and `Final` doesn't make a dataclass frozen or anything of that sort.
+It's a tool for design-by-contract: signaling intent and catching mistakes early.
+
+#### Frozen dataclass
+
+This provides _runtime_ enforcement by generating code.
+When you use `frozen=True`, the dataclass decorator modifies your class definition.
+It creates a custom `__setattr__` and `__delattr__` on the class that will raise `FrozenInstanceError` whenever someone tries to set or delete an attribute on an instance.
+During object creation, the dataclass-generated `__init__` uses `object.__setattr__` internally for each field to bypass the restriction while initializing values.
+Once construction is done, any further attribute setting goes through the overridden `__setattr__` and is blocked.
+Because this is done in pure Python, it's not absolutely unbreakable (a savvy user could call `object.__setattr__` themselves, or manipulate low-level object state), but it is more than sufficient for ensuring standard use of the class remains immutable.
+The design principle is that _"It is not possible to create truly immutable Python objects.
+However, by using `frozen=True` you can emulate immutability."_ In day-to-day practice, a frozen dataclass is as good as immutable.
+
+### Performance considerations
+
+The convenience of frozen dataclasses comes with a minor cost.
+As noted, setting attributes in `__init__` uses a slightly slower path (calling `object.__setattr__` for each field).
+In the vast majority of cases this overhead is negligible (a few extra function calls during object creation).
+It's rare to create so many objects that this becomes a bottleneck, but it's something to be aware of.
+Accessing attributes and all other operations on a frozen dataclass are just as fast as on a regular class; it's only the initialization that's marginally slower.
+For `Final` type hints, there is virtually no runtime cost at all, since it doesn't inject any checking--it's purely a compile-time concept.
+
+### Combining `Final` and frozen dataclasses
+
+You generally don't need `Final` annotations inside a frozen dataclass.
+If a dataclass is frozen, all its fields are effectively final by design; you can't rebind them after construction.
+For example, if you have `@dataclass(frozen=True) class C: x: int`, a type checker will treat `c.x` as a read-only property.
+
+Note that in a dataclass, a bare `x: Final[int] = 3` is treated as an instance field default, whereas normally a `Final` at class level means a class variable.
+You can use `Final` to indicate a class-level constant inside a dataclass.
+However, it doesn't make sense to use `Final` on fields (instance attributes), because `frozen=True` already makes those fields immutable.
 
 ### Using `__post_init__` in Frozen Dataclasses
 
@@ -365,42 +482,67 @@ You wouldn't normally call `object.__setattr__` on a frozen instance outside of 
 If you find yourself needing to change a frozen object after creation via such tricks, it may be a sign that the design should be reconsidered (maybe that piece of data shouldn't be frozen).
 Generally, use this technique only to set up derived fields or cached values at construction time.
 
-## Under the Hood: How `Final` and `frozen` Work
+## NamedTuple
 
-It's helpful to understand how these features are implemented, to fully appreciate their guarantees and limitations:
+In many cases, a `NamedTuple` can be used in lieu of a frozen `dataclass`.
+A `NamedTuple` combines `tuple` immutability with type annotations and named fields:
 
-- **`Final`:** This is entirely a compile-time (static) concept.
-  When you declare a variable or attribute with `Final`, the Python interpreter records that in the `__annotations__` of the module or class, but it does not prevent assignments at runtime.
-  The enforcement comes from type checkers.
-  Tools like mypy will scan your code and, if you try to reassign a `Final` variable, they will emit an error and refuse to consider the code type-safe.
-  As of Python 3.11, marking classes or methods with the `@final` decorator will set a `__final__ = True` attribute on the object, which is mostly for introspection or tooling--Python won't stop you from subclassing a `@final` class or overriding a
-  `@final` method at runtime, but doing so would likely cause your type checker to complain or your linter to warn you.
-  One key thing to remember is that `Final` is about the name binding, not the object's mutability: a `Final` list can still be changed in content, and `Final` doesn't make a dataclass frozen or anything of that sort.
-  It's a tool for design-by-contract: signaling intent and catching mistakes early.
+```python
+# named_tuple.py
+from typing import NamedTuple
 
-- **Frozen dataclass:** This provides _runtime_ enforcement by generating code.
-  When you use `frozen=True`, the dataclass decorator modifies your class definition.
-  It creates a custom `__setattr__` and `__delattr__` on the class that will raise `FrozenInstanceError` whenever someone tries to set or delete an attribute on an instance.
-  During object creation, the dataclass-generated `__init__` uses `object.__setattr__` internally for each field to bypass the restriction while initializing values.
-  Once construction is done, any further attribute setting goes through the overridden `__setattr__` and is blocked.
-  Because this is done in pure Python, it's not absolutely unbreakable (a savvy user could call `object.__setattr__` themselves, or manipulate low-level object state), but it is more than sufficient for ensuring standard use of the class remains immutable.
-  The design principle is that _"It is not possible to create truly immutable Python objects.
-  However, by using `frozen=True` you can emulate immutability."_ In day-to-day practice, a frozen dataclass is as good as immutable.
 
-- **Performance considerations:** The convenience of frozen dataclasses comes with a minor cost.
-  As noted, setting attributes in `__init__` uses a slightly slower path (calling `object.__setattr__` for each field).
-  In the vast majority of cases this overhead is negligible (a few extra function calls during object creation).
-  It's rare to create so many objects that this becomes a bottleneck, but it's something to be aware of.
-  Accessing attributes and all other operations on a frozen dataclass are just as fast as on a regular class; it's only the initialization that's marginally slower.
-  For `Final` type hints, there is virtually no runtime cost at all, since it doesn't inject any checking--it's purely a compile-time concept.
+class Coordinates(NamedTuple):
+    latitude: float
+    longitude: float
 
-- **Combining `Final` and frozen dataclasses:** You might wonder whether to use `Final` annotations inside a frozen dataclass.
-  Generally, you do not need to.
-  If a dataclass is frozen, all its fields are effectively final by design (you can't rebind them on the instance after construction).
-  Type checkers are aware of frozen dataclasses in this regard.
-  For example, if you have `@dataclass(frozen=True) class C: x: int`, mypy will treat `c.x` as a read-only property (assignments to it will be errors like "Property 'x' is read-only").
-  The typing spec even notes that in a dataclass, a bare `x: Final[int] = 3` is considered an instance field default, whereas normally a `Final` at class level means a class variable.
-  So you can use `Final` if you want to indicate a class-level constant inside a dataclass, but you wouldn't put `Final` on the fields meant to be instance attributes (the `frozen=True` already covers that usage).
+
+coords = Coordinates(51.5074, -0.1278)
+print(coords)
+## Coordinates(latitude=51.5074,
+## longitude=-0.1278)
+print(coords.latitude)
+## 51.5074
+# coords.latitude = 123.4567 # Runtime error
+```
+
+`NamedTuple` provides clarity, immutability, and easy unpacking, ideal for structured data.
+Their simplicity makes them ideal for simple, lightweight, immutable record types.
+For brevity and cleanliness, this book will use `NamedTuple`s instead of frozen `dataclass`es whenever possible.
+
+Both `NamedTuple` and `dataclass` automate the creation of common methods
+(such as constructors, `repr`, equality, and sometimes hash methods),
+but they do so in different ways and with different design goals in mind.
+
+Rather than generating an `__init__`,
+a `NamedTuple` is a subclass of `tuple` and uses a generated `new` method to create instances.
+Customization of construction logic is limited because you cannot define an init
+(instead, you override new if needed, which is more cumbersome).
+`NamedTuple` instances are immutable since they are `tuple` subclasses, so you cannot assign to their fields after creation.
+A `NamedTuple` automatically generates a `repr` that prints the field names along with their values
+(e.g., Point(x=1, y=2)) in a manner similar to a standard `tuple` representation.
+An `__eq__` is generated based on the `tuple`’s content,
+and `__hash__` is automatically defined (since `tuple`s are immutable).
+`NamedTuple`s inherit `tuple` ordering (lexicographical order) by default.
+`NamedTuple` is a subclass of `tuple`, which means all `tuple` operations (indexing, iteration, etc.) work as expected.
+Since a `NamedTuple` is implemented as a `tuple` (with immutability and slots by default), it is memory efficient.
+
+A `dataclass` generates an `__init__` that assigns the provided arguments to instance attributes.
+By default, `dataclass` instances are mutable; however, you can set `frozen=True` to make them immutable.
+This causes the generated `__init__` to assign to immutable fields.
+The `repr` method is automatically generated to include the field names and their current values.
+It is highly customizable via the `repr` parameter on fields.
+By default, `dataclass` automatically generates an eq method that compares instances based on their fields.
+If the `dataclass` is mutable (`frozen=False`, which is default), no hash is generated by default
+(unless you specifically use `unsafe_hash=True`).
+Mutable objects of any kind should generally not be hashed because the hash can change from one access to another.
+If the `dataclass` is frozen (immutable), then a hash method is automatically provided.
+You can add ordering methods (e.g., lt, le, etc.) by setting `order=True` when declaring the `dataclass`.
+Otherwise, no ordering is generated.
+Dataclasses provide a post_init method that runs immediately after the generated init method.
+This is a convenient place for additional initialization or validation.
+Dataclasses offer per-field customization (default values, default_factory, comparison options, etc.)
+that allows fine-tuning of instances behavior.
 
 Python's approach to immutability is a mix of convention, static assurance, and runtime enforcement:
 

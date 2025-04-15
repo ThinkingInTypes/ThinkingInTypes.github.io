@@ -1,7 +1,5 @@
 # Custom Types
 
-- Add variations:
-  `NamedTuple`, `Enum`
 - Incorporate examples from https://github.com/BruceEckel/DataClassesAsTypes
 
 This chapter began as a presentation at a Python conference, inspired by conversations with fellow programmers exploring functional programming techniques.
@@ -315,154 +313,6 @@ print(m)
 
 In a `dataclass`, validation logic resides in the `__post_init__` method, executed automatically after initialization.
 This guarantees that only valid `Stars` instances exist.
-
-### Immutable Data Classes
-
-Functional programming strongly advocates immutability, preventing accidental changes and thus simplifying reasoning about your code.
-Python data classes support immutability through a `frozen=True` parameter:
-
-```python
-# frozen_data_classes.py
-from dataclasses import dataclass
-
-
-@dataclass(frozen=True)
-class Messenger:
-    name: str
-    number: int
-    depth: float = 0.0  # Default
-
-
-m = Messenger("foo", 12, 3.14)
-print(m)
-## Messenger(name='foo', number=12, depth=3.14)
-# Frozen dataclass is immutable:
-# m.name = "bar"
-# dataclasses.FrozenInstanceError: cannot assign to field 'name'
-# Automatically creates __hash__():
-d = {m: "value"}
-print(d[m])
-## value
-```
-
-We can apply this approach to our `Stars` example:
-
-```python
-# stars.py
-from dataclasses import dataclass
-
-from book_utils import Catch
-
-
-@dataclass(frozen=True)
-class Stars:
-    number: int
-
-    def __post_init__(self) -> None:
-        assert 1 <= self.number <= 10, f"{self}"
-
-
-def f1(s: Stars) -> Stars:
-    return Stars(s.number + 5)
-
-
-def f2(s: Stars) -> Stars:
-    return Stars(s.number * 5)
-
-
-stars1 = Stars(4)
-print(stars1)
-## Stars(number=4)
-print(f1(stars1))
-## Stars(number=9)
-with Catch():
-    print(f2(f1(stars1)))
-## Error: Stars(number=45)
-with Catch():
-    stars2 = Stars(11)
-## Error: Stars(number=11)
-with Catch():
-    print(f1(Stars(11)))
-## Error: Stars(number=11)
-```
-
-Subsequent functions operating on `Stars` no longer require redundant checks.
-Modifying a `Stars` instance after creation raises an error, further safeguarding the data integrity:
-
-```python
-# example_4.py
-# from stars import Stars
-
-# def increase_stars(rating: Stars, increment: int) -> Stars:
-#    return Stars(rating.stars + increment)
-```
-
-If this function tries to create an invalid rating, the data class validation immediately raises an error.
-This greatly simplifies code maintenance and readability.
-
-Additionally, immutable objects can safely serve as keys in dictionaries, allowing reliable data lookups and caching.
-
-### NamedTuple
-
-In many cases, a `NamedTuple` can be used in lieu of a frozen `dataclass`.
-A `NamedTuple` combines `tuple` immutability with type annotations and named fields:
-
-```python
-# named_tuple.py
-from typing import NamedTuple
-
-
-class Coordinates(NamedTuple):
-    latitude: float
-    longitude: float
-
-
-coords = Coordinates(51.5074, -0.1278)
-print(coords)
-## Coordinates(latitude=51.5074,
-## longitude=-0.1278)
-print(coords.latitude)
-## 51.5074
-# coords.latitude = 123.4567 # Runtime error
-```
-
-`NamedTuple` provides clarity, immutability, and easy unpacking, ideal for structured data.
-Their simplicity makes them ideal for simple, lightweight, immutable record types.
-For brevity and cleanliness, this book will use `NamedTuple`s instead of frozen `dataclass`es whenever possible.
-
-Both `NamedTuple` and `dataclass` automate the creation of common methods
-(such as constructors, `repr`, equality, and sometimes hash methods),
-but they do so in different ways and with different design goals in mind.
-
-Rather than generating an `__init__`,
-a `NamedTuple` is a subclass of `tuple` and uses a generated `new` method to create instances.
-Customization of construction logic is limited because you cannot define an init
-(instead, you override new if needed, which is more cumbersome).
-`NamedTuple` instances are immutable since they are `tuple` subclasses, so you cannot assign to their fields after creation.
-A `NamedTuple` automatically generates a `repr` that prints the field names along with their values
-(e.g., Point(x=1, y=2)) in a manner similar to a standard `tuple` representation.
-An `__eq__` is generated based on the `tuple`’s content,
-and `__hash__` is automatically defined (since `tuple`s are immutable).
-`NamedTuple`s inherit `tuple` ordering (lexicographical order) by default.
-`NamedTuple` is a subclass of `tuple`, which means all `tuple` operations (indexing, iteration, etc.) work as expected.
-Since a `NamedTuple` is implemented as a `tuple` (with immutability and slots by default), it is memory efficient.
-
-A `dataclass` generates an `__init__` that assigns the provided arguments to instance attributes.
-By default, `dataclass` instances are mutable; however, you can set `frozen=True` to make them immutable.
-This causes the generated `__init__` to assign to immutable fields.
-The `repr` method is automatically generated to include the field names and their current values.
-It is highly customizable via the `repr` parameter on fields.
-By default, `dataclass` automatically generates an eq method that compares instances based on their fields.
-If the `dataclass` is mutable (`frozen=False`, which is default), no hash is generated by default
-(unless you specifically use `unsafe_hash=True`).
-Mutable objects of any kind should generally not be hashed because the hash can change from one access to another.
-If the `dataclass` is frozen (immutable), then a hash method is automatically provided.
-You can add ordering methods (e.g., lt, le, etc.) by setting `order=True` when declaring the `dataclass`.
-Otherwise, no ordering is generated.
-Dataclasses provide a post_init method that runs immediately after the generated init method.
-This is a convenient place for additional initialization or validation.
-Dataclasses offer per-field customization (default values, default_factory, comparison options, etc.)
-that allows fine-tuning of instances behavior.
 
 ### Composing Data Classes
 
@@ -1018,10 +868,10 @@ Define domain entities explicitly to enhance domain logic expressiveness:
 ```python
 # ddd.py
 from dataclasses import dataclass
-from typing import NamedTuple
 
 
-class Product(NamedTuple):
+@dataclass
+class Product:
     name: str
     price: float
 

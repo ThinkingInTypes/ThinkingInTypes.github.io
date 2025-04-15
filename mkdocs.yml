@@ -30,8 +30,8 @@ nav:
   - '3: What is a Type': 03_What_is_a_Type.md
   - '4: Using Types': 04_Using_Types.md
   - '5: Custom Types': 05_Custom_Types.md
-  - '6: Pattern Matching': 06_Pattern_Matching.md
-  - '7: Immutability': 07_Immutability.md
+  - '6: Immutability': 06_Immutability.md
+  - '7: Pattern Matching': 07_Pattern_Matching.md
   - '8: Generics': 08_Generics.md
   - '9: Callables': 09_Callables.md
   - '10: Structural Typing': 10_Structural_Typing.md
