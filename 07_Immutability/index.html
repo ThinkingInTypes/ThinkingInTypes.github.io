@@ -1142,7 +1142,7 @@ In other words, a frozen dataclass instance is effectively immutable (or "frozen
 </span><span id="__span-5-14"><a id="__codelineno-5-14" name="__codelineno-5-14" href="#__codelineno-5-14"></a><span class="nb">print</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">p</span><span class="o">.</span><span class="n">y</span><span class="p">)</span>  <span class="c1"># Outputs: 1 2</span>
 </span><span id="__span-5-15"><a id="__codelineno-5-15" name="__codelineno-5-15" href="#__codelineno-5-15"></a><span class="c1">## 1 2</span>
 </span><span id="__span-5-16"><a id="__codelineno-5-16" name="__codelineno-5-16" href="#__codelineno-5-16"></a>
-</span><span id="__span-5-17"><a id="__codelineno-5-17" name="__codelineno-5-17" href="#__codelineno-5-17"></a><span class="k">with</span> <span class="n">Catch</span><span class="p">:</span>
+</span><span id="__span-5-17"><a id="__codelineno-5-17" name="__codelineno-5-17" href="#__codelineno-5-17"></a><span class="k">with</span> <span class="n">Catch</span><span class="p">():</span>
 </span><span id="__span-5-18"><a id="__codelineno-5-18" name="__codelineno-5-18" href="#__codelineno-5-18"></a>    <span class="c1"># Attempting to modify a field produces an error:</span>
 </span><span id="__span-5-19"><a id="__codelineno-5-19" name="__codelineno-5-19" href="#__codelineno-5-19"></a>    <span class="n">p</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="mi">5</span>  <span class="c1"># noqa</span>
 </span><span id="__span-5-20"><a id="__codelineno-5-20" name="__codelineno-5-20" href="#__codelineno-5-20"></a><span class="c1">## Error: cannot assign to field &#39;x&#39;</span>
@@ -1176,7 +1176,7 @@ It's especially handy for value objects (like points, coordinates, config object
 </span><span id="__span-6-13"><a id="__codelineno-6-13" name="__codelineno-6-13" href="#__codelineno-6-13"></a><span class="n">person</span> <span class="o">=</span> <span class="n">Person</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;Alice&quot;</span><span class="p">,</span> <span class="n">age</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span>
 </span><span id="__span-6-14"><a id="__codelineno-6-14" name="__codelineno-6-14" href="#__codelineno-6-14"></a><span class="nb">print</span><span class="p">(</span><span class="n">person</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>  <span class="c1"># &quot;Alice&quot;</span>
 </span><span id="__span-6-15"><a id="__codelineno-6-15" name="__codelineno-6-15" href="#__codelineno-6-15"></a><span class="c1">## Alice</span>
-</span><span id="__span-6-16"><a id="__codelineno-6-16" name="__codelineno-6-16" href="#__codelineno-6-16"></a><span class="k">with</span> <span class="n">Catch</span><span class="p">:</span>
+</span><span id="__span-6-16"><a id="__codelineno-6-16" name="__codelineno-6-16" href="#__codelineno-6-16"></a><span class="k">with</span> <span class="n">Catch</span><span class="p">():</span>
 </span><span id="__span-6-17"><a id="__codelineno-6-17" name="__codelineno-6-17" href="#__codelineno-6-17"></a>    <span class="c1"># Trying to modify a frozen dataclass field:</span>
 </span><span id="__span-6-18"><a id="__codelineno-6-18" name="__codelineno-6-18" href="#__codelineno-6-18"></a>    <span class="n">person</span><span class="o">.</span><span class="n">age</span> <span class="o">=</span> <span class="mi">31</span>  <span class="c1"># noqa</span>
 </span><span id="__span-6-19"><a id="__codelineno-6-19" name="__codelineno-6-19" href="#__codelineno-6-19"></a><span class="c1">## Error: cannot assign to field &#39;age&#39;</span>
@@ -1254,7 +1254,7 @@ After <code>__post_init__</code> the <code>Rectangle</code>instance will a corre
 </span><span id="__span-9-6"><a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a><span class="nb">print</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">area</span><span class="p">)</span>  <span class="c1"># Outputs: 12.0</span>
 </span><span id="__span-9-7"><a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a><span class="c1">## 12.0</span>
 </span><span id="__span-9-8"><a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a><span class="c1"># Try to modify attributes (should fail)</span>
-</span><span id="__span-9-9"><a id="__codelineno-9-9" name="__codelineno-9-9" href="#__codelineno-9-9"></a><span class="k">with</span> <span class="n">Catch</span><span class="p">:</span>
+</span><span id="__span-9-9"><a id="__codelineno-9-9" name="__codelineno-9-9" href="#__codelineno-9-9"></a><span class="k">with</span> <span class="n">Catch</span><span class="p">():</span>
 </span><span id="__span-9-10"><a id="__codelineno-9-10" name="__codelineno-9-10" href="#__codelineno-9-10"></a>    <span class="c1"># &#39;Rectangle&#39; object attribute &#39;width&#39; is read-only:</span>
 </span><span id="__span-9-11"><a id="__codelineno-9-11" name="__codelineno-9-11" href="#__codelineno-9-11"></a>    <span class="c1"># r.width = 5.0</span>
 </span><span id="__span-9-12"><a id="__codelineno-9-12" name="__codelineno-9-12" href="#__codelineno-9-12"></a>    <span class="n">r</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">[</span><span class="s2">&quot;width&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">5.0</span>  <span class="c1"># Cheat to change</span>
@@ -1275,7 +1275,8 @@ Generally, use this technique only to set up derived fields or cached values at 
   When you declare a variable or attribute with <code>Final</code>, the Python interpreter records that in the <code>__annotations__</code> of the module or class, but it does not prevent assignments at runtime.
   The enforcement comes from type checkers.
   Tools like mypy will scan your code and, if you try to reassign a <code>Final</code> variable, they will emit an error and refuse to consider the code type-safe.
-  As of Python 3.11, marking classes or methods with the <code>@final</code> decorator will set a <code>__final__ = True</code> attribute on the object, which is mostly for introspection or tooling--Python won't stop you from subclassing a <code>@final</code> class or overriding a <code>@final</code> method at runtime, but doing so would likely cause your type checker to complain or your linter to warn you.
+  As of Python 3.11, marking classes or methods with the <code>@final</code> decorator will set a <code>__final__ = True</code> attribute on the object, which is mostly for introspection or tooling--Python won't stop you from subclassing a <code>@final</code> class or overriding a
+  <code>@final</code> method at runtime, but doing so would likely cause your type checker to complain or your linter to warn you.
   One key thing to remember is that <code>Final</code> is about the name binding, not the object's mutability: a <code>Final</code> list can still be changed in content, and <code>Final</code> doesn't make a dataclass frozen or anything of that sort.
   It's a tool for design-by-contract: signaling intent and catching mistakes early.</p>
 </li>
