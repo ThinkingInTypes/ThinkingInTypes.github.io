@@ -2,7 +2,7 @@
 
 - Add variations:
   `NamedTuple`, `Enum`
-- Incorporate examples from <https://github.com/BruceEckel/DataClassesAsTypes>
+- Incorporate examples from https://github.com/BruceEckel/DataClassesAsTypes
 
 This chapter began as a presentation at a Python conference, inspired by conversations with fellow programmers exploring functional programming techniques.
 Specifically, the idea arose from a podcast discussion about Scala's smart types.
