@@ -8,13 +8,13 @@
       
       
       
-        <link rel="canonical" href="https://ThinkingInTypes.github.io/07_Immutability/">
+        <link rel="canonical" href="https://ThinkingInTypes.github.io/06_Immutability/">
       
       
-        <link rel="prev" href="../06_Pattern_Matching/">
+        <link rel="prev" href="../05_Custom_Types/">
       
       
-        <link rel="next" href="../08_Generics/">
+        <link rel="next" href="../07_Pattern_Matching/">
       
       
       <link rel="icon" href="../img/favicon.png">
@@ -22,7 +22,7 @@
     
     
       
-        <title>7: Immutability - Thinking in Types</title>
+        <title>6: Immutability - Thinking in Types</title>
       
     
     
@@ -100,7 +100,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              7: Immutability
+              6: Immutability
             
           </span>
         </div>
@@ -319,27 +319,6 @@
       
   
   
-  
-  
-    <li class="md-nav__item">
-      <a href="../06_Pattern_Matching/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    6: Pattern Matching
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-    
-      
-      
-  
-  
     
   
   
@@ -356,7 +335,7 @@
           
   
   <span class="md-ellipsis">
-    7: Immutability
+    6: Immutability
     
   </span>
   
@@ -368,7 +347,7 @@
         
   
   <span class="md-ellipsis">
-    7: Immutability
+    6: Immutability
     
   </span>
   
@@ -433,19 +412,70 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#immutability-with-frozen-dataclasses" class="md-nav__link">
+  <a href="#immutable-data-classes" class="md-nav__link">
     <span class="md-ellipsis">
-      Immutability with Frozen Dataclasses
+      Immutable Data Classes
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Immutability with Frozen Dataclasses">
+    <nav class="md-nav" aria-label="Immutable Data Classes">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
   <a href="#example-frozen-dataclass-in-action" class="md-nav__link">
     <span class="md-ellipsis">
       Example: Frozen Dataclass in Action
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#how-final-and-frozen-work" class="md-nav__link">
+    <span class="md-ellipsis">
+      How Final and frozen Work
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="How Final and frozen Work">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#final" class="md-nav__link">
+    <span class="md-ellipsis">
+      Final
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#frozen-dataclass" class="md-nav__link">
+    <span class="md-ellipsis">
+      Frozen dataclass
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#performance-considerations" class="md-nav__link">
+    <span class="md-ellipsis">
+      Performance considerations
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#combining-final-and-frozen-dataclasses" class="md-nav__link">
+    <span class="md-ellipsis">
+      Combining Final and frozen dataclasses
     </span>
   </a>
   
@@ -466,9 +496,9 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#under-the-hood-how-final-and-frozen-work" class="md-nav__link">
+  <a href="#namedtuple" class="md-nav__link">
     <span class="md-ellipsis">
-      Under the Hood: How Final and frozen Work
+      NamedTuple
     </span>
   </a>
   
@@ -487,6 +517,27 @@
   
 </nav>
       
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../07_Pattern_Matching/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    7: Pattern Matching
+    
+  </span>
+  
+
+      </a>
     </li>
   
 
@@ -896,19 +947,70 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#immutability-with-frozen-dataclasses" class="md-nav__link">
+  <a href="#immutable-data-classes" class="md-nav__link">
     <span class="md-ellipsis">
-      Immutability with Frozen Dataclasses
+      Immutable Data Classes
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Immutability with Frozen Dataclasses">
+    <nav class="md-nav" aria-label="Immutable Data Classes">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
   <a href="#example-frozen-dataclass-in-action" class="md-nav__link">
     <span class="md-ellipsis">
       Example: Frozen Dataclass in Action
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#how-final-and-frozen-work" class="md-nav__link">
+    <span class="md-ellipsis">
+      How Final and frozen Work
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="How Final and frozen Work">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#final" class="md-nav__link">
+    <span class="md-ellipsis">
+      Final
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#frozen-dataclass" class="md-nav__link">
+    <span class="md-ellipsis">
+      Frozen dataclass
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#performance-considerations" class="md-nav__link">
+    <span class="md-ellipsis">
+      Performance considerations
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#combining-final-and-frozen-dataclasses" class="md-nav__link">
+    <span class="md-ellipsis">
+      Combining Final and frozen dataclasses
     </span>
   </a>
   
@@ -929,9 +1031,9 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#under-the-hood-how-final-and-frozen-work" class="md-nav__link">
+  <a href="#namedtuple" class="md-nav__link">
     <span class="md-ellipsis">
-      Under the Hood: How Final and frozen Work
+      NamedTuple
     </span>
   </a>
   
@@ -1121,8 +1223,8 @@ Like the <code>Final</code> annotation, <code>@final</code> is a tool for commun
 It formalizes the "ALL_CAPS means constant" convention into something a type checker can understand.
 Combined with immutable types or interfaces, it can help you create APIs that promise not to mutate state.
 However, for more complex state (especially when you want to bundle multiple values), Python's dataclasses offer another approach to enforce immutability at runtime.</p>
-<h2 id="immutability-with-frozen-dataclasses">Immutability with Frozen Dataclasses<a class="headerlink" href="#immutability-with-frozen-dataclasses" title="Permanent link">#</a></h2>
-<p>Python's <code>dataclass</code> decorator (introduced in Python 3.7) provides an easy way to create classes that bundle multiple attributes.
+<h2 id="immutable-data-classes">Immutable Data Classes<a class="headerlink" href="#immutable-data-classes" title="Permanent link">#</a></h2>
+<p>Functional programming strongly advocates immutability, preventing accidental changes and thus simplifying reasoning about your code.
 By default, dataclass instances are mutable (their fields can be assigned to freely).
 However, <code>dataclasses</code> support an immutability feature: if you specify <code>frozen=True</code> in the <code>@dataclass</code> decorator, the resulting class will prevent any assignment to its fields after object creation.
 In other words, a frozen dataclass instance is effectively immutable (or "frozen") once it's constructed.</p>
@@ -1161,7 +1263,7 @@ This can be a powerful tool for ensuring certain objects remain constant.
 It's especially handy for value objects (like points, coordinates, config objects, etc.) where you want to make sure their state doesn't change once created.</p>
 <h3 id="example-frozen-dataclass-in-action">Example: Frozen Dataclass in Action<a class="headerlink" href="#example-frozen-dataclass-in-action" title="Permanent link">#</a></h3>
 <p>Let's illustrate with a more detailed example and show what happens if we attempt mutation:</p>
-<div class="language-python highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="c1"># example_7.py</span>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="c1"># frozen_person.py</span>
 </span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span>
 </span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>
 </span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="kn">from</span> <span class="nn">book_utils</span> <span class="kn">import</span> <span class="n">Catch</span>
@@ -1183,17 +1285,9 @@ It's especially handy for value objects (like points, coordinates, config object
 </span><span id="__span-6-20"><a id="__codelineno-6-20" name="__codelineno-6-20" href="#__codelineno-6-20"></a>
 </span><span id="__span-6-21"><a id="__codelineno-6-21" name="__codelineno-6-21" href="#__codelineno-6-21"></a><span class="n">person</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">[</span><span class="s2">&quot;age&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">31</span>  <span class="c1"># Disable &#39;frozen&#39;</span>
 </span></code></pre></div>
-<p>If you run this, you will get a traceback similar to:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>Traceback (most recent call last):
-</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>  File &quot;...&quot;, line 8, in &lt;module&gt;
-</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>    person.age = 31
-</span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a>  File &quot;&lt;string&gt;&quot;, line 4, in __setattr__
-</span><span id="__span-7-5"><a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a>dataclasses.FrozenInstanceError: cannot assign to field &#39;age&#39;
-</span></code></pre></div>
-<p>The line <code>File "&lt;string&gt;", line 4, in __setattr__</code> is pointing to the auto-generated <code>__setattr__</code> method of the dataclass, which raised the error.
+<p>The auto-generated <code>__setattr__</code> method of the dataclass raises an error.
 This demonstrates that our <code>Person</code> instance is effectively read-only.</p>
-<p>It's worth noting that true immutability in Python can't be absolutely enforced in all cases--a determined developer could still bypass these restrictions (for instance, by using <code>object.__setattr__</code> to poke at the object, or by manipulating <code>person.__dict__</code>).
-Python trusts the programmer; if you go out of your way to subvert immutability, you can.
+<p>True immutability in Python can't be enforced; if you go out of your way to subvert immutability, you can.
 The goal of frozen dataclasses is to protect against <em>accidental or careless</em> mutations, not to provide an unbreakable security boundary.
 In normal usage, you would treat the frozen instance as completely immutable.</p>
 <p>Because instances of frozen dataclasses are immutable (by design and by behavior), they are also hashable by default, provided the class is comparable.
@@ -1203,6 +1297,113 @@ Specifically, if <code>eq=True</code> and <code>frozen=True</code>, Python will 
 This makes sense: an object that is equal based on its field values and cannot change those values can safely be hashed.
 Conversely, a mutable dataclass (eq=True, frozen=False) gets a <code>__hash__ = None</code> by default, marking it as unhashable (since its hash could change if fields changed).
 This is an example of how immutability (or lack thereof) interacts with Python's runtime behavior.</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="c1"># frozen_data_classes.py</span>
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span>
+</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="kn">from</span> <span class="nn">book_utils</span> <span class="kn">import</span> <span class="n">Catch</span>
+</span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a>
+</span><span id="__span-7-5"><a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a>
+</span><span id="__span-7-6"><a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a><span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</span><span id="__span-7-7"><a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a><span class="k">class</span> <span class="nc">Messenger</span><span class="p">:</span>
+</span><span id="__span-7-8"><a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a>    <span class="n">name</span><span class="p">:</span> <span class="nb">str</span>
+</span><span id="__span-7-9"><a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a>    <span class="n">number</span><span class="p">:</span> <span class="nb">int</span>
+</span><span id="__span-7-10"><a id="__codelineno-7-10" name="__codelineno-7-10" href="#__codelineno-7-10"></a>    <span class="n">depth</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span>  <span class="c1"># Default</span>
+</span><span id="__span-7-11"><a id="__codelineno-7-11" name="__codelineno-7-11" href="#__codelineno-7-11"></a>
+</span><span id="__span-7-12"><a id="__codelineno-7-12" name="__codelineno-7-12" href="#__codelineno-7-12"></a>
+</span><span id="__span-7-13"><a id="__codelineno-7-13" name="__codelineno-7-13" href="#__codelineno-7-13"></a><span class="nb">print</span><span class="p">(</span><span class="n">messenger</span> <span class="o">:=</span> <span class="n">Messenger</span><span class="p">(</span><span class="s2">&quot;foo&quot;</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mf">3.14</span><span class="p">))</span>
+</span><span id="__span-7-14"><a id="__codelineno-7-14" name="__codelineno-7-14" href="#__codelineno-7-14"></a><span class="c1">## Messenger(name=&#39;foo&#39;, number=12, depth=3.14)</span>
+</span><span id="__span-7-15"><a id="__codelineno-7-15" name="__codelineno-7-15" href="#__codelineno-7-15"></a><span class="c1"># Frozen dataclass is immutable:</span>
+</span><span id="__span-7-16"><a id="__codelineno-7-16" name="__codelineno-7-16" href="#__codelineno-7-16"></a><span class="k">with</span> <span class="n">Catch</span><span class="p">():</span>
+</span><span id="__span-7-17"><a id="__codelineno-7-17" name="__codelineno-7-17" href="#__codelineno-7-17"></a>    <span class="n">messenger</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;bar&quot;</span>
+</span><span id="__span-7-18"><a id="__codelineno-7-18" name="__codelineno-7-18" href="#__codelineno-7-18"></a>
+</span><span id="__span-7-19"><a id="__codelineno-7-19" name="__codelineno-7-19" href="#__codelineno-7-19"></a><span class="c1"># Automatically creates __hash__():</span>
+</span><span id="__span-7-20"><a id="__codelineno-7-20" name="__codelineno-7-20" href="#__codelineno-7-20"></a><span class="n">d</span> <span class="o">=</span> <span class="p">{</span><span class="n">messenger</span><span class="p">:</span> <span class="s2">&quot;value&quot;</span><span class="p">}</span>
+</span><span id="__span-7-21"><a id="__codelineno-7-21" name="__codelineno-7-21" href="#__codelineno-7-21"></a><span class="nb">print</span><span class="p">(</span><span class="n">d</span><span class="p">[</span><span class="n">messenger</span><span class="p">])</span>
+</span><span id="__span-7-22"><a id="__codelineno-7-22" name="__codelineno-7-22" href="#__codelineno-7-22"></a><span class="c1">## value</span>
+</span></code></pre></div>
+<p>We can apply this approach to the <code>Stars</code> example:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="c1"># stars.py</span>
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span>
+</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>
+</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="kn">from</span> <span class="nn">book_utils</span> <span class="kn">import</span> <span class="n">Catch</span>
+</span><span id="__span-8-5"><a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a>
+</span><span id="__span-8-6"><a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a>
+</span><span id="__span-8-7"><a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a><span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</span><span id="__span-8-8"><a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a><span class="k">class</span> <span class="nc">Stars</span><span class="p">:</span>
+</span><span id="__span-8-9"><a id="__codelineno-8-9" name="__codelineno-8-9" href="#__codelineno-8-9"></a>    <span class="n">number</span><span class="p">:</span> <span class="nb">int</span>
+</span><span id="__span-8-10"><a id="__codelineno-8-10" name="__codelineno-8-10" href="#__codelineno-8-10"></a>
+</span><span id="__span-8-11"><a id="__codelineno-8-11" name="__codelineno-8-11" href="#__codelineno-8-11"></a>    <span class="k">def</span> <span class="nf">__post_init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="__span-8-12"><a id="__codelineno-8-12" name="__codelineno-8-12" href="#__codelineno-8-12"></a>        <span class="k">assert</span> <span class="mi">1</span> <span class="o">&lt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">number</span> <span class="o">&lt;=</span> <span class="mi">10</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="si">}</span><span class="s2">&quot;</span>
+</span><span id="__span-8-13"><a id="__codelineno-8-13" name="__codelineno-8-13" href="#__codelineno-8-13"></a>
+</span><span id="__span-8-14"><a id="__codelineno-8-14" name="__codelineno-8-14" href="#__codelineno-8-14"></a>
+</span><span id="__span-8-15"><a id="__codelineno-8-15" name="__codelineno-8-15" href="#__codelineno-8-15"></a><span class="k">def</span> <span class="nf">f1</span><span class="p">(</span><span class="n">s</span><span class="p">:</span> <span class="n">Stars</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Stars</span><span class="p">:</span>
+</span><span id="__span-8-16"><a id="__codelineno-8-16" name="__codelineno-8-16" href="#__codelineno-8-16"></a>    <span class="k">return</span> <span class="n">Stars</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">number</span> <span class="o">+</span> <span class="mi">5</span><span class="p">)</span>
+</span><span id="__span-8-17"><a id="__codelineno-8-17" name="__codelineno-8-17" href="#__codelineno-8-17"></a>
+</span><span id="__span-8-18"><a id="__codelineno-8-18" name="__codelineno-8-18" href="#__codelineno-8-18"></a>
+</span><span id="__span-8-19"><a id="__codelineno-8-19" name="__codelineno-8-19" href="#__codelineno-8-19"></a><span class="k">def</span> <span class="nf">f2</span><span class="p">(</span><span class="n">s</span><span class="p">:</span> <span class="n">Stars</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Stars</span><span class="p">:</span>
+</span><span id="__span-8-20"><a id="__codelineno-8-20" name="__codelineno-8-20" href="#__codelineno-8-20"></a>    <span class="k">return</span> <span class="n">Stars</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">number</span> <span class="o">*</span> <span class="mi">5</span><span class="p">)</span>
+</span><span id="__span-8-21"><a id="__codelineno-8-21" name="__codelineno-8-21" href="#__codelineno-8-21"></a>
+</span><span id="__span-8-22"><a id="__codelineno-8-22" name="__codelineno-8-22" href="#__codelineno-8-22"></a>
+</span><span id="__span-8-23"><a id="__codelineno-8-23" name="__codelineno-8-23" href="#__codelineno-8-23"></a><span class="n">stars1</span> <span class="o">=</span> <span class="n">Stars</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+</span><span id="__span-8-24"><a id="__codelineno-8-24" name="__codelineno-8-24" href="#__codelineno-8-24"></a><span class="nb">print</span><span class="p">(</span><span class="n">stars1</span><span class="p">)</span>
+</span><span id="__span-8-25"><a id="__codelineno-8-25" name="__codelineno-8-25" href="#__codelineno-8-25"></a><span class="c1">## Stars(number=4)</span>
+</span><span id="__span-8-26"><a id="__codelineno-8-26" name="__codelineno-8-26" href="#__codelineno-8-26"></a><span class="nb">print</span><span class="p">(</span><span class="n">f1</span><span class="p">(</span><span class="n">stars1</span><span class="p">))</span>
+</span><span id="__span-8-27"><a id="__codelineno-8-27" name="__codelineno-8-27" href="#__codelineno-8-27"></a><span class="c1">## Stars(number=9)</span>
+</span><span id="__span-8-28"><a id="__codelineno-8-28" name="__codelineno-8-28" href="#__codelineno-8-28"></a><span class="k">with</span> <span class="n">Catch</span><span class="p">():</span>
+</span><span id="__span-8-29"><a id="__codelineno-8-29" name="__codelineno-8-29" href="#__codelineno-8-29"></a>    <span class="nb">print</span><span class="p">(</span><span class="n">f2</span><span class="p">(</span><span class="n">f1</span><span class="p">(</span><span class="n">stars1</span><span class="p">)))</span>
+</span><span id="__span-8-30"><a id="__codelineno-8-30" name="__codelineno-8-30" href="#__codelineno-8-30"></a><span class="c1">## Error: Stars(number=45)</span>
+</span><span id="__span-8-31"><a id="__codelineno-8-31" name="__codelineno-8-31" href="#__codelineno-8-31"></a><span class="k">with</span> <span class="n">Catch</span><span class="p">():</span>
+</span><span id="__span-8-32"><a id="__codelineno-8-32" name="__codelineno-8-32" href="#__codelineno-8-32"></a>    <span class="n">stars2</span> <span class="o">=</span> <span class="n">Stars</span><span class="p">(</span><span class="mi">11</span><span class="p">)</span>
+</span><span id="__span-8-33"><a id="__codelineno-8-33" name="__codelineno-8-33" href="#__codelineno-8-33"></a><span class="c1">## Error: Stars(number=11)</span>
+</span><span id="__span-8-34"><a id="__codelineno-8-34" name="__codelineno-8-34" href="#__codelineno-8-34"></a><span class="k">with</span> <span class="n">Catch</span><span class="p">():</span>
+</span><span id="__span-8-35"><a id="__codelineno-8-35" name="__codelineno-8-35" href="#__codelineno-8-35"></a>    <span class="nb">print</span><span class="p">(</span><span class="n">f1</span><span class="p">(</span><span class="n">Stars</span><span class="p">(</span><span class="mi">11</span><span class="p">)))</span>
+</span><span id="__span-8-36"><a id="__codelineno-8-36" name="__codelineno-8-36" href="#__codelineno-8-36"></a><span class="c1">## Error: Stars(number=11)</span>
+</span></code></pre></div>
+<p>Subsequent functions operating on <code>Stars</code> no longer require redundant checks.
+Modifying a <code>Stars</code> instance after creation raises an error, further safeguarding the data integrity:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="c1"># modify_stars.py</span>
+</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="kn">from</span> <span class="nn">stars</span> <span class="kn">import</span> <span class="n">Stars</span>
+</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>
+</span><span id="__span-9-4"><a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a>
+</span><span id="__span-9-5"><a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a><span class="k">def</span> <span class="nf">increase_stars</span><span class="p">(</span><span class="n">rating</span><span class="p">:</span> <span class="n">Stars</span><span class="p">,</span> <span class="n">increment</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Stars</span><span class="p">:</span>
+</span><span id="__span-9-6"><a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a>    <span class="k">return</span> <span class="n">Stars</span><span class="p">(</span><span class="n">rating</span><span class="o">.</span><span class="n">number</span> <span class="o">+</span> <span class="n">increment</span><span class="p">)</span>
+</span></code></pre></div>
+<p>If this function tries to create an invalid rating, the data class validation immediately raises an error.
+This greatly simplifies code maintenance and readability.</p>
+<p>Additionally, immutable objects can safely serve as keys in dictionaries, allowing reliable data lookups and caching.</p>
+<h3 id="how-final-and-frozen-work">How <code>Final</code> and <code>frozen</code> Work<a class="headerlink" href="#how-final-and-frozen-work" title="Permanent link">#</a></h3>
+<p>Understanding how these features are implemented gives insight into their guarantees and limitations.</p>
+<h4 id="final"><code>Final</code><a class="headerlink" href="#final" title="Permanent link">#</a></h4>
+<p>This is entirely a compile-time (static) concept.
+When you declare a variable or attribute with <code>Final</code>, the Python interpreter records that in the <code>__annotations__</code> of the module or class, but it does not prevent assignments at runtime.
+The enforcement comes from type checkers.
+Tools like mypy will scan your code and, if you try to reassign a <code>Final</code> variable, they will emit an error and refuse to consider the code type-safe.
+As of Python 3.11, marking classes or methods with the <code>@final</code> decorator will set a <code>__final__ = True</code> attribute on the object, which is mostly for introspection or tooling--Python won't stop you from subclassing a <code>@final</code> class or overriding a
+<code>@final</code> method at runtime, but doing so would likely cause your type checker to complain or your linter to warn you.
+One key thing to remember is that <code>Final</code> is about the name binding, not the object's mutability: a <code>Final</code> list can still be changed in content, and <code>Final</code> doesn't make a dataclass frozen or anything of that sort.
+It's a tool for design-by-contract: signaling intent and catching mistakes early.</p>
+<h4 id="frozen-dataclass">Frozen dataclass<a class="headerlink" href="#frozen-dataclass" title="Permanent link">#</a></h4>
+<p>This provides <em>runtime</em> enforcement by generating code.
+When you use <code>frozen=True</code>, the dataclass decorator modifies your class definition.
+It creates a custom <code>__setattr__</code> and <code>__delattr__</code> on the class that will raise <code>FrozenInstanceError</code> whenever someone tries to set or delete an attribute on an instance.
+During object creation, the dataclass-generated <code>__init__</code> uses <code>object.__setattr__</code> internally for each field to bypass the restriction while initializing values.
+Once construction is done, any further attribute setting goes through the overridden <code>__setattr__</code> and is blocked.
+Because this is done in pure Python, it's not absolutely unbreakable (a savvy user could call <code>object.__setattr__</code> themselves, or manipulate low-level object state), but it is more than sufficient for ensuring standard use of the class remains immutable.
+The design principle is that <em>"It is not possible to create truly immutable Python objects.
+However, by using <code>frozen=True</code> you can emulate immutability."</em> In day-to-day practice, a frozen dataclass is as good as immutable.</p>
+<h3 id="performance-considerations">Performance considerations<a class="headerlink" href="#performance-considerations" title="Permanent link">#</a></h3>
+<p>The convenience of frozen dataclasses comes with a minor cost.
+As noted, setting attributes in <code>__init__</code> uses a slightly slower path (calling <code>object.__setattr__</code> for each field).
+In the vast majority of cases this overhead is negligible (a few extra function calls during object creation).
+It's rare to create so many objects that this becomes a bottleneck, but it's something to be aware of.
+Accessing attributes and all other operations on a frozen dataclass are just as fast as on a regular class; it's only the initialization that's marginally slower.
+For <code>Final</code> type hints, there is virtually no runtime cost at all, since it doesn't inject any checking--it's purely a compile-time concept.</p>
+<h3 id="combining-final-and-frozen-dataclasses">Combining <code>Final</code> and frozen dataclasses<a class="headerlink" href="#combining-final-and-frozen-dataclasses" title="Permanent link">#</a></h3>
+<p>You generally don't need <code>Final</code> annotations inside a frozen dataclass.
+If a dataclass is frozen, all its fields are effectively final by design; you can't rebind them after construction.
+For example, if you have <code>@dataclass(frozen=True) class C: x: int</code>, a type checker will treat <code>c.x</code> as a read-only property.</p>
+<p>Note that in a dataclass, a bare <code>x: Final[int] = 3</code> is treated as an instance field default, whereas normally a <code>Final</code> at class level means a class variable.
+You can use <code>Final</code> to indicate a class-level constant inside a dataclass.
+However, it doesn't make sense to use <code>Final</code> on fields (instance attributes), because <code>frozen=True</code> already makes those fields immutable.</p>
 <h3 id="using-__post_init__-in-frozen-dataclasses">Using <code>__post_init__</code> in Frozen Dataclasses<a class="headerlink" href="#using-__post_init__-in-frozen-dataclasses" title="Permanent link">#</a></h3>
 <p>One challenge with frozen dataclasses is that you cannot assign to fields outside the initializer--but what if you need to compute one field based on others?
 In a regular (mutable) dataclass, it's common to use a <code>__post_init__</code> method to perform additional initialization or validation after the auto-generated <code>__init__</code> has run.
@@ -1221,23 +1422,23 @@ This calls the built-in <code>object</code> class's <code>__setattr__</code> imp
 Suppose we want to have a <code>Rectangle</code> dataclass that stores width and height, and we also want to store the area as a field for quick access.
 We want the class to be frozen (immutable).
 We can declare <code>area</code> as a field with <code>init=False</code> (so it's not passed to the constructor), and then compute it in <code>__post_init__</code> as follows:</p>
-<div class="language-python highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="c1"># example_8.py</span>
-</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span><span class="p">,</span> <span class="n">field</span>
-</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>
-</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a>
-</span><span id="__span-8-5"><a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a><span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-</span><span id="__span-8-6"><a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a><span class="k">class</span> <span class="nc">Rectangle</span><span class="p">:</span>
-</span><span id="__span-8-7"><a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a>    <span class="n">width</span><span class="p">:</span> <span class="nb">float</span>
-</span><span id="__span-8-8"><a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a>    <span class="n">height</span><span class="p">:</span> <span class="nb">float</span>
-</span><span id="__span-8-9"><a id="__codelineno-8-9" name="__codelineno-8-9" href="#__codelineno-8-9"></a>    <span class="n">area</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span>
-</span><span id="__span-8-10"><a id="__codelineno-8-10" name="__codelineno-8-10" href="#__codelineno-8-10"></a>        <span class="n">init</span><span class="o">=</span><span class="kc">False</span>
-</span><span id="__span-8-11"><a id="__codelineno-8-11" name="__codelineno-8-11" href="#__codelineno-8-11"></a>    <span class="p">)</span>  <span class="c1"># area will be computed, not passed by caller</span>
-</span><span id="__span-8-12"><a id="__codelineno-8-12" name="__codelineno-8-12" href="#__codelineno-8-12"></a>
-</span><span id="__span-8-13"><a id="__codelineno-8-13" name="__codelineno-8-13" href="#__codelineno-8-13"></a>    <span class="k">def</span> <span class="nf">__post_init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-</span><span id="__span-8-14"><a id="__codelineno-8-14" name="__codelineno-8-14" href="#__codelineno-8-14"></a>        <span class="c1"># Bypass immutability to set the derived field</span>
-</span><span id="__span-8-15"><a id="__codelineno-8-15" name="__codelineno-8-15" href="#__codelineno-8-15"></a>        <span class="nb">object</span><span class="o">.</span><span class="fm">__setattr__</span><span class="p">(</span>
-</span><span id="__span-8-16"><a id="__codelineno-8-16" name="__codelineno-8-16" href="#__codelineno-8-16"></a>            <span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;area&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">width</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">height</span>
-</span><span id="__span-8-17"><a id="__codelineno-8-17" name="__codelineno-8-17" href="#__codelineno-8-17"></a>        <span class="p">)</span>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="c1"># example_8.py</span>
+</span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span><span class="p">,</span> <span class="n">field</span>
+</span><span id="__span-10-3"><a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>
+</span><span id="__span-10-4"><a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a>
+</span><span id="__span-10-5"><a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a><span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</span><span id="__span-10-6"><a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a><span class="k">class</span> <span class="nc">Rectangle</span><span class="p">:</span>
+</span><span id="__span-10-7"><a id="__codelineno-10-7" name="__codelineno-10-7" href="#__codelineno-10-7"></a>    <span class="n">width</span><span class="p">:</span> <span class="nb">float</span>
+</span><span id="__span-10-8"><a id="__codelineno-10-8" name="__codelineno-10-8" href="#__codelineno-10-8"></a>    <span class="n">height</span><span class="p">:</span> <span class="nb">float</span>
+</span><span id="__span-10-9"><a id="__codelineno-10-9" name="__codelineno-10-9" href="#__codelineno-10-9"></a>    <span class="n">area</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span>
+</span><span id="__span-10-10"><a id="__codelineno-10-10" name="__codelineno-10-10" href="#__codelineno-10-10"></a>        <span class="n">init</span><span class="o">=</span><span class="kc">False</span>
+</span><span id="__span-10-11"><a id="__codelineno-10-11" name="__codelineno-10-11" href="#__codelineno-10-11"></a>    <span class="p">)</span>  <span class="c1"># area will be computed, not passed by caller</span>
+</span><span id="__span-10-12"><a id="__codelineno-10-12" name="__codelineno-10-12" href="#__codelineno-10-12"></a>
+</span><span id="__span-10-13"><a id="__codelineno-10-13" name="__codelineno-10-13" href="#__codelineno-10-13"></a>    <span class="k">def</span> <span class="nf">__post_init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span id="__span-10-14"><a id="__codelineno-10-14" name="__codelineno-10-14" href="#__codelineno-10-14"></a>        <span class="c1"># Bypass immutability to set the derived field</span>
+</span><span id="__span-10-15"><a id="__codelineno-10-15" name="__codelineno-10-15" href="#__codelineno-10-15"></a>        <span class="nb">object</span><span class="o">.</span><span class="fm">__setattr__</span><span class="p">(</span>
+</span><span id="__span-10-16"><a id="__codelineno-10-16" name="__codelineno-10-16" href="#__codelineno-10-16"></a>            <span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;area&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">width</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">height</span>
+</span><span id="__span-10-17"><a id="__codelineno-10-17" name="__codelineno-10-17" href="#__codelineno-10-17"></a>        <span class="p">)</span>
 </span></code></pre></div>
 <p>Here, <code>area</code> is intended to be a derived attribute (width _ height).
 We marked it with <code>field(init=False)</code> so that dataclasses knows not to expect it as a parameter.
@@ -1246,18 +1447,18 @@ This is the crucial step to avoid the <code>FrozenInstanceError</code>.
 We could also use <code>super.setattr('area', self.width _ self.height)</code>--since the immediate base class is<code>object</code>, this has the same effect.
 After <code>__post_init__</code> the <code>Rectangle</code>instance will a correct <code>area</code> but be frozen for further modifications.</p>
 <p>Let's test this behavior:</p>
-<div class="language-python highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="c1"># example_9.py</span>
-</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="kn">from</span> <span class="nn">book_utils</span> <span class="kn">import</span> <span class="n">Catch</span>
-</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="kn">from</span> <span class="nn">example_8</span> <span class="kn">import</span> <span class="n">Rectangle</span>
-</span><span id="__span-9-4"><a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a>
-</span><span id="__span-9-5"><a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a><span class="n">r</span> <span class="o">=</span> <span class="n">Rectangle</span><span class="p">(</span><span class="mf">3.0</span><span class="p">,</span> <span class="mf">4.0</span><span class="p">)</span>
-</span><span id="__span-9-6"><a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a><span class="nb">print</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">area</span><span class="p">)</span>  <span class="c1"># Outputs: 12.0</span>
-</span><span id="__span-9-7"><a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a><span class="c1">## 12.0</span>
-</span><span id="__span-9-8"><a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a><span class="c1"># Try to modify attributes (should fail)</span>
-</span><span id="__span-9-9"><a id="__codelineno-9-9" name="__codelineno-9-9" href="#__codelineno-9-9"></a><span class="k">with</span> <span class="n">Catch</span><span class="p">():</span>
-</span><span id="__span-9-10"><a id="__codelineno-9-10" name="__codelineno-9-10" href="#__codelineno-9-10"></a>    <span class="c1"># &#39;Rectangle&#39; object attribute &#39;width&#39; is read-only:</span>
-</span><span id="__span-9-11"><a id="__codelineno-9-11" name="__codelineno-9-11" href="#__codelineno-9-11"></a>    <span class="c1"># r.width = 5.0</span>
-</span><span id="__span-9-12"><a id="__codelineno-9-12" name="__codelineno-9-12" href="#__codelineno-9-12"></a>    <span class="n">r</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">[</span><span class="s2">&quot;width&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">5.0</span>  <span class="c1"># Cheat to change</span>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="c1"># example_9.py</span>
+</span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="kn">from</span> <span class="nn">book_utils</span> <span class="kn">import</span> <span class="n">Catch</span>
+</span><span id="__span-11-3"><a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a><span class="kn">from</span> <span class="nn">example_8</span> <span class="kn">import</span> <span class="n">Rectangle</span>
+</span><span id="__span-11-4"><a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a>
+</span><span id="__span-11-5"><a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a><span class="n">r</span> <span class="o">=</span> <span class="n">Rectangle</span><span class="p">(</span><span class="mf">3.0</span><span class="p">,</span> <span class="mf">4.0</span><span class="p">)</span>
+</span><span id="__span-11-6"><a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a><span class="nb">print</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">area</span><span class="p">)</span>  <span class="c1"># Outputs: 12.0</span>
+</span><span id="__span-11-7"><a id="__codelineno-11-7" name="__codelineno-11-7" href="#__codelineno-11-7"></a><span class="c1">## 12.0</span>
+</span><span id="__span-11-8"><a id="__codelineno-11-8" name="__codelineno-11-8" href="#__codelineno-11-8"></a><span class="c1"># Try to modify attributes (should fail)</span>
+</span><span id="__span-11-9"><a id="__codelineno-11-9" name="__codelineno-11-9" href="#__codelineno-11-9"></a><span class="k">with</span> <span class="n">Catch</span><span class="p">():</span>
+</span><span id="__span-11-10"><a id="__codelineno-11-10" name="__codelineno-11-10" href="#__codelineno-11-10"></a>    <span class="c1"># &#39;Rectangle&#39; object attribute &#39;width&#39; is read-only:</span>
+</span><span id="__span-11-11"><a id="__codelineno-11-11" name="__codelineno-11-11" href="#__codelineno-11-11"></a>    <span class="c1"># r.width = 5.0</span>
+</span><span id="__span-11-12"><a id="__codelineno-11-12" name="__codelineno-11-12" href="#__codelineno-11-12"></a>    <span class="n">r</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">[</span><span class="s2">&quot;width&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">5.0</span>  <span class="c1"># Cheat to change</span>
 </span></code></pre></div>
 <p>As expected, printing <code>r.area</code> gives 12.0, which means our <code>__post_init__</code> successfully set the value.
 And attempting to assign <code>r.width</code> after creation raises an error, confirming the instance is immutable.
@@ -1267,47 +1468,60 @@ You wouldn't normally call <code>object.__setattr__</code> on a frozen instance 
 (If someone is determined to bypass immutability, they can, but that's not normal usage.)
 If you find yourself needing to change a frozen object after creation via such tricks, it may be a sign that the design should be reconsidered (maybe that piece of data shouldn't be frozen).
 Generally, use this technique only to set up derived fields or cached values at construction time.</p>
-<h2 id="under-the-hood-how-final-and-frozen-work">Under the Hood: How <code>Final</code> and <code>frozen</code> Work<a class="headerlink" href="#under-the-hood-how-final-and-frozen-work" title="Permanent link">#</a></h2>
-<p>It's helpful to understand how these features are implemented, to fully appreciate their guarantees and limitations:</p>
-<ul>
-<li>
-<p><strong><code>Final</code>:</strong> This is entirely a compile-time (static) concept.
-  When you declare a variable or attribute with <code>Final</code>, the Python interpreter records that in the <code>__annotations__</code> of the module or class, but it does not prevent assignments at runtime.
-  The enforcement comes from type checkers.
-  Tools like mypy will scan your code and, if you try to reassign a <code>Final</code> variable, they will emit an error and refuse to consider the code type-safe.
-  As of Python 3.11, marking classes or methods with the <code>@final</code> decorator will set a <code>__final__ = True</code> attribute on the object, which is mostly for introspection or tooling--Python won't stop you from subclassing a <code>@final</code> class or overriding a
-  <code>@final</code> method at runtime, but doing so would likely cause your type checker to complain or your linter to warn you.
-  One key thing to remember is that <code>Final</code> is about the name binding, not the object's mutability: a <code>Final</code> list can still be changed in content, and <code>Final</code> doesn't make a dataclass frozen or anything of that sort.
-  It's a tool for design-by-contract: signaling intent and catching mistakes early.</p>
-</li>
-<li>
-<p><strong>Frozen dataclass:</strong> This provides <em>runtime</em> enforcement by generating code.
-  When you use <code>frozen=True</code>, the dataclass decorator modifies your class definition.
-  It creates a custom <code>__setattr__</code> and <code>__delattr__</code> on the class that will raise <code>FrozenInstanceError</code> whenever someone tries to set or delete an attribute on an instance.
-  During object creation, the dataclass-generated <code>__init__</code> uses <code>object.__setattr__</code> internally for each field to bypass the restriction while initializing values.
-  Once construction is done, any further attribute setting goes through the overridden <code>__setattr__</code> and is blocked.
-  Because this is done in pure Python, it's not absolutely unbreakable (a savvy user could call <code>object.__setattr__</code> themselves, or manipulate low-level object state), but it is more than sufficient for ensuring standard use of the class remains immutable.
-  The design principle is that <em>"It is not possible to create truly immutable Python objects.
-  However, by using <code>frozen=True</code> you can emulate immutability."</em> In day-to-day practice, a frozen dataclass is as good as immutable.</p>
-</li>
-<li>
-<p><strong>Performance considerations:</strong> The convenience of frozen dataclasses comes with a minor cost.
-  As noted, setting attributes in <code>__init__</code> uses a slightly slower path (calling <code>object.__setattr__</code> for each field).
-  In the vast majority of cases this overhead is negligible (a few extra function calls during object creation).
-  It's rare to create so many objects that this becomes a bottleneck, but it's something to be aware of.
-  Accessing attributes and all other operations on a frozen dataclass are just as fast as on a regular class; it's only the initialization that's marginally slower.
-  For <code>Final</code> type hints, there is virtually no runtime cost at all, since it doesn't inject any checking--it's purely a compile-time concept.</p>
-</li>
-<li>
-<p><strong>Combining <code>Final</code> and frozen dataclasses:</strong> You might wonder whether to use <code>Final</code> annotations inside a frozen dataclass.
-  Generally, you do not need to.
-  If a dataclass is frozen, all its fields are effectively final by design (you can't rebind them on the instance after construction).
-  Type checkers are aware of frozen dataclasses in this regard.
-  For example, if you have <code>@dataclass(frozen=True) class C: x: int</code>, mypy will treat <code>c.x</code> as a read-only property (assignments to it will be errors like "Property 'x' is read-only").
-  The typing spec even notes that in a dataclass, a bare <code>x: Final[int] = 3</code> is considered an instance field default, whereas normally a <code>Final</code> at class level means a class variable.
-  So you can use <code>Final</code> if you want to indicate a class-level constant inside a dataclass, but you wouldn't put <code>Final</code> on the fields meant to be instance attributes (the <code>frozen=True</code> already covers that usage).</p>
-</li>
-</ul>
+<h2 id="namedtuple">NamedTuple<a class="headerlink" href="#namedtuple" title="Permanent link">#</a></h2>
+<p>In many cases, a <code>NamedTuple</code> can be used in lieu of a frozen <code>dataclass</code>.
+A <code>NamedTuple</code> combines <code>tuple</code> immutability with type annotations and named fields:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="c1"># named_tuple.py</span>
+</span><span id="__span-12-2"><a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">NamedTuple</span>
+</span><span id="__span-12-3"><a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a>
+</span><span id="__span-12-4"><a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a>
+</span><span id="__span-12-5"><a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a><span class="k">class</span> <span class="nc">Coordinates</span><span class="p">(</span><span class="n">NamedTuple</span><span class="p">):</span>
+</span><span id="__span-12-6"><a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a>    <span class="n">latitude</span><span class="p">:</span> <span class="nb">float</span>
+</span><span id="__span-12-7"><a id="__codelineno-12-7" name="__codelineno-12-7" href="#__codelineno-12-7"></a>    <span class="n">longitude</span><span class="p">:</span> <span class="nb">float</span>
+</span><span id="__span-12-8"><a id="__codelineno-12-8" name="__codelineno-12-8" href="#__codelineno-12-8"></a>
+</span><span id="__span-12-9"><a id="__codelineno-12-9" name="__codelineno-12-9" href="#__codelineno-12-9"></a>
+</span><span id="__span-12-10"><a id="__codelineno-12-10" name="__codelineno-12-10" href="#__codelineno-12-10"></a><span class="n">coords</span> <span class="o">=</span> <span class="n">Coordinates</span><span class="p">(</span><span class="mf">51.5074</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.1278</span><span class="p">)</span>
+</span><span id="__span-12-11"><a id="__codelineno-12-11" name="__codelineno-12-11" href="#__codelineno-12-11"></a><span class="nb">print</span><span class="p">(</span><span class="n">coords</span><span class="p">)</span>
+</span><span id="__span-12-12"><a id="__codelineno-12-12" name="__codelineno-12-12" href="#__codelineno-12-12"></a><span class="c1">## Coordinates(latitude=51.5074,</span>
+</span><span id="__span-12-13"><a id="__codelineno-12-13" name="__codelineno-12-13" href="#__codelineno-12-13"></a><span class="c1">## longitude=-0.1278)</span>
+</span><span id="__span-12-14"><a id="__codelineno-12-14" name="__codelineno-12-14" href="#__codelineno-12-14"></a><span class="nb">print</span><span class="p">(</span><span class="n">coords</span><span class="o">.</span><span class="n">latitude</span><span class="p">)</span>
+</span><span id="__span-12-15"><a id="__codelineno-12-15" name="__codelineno-12-15" href="#__codelineno-12-15"></a><span class="c1">## 51.5074</span>
+</span><span id="__span-12-16"><a id="__codelineno-12-16" name="__codelineno-12-16" href="#__codelineno-12-16"></a><span class="c1"># coords.latitude = 123.4567 # Runtime error</span>
+</span></code></pre></div>
+<p><code>NamedTuple</code> provides clarity, immutability, and easy unpacking, ideal for structured data.
+Their simplicity makes them ideal for simple, lightweight, immutable record types.
+For brevity and cleanliness, this book will use <code>NamedTuple</code>s instead of frozen <code>dataclass</code>es whenever possible.</p>
+<p>Both <code>NamedTuple</code> and <code>dataclass</code> automate the creation of common methods
+(such as constructors, <code>repr</code>, equality, and sometimes hash methods),
+but they do so in different ways and with different design goals in mind.</p>
+<p>Rather than generating an <code>__init__</code>,
+a <code>NamedTuple</code> is a subclass of <code>tuple</code> and uses a generated <code>new</code> method to create instances.
+Customization of construction logic is limited because you cannot define an init
+(instead, you override new if needed, which is more cumbersome).
+<code>NamedTuple</code> instances are immutable since they are <code>tuple</code> subclasses, so you cannot assign to their fields after creation.
+A <code>NamedTuple</code> automatically generates a <code>repr</code> that prints the field names along with their values
+(e.g., Point(x=1, y=2)) in a manner similar to a standard <code>tuple</code> representation.
+An <code>__eq__</code> is generated based on the <code>tuple</code>’s content,
+and <code>__hash__</code> is automatically defined (since <code>tuple</code>s are immutable).
+<code>NamedTuple</code>s inherit <code>tuple</code> ordering (lexicographical order) by default.
+<code>NamedTuple</code> is a subclass of <code>tuple</code>, which means all <code>tuple</code> operations (indexing, iteration, etc.) work as expected.
+Since a <code>NamedTuple</code> is implemented as a <code>tuple</code> (with immutability and slots by default), it is memory efficient.</p>
+<p>A <code>dataclass</code> generates an <code>__init__</code> that assigns the provided arguments to instance attributes.
+By default, <code>dataclass</code> instances are mutable; however, you can set <code>frozen=True</code> to make them immutable.
+This causes the generated <code>__init__</code> to assign to immutable fields.
+The <code>repr</code> method is automatically generated to include the field names and their current values.
+It is highly customizable via the <code>repr</code> parameter on fields.
+By default, <code>dataclass</code> automatically generates an eq method that compares instances based on their fields.
+If the <code>dataclass</code> is mutable (<code>frozen=False</code>, which is default), no hash is generated by default
+(unless you specifically use <code>unsafe_hash=True</code>).
+Mutable objects of any kind should generally not be hashed because the hash can change from one access to another.
+If the <code>dataclass</code> is frozen (immutable), then a hash method is automatically provided.
+You can add ordering methods (e.g., lt, le, etc.) by setting <code>order=True</code> when declaring the <code>dataclass</code>.
+Otherwise, no ordering is generated.
+Dataclasses provide a post_init method that runs immediately after the generated init method.
+This is a convenient place for additional initialization or validation.
+Dataclasses offer per-field customization (default values, default_factory, comparison options, etc.)
+that allows fine-tuning of instances behavior.</p>
 <p>Python's approach to immutability is a mix of convention, static assurance, and runtime enforcement:</p>
 <ul>
 <li>Use <code>Final</code> (and <code>@final</code>) to convey and enforce via static analysis that certain variables or attributes shouldn't change or be overridden.</li>
