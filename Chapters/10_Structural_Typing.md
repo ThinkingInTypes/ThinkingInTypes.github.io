@@ -170,6 +170,8 @@ For example:
 # example_4.py
 from typing import runtime_checkable, Protocol
 from file_resource import FileResource
+
+
 ## Socket closed
 
 
@@ -358,7 +360,7 @@ For example:
 # container.py
 from typing import Protocol, TypeVar
 
-T = TypeVar("T")
+T = TypeVar("T", covariant=True)
 
 
 class Container(Protocol[T]):
@@ -404,7 +406,7 @@ from container_types import (
 
 
 def print_item_and_return[C](
-    container: Container[C],
+        container: Container[C],
 ) -> C:
     item = container.get_item()
     print("Got:", item)
@@ -445,6 +447,7 @@ For example, if we have:
 # example_9.py
 from typing import TypeVar
 from logger_protocol import Logger
+
 ## Captured logs: ['Starting DataCleanup',
 ## 'Finished DataCleanup']
 
@@ -462,11 +465,13 @@ For instance, one could write something like:
 
 ```python
 # generic_method_in_protocol.py
-from typing import Protocol
+from typing import Protocol, TypeVar
+
+T = TypeVar("T")
 
 
 class Container(Protocol):
-    def get_item[T](self) -> T: ...
+    def get_item(self, type_: type[T]) -> T: ...
 ```
 
 to define a generic method `get_item` in a protocol.

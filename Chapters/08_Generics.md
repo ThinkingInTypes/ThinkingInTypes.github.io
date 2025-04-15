@@ -101,13 +101,16 @@ Number = TypeVar('Number', int, float)
 
 
 def add(a: Number, b: Number) -> Number:
+    print(a + b)
     return a + b
 
 
 add(5, 10)  # valid, both int
 add(3.5, 2.5)  # valid, both float
-add(5, 2.5)  # valid, int and float (both allowed types)
-add("5", "2")  # ERROR: str not allowed for Number
+# valid, int and float are both allowed types:
+add(5, 2.5)
+# ERROR: str not allowed for Number:
+add("A", "Z")  # type: ignore
 ```
 
 Here, `Number` is a `TypeVar` constrained to `int` or `float`.
@@ -562,7 +565,7 @@ You can define your own:
 # iterable_protocol.py
 from typing import Iterator, TypeVar, Protocol
 
-T = TypeVar('T')
+T = TypeVar('T', covariant=True)
 
 
 class IterableLike(Protocol[T]):
@@ -588,23 +591,24 @@ from io import StringIO
 
 
 class Writable(Protocol):
-    def write(self, data: str) -> None: ...
+    def write(self, __s: str) -> int:
+        ...
 
 
 def save_message(out: Writable, message: str) -> None:
     out.write(f"{message}\n")
 
 
-# Using an actual file:
+# With a file:
 file_path = Path("message.txt")
 with file_path.open("w", encoding="utf-8") as f:
     save_message(f, "Hello, World!")
 
-# Using an in-memory buffer:
+# With an in-memory buffer:
 buffer = StringIO()
 save_message(buffer, "Hello, Buffer!")
 buffer.seek(0)
-print(buffer.read())  # prints "Hello, Buffer!\n"
+print(buffer.read())
 ```
 
 In this example, any object that implements `write(str)` can be passed to `save_message`.
@@ -739,7 +743,7 @@ For example:
 from box import Box
 
 box: Box[int] = Box(123)
-box.content = "not an int"  # No RuntimeError, Python won't stop this!
+box.content = "not an int"  # type: ignore
 ```
 
 This code will not raise an error at runtime even though we annotated `box` as `Box[int]` but then assigned a string to its content.
@@ -761,7 +765,7 @@ from animals import Animal, Dog
 
 animals: list[Animal] = [Animal()]
 dogs: list[Dog] = [Dog()]
-animals = dogs  # Type checker error! Incompatible types
+animals = dogs  # type: ignore
 ```
 
 Here a newcomer might think "a list of Dogs is a list of Animals," but that's not allowed because of invariance.
@@ -777,13 +781,14 @@ For example:
 
 ```python
 # example_27.py
-from typing import TypeVar
+from typing import TypeVar, Iterable
 
 T = TypeVar('T')
 
 
 def sort_items(items: list[T]) -> list[T]:
-    return sorted(items)
+    # Pyright issue:
+    return sorted(items)  # type: ignore
 ```
 
 This function will type-check, but it's not truly safe for all `T`--it assumes that the items are comparable (have an ordering defined).
@@ -824,14 +829,14 @@ For example:
 
 ```python
 # example_29.py
-from typing import TypeVar
+# from typing import TypeVar
 
-T = TypeVar('T')
+# T = TypeVar('T')
 
 
-def set_value(x: T) -> None:
-    global global_var
-    global_var = x
+# def set_value(x: T) -> None:
+#    global global_var
+#    global_var = x
 ```
 
 If `global_var` is not also parameterized by `T` somehow, this use of `T` is misleading.
