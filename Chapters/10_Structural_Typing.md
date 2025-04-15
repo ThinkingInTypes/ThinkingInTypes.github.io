@@ -23,7 +23,7 @@ you would use abstract base classes or concrete classes to hint the types, and a
 This could make it awkward to type-hint code that was written in a duck-typed style.
 For instance, if you had a function that worked with any object that had a `.read()` method, there wasn't a straightforward way to express that in a type hint without making all such objects share a common base class or using `typing.Any`.
 Python 3.8 remedied this by introducing _protocols_ in the `typing` module .
-Protocols allow you to define a _structural interface_ that other classes can fulfill just by having the right methods/attributes, without inheritance.
+A protocol defines a _structural interface_ that other classes can fulfill just by having the right methods/attributes, without inheritance.
 This brings the flexibility of duck typing into the realm of static type checking--essentially formalizing "If it quacks like a duck, it can be treated as a duck" in the type system.
 
 In summary, nominal typing ties compatibility to declared relationships (e.g., subclassing an interface or abstract class), whereas structural typing ties compatibility to an object's actual shape (the presence of specific methods/attributes).
@@ -35,7 +35,8 @@ use nominal typing for clarity and runtime consistency with class relationships,
 To leverage structural typing in Python's type hints, you define _protocols_.
 A protocol in Python is essentially an interface or template for a set of methods and attributes.
 It's defined by inheriting from `typing.Protocol` (available in the standard library `typing` module as of Python 3.8, or in `typing_extensions` for earlier versions).
-By creating a class that subclasses `Protocol`, you declare a group of methods and properties that form a "protocol"--any class that has those methods and properties (with compatible types) will be considered an implementation of that protocol by static type checkers, even if it doesn't formally inherit from the protocol.
+By creating a class that subclasses
+`Protocol`, you declare a group of methods and properties that form a "protocol"--any class that has those methods and properties (with compatible types) will be considered an implementation of that protocol by static type checkers, even if it doesn't formally inherit from the protocol.
 
 **To define a protocol:** Create a class that inherits `Protocol` and define the method signatures (and any attribute types) that are required.
 Protocol methods typically have empty bodies (often using `...` or `pass`) because you're not providing an implementation, just a definition of the interface.
@@ -264,7 +265,7 @@ This design is very flexible: you can add new logger classes later (say, a`Datab
 During testing, as shown, we can use`ListLogger`to capture logs and make assertions on them.
 The static type checker will ensure that any object we pass as a`logger`to`run_process`has a`log(str)`method.
 In a nominal type system, you might have to define an abstract base class`Logger\` and make every logger inherit it.
-With protocols, you get the benefit of an interface without the inheritance--this reduces coupling and makes it easier to integrate third-party classes that weren't written with your ABC in mind  .
+With protocols, you get the benefit of an interface without the inheritance--this reduces coupling and makes it easier to integrate third-party classes that weren't written with your ABC in mind .
 
 **2.
 Testing with fake or mock objects:** Building on the above example, protocols are extremely handy for unit testing.
@@ -431,7 +432,8 @@ The syntax we used (`Container[C]` inside the function annotation) leverages Pyt
 Under the hood, `Container[int]` is a _parameterized protocol_ instance, but conceptually you can think of it like an interface template.)
 
 Keep in mind that user-defined generic protocols follow the same rules as normal generic classes for type checking .
-You can declare variance for type variables if needed (covariant, contravariant) using `typing.Final` or by special syntax in `TypeVar`, although if you don't declare, the type checker will assume invariance (meaning `Container[SubClass]` is not a subtype of `Container[BaseClass]` unless you marked variance).
+You can declare variance for type variables if needed (covariant, contravariant) using `typing.Final` or by special syntax in `TypeVar`, although if you don't declare, the type checker will assume invariance (meaning `Container[SubClass]` is not a subtype of
+`Container[BaseClass]` unless you marked variance).
 In our container example, this is not an issue because we're primarily using it to carry the exact type.
 
 Another scenario for combining protocols with generics is when you want to put protocols as bounds on `TypeVar`s.
@@ -473,7 +475,7 @@ Most code at the time of writing still uses the earlier syntax with explicit `Ty
 
 In summary, combining protocols with generics lets you express very flexible and reusable type relationships.
 You can create protocols that work over a family of types while still preserving type information.
-Many of Python's built-in protocols are generic (for example, an iterator protocol `Iterator[T]` yields items of type T), and you can do the same in your own designs  .
+Many of Python's built-in protocols are generic (for example, an iterator protocol `Iterator[T]` yields items of type T), and you can do the same in your own designs .
 This enables things like container types, numeric operations, or callback interfaces to be both generic and structural.
 When designing a generic protocol, think about what parts of the interface should change with the type (those become type variables) and which are fixed.
 The result is a very powerful abstraction that remains easy to use.
@@ -490,7 +492,7 @@ Here are some guidelines, pros and cons, and best practices to help decide:
 - You want to reuse code via inheritance.
   If you have default method implementations or shared attributes that can be defined in a base class, an abstract base class can provide that.
   Inheritance isn't the only way to reuse code, but when it makes sense (e.g.
-a base class providing common functionality), nominal typing naturally goes along with it because subclasses inherit from the base.
+  a base class providing common functionality), nominal typing naturally goes along with it because subclasses inherit from the base.
 
 - You need a strict class hierarchy or runtime type information.
   If it's important in your design to maintain actual subclass relationships (perhaps for identity checks, `isinstance` checks, or because you rely on Python's method resolution order and `super()` calls), then using nominal types is appropriate.
@@ -553,6 +555,7 @@ A good guideline is to use protocols to describe roles that can be played by obj
 By following these practices, you can make your code both flexible and robust, leveraging the best of both worlds in Python's type system.
 
 ## References
+
 1. [Github Issues](https://github.com/ThinkingInTypes/ThinkingInTypes.github.io/issues)
 2. [Protocols and structural subtyping--mypy 1.15.0 documentation](https://mypy.readthedocs.io/en/stable/protocols.html)
 3. [What's the Difference Between Nominal, Structural, and Duck Typing?--DEV Community](https://dev.to/awwsmm/whats-the-difference-between-nominal-structural-and-duck-typing-11f8)

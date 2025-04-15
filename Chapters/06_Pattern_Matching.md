@@ -21,12 +21,12 @@ For example, consider matching an HTTP status code to a message:
 # example_1.py
 status = 404
 match status:
-    case 200:
-        result = "OK"
-    case 404:
-        result = "Not Found"
-    case _:
-        result = "Unknown status"
+  case 200:
+    result = "OK"
+  case 404:
+    result = "Not Found"
+  case _:
+    result = "Unknown status"
 ```
 
 The cases `200` and `404` are literal patterns.
@@ -51,19 +51,19 @@ from enum import Enum
 
 
 class Color(Enum):
-    RED = 1
-    GREEN = 2
-    BLUE = 3
+  RED = 1
+  GREEN = 2
+  BLUE = 3
 
 
 color = Color.GREEN
 match color:
-    case Color.RED:
-        print("It's red!")
-    case Color.GREEN:
-        print("It's green!")
-    case Color.BLUE:
-        print("It's blue!")
+  case Color.RED:
+    print("It's red!")
+  case Color.GREEN:
+    print("It's green!")
+  case Color.BLUE:
+    print("It's blue!")
 ## It's green!
 ```
 
@@ -102,10 +102,10 @@ Consider this simple use of capture patterns:
 # example_3.py
 command = "hello"
 match command:
-    case "quit":
-        print("Quitting...")
-    case other:
-        print(f"Received unknown command: {other!r}")
+  case "quit":
+    print("Quitting...")
+  case other:
+    print(f"Received unknown command: {other!r}")
 ## Received unknown command: 'hello'
 ```
 
@@ -143,13 +143,13 @@ Common uses of the wildcard pattern include:
 ```python
 # wildcard_final_case.py
 def wildcard(status):
-    match status:
-        case 200:
-            message = "OK"
-        case 404:
-            message = "Not Found"
-        case _:
-            message = "Unknown"  # `_` matches anything not matched above
+  match status:
+    case 200:
+      message = "OK"
+    case 404:
+      message = "Not Found"
+    case _:
+      message = "Unknown"  # `_` matches anything not matched above
 ```
 
 - Ignoring one or more elements in a sequence pattern:
@@ -158,10 +158,11 @@ def wildcard(status):
 # wildcard_ignore_elements.py
 from typing import Any
 
+
 def wildcard_ignore(point: tuple[float, Any, Any]) -> None:
-    match point:
-        case (x, _, _):
-            print(f"x-coordinate is {x}")
+  match point:
+    case (x, _, _):
+      print(f"x-coordinate is {x}")
 ```
 
 The pattern `(x, _, _)` binds the first element to `x` and ignores the second and third elements.
@@ -176,14 +177,14 @@ from typing import NamedTuple
 
 
 class Player(NamedTuple):
-    name: str
-    score: int
+  name: str
+  score: int
 
 
 def player_score(player: Player):
-    match player:
-        case Player(name=_, score=s):
-            print(f"Player has score {s}")
+  match player:
+    case Player(name=_, score=s):
+      print(f"Player has score {s}")
 ```
 
 This matches a `Player` object of any name, capturing only the `score` attribute into `s`.
@@ -210,14 +211,14 @@ Suppose we want to categorize a 2D point given as a tuple `(x, y)`:
 # example_7.py
 point = (0, 5)
 match point:
-    case (0, 0):
-        print("Origin")
-    case (0, y):
-        print(f"On the Y-axis at y={y}")
-    case (x, 0):
-        print(f"On the X-axis at x={x}")
-    case (x, y):
-        print(f"Point at ({x}, {y})")
+  case (0, 0):
+    print("Origin")
+  case (0, y):
+    print(f"On the Y-axis at y={y}")
+  case (x, 0):
+    print(f"On the X-axis at x={x}")
+  case (x, y):
+    print(f"Point at ({x}, {y})")
 ## On the Y-axis at y=5
 ```
 
@@ -260,9 +261,9 @@ The remaining cases are skipped.
 ```python
 # example_8.py
 def rest_pattern(*values):
-    match values:
-        case [first, second, *rest]:
-            print(f"{first = }, {second = }, {rest = }")
+  match values:
+    case [first, second, *rest]:
+      print(f"{first = }, {second = }, {rest = }")
 
 
 rest_pattern(10, 20, 30, 40)
@@ -290,13 +291,13 @@ from typing import Tuple
 
 
 def subject_annotation(*values: int) -> None:
-    match values:
-        case [first, second, *rest]:
-            # Here the type checker infers:
-            #--first: int
-            #--second: int
-            #--rest: list[int]
-            print(f"{first = }, {second = }, {rest = }")
+  match values:
+    case [first, second, *rest]:
+      # Here the type checker infers:
+      # --first: int
+      # --second: int
+      # --rest: list[int]
+      print(f"{first = }, {second = }, {rest = }")
 
 
 subject_annotation(10, 20, 30, 40)
@@ -309,15 +310,15 @@ subject_annotation(10, 20, 30, 40)
 ```python
 # nested_patterns.py
 def nested_pattern(*values: int) -> None:
-    match values:
-        case [first, second, *rest]:
-            # Here the type checker infers:
-            #--first: int
-            #--second: int
-            #--rest: list[int]
-            print(f"{first = }, {second = }, {rest = }")
-        case [(x, y), *rest]:
-            print(f"({x=}, {y=}), *{rest}")
+  match values:
+    case [first, second, *rest]:
+      # Here the type checker infers:
+      # --first: int
+      # --second: int
+      # --rest: list[int]
+      print(f"{first = }, {second = }, {rest = }")
+    case [(x, y), *rest]:
+      print(f"({x=}, {y=}), *{rest}")
 
 
 nested_pattern(10, 20, 30, 40)
@@ -355,12 +356,12 @@ For example, imagine we receive event data as dictionaries, and we want to handl
 # example_9.py
 event = {"type": "keypress", "key": "Enter"}
 match event:
-    case {"type": "keypress", "key": k}:
-        print(f"Key pressed: {k}")
-    case {"type": "mousemove", "x": x, "y": y}:
-        print(f"Mouse moved to ({x}, {y})")
-    case _:
-        print("Unknown event")
+  case {"type": "keypress", "key": k}:
+    print(f"Key pressed: {k}")
+  case {"type": "mousemove", "x": x, "y": y}:
+    print(f"Mouse moved to ({x}, {y})")
+  case _:
+    print("Unknown event")
 ## Key pressed: Enter
 ```
 
@@ -380,7 +381,7 @@ Key rules and features of mapping patterns:
 - **Literal keys:** The keys in the pattern are taken as literal constants (not variables).
   Typically they will be quoted strings (as above) or other hashable constants (like numbers or enum values).
   You cannot use a capture for a key name--that wouldn't make sense because a capture binds to a value, not a key.
-(If you need to iterate or check arbitrary keys, pattern matching isn't the tool; you'd use normal dict methods in that case.)
+  (If you need to iterate or check arbitrary keys, pattern matching isn't the tool; you'd use normal dict methods in that case.)
 
 - **Value subpatterns:** For each key in the pattern, you provide a subpattern that will be matched against the value for that key.
   In `{"key": k}`, the subpattern is the capture `k` which matches any value and binds it.
@@ -403,14 +404,14 @@ Key rules and features of mapping patterns:
 ```python
 # double_star_wildcard.py
 user_info = {
-    "name": "Alice",
-    "age": 30,
-    "country": "US",
+  "name": "Alice",
+  "age": 30,
+  "country": "US",
 }
 
 match user_info:
-    case {"name": name, **rest}:
-        print(f"Name: {name}, info: {rest}")
+  case {"name": name, **rest}:
+    print(f"Name: {name}, info: {rest}")
 ## Name is Alice, other info: {'age': 30,
 ## 'country': 'US'}
 ```
@@ -429,7 +430,7 @@ If you have a fixed schema for a dict, pattern matching can clearly express the 
 
 ## Class Patterns
 
-Class patterns allow you to match objects of a specific class and extract their attributes.
+Class patterns match objects of a specific class and extract their attributes.
 They use a syntax reminiscent of calling a constructor, but no object is actually created in a case pattern--instead, Python checks the subject is an instance of that class and then pulls out specified attributes.
 This is a form of _structured binding_ or deconstruction for user-defined types.
 
@@ -444,19 +445,19 @@ from dataclasses import dataclass
 
 @dataclass
 class User:
-    name: str
-    age: int
+  name: str
+  age: int
 
 
 user = User("Carol", 25)
 
 match user:
-    case User(name="Alice", age=age):
-        print(f"Found Alice, age {age}")
-    case User(name=name, age=age):
-        print(f"User {name} is {age} years old")
-    case _:
-        print("Not a User instance")
+  case User(name="Alice", age=age):
+    print(f"Found Alice, age {age}")
+  case User(name=name, age=age):
+    print(f"User {name} is {age} years old")
+  case _:
+    print("Not a User instance")
 ## User Carol is 25 years old
 ```
 
@@ -504,7 +505,8 @@ But `case User("Bob"):` does not create a new user; it just means "match a User 
 This distinction is important.
 In summary: class patterns let you destructure objects, not create them.
 
-**Customizing class matching:** If you are designing your own classes to be matched frequently, you might consider adding a `__match_args__` for convenience, or even defining a special `__match_repr__` (in Python 3.11+, some classes can control matching via `__match_args__` and `__match_self__`, but that's beyond the scope of this chapter).
+**Customizing class matching:** If you are designing your own classes to be matched frequently, you might consider adding a `__match_args__` for convenience, or even defining a special `__match_repr__` (in Python 3.11+, some classes can control matching via `__match_args__` and
+`__match_self__`, but that's beyond the scope of this chapter).
 For most uses, using keyword patterns as shown is sufficient.
 
 **Static analysis benefits:** Class patterns go hand-in-hand with type hints.
@@ -517,19 +519,19 @@ from typing_extensions import NamedTuple
 
 
 class Circle(NamedTuple):
-    radius: float
+  radius: float
 
 
 class Square(NamedTuple):
-    side: float
+  side: float
 
 
 def shape_area(shape: Circle | Square) -> float:
-    match shape:
-        case Circle(radius=r):
-            ...  # here shape is type Circle
-        case Square(side=s):
-            ...  # here shape is type Square
+  match shape:
+    case Circle(radius=r):
+      ...  # here shape is type Circle
+    case Square(side=s):
+      ...  # here shape is type Square
 ```
 
 Within each case, static type checkers know `shape` (or the captured attributes) have the specific class type, so you get auto-completion and type checking on those attributes.
@@ -551,12 +553,12 @@ For instance, if you want to check if some input is an affirmative "yes" in vari
 # example_12.py
 user_input = "y"
 match user_input.lower:
-    case "yes" | "y" | "yeah":
-        print("User said yes")
-    case "no" | "n" | "nope":
-        print("User said no")
-    case _:
-        print("Unrecognized response")
+  case "yes" | "y" | "yeah":
+    print("User said yes")
+  case "no" | "n" | "nope":
+    print("User said no")
+  case _:
+    print("Unrecognized response")
 ## User said yes
 ```
 
@@ -591,13 +593,13 @@ For example, if you do:
 ```python
 # example_13.py
 def type_narrowing(data: int | float | str):
-    match data:
-        case int(x) | float(x):
-            ...
-            # handle as numeric (x will be int or float here)
-        case str(s):
-            ...
-            # handle as string
+  match data:
+    case int(x) | float(x):
+      ...
+      # handle as numeric (x will be int or float here)
+    case str(s):
+      ...
+      # handle as string
 ```
 
 Here `int(x) | float(x)` uses two class patterns in an OR.
@@ -623,10 +625,10 @@ A simple scenario: matching a sequence but also retaining it:
 # example_14.py
 pair = [4, 5]
 match pair:
-    case [first, second] as full_pair:
-        print(
-            f"First element: {first}, second: {second}, pair: {full_pair}"
-        )
+  case [first, second] as full_pair:
+    print(
+      f"First element: {first}, second: {second}, pair: {full_pair}"
+    )
 ## First element: 4, second: 5, pair: [4, 5]
 ```
 
@@ -642,8 +644,8 @@ For instance, consider parsing a nested coordinate:
 # example_15.py
 data = {"coords": [7, 3]}
 match data:
-    case {"coords": [x, y] as point}:
-        print(f"Point {point} has x={x}, y={y}")
+  case {"coords": [x, y] as point}:
+    print(f"Point {point} has x={x}, y={y}")
 ## Point [7, 3] has x=7, y=3
 ```
 
@@ -676,15 +678,17 @@ For example:
 ```python
 # example_16.py
 from colors import Color
+
+
 ## It's green!
 
 
 def handle_color(color: Color):
-    match color:
-        case Color.RED | Color.GREEN | Color.BLUE:
-            ...  # handle known colors
-        case _ as unknown:
-            raise ValueError(f"Unknown color: {unknown}")
+  match color:
+    case Color.RED | Color.GREEN | Color.BLUE:
+      ...  # handle known colors
+    case _ as unknown:
+      raise ValueError(f"Unknown color: {unknown}")
 ```
 
 Here, `_ as unknown` catches anything not handled and gives it the name `unknown` so we can include it in the error message.
@@ -710,17 +714,18 @@ For example, suppose we want to match a pair of numbers but only if they satisfy
 # example_17.py
 pair = (5, 5)
 match pair:
-    case (x, y) if x == y:
-        print("The two values are equal.")
-    case (x, y):
-        print("The values are different.")
+  case (x, y) if x == y:
+    print("The two values are equal.")
+  case (x, y):
+    print("The values are different.")
 ## The two values are equal.
 ```
 
 Here the first case is a sequence pattern `(x, y)` with a guard `if x == y`.
 This will match any 2-tuple (binding `x` and `y`), then check the guard condition.
 If `x == y`, then and only then does the case succeed.
-In our example, `pair` is `(5,5)`, so it matches `(x,y)` with `x=5, y=5`, then the guard `5 == 5` is true, so it prints "The two values are equal." If `pair` were `(5, 7)`, the first pattern would match structurally (`x=5,y=7`), but the guard `5 == 7` would be false, causing that case to fail overall and move to the next case.
+In our example, `pair` is `(5,5)`, so it matches `(x,y)` with `x=5, y=5`, then the guard `5 == 5` is true, so it prints "The two values are equal." If `pair` were `(5, 7)`, the first pattern would match structurally (`x=5,y=7`), but the guard
+`5 == 7` would be false, causing that case to fail overall and move to the next case.
 The second case has no guard and would then match by default, printing "The values are different."
 
 Guards effectively let you refine a pattern match with arbitrary logic:
@@ -745,12 +750,12 @@ Combining mapping patterns with guards can handle situations like "match a dict 
 request = {"method": "POST", "payload": {"id": 42}}
 
 match request:
-    case {"method": m, "payload": data} if (
-        m == "POST" and "id" in data
-    ):
-        print(f"POST request with id {data['id']}")
-    case {"method": m}:
-        print(f"Other request method: {m}")
+  case {"method": m, "payload": data} if (
+          m == "POST" and "id" in data
+  ):
+    print(f"POST request with id {data['id']}")
+  case {"method": m}:
+    print(f"Other request method: {m}")
 ## POST request with id 42
 ```
 
@@ -775,12 +780,12 @@ For example:
 
 
 def narrow(obj):
-    match obj:
-        case list as lst if all(
+  match obj:
+    case list as lst if all(
             isinstance(x, int) for x in lst
-        ):
-            # Here, lst is a list and we asserted all elements are int.
-            total: int = sum(lst)
+    ):
+      # Here, lst is a list and we asserted all elements are int.
+      total: int = sum(lst)
 ```
 
 In this contrived example, the guard ensures every element in the list is int, so inside the case it might be safe to treat it as `list[int]`.
@@ -789,6 +794,7 @@ More commonly, you'd have already annotated or known types.
 Guards are mainly for logic, not for static type discrimination (that's what class patterns are for).
 
 ## Pattern Matching vs.
+
 Inheritance
 
 ## Conclusion

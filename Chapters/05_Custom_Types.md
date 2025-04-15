@@ -227,7 +227,7 @@ process_measurements(Measurements([11, 3.14, "1.618"]))
 
 `NewType` is intended to create a distinct type at the type-checking level that is based on some other
 (usually simpler) type.
-Its primary goal is 
+Its primary goal is
 to help prevent the mixing of semantically different values that are represented by the same underlying type;
 for example, differentiating `UserID` from `ProductID`, even though both are `int`s:
 
@@ -251,6 +251,8 @@ def increment(uid: UserID) -> UserID:
 
 # Access underlying list operation:
 print(increment(users[-1]))
+
+
 ## 43
 
 
@@ -455,7 +457,7 @@ If the `dataclass` is mutable (`frozen=False`, which is default), no hash is gen
 (unless you specifically use `unsafe_hash=True`).
 Mutable objects of any kind should generally not be hashed because the hash can change from one access to another.
 If the `dataclass` is frozen (immutable), then a hash method is automatically provided.
-You can add ordering methods (e.g., lt, le, etc.) by setting `order=True` when declaring the `dataclass`. 
+You can add ordering methods (e.g., lt, le, etc.) by setting `order=True` when declaring the `dataclass`.
 Otherwise, no ordering is generated.
 Dataclasses provide a post_init method that runs immediately after the generated init method.
 This is a convenient place for additional initialization or validation.
@@ -532,14 +534,15 @@ An `Enum` is also a type and is preferable when you have a smaller set of values
 # param_keyword.py
 from enum import Enum
 
+
 class ParamKeyword(Enum):
     MIN = "MIN"
     MAX = "MAX"
     DEF = "DEF"
 
+
 ParamType = float | ParamKeyword
 ```
-
 
 such as months:
 
@@ -801,11 +804,12 @@ set_mode("auto")  # valid
 ```
 
 `Literal`s can serve as a lightweight substitute for `Enum`s when you only need to restrict values at the type level
-and do not require the additional runtime features of `Enum`s. 
+and do not require the additional runtime features of `Enum`s.
 This makes `Literal`s attractive for scenarios
 like defining a parameter that only accepts a small set of constant values without adding extra code complexity.
 
 ### Similarities
+
 - Value Restriction:  
   Both `Literal`s and `Enum`s let you restrict a variable to a fixed set of values.
   For example, `ParamType = Union[float, Literal["MIN", "MAX", "DEF"]]`
@@ -813,22 +817,25 @@ like defining a parameter that only accepts a small set of constant values witho
   similar to how an `Enum` restricts possible members.
 
 ### Differences
+
 - Type Checking vs. Runtime Behavior:
-  - `Literal`: `Literal`s are a static type hint introduced in PEP 586. They exist solely for type checking and do not create a distinct runtime type. The type checker (and your IDE) knows that only those exact values are allowed, but at runtime, they are just ordinary values (e.g., ordinary strings).
-  - `Enum`: An `Enum` is a real class (inheriting from `enum.Enum`) that creates distinct runtime objects. `Enum`s provide additional functionality like iteration over members, comparison, and custom methods. They work both at runtime and during static type checking.
+    - `Literal`:
+      `Literal`s are a static type hint introduced in PEP 586. They exist solely for type checking and do not create a distinct runtime type. The type checker (and your IDE) knows that only those exact values are allowed, but at runtime, they are just ordinary values (e.g., ordinary strings).
+    - `Enum`: An `Enum` is a real class (inheriting from `enum.Enum`) that creates distinct runtime objects. `Enum`s provide additional functionality like iteration over members, comparison, and custom methods. They work both at runtime and during static type checking.
 
 - Overhead and Simplicity:
-  - `Literal`: Using `Literal`s is simple and lightweight if you just want to specify allowed constant values. There’s no additional boilerplate, so it’s a good choice when you only need type constraints.
-  - `Enum`: `Enum`s come with more structure and can encapsulate behavior. However, they require defining a class and are slightly heavier in terms of syntax and runtime footprint.
+    - `Literal`: Using `Literal`s is simple and lightweight if you just want to specify allowed constant values. There’s no additional boilerplate, so it’s a good choice when you only need type constraints.
+    - `Enum`: `Enum`s come with more structure and can encapsulate behavior. However, they require defining a class and are slightly heavier in terms of syntax and runtime footprint.
 
 ### Choosing between `Literal` and `Enum`
+
 - Use `Literal`s if:
-  - You need a simple, compile-time constraint on allowed values without extra runtime behavior.
-  - You want minimal boilerplate and are comfortable relying on your static type checker and IDE for guidance.
+    - You need a simple, compile-time constraint on allowed values without extra runtime behavior.
+    - You want minimal boilerplate and are comfortable relying on your static type checker and IDE for guidance.
 
 - Use `Enum`s if:
-  - You need runtime features, such as iterating over allowed values, custom methods, or more semantic richness (e.g., when each value might need its own behavior or additional attributes).
-  - You want a self-documenting interface that clearly models a set of related constants as a distinct type.
+    - You need runtime features, such as iterating over allowed values, custom methods, or more semantic richness (e.g., when each value might need its own behavior or additional attributes).
+    - You want a self-documenting interface that clearly models a set of related constants as a distinct type.
 
 Both approaches improve type safety,
 but if you need more robust functionality or runtime introspection, an `Enum` might be the better choice.
@@ -863,16 +870,19 @@ The best choice depends on your requirements for type safety, runtime behavior, 
 ### `Literal`
 
 Pros:
+
 - Static Type Safety: Type checkers can enforce that only the allowed constant values appear in your code.
 - Minimal Overhead: `Literal`s have no runtime cost; they serve solely as hints at the type level.
 - Simplicity: Using literals is straightforward and requires no extra boilerplate code.
 
 Cons:
-- No Runtime Distinction: At runtime, `"MIN"`, `"MAX"`, and `"DEF"` are ordinary strings. 
+
+- No Runtime Distinction: At runtime, `"MIN"`, `"MAX"`, and `"DEF"` are ordinary strings.
   You lose benefits like custom methods or iteration over members.
 - Limited Expressiveness: `Literal`s only provide type-checking constraints and no additional behavior beyond that.
 
 When to Use:
+
 - Use `Literal`s when you need to enforce a small set of constant values at the type level, and you are comfortable relying on static type checkers and IDEs for guidance.
 - They are ideal for simple cases where you want to ensure that only a few specific string values (alongside other types, like numbers) are accepted.
 
@@ -880,19 +890,20 @@ When to Use:
 
 `Enum`s create a distinct type at runtime and define a collection of symbolic names bound to constant values. For example:
 
-
-
 Pros:
+
 - Runtime Features: `Enum`s are real classes at runtime, so they support iteration, comparison, and custom methods.
-- Clarity and Self-Documentation: Using an `Enum` clearly signals that the parameter is one of a predetermined, fixed set. 
+- Clarity and Self-Documentation: Using an `Enum` clearly signals that the parameter is one of a predetermined, fixed set.
   IDE autocompletion can also list the valid members.
 - Extra Functionality: You can add methods or properties to an `Enum` if the values need to carry extra meaning (for instance, mapping to specific instrument settings).
 
 Cons:
+
 - Additional Overhead: `Enum`s require a bit more code and syntax compared to `Literal`s.
 - Slightly Heavier: While typically negligible, there is a bit more runtime overhead as `Enum`s are actual objects.
 
 When to Use:
+
 - Use `Enum`s when you need not only type safety at the static level but also runtime assurance--such as when you need to iterate over allowed options or attach extra behavior.
 - `Enum`s are excellent for cases where the set of allowed values is fixed, and you might want to use them throughout your codebase in a uniform, well-documented manner.
 
@@ -903,21 +914,25 @@ In the context of allowed values, you might define
 `ALLOWED_KEYWORDS = {"MIN", "MAX", "DEF"}`
 
 Pros:
-- Dynamic Membership Testing: `Set`s allow you to easily check if a given value is in the allowed collection using the `in` operator.
+
+- Dynamic Membership Testing: `Set`s check if a given value is in the allowed collection using the `in` operator.
 - Runtime Flexibility: You can modify the set at runtime if needed (though for constants this might not be necessary).
 - Simplicity in Validation: When writing custom validation code, a set easily confirms membership.
 
 Cons:
+
 - Not a Type Annotation: `Set`s do not integrate with static type checkers. They only serve at runtime to check if a value belongs to the allowed set.
 - No Static Safety: Unlike `Literal`s or `Enum`s, sets don’t give you compile-time guarantees or IDE autocompletion for allowed values.
 
 When to Use:
+
 - Use sets for runtime validation where you need a simple way to confirm membership (e.g., inside a helper function that checks if a value is valid).
 - They are ideal when the allowed values are defined once and only used for dynamic checks, not for type annotations.
 
 ### Choosing
 
 Each approach has its specific use cases:
+
 - `Literal`s provide a quick and easy way to inform static type checkers without extra runtime behavior.
 - `Enum`s add clarity and runtime functionality at the cost of a little extra complexity.
 - `Set`s work well if your validation is purely runtime-oriented and you don’t need the additional benefits of static type restrictions.
