@@ -22,6 +22,7 @@ Assumptions I make about your Python & programming knowledge.
 - Classes are for creating types.
   As much as possible, pretend inheritance doesn't exist.
 - Performance issues can be solved (sometimes by converting types or functions to Rust)
+- Minimize Hungarian notation: a typed identifier name does not need to include the type information in its name.
 
 ## Examples
 
