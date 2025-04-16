@@ -1282,7 +1282,7 @@ This chapter aims to share those insights and illustrate the practical benefits 
 <h2 id="misunderstanding-class-attributes">Misunderstanding Class Attributes<a class="headerlink" href="#misunderstanding-class-attributes" title="Permanent link">#</a></h2>
 <p>This chapter contains additional tools that modify the normal behavior of class attributes.
 It's important to understand that this behavior is created by the tool and that ordinary classes do not behave this way.
-Read the <a href="A06_Class_Attributes.md">Class Attributes</a> appendix for a deeper understanding.</p>
+Read the <a href="../Z06_Appendix_Class_Attributes/">Class Attributes</a> appendix for a deeper understanding.</p>
 <h2 id="ensuring-correctness">Ensuring Correctness<a class="headerlink" href="#ensuring-correctness" title="Permanent link">#</a></h2>
 <p>Imagine building a customer feedback system using a rating from one to ten stars.
 Traditionally, Python programmers use an integer type, checking its validity whenever it's used:</p>
@@ -1496,15 +1496,17 @@ for example, differentiating <code>UserID</code> from <code>ProductID</code>, ev
 </span><span id="__span-4-17"><a id="__codelineno-4-17" name="__codelineno-4-17" href="#__codelineno-4-17"></a>
 </span><span id="__span-4-18"><a id="__codelineno-4-18" name="__codelineno-4-18" href="#__codelineno-4-18"></a><span class="c1"># Access underlying list operation:</span>
 </span><span id="__span-4-19"><a id="__codelineno-4-19" name="__codelineno-4-19" href="#__codelineno-4-19"></a><span class="nb">print</span><span class="p">(</span><span class="n">increment</span><span class="p">(</span><span class="n">users</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]))</span>
-</span><span id="__span-4-20"><a id="__codelineno-4-20" name="__codelineno-4-20" href="#__codelineno-4-20"></a><span class="c1">## 43</span>
+</span><span id="__span-4-20"><a id="__codelineno-4-20" name="__codelineno-4-20" href="#__codelineno-4-20"></a>
 </span><span id="__span-4-21"><a id="__codelineno-4-21" name="__codelineno-4-21" href="#__codelineno-4-21"></a>
-</span><span id="__span-4-22"><a id="__codelineno-4-22" name="__codelineno-4-22" href="#__codelineno-4-22"></a>
-</span><span id="__span-4-23"><a id="__codelineno-4-23" name="__codelineno-4-23" href="#__codelineno-4-23"></a><span class="k">def</span> <span class="nf">increment_users</span><span class="p">(</span><span class="n">users</span><span class="p">:</span> <span class="n">Users</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Users</span><span class="p">:</span>
-</span><span id="__span-4-24"><a id="__codelineno-4-24" name="__codelineno-4-24" href="#__codelineno-4-24"></a>    <span class="k">return</span> <span class="n">Users</span><span class="p">([</span><span class="n">increment</span><span class="p">(</span><span class="n">uid</span><span class="p">)</span> <span class="k">for</span> <span class="n">uid</span> <span class="ow">in</span> <span class="n">users</span><span class="p">])</span>
-</span><span id="__span-4-25"><a id="__codelineno-4-25" name="__codelineno-4-25" href="#__codelineno-4-25"></a>
-</span><span id="__span-4-26"><a id="__codelineno-4-26" name="__codelineno-4-26" href="#__codelineno-4-26"></a>
-</span><span id="__span-4-27"><a id="__codelineno-4-27" name="__codelineno-4-27" href="#__codelineno-4-27"></a><span class="nb">print</span><span class="p">(</span><span class="n">increment_users</span><span class="p">(</span><span class="n">users</span><span class="p">))</span>
-</span><span id="__span-4-28"><a id="__codelineno-4-28" name="__codelineno-4-28" href="#__codelineno-4-28"></a><span class="c1">## [3, 6, 43]</span>
+</span><span id="__span-4-22"><a id="__codelineno-4-22" name="__codelineno-4-22" href="#__codelineno-4-22"></a><span class="c1">## 43</span>
+</span><span id="__span-4-23"><a id="__codelineno-4-23" name="__codelineno-4-23" href="#__codelineno-4-23"></a>
+</span><span id="__span-4-24"><a id="__codelineno-4-24" name="__codelineno-4-24" href="#__codelineno-4-24"></a>
+</span><span id="__span-4-25"><a id="__codelineno-4-25" name="__codelineno-4-25" href="#__codelineno-4-25"></a><span class="k">def</span> <span class="nf">increment_users</span><span class="p">(</span><span class="n">users</span><span class="p">:</span> <span class="n">Users</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Users</span><span class="p">:</span>
+</span><span id="__span-4-26"><a id="__codelineno-4-26" name="__codelineno-4-26" href="#__codelineno-4-26"></a>    <span class="k">return</span> <span class="n">Users</span><span class="p">([</span><span class="n">increment</span><span class="p">(</span><span class="n">uid</span><span class="p">)</span> <span class="k">for</span> <span class="n">uid</span> <span class="ow">in</span> <span class="n">users</span><span class="p">])</span>
+</span><span id="__span-4-27"><a id="__codelineno-4-27" name="__codelineno-4-27" href="#__codelineno-4-27"></a>
+</span><span id="__span-4-28"><a id="__codelineno-4-28" name="__codelineno-4-28" href="#__codelineno-4-28"></a>
+</span><span id="__span-4-29"><a id="__codelineno-4-29" name="__codelineno-4-29" href="#__codelineno-4-29"></a><span class="nb">print</span><span class="p">(</span><span class="n">increment_users</span><span class="p">(</span><span class="n">users</span><span class="p">))</span>
+</span><span id="__span-4-30"><a id="__codelineno-4-30" name="__codelineno-4-30" href="#__codelineno-4-30"></a><span class="c1">## [3, 6, 43]</span>
 </span></code></pre></div>
 <p>Notice that <code>Users</code> uses <code>UserID</code> in its definition.
 The type checker requires <code>UserID</code> for <code>increment</code> and <code>Users</code> for <code>increment_users</code>,
