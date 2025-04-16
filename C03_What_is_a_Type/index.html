@@ -1,0 +1,1524 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://ThinkingInTypes.github.io/C03_What_is_a_Type/">
+      
+      
+        <link rel="prev" href="../C02_Foundations/">
+      
+      
+        <link rel="next" href="../C04_Using_Types/">
+      
+      
+      <link rel="icon" href="../img/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.8">
+    
+    
+      
+        <title>3: What is a Type - Thinking in Types</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.8608ea7d.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#what-is-a-type" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Thinking in Types" class="md-header__button md-logo" aria-label="Thinking in Types" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Thinking in Types
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              3: What is a Type
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/ThinkingInTypes/ThinkingInTypes.github.io" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Thinking in Types" class="md-nav__button md-logo" aria-label="Thinking in Types" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Thinking in Types
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/ThinkingInTypes/ThinkingInTypes.github.io" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../C01_Preface/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    1: Preface
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../C02_Foundations/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    2: Foundations
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    3: What is a Type
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    3: What is a Type
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#defining-type-in-programming" class="md-nav__link">
+    <span class="md-ellipsis">
+      Defining "Type" in Programming
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#dynamic-vs-static-typing" class="md-nav__link">
+    <span class="md-ellipsis">
+      Dynamic vs. Static Typing
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#duck-typing-in-python" class="md-nav__link">
+    <span class="md-ellipsis">
+      Duck Typing in Python
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#from-duck-typing-to-type-hints" class="md-nav__link">
+    <span class="md-ellipsis">
+      From Duck Typing to Type Hints
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#typing-is-optional" class="md-nav__link">
+    <span class="md-ellipsis">
+      Typing is Optional
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#why-use-type-annotations" class="md-nav__link">
+    <span class="md-ellipsis">
+      Why Use Type Annotations?
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#static-type-checkers-mypy-pyright-and-friends" class="md-nav__link">
+    <span class="md-ellipsis">
+      Static Type Checkers: mypy, pyright, and Friends
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#runtime-vs-static-type-checking" class="md-nav__link">
+    <span class="md-ellipsis">
+      Runtime vs. Static Type Checking
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-benefits-of-types" class="md-nav__link">
+    <span class="md-ellipsis">
+      The Benefits of Types
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#references" class="md-nav__link">
+    <span class="md-ellipsis">
+      References
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../C04_Using_Types/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    4: Using Types
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../C05_Custom_Types/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    5: Custom Types
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../C06_Immutability/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    6: Immutability
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../C07_Pattern_Matching/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    7: Pattern Matching
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../C08_Generics/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    8: Generics
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../C09_Callables/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    9: Callables
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../C10_Structural_Typing/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    10: Structural Typing
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../C11_Make_Illegal_Types_Unrepresentable/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    11: Make Illegal Types Unrepresentable
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../C12_Errors_as_Values/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    12: Errors as Values
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../C13_Uncategorized_Topics/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    13: Uncategorized Topics
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Z01_Appendix_Annotations/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    A1: Annotations
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Z02_Appendix_Glossary/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    A2: Glossary
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Z03_Appendix_Guidelines/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    A3: Guidelines
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Z04_Appendix_Type_Checkers/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    A4: Type Checkers
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Z05_Appendix_Automatic_Annotations/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    A5: Automatic Annotations
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Z06_Appendix_Class_Attributes/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    A6: Class Attributes
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Z07_Appendix_Tools/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    A7: Tools
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Z08_Appendix_Book_Utilities/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    A8: Book Utilities
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Z09_Appendix_Book_Notes/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    A9: Book Notes
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Z10_Appendix_Reference/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    A10: Reference
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#defining-type-in-programming" class="md-nav__link">
+    <span class="md-ellipsis">
+      Defining "Type" in Programming
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#dynamic-vs-static-typing" class="md-nav__link">
+    <span class="md-ellipsis">
+      Dynamic vs. Static Typing
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#duck-typing-in-python" class="md-nav__link">
+    <span class="md-ellipsis">
+      Duck Typing in Python
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#from-duck-typing-to-type-hints" class="md-nav__link">
+    <span class="md-ellipsis">
+      From Duck Typing to Type Hints
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#typing-is-optional" class="md-nav__link">
+    <span class="md-ellipsis">
+      Typing is Optional
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#why-use-type-annotations" class="md-nav__link">
+    <span class="md-ellipsis">
+      Why Use Type Annotations?
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#static-type-checkers-mypy-pyright-and-friends" class="md-nav__link">
+    <span class="md-ellipsis">
+      Static Type Checkers: mypy, pyright, and Friends
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#runtime-vs-static-type-checking" class="md-nav__link">
+    <span class="md-ellipsis">
+      Runtime vs. Static Type Checking
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-benefits-of-types" class="md-nav__link">
+    <span class="md-ellipsis">
+      The Benefits of Types
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#references" class="md-nav__link">
+    <span class="md-ellipsis">
+      References
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="what-is-a-type">What is a Type?<a class="headerlink" href="#what-is-a-type" title="Permanent link">#</a></h1>
+<p>A <em>type</em> is a set of values.
+It classifies and categorizes data.
+It can also define operations.</p>
+<p>One reason we define types is to ensure correctness of what those types hold.
+A type creates its own namespace and scope, which makes it easier to reason about your code.</p>
+<h2 id="defining-type-in-programming">Defining "Type" in Programming<a class="headerlink" href="#defining-type-in-programming" title="Permanent link">#</a></h2>
+<p>The <code>int</code> type allows arithmetic operations like addition or subtraction, while the <code>str</code> type supports operations like concatenation.
+Types give meaning to data and inform the program (and the programmer) what kinds of behavior are valid for that data.
+If a piece of data is labeled as an <code>int</code>, the language knows it can perform numerical calculations on it; if it's a <code>str</code>, operations like splitting or joining make sense.</p>
+<p>In Python, types are associated with values, not with variables.
+You don't explicitly declare variable types; instead, any variable can reference any object, and that object carries its type with it.</p>
+<p>In Python, an object knows its type.
+You can always check that type at runtime using the built-in <code>type()</code> function or <code>isinstance()</code> function:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1"># example_1.py</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="nb">print</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="mi">42</span><span class="p">))</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="c1">## &lt;class &#39;int&#39;&gt;</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="nb">print</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="s2">&quot;Hello&quot;</span><span class="p">))</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="c1">## &lt;class &#39;str&#39;&gt;</span>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="nb">print</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="mi">42</span><span class="p">,</span> <span class="nb">int</span><span class="p">))</span>
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="c1">## True</span>
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="nb">print</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="s2">&quot;Hello&quot;</span><span class="p">,</span> <span class="nb">int</span><span class="p">))</span>
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="c1">## False</span>
+</span></code></pre></div>
+<p>The calls to <code>isinstance</code> confirm that 42 is indeed an <code>int</code> and that the string <code>"Hello"</code> is not an <code>int</code>.
+Types determine what operations are allowed; for instance, you can multiply integers, but multiplying two strings is not defined (except by repeating the string, which is a different operation in Python).</p>
+<p>Types act as a contract or promise about data.
+If a function expects a certain type, providing data of the wrong type can lead to errors.
+For example, giving a text string to a mathematical formula that expects a number will cause problems.
+In short, a type defines both a set of values and the permitted operations on those values, setting the stage for how data is used in a program.</p>
+<p>Python comes with a rich set of built-in types (numbers, strings, lists, dictionaries, etc.).
+You can also define custom types (classes) for more complex data.
+This chapter focuses on what a "type" means and how Python's approach to types influences how we write and maintain code.</p>
+<h2 id="dynamic-vs-static-typing">Dynamic vs. Static Typing<a class="headerlink" href="#dynamic-vs-static-typing" title="Permanent link">#</a></h2>
+<p>One of the core distinctions in programming language type systems is dynamic typing vs.
+static typing.
+Python is a <em>dynamically typed</em> language, whereas languages like C++ or Java are typically <em>statically typed</em>.
+Let's unpack what that means and the pros and cons of each approach.</p>
+<ul>
+<li>
+<p><strong>Statically Typed Languages:</strong> In a statically typed language, the type of each variable and expression is determined at compile time (before the program runs).
+  You usually must declare the types of your variables (e.g., in Java: <code>int count = 5;</code>).
+  The compiler uses these declarations to verify that you are using variables in a type-safe way.
+  If you attempt an invalid operation, like adding a number to a string, a compile-time error is raised and the program won't run until the error is fixed.
+  In short, static type checking finds type errors by analyzing the program's source code before execution.
+  This early detection can prevent many runtime errors.
+  Static typing can also enable performance optimizations, since knowing the types in advance allows the compiler to produce more efficient machine code (for example, it doesn't need to check types during each operation at runtime).</p>
+</li>
+<li>
+<p><strong>Dynamically Typed Languages:</strong> In a dynamically typed language, the variable type is allowed to change over its lifetime, and type checks are done at runtime.
+  You do not have to declare types explicitly.
+  For example, in Python you can do:</p>
+</li>
+</ul>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="c1"># example_2.py</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="n">x</span> <span class="o">=</span> <span class="mi">10</span>  <span class="c1"># x is an int</span>
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="c1"># Reassign to a different type:</span>
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="n">x</span> <span class="o">=</span> <span class="s2">&quot;hello&quot;</span>  <span class="c1"># now x is a str</span>
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="nb">print</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>  <span class="c1"># Output: hello</span>
+</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="c1">## hello</span>
+</span></code></pre></div>
+<p>Python will infer the type of <code>x</code> from whatever value it's holding at the moment.
+Here <code>x</code> started as an integer and later became a string.
+This is perfectly valid in Python.
+The flexibility of dynamic typing makes it easy to write quick scripts and prototypes because you don't have to constantly specify types--the interpreter figures it out as the program runs.</p>
+<p>The example above shows Python's dynamic nature: you can assign a value of any type to <code>x</code>, and later even assign a value of a different type to the same <code>x</code>.
+However, this flexibility comes at a price.
+Because type checks are done as the code runs, if you perform an operation that the data type doesn't support, you'll only find out at runtime (perhaps causing your program to crash if not handled).
+For instance:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1"># example_3.py</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="kn">from</span> <span class="nn">book_utils</span> <span class="kn">import</span> <span class="n">Catch</span>
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="n">x</span> <span class="o">=</span> <span class="mi">10</span>
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="k">with</span> <span class="n">Catch</span><span class="p">():</span>
+</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>    <span class="c1"># Can&#39;t add a str to an int:</span>
+</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>    <span class="n">result</span> <span class="o">=</span> <span class="n">x</span> <span class="o">+</span> <span class="s2">&quot;world&quot;</span>  <span class="c1"># type: ignore</span>
+</span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="c1">## Error: unsupported operand type(s) for +: &#39;int&#39;</span>
+</span><span id="__span-2-9"><a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="c1">## and &#39;str&#39;</span>
+</span></code></pre></div>
+<p>We attempted to "add" a string <code>"world"</code> to <code>x</code>, which is an integer.
+Python only discovers the problem while running the line: realizing it can't add an <code>int</code> and <code>str</code>, it throws a <code>TypeError</code> exception.
+In a statically typed language, such an error would be caught before running the program (the code wouldn't compile).</p>
+<p>To summarize the difference:</p>
+<ul>
+<li>In static typing, type errors are caught early--before the program runs--which can make debugging easier and programs more reliable.
+  You also get better documentation from explicit type annotations in code.
+  But static typing requires more upfront work: declaring types and sometimes contending with more rigid code, which can slow down initial development or make code less flexible to change.</li>
+<li>In dynamic typing, you get more flexibility--you can write code faster without specifying types everywhere, and the same variable can hold different types of data over its lifetime.
+  This is great for quick iterations and when you want to write generic code.
+  The downside is that type-related mistakes are only caught when that line of code runs, which might be far into a program's execution.
+  This can lead to runtime errors and sometimes makes large codebases harder to reason about (you have to remember or check what type a variable might be at a given point).</li>
+</ul>
+<p>It's important to note that dynamic vs.
+static is about when type checking happens (at runtime vs.
+compile time).
+It's independent of another concept often mentioned: strong vs.
+weak typing, which is about how strictly types are treated.
+Python, for example, is strongly typed--it won't implicitly convert types for you in unchecked ways.
+Trying to add a number to a string, as we saw, is not allowed (Python won't guess that maybe you meant <code>"10" + "world"</code> or something--it errors out).
+In Python, values have a definite type, and you can't treat a value as a different type without an explicit conversion.
+Many static languages are also strongly typed, but some languages are <em>weakly typed</em> (they might, for instance, automatically convert strings to numbers in certain contexts, which can lead to subtle bugs).
+The key takeaway is that Python is dynamically and strongly typed: type checks happen at runtime, and the interpreter will raise an error if you attempt an operation on incompatible types.</p>
+<h2 id="duck-typing-in-python">Duck Typing in Python<a class="headerlink" href="#duck-typing-in-python" title="Permanent link">#</a></h2>
+<p>Python's dynamic typing is closely related to the idea of duck typing.
+The name comes from the phrase "If it looks like a duck and quacks like a duck, it must be a duck."
+In programming, duck typing means that an object's suitability for an operation is determined by the presence of certain methods or properties, rather than the actual type of the object itself.
+In other words, "an object is considered compatible with a given type if it has all the methods and attributes that the type requires."
+The actual class or inheritance of the object is less important than whether it implements the interface.
+This is a very Pythonic idea: "don't check an object's type to determine if it has the right interface; just try to use it, and it will either work or fail."</p>
+<p>Duck typing means you often write functions that work on any object that supports the operations you need, rather than only working on specific classes.
+For example, consider a function that makes an object quack:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="c1"># example_4.py</span>
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="k">class</span> <span class="nc">Duck</span><span class="p">:</span>
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>    <span class="k">def</span> <span class="nf">quack</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Quack!&quot;</span><span class="p">)</span>
+</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>
+</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>
+</span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="k">class</span> <span class="nc">Car</span><span class="p">:</span>
+</span><span id="__span-3-8"><a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a>    <span class="k">def</span> <span class="nf">quack</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span id="__span-3-9"><a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a>        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;I can quack, too!&quot;</span><span class="p">)</span>
+</span><span id="__span-3-10"><a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a>
+</span><span id="__span-3-11"><a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a>
+</span><span id="__span-3-12"><a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a><span class="k">def</span> <span class="nf">quacks</span><span class="p">(</span><span class="n">entity</span><span class="p">):</span>
+</span><span id="__span-3-13"><a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a>    <span class="n">entity</span><span class="o">.</span><span class="n">quack</span><span class="p">()</span>
+</span><span id="__span-3-14"><a id="__codelineno-3-14" name="__codelineno-3-14" href="#__codelineno-3-14"></a>
+</span><span id="__span-3-15"><a id="__codelineno-3-15" name="__codelineno-3-15" href="#__codelineno-3-15"></a>
+</span><span id="__span-3-16"><a id="__codelineno-3-16" name="__codelineno-3-16" href="#__codelineno-3-16"></a><span class="n">donald</span> <span class="o">=</span> <span class="n">Duck</span><span class="p">()</span>
+</span><span id="__span-3-17"><a id="__codelineno-3-17" name="__codelineno-3-17" href="#__codelineno-3-17"></a><span class="n">studebaker</span> <span class="o">=</span> <span class="n">Car</span><span class="p">()</span>
+</span><span id="__span-3-18"><a id="__codelineno-3-18" name="__codelineno-3-18" href="#__codelineno-3-18"></a><span class="n">quacks</span><span class="p">(</span><span class="n">donald</span><span class="p">)</span>
+</span><span id="__span-3-19"><a id="__codelineno-3-19" name="__codelineno-3-19" href="#__codelineno-3-19"></a><span class="c1">## Quack!</span>
+</span><span id="__span-3-20"><a id="__codelineno-3-20" name="__codelineno-3-20" href="#__codelineno-3-20"></a><span class="n">quacks</span><span class="p">(</span><span class="n">studebaker</span><span class="p">)</span>
+</span><span id="__span-3-21"><a id="__codelineno-3-21" name="__codelineno-3-21" href="#__codelineno-3-21"></a><span class="c1">## I can quack, too!</span>
+</span></code></pre></div>
+<p><code>Duck</code> and <code>Car</code> each have a <code>quack()</code> method.
+The function <code>quacks(entity)</code> calls <code>entity.quack()</code> without caring what type <code>entity</code> is.
+Thanks to duck typing, both a <code>Duck</code> instance and a <code>Car</code> instance can be passed to <code>quacks</code> and it will work, as long as they implement <code>quack()</code>.
+The <code>quacks(donald)</code> call prints "Quack!", and <code>quacks(studebaker)</code> prints "I can quack, too!", even though <code>studebaker</code> is not a Duck--it's a Car that happens to know how to quack.
+The function didn't check types; it just invoked the method.</p>
+<p>But what if we call <code>quacks(42)</code> (an integer)?
+An int has no <code>quack()</code> method, so Python will raise an <code>AttributeError</code> at runtime (e.g., "<code>'int' object has no attribute 'quack'</code>").
+This demonstrates duck typing's approach: "it's better to ask for forgiveness than permission."
+We just try to use the object in a duck-like way.
+If it quacks, great.
+If not, Python throws an error, and we handle that (or let it propagate).
+In code, you might handle this with try/except:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="c1"># example_5.py</span>
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="kn">from</span> <span class="nn">example_4</span> <span class="kn">import</span> <span class="n">quacks</span>
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="c1">## Quack!</span>
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="c1">## I can quack, too!</span>
+</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>
+</span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="k">try</span><span class="p">:</span>
+</span><span id="__span-4-8"><a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a>    <span class="n">quacks</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
+</span><span id="__span-4-9"><a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a><span class="k">except</span> <span class="ne">AttributeError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+</span><span id="__span-4-10"><a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Oops: </span><span class="si">{</span><span class="n">e</span><span class="w"> </span><span class="si">= }</span><span class="s2">&quot;</span><span class="p">)</span>
+</span><span id="__span-4-11"><a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a><span class="c1">## Oops: e = AttributeError(&quot;&#39;int&#39; object has no</span>
+</span><span id="__span-4-12"><a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a><span class="c1">## attribute &#39;quack&#39;&quot;)</span>
+</span></code></pre></div>
+<p>In Python, it's idiomatic to write code that assumes objects have the right methods (duck typing) and deal with exceptions if they don't, rather than explicitly checking types upfront.</p>
+<p>Duck-typed functions are extremely flexible.
+Many Python libraries and built-in functions use duck typing so that they can work with a variety of object types as long as those objects support the expected interface.
+For example, Python's file-handling functions don't require an object to be a specific "File" class--they just require an object that implements the file interface (methods like <code>.read()</code> or <code>.write()</code>).
+As long as the object passed in has those methods, the function will work.</p>
+<p>However, duck typing can sometimes make it harder to reason about code in large projects--because any object with a <code>quack</code> method will do, you might accidentally pass the wrong object to a function and only find out at runtime.
+This is where the balance between flexibility and safety comes into play, which leads us to the evolution of Python's type system in recent years.</p>
+<h2 id="from-duck-typing-to-type-hints">From Duck Typing to Type Hints<a class="headerlink" href="#from-duck-typing-to-type-hints" title="Permanent link">#</a></h2>
+<p>Historically, Python has been a dynamically typed language.
+The language didn't have a way to explicitly declare the type of variable or function parameter in code.
+Developers used documentation or naming conventions to indicate expected types (for example, a comment like <code># param x is an int</code>), but these were not enforced.
+As codebases grew, this lack of explicit type information started to become a pain point for some projects.
+It's easy to lose track of what types are flowing through the code, which can lead to bugs or make the code harder to maintain.</p>
+<p>Python 3.5 introduced optional syntax for adding type hints to your code.
+These are optional annotations that you can add to function definitions, variables, and class attributes to declare what type they are supposed to be.
+Crucially, these type hints do not change how the code runs; Python remains dynamically typed at runtime.
+The hints are mainly for the benefit of the developers and tooling.</p>
+<p>For example, here's a function without type hints, and then with type hints:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="c1"># example_6.py</span>
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="c1"># Without type hints:</span>
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="k">def</span> <span class="nf">greet1</span><span class="p">(</span><span class="n">name</span><span class="p">):</span>
+</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>    <span class="k">return</span> <span class="s2">&quot;Hello, &quot;</span> <span class="o">+</span> <span class="n">name</span>
+</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>
+</span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>
+</span><span id="__span-5-7"><a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a><span class="c1"># With type hints:</span>
+</span><span id="__span-5-8"><a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a><span class="k">def</span> <span class="nf">greet2</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+</span><span id="__span-5-9"><a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a>    <span class="k">return</span> <span class="s2">&quot;Hello, &quot;</span> <span class="o">+</span> <span class="n">name</span>
+</span></code></pre></div>
+<p>In the second version, the <code>str</code> in <code>name: str</code> and <code>-&gt; str</code> is a type annotation.
+It indicates that <code>name</code> should be a string, and that the function returns a string.
+If you run this code, Python will not enforce that <code>name</code> is a string--if you pass an integer, it will still run, and likely error out only when it tries to do <code>"Hello, " + 5</code>.
+In other words, type hints don't make Python statically typed.
+They are metadata attached to the functions and variables.
+The official Python documentation makes this clear: the Python runtime does not enforce function and variable type annotations; they are meant to be used by third-party tools (like type checkers, IDEs, linters).</p>
+<p>The benefits of type hints are seen during development: they serve as documentation and enable static analysis tools to catch errors before running the code.
+By reading the annotated <code>greet</code> function, a developer (or an IDE) immediately knows that <code>name</code> is expected to be a string, which improves readability.
+If somewhere else in the code we call <code>greet(123)</code>, a type-checking tool can warn us that we're calling <code>greet</code> with the wrong type of argument.</p>
+<p>A type checker will catch this:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="c1"># example_7.py</span>
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="kn">from</span> <span class="nn">book_utils</span> <span class="kn">import</span> <span class="n">Catch</span>
+</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>
+</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>
+</span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="k">def</span> <span class="nf">add</span><span class="p">(</span><span class="n">a</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+</span><span id="__span-6-6"><a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a>    <span class="k">return</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span>
+</span><span id="__span-6-7"><a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a>
+</span><span id="__span-6-8"><a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a>
+</span><span id="__span-6-9"><a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a><span class="nb">print</span><span class="p">(</span><span class="n">add</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+</span><span id="__span-6-10"><a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a><span class="c1">## 15</span>
+</span><span id="__span-6-11"><a id="__codelineno-6-11" name="__codelineno-6-11" href="#__codelineno-6-11"></a><span class="k">with</span> <span class="n">Catch</span><span class="p">():</span>
+</span><span id="__span-6-12"><a id="__codelineno-6-12" name="__codelineno-6-12" href="#__codelineno-6-12"></a>    <span class="n">add</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="s2">&quot;5&quot;</span><span class="p">)</span>  <span class="c1"># type: ignore</span>
+</span><span id="__span-6-13"><a id="__codelineno-6-13" name="__codelineno-6-13" href="#__codelineno-6-13"></a><span class="c1">## Error: unsupported operand type(s) for +: &#39;int&#39;</span>
+</span><span id="__span-6-14"><a id="__codelineno-6-14" name="__codelineno-6-14" href="#__codelineno-6-14"></a><span class="c1">## and &#39;str&#39;</span>
+</span></code></pre></div>
+<p>The second call <code>add(10, "5")</code> is a mistake: we intended both arguments to be <code>int</code>s.
+Running this code would produce a runtime error when trying to add an integer to a string (<code>TypeError: unsupported operand type(s) for +: 'int' and 'str'</code>).
+A static type checker, however, would catch this before running the program.
+For instance, Mypy (one of the most popular Python type checkers) would emit an error like: <code>error: Argument 2 to "add" has incompatible type "str"; expected "int"</code>.
+This early detection of the bug can save you from having to debug a runtime crash.</p>
+<p>Python's adoption of type hints has been gradual and very much optional.
+You can start adding types to a few functions, or even one variable at a time.
+This approach is sometimes called gradual typing or optional static typing.
+The designers of Mypy describe it as an attempt to "combine the benefits of dynamic (or 'duck') typing and static typing."
+You don't have to choose one or the other for the whole program; you can get the flexibility of dynamic typing where needed, and the safety/net of static typing where it helps.
+Python will happily run code with or without type annotations, and you can mix annotated and unannotated code freely.
+This means you can adopt type hints in a legacy codebase incrementally or use them only for the trickiest parts of a new project.</p>
+<p>Over the past several Python releases (3.5 through 3.13), the type hinting syntax and capabilities have expanded significantly.
+For instance, you can annotate variables (since Python 3.6) in addition to function params and returns:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="c1"># example_8.py</span>
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="n">count</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span>
+</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="c1"># list[str] instead of typing.List:</span>
+</span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="n">texts</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;hello&quot;</span><span class="p">,</span> <span class="s2">&quot;world&quot;</span><span class="p">]</span>
+</span></code></pre></div>
+<p>You can use union types with nice shorthand.
+Python 3.10 introduced the <code>|</code> operator for types, so instead of writing <code>typing.Union[str, bytes]</code> you can just write <code>str | bytes</code>:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="c1"># example_9.py</span>
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>
+</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="kn">from</span> <span class="nn">book_utils</span> <span class="kn">import</span> <span class="n">Catch</span>
+</span><span id="__span-8-5"><a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a>
+</span><span id="__span-8-6"><a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a>
+</span><span id="__span-8-7"><a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a><span class="k">def</span> <span class="nf">is_file</span><span class="p">(</span><span class="n">file</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">Path</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+</span><span id="__span-8-8"><a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a>    <span class="c1"># Converts string or Path to a Path object:</span>
+</span><span id="__span-8-9"><a id="__codelineno-8-9" name="__codelineno-8-9" href="#__codelineno-8-9"></a>    <span class="n">p</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">file</span><span class="p">)</span>
+</span><span id="__span-8-10"><a id="__codelineno-8-10" name="__codelineno-8-10" href="#__codelineno-8-10"></a>    <span class="k">return</span> <span class="n">p</span><span class="o">.</span><span class="n">exists</span><span class="p">()</span> <span class="ow">and</span> <span class="n">p</span><span class="o">.</span><span class="n">is_file</span><span class="p">()</span>
+</span><span id="__span-8-11"><a id="__codelineno-8-11" name="__codelineno-8-11" href="#__codelineno-8-11"></a>
+</span><span id="__span-8-12"><a id="__codelineno-8-12" name="__codelineno-8-12" href="#__codelineno-8-12"></a>
+</span><span id="__span-8-13"><a id="__codelineno-8-13" name="__codelineno-8-13" href="#__codelineno-8-13"></a><span class="c1"># Works with a string path:</span>
+</span><span id="__span-8-14"><a id="__codelineno-8-14" name="__codelineno-8-14" href="#__codelineno-8-14"></a><span class="nb">print</span><span class="p">(</span><span class="n">is_file</span><span class="p">(</span><span class="s2">&quot;nonexistent.txt&quot;</span><span class="p">))</span>
+</span><span id="__span-8-15"><a id="__codelineno-8-15" name="__codelineno-8-15" href="#__codelineno-8-15"></a><span class="c1">## False</span>
+</span><span id="__span-8-16"><a id="__codelineno-8-16" name="__codelineno-8-16" href="#__codelineno-8-16"></a><span class="c1"># Works with a Path object:</span>
+</span><span id="__span-8-17"><a id="__codelineno-8-17" name="__codelineno-8-17" href="#__codelineno-8-17"></a><span class="nb">print</span><span class="p">(</span><span class="n">is_file</span><span class="p">(</span><span class="n">Path</span><span class="p">(</span><span class="s2">&quot;nonexistent.txt&quot;</span><span class="p">)))</span>
+</span><span id="__span-8-18"><a id="__codelineno-8-18" name="__codelineno-8-18" href="#__codelineno-8-18"></a><span class="c1">## False</span>
+</span><span id="__span-8-19"><a id="__codelineno-8-19" name="__codelineno-8-19" href="#__codelineno-8-19"></a><span class="k">with</span> <span class="n">Catch</span><span class="p">():</span>
+</span><span id="__span-8-20"><a id="__codelineno-8-20" name="__codelineno-8-20" href="#__codelineno-8-20"></a>    <span class="c1"># Raises TypeError, static checker flags it:</span>
+</span><span id="__span-8-21"><a id="__codelineno-8-21" name="__codelineno-8-21" href="#__codelineno-8-21"></a>    <span class="n">is_file</span><span class="p">(</span><span class="mi">12345</span><span class="p">)</span>  <span class="c1"># type: ignore</span>
+</span><span id="__span-8-22"><a id="__codelineno-8-22" name="__codelineno-8-22" href="#__codelineno-8-22"></a><span class="c1">## Error: argument should be a str or an</span>
+</span><span id="__span-8-23"><a id="__codelineno-8-23" name="__codelineno-8-23" href="#__codelineno-8-23"></a><span class="c1">## os.PathLike object where __fspath__ returns a</span>
+</span><span id="__span-8-24"><a id="__codelineno-8-24" name="__codelineno-8-24" href="#__codelineno-8-24"></a><span class="c1">## str, not &#39;int&#39;</span>
+</span></code></pre></div>
+<p>The function <code>is_file</code> can accept either a file path as a normal string or a <code>Path</code> object (from the <code>pathlib</code> module)--thanks to the union type <code>str | Path</code>.
+Inside the function we convert whatever it is to a <code>Path</code> for uniform processing.
+Passing an integer produces an error when trying to make a <code>Path(12345)</code>, because an <code>int</code> isn't a valid path.
+The type checker tells us about this right away, and very specifically.
+Waiting until runtime produces errors that take time and effort to untangle.</p>
+<p>The standard library <code>typing</code> module provides many advanced types and constructs, which we cover in later chapters:</p>
+<ul>
+<li>Generics (like <code>list[int]</code> or <code>dict[str, int]</code>)</li>
+<li><code>Optional[X]</code> (which is just shorthand for <code>X | None</code> in newer Python versions)</li>
+<li><code>Literal</code> types (specific allowed values)</li>
+<li><code>TypedDict</code> (dicts with specific shape)</li>
+<li><em>protocols</em> (PEP 544) which are basically static duck typing (you can define an interface that says "this type must have methods X, Y, Z" without caring about inheritance).</li>
+</ul>
+<h2 id="typing-is-optional">Typing is Optional<a class="headerlink" href="#typing-is-optional" title="Permanent link">#</a></h2>
+<p>Python's type hints are optional and ignored at runtime.
+They are a developer tool.
+The interpreter will not refuse to run your program if the types don't match:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="c1"># example_10.py</span>
+</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="n">value</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">3.14159</span>
+</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="c1"># Reassign to str:</span>
+</span><span id="__span-9-4"><a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="n">value</span> <span class="o">=</span> <span class="s2">&quot;Pi&quot;</span>  <span class="c1"># type: ignore</span>
+</span><span id="__span-9-5"><a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a><span class="nb">print</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+</span><span id="__span-9-6"><a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a><span class="c1">## Pi</span>
+</span></code></pre></div>
+<p>We annotated <code>value</code> as a float, but then assigned a string to it.
+Python does not enforce the annotation--the code runs and <code>value</code> ends up as <code>"Pi"</code>.
+A type checker warns about that reassignment, but Python itself doesn't mind.
+Adding type hints doesn't change Python's runtime behavior unless you use additional frameworks or decorators to enforce types at runtime.</p>
+<h2 id="why-use-type-annotations">Why Use Type Annotations?<a class="headerlink" href="#why-use-type-annotations" title="Permanent link">#</a></h2>
+<p>If type hints are optional, why bother with them?
+They produce significant benefits, especially for larger projects:</p>
+<ul>
+<li>
+<p>Clarity and Readability: Type hints serve as documentation.
+  When you see a function signature <code>def process(data: list[str]) -&gt; bool</code>, it's immediately clear what is expected: a list of strings goes in, and a boolean comes out.
+  You don't have to read through the function body or comments to guess the types.
+  This makes it easier for others (and yourself, in the future) to understand the code's intent.
+  Type annotations are a form of documentation.</p>
+</li>
+<li>
+<p>Early Error Detection: Perhaps the biggest practical advantage is catching bugs before running the code.
+  Type checkers catch mistakes while you're coding.
+  This is especially useful in large codebases where you might change something in one module and inadvertently break an assumption in another.
+  A type checker can often catch such issues at build time or in your editor, rather than letting them slip into runtime.
+  This early detection of type errors significantly improves code reliability.</p>
+</li>
+<li>
+<p><strong>Better IDE/Editor Support:</strong> Modern editors and IDEs (like VSCode, PyCharm, etc.) use type information to provide features like autocompletion, jump-to-definition, and inline error highlighting.
+  If you declare types, the IDE can help you more.
+  For instance, if a function returns an <code>Employee</code> object, and you've annotated that, the IDE can auto-suggest <code>employee.</code> methods and attributes when you use the result, because it knows the type.
+  It can also immediately warn you if you try to call a list method on something that's annotated as a string, for example.
+  Type information makes tooling smarter and developer experience better.</p>
+</li>
+<li>
+<p><strong>Refactoring and Maintenance:</strong> When you or someone else needs to modify code, type hints act as a safety net.
+  They make it harder to misuse a function or variable inadvertently.
+  If you change a function's expected types, all the callers that pass the wrong type will light up in your type checker.
+  This makes large-scale refactoring more manageable--you can confidently change the internals of a function or module and rely on the type system to tell you if something incompatible is being done somewhere else.
+  This leads to more maintainable code in the long run.</p>
+</li>
+<li>
+<p><strong>Communication of Intent:</strong> Sometimes you might intentionally allow multiple types (using a union) or a very generic type (like <code>Any</code> or a base class).
+  Other times you expect a very specific protocol.
+  Writing that down in code via annotations communicates your intent to anyone reading it.
+  It also communicates to static analysis: "I intend this to be of type X," so if later the code violates that intent, it can be flagged.</p>
+</li>
+</ul>
+<p>That said, there are some downsides or challenges with type annotations to be aware of:</p>
+<ul>
+<li>
+<p><strong>Initial Overhead:</strong> Writing annotations means more typing (pun intended).
+  It can slow down the speed of writing code, especially for quick scripts or one-off tasks where the overhead might not be worth it.
+  However, many find that for anything beyond small scripts, the time spent adding type hints is paid back in time saved debugging.</p>
+</li>
+<li>
+<p><strong>Learning Curve:</strong> Python's typing system has grown quite rich, with generics, protocols, type variables, etc.
+  Using these effectively may require learning new concepts.
+  For intermediate Python programmers, there's a learning curve to understanding things like <code>Optional</code>, <code>Union</code>, or generics.
+  The good news is you can start annotating basic types and only delve into advanced typing features as needed.</p>
+</li>
+<li>
+<p><strong>Runtime Overhead:</strong> By default, there is virtually no runtime overhead for having type annotations (since Python ignores them at runtime).
+  However, if you use certain libraries or decorators to enforce type checking at runtime, those will add overhead.
+  Also, importing the <code>typing</code> module historically had some minor import-time cost (which has been reduced in recent Python versions), but generally this is not a big issue.</p>
+</li>
+<li>
+<p><strong>False Sense of Security:</strong> It's worth remembering that type hints are not a cure-all.
+  You can annotate everything and have a clean bill of health from the type checker, and your program can still have bugs (logic errors, runtime issues unrelated to types, etc.).
+  Also, if you're interfacing with dynamic parts of Python (like using <code>hasattr</code> or doing dynamic attribute setting, or dealing with JSON data), the type checker might not catch misuse because you might be using <code>Any</code> or ignoring types in those spots.
+  So, use type hints as a helpful tool but still test and validate your code.</p>
+</li>
+</ul>
+<p>Overall, the Python community has increasingly embraced type hints because the benefits (especially for larger projects) have proven valuable: fewer bugs, easier collaboration, improved code quality.
+It's a way to get some advantages of statically typed languages without giving up Python's dynamic flexibility entirely.</p>
+<h2 id="static-type-checkers-mypy-pyright-and-friends">Static Type Checkers: <code>mypy</code>, <code>pyright</code>, and Friends<a class="headerlink" href="#static-type-checkers-mypy-pyright-and-friends" title="Permanent link">#</a></h2>
+<p>Type hints by themselves do nothing unless you use a tool to check those hints against your code.
+While you might visually inspect code and spot a type mismatch, it's much more reliable to use automated tools.
+Two of the most popular type checking tools for Python are mypy and pyright.</p>
+<ul>
+<li>
+<p><strong>Mypy:</strong> Mypy has been around since the early days of Python's gradual typing experiment (it was developed alongside PEP 484).
+  It's a command-line tool (and a library) that you run on your Python code (or integrate into your editor/IDE) to static-check the types.
+  Mypy reads your <code>.py</code> files, interprets the type hints, and reports any inconsistencies or errors.
+  For example, if you have <code>def func(x: int) -&gt; None:</code> and somewhere you call <code>func("hello")</code>, mypy will catch that and report an error.
+  Mypy aims to be strict and thorough, catching subtle issues (it even tries to infer types of variables where possible and can warn if you, say, add a string and int without any hints given, etc.).
+  The philosophy of mypy is to let you start with little to no annotations and gradually add them--it will treat unannotated code as basically <code>Any</code> types by default (which don't produce errors), and as you add annotations, it will enforce them.
+  As the official mypy documentation states, it "is an optional static type checker for Python that aims to combine the benefits of dynamic (or 'duck') typing and static typing."
+  You can run mypy as part of your development or CI (Continuous Integration) to prevent type regressions in a codebase.</p>
+</li>
+<li>
+<p><strong>Pyright:</strong> Pyright is a newer type checker, open-sourced by Microsoft.
+  It is known for speed and is designed to handle large projects efficiently.
+  Pyright powers the Python type checking in Microsoft's VSCode editor (the Pylance extension).
+  Pyright is written in TypeScript (running on Node.js), which might sound unusual, but it means it's optimized for speed and can do things like watch files and re-check only what changed, etc.
+  Pyright is also fully aware of all the latest PEPs and typing features.
+  According to its documentation, "Pyright is a full-featured, standards-based static type checker for Python.
+  It is designed for high performance and can be used with large Python source bases."
+  Many developers use Pyright via their editor for instant feedback as they code (and/or in CI as well).
+  For instance, as you're coding, Pyright can underline an inconsistent call in red immediately.
+  Pyright is also available as a command-line tool (via npm) if you prefer that route.
+  One of its selling points is performance--it's been noted to be much faster than mypy on large codebases, though for small-to-medium projects both tools run quickly enough.</p>
+</li>
+</ul>
+<p>Both mypy and pyright adhere to Python's typing rules (PEP 484 and successors) pretty closely.
+There are some minor differences and configuration options (for example, how strict they are about certain default behaviors, or handling of untyped code).
+Some teams use one, some use the other, and some even use both (one as an editor linter for speed, another as a final check in CI for thoroughness).
+The good news is you don't need to lock yourself in--you can try them out and see which fits your workflow.</p>
+<p>Aside from mypy and pyright, there are other tools worth mentioning:</p>
+<ul>
+<li><strong>PyCharm and Other IDEs:</strong> PyCharm has its own built-in type checker that uses the same type hint information to warn about issues.
+  It's not as configurable as mypy/pyright, but it often catches many of the same things in real-time.</li>
+<li><strong>Pylint and Flake8:</strong> These are linters that primarily focus on code style issues, but they have basic type checking rules or plugins (e.g., Pylint can catch some obvious type errors, though it's not as comprehensive as a dedicated type checker).</li>
+<li><strong>Pyre:</strong> A type checker from Facebook (written in OCaml).
+  It's also fast and aimed at large applications.
+  Its usage is less widespread in the community compared to mypy/pyright, but it's an alternative.</li>
+<li><strong>Typeguard, Enforce, etc.:</strong> These are runtime type checking helpers.
+  For example, <code>typeguard</code> is a library that can be used to enforce type hints at runtime by wrapping functions (so if someone calls <code>func("hello")</code> when it expects an int, it will raise an error at call time).
+  These can be useful in specific scenarios, but generally static checkers are more common in Python since runtime checks negate some of the performance benefits of dynamic typing.</li>
+</ul>
+<p>As an example of using a type checker, imagine we save the earlier <code>add</code> function example in a file and run a checker:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="c1"># example_11.py</span>
+</span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="kn">from</span> <span class="nn">book_utils</span> <span class="kn">import</span> <span class="n">Catch</span>
+</span><span id="__span-10-3"><a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>
+</span><span id="__span-10-4"><a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a>
+</span><span id="__span-10-5"><a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a><span class="k">def</span> <span class="nf">add</span><span class="p">(</span><span class="n">a</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+</span><span id="__span-10-6"><a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a>    <span class="k">return</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span>
+</span><span id="__span-10-7"><a id="__codelineno-10-7" name="__codelineno-10-7" href="#__codelineno-10-7"></a>
+</span><span id="__span-10-8"><a id="__codelineno-10-8" name="__codelineno-10-8" href="#__codelineno-10-8"></a>
+</span><span id="__span-10-9"><a id="__codelineno-10-9" name="__codelineno-10-9" href="#__codelineno-10-9"></a><span class="nb">print</span><span class="p">(</span><span class="n">add</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+</span><span id="__span-10-10"><a id="__codelineno-10-10" name="__codelineno-10-10" href="#__codelineno-10-10"></a><span class="c1">## 15</span>
+</span><span id="__span-10-11"><a id="__codelineno-10-11" name="__codelineno-10-11" href="#__codelineno-10-11"></a><span class="k">with</span> <span class="n">Catch</span><span class="p">():</span>
+</span><span id="__span-10-12"><a id="__codelineno-10-12" name="__codelineno-10-12" href="#__codelineno-10-12"></a>    <span class="c1"># Second arg is not an int:</span>
+</span><span id="__span-10-13"><a id="__codelineno-10-13" name="__codelineno-10-13" href="#__codelineno-10-13"></a>    <span class="n">add</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="s2">&quot;5&quot;</span><span class="p">)</span>  <span class="c1"># type: ignore</span>
+</span><span id="__span-10-14"><a id="__codelineno-10-14" name="__codelineno-10-14" href="#__codelineno-10-14"></a><span class="c1">## Error: unsupported operand type(s) for +: &#39;int&#39;</span>
+</span><span id="__span-10-15"><a id="__codelineno-10-15" name="__codelineno-10-15" href="#__codelineno-10-15"></a><span class="c1">## and &#39;str&#39;</span>
+</span></code></pre></div>
+<p>If we run mypy on this file, we might get an output like:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>error: Argument 2 to &quot;add&quot; has incompatible type &quot;str&quot;; expected &quot;int&quot;
+</span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>Found 1 error in 1 file (checked 1 source file)
+</span></code></pre></div>
+<p>This tells us exactly what and where the problem is.
+We can then fix the code (e.g., by converting <code>"5"</code> to an integer, or by correcting the input).</p>
+<p>The use of these tools ties back to the earlier benefits.
+By acting as an automated guardrail, they produce overall code quality improvement through:</p>
+<ul>
+<li>maintainability</li>
+<li>readability</li>
+<li>safety</li>
+<li>early error detection</li>
+<li>enhanced tooling support</li>
+<li>better documentation</li>
+</ul>
+<h2 id="runtime-vs-static-type-checking">Runtime vs. Static Type Checking<a class="headerlink" href="#runtime-vs-static-type-checking" title="Permanent link">#</a></h2>
+<p>Let's clearly distinguish between runtime type checking and static type checking, because this is crucial to understanding Python's type system:</p>
+<ul>
+<li>
+<p><strong>Runtime Type Checking:</strong> This is what Python does natively.
+  The interpreter checks types on the fly as operations are executed.
+  If you try to do something invalid (like call a method that doesn't exist or use an operator on incompatible types), Python will raise an error at that moment.
+  For example, if you do <code>3 + "3"</code>, Python immediately raises a <code>TypeError</code> when it hits that line, because it finds an integer and a string and doesn't know how to add them.
+  Another example: calling <code>quacks(42)</code> in the earlier duck typing example raised an <code>AttributeError</code> at runtime, because 42 didn't have the required method.
+  Runtime type checking is built into the language's operations.
+  When you do something with an object, the object's type (or more precisely, its capabilities) determines what happens.
+  Python will never silently do the wrong thing with a wrong type; it will error out (that's part of being strongly typed).
+  But the key is, these errors happen during execution.</p>
+</li>
+<li>
+<p><strong>Static Type Checking:</strong> This does not happen by default in Python--it's something you opt into by writing type annotations and using external tools.
+  Static checking means examining the code without running it and ensuring that, according to the type hints and language rules, the operations make sense.
+  It's like a dry run of the program in terms of types.
+  If you say a function returns an <code>int</code> but you return a <code>str</code> somewhere, a static checker can catch that.
+  If you pass the wrong type to a function, it's caught before running.
+  This is what mypy, pyright, etc., do.
+  They look at your code as data, not as a running program.
+  The Python interpreter itself does not do static analysis--it doesn't look at annotations and refuses to run the program.
+  You (or your development environment) have to invoke a tool to get static checking.
+  This is why we call Python's type system "gradual" or "optional static typing"--the static part is bolted on by tools, not enforced by the language runtime.</p>
+</li>
+</ul>
+<p>One consequence of this design is that you can have a program that passes all static type checks but still crashes or behaves incorrectly at runtime if you made an assumption that wasn't guaranteed by the language.
+Conversely, you might have a program that does something tricky that the static checker flags as a possible type issue, but at runtime it never fails because of the particular way you use it.
+In those cases, you can often adjust your type hints or use casts/<code># type: ignore</code> comments to tell the checker "trust me, I know what I'm doing here."
+This disconnect between static analysis and actual running code is something to be aware of--it's the price of keeping the type system optional.
+A quote from Python's documentation highlights this separation: _"The Python runtime does not enforce function and variable type annotations.
+They can be used by third party tools such as type checkers, IDEs, linters, etc."
+In other words, if you want enforcement of those annotations, you need to use a tool (or implement your own checks).</p>
+<p>Consider:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="c1"># example_12.py</span>
+</span><span id="__span-12-2"><a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+</span><span id="__span-12-3"><a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a>    <span class="k">return</span> <span class="n">x</span> <span class="o">*</span> <span class="mi">2</span>
+</span><span id="__span-12-4"><a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a>
+</span><span id="__span-12-5"><a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a>
+</span><span id="__span-12-6"><a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a><span class="nb">print</span><span class="p">(</span><span class="n">f</span><span class="p">(</span><span class="mi">5</span><span class="p">))</span>  <span class="c1"># Correct type</span>
+</span><span id="__span-12-7"><a id="__codelineno-12-7" name="__codelineno-12-7" href="#__codelineno-12-7"></a><span class="c1">## 10</span>
+</span><span id="__span-12-8"><a id="__codelineno-12-8" name="__codelineno-12-8" href="#__codelineno-12-8"></a><span class="c1"># Expected type &#39;int&#39;, got &#39;str&#39; instead:</span>
+</span><span id="__span-12-9"><a id="__codelineno-12-9" name="__codelineno-12-9" href="#__codelineno-12-9"></a><span class="nb">print</span><span class="p">(</span><span class="n">f</span><span class="p">(</span><span class="s2">&quot;hi&quot;</span><span class="p">))</span>  <span class="c1"># type: ignore</span>
+</span><span id="__span-12-10"><a id="__codelineno-12-10" name="__codelineno-12-10" href="#__codelineno-12-10"></a><span class="c1">## hihi</span>
+</span><span id="__span-12-11"><a id="__codelineno-12-11" name="__codelineno-12-11" href="#__codelineno-12-11"></a><span class="c1"># Strings can be &quot;multiplied&quot;</span>
+</span></code></pre></div>
+<p>This example is a bit tricky--Python will not error on <code>f("hi")</code> because <code>"hi" * 2</code> in Python is valid (it repeats the string, resulting in <code>"hihi"</code>).
+So our type annotation said <code>x</code> should be an int, but we passed a str, and Python didn't crash--it did something that perhaps we did not intend.
+A static type checker would have warned us that <code>f("hi")</code> is not consistent with the annotation.
+If this were a bug (say we truly only wanted numbers there), the static check catches it, whereas at runtime Python happily did something else.
+If we had a case where passing a wrong type would crash (e.g., <code>f(None)</code> fails since <code>None * 2</code> is invalid), a static checker warns you.</p>
+<p>Static type checks are a complement to Python's dynamic checks.
+The dynamic runtime checks will catch issues when the code runs, but you want to catch as many issues as possible earlier.
+Static typing tools help find mistakes without having to run every possible code path.</p>
+<h2 id="the-benefits-of-types">The Benefits of Types<a class="headerlink" href="#the-benefits-of-types" title="Permanent link">#</a></h2>
+<p>A type is a fundamental attribute of data that constrains what you can do with that data.
+Python's is dynamically typed, meaning you don't have to declare types and can freely mix and change them at runtime.
+This provides a lot of power and agility at the cost of potential runtime type errors.
+Python emphasizes duck typing, relying on the actual capabilities of objects rather than explicit type declarations, which makes code very flexible and reusable.</p>
+<p>Type annotations provide the best of both worlds: dynamic behavior plus tools to catch mistakes early.
+Type hints improve code clarity and maintainability and act as a safety net, catching errors while coding.
+This can dramatically increase confidence in code, especially as codebases grow.</p>
+<p>The type system is there to help developers, not to make the language strict or verbose by force.
+You can adopt it gradually and use it to the degree that it adds value for your projects.</p>
+<p>Embracing Python's type system--both its dynamic nature and its optional static features--will make you a more effective Python programmer, writing code that is clear, correct, and robust.</p>
+<h2 id="references">References<a class="headerlink" href="#references" title="Permanent link">#</a></h2>
+<ol>
+<li><a href="https://en.wikipedia.org/wiki/Data_type">Data type - Wikipedia</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Comparison_of_programming_languages_by_type_system">Comparison of programming languages by type system--Wikipedia</a></li>
+<li><a href="https://dzone.com/articles/typing-in-python">Precision Python</a></li>
+<li><a href="https://www.netguru.com/blog/static-vs-dynamic-typing">Static vs. Dynamic Typing: Pros, Cons, and Key Differences</a></li>
+<li><a href="https://www.uninformativ.de/blog/postings/2022-04-21/0/POSTING-en.html">Python's "Type Hints" are a bit of a disappointment to me</a></li>
+<li><a href="https://realpython.com/duck-typing-python/">Duck Typing in Python: Writing Flexible and Decoupled Code--Real Python</a></li>
+<li><a href="https://peps.python.org/pep-0484/">PEP 484</a></li>
+<li><a href="https://medium.com/@andresberejnoi/what-are-python-type-hints-and-how-to-use-them-andres-berejnoi-31835b92b038">What Are Python Type-Hints and How to Use Them?--Andres Berejnoi</a></li>
+<li><a href="https://mypy-lang.org/">mypy--Optional Static Typing for Python</a></li>
+<li><a href="https://github.com/microsoft/pyright">microsoft/pyright: Static Type Checker for Python--GitHub</a></li>
+<li><a href="https://dev.to/saranshk/statically-type-checking-python-code-using-pyright-2p6p">Statically type checking Python code using Pyright--DEV Community</a></li>
+</ol>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "..", "features": ["content.code.copy", "content.code.select", "navigation.indexes"], "search": "../assets/javascripts/workers/search.f8cc74c7.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.c8b220af.min.js"></script>
+      
+    
+  </body>
+</html>

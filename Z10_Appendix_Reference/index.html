@@ -1,0 +1,2215 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://ThinkingInTypes.github.io/Z10_Appendix_Reference/">
+      
+      
+        <link rel="prev" href="../Z09_Appendix_Book_Notes/">
+      
+      
+      
+      <link rel="icon" href="../img/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.8">
+    
+    
+      
+        <title>A10: Reference - Thinking in Types</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.8608ea7d.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#appendix-reference" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Thinking in Types" class="md-header__button md-logo" aria-label="Thinking in Types" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Thinking in Types
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              A10: Reference
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/ThinkingInTypes/ThinkingInTypes.github.io" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Thinking in Types" class="md-nav__button md-logo" aria-label="Thinking in Types" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Thinking in Types
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/ThinkingInTypes/ThinkingInTypes.github.io" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../C01_Preface/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    1: Preface
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../C02_Foundations/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    2: Foundations
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../C03_What_is_a_Type/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    3: What is a Type
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../C04_Using_Types/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    4: Using Types
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../C05_Custom_Types/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    5: Custom Types
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../C06_Immutability/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    6: Immutability
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../C07_Pattern_Matching/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    7: Pattern Matching
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../C08_Generics/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    8: Generics
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../C09_Callables/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    9: Callables
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../C10_Structural_Typing/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    10: Structural Typing
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../C11_Make_Illegal_Types_Unrepresentable/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    11: Make Illegal Types Unrepresentable
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../C12_Errors_as_Values/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    12: Errors as Values
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../C13_Uncategorized_Topics/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    13: Uncategorized Topics
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Z01_Appendix_Annotations/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    A1: Annotations
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Z02_Appendix_Glossary/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    A2: Glossary
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Z03_Appendix_Guidelines/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    A3: Guidelines
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Z04_Appendix_Type_Checkers/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    A4: Type Checkers
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Z05_Appendix_Automatic_Annotations/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    A5: Automatic Annotations
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Z06_Appendix_Class_Attributes/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    A6: Class Attributes
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Z07_Appendix_Tools/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    A7: Tools
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Z08_Appendix_Book_Utilities/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    A8: Book Utilities
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Z09_Appendix_Book_Notes/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    A9: Book Notes
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    A10: Reference
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    A10: Reference
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#introduction-via-peps" class="md-nav__link">
+    <span class="md-ellipsis">
+      Introduction via PEPs
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#basic-annotation-syntax-and-usage" class="md-nav__link">
+    <span class="md-ellipsis">
+      Basic Annotation Syntax and Usage
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Basic Annotation Syntax and Usage">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#function-annotations-parameters-and-return" class="md-nav__link">
+    <span class="md-ellipsis">
+      Function Annotations (Parameters and Return)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#variable-annotations" class="md-nav__link">
+    <span class="md-ellipsis">
+      Variable Annotations
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#type-comments-legacy" class="md-nav__link">
+    <span class="md-ellipsis">
+      Type Comments (Legacy)
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#core-built-in-types-and-collections-in-annotations" class="md-nav__link">
+    <span class="md-ellipsis">
+      Core Built-in Types and Collections in Annotations
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Core Built-in Types and Collections in Annotations">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#built-in-types" class="md-nav__link">
+    <span class="md-ellipsis">
+      Built-in Types
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#generic-collections-pep-585" class="md-nav__link">
+    <span class="md-ellipsis">
+      Generic Collections (PEP 585)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#union-types-and-optional-pep-604" class="md-nav__link">
+    <span class="md-ellipsis">
+      Union Types and Optional (PEP 604)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#the-any-type" class="md-nav__link">
+    <span class="md-ellipsis">
+      The Any Type
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#noreturn-never" class="md-nav__link">
+    <span class="md-ellipsis">
+      NoReturn / Never
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#type-aliases-and-custom-types" class="md-nav__link">
+    <span class="md-ellipsis">
+      Type Aliases and Custom Types
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Type Aliases and Custom Types">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#type-aliases" class="md-nav__link">
+    <span class="md-ellipsis">
+      Type Aliases
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#newtype-distinct-types-based-on-existing-ones" class="md-nav__link">
+    <span class="md-ellipsis">
+      NewType--Distinct Types Based on Existing Ones
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#generics-and-type-variables" class="md-nav__link">
+    <span class="md-ellipsis">
+      Generics and Type Variables
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Generics and Type Variables">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#generic-functions-and-typevar" class="md-nav__link">
+    <span class="md-ellipsis">
+      Generic Functions and TypeVar
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#generic-classes" class="md-nav__link">
+    <span class="md-ellipsis">
+      Generic Classes
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#typingtype-for-class-objects" class="md-nav__link">
+    <span class="md-ellipsis">
+      typing.Type for Class Objects
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#structural-subtyping-with-protocols" class="md-nav__link">
+    <span class="md-ellipsis">
+      Structural Subtyping with Protocols
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Structural Subtyping with Protocols">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#protocols-pep-544" class="md-nav__link">
+    <span class="md-ellipsis">
+      Protocols (PEP 544)
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#callable-types-and-function-overloading" class="md-nav__link">
+    <span class="md-ellipsis">
+      Callable Types and Function Overloading
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Callable Types and Function Overloading">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#callable" class="md-nav__link">
+    <span class="md-ellipsis">
+      Callable
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#overloaded-functions-pep-484" class="md-nav__link">
+    <span class="md-ellipsis">
+      Overloaded Functions (PEP 484)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#override-decorator-pep-698" class="md-nav__link">
+    <span class="md-ellipsis">
+      Override decorator (PEP 698)
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#parameter-specifications-for-higher-order-functions-pep-612" class="md-nav__link">
+    <span class="md-ellipsis">
+      Parameter Specifications for Higher-Order Functions (PEP 612)
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Parameter Specifications for Higher-Order Functions (PEP 612)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#paramspec-and-concatenate" class="md-nav__link">
+    <span class="md-ellipsis">
+      ParamSpec and Concatenate
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#advanced-and-new-type-constructs" class="md-nav__link">
+    <span class="md-ellipsis">
+      Advanced and New Type Constructs
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Advanced and New Type Constructs">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#literal-types-pep-586-and-pep-675" class="md-nav__link">
+    <span class="md-ellipsis">
+      Literal Types (PEP 586 and PEP 675)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#final-and-constants-pep-591" class="md-nav__link">
+    <span class="md-ellipsis">
+      Final and Constants (PEP 591)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#annotated-types-pep-593" class="md-nav__link">
+    <span class="md-ellipsis">
+      Annotated Types (PEP 593)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#type-guards-pep-647" class="md-nav__link">
+    <span class="md-ellipsis">
+      Type Guards (PEP 647)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#self-type-pep-673" class="md-nav__link">
+    <span class="md-ellipsis">
+      Self Type (PEP 673)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#typeddicts-pep-589-and-extensions" class="md-nav__link">
+    <span class="md-ellipsis">
+      TypedDicts (PEP 589 and extensions)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#data-class-transform-pep-681" class="md-nav__link">
+    <span class="md-ellipsis">
+      Data Class Transform (PEP 681)
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#forward-references-and-postponed-evaluation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Forward References and Postponed Evaluation
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Forward References and Postponed Evaluation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#forward-references" class="md-nav__link">
+    <span class="md-ellipsis">
+      Forward References
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pep-649-deferred-annotations" class="md-nav__link">
+    <span class="md-ellipsis">
+      PEP 649 (Deferred Annotations)
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tools-stubs-and-best-practices" class="md-nav__link">
+    <span class="md-ellipsis">
+      Tools, Stubs, and Best Practices
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Tools, Stubs, and Best Practices">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#type-checkers-and-ide-support" class="md-nav__link">
+    <span class="md-ellipsis">
+      Type Checkers and IDE Support
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#stub-files-pep-484-pep-561" class="md-nav__link">
+    <span class="md-ellipsis">
+      Stub Files (PEP 484 &amp; PEP 561)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#general-best-practices" class="md-nav__link">
+    <span class="md-ellipsis">
+      General Best Practices
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#references" class="md-nav__link">
+    <span class="md-ellipsis">
+      References
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#introduction-via-peps" class="md-nav__link">
+    <span class="md-ellipsis">
+      Introduction via PEPs
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#basic-annotation-syntax-and-usage" class="md-nav__link">
+    <span class="md-ellipsis">
+      Basic Annotation Syntax and Usage
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Basic Annotation Syntax and Usage">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#function-annotations-parameters-and-return" class="md-nav__link">
+    <span class="md-ellipsis">
+      Function Annotations (Parameters and Return)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#variable-annotations" class="md-nav__link">
+    <span class="md-ellipsis">
+      Variable Annotations
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#type-comments-legacy" class="md-nav__link">
+    <span class="md-ellipsis">
+      Type Comments (Legacy)
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#core-built-in-types-and-collections-in-annotations" class="md-nav__link">
+    <span class="md-ellipsis">
+      Core Built-in Types and Collections in Annotations
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Core Built-in Types and Collections in Annotations">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#built-in-types" class="md-nav__link">
+    <span class="md-ellipsis">
+      Built-in Types
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#generic-collections-pep-585" class="md-nav__link">
+    <span class="md-ellipsis">
+      Generic Collections (PEP 585)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#union-types-and-optional-pep-604" class="md-nav__link">
+    <span class="md-ellipsis">
+      Union Types and Optional (PEP 604)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#the-any-type" class="md-nav__link">
+    <span class="md-ellipsis">
+      The Any Type
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#noreturn-never" class="md-nav__link">
+    <span class="md-ellipsis">
+      NoReturn / Never
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#type-aliases-and-custom-types" class="md-nav__link">
+    <span class="md-ellipsis">
+      Type Aliases and Custom Types
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Type Aliases and Custom Types">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#type-aliases" class="md-nav__link">
+    <span class="md-ellipsis">
+      Type Aliases
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#newtype-distinct-types-based-on-existing-ones" class="md-nav__link">
+    <span class="md-ellipsis">
+      NewType--Distinct Types Based on Existing Ones
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#generics-and-type-variables" class="md-nav__link">
+    <span class="md-ellipsis">
+      Generics and Type Variables
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Generics and Type Variables">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#generic-functions-and-typevar" class="md-nav__link">
+    <span class="md-ellipsis">
+      Generic Functions and TypeVar
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#generic-classes" class="md-nav__link">
+    <span class="md-ellipsis">
+      Generic Classes
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#typingtype-for-class-objects" class="md-nav__link">
+    <span class="md-ellipsis">
+      typing.Type for Class Objects
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#structural-subtyping-with-protocols" class="md-nav__link">
+    <span class="md-ellipsis">
+      Structural Subtyping with Protocols
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Structural Subtyping with Protocols">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#protocols-pep-544" class="md-nav__link">
+    <span class="md-ellipsis">
+      Protocols (PEP 544)
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#callable-types-and-function-overloading" class="md-nav__link">
+    <span class="md-ellipsis">
+      Callable Types and Function Overloading
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Callable Types and Function Overloading">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#callable" class="md-nav__link">
+    <span class="md-ellipsis">
+      Callable
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#overloaded-functions-pep-484" class="md-nav__link">
+    <span class="md-ellipsis">
+      Overloaded Functions (PEP 484)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#override-decorator-pep-698" class="md-nav__link">
+    <span class="md-ellipsis">
+      Override decorator (PEP 698)
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#parameter-specifications-for-higher-order-functions-pep-612" class="md-nav__link">
+    <span class="md-ellipsis">
+      Parameter Specifications for Higher-Order Functions (PEP 612)
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Parameter Specifications for Higher-Order Functions (PEP 612)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#paramspec-and-concatenate" class="md-nav__link">
+    <span class="md-ellipsis">
+      ParamSpec and Concatenate
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#advanced-and-new-type-constructs" class="md-nav__link">
+    <span class="md-ellipsis">
+      Advanced and New Type Constructs
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Advanced and New Type Constructs">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#literal-types-pep-586-and-pep-675" class="md-nav__link">
+    <span class="md-ellipsis">
+      Literal Types (PEP 586 and PEP 675)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#final-and-constants-pep-591" class="md-nav__link">
+    <span class="md-ellipsis">
+      Final and Constants (PEP 591)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#annotated-types-pep-593" class="md-nav__link">
+    <span class="md-ellipsis">
+      Annotated Types (PEP 593)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#type-guards-pep-647" class="md-nav__link">
+    <span class="md-ellipsis">
+      Type Guards (PEP 647)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#self-type-pep-673" class="md-nav__link">
+    <span class="md-ellipsis">
+      Self Type (PEP 673)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#typeddicts-pep-589-and-extensions" class="md-nav__link">
+    <span class="md-ellipsis">
+      TypedDicts (PEP 589 and extensions)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#data-class-transform-pep-681" class="md-nav__link">
+    <span class="md-ellipsis">
+      Data Class Transform (PEP 681)
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#forward-references-and-postponed-evaluation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Forward References and Postponed Evaluation
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Forward References and Postponed Evaluation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#forward-references" class="md-nav__link">
+    <span class="md-ellipsis">
+      Forward References
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pep-649-deferred-annotations" class="md-nav__link">
+    <span class="md-ellipsis">
+      PEP 649 (Deferred Annotations)
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tools-stubs-and-best-practices" class="md-nav__link">
+    <span class="md-ellipsis">
+      Tools, Stubs, and Best Practices
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Tools, Stubs, and Best Practices">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#type-checkers-and-ide-support" class="md-nav__link">
+    <span class="md-ellipsis">
+      Type Checkers and IDE Support
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#stub-files-pep-484-pep-561" class="md-nav__link">
+    <span class="md-ellipsis">
+      Stub Files (PEP 484 &amp; PEP 561)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#general-best-practices" class="md-nav__link">
+    <span class="md-ellipsis">
+      General Best Practices
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#references" class="md-nav__link">
+    <span class="md-ellipsis">
+      References
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="appendix-reference">Appendix: Reference<a class="headerlink" href="#appendix-reference" title="Permanent link">#</a></h1>
+<p>Type annotations (or "type hints") declare the expected data types of variables, function parameters, and return values.
+Python remains <em>dynamically typed</em> at runtime--these hints are not enforced by the interpreter and are mainly for static analysis and documentation.
+Tools like type checkers (e.g., mypy, Pyright) and IDEs use the hints to catch errors or suggest code completions.
+Python's core team has no plan to make type hints mandatory; they are optional aids to improve code quality.</p>
+<h2 id="introduction-via-peps">Introduction via PEPs<a class="headerlink" href="#introduction-via-peps" title="Permanent link">#</a></h2>
+<p>Function annotation syntax was first introduced by PEP 3107 (Python 3.0) with no fixed semantics.
+PEP 484 (Python 3.5) later defined a standard for using these annotations as <em>type hints</em>, establishing a formal type hinting system.
+The <code>typing</code> module provides a standardized vocabulary of types.
+This enables <em>gradual typing</em>--code can be partially or fully annotated, and type checkers will treat unannotated parts as dynamically typed (effectively type <code>Any</code>).</p>
+<h2 id="basic-annotation-syntax-and-usage">Basic Annotation Syntax and Usage<a class="headerlink" href="#basic-annotation-syntax-and-usage" title="Permanent link">#</a></h2>
+<h3 id="function-annotations-parameters-and-return">Function Annotations (Parameters and Return)<a class="headerlink" href="#function-annotations-parameters-and-return" title="Permanent link">#</a></h3>
+<p>You can annotate function parameters and return types using the syntax introduced in PEP 484.
+For example:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1"># example_1.py</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="k">def</span> <span class="nf">greet</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">excited</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>    <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;Hello, </span><span class="si">{</span><span class="s1">&#39;!&#39;</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">excited</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="s1">&#39;&#39;</span><span class="si">}{</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span>
+</span></code></pre></div>
+<p><code>name: str</code> and <code>excited: bool = False</code> annotate the parameter types, and <code>-&gt; str</code> annotates the return type.
+An unannotated parameter defaults to type <code>Any</code> in static analysis.
+If a function does not return a value (or returns <code>None</code>), it's good practice to annotate the return type as <code>None</code> (e.g.
+<code>-&gt; None</code>), especially for <code>__init__</code> methods.</p>
+<h3 id="variable-annotations">Variable Annotations<a class="headerlink" href="#variable-annotations" title="Permanent link">#</a></h3>
+<p>Python 3.6 (PEP 526) introduced syntax for annotating variables and class attributes with types.
+For example:
+<code>age: int = 21</code> or <code>pi: float</code> (with or without initialization).
+These annotations can appear at the class or module level as well as inside functions.
+When annotating class variables (as opposed to instance variables), use <code>typing.ClassVar</code>.
+For instance:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="c1"># example_2.py</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">ClassVar</span>
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="k">class</span> <span class="nc">Starship</span><span class="p">:</span>
+</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>    <span class="n">stats</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span>
+</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>        <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span>
+</span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>    <span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>  <span class="c1"># class variable</span>
+</span><span id="__span-1-9"><a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>    <span class="n">damage</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">10</span>  <span class="c1"># instance variable</span>
+</span></code></pre></div>
+<p>Here <code>stats</code> is marked as a class-level attribute, whereas <code>damage</code> is an instance attribute.
+ClassVar helps type checkers distinguish the two.
+(At runtime, annotations are stored in the <code>__annotations__</code> attribute of the function or class, but they don't affect execution.)</p>
+<h3 id="type-comments-legacy">Type Comments (Legacy)<a class="headerlink" href="#type-comments-legacy" title="Permanent link">#</a></h3>
+<p>In older code or for compatibility, type hints can be given in comments (e.g.
+<code># type: int</code>) as described in PEP 484.
+This was mainly used for Python 2 or situations where inline annotation syntax was not available.
+Modern Python prefers explicit annotation syntax, but you might encounter type comments or stub files in some codebases.</p>
+<h2 id="core-built-in-types-and-collections-in-annotations">Core Built-in Types and Collections in Annotations<a class="headerlink" href="#core-built-in-types-and-collections-in-annotations" title="Permanent link">#</a></h2>
+<h3 id="built-in-types">Built-in Types<a class="headerlink" href="#built-in-types" title="Permanent link">#</a></h3>
+<p>For types like <code>int</code>, <code>str</code>, <code>bool</code>, etc., you can use the type name directly as an annotation.
+For example, <code>x: int = 5</code> or <code>user: str</code>.
+The same goes for classes and custom types--you annotate with the class itself (e.g.
+<code>file: io.TextIOBase</code>).</p>
+<h3 id="generic-collections-pep-585">Generic Collections (PEP 585)<a class="headerlink" href="#generic-collections-pep-585" title="Permanent link">#</a></h3>
+<p>Modern Python allows using built-in container types directly as generics.
+For example, use <code>list[int]</code> instead of <code>typing.List[int]</code>, <code>dict[str, float]</code> instead of <code>typing.Dict[str, float]</code>, and so on.
+PEP 585 (Python 3.9) enabled this, so the <code>typing</code> module's capitalized aliases (List, Dict, etc.)
+are no longer necessary in new code.
+These generics let you specify element types:
+e.g.
+<code>list[int]</code> means "list of ints."
+(Note:
+these annotations are for the benefit of type checkers; at runtime <code>list[int]</code> is mainly recognized by the interpreter for typing purposes but still behaves like a normal list).
+Tuples can also be annotated, e.g.
+<code>tuple[int, str]</code> for a fixed-length 2-tuple, or <code>tuple[int,...]</code> for a variable-length tuple of ints.</p>
+<h3 id="union-types-and-optional-pep-604">Union Types and Optional (PEP 604)<a class="headerlink" href="#union-types-and-optional-pep-604" title="Permanent link">#</a></h3>
+<p>A <em>union</em> type means a value could be one of several types.
+You can write a union as <code>typing.Union[X, Y]</code> or, more readably in Python 3.10+, using the <code>|</code> operator:
+<code>X | Y</code>.
+For example, <code>def parse(data: str | bytes) -&gt; None:</code> indicates <code>data</code> can be either a string or bytes.
+If one of the types is <code>None</code>, you can use shorthand:
+<code>Optional[T]</code> is equivalent to <code>T | None</code>.
+For example, <code>Optional[int]</code> (or <code>int | None</code>) means the value can be an int or None.**Important</p>
+<p>"Optional" in type hinting refers to "may be None"; it does not mean an argument is optional in the sense of having a default.
+An argument with a default value isn't automatically <code>Optional</code> unless you explicitly want to allow <code>None</code> as a value.</p>
+<h3 id="the-any-type">The <code>Any</code> Type<a class="headerlink" href="#the-any-type" title="Permanent link">#</a></h3>
+<p><code>typing.Any</code> is a special type that essentially disables type checking for that variable.
+A value of type <code>Any</code> is allowed to be passed or assigned to any type, and vice versa.
+Every type is compatible with <code>Any</code>, and <code>Any</code> is compatible with every type.
+You might use <code>Any</code> when you genuinely cannot predict the type (e.g., a function that can return any type depending on usage).
+However, overusing <code>Any</code> undermines the benefits of static typing, so it's best used sparingly when other typing features can't express the concept.
+(If a function can accept literally any object, a best practice is to annotate it as <code>object</code> rather than <code>Any</code> to signal that no specific behavior is assumed.)</p>
+<h3 id="noreturn-never">NoReturn / Never<a class="headerlink" href="#noreturn-never" title="Permanent link">#</a></h3>
+<p>If a function never returns normally (for example, it always raises an exception or calls <code>sys.exit()</code>), you can annotate its return type as <code>NoReturn</code> (or <code>Never</code>, a synonymous alias introduced in Python 3.11).
+This signals to type checkers that the function doesn't produce a value at all.
+For instance:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1"># example_3.py</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">NoReturn</span>
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="k">def</span> <span class="nf">fatal_error</span><span class="p">(</span><span class="n">msg</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">NoReturn</span><span class="p">:</span>
+</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>    <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+</span></code></pre></div>
+<p>Here, callers can know that <code>fatal_error()</code> will not return normally.
+<code>Never</code>/<code>NoReturn</code> is the <em>bottom type</em> in the type system, meaning no value can ever have this type (except in a theoretical sense).
+Static analyzers use it to understand control flow (e.g., after a call to a NoReturn function, execution doesn't continue).</p>
+<h2 id="type-aliases-and-custom-types">Type Aliases and Custom Types<a class="headerlink" href="#type-aliases-and-custom-types" title="Permanent link">#</a></h2>
+<h3 id="type-aliases">Type Aliases<a class="headerlink" href="#type-aliases" title="Permanent link">#</a></h3>
+<p>Sometimes you have a complex type and want to give it a short name (alias) for readability.
+You can create a type alias by assignment or using the new <code>type</code> statement.
+For example:
+<code>Address = tuple[str, int]</code> creates an alias <code>Address</code> for "tuple of (str, int)".
+In Python 3.12+, you can declare aliases more explicitly with the <code>type</code> keyword (PEP 695):</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="c1"># example_4.py</span>
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="nb">type</span> <span class="n">Point</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span>
+</span></code></pre></div>
+<p>This creates a type alias <code>Point</code> that static checkers will treat exactly as <code>tuple[float, float]</code>.
+Type aliases can also be generic, e.g.
+<code>type Response[T] = tuple[T, int]</code> to parameterize the alias.
+In older versions, you might see <code>TypeAlias</code> from <code>typing</code> used as an annotation to mark an assignment as a type alias, especially when forward references are involved (to hint to the checker that a string is meant to be a type name).
+PEP 695 deprecates the need for <code>TypeAlias</code> by introducing the explicit alias syntax.</p>
+<h3 id="newtype-distinct-types-based-on-existing-ones">NewType--Distinct Types Based on Existing Ones<a class="headerlink" href="#newtype-distinct-types-based-on-existing-ones" title="Permanent link">#</a></h3>
+<p>The <code>typing.NewType</code> helper lets you define a distinct type that is interchangeable with some base type at runtime but treated as a separate type by type checkers.
+For example:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="c1"># example_5.py</span>
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">NewType</span>
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="n">UserId</span> <span class="o">=</span> <span class="n">NewType</span><span class="p">(</span><span class="s2">&quot;UserId&quot;</span><span class="p">,</span> <span class="nb">int</span><span class="p">)</span>
+</span></code></pre></div>
+<p>This creates a new type <code>UserId</code> that behaves like an <code>int</code> at runtime (it's essentially an identity function that returns the int you give it), but static type checkers will consider <code>UserId</code> incompatible with plain <code>int</code> unless explicitly allowed.
+This is useful when you want to prevent mix-ups of semantically different values that share an underlying type (e.g.
+<code>UserId</code> vs <code>ProductId</code> both as ints).
+Using <code>NewType</code>, you can catch such mix-ups in static analysis.
+(Under the hood, calling <code>UserId(5)</code> just returns 5 at runtime, so there's no extra performance cost beyond a function call.
+In Python 3.10+ <code>NewType</code> is implemented as a class for better performance.)</p>
+<h2 id="generics-and-type-variables">Generics and Type Variables<a class="headerlink" href="#generics-and-type-variables" title="Permanent link">#</a></h2>
+<h3 id="generic-functions-and-typevar">Generic Functions and TypeVar<a class="headerlink" href="#generic-functions-and-typevar" title="Permanent link">#</a></h3>
+<p>Python supports <em>parametric polymorphism</em> (generics) in functions and classes.
+A <em>Type Variable</em> (created with <code>typing.TypeVar</code>) represents an unknown type that can vary between calls or instances.
+For example, to write a function that returns the same type as it receives, you can do:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="c1"># example_6.py</span>
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">TypeVar</span>
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>
+</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="n">T</span> <span class="o">=</span> <span class="n">TypeVar</span><span class="p">(</span><span class="s2">&quot;T&quot;</span><span class="p">)</span>
+</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>
+</span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>
+</span><span id="__span-5-7"><a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a><span class="k">def</span> <span class="nf">identity</span><span class="p">(</span><span class="n">item</span><span class="p">:</span> <span class="n">T</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="p">:</span>
+</span><span id="__span-5-8"><a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a>    <span class="k">return</span> <span class="n">item</span>
+</span></code></pre></div>
+<p>Here <code>T</code> is a type variable that can stand for any type, and the function <code>identity</code> is generic--if you pass an <code>int</code>, it returns an <code>int</code>, if you pass a <code>str</code>, it returns a <code>str</code>, etc.
+As of Python 3.12, you can declare type parameters directly in the function signature (PEP 695) for brevity:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="c1"># example_7.py</span>
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="k">def</span> <span class="nf">identity</span><span class="p">[</span><span class="n">T</span><span class="p">](</span><span class="n">item</span><span class="p">:</span> <span class="n">T</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="p">:</span>
+</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>    <span class="k">return</span> <span class="n">item</span>
+</span></code></pre></div>
+<p>This is equivalent to the earlier definition.
+Type variables can be given <em>bounds</em> or <em>constraints</em> to restrict what types they can represent.
+For instance, <code>U = TypeVar('U', bound=Number)</code> means U can be any subclass of <code>Number</code> (upper-bounded) while <code>V = TypeVar('V', int, str)</code> means V can only be <code>int</code> or <code>str</code> (union constraint).
+You can also mark a TypeVar as covariant or contravariant for class inheritance scenarios (useful when defining generic container classes that subclass built-in collections), though this is an advanced topic.
+In summary, type variables allow generic code to be checked for type consistency--a key feature of PEP 484's static typing.</p>
+<h3 id="generic-classes">Generic Classes<a class="headerlink" href="#generic-classes" title="Permanent link">#</a></h3>
+<p>You can parameterize classes with types as well.
+For example:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="c1"># example_8.py</span>
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Generic</span><span class="p">,</span> <span class="n">TypeVar</span>
+</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>
+</span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="n">T</span> <span class="o">=</span> <span class="n">TypeVar</span><span class="p">(</span><span class="s2">&quot;T&quot;</span><span class="p">)</span>
+</span><span id="__span-7-5"><a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a>
+</span><span id="__span-7-6"><a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a>
+</span><span id="__span-7-7"><a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a><span class="k">class</span> <span class="nc">Box</span><span class="p">(</span><span class="n">Generic</span><span class="p">[</span><span class="n">T</span><span class="p">]):</span>
+</span><span id="__span-7-8"><a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">content</span><span class="p">:</span> <span class="n">T</span><span class="p">):</span>
+</span><span id="__span-7-9"><a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">content</span> <span class="o">=</span> <span class="n">content</span>
+</span><span id="__span-7-10"><a id="__codelineno-7-10" name="__codelineno-7-10" href="#__codelineno-7-10"></a>
+</span><span id="__span-7-11"><a id="__codelineno-7-11" name="__codelineno-7-11" href="#__codelineno-7-11"></a>    <span class="k">def</span> <span class="nf">get_content</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="p">:</span>
+</span><span id="__span-7-12"><a id="__codelineno-7-12" name="__codelineno-7-12" href="#__codelineno-7-12"></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">content</span>
+</span></code></pre></div>
+<p><code>Box[T]</code> is a generic class that can hold a value of type T.
+One can create <code>Box[int]</code>, <code>Box[str]</code>, etc., and the methods will be type-safe.
+In Python 3.12+, class definitions also support the simplified generic syntax:
+<code>class Box[T]:...</code> (without needing to inherit <code>Generic[T]</code>).
+When subclassing generics or creating more complex hierarchies, you might need to be mindful of type variance, but for most user-defined generics, the default invariance (type must match exactly) is fine.</p>
+<h3 id="typingtype-for-class-objects"><code>typing.Type</code> for Class Objects<a class="headerlink" href="#typingtype-for-class-objects" title="Permanent link">#</a></h3>
+<p>When you want to hint that a function parameter or return is not an instance of a class but rather a class itself, use <code>Type[T]</code> (or <code>type[T]</code> in Python 3.9+) where T is a class.
+For example, <code>def factory(cls: type[T]) -&gt; T:</code> indicates that <code>factory</code> expects a class (subclass) of T and will return an instance of that class.
+If you want to accept specific subclasses, you can use a union; for example, <code>user_class: type[BasicUser]</code> means a class object inheriting from <code>BasicUser</code>.
+In documentation, you may see <code>Type[Base]</code> to mean "any subclass of Base."
+This is helpful for functions that need to work with class constructors or class methods.</p>
+<h2 id="structural-subtyping-with-protocols">Structural Subtyping with Protocols<a class="headerlink" href="#structural-subtyping-with-protocols" title="Permanent link">#</a></h2>
+<h3 id="protocols-pep-544">Protocols (PEP 544)<a class="headerlink" href="#protocols-pep-544" title="Permanent link">#</a></h3>
+<p>Python's static typing supports <em>structural typing</em> via <code>Protocol</code> classes.
+A <code>Protocol</code> defines a set of methods and properties that a type must have to satisfy the protocol, without requiring inheritance.
+For example:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="c1"># example_9.py</span>
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Protocol</span>
+</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>
+</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a>
+</span><span id="__span-8-5"><a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a><span class="k">class</span> <span class="nc">SupportsClose</span><span class="p">(</span><span class="n">Protocol</span><span class="p">):</span>
+</span><span id="__span-8-6"><a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a>    <span class="k">def</span> <span class="nf">close</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span> <span class="o">...</span>
+</span></code></pre></div>
+<p>Any object with a <code>.close()</code> method returning None will be considered a <code>SupportsClose</code> for static typing purposes, even if it doesn't inherit from <code>SupportsClose</code>.
+This is akin to an interface or "duck typing" check.
+Protocols enable static type checking of duck-typed code.
+If you mark a protocol with <code>@typing.runtime_checkable</code>, you can even use <code>isinstance(obj, ProtocolName)</code> at runtime (which will just check for the presence of required attributes).
+Protocols can themselves be generic (e.g., an <code>Iterable[T]</code> protocol defines an <code>__iter__</code> that yields T).
+The standard library defines many protocols (e.g.
+<code>typing.Iterable</code>, <code>typing.Sized</code>) that correspond to common Python protocols.
+Using Protocols allows one to write functions that accept any object that "has the right methods," enabling flexible, decoupled code with static checks.
+PEP 544 formalized this in Python 3.8; it's an extension of abstract base classes (ABCs) toward a more implicit structural approach.</p>
+<h2 id="callable-types-and-function-overloading">Callable Types and Function Overloading<a class="headerlink" href="#callable-types-and-function-overloading" title="Permanent link">#</a></h2>
+<h3 id="callable">Callable<a class="headerlink" href="#callable" title="Permanent link">#</a></h3>
+<p>Functions are first-class in Python, so you may want to annotate variables or parameters that are themselves functions (callables).
+The <code>typing.Callable</code> type is used to describe the signature of a callable.
+For example, <code>Callable[[int, str], bool]</code> means "a callable that takes an <code>int</code> and a <code>str</code> and returns a <code>bool</code>."
+If you don't want to specify the parameters (so you can accept any callable returning a specific type), use an ellipsis:
+<code>Callable[..., bool]</code> means any callable returning bool.
+For example:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="c1"># example_10.py</span>
+</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Callable</span>
+</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>
+</span><span id="__span-9-4"><a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a>
+</span><span id="__span-9-5"><a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a><span class="k">def</span> <span class="nf">apply_to_ints</span><span class="p">(</span>
+</span><span id="__span-9-6"><a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a>        <span class="n">func</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">],</span> <span class="nb">int</span><span class="p">],</span> <span class="n">a</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="nb">int</span>
+</span><span id="__span-9-7"><a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+</span><span id="__span-9-8"><a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a>    <span class="k">return</span> <span class="n">func</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
+</span></code></pre></div>
+<p>This function takes another function <code>func</code> that adds or combines two ints and returns int.
+When you pass a lambda or function to <code>apply_to_ints</code>, a type checker will ensure it matches the described signature.</p>
+<h3 id="overloaded-functions-pep-484">Overloaded Functions (PEP 484)<a class="headerlink" href="#overloaded-functions-pep-484" title="Permanent link">#</a></h3>
+<p>Sometimes a function can be called with different argument types and behave differently (especially common in library stubs).
+The <code>@typing.overload</code> decorator allows you to declare multiple <em>overload variants</em> for a function for static typing purposes.
+For example:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="c1"># example_11.py</span>
+</span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">overload</span>
+</span><span id="__span-10-3"><a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>
+</span><span id="__span-10-4"><a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a>
+</span><span id="__span-10-5"><a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a><span class="nd">@overload</span>
+</span><span id="__span-10-6"><a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a><span class="k">def</span> <span class="nf">read</span><span class="p">(</span><span class="n">data</span><span class="p">:</span> <span class="nb">bytes</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span> <span class="o">...</span>
+</span><span id="__span-10-7"><a id="__codelineno-10-7" name="__codelineno-10-7" href="#__codelineno-10-7"></a>
+</span><span id="__span-10-8"><a id="__codelineno-10-8" name="__codelineno-10-8" href="#__codelineno-10-8"></a>
+</span><span id="__span-10-9"><a id="__codelineno-10-9" name="__codelineno-10-9" href="#__codelineno-10-9"></a><span class="nd">@overload</span>
+</span><span id="__span-10-10"><a id="__codelineno-10-10" name="__codelineno-10-10" href="#__codelineno-10-10"></a><span class="k">def</span> <span class="nf">read</span><span class="p">(</span><span class="n">data</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span> <span class="o">...</span>
+</span><span id="__span-10-11"><a id="__codelineno-10-11" name="__codelineno-10-11" href="#__codelineno-10-11"></a>
+</span><span id="__span-10-12"><a id="__codelineno-10-12" name="__codelineno-10-12" href="#__codelineno-10-12"></a>
+</span><span id="__span-10-13"><a id="__codelineno-10-13" name="__codelineno-10-13" href="#__codelineno-10-13"></a><span class="k">def</span> <span class="nf">read</span><span class="p">(</span><span class="n">data</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">bytes</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+</span><span id="__span-10-14"><a id="__codelineno-10-14" name="__codelineno-10-14" href="#__codelineno-10-14"></a>    <span class="c1"># single implementation handling both</span>
+</span><span id="__span-10-15"><a id="__codelineno-10-15" name="__codelineno-10-15" href="#__codelineno-10-15"></a>    <span class="k">return</span> <span class="p">(</span>
+</span><span id="__span-10-16"><a id="__codelineno-10-16" name="__codelineno-10-16" href="#__codelineno-10-16"></a>        <span class="n">data</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span>
+</span><span id="__span-10-17"><a id="__codelineno-10-17" name="__codelineno-10-17" href="#__codelineno-10-17"></a>        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="nb">bytes</span><span class="p">)</span>
+</span><span id="__span-10-18"><a id="__codelineno-10-18" name="__codelineno-10-18" href="#__codelineno-10-18"></a>        <span class="k">else</span> <span class="n">data</span>
+</span><span id="__span-10-19"><a id="__codelineno-10-19" name="__codelineno-10-19" href="#__codelineno-10-19"></a>    <span class="p">)</span>
+</span></code></pre></div>
+<p>Here two overloads declare that <code>read()</code> accepts either bytes or str and always returns str.
+The implementation (without @overload) handles both.
+Type checkers will resolve calls to the appropriate signature.
+Overloading is for the benefit of static analysis; at runtime only the final implementation exists.</p>
+<h3 id="override-decorator-pep-698">Override decorator (PEP 698)<a class="headerlink" href="#override-decorator-pep-698" title="Permanent link">#</a></h3>
+<p>In Python 3.12 a new <code>typing.override</code> decorator was added to improve correctness in class hierarchies.
+You place <code>@override</code> on a method to override a method of the same name in the base class.
+This doesn't change runtime behavior, but a type checker will verify that you are actually overriding a base class method and that your method's signature is compatible with the base class version.
+This helps catch errors where you intended to override a method but misspelled its name or got the signature wrong.
+Using <code>@override</code> can make code maintenance safer in large class hierarchies.</p>
+<h2 id="parameter-specifications-for-higher-order-functions-pep-612">Parameter Specifications for Higher-Order Functions (PEP 612)<a class="headerlink" href="#parameter-specifications-for-higher-order-functions-pep-612" title="Permanent link">#</a></h2>
+<h3 id="paramspec-and-concatenate">ParamSpec and Concatenate<a class="headerlink" href="#paramspec-and-concatenate" title="Permanent link">#</a></h3>
+<p>PEP 612 introduced <code>ParamSpec</code> (Parameter Specification Variables) to support typing of <em>higher-order functions</em>--functions that accept or return other functions with arbitrary signatures.
+A ParamSpec, denoted typically as <code>P = ParamSpec("P")</code>, captures a list of parameters (types and kinds) of a callable.
+For example, you might write:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="c1"># example_12.py</span>
+</span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">ParamSpec</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Concatenate</span>
+</span><span id="__span-11-3"><a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a>
+</span><span id="__span-11-4"><a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a><span class="n">P</span> <span class="o">=</span> <span class="n">ParamSpec</span><span class="p">(</span><span class="s2">&quot;P&quot;</span><span class="p">)</span>
+</span><span id="__span-11-5"><a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a>
+</span><span id="__span-11-6"><a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a>
+</span><span id="__span-11-7"><a id="__codelineno-11-7" name="__codelineno-11-7" href="#__codelineno-11-7"></a><span class="k">def</span> <span class="nf">make_logged</span><span class="p">(</span>
+</span><span id="__span-11-8"><a id="__codelineno-11-8" name="__codelineno-11-8" href="#__codelineno-11-8"></a>        <span class="n">func</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[</span><span class="n">P</span><span class="p">,</span> <span class="nb">int</span><span class="p">],</span>
+</span><span id="__span-11-9"><a id="__codelineno-11-9" name="__codelineno-11-9" href="#__codelineno-11-9"></a><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">[</span><span class="n">Concatenate</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">P</span><span class="p">],</span> <span class="nb">int</span><span class="p">]:</span>
+</span><span id="__span-11-10"><a id="__codelineno-11-10" name="__codelineno-11-10" href="#__codelineno-11-10"></a>    <span class="k">def</span> <span class="nf">wrapper</span><span class="p">(</span>
+</span><span id="__span-11-11"><a id="__codelineno-11-11" name="__codelineno-11-11" href="#__codelineno-11-11"></a>            <span class="n">prefix</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">P</span><span class="o">.</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">P</span><span class="o">.</span><span class="n">kwargs</span>
+</span><span id="__span-11-12"><a id="__codelineno-11-12" name="__codelineno-11-12" href="#__codelineno-11-12"></a>    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+</span><span id="__span-11-13"><a id="__codelineno-11-13" name="__codelineno-11-13" href="#__codelineno-11-13"></a>        <span class="nb">print</span><span class="p">(</span><span class="n">prefix</span><span class="p">,</span> <span class="s2">&quot;Calling:&quot;</span><span class="p">,</span> <span class="n">func</span><span class="o">.</span><span class="vm">__name__</span><span class="p">)</span>
+</span><span id="__span-11-14"><a id="__codelineno-11-14" name="__codelineno-11-14" href="#__codelineno-11-14"></a>        <span class="n">result</span> <span class="o">=</span> <span class="n">func</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+</span><span id="__span-11-15"><a id="__codelineno-11-15" name="__codelineno-11-15" href="#__codelineno-11-15"></a>        <span class="nb">print</span><span class="p">(</span><span class="n">prefix</span><span class="p">,</span> <span class="s2">&quot;Result:&quot;</span><span class="p">,</span> <span class="n">result</span><span class="p">)</span>
+</span><span id="__span-11-16"><a id="__codelineno-11-16" name="__codelineno-11-16" href="#__codelineno-11-16"></a>        <span class="k">return</span> <span class="n">result</span>
+</span><span id="__span-11-17"><a id="__codelineno-11-17" name="__codelineno-11-17" href="#__codelineno-11-17"></a>
+</span><span id="__span-11-18"><a id="__codelineno-11-18" name="__codelineno-11-18" href="#__codelineno-11-18"></a>    <span class="k">return</span> <span class="n">wrapper</span>
+</span></code></pre></div>
+<p><code>make_logged</code> takes a function <code>func</code> that returns an int and has some parameters P.
+It returns a new function that adds a <code>prefix: str</code> in front of <code>func</code>'s parameters.
+We use <code>Callable[P, int]</code> to represent the input function's signature and <code>Callable[Concatenate[str, P], int]</code> for the wrapper's signature.
+<code>Concatenate[str, P]</code> means we're prepending a <code>str</code> argument in front of the parameter list P.
+ParamSpec allows the wrapper to perfectly forward the original function's parameters while adding new ones, preserving full type information.
+This technique is useful for decorators and wrapper functions that modify call signatures.
+Without ParamSpec, one might resort to <code>Callable[..., int]</code> which loses specific parameter types.
+ParamSpecs enable writing precise types for decorators like <code>@property</code>, context managers, function adapters, etc., making the static typing of these patterns much more powerful.</p>
+<h2 id="advanced-and-new-type-constructs">Advanced and New Type Constructs<a class="headerlink" href="#advanced-and-new-type-constructs" title="Permanent link">#</a></h2>
+<h3 id="literal-types-pep-586-and-pep-675">Literal Types (PEP 586 and PEP 675)<a class="headerlink" href="#literal-types-pep-586-and-pep-675" title="Permanent link">#</a></h3>
+<p>A <code>Literal</code> type allows you to indicate that a value is not just of a general type, but a specific constant value (or one of a specific set of constants).
+For example, <code>Literal["GET", "POST"]</code> can be used to type a variable that should only ever equal <code>"GET"</code> or <code>"POST"</code>.
+This is helpful for functions that behave differently based on constant string or numeric inputs.
+In Python 3.8, PEP 586 introduced <code>typing.Literal</code>.
+E.g.
+<code>def set_mode(mode: Literal["fast", "slow"]) -&gt; None:...</code> means mode <em>must</em> be one of those two strings.
+More recently, PEP 675 (Python 3.11) added <code>LiteralString</code>, a special type to mark literal strings for security-sensitive APIs.
+<code>LiteralString</code> is a subtype of <code>str</code> that static analyzers treat as strings that are either literal in the source or derived from other literal strings.
+The goal is to prevent untrusted or dynamic strings from flowing into places where they could cause injection attacks (SQL queries, shell commands, etc.).
+For example:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="c1"># example_13.py</span>
+</span><span id="__span-12-2"><a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">LiteralString</span>
+</span><span id="__span-12-3"><a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a>
+</span><span id="__span-12-4"><a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a>
+</span><span id="__span-12-5"><a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a><span class="k">def</span> <span class="nf">run_query</span><span class="p">(</span><span class="n">query</span><span class="p">:</span> <span class="n">LiteralString</span><span class="p">):</span>  <span class="c1"># noqua</span>
+</span><span id="__span-12-6"><a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a>    <span class="o">...</span>
+</span><span id="__span-12-7"><a id="__codelineno-12-7" name="__codelineno-12-7" href="#__codelineno-12-7"></a>
+</span><span id="__span-12-8"><a id="__codelineno-12-8" name="__codelineno-12-8" href="#__codelineno-12-8"></a>
+</span><span id="__span-12-9"><a id="__codelineno-12-9" name="__codelineno-12-9" href="#__codelineno-12-9"></a><span class="n">run_query</span><span class="p">(</span><span class="s2">&quot;SELECT * FROM users&quot;</span><span class="p">)</span>  <span class="c1"># OK, literal</span>
+</span><span id="__span-12-10"><a id="__codelineno-12-10" name="__codelineno-12-10" href="#__codelineno-12-10"></a><span class="n">q</span> <span class="o">=</span> <span class="s2">&quot;DROP TABLE users&quot;</span>
+</span><span id="__span-12-11"><a id="__codelineno-12-11" name="__codelineno-12-11" href="#__codelineno-12-11"></a><span class="c1"># type checker error (q is not literal):</span>
+</span><span id="__span-12-12"><a id="__codelineno-12-12" name="__codelineno-12-12" href="#__codelineno-12-12"></a><span class="n">run_query</span><span class="p">(</span><span class="n">q</span><span class="p">)</span>  <span class="c1"># type: ignore</span>
+</span></code></pre></div>
+<p>Here, passing a non-literal string to <code>run_query</code> would be flagged by a type checker.
+Literal types thus allow more precise typing for functions expecting fixed values or literal-derived values.</p>
+<h3 id="final-and-constants-pep-591">Final and Constants (PEP 591)<a class="headerlink" href="#final-and-constants-pep-591" title="Permanent link">#</a></h3>
+<p>To indicate that a name should not be reassigned (treated as a constant in type-checking), use the <code>Final</code> qualifier.
+For example, <code>MAX_SIZE: Final[int] = 100</code> tells the type checker that <code>MAX_SIZE</code> should never be re-bound to a different value or type.
+Attempting to assign to it elsewhere would be a static error.
+You can also mark classes as <code>final</code> using <code>@typing.final</code> decorator, which means the class is not intended to be subclassed.
+Similarly, marking a method with <code>@final</code> means it should not be overridden in subclasses.
+This is purely for the type checker/linters; Python won't prevent subclassing or overriding at runtime, but it helps catch design violations in large projects.
+Using Final is useful for constants or to explicitly close off class hierarchies when appropriate.</p>
+<h3 id="annotated-types-pep-593">Annotated Types (PEP 593)<a class="headerlink" href="#annotated-types-pep-593" title="Permanent link">#</a></h3>
+<p>The <code>typing.Annotated</code> type was introduced to enrich type hints with additional metadata.
+Its syntax is <code>Annotated[T, X]</code> where T is a normal type and X is metadata (which can be any value, often a class or string).
+This metadata can be used by frameworks or tools at runtime or by linters for additional validation.
+For instance, one could annotate a type with a range:
+<code>Annotated[int, Between(0, 100)]</code> to indicate an int that should lie between 0 and 100.
+The Python interpreter and core type checkers mostly ignore the second argument of Annotated (they treat the variable as just type T), but specific libraries can inspect it.
+This was added in Python 3.9 to support use-cases like data validation, ORM field specifications, or units attached to values, all while keeping the primary type information.
+In short, <code>Annotated</code> wraps a base type with extra info that third-party consumers can use.</p>
+<h3 id="type-guards-pep-647">Type Guards (PEP 647)<a class="headerlink" href="#type-guards-pep-647" title="Permanent link">#</a></h3>
+<p>A <em>type guard</em> is a special kind of function that informs the type checker of a type refinement.
+Introduced in Python 3.10, <code>typing.TypeGuard</code> is used as a return annotation on a boolean function to indicate that if the function returns True, its argument is of a certain type.
+For example:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="c1"># example_14.py</span>
+</span><span id="__span-13-2"><a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">TypeGuard</span>
+</span><span id="__span-13-3"><a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a>
+</span><span id="__span-13-4"><a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a>
+</span><span id="__span-13-5"><a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a><span class="k">def</span> <span class="nf">is_str_list</span><span class="p">(</span>
+</span><span id="__span-13-6"><a id="__codelineno-13-6" name="__codelineno-13-6" href="#__codelineno-13-6"></a>        <span class="n">vals</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">object</span><span class="p">],</span>
+</span><span id="__span-13-7"><a id="__codelineno-13-7" name="__codelineno-13-7" href="#__codelineno-13-7"></a><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">TypeGuard</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]]:</span>
+</span><span id="__span-13-8"><a id="__codelineno-13-8" name="__codelineno-13-8" href="#__codelineno-13-8"></a>    <span class="k">return</span> <span class="nb">all</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">vals</span><span class="p">)</span>
+</span></code></pre></div>
+<p>Here, <code>is_str_list</code> returns a <code>bool</code>, but the <code>TypeGuard[list[str]]</code> annotation tells the checker that upon a True result, the input <code>vals</code> can be treated as <code>list[str]</code> (not just a <code>list</code> of object).
+This enables writing custom <code>isinstance</code>-like helpers that narrow types.
+Python's <code>match</code> statement and <code>isinstance</code> checks also perform narrowing; TypeGuard extends this to user-defined predicates.
+This concept helps make code with conditional type logic (like parsing JSON to specific shapes) more type-safe and clear to the type checker.</p>
+<h3 id="self-type-pep-673"><code>Self</code> Type (PEP 673)<a class="headerlink" href="#self-type-pep-673" title="Permanent link">#</a></h3>
+<p>In class methods that return <code>self</code> (or class/instance attributes of the same class type), Python 3.11 introduced <code>typing.Self</code> to simplify the annotation.
+Using <code>Self</code> in a method return type or parameter type means "the same type as the class in which this method is defined."
+For example:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="c1"># example_15.py</span>
+</span><span id="__span-14-2"><a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Self</span>
+</span><span id="__span-14-3"><a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a>
+</span><span id="__span-14-4"><a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a>
+</span><span id="__span-14-5"><a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a><span class="k">class</span> <span class="nc">MyBuilder</span><span class="p">:</span>
+</span><span id="__span-14-6"><a id="__codelineno-14-6" name="__codelineno-14-6" href="#__codelineno-14-6"></a>    <span class="k">def</span> <span class="nf">set_name</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Self</span><span class="p">:</span>
+</span><span id="__span-14-7"><a id="__codelineno-14-7" name="__codelineno-14-7" href="#__codelineno-14-7"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>  <span class="c1"># type: ignore</span>
+</span><span id="__span-14-8"><a id="__codelineno-14-8" name="__codelineno-14-8" href="#__codelineno-14-8"></a>        <span class="k">return</span> <span class="bp">self</span>
+</span></code></pre></div>
+<p>The return type <code>Self</code> indicates that <code>set_name</code> returns the exact same class (<code>MyBuilder</code> in this case).
+In subclasses, it will correctly infer the subclass type.
+Without <code>Self</code>, one would have to use a type variable bound to the class, or a string annotation of the class name--both less convenient.
+Common use cases for <code>Self</code> are fluent interfaces (methods that return <code>self</code>), alternative constructors (<code>classmethod</code>s that return an instance of <code>cls</code>), and methods like <code>__enter__</code> in context managers that conventionally return self.
+<code>Self</code> ensures the return type is automatically updated in subclasses, preventing type checkers from thinking a subclass method returning <code>self</code> is returning the base class.</p>
+<h3 id="typeddicts-pep-589-and-extensions">TypedDicts (PEP 589 and extensions)<a class="headerlink" href="#typeddicts-pep-589-and-extensions" title="Permanent link">#</a></h3>
+<p>A <code>TypedDict</code> is a way to describe the expected shape of dictionaries with specific string keys.
+Introduced in Python 3.8, TypedDict allows you to create a type that expects certain keys with certain value types, mimicking the behavior of JavaScript objects or dataclasses but for dicts.
+For example:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="c1"># example_16.py</span>
+</span><span id="__span-15-2"><a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">TypedDict</span>
+</span><span id="__span-15-3"><a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a>
+</span><span id="__span-15-4"><a id="__codelineno-15-4" name="__codelineno-15-4" href="#__codelineno-15-4"></a>
+</span><span id="__span-15-5"><a id="__codelineno-15-5" name="__codelineno-15-5" href="#__codelineno-15-5"></a><span class="k">class</span> <span class="nc">Movie</span><span class="p">(</span><span class="n">TypedDict</span><span class="p">):</span>
+</span><span id="__span-15-6"><a id="__codelineno-15-6" name="__codelineno-15-6" href="#__codelineno-15-6"></a>    <span class="n">title</span><span class="p">:</span> <span class="nb">str</span>
+</span><span id="__span-15-7"><a id="__codelineno-15-7" name="__codelineno-15-7" href="#__codelineno-15-7"></a>    <span class="n">year</span><span class="p">:</span> <span class="nb">int</span>
+</span></code></pre></div>
+<p>This defines a type <code>Movie</code> that is a dict with keys <code>"title"</code> (str) and <code>"year"</code> (int).
+Any extra keys would be a type checker error, and missing required keys are also an error.
+At runtime, a <code>TypedDict</code> is just a plain <code>dict</code> (there's no special dictionary class), so this is a static construct only.
+You can also create TypedDict types using a functional syntax:
+<code>Movie = TypedDict('Movie', {'title': str, 'year': int})</code>.
+By default, all keys are required, but you can make some optional.
+Initially, you could specify <code>total=False</code> on the TypedDict to make all keys optional.
+Later, PEP 655 (Python 3.11) introduced <code>Required</code> and <code>NotRequired</code> markers to allow fine-grained control:
+you can mark individual keys as optional in an otherwise total TypedDict.
+For example:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="c1"># example_17.py</span>
+</span><span id="__span-16-2"><a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">TypedDict</span><span class="p">,</span> <span class="n">Required</span><span class="p">,</span> <span class="n">NotRequired</span>
+</span><span id="__span-16-3"><a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a>
+</span><span id="__span-16-4"><a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a>
+</span><span id="__span-16-5"><a id="__codelineno-16-5" name="__codelineno-16-5" href="#__codelineno-16-5"></a><span class="k">class</span> <span class="nc">Movie</span><span class="p">(</span><span class="n">TypedDict</span><span class="p">,</span> <span class="n">total</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+</span><span id="__span-16-6"><a id="__codelineno-16-6" name="__codelineno-16-6" href="#__codelineno-16-6"></a>    <span class="n">title</span><span class="p">:</span> <span class="n">Required</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>  <span class="c1"># must have title</span>
+</span><span id="__span-16-7"><a id="__codelineno-16-7" name="__codelineno-16-7" href="#__codelineno-16-7"></a>    <span class="n">year</span><span class="p">:</span> <span class="n">NotRequired</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span>  <span class="c1"># may omit year</span>
+</span></code></pre></div>
+<p>This says <code>title</code> is always required, <code>year</code> can be omitted.
+When using <code>total=False</code>, by default all keys are optional unless marked <code>Required</code>.
+Conversely, with <code>total=True</code> (default), all keys are required unless marked <code>NotRequired</code>.
+\
+Another addition is PEP 705 (Python 3.13) which introduced <code>typing.ReadOnly</code> for TypedDict.
+This lets you designate certain keys as read-only (cannot be changed once set) for static checking purposes.
+Example:
+<code>class Config(TypedDict): host: ReadOnly[str]; port: int</code>.
+Changing <code>host</code> after creation would be flagged.
+This is helpful to model immutable data within dictionaries.
+\
+TypedDicts are particularly useful for structures like configuration dicts or JSON data, where you want static validation of keys.
+They are also used in <strong>kwargs type annotations:
+Python 3.11 allows "spreading" a TypedDict into function arguments with</strong>kwargs (PEP 692).
+For instance, <code>def create_movie(**kwargs: Unpack[Movie]) -&gt; None:</code> will ensure that the keyword arguments match the Movie TypedDict schema.
+Here <code>typing.Unpack</code> is used to unpack the TypedDict type.
+This feature helps in writing functions that explicitly accept a set of keyword arguments without listing them in the function signature.</p>
+<h3 id="data-class-transform-pep-681">Data Class Transform (PEP 681)<a class="headerlink" href="#data-class-transform-pep-681" title="Permanent link">#</a></h3>
+<p>Python's <code>dataclasses</code> module and third-party libraries like <em>Pydantic</em> or <em>attrs</em> generate methods (like <code>__init__</code>, <code>__repr__</code>) automatically based on class attributes.
+PEP 681 introduced the <code>typing.dataclass_transform</code> decorator (Python 3.11) which library authors can apply to their decorator or metaclass to hint to static type checkers that the decorator will produce certain dunder methods or behaviors similar to <code>dataclasses</code>.
+For example, Pydantic's <code>BaseModel</code> or attr's <code>@define</code> can use this so that type checkers know that after applying the decorator, the class has an <code>__init__</code> with parameters corresponding to the annotated fields.
+This is a more advanced feature primarily for library developers to improve user experience of static typing when using those libraries.</p>
+<h2 id="forward-references-and-postponed-evaluation">Forward References and Postponed Evaluation<a class="headerlink" href="#forward-references-and-postponed-evaluation" title="Permanent link">#</a></h2>
+<h3 id="forward-references">Forward References<a class="headerlink" href="#forward-references" title="Permanent link">#</a></h3>
+<p>It's common to have types that refer to classes or types not yet defined (e.g., a method in class <code>A</code> that returns an instance of class <code>B</code> defined later in the file).
+To handle this, Python allows using <em>string literals</em> in annotations for forward references.
+For example:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-17-1"><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a><span class="c1"># example_18.py</span>
+</span><span id="__span-17-2"><a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a><span class="k">class</span> <span class="nc">Node</span><span class="p">:</span>
+</span><span id="__span-17-3"><a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a>    <span class="k">def</span> <span class="nf">add_child</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">child</span><span class="p">:</span> <span class="s2">&quot;Node&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span> <span class="o">...</span>
+</span></code></pre></div>
+<p>The quotes allow <code>Node</code> to be incompletely defined when the annotation is evaluated.
+Quoted annotations defer evaluation of that name.
+In Python 3.7+, an alternative to quoting every forward reference is to use <code>from __future__ import annotations</code>, which causes all annotations to be stored as strings by default (PEP 563).
+This "postponed evaluation" was optional in 3.7--3.9 and was meant to become the default behavior in Python 3.10.
+However, that plan was revised:
+PEP 563's default activation was put on hold.
+The Python steering council decided not to turn on the automatic stringification by default due to various issues it caused for runtime introspection and decided to explore a different approach (PEP 649).</p>
+<h3 id="pep-649-deferred-annotations">PEP 649 (Deferred Annotations)<a class="headerlink" href="#pep-649-deferred-annotations" title="Permanent link">#</a></h3>
+<p>PEP 649, accepted for Python's future (targeted for 3.13+), proposes a new mechanism where annotations are neither evaluated at function definition time nor stored as strings.
+Instead, annotations would be stored as code in a special function (<code>__annotate__</code>) that computes them on demand.
+This aims to solve forward references and performance issues more elegantly:
+the evaluation of annotations is deferred until needed, without losing the actual object references or incurring the issues of stringified annotations.
+As of the latest Python (3.12), this is still in progress--by default, Python 3.12 still evaluates annotations normally (unless you use the future import).
+When writing modern code, you can rely on <code>from __future__ import annotations</code> to handle most forward references conveniently (or just use quotes for specific cases).
+Static type checkers themselves resolve forward references even if you leave them as raw names, so this is mostly a runtime concern for introspection via <code>inspect.get_annotations</code> or similar.
+The takeaway:
+forward references are supported via quoting or future imports, and the language is evolving to make annotation evaluation lazy by default in a robust way.</p>
+<h2 id="tools-stubs-and-best-practices">Tools, Stubs, and Best Practices<a class="headerlink" href="#tools-stubs-and-best-practices" title="Permanent link">#</a></h2>
+<h3 id="type-checkers-and-ide-support">Type Checkers and IDE Support<a class="headerlink" href="#type-checkers-and-ide-support" title="Permanent link">#</a></h3>
+<p>To make the most of type annotations, use a static type checker (like <em>mypy</em>, <em>pyright</em>, <em>Pyre</em>) or an IDE with built-in checking (PyCharm, VS Code, etc.).
+These tools will read your annotations and warn you of type mismatches, missing return statements for functions declared to return non-<code>None</code>, improper overrides, etc.
+The type system is standardized enough that most checkers agree on core behavior.
+You can customize their strictness (for example, disallowing implicit <code>Any</code> types).
+Run these checkers as part of your development or CI process to catch bugs early.</p>
+<h3 id="stub-files-pep-484-pep-561">Stub Files (PEP 484 &amp; PEP 561)<a class="headerlink" href="#stub-files-pep-484-pep-561" title="Permanent link">#</a></h3>
+<p>If you are using a library that isn't annotated, or you cannot modify source code to add annotations (e.g., C extension modules or third-party code), you can use <em>stub files</em> (<code>.pyi</code> files) to provide type information.
+A stub file is a skeletal version of a module with only <code>pass</code> statements and type hints.
+PEP 561 describes how libraries can distribute these stubs so that your type checker picks them up.
+For instance, popular libraries often ship a <code>py.typed</code> marker and include inline types or separate stub packages (e.g.
+<code>types-requests</code>).
+As a user, you typically don't need to write stub files unless you're providing types for an untyped library or doing something very dynamic.
+But it's good to know that the ecosystem supports them, enabling gradual adoption of typing even for older code.</p>
+<h3 id="general-best-practices">General Best Practices<a class="headerlink" href="#general-best-practices" title="Permanent link">#</a></h3>
+<ul>
+<li>Adopt Gradually: You don't have to annotate everything at once.
+  It's common to start by annotating function signatures of key modules or adding stubs for critical libraries.
+  Unannotated code defaults to <code>Any</code> types, which type checkers will by default let pass (or you can configure them to be strict).</li>
+<li>Be Comprehensive in Signatures: For a function that you're annotating, try to annotate all parameters and the return type.
+  Partial annotations can sometimes mislead type inference.
+  If a function returns nothing, use <code>-&gt; None</code> for clarity.
+  If a parameter has a default, remember that doesn't automatically make it Optional unless you intend <code>None</code> as a valid value.</li>
+<li>Prefer Specific Types or Protocols: When annotating arguments, use the most general type that works for your function (Liskov substitution principle).
+  For example, if your function only needs to read from a collection, annotate it as <code>Iterable[T]</code> or <code>Sequence[T]</code> instead of <code>list[T]</code>, to allow more types (like tuples, sets).
+  If a parameter can be any object with a certain method, consider using a Protocol instead of a concrete class.
+  Conversely, for return types, it's usually best to be as specific as possible (don't return <code>Any</code> if you can return a concrete type).</li>
+<li>Use Modern Syntax: Prefer the new concise annotation syntax that Python now supports.
+  This means using built-in collection types (e.g.
+  <code>list[int]</code> rather than <code>typing.List[int]</code>) , using <code>X | Y</code> for unions rather than <code>typing.Union[X, Y]</code> , and <code>X | None</code> instead of <code>typing.Optional[X]</code>.
+  These make annotations more readable.
+  The older syntax is still accepted for compatibility, but the newer syntax is encouraged in current code.</li>
+<li>Limit <code>Any</code> and Unsafe Casts: Try to avoid using <code>Any</code> unless absolutely necessary.
+  If you find yourself needing to bypass the type system (via casts or <code># type: ignore</code> comments), consider if there's a better way--such as using Union types, overloading, or restructuring code.
+  If you do use <code>Any</code> (for example, when interfacing with dynamically typed libraries), isolate it at the boundary of your code.</li>
+<li>Leverage Type Narrowing: Write code in a type-friendly way.
+  Use <code>isinstance</code> checks or guard functions (even custom TypeGuard functions) to narrow types, instead of, say, <code>assert isinstance(x, SomeType)</code> which some type checkers might not understand.
+  Many checkers can infer that after <code>if isinstance(obj, str):...
+else:...</code>, in the else branch <code>obj</code> is not a str.
+  This makes your code safer and your type checker happier.</li>
+<li>Keep Types Up to Date: Treat type hints as part of the code documentation.
+  If the code changes, update the annotations to match.
+  Inconsistencies between code and annotations can be more confusing than no annotations.
+  Running a type checker will catch these mismatches.</li>
+<li>Performance Consideration: Annotations are designed to have minimal runtime overhead.
+  They're stored as metadata and can be turned into strings with <code>from __future__ import annotations</code>.
+  Unless you introspect them at runtime (with <code>typing.get_type_hints()</code>), they won't slow down your program.
+  That said, using a type checker in development might slightly slow down your build/test cycle, but it's usually worth the trade-off for the bugs it prevents.</li>
+</ul>
+<p>Each of these topics is elaborated in the official and Python Enhancement Proposals.
+For further reading, the typing section in the Python documentation is an excellent resource.
+They provide code examples and deeper explanations for advanced scenarios, helping you stay up to date with the evolving landscape of type annotations in modern Python.</p>
+<h2 id="references">References<a class="headerlink" href="#references" title="Permanent link">#</a></h2>
+<ol>
+<li><a href="https://docs.python.org/3/library/typing.html">typing--Support for type hints--Python 3.13.2 documentation</a></li>
+<li><a href="https://peps.python.org/pep-0484/">PEP 484--Type Hints | peps.python.org</a></li>
+<li><a href="https://medium.com/@onurbaskin/did-you-know-some-types-in-pythons-typing-module-are-now-deprecated-551ab9ac1ba1">Did You Know Some Types in Python's Typing Module Are Now...</a></li>
+<li><a href="https://typing.python.org/en/latest/reference/best_practices.html">Typing Best Practices--typing documentation</a></li>
+<li><a href="https://docs.python.org/3/whatsnew/3.12.html">What's New In Python 3.12--Python 3.13.2 documentation</a></li>
+<li><a href="https://docs.python.org/3/whatsnew/3.11.html">What's New In Python 3.11--Python 3.13.2 documentation</a></li>
+<li><a href="https://peps.python.org/pep-0649/">PEP 649--Deferred Evaluation Of Annotations Using Descriptors | peps.python.org</a></li>
+<li><a href="https://typing.python.org/en/latest/spec/distributing.html">Distributing type information--typing documentation</a></li>
+<li><a href="https://docs.python.org/3/library/typing.html">Python typing documentation</a></li>
+<li><a href="https://mypy.readthedocs.io/en/stable/cheat_sheet_py3.html">"Typing Cheat Sheet" for Python</a></li>
+</ol>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "..", "features": ["content.code.copy", "content.code.select", "navigation.indexes"], "search": "../assets/javascripts/workers/search.f8cc74c7.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.c8b220af.min.js"></script>
+      
+    
+  </body>
+</html>

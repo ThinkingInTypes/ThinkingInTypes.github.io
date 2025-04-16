@@ -1,0 +1,1508 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://ThinkingInTypes.github.io/C04_Using_Types/">
+      
+      
+        <link rel="prev" href="../C03_What_is_a_Type/">
+      
+      
+        <link rel="next" href="../C05_Custom_Types/">
+      
+      
+      <link rel="icon" href="../img/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.8">
+    
+    
+      
+        <title>4: Using Types - Thinking in Types</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.8608ea7d.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#using-types" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Thinking in Types" class="md-header__button md-logo" aria-label="Thinking in Types" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Thinking in Types
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              4: Using Types
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/ThinkingInTypes/ThinkingInTypes.github.io" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Thinking in Types" class="md-nav__button md-logo" aria-label="Thinking in Types" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Thinking in Types
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/ThinkingInTypes/ThinkingInTypes.github.io" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../C01_Preface/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    1: Preface
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../C02_Foundations/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    2: Foundations
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../C03_What_is_a_Type/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    3: What is a Type
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    4: Using Types
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    4: Using Types
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#built-in-types-int-str-float-bool-none" class="md-nav__link">
+    <span class="md-ellipsis">
+      Built-in Types (int, str, float, bool, None)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#variables-and-functions" class="md-nav__link">
+    <span class="md-ellipsis">
+      Variables and Functions
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Variables and Functions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#variables" class="md-nav__link">
+    <span class="md-ellipsis">
+      Variables
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#functions" class="md-nav__link">
+    <span class="md-ellipsis">
+      Functions
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#optional-types-and-default-values" class="md-nav__link">
+    <span class="md-ellipsis">
+      Optional Types and Default Values
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#union-types" class="md-nav__link">
+    <span class="md-ellipsis">
+      Union Types
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Union Types">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#union" class="md-nav__link">
+    <span class="md-ellipsis">
+      Union
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#the-union-operator" class="md-nav__link">
+    <span class="md-ellipsis">
+      The | Union Operator
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#lists-tuples-sets-and-dicts" class="md-nav__link">
+    <span class="md-ellipsis">
+      Lists, Tuples, Sets, and Dicts
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Lists, Tuples, Sets, and Dicts">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#lists" class="md-nav__link">
+    <span class="md-ellipsis">
+      Lists
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tuples" class="md-nav__link">
+    <span class="md-ellipsis">
+      Tuples
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sets" class="md-nav__link">
+    <span class="md-ellipsis">
+      Sets
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dictionaries" class="md-nav__link">
+    <span class="md-ellipsis">
+      Dictionaries
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#annotations-without-imports" class="md-nav__link">
+    <span class="md-ellipsis">
+      Annotations without Imports
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#specialized-annotations-sequence-mapping-iterable-iterator" class="md-nav__link">
+    <span class="md-ellipsis">
+      Specialized Annotations (Sequence, Mapping, Iterable, Iterator)
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Specialized Annotations (Sequence, Mapping, Iterable, Iterator)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#sequence" class="md-nav__link">
+    <span class="md-ellipsis">
+      Sequence
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mapping" class="md-nav__link">
+    <span class="md-ellipsis">
+      Mapping
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#iterable-and-iterator" class="md-nav__link">
+    <span class="md-ellipsis">
+      Iterable and Iterator
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#faster-development-clearer-results" class="md-nav__link">
+    <span class="md-ellipsis">
+      Faster Development, Clearer Results
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../C05_Custom_Types/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    5: Custom Types
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../C06_Immutability/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    6: Immutability
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../C07_Pattern_Matching/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    7: Pattern Matching
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../C08_Generics/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    8: Generics
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../C09_Callables/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    9: Callables
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../C10_Structural_Typing/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    10: Structural Typing
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../C11_Make_Illegal_Types_Unrepresentable/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    11: Make Illegal Types Unrepresentable
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../C12_Errors_as_Values/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    12: Errors as Values
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../C13_Uncategorized_Topics/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    13: Uncategorized Topics
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Z01_Appendix_Annotations/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    A1: Annotations
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Z02_Appendix_Glossary/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    A2: Glossary
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Z03_Appendix_Guidelines/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    A3: Guidelines
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Z04_Appendix_Type_Checkers/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    A4: Type Checkers
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Z05_Appendix_Automatic_Annotations/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    A5: Automatic Annotations
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Z06_Appendix_Class_Attributes/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    A6: Class Attributes
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Z07_Appendix_Tools/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    A7: Tools
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Z08_Appendix_Book_Utilities/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    A8: Book Utilities
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Z09_Appendix_Book_Notes/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    A9: Book Notes
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Z10_Appendix_Reference/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    A10: Reference
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#built-in-types-int-str-float-bool-none" class="md-nav__link">
+    <span class="md-ellipsis">
+      Built-in Types (int, str, float, bool, None)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#variables-and-functions" class="md-nav__link">
+    <span class="md-ellipsis">
+      Variables and Functions
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Variables and Functions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#variables" class="md-nav__link">
+    <span class="md-ellipsis">
+      Variables
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#functions" class="md-nav__link">
+    <span class="md-ellipsis">
+      Functions
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#optional-types-and-default-values" class="md-nav__link">
+    <span class="md-ellipsis">
+      Optional Types and Default Values
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#union-types" class="md-nav__link">
+    <span class="md-ellipsis">
+      Union Types
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Union Types">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#union" class="md-nav__link">
+    <span class="md-ellipsis">
+      Union
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#the-union-operator" class="md-nav__link">
+    <span class="md-ellipsis">
+      The | Union Operator
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#lists-tuples-sets-and-dicts" class="md-nav__link">
+    <span class="md-ellipsis">
+      Lists, Tuples, Sets, and Dicts
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Lists, Tuples, Sets, and Dicts">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#lists" class="md-nav__link">
+    <span class="md-ellipsis">
+      Lists
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tuples" class="md-nav__link">
+    <span class="md-ellipsis">
+      Tuples
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sets" class="md-nav__link">
+    <span class="md-ellipsis">
+      Sets
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dictionaries" class="md-nav__link">
+    <span class="md-ellipsis">
+      Dictionaries
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#annotations-without-imports" class="md-nav__link">
+    <span class="md-ellipsis">
+      Annotations without Imports
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#specialized-annotations-sequence-mapping-iterable-iterator" class="md-nav__link">
+    <span class="md-ellipsis">
+      Specialized Annotations (Sequence, Mapping, Iterable, Iterator)
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Specialized Annotations (Sequence, Mapping, Iterable, Iterator)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#sequence" class="md-nav__link">
+    <span class="md-ellipsis">
+      Sequence
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mapping" class="md-nav__link">
+    <span class="md-ellipsis">
+      Mapping
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#iterable-and-iterator" class="md-nav__link">
+    <span class="md-ellipsis">
+      Iterable and Iterator
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#faster-development-clearer-results" class="md-nav__link">
+    <span class="md-ellipsis">
+      Faster Development, Clearer Results
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="using-types">Using Types<a class="headerlink" href="#using-types" title="Permanent link">#</a></h1>
+<p>Type annotations improve clarity and enable static type checkers to catch errors early.
+We'll look at Python's <code>typing</code> module and apply type annotations to variables, functions, and data structures.</p>
+<h2 id="built-in-types-int-str-float-bool-none">Built-in Types (<code>int</code>, <code>str</code>, <code>float</code>, <code>bool</code>, <code>None</code>)<a class="headerlink" href="#built-in-types-int-str-float-bool-none" title="Permanent link">#</a></h2>
+<p>Annotating variables with <code>int</code>, <code>str</code>, <code>float</code>, <code>bool</code>, or <code>None</code> explicitly communicates the expected type of data.
+This makes code more readable and helps tools catch mismatches.
+For example:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1"># example_1.py</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="n">age</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">25</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;Alice&quot;</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="n">salary</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">45000.50</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="n">is_active</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="n">no_value</span><span class="p">:</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+</span></code></pre></div>
+<p>Each variable's type is clearly stated.
+A reader can immediately see that <code>age</code> should be an integer, <code>name</code> a string, and so on.
+Type annotations do not change the runtime behavior of the code--Python will not enforce them at runtime--but they serve as important documentation.
+They also enable static type checkers and IDEs to detect errors (for instance, if you later try to treat <code>age</code> as a string, a type checker would warn you).</p>
+<p>Annotating with <code>None</code> as a type (as shown for <code>no_value</code>) indicates that the variable should hold no value.
+It's equivalent to saying the variable's type is <code>NoneType</code>.
+In summary, using built-in type names in annotations is straightforward and is the foundation for more complex types.</p>
+<h2 id="variables-and-functions">Variables and Functions<a class="headerlink" href="#variables-and-functions" title="Permanent link">#</a></h2>
+<p>Type annotations can be applied to both variables and function definitions.
+In both cases, they clarify what type of data is expected, which helps in reasoning about the code.</p>
+<h3 id="variables">Variables<a class="headerlink" href="#variables" title="Permanent link">#</a></h3>
+<p>To annotate variables at the time of assignment, place a colon after the variable name,
+followed by the type, and then the assignment:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="c1"># example_2.py</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="n">user_id</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">123</span>
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="n">username</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;admin&quot;</span>
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="n">level</span><span class="p">:</span> <span class="nb">float</span>
+</span></code></pre></div>
+<p>Even if we don't immediately assign a value, as in <code>level</code>,
+we can still provide a type hint to indicate the intended usage of that variable.</p>
+<h3 id="functions">Functions<a class="headerlink" href="#functions" title="Permanent link">#</a></h3>
+<p>Using annotations for functions makes code self-explanatory.
+We annotate each function parameter as well as the return type of the function, after an <code>-&gt;</code> arrow:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1"># example_3.py</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="k">def</span> <span class="nf">greet_user</span><span class="p">(</span><span class="n">username</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>    <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;Welcome, </span><span class="si">{</span><span class="n">username</span><span class="si">}</span><span class="s2">!&quot;</span>
+</span></code></pre></div>
+<p>Here the parameter <code>username</code> expects a <code>str</code>, and <code>greet_user</code> returns a string (the greeting message).
+The annotation <code>-&gt; str</code> after the parentheses indicates the return type.
+These annotations serve as both documentation and a contract: anyone reading the code can see what type <code>greet_user</code> expects and returns.
+A type checker flags calls like <code>greet_user(123)</code> as errors because <code>123</code> is not a <code>str</code>.</p>
+<p>Imagine a function with multiple parameters or a complex return type--having those types explicitly stated can prevent misuse.</p>
+<p>If a function does not return anything, you can annotate its return type as <code>None</code>, or omit the return annotation, which implies <code>None</code>.
+For instance, <code>def log_message(msg: str) -&gt; None:</code> tells you the function is only called to perform <em>side effects</em>.</p>
+<h2 id="optional-types-and-default-values">Optional Types and Default Values<a class="headerlink" href="#optional-types-and-default-values" title="Permanent link">#</a></h2>
+<p>If a variable or a function argument is optional, it can either hold a value of a certain type <em>or</em> be <code>None</code> to indicate the absence of a value.
+To represent this in type hints, Python provides <code>Optional</code> in the <code>typing</code> module.
+<code>Optional[T]</code> is shorthand for "either type <code>T</code> or <code>None</code>".</p>
+<p>For example, consider a function that tries to find a user by ID and returns the user's name if found, or <code>None</code> if not found:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="c1"># example_4.py</span>
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span>
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>
+</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="k">def</span> <span class="nf">find_user</span><span class="p">(</span><span class="n">user_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>    <span class="k">if</span> <span class="n">user_id</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+</span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a>        <span class="k">return</span> <span class="s2">&quot;Alice&quot;</span>
+</span><span id="__span-3-8"><a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a>    <span class="k">return</span> <span class="kc">None</span>
+</span></code></pre></div>
+<p>The return type of <code>Optional[str]</code> means the function returns either a string (the user's name) or <code>None</code> (if no user was found for that ID).
+A <code>user_id</code> of <code>1</code> produces a string <code>"Alice"</code>, otherwise it returns <code>None</code>.
+Without the <code>Optional</code>, someone looking at the function signature might assume it always returns a string.
+The type annotation makes it clear that <code>None</code> is a possible outcome.</p>
+<p><code>Optional</code> types are useful with default arguments that can be <code>None</code>:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="c1"># example_5.py</span>
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span>
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="k">def</span> <span class="nf">greet</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>    <span class="k">if</span> <span class="n">name</span><span class="p">:</span>
+</span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a>        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;Hello, </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">!&quot;</span>
+</span><span id="__span-4-8"><a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a>    <span class="k">return</span> <span class="s2">&quot;Hello!&quot;</span>
+</span></code></pre></div>
+<p>The use of <code>Optional[str]</code> clearly communicates that you can call <code>greet()</code> without an argument (treating <code>name</code> as <code>None</code>), or call <code>greet("Bob")</code> with a string.
+The function returns a string either way--if a name is given, it includes the name in the greeting; if not, it returns a generic greeting.</p>
+<p>You can also write the above annotation as <code>Union[str, None]</code> or <code>str | None</code>; <code>Optional</code> is preferred because it is more and descriptive.</p>
+<h2 id="union-types">Union Types<a class="headerlink" href="#union-types" title="Permanent link">#</a></h2>
+<p>A <em>union type</em> indicates that a variable or function parameter can accept several different types instead of just one.
+The <code>typing</code> module provides <code>Union</code> for this purpose, and in more recent versions of Python you can use the <code>|</code> operator.</p>
+<h3 id="union"><code>Union</code><a class="headerlink" href="#union" title="Permanent link">#</a></h3>
+<p>Before Python 3.10, the typical way to declare a union of types was to use <code>typing.Union</code>, like this:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="c1"># example_6.py</span>
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Union</span>
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>
+</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>
+</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="k">def</span> <span class="nf">process_value</span><span class="p">(</span><span class="n">value</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+</span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>    <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+</span></code></pre></div>
+<p>The parameter <code>value</code> can be either an <code>int</code> or a <code>str</code>.
+The function converts <code>value</code> to a string (using the built-in <code>str()</code> constructor).
+The annotation <code>Union[int, str]</code> makes it clear that both types are acceptable, and the type checker will flag an attempt to use any other type.</p>
+<p>Unions can include more than two types.
+<code>Union[int, str, float]</code> means a value can be an <code>int</code> or a <code>str</code> or a <code>float</code>.
+However, if you write union that includes <code>None</code> (like <code>Union[X, None]</code>), remember that you can simplify it using <code>Optional[X]</code>.</p>
+<h3 id="the-union-operator">The <code>|</code> Union Operator<a class="headerlink" href="#the-union-operator" title="Permanent link">#</a></h3>
+<p>Python 3.10 introduced a more concise syntax for union types using the <code>|</code> operator.
+Unions written this way indicate use the idea of the logical "OR" to combine the different types.
+This rewritten <code>process_value</code> definition is equivalent to the previous one using <code>Union[int, str]</code>:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="c1"># example_7.py</span>
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>
+</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>
+</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="k">def</span> <span class="nf">process_value</span><span class="p">(</span><span class="n">value</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+</span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>    <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+</span></code></pre></div>
+<p>This syntax is shorter and often clearer--you can read it as, "value is an <code>int</code> or <code>str</code>".</p>
+<p>You can chain the <code>|</code> operator to include multiple types (e.g., <code>int | str | float</code>), and you can use it with <code>None</code>: <code>str | None</code> is the same as <code>Optional[str]</code>:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="c1"># union_plus_optional.py</span>
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span>
+</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>
+</span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a>
+</span><span id="__span-7-5"><a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a><span class="k">def</span> <span class="nf">f1</span><span class="p">(</span><span class="n">value</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+</span><span id="__span-7-6"><a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a>    <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+</span><span id="__span-7-7"><a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a>
+</span><span id="__span-7-8"><a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a>
+</span><span id="__span-7-9"><a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a><span class="nb">print</span><span class="p">(</span><span class="n">f1</span><span class="p">(</span><span class="mi">42</span><span class="p">),</span> <span class="n">f1</span><span class="p">(</span><span class="s2">&quot;forty-two&quot;</span><span class="p">),</span> <span class="n">f1</span><span class="p">(</span><span class="kc">None</span><span class="p">))</span>
+</span><span id="__span-7-10"><a id="__codelineno-7-10" name="__codelineno-7-10" href="#__codelineno-7-10"></a><span class="c1">## 42 forty-two None</span>
+</span><span id="__span-7-11"><a id="__codelineno-7-11" name="__codelineno-7-11" href="#__codelineno-7-11"></a>
+</span><span id="__span-7-12"><a id="__codelineno-7-12" name="__codelineno-7-12" href="#__codelineno-7-12"></a>
+</span><span id="__span-7-13"><a id="__codelineno-7-13" name="__codelineno-7-13" href="#__codelineno-7-13"></a><span class="k">def</span> <span class="nf">f2</span><span class="p">(</span><span class="n">value</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span> <span class="o">|</span> <span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+</span><span id="__span-7-14"><a id="__codelineno-7-14" name="__codelineno-7-14" href="#__codelineno-7-14"></a>    <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+</span><span id="__span-7-15"><a id="__codelineno-7-15" name="__codelineno-7-15" href="#__codelineno-7-15"></a>
+</span><span id="__span-7-16"><a id="__codelineno-7-16" name="__codelineno-7-16" href="#__codelineno-7-16"></a>
+</span><span id="__span-7-17"><a id="__codelineno-7-17" name="__codelineno-7-17" href="#__codelineno-7-17"></a><span class="nb">print</span><span class="p">(</span><span class="n">f2</span><span class="p">(</span><span class="mi">42</span><span class="p">),</span> <span class="n">f2</span><span class="p">(</span><span class="s2">&quot;forty-two&quot;</span><span class="p">),</span> <span class="n">f2</span><span class="p">(</span><span class="kc">None</span><span class="p">))</span>
+</span><span id="__span-7-18"><a id="__codelineno-7-18" name="__codelineno-7-18" href="#__codelineno-7-18"></a><span class="c1">## 42 forty-two None</span>
+</span></code></pre></div>
+<p>If you must support older Python versions, use <code>Union</code>.</p>
+<h2 id="lists-tuples-sets-and-dicts"><code>List</code>s, <code>Tuple</code>s, <code>Set</code>s, and <code>Dict</code>s<a class="headerlink" href="#lists-tuples-sets-and-dicts" title="Permanent link">#</a></h2>
+<p>Python's built-in collection types are generic, meaning they can hold items of any type.
+With type hints, we can specify what type of items a particular collection is supposed to contain.
+This makes our intentions clear (e.g., a list of integers vs. a list of strings) and helps catch errors such as accidentally putting the wrong type of item in a collection.</p>
+<p>The <code>typing</code> module provides specialized generic classes for common collections: <code>List</code>, <code>Tuple</code>, <code>Set</code>, and <code>Dict</code> (note: in Python 3.9+, you can use the built-in class names with brackets, which we will discuss in the next section).
+We use these to annotate collections with their element types.</p>
+<h3 id="lists">Lists<a class="headerlink" href="#lists" title="Permanent link">#</a></h3>
+<p>A list is an ordered collection of items.
+When annotating a list, we specify the type of its elements inside square brackets:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="c1"># example_9.py</span>
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span>
+</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>
+</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="n">scores</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="mi">95</span><span class="p">,</span> <span class="mi">85</span><span class="p">,</span> <span class="mi">75</span><span class="p">]</span>
+</span></code></pre></div>
+<p>Here, <code>scores</code> is declared to be a list of integers.
+The annotation <code>List[int]</code> tells us and the type checker that every element of <code>scores</code> should be an <code>int</code>.
+If somewhere else in the code we mistakenly append a string to <code>scores</code>, a type checker would complain.
+The benefit is clear: by reading the annotation, we know exactly what <code>scores</code> contains, and we get early warnings if we misuse it.</p>
+<h3 id="tuples"><code>Tuple</code>s<a class="headerlink" href="#tuples" title="Permanent link">#</a></h3>
+<p><code>Tuple</code>s are fixed-size sequences, often used for grouping heterogeneous data.
+Unlike lists, where all elements are usually of one type, <code>Tuple</code>s often have a fixed structure (e.g., a pair of a <code>float</code> and a <code>float</code> for coordinates).
+We can annotate <code>Tuple</code>s by listing the types of each position:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="c1"># example_10.py</span>
+</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Tuple</span>
+</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>
+</span><span id="__span-9-4"><a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="n">coordinates</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mf">23.5</span><span class="p">,</span> <span class="mf">45.8</span><span class="p">)</span>
+</span></code></pre></div>
+<p>The annotation <code>Tuple[float, float]</code> means: a <code>Tuple</code> with exactly two elements, the first a <code>float</code> and the second a <code>float</code>.
+If we tried to assign <code>coordinates = (23.5, "north")</code>, a static checker would flag it, because the second element isn't a <code>float</code> as expected.</p>
+<p>For <code>Tuple</code>s of variable length where all elements are the same type, you can use an ellipsis in the annotation (e.g., <code>Tuple[int, ...]</code> for "a <code>Tuple</code> of <code>int</code> of any length").
+However, in many cases where you have a sequence of varying length, a list might be more appropriate.
+Use the <code>Tuple</code> annotation when the position and count of elements are fixed and meaningful.</p>
+<h3 id="sets">Sets<a class="headerlink" href="#sets" title="Permanent link">#</a></h3>
+<p>To annotate a set, we specify the type of its elements:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="c1"># example_11.py</span>
+</span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Set</span>
+</span><span id="__span-10-3"><a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>
+</span><span id="__span-10-4"><a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a><span class="n">unique_ids</span><span class="p">:</span> <span class="n">Set</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;abc&quot;</span><span class="p">,</span> <span class="s2">&quot;xyz&quot;</span><span class="p">,</span> <span class="s2">&quot;123&quot;</span><span class="p">}</span>
+</span></code></pre></div>
+<p>The annotation <code>Set[str]</code> indicates that every element of the set should be a string.
+If code later tries to add a non-string to <code>unique_ids</code>, a type checker will report an error.
+As with lists, specifying the element type as <code>Set</code> makes the intended content clear.
+It also helps readers understand what kind of data <code>unique_ids</code> holds (e.g., user identifiers, in this case represented as strings).</p>
+<h3 id="dictionaries">Dictionaries<a class="headerlink" href="#dictionaries" title="Permanent link">#</a></h3>
+<p>When annotating dictionaries, we must specify two types: one for keys and one for values:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="c1"># example_12.py</span>
+</span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Dict</span>
+</span><span id="__span-11-3"><a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a>
+</span><span id="__span-11-4"><a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a><span class="n">user_data</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;Alice&quot;</span><span class="p">:</span> <span class="mi">30</span><span class="p">,</span> <span class="s2">&quot;Bob&quot;</span><span class="p">:</span> <span class="mi">25</span><span class="p">}</span>
+</span></code></pre></div>
+<p>The annotation tells us that <code>user_data</code> maps names (<code>str</code>) to ages (<code>int</code>).
+The type hint ensures that someone doesn't accidentally pass in, say, a dict mapping names to something else like phone numbers (unless it matches the specified types).</p>
+<p>Using these collection type annotations (<code>List</code>, <code>Tuple</code>, <code>Set</code>, <code>Dict</code>) greatly enhances code documentation.
+They specify not just that a variable is a list or dict, but what's inside it.
+This is crucial for writing correct code--many bugs come from misunderstanding data types.
+Next, we will see that Python has even more convenient ways to write these annotations, especially in newer versions.</p>
+<h2 id="annotations-without-imports">Annotations without Imports<a class="headerlink" href="#annotations-without-imports" title="Permanent link">#</a></h2>
+<p>Starting with Python 3.9, Python allows the direct use of built-in collection type names.
+This means you can write <code>list[int]</code> instead of importing <code>List</code> from <code>typing</code>, and similarly for <code>dict</code>, <code>tuple</code>, and <code>set</code>.</p>
+<p>This removes the extra imports and makes the syntax more natural:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="c1"># example_13.py</span>
+</span><span id="__span-12-2"><a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="n">scores</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="mi">95</span><span class="p">,</span> <span class="mi">85</span><span class="p">,</span> <span class="mi">75</span><span class="p">]</span>
+</span><span id="__span-12-3"><a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a><span class="n">user_data</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+</span><span id="__span-12-4"><a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a>    <span class="s2">&quot;Alice&quot;</span><span class="p">:</span> <span class="mf">95.5</span><span class="p">,</span>
+</span><span id="__span-12-5"><a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a>    <span class="s2">&quot;Bob&quot;</span><span class="p">:</span> <span class="mf">85.3</span><span class="p">,</span>
+</span><span id="__span-12-6"><a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a><span class="p">}</span>
+</span></code></pre></div>
+<p>You can do the same for <code>tuple</code> and <code>set</code> (e.g., <code>coordinates: tuple[float, float] = (23.5, 45.8)</code> or <code>unique_ids: set[str] = {"a", "b"}</code>), and the other standard library collection types.</p>
+<p>To support Python versions earlier than 3.9, use <code>typing.List</code> / <code>typing.Dict</code> style,
+because bracketed syntax for built-in types won't be recognized in older versions.
+This book will use the built-in names whenever possible</p>
+<p>There is also a mechanism called <code>from __future__ import annotations</code> that can ease adoption of newer annotation features by treating annotations as strings (to avoid evaluation issues), but that is an advanced detail beyond our current scope.
+TODO: Add an example</p>
+<h2 id="specialized-annotations-sequence-mapping-iterable-iterator">Specialized Annotations (<code>Sequence</code>, <code>Mapping</code>, <code>Iterable</code>, <code>Iterator</code>)<a class="headerlink" href="#specialized-annotations-sequence-mapping-iterable-iterator" title="Permanent link">#</a></h2>
+<p>Sometimes you want a more abstract concept of a type.
+For example, suppose you write a function that takes anything you can iterate over, rather than a specific type like <code>list</code> or <code>tuple</code> or <code>set</code>.
+Or a function that can accept any kind of mapping; not just a built-in <code>dict</code>, but maybe an <code>OrderedDict</code> or a custom mapping type.
+For such cases, the <code>typing</code> module provides specialized abstract types: <code>Sequence</code>, <code>Mapping</code>, <code>Iterable</code>, <code>Iterator</code>, and others.</p>
+<p>These abstract annotations allow broader compatibility.
+They indicate the function or variable isn't tied to one specific implementation, but rather to a category of types that share certain behavior.</p>
+<h3 id="sequence"><code>Sequence</code><a class="headerlink" href="#sequence" title="Permanent link">#</a></h3>
+<p>A <code>Sequence</code> represents any ordered collection that supports element access by index and has a length.
+This includes Python's <code>list</code>, <code>tuple</code>, <code>range</code>, and even <code>str</code> (a string can be seen as a sequence of characters).</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="c1"># example_14.py</span>
+</span><span id="__span-13-2"><a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Sequence</span>
+</span><span id="__span-13-3"><a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a>
+</span><span id="__span-13-4"><a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a>
+</span><span id="__span-13-5"><a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a><span class="k">def</span> <span class="nf">average</span><span class="p">(</span><span class="n">numbers</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">float</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+</span><span id="__span-13-6"><a id="__codelineno-13-6" name="__codelineno-13-6" href="#__codelineno-13-6"></a>    <span class="k">return</span> <span class="nb">sum</span><span class="p">(</span><span class="n">numbers</span><span class="p">)</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">numbers</span><span class="p">)</span>
+</span></code></pre></div>
+<p>In <code>average</code>, we accept <code>numbers</code> as a <code>Sequence[float]</code>.
+This means you can pass in a list of floats, a <code>tuple</code> of floats, or any sequence (ordered collection) of <code>float</code>s, and the function will calculate the average.
+If we annotate <code>numbers</code> as <code>List[float]</code>, the type checker complains if you pass anything that's not explicitly a <code>list</code>.
+By using the broader <code>Sequence</code> type, we allow any suitable container, which makes the function more flexible while still ensuring the elements are <code>float</code>s.</p>
+<h3 id="mapping"><code>Mapping</code><a class="headerlink" href="#mapping" title="Permanent link">#</a></h3>
+<p>A <code>Mapping</code> represents an object with key-value pairs, like dictionaries.
+It is an abstract supertype of <code>dict</code> and other mappings.
+A <code>Mapping[K, V]</code> has keys of type <code>K</code> and values of type <code>V</code>.</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="c1"># example_15.py</span>
+</span><span id="__span-14-2"><a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Mapping</span>
+</span><span id="__span-14-3"><a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a>
+</span><span id="__span-14-4"><a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a>
+</span><span id="__span-14-5"><a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a><span class="k">def</span> <span class="nf">get_user_age</span><span class="p">(</span>
+</span><span id="__span-14-6"><a id="__codelineno-14-6" name="__codelineno-14-6" href="#__codelineno-14-6"></a>    <span class="n">users</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">],</span> <span class="n">username</span><span class="p">:</span> <span class="nb">str</span>
+</span><span id="__span-14-7"><a id="__codelineno-14-7" name="__codelineno-14-7" href="#__codelineno-14-7"></a><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+</span><span id="__span-14-8"><a id="__codelineno-14-8" name="__codelineno-14-8" href="#__codelineno-14-8"></a>    <span class="k">return</span> <span class="n">users</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">username</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+</span></code></pre></div>
+<p><code>get_user_age</code> takes a <code>users</code> argument annotated as <code>Mapping[str, int]</code>.
+This accepts any mapping from <code>str</code> to <code>int</code>.
+It can be anything from a normal <code>dict</code> to something like <code>collections.UserDict</code> or any custom object that implements the mapping protocol.
+The function body uses <code>users.get(username, 0)</code> to retrieve an integer age, defaulting to 0 if the username is not found.
+By annotating with <code>Mapping[str, int]</code> instead of <code>Dict[str, int]</code>, we are not forcing the caller to provide a built-in <code>dict</code>--any mapping will do.
+This gives the function flexibility; for example, it could work with an <code>os.environ</code> mapping, which behaves like a dict for environment variables, or a database proxy that implements the mapping interface.</p>
+<h3 id="iterable-and-iterator"><code>Iterable</code> and <code>Iterator</code><a class="headerlink" href="#iterable-and-iterator" title="Permanent link">#</a></h3>
+<p>An <code>Iterable</code> describes any object that you can loop over (using a <code>for</code> loop or other iteration contexts).
+If the object has an <code>__iter__()</code> method, it implements the <code>Iterable</code> protocol.
+Examples include <code>list</code>s, <code>set</code>s, <code>tuple</code>s, <code>dict</code>s (iterating over keys), file objects (iterating over lines), and more.</p>
+<p>An <code>Iterator</code> is a subtype of <code>Iterable</code> that represents the actual <code>Iterator</code> object returned by calling <code>iter()</code> on an <code>Iterable</code>.
+It implements a <code>__next__()</code> method that returns the next item or raises <code>StopIteration</code> when there are no more items.
+<em>Generator functions</em> (functions using the <code>yield</code> keyword) produce iterators.</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="c1"># example_16.py</span>
+</span><span id="__span-15-2"><a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">Iterator</span>
+</span><span id="__span-15-3"><a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a>
+</span><span id="__span-15-4"><a id="__codelineno-15-4" name="__codelineno-15-4" href="#__codelineno-15-4"></a>
+</span><span id="__span-15-5"><a id="__codelineno-15-5" name="__codelineno-15-5" href="#__codelineno-15-5"></a><span class="k">def</span> <span class="nf">print_items</span><span class="p">(</span><span class="n">items</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="__span-15-6"><a id="__codelineno-15-6" name="__codelineno-15-6" href="#__codelineno-15-6"></a>    <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">items</span><span class="p">:</span>
+</span><span id="__span-15-7"><a id="__codelineno-15-7" name="__codelineno-15-7" href="#__codelineno-15-7"></a>        <span class="nb">print</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+</span><span id="__span-15-8"><a id="__codelineno-15-8" name="__codelineno-15-8" href="#__codelineno-15-8"></a>
+</span><span id="__span-15-9"><a id="__codelineno-15-9" name="__codelineno-15-9" href="#__codelineno-15-9"></a>
+</span><span id="__span-15-10"><a id="__codelineno-15-10" name="__codelineno-15-10" href="#__codelineno-15-10"></a><span class="k">def</span> <span class="nf">generate_numbers</span><span class="p">(</span><span class="n">n</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="nb">int</span><span class="p">]:</span>
+</span><span id="__span-15-11"><a id="__codelineno-15-11" name="__codelineno-15-11" href="#__codelineno-15-11"></a>    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+</span><span id="__span-15-12"><a id="__codelineno-15-12" name="__codelineno-15-12" href="#__codelineno-15-12"></a>        <span class="k">yield</span> <span class="n">i</span>
+</span></code></pre></div>
+<p><code>items</code> can be any iterable of strings.
+This means you can pass a <code>list</code>, a <code>set</code>, a <code>tuple</code>, or any object that yields strings when iterated.
+<code>print_items</code> does not care about the concrete type that holds the <code>str</code>s.
+Restricting <code>items</code> to, say, <code>list[str]</code>, means we wouldn't be able to pass a <code>set</code> of strings, even though you can print each item of a <code>set</code>.
+<code>Iterable[str]</code> makes the function more general purpose.</p>
+<p><code>generate_numbers</code> is an example of a generator.
+It uses <code>yield</code> to produce a sequence of integers from 0 up to <code>n-1</code>.
+The return type is annotated as <code>Iterator[int]</code> because calling <code>generate_numbers(5)</code> will produce an iterator of integers.
+Annotating this helps users of <code>generate_numbers</code> know what to expect: they will get an iterator (which they might loop over or convert to a list, etc.) rather than, say, a fully realized list.
+Also, it signals that the function uses <code>yield</code> internally.
+As a side note, if a function is meant to never return normally (for instance, one that enters an infinite loop or always raises an exception), you could use the special return type <code>NoReturn</code> from <code>typing</code>, but such cases are rare and beyond our current scope.</p>
+<p>Specialized annotations like <code>Sequence</code>, <code>Mapping</code>, <code>Iterable</code>, and <code>Iterator</code> let you capture the interface or behavior you require, rather than a specific concrete type.
+They are especially useful in library or API design, where over-specifying types can needlessly limit the utility of a function or class.
+By using these abstract collection types, you make your code flexible while still retaining the benefits of type checking.</p>
+<h2 id="faster-development-clearer-results">Faster Development, Clearer Results<a class="headerlink" href="#faster-development-clearer-results" title="Permanent link">#</a></h2>
+<p>Type annotations make intentions explicit.
+This produces code that is easier to understand and maintain.
+Type checkers catch type mismatches early in development.
+The type system in Python is gradually typed and opt-in.
+You can use as much or as little as makes sense for your project.
+Using types effectively is a powerful skill.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "..", "features": ["content.code.copy", "content.code.select", "navigation.indexes"], "search": "../assets/javascripts/workers/search.f8cc74c7.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.c8b220af.min.js"></script>
+      
+    
+  </body>
+</html>

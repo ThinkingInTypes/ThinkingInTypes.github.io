@@ -1,0 +1,1693 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://ThinkingInTypes.github.io/C12_Errors_as_Values/">
+      
+      
+        <link rel="prev" href="../C11_Make_Illegal_Types_Unrepresentable/">
+      
+      
+        <link rel="next" href="../C13_Uncategorized_Topics/">
+      
+      
+      <link rel="icon" href="../img/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.8">
+    
+    
+      
+        <title>12: Errors as Values - Thinking in Types</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.8608ea7d.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#errors-as-values" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Thinking in Types" class="md-header__button md-logo" aria-label="Thinking in Types" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Thinking in Types
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              12: Errors as Values
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/ThinkingInTypes/ThinkingInTypes.github.io" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Thinking in Types" class="md-nav__button md-logo" aria-label="Thinking in Types" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Thinking in Types
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/ThinkingInTypes/ThinkingInTypes.github.io" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../C01_Preface/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    1: Preface
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../C02_Foundations/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    2: Foundations
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../C03_What_is_a_Type/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    3: What is a Type
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../C04_Using_Types/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    4: Using Types
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../C05_Custom_Types/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    5: Custom Types
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../C06_Immutability/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    6: Immutability
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../C07_Pattern_Matching/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    7: Pattern Matching
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../C08_Generics/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    8: Generics
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../C09_Callables/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    9: Callables
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../C10_Structural_Typing/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    10: Structural Typing
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../C11_Make_Illegal_Types_Unrepresentable/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    11: Make Illegal Types Unrepresentable
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    12: Errors as Values
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    12: Errors as Values
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#goto-considered-harmful" class="md-nav__link">
+    <span class="md-ellipsis">
+      Goto Considered Harmful
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#modules" class="md-nav__link">
+    <span class="md-ellipsis">
+      Modules
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#inheritance" class="md-nav__link">
+    <span class="md-ellipsis">
+      Inheritance
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#error-handling" class="md-nav__link">
+    <span class="md-ellipsis">
+      Error Handling
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Error Handling">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#history" class="md-nav__link">
+    <span class="md-ellipsis">
+      History
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exceptions" class="md-nav__link">
+    <span class="md-ellipsis">
+      Exceptions
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#problems-with-exceptions" class="md-nav__link">
+    <span class="md-ellipsis">
+      Problems with Exceptions
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Problems with Exceptions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-the-two-kinds-of-errors-are-conflated" class="md-nav__link">
+    <span class="md-ellipsis">
+      1. The Two Kinds of Errors are Conflated
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-not-part-of-the-type-system" class="md-nav__link">
+    <span class="md-ellipsis">
+      2. Not Part of the Type System
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-exception-specifications-create-a-shadow-type-system" class="md-nav__link">
+    <span class="md-ellipsis">
+      3. Exception Specifications Create a "Shadow Type System"
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-exceptions-destroy-partial-calculations" class="md-nav__link">
+    <span class="md-ellipsis">
+      4. Exceptions Destroy Partial Calculations
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-functional-solution" class="md-nav__link">
+    <span class="md-ellipsis">
+      The Functional Solution
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#creating-a-new-return-type" class="md-nav__link">
+    <span class="md-ellipsis">
+      Creating a New Return Type
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#composing-with-result" class="md-nav__link">
+    <span class="md-ellipsis">
+      Composing with Result
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#simplifying-composition-with-bind" class="md-nav__link">
+    <span class="md-ellipsis">
+      Simplifying Composition with bind
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#handling-multiple-arguments" class="md-nav__link">
+    <span class="md-ellipsis">
+      Handling Multiple Arguments
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#functional-error-handling-is-happening" class="md-nav__link">
+    <span class="md-ellipsis">
+      Functional Error Handling is Happening
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../C13_Uncategorized_Topics/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    13: Uncategorized Topics
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Z01_Appendix_Annotations/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    A1: Annotations
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Z02_Appendix_Glossary/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    A2: Glossary
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Z03_Appendix_Guidelines/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    A3: Guidelines
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Z04_Appendix_Type_Checkers/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    A4: Type Checkers
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Z05_Appendix_Automatic_Annotations/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    A5: Automatic Annotations
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Z06_Appendix_Class_Attributes/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    A6: Class Attributes
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Z07_Appendix_Tools/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    A7: Tools
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Z08_Appendix_Book_Utilities/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    A8: Book Utilities
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Z09_Appendix_Book_Notes/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    A9: Book Notes
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Z10_Appendix_Reference/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    A10: Reference
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#goto-considered-harmful" class="md-nav__link">
+    <span class="md-ellipsis">
+      Goto Considered Harmful
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#modules" class="md-nav__link">
+    <span class="md-ellipsis">
+      Modules
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#inheritance" class="md-nav__link">
+    <span class="md-ellipsis">
+      Inheritance
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#error-handling" class="md-nav__link">
+    <span class="md-ellipsis">
+      Error Handling
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Error Handling">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#history" class="md-nav__link">
+    <span class="md-ellipsis">
+      History
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exceptions" class="md-nav__link">
+    <span class="md-ellipsis">
+      Exceptions
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#problems-with-exceptions" class="md-nav__link">
+    <span class="md-ellipsis">
+      Problems with Exceptions
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Problems with Exceptions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-the-two-kinds-of-errors-are-conflated" class="md-nav__link">
+    <span class="md-ellipsis">
+      1. The Two Kinds of Errors are Conflated
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-not-part-of-the-type-system" class="md-nav__link">
+    <span class="md-ellipsis">
+      2. Not Part of the Type System
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-exception-specifications-create-a-shadow-type-system" class="md-nav__link">
+    <span class="md-ellipsis">
+      3. Exception Specifications Create a "Shadow Type System"
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-exceptions-destroy-partial-calculations" class="md-nav__link">
+    <span class="md-ellipsis">
+      4. Exceptions Destroy Partial Calculations
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-functional-solution" class="md-nav__link">
+    <span class="md-ellipsis">
+      The Functional Solution
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#creating-a-new-return-type" class="md-nav__link">
+    <span class="md-ellipsis">
+      Creating a New Return Type
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#composing-with-result" class="md-nav__link">
+    <span class="md-ellipsis">
+      Composing with Result
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#simplifying-composition-with-bind" class="md-nav__link">
+    <span class="md-ellipsis">
+      Simplifying Composition with bind
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#handling-multiple-arguments" class="md-nav__link">
+    <span class="md-ellipsis">
+      Handling Multiple Arguments
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#functional-error-handling-is-happening" class="md-nav__link">
+    <span class="md-ellipsis">
+      Functional Error Handling is Happening
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="errors-as-values">Errors as Values<a class="headerlink" href="#errors-as-values" title="Permanent link">#</a></h1>
+<blockquote>
+<p><em>Most of what we've been working towards in programming—whether we are aware of it or not—is composability.</em></p>
+</blockquote>
+<p>Discovering the meaning of composability is part of this path--there are different definitions depending on the programming language paradigm under scrutiny.
+Here’s my definition:</p>
+<blockquote>
+<p>The ability to assemble bigger pieces from smaller pieces.</p>
+</blockquote>
+<p>This is less precise than some definitions.
+For example, composition in object-oriented programming means "putting objects inside other objects."
+When dealing with functions, composability means "calling functions within other functions."
+Both definitions fit my overall definition; they achieve the same goal but in different specific ways.</p>
+<p>To enable the easy construction of programs, we need to be able to effortlessly assemble components in the same way that a child assembles Legos—by sticking them together, without requiring extra activities.
+On top of that, such assemblages become their own components that can be stuck together just as easily.
+This composability scales up regardless of the size of the components.</p>
+<p>Over the years we have encountered numerous roadblocks to this goal.</p>
+<h2 id="goto-considered-harmful">Goto Considered Harmful<a class="headerlink" href="#goto-considered-harmful" title="Permanent link">#</a></h2>
+<p><a href="https://homepages.cwi.nl/~storm/teaching/reader/Dijkstra68.pdf">Djikstra’s 1968 note</a> had quite an impact on the programming community, which at the time consisted largely of assembly-language programmers.
+For these, the goto statement was foundational, and denigrating it was a shock.
+Although he never explicitly mentioned functions in his note, the effect was to push programmers towards functions.
+<a href="https://vorpus.org/blog/notes-on-structured-concurrency-or-go-statement-considered-harmful/">The creator of Structured Concurrency</a> provides a clear description of this.</p>
+<p>Rather than jumping about within a limited program, functions present the caller with a single entry and exit point.
+This dramatically improves composability because you can no longer leave a section of code at any point using a goto.
+Within a function scope you cannot know what’s outside that scope, thus you can’t jump somewhere because you don’t know a destination to jump to.</p>
+<p>My programming training was primarily as a computer engineer and I spent the first few years of my career programming in assembly.
+Assembly supports subroutine calls and returns, but not the loading of arguments on the stack and passing results back out—the programmer must write this error-prone code by hand.</p>
+<p>Higher-level languages handle function arguments and returns for you, which made them a very desirable improvement as the size and complexity of programs grew beyond what the assembly programmer was able to hold in their head.</p>
+<h2 id="modules">Modules<a class="headerlink" href="#modules" title="Permanent link">#</a></h2>
+<p>Tim Peters’ observation of the value of namespaces (see <a href="https://peps.python.org/pep-0020/">The Zen of Python</a>) is the core of the idea of modules, which more modern languages incorporate (unfortunately C++ had to inherit C’s messy system, for backwards compatibility).
+In Python, files are automatically modules, which is certainly one of the easiest solutions.</p>
+<p>It wasn’t always this way.
+Breaking assembly-language programs into pieces was not easy, and early higher-level languages tended to be single-file programs and did not consider modularity.
+When the idea began to surface it was incorporated as a main feature of the Modula-2 language (a descendent of Pascal).
+The name tells you what a significant shift it was considered at the time.</p>
+<p>Modula-2 and similar languages required an explicit declaration of a module:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>MODULE Hello;
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>FROM STextIO IMPORT WriteString;
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>BEGIN
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>  WriteString(&quot;Hello World!&quot;)
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>END Hello.
+</span></code></pre></div>
+<p>This allowed complete granularity independent of file organization; perhaps this was because programmers were used to thinking in terms of one big file-per-program.
+Python’s merging of modules with files makes more sense in hindsight and has the benefit of eliminating the <a href="https://en.wikipedia.org/wiki/Modula-2">(significant) extra verbiage</a>, only a portion of which is shown here.</p>
+<p>The main benefit of modules is name control—each module creates a scope for names (a namespace) which allows programmers the freedom to choose any name at will within a module.
+This prevents name collisions across a project and reduces the cognitive load on the programmer.
+Prior to this, programs reached scaling limits as they grew larger.
+Program size in assembly language programs was limited by many different factors, so the need for modules was not seen until systems were able to grow larger because higher-level languages solved enough of these other factors.</p>
+<p>In modern languages, modularity is part of the background of a language and we don’t think much about it.
+At one time, however, the lack of modularity was a significant roadblock to code composability.</p>
+<h2 id="inheritance">Inheritance<a class="headerlink" href="#inheritance" title="Permanent link">#</a></h2>
+<p>Object-oriented programming has a bit of a tortured history.
+Although the first OO language was Simula-67 (a compiled language), OO found its first real success with Smalltalk.
+But Smalltalk might be the most dynamic language you’ll ever encounter—literally everything is evaluated at runtime.
+While this worked well for the kinds of problems Smalltalk was good at solving, it turned out that taking the ideas of Smalltalk and imprinting them into a statically-typed language lost a <em>lot</em> in translation.</p>
+<h2 id="error-handling">Error Handling<a class="headerlink" href="#error-handling" title="Permanent link">#</a></h2>
+<p>Error reporting and handling has been a significant impediment to composability.</p>
+<h3 id="history">History<a class="headerlink" href="#history" title="Permanent link">#</a></h3>
+<p>Original programs were small (by present-day standards), written in assembly language (machine code quickly became too unwieldy), and tightly coupled to the underlying hardware.
+If something went wrong, the only way to report it was to change the output on a wire, to turn on a light or a buzzer.
+If you had one, you put a message on the console—this might as as a dot-matrix display.
+Such an error message probably wasn’t friendly to the end-user of the system and usually required a tech support call to the manufacturer.</p>
+<p>Two of my first jobs were building embedded systems that controlled hardware.
+These systems had to work right.
+There was no point in reporting most errors because an error normally meant the software was broken.</p>
+<p>For business and scientific programming, Fortran and Cobol were batch processed on punch cards.
+If something went wrong, either the compilation failed or the resulting data was bad.
+No real-time error-handling was necessary because the program didn’t run in real time.</p>
+<p>As time-sharing operating systems like Unix became a common way to distribute computing resources, program execution became more immediate.
+Users began to expect more interactive experiences, so programmers had to begin thinking about how to report and handle errors during the execution of a program, and in ideal cases recovering from those errors so the program could continue without shutting down.</p>
+<p>Programmers produced a scattered collection of solutions to the reporting problem:</p>
+<ul>
+<li>
+<p>Indicate failure by returning a special value from a function call.
+  This only works when the special value doesn't occur from an ordinary call to that function.
+  For example, if your function returns any <code>int</code>, you can't use <code>0</code> or <code>-1</code> to report an error.
+  A bigger problem is that you rely on the client programmer to pay attention to the return value and know what to do about errors.</p>
+</li>
+<li>
+<p>Indicate failure by <a href="https://en.wikipedia.org/wiki/Errno.h">setting a global flag</a>.
+  This is a single flag shared by all functions in the program.
+  The client programmer must know to watch that flag.
+  If the flag isn't checked right away, it might get overwritten by a different function call in which case the error is lost.</p>
+</li>
+<li>
+<p>Use <a href="https://en.wikipedia.org/wiki/C_signal_handling">signals</a> if the operating system supports it.</p>
+</li>
+</ul>
+<p>The operating system was something that needed to be discovered.
+As programmers found themselves rewriting the same basic code over and over again, and much of that repeated code involved manipulating hardware and the attendant specialized knowledge required, it became clear that we needed a layer to eliminate this extra work, work that to some degree every program required.</p>
+<p>A fundamental question that designers were trying to understand during this evolution was:</p>
+<blockquote>
+<p><em>Who is responsible for error handling, the OS or the language?</em></p>
+</blockquote>
+<p>Since every program has the potential for errors, it initially seemed obvious that this activity should be the domain of the operating system.
+Some early operating systems allowed the program to invoke an error which would then jump to the operating system, and a few OSes even experimented with the ability to "resume" back to the point where the error occurred, so the handler could fix the problem and continue processing.
+Notably, these systems did not find success and resumption was removed.</p>
+<p>Further experiments eventually made it clear that the language needed primary responsibility for error reporting and handling (there are a few special cases, such as out-of-memory errors, which must still be handled by the OS).
+This is because an OS is designed to be general-purpose, and thus cannot know the specific situation that caused an error, whereas language code can be close to the problem.
+Customization is normally the domain of the language.
+You could imagine calling the OS to install custom error-handling routines, and you can also imagine how quickly that would become overwhelmingly messy.</p>
+<p>If errors are in the language domain, the next question is how to report and handle them.</p>
+<h2 id="exceptions">Exceptions<a class="headerlink" href="#exceptions" title="Permanent link">#</a></h2>
+<p>Unifying error reporting and recovery</p>
+<p>There were different language implementations of exceptions:</p>
+<ul>
+<li>Lisp (was this the origin of language-based exceptions?).
+  Possibly ironic as Lisp is the first functional language.</li>
+<li>BASIC had "On Error Go To" (and "resume"?)</li>
+<li>Pascal</li>
+<li>C++</li>
+<li>Java created checked exceptions, which must be explicitly dealt with in your code, and runtime exceptions, which could be ignored.</li>
+<li>Python has exceptions but doesn’t provide any type annotation or other mechanism to indicate what exceptions might emerge from a function call.</li>
+</ul>
+<p>Exceptions seemed like a great idea:</p>
+<ol>
+<li>A standardized way to correct problems so that an operation can recover and retry.</li>
+<li>There's only one way to report errors.</li>
+<li>Errors cannot be ignored—they flow upward until caught or displayed on the console with program termination.</li>
+<li>Errors can be handled close to the origin, or generalized by catching them "further out" so that multiple error sources can be managed with a single handler.</li>
+<li>Exception hierarchies allow more general exception handlers to handle multiple exception subtypes.</li>
+</ol>
+<p>To be clear, exceptions were a big improvement over all of the previous (non) solutions to the error reporting problem.
+Exceptions moved us forward for awhile (and became entrenched in programming culture) until folks started discovering pain points.
+As is often the case, this happened as we tried to scale up to create larger and more complex systems.
+And once again, the underlying issue was composability.</p>
+<h2 id="problems-with-exceptions">Problems with Exceptions<a class="headerlink" href="#problems-with-exceptions" title="Permanent link">#</a></h2>
+<p>In the small (and especially when teaching them), exceptions seem to work quite well.
+It's hard to prove during language design; things work in the small but don't scale.
+We only figure it out when scaling composability.</p>
+<h3 id="1-the-two-kinds-of-errors-are-conflated">1. The Two Kinds of Errors are Conflated<a class="headerlink" href="#1-the-two-kinds-of-errors-are-conflated" title="Permanent link">#</a></h3>
+<p>Recoverable vs panic (Recovering/Retrying requires programming) With exceptions, the two types are conflated.
+One of the best explanations of this is by <a href="https://joeduffyblog.com/2016/02/07/the-error-model/">Joe Duffy</a>.</p>
+<h3 id="2-not-part-of-the-type-system">2. Not Part of the Type System<a class="headerlink" href="#2-not-part-of-the-type-system" title="Permanent link">#</a></h3>
+<p>If the type system doesn’t include exceptions as part of a function signature, you can’t know what exceptions you must handle when calling other functions (i.e.:
+composing).
+Even if you track down all the possible exceptions thrown explicitly in the code (by hunting for them in their source code!), built-in exceptions can still happen without evidence in the code:
+divide-by-zero is a great example of this.</p>
+<p>You can be using a library and handling all the exceptions from it (or perhaps just the ones you found in the documentation), and a newer version of that library can quietly add a new exception, and suddenly you are no longer detecting and/or handling all the exceptions.
+Even though you made no changes to your code.</p>
+<p>Languages like C++ and Java attempted to solve this problem by adding <em>exception specifications,</em> a notation that allows you to add the exception types that may be thrown, as part of the function’s type signature.</p>
+<p>Object-oriented languages that enforce exception specifications (C++, Java) and create exception hierarchies introduce another problem.
+Exception hierarchies allow the library programmer to use an exception base type in the exception specification.
+This obscures important details; if the exception specification just uses a base type, there’s no way for the compiler to enforce coverage of specific exceptions.</p>
+<p>When errors are included in the type system, you can know all the errors that can occur just by looking at the type information.
+If a library component adds a new error then that must be reflected in that component’s type signature, which means that the code using it immediately knows that it is no longer covering all the error conditions, and will produce type errors until it is fixed.</p>
+<h3 id="3-exception-specifications-create-a-shadow-type-system">3. Exception Specifications Create a "Shadow Type System"<a class="headerlink" href="#3-exception-specifications-create-a-shadow-type-system" title="Permanent link">#</a></h3>
+<p>Languages like C++ and Java attempted to add notation indicating the exceptions that might emerge from a function call.
+This was well-intentioned and seems to produce the necessary information the client programmer needs to handle errors.
+The fundamental problem was that this created an alternate or "shadow" type system that doesn’t follow the same rules as the primary type system.
+To make the shadow type system work, its rules were warped to the point where it became effectively useless (a discovery that has taken years to realize).</p>
+<p>C++ exception specifications were originally optional and not statically type-checked.
+After many years these were deprecated in favor of the statically-typed <a href="https://en.cppreference.com/w/cpp/utility/expected"><code>expected</code> specification</a> (which takes the functional approached described in this paper).</p>
+<p>Java created checked exceptions, which must be explicitly dealt with in your code, and runtime exceptions, which could be ignored.
+Eventually they added a feature that allows checked exceptions to be easily converted into runtime exceptions.
+Java functions can always return <code>null</code> without any warning.</p>
+<p>Both systems (the original C++ dynamic exception specifications, and Java exception specifications) had too many holes, and it was too difficult to effectively support both the main and shadow type systems.</p>
+<h3 id="4-exceptions-destroy-partial-calculations">4. Exceptions Destroy Partial Calculations<a class="headerlink" href="#4-exceptions-destroy-partial-calculations" title="Permanent link">#</a></h3>
+<p>Let’s start with a example where we populate a <code>List</code> with the results of a sequence of calls to the function <code>func_a</code>:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="c1"># discarded_state.py</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="c1"># Exception throws everything away</span>
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="kn">from</span> <span class="nn">book_utils</span> <span class="kn">import</span> <span class="n">Catch</span>
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>
+</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="k">def</span> <span class="nf">func_a</span><span class="p">(</span><span class="n">i</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>    <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+</span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;func_a(</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
+</span><span id="__span-1-9"><a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>    <span class="k">return</span> <span class="n">i</span>
+</span><span id="__span-1-10"><a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a>
+</span><span id="__span-1-11"><a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a>
+</span><span id="__span-1-12"><a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a><span class="k">with</span> <span class="n">Catch</span><span class="p">():</span>
+</span><span id="__span-1-13"><a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a>    <span class="n">result</span> <span class="o">=</span> <span class="p">[</span><span class="n">func_a</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">)]</span>
+</span><span id="__span-1-14"><a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a>    <span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+</span><span id="__span-1-15"><a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a><span class="c1">## Error: func_a(1)</span>
+</span></code></pre></div>
+<p><code>func_a</code> throws a <code>ValueError</code> if its argument is <code>1</code>.
+The <code>range(3)</code> is 0, 1, and 2; only one of these values causes the exception.
+So <code>result</code> contains only one problem; the other two values are fine.
+However, we lose everything that we were calculating when the exception is thrown.
+This:</p>
+<ol>
+<li>Is computationally wasteful, especially with large calculations.</li>
+<li>Makes debugging harder.
+   It would be quite valuable to see in <code>result</code> the parts that succeeded and those that failed.</li>
+</ol>
+<h2 id="the-functional-solution">The Functional Solution<a class="headerlink" href="#the-functional-solution" title="Permanent link">#</a></h2>
+<p>Instead of creating a complex implementation to report and handle errors, the functional approach creates a "return package" containing the answer along with the (potential) error information.
+Instead of only returning the answer, we return this package from the function.</p>
+<p>This package is a new type, with operations that prevent the programmer from plucking the result from the package without dealing with error conditions (a failing of the Go language approach).</p>
+<p>A first attempt uses <em>type unions</em> to create a nameless return package:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1"># return_union.py</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="c1"># Type union aka Sum Type</span>
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="c1"># Success vs error is not clear</span>
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>
+</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="k">def</span> <span class="nf">func_a</span><span class="p">(</span><span class="n">i</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span> <span class="o">|</span> <span class="nb">str</span><span class="p">:</span>  <span class="c1"># Sum type</span>
+</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>    <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+</span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;func_a(</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">)&quot;</span>
+</span><span id="__span-2-9"><a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a>    <span class="k">return</span> <span class="n">i</span>
+</span><span id="__span-2-10"><a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a>
+</span><span id="__span-2-11"><a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a>
+</span><span id="__span-2-12"><a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a><span class="nb">print</span><span class="p">(</span><span class="n">outputs</span> <span class="o">:=</span> <span class="p">[(</span><span class="n">i</span><span class="p">,</span> <span class="n">func_a</span><span class="p">(</span><span class="n">i</span><span class="p">))</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">)])</span>
+</span><span id="__span-2-13"><a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a><span class="c1">## [(0, 0), (1, &#39;func_a(1)&#39;), (2, 2), (3, 3), (4,</span>
+</span><span id="__span-2-14"><a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a><span class="c1">## 4)]</span>
+</span><span id="__span-2-15"><a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a>
+</span><span id="__span-2-16"><a id="__codelineno-2-16" name="__codelineno-2-16" href="#__codelineno-2-16"></a><span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">outputs</span><span class="p">:</span>
+</span><span id="__span-2-17"><a id="__codelineno-2-17" name="__codelineno-2-17" href="#__codelineno-2-17"></a>    <span class="k">match</span> <span class="n">r</span><span class="p">:</span>
+</span><span id="__span-2-18"><a id="__codelineno-2-18" name="__codelineno-2-18" href="#__codelineno-2-18"></a>        <span class="k">case</span> <span class="nb">int</span><span class="p">(</span><span class="n">answer</span><span class="p">):</span>
+</span><span id="__span-2-19"><a id="__codelineno-2-19" name="__codelineno-2-19" href="#__codelineno-2-19"></a>            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">answer</span><span class="w"> </span><span class="si">= }</span><span class="s2">&quot;</span><span class="p">)</span>
+</span><span id="__span-2-20"><a id="__codelineno-2-20" name="__codelineno-2-20" href="#__codelineno-2-20"></a>        <span class="k">case</span> <span class="nb">str</span><span class="p">(</span><span class="n">error</span><span class="p">):</span>
+</span><span id="__span-2-21"><a id="__codelineno-2-21" name="__codelineno-2-21" href="#__codelineno-2-21"></a>            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">error</span><span class="w"> </span><span class="si">= }</span><span class="s2">&quot;</span><span class="p">)</span>
+</span><span id="__span-2-22"><a id="__codelineno-2-22" name="__codelineno-2-22" href="#__codelineno-2-22"></a><span class="c1">## 0: answer = 0</span>
+</span><span id="__span-2-23"><a id="__codelineno-2-23" name="__codelineno-2-23" href="#__codelineno-2-23"></a><span class="c1">## 1: error = &#39;func_a(1)&#39;</span>
+</span><span id="__span-2-24"><a id="__codelineno-2-24" name="__codelineno-2-24" href="#__codelineno-2-24"></a><span class="c1">## 2: answer = 2</span>
+</span><span id="__span-2-25"><a id="__codelineno-2-25" name="__codelineno-2-25" href="#__codelineno-2-25"></a><span class="c1">## 3: answer = 3</span>
+</span><span id="__span-2-26"><a id="__codelineno-2-26" name="__codelineno-2-26" href="#__codelineno-2-26"></a><span class="c1">## 4: answer = 4</span>
+</span></code></pre></div>
+<p><code>func_a</code> returns a <code>str</code> to indicate an error, and an <code>int</code> answer if there is no error.
+In the pattern match, we are forced to check the result type to determine whether an error occurs; we cannot just assume it is an <code>int</code>.</p>
+<p>An important problem with this approach is that it is not clear which type is the success value and which type represents the error condition—because we are trying to repurpose existing built-in types to represent new meanings.</p>
+<p>In hindsight, it might seem like this "return package" approach is much more obvious than the elaborate exception-handling scheme that was adopted for C++, Java and other languages, but at the time the apparent overhead of returning extra bytes seemed unacceptable (I don’t know of any comparisons between that and the overhead of exception-handling mechanisms, but I do know that the goal of C++ exception handling is to have zero execution overhead if no exceptions occur).</p>
+<p>Note that in the definition of <code>composed</code>, the type checker requires that you return <code>int | str</code> because <code>func_a</code> returns those types.
+Thus, when composing, type-safety is preserved.
+This means you won’t lose error type information during composition, so composability automatically scales.</p>
+<h2 id="creating-a-new-return-type">Creating a New Return Type<a class="headerlink" href="#creating-a-new-return-type" title="Permanent link">#</a></h2>
+<p>We now have the unfortunate situation that <code>outputs</code> contains multiple types:
+both <code>int</code> and <code>str</code>.
+The solution is to create a new type that unifies the "answer" and "error" types.
+We’ll call this <code>Result</code> and define it using generics to make it universally applicable:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="c1"># result.py</span>
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="c1"># Generic Result with Success &amp; Failure subtypes</span>
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span>
+</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Generic</span><span class="p">,</span> <span class="n">TypeVar</span>
+</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>
+</span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="n">ANSWER</span> <span class="o">=</span> <span class="n">TypeVar</span><span class="p">(</span><span class="s2">&quot;ANSWER&quot;</span><span class="p">)</span>
+</span><span id="__span-3-8"><a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a><span class="n">ERROR</span> <span class="o">=</span> <span class="n">TypeVar</span><span class="p">(</span><span class="s2">&quot;ERROR&quot;</span><span class="p">)</span>
+</span><span id="__span-3-9"><a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a>
+</span><span id="__span-3-10"><a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a>
+</span><span id="__span-3-11"><a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a><span class="k">class</span> <span class="nc">Result</span><span class="p">(</span><span class="n">Generic</span><span class="p">[</span><span class="n">ANSWER</span><span class="p">,</span> <span class="n">ERROR</span><span class="p">]):</span>
+</span><span id="__span-3-12"><a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a>    <span class="k">pass</span>
+</span><span id="__span-3-13"><a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a>
+</span><span id="__span-3-14"><a id="__codelineno-3-14" name="__codelineno-3-14" href="#__codelineno-3-14"></a>
+</span><span id="__span-3-15"><a id="__codelineno-3-15" name="__codelineno-3-15" href="#__codelineno-3-15"></a><span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</span><span id="__span-3-16"><a id="__codelineno-3-16" name="__codelineno-3-16" href="#__codelineno-3-16"></a><span class="k">class</span> <span class="nc">Success</span><span class="p">(</span><span class="n">Result</span><span class="p">[</span><span class="n">ANSWER</span><span class="p">,</span> <span class="n">ERROR</span><span class="p">]):</span>
+</span><span id="__span-3-17"><a id="__codelineno-3-17" name="__codelineno-3-17" href="#__codelineno-3-17"></a>    <span class="n">answer</span><span class="p">:</span> <span class="n">ANSWER</span>  <span class="c1"># Usage: return Success(answer)</span>
+</span><span id="__span-3-18"><a id="__codelineno-3-18" name="__codelineno-3-18" href="#__codelineno-3-18"></a>
+</span><span id="__span-3-19"><a id="__codelineno-3-19" name="__codelineno-3-19" href="#__codelineno-3-19"></a>    <span class="k">def</span> <span class="nf">unwrap</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ANSWER</span><span class="p">:</span>
+</span><span id="__span-3-20"><a id="__codelineno-3-20" name="__codelineno-3-20" href="#__codelineno-3-20"></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">answer</span>
+</span><span id="__span-3-21"><a id="__codelineno-3-21" name="__codelineno-3-21" href="#__codelineno-3-21"></a>
+</span><span id="__span-3-22"><a id="__codelineno-3-22" name="__codelineno-3-22" href="#__codelineno-3-22"></a>
+</span><span id="__span-3-23"><a id="__codelineno-3-23" name="__codelineno-3-23" href="#__codelineno-3-23"></a><span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</span><span id="__span-3-24"><a id="__codelineno-3-24" name="__codelineno-3-24" href="#__codelineno-3-24"></a><span class="k">class</span> <span class="nc">Failure</span><span class="p">(</span><span class="n">Result</span><span class="p">[</span><span class="n">ANSWER</span><span class="p">,</span> <span class="n">ERROR</span><span class="p">]):</span>
+</span><span id="__span-3-25"><a id="__codelineno-3-25" name="__codelineno-3-25" href="#__codelineno-3-25"></a>    <span class="n">error</span><span class="p">:</span> <span class="n">ERROR</span>  <span class="c1"># Usage: return Failure(error)</span>
+</span></code></pre></div>
+<p>A <code>TypeVar</code> defines a generic parameter.
+We want <code>Result</code> to contain a type for an <code>ANSWER</code> when the function call is successful, and an <code>ERROR</code> to indicate how the function call failed.
+Each subtype of <code>Result</code> only holds one field:
+<code>answer</code> for a successful <code>Success</code> calculation, and <code>error</code> for a <code>Failure</code>.
+Thus, if a <code>Failure</code> is returned, the client programmer cannot reach in and grab the <code>answer</code> field because it doesn’t exist.
+The client programmer is forced to properly analyze the <code>Result</code>.</p>
+<p>We could use a frozen <code>dataclass</code> instead of a <code>NamedTuple</code> here, but the latter is more concise.</p>
+<p>To use <code>Result</code>, you <code>return Success(answer)</code> when you’ve successfully created an answer, and <code>return Failure(error)</code> to indicate a failure.
+<code>unwrap</code> is a convenience method which is only available for a <code>Success</code>.</p>
+<p>The modified version of the example using <code>Result</code> is now:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="c1"># return_result.py</span>
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="c1"># Result type returns Success/Failure</span>
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="c1"># Using https://github.com/dry-python/returns</span>
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="kn">from</span> <span class="nn">pprint</span> <span class="kn">import</span> <span class="n">pprint</span>
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>
+</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="kn">from</span> <span class="nn">returns.result</span> <span class="kn">import</span> <span class="n">Failure</span><span class="p">,</span> <span class="n">Result</span><span class="p">,</span> <span class="n">Success</span>
+</span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a>
+</span><span id="__span-4-8"><a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a>
+</span><span id="__span-4-9"><a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a><span class="k">def</span> <span class="nf">func_a</span><span class="p">(</span><span class="n">i</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Result</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">]:</span>
+</span><span id="__span-4-10"><a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a>    <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+</span><span id="__span-4-11"><a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a>        <span class="k">return</span> <span class="n">Failure</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;func_a(</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
+</span><span id="__span-4-12"><a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a>    <span class="k">return</span> <span class="n">Success</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+</span><span id="__span-4-13"><a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a>
+</span><span id="__span-4-14"><a id="__codelineno-4-14" name="__codelineno-4-14" href="#__codelineno-4-14"></a>
+</span><span id="__span-4-15"><a id="__codelineno-4-15" name="__codelineno-4-15" href="#__codelineno-4-15"></a><span class="n">pprint</span><span class="p">([(</span><span class="n">i</span><span class="p">,</span> <span class="n">func_a</span><span class="p">(</span><span class="n">i</span><span class="p">))</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">)])</span>
+</span><span id="__span-4-16"><a id="__codelineno-4-16" name="__codelineno-4-16" href="#__codelineno-4-16"></a><span class="c1">## [(0, &lt;Success: 0&gt;),</span>
+</span><span id="__span-4-17"><a id="__codelineno-4-17" name="__codelineno-4-17" href="#__codelineno-4-17"></a><span class="c1">##  (1, &lt;Failure: func_a(1)&gt;),</span>
+</span><span id="__span-4-18"><a id="__codelineno-4-18" name="__codelineno-4-18" href="#__codelineno-4-18"></a><span class="c1">##  (2, &lt;Success: 2&gt;),</span>
+</span><span id="__span-4-19"><a id="__codelineno-4-19" name="__codelineno-4-19" href="#__codelineno-4-19"></a><span class="c1">##  (3, &lt;Success: 3&gt;),</span>
+</span><span id="__span-4-20"><a id="__codelineno-4-20" name="__codelineno-4-20" href="#__codelineno-4-20"></a><span class="c1">##  (4, &lt;Success: 4&gt;)]</span>
+</span></code></pre></div>
+<p>Now <code>func_a</code> returns a single type, <code>Result</code>.
+The first type parameter to <code>Result</code> is the type returned by <code>Success</code> and the second type parameter is the type returned by <code>Failure</code>.
+The <code>outputs</code> from the comprehension are all of type <code>Result</code>, and we have preserved the successful calculations even though there is a failing call.
+We can also pattern-match on the outputs, and it is crystal-clear which match is for the success and which is for the failure.</p>
+<p>The <code>returns</code> library has been slipped in here, but its basic form is that of <code>result.py</code>.</p>
+<h2 id="composing-with-result">Composing with <code>Result</code><a class="headerlink" href="#composing-with-result" title="Permanent link">#</a></h2>
+<p>The previous examples included very composition in the <code>composed</code> functions which just called a single other function.
+What if you need to compose a more complex function from multiple other functions?
+The <code>Result</code> type ensures that the <code>composed</code> function properly represents both the <code>Answer</code> type but also the various different errors that can occur:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="c1"># composing_functions.py</span>
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="kn">from</span> <span class="nn">pprint</span> <span class="kn">import</span> <span class="n">pprint</span>
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>
+</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="kn">from</span> <span class="nn">return_result</span> <span class="kn">import</span> <span class="n">func_a</span>
+</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>
+</span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="c1">## [(0, &lt;Success: 0&gt;),</span>
+</span><span id="__span-5-7"><a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a><span class="c1">##  (1, &lt;Failure: func_a(1)&gt;),</span>
+</span><span id="__span-5-8"><a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a><span class="c1">##  (2, &lt;Success: 2&gt;),</span>
+</span><span id="__span-5-9"><a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a><span class="c1">##  (3, &lt;Success: 3&gt;),</span>
+</span><span id="__span-5-10"><a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a><span class="c1">##  (4, &lt;Success: 4&gt;)]</span>
+</span><span id="__span-5-11"><a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a><span class="kn">from</span> <span class="nn">returns.result</span> <span class="kn">import</span> <span class="p">(</span>
+</span><span id="__span-5-12"><a id="__codelineno-5-12" name="__codelineno-5-12" href="#__codelineno-5-12"></a>    <span class="n">Failure</span><span class="p">,</span>
+</span><span id="__span-5-13"><a id="__codelineno-5-13" name="__codelineno-5-13" href="#__codelineno-5-13"></a>    <span class="n">Result</span><span class="p">,</span>
+</span><span id="__span-5-14"><a id="__codelineno-5-14" name="__codelineno-5-14" href="#__codelineno-5-14"></a>    <span class="n">Success</span><span class="p">,</span>
+</span><span id="__span-5-15"><a id="__codelineno-5-15" name="__codelineno-5-15" href="#__codelineno-5-15"></a>    <span class="n">safe</span><span class="p">,</span>
+</span><span id="__span-5-16"><a id="__codelineno-5-16" name="__codelineno-5-16" href="#__codelineno-5-16"></a><span class="p">)</span>
+</span><span id="__span-5-17"><a id="__codelineno-5-17" name="__codelineno-5-17" href="#__codelineno-5-17"></a>
+</span><span id="__span-5-18"><a id="__codelineno-5-18" name="__codelineno-5-18" href="#__codelineno-5-18"></a>
+</span><span id="__span-5-19"><a id="__codelineno-5-19" name="__codelineno-5-19" href="#__codelineno-5-19"></a><span class="c1"># Use an exception as info (but don&#39;t raise it):</span>
+</span><span id="__span-5-20"><a id="__codelineno-5-20" name="__codelineno-5-20" href="#__codelineno-5-20"></a><span class="k">def</span> <span class="nf">func_b</span><span class="p">(</span><span class="n">i</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Result</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="ne">ValueError</span><span class="p">]:</span>
+</span><span id="__span-5-21"><a id="__codelineno-5-21" name="__codelineno-5-21" href="#__codelineno-5-21"></a>    <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+</span><span id="__span-5-22"><a id="__codelineno-5-22" name="__codelineno-5-22" href="#__codelineno-5-22"></a>        <span class="k">return</span> <span class="n">Failure</span><span class="p">(</span><span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;func_b(</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">))</span>
+</span><span id="__span-5-23"><a id="__codelineno-5-23" name="__codelineno-5-23" href="#__codelineno-5-23"></a>    <span class="k">return</span> <span class="n">Success</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+</span><span id="__span-5-24"><a id="__codelineno-5-24" name="__codelineno-5-24" href="#__codelineno-5-24"></a>
+</span><span id="__span-5-25"><a id="__codelineno-5-25" name="__codelineno-5-25" href="#__codelineno-5-25"></a>
+</span><span id="__span-5-26"><a id="__codelineno-5-26" name="__codelineno-5-26" href="#__codelineno-5-26"></a><span class="c1"># Convert exception to Failure:</span>
+</span><span id="__span-5-27"><a id="__codelineno-5-27" name="__codelineno-5-27" href="#__codelineno-5-27"></a><span class="k">def</span> <span class="nf">func_c</span><span class="p">(</span><span class="n">i</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Result</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="ne">ZeroDivisionError</span><span class="p">]:</span>
+</span><span id="__span-5-28"><a id="__codelineno-5-28" name="__codelineno-5-28" href="#__codelineno-5-28"></a>    <span class="k">try</span><span class="p">:</span>
+</span><span id="__span-5-29"><a id="__codelineno-5-29" name="__codelineno-5-29" href="#__codelineno-5-29"></a>        <span class="n">j</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="p">(</span><span class="n">i</span> <span class="o">-</span> <span class="mi">3</span><span class="p">))</span>
+</span><span id="__span-5-30"><a id="__codelineno-5-30" name="__codelineno-5-30" href="#__codelineno-5-30"></a>    <span class="k">except</span> <span class="ne">ZeroDivisionError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+</span><span id="__span-5-31"><a id="__codelineno-5-31" name="__codelineno-5-31" href="#__codelineno-5-31"></a>        <span class="k">return</span> <span class="n">Failure</span><span class="p">(</span>
+</span><span id="__span-5-32"><a id="__codelineno-5-32" name="__codelineno-5-32" href="#__codelineno-5-32"></a>            <span class="ne">ZeroDivisionError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;func_c(</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">): </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</span><span id="__span-5-33"><a id="__codelineno-5-33" name="__codelineno-5-33" href="#__codelineno-5-33"></a>        <span class="p">)</span>
+</span><span id="__span-5-34"><a id="__codelineno-5-34" name="__codelineno-5-34" href="#__codelineno-5-34"></a>    <span class="k">return</span> <span class="n">Success</span><span class="p">(</span><span class="n">j</span><span class="p">)</span>
+</span><span id="__span-5-35"><a id="__codelineno-5-35" name="__codelineno-5-35" href="#__codelineno-5-35"></a>
+</span><span id="__span-5-36"><a id="__codelineno-5-36" name="__codelineno-5-36" href="#__codelineno-5-36"></a>
+</span><span id="__span-5-37"><a id="__codelineno-5-37" name="__codelineno-5-37" href="#__codelineno-5-37"></a><span class="nd">@safe</span>  <span class="c1"># Convert existing function</span>
+</span><span id="__span-5-38"><a id="__codelineno-5-38" name="__codelineno-5-38" href="#__codelineno-5-38"></a><span class="k">def</span> <span class="nf">func_d</span><span class="p">(</span>
+</span><span id="__span-5-39"><a id="__codelineno-5-39" name="__codelineno-5-39" href="#__codelineno-5-39"></a>    <span class="n">i</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+</span><span id="__span-5-40"><a id="__codelineno-5-40" name="__codelineno-5-40" href="#__codelineno-5-40"></a><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>  <span class="c1"># Result[str, ZeroDivisionError]</span>
+</span><span id="__span-5-41"><a id="__codelineno-5-41" name="__codelineno-5-41" href="#__codelineno-5-41"></a>    <span class="n">j</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="n">i</span><span class="p">)</span>
+</span><span id="__span-5-42"><a id="__codelineno-5-42" name="__codelineno-5-42" href="#__codelineno-5-42"></a>    <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;func_d(</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">): </span><span class="si">{</span><span class="n">j</span><span class="si">}</span><span class="s2">&quot;</span>
+</span><span id="__span-5-43"><a id="__codelineno-5-43" name="__codelineno-5-43" href="#__codelineno-5-43"></a>
+</span><span id="__span-5-44"><a id="__codelineno-5-44" name="__codelineno-5-44" href="#__codelineno-5-44"></a>
+</span><span id="__span-5-45"><a id="__codelineno-5-45" name="__codelineno-5-45" href="#__codelineno-5-45"></a><span class="k">def</span> <span class="nf">composed</span><span class="p">(</span>
+</span><span id="__span-5-46"><a id="__codelineno-5-46" name="__codelineno-5-46" href="#__codelineno-5-46"></a>    <span class="n">i</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+</span><span id="__span-5-47"><a id="__codelineno-5-47" name="__codelineno-5-47" href="#__codelineno-5-47"></a><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Result</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span> <span class="o">|</span> <span class="ne">ValueError</span> <span class="o">|</span> <span class="ne">ZeroDivisionError</span><span class="p">]:</span>
+</span><span id="__span-5-48"><a id="__codelineno-5-48" name="__codelineno-5-48" href="#__codelineno-5-48"></a>    <span class="n">result_a</span> <span class="o">=</span> <span class="n">func_a</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+</span><span id="__span-5-49"><a id="__codelineno-5-49" name="__codelineno-5-49" href="#__codelineno-5-49"></a>    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">result_a</span><span class="p">,</span> <span class="n">Failure</span><span class="p">):</span>
+</span><span id="__span-5-50"><a id="__codelineno-5-50" name="__codelineno-5-50" href="#__codelineno-5-50"></a>        <span class="k">return</span> <span class="n">result_a</span>  <span class="c1"># type: ignore</span>
+</span><span id="__span-5-51"><a id="__codelineno-5-51" name="__codelineno-5-51" href="#__codelineno-5-51"></a>
+</span><span id="__span-5-52"><a id="__codelineno-5-52" name="__codelineno-5-52" href="#__codelineno-5-52"></a>    <span class="c1"># unwrap() gets the answer from Success:</span>
+</span><span id="__span-5-53"><a id="__codelineno-5-53" name="__codelineno-5-53" href="#__codelineno-5-53"></a>    <span class="n">result_b</span> <span class="o">=</span> <span class="n">func_b</span><span class="p">(</span><span class="n">result_a</span><span class="o">.</span><span class="n">unwrap</span><span class="p">())</span>
+</span><span id="__span-5-54"><a id="__codelineno-5-54" name="__codelineno-5-54" href="#__codelineno-5-54"></a>    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">result_b</span><span class="p">,</span> <span class="n">Failure</span><span class="p">):</span>
+</span><span id="__span-5-55"><a id="__codelineno-5-55" name="__codelineno-5-55" href="#__codelineno-5-55"></a>        <span class="k">return</span> <span class="n">result_b</span>  <span class="c1"># type: ignore</span>
+</span><span id="__span-5-56"><a id="__codelineno-5-56" name="__codelineno-5-56" href="#__codelineno-5-56"></a>
+</span><span id="__span-5-57"><a id="__codelineno-5-57" name="__codelineno-5-57" href="#__codelineno-5-57"></a>    <span class="n">result_c</span> <span class="o">=</span> <span class="n">func_c</span><span class="p">(</span><span class="n">result_b</span><span class="o">.</span><span class="n">unwrap</span><span class="p">())</span>
+</span><span id="__span-5-58"><a id="__codelineno-5-58" name="__codelineno-5-58" href="#__codelineno-5-58"></a>    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">result_c</span><span class="p">,</span> <span class="n">Failure</span><span class="p">):</span>
+</span><span id="__span-5-59"><a id="__codelineno-5-59" name="__codelineno-5-59" href="#__codelineno-5-59"></a>        <span class="k">return</span> <span class="n">result_c</span>  <span class="c1"># type: ignore</span>
+</span><span id="__span-5-60"><a id="__codelineno-5-60" name="__codelineno-5-60" href="#__codelineno-5-60"></a>
+</span><span id="__span-5-61"><a id="__codelineno-5-61" name="__codelineno-5-61" href="#__codelineno-5-61"></a>    <span class="k">return</span> <span class="n">func_d</span><span class="p">(</span><span class="n">result_c</span><span class="o">.</span><span class="n">unwrap</span><span class="p">())</span>  <span class="c1"># type: ignore</span>
+</span><span id="__span-5-62"><a id="__codelineno-5-62" name="__codelineno-5-62" href="#__codelineno-5-62"></a>
+</span><span id="__span-5-63"><a id="__codelineno-5-63" name="__codelineno-5-63" href="#__codelineno-5-63"></a>
+</span><span id="__span-5-64"><a id="__codelineno-5-64" name="__codelineno-5-64" href="#__codelineno-5-64"></a><span class="n">pprint</span><span class="p">([(</span><span class="n">i</span><span class="p">,</span> <span class="n">composed</span><span class="p">(</span><span class="n">i</span><span class="p">))</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">)])</span>
+</span><span id="__span-5-65"><a id="__codelineno-5-65" name="__codelineno-5-65" href="#__codelineno-5-65"></a><span class="c1">## [(0, &lt;Failure: division by zero&gt;),</span>
+</span><span id="__span-5-66"><a id="__codelineno-5-66" name="__codelineno-5-66" href="#__codelineno-5-66"></a><span class="c1">##  (1, &lt;Failure: func_a(1)&gt;),</span>
+</span><span id="__span-5-67"><a id="__codelineno-5-67" name="__codelineno-5-67" href="#__codelineno-5-67"></a><span class="c1">##  (2, &lt;Failure: func_b(2)&gt;),</span>
+</span><span id="__span-5-68"><a id="__codelineno-5-68" name="__codelineno-5-68" href="#__codelineno-5-68"></a><span class="c1">##  (3, &lt;Failure: func_c(3): division by zero&gt;),</span>
+</span><span id="__span-5-69"><a id="__codelineno-5-69" name="__codelineno-5-69" href="#__codelineno-5-69"></a><span class="c1">##  (4, &lt;Success: func_d(1): 1&gt;)]</span>
+</span></code></pre></div>
+<p>The <code>a</code>, <code>b</code> and <code>c</code> functions each have argument values that are unacceptable.
+Notice that <code>b</code> and <code>c</code> both use built-in exception types as arguments to <code>Failure</code>, but those exceptions are never raised—they are used to convey information, just like the <code>str</code> in <code>a</code>.</p>
+<p>In <code>composed</code>, we call <code>a</code>, <code>b</code> and <code>c</code> in sequence.
+After each call, we check to see if the result type is <code>Failure</code>.
+If so, the calculation has failed and we can’t continue, so we return the current result, which is a <code>Failure</code> object containing the reason for the failure.
+If it succeeds, it is a <code>Success</code> which contains an <code>unwrap</code> method that is used to extract the answer from that calculation—if you look back at <code>Result</code>, you’ll see that it returns the <code>ANSWER</code> type so its use can be properly type-checked.</p>
+<p>This means that any failure during a sequence of composed function calls will short-circuit out of <code>composed</code>, returning a <code>Failure</code> that tells you exactly what happened, and that you must decide what to do with.
+You can’t just ignore it and assume that it will "bubble up" until it finds an appropriate handler.
+You are forced to deal with it at the point of origin, which is typically when you know the most about an error.</p>
+<h2 id="simplifying-composition-with-bind">Simplifying Composition with <code>bind</code><a class="headerlink" href="#simplifying-composition-with-bind" title="Permanent link">#</a></h2>
+<p>There’s still a problem that impedes our ultimate goal of composability:
+every time you call a function within a composed function, you must write code to check the <code>Result</code> type and extract the <code>answer</code> with <code>unwrap</code>.
+This is extra repetitive work that interrupts the flow and readability of the program.
+We need some way to reduce or eliminate the extra code.</p>
+<p>Lets modify <code>Result</code> to add a new member function, <code>bind</code>:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="c1"># result_with_bind.py</span>
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span>
+</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Generic</span><span class="p">,</span> <span class="n">TypeVar</span>
+</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>
+</span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="n">ANSWER</span> <span class="o">=</span> <span class="n">TypeVar</span><span class="p">(</span><span class="s2">&quot;ANSWER&quot;</span><span class="p">)</span>
+</span><span id="__span-6-6"><a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a><span class="n">ERROR</span> <span class="o">=</span> <span class="n">TypeVar</span><span class="p">(</span><span class="s2">&quot;ERROR&quot;</span><span class="p">)</span>
+</span><span id="__span-6-7"><a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a>
+</span><span id="__span-6-8"><a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a>
+</span><span id="__span-6-9"><a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a><span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</span><span id="__span-6-10"><a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a><span class="k">class</span> <span class="nc">Result</span><span class="p">(</span><span class="n">Generic</span><span class="p">[</span><span class="n">ANSWER</span><span class="p">,</span> <span class="n">ERROR</span><span class="p">]):</span>
+</span><span id="__span-6-11"><a id="__codelineno-6-11" name="__codelineno-6-11" href="#__codelineno-6-11"></a>    <span class="k">def</span> <span class="nf">bind</span><span class="p">(</span>
+</span><span id="__span-6-12"><a id="__codelineno-6-12" name="__codelineno-6-12" href="#__codelineno-6-12"></a>        <span class="bp">self</span><span class="p">,</span> <span class="n">func</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">ANSWER</span><span class="p">],</span> <span class="s2">&quot;Result&quot;</span><span class="p">]</span>
+</span><span id="__span-6-13"><a id="__codelineno-6-13" name="__codelineno-6-13" href="#__codelineno-6-13"></a>    <span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Result[ANSWER, ERROR]&quot;</span><span class="p">:</span>
+</span><span id="__span-6-14"><a id="__codelineno-6-14" name="__codelineno-6-14" href="#__codelineno-6-14"></a>        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">Success</span><span class="p">):</span>
+</span><span id="__span-6-15"><a id="__codelineno-6-15" name="__codelineno-6-15" href="#__codelineno-6-15"></a>            <span class="k">return</span> <span class="n">func</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">unwrap</span><span class="p">())</span>
+</span><span id="__span-6-16"><a id="__codelineno-6-16" name="__codelineno-6-16" href="#__codelineno-6-16"></a>        <span class="k">return</span> <span class="bp">self</span>  <span class="c1"># Pass the Failure forward</span>
+</span><span id="__span-6-17"><a id="__codelineno-6-17" name="__codelineno-6-17" href="#__codelineno-6-17"></a>
+</span><span id="__span-6-18"><a id="__codelineno-6-18" name="__codelineno-6-18" href="#__codelineno-6-18"></a>
+</span><span id="__span-6-19"><a id="__codelineno-6-19" name="__codelineno-6-19" href="#__codelineno-6-19"></a><span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</span><span id="__span-6-20"><a id="__codelineno-6-20" name="__codelineno-6-20" href="#__codelineno-6-20"></a><span class="k">class</span> <span class="nc">Success</span><span class="p">(</span><span class="n">Result</span><span class="p">[</span><span class="n">ANSWER</span><span class="p">,</span> <span class="n">ERROR</span><span class="p">]):</span>
+</span><span id="__span-6-21"><a id="__codelineno-6-21" name="__codelineno-6-21" href="#__codelineno-6-21"></a>    <span class="n">answer</span><span class="p">:</span> <span class="n">ANSWER</span>
+</span><span id="__span-6-22"><a id="__codelineno-6-22" name="__codelineno-6-22" href="#__codelineno-6-22"></a>
+</span><span id="__span-6-23"><a id="__codelineno-6-23" name="__codelineno-6-23" href="#__codelineno-6-23"></a>    <span class="k">def</span> <span class="nf">unwrap</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ANSWER</span><span class="p">:</span>
+</span><span id="__span-6-24"><a id="__codelineno-6-24" name="__codelineno-6-24" href="#__codelineno-6-24"></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">answer</span>
+</span><span id="__span-6-25"><a id="__codelineno-6-25" name="__codelineno-6-25" href="#__codelineno-6-25"></a>
+</span><span id="__span-6-26"><a id="__codelineno-6-26" name="__codelineno-6-26" href="#__codelineno-6-26"></a>
+</span><span id="__span-6-27"><a id="__codelineno-6-27" name="__codelineno-6-27" href="#__codelineno-6-27"></a><span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</span><span id="__span-6-28"><a id="__codelineno-6-28" name="__codelineno-6-28" href="#__codelineno-6-28"></a><span class="k">class</span> <span class="nc">Failure</span><span class="p">(</span><span class="n">Result</span><span class="p">[</span><span class="n">ANSWER</span><span class="p">,</span> <span class="n">ERROR</span><span class="p">]):</span>
+</span><span id="__span-6-29"><a id="__codelineno-6-29" name="__codelineno-6-29" href="#__codelineno-6-29"></a>    <span class="n">error</span><span class="p">:</span> <span class="n">ERROR</span>
+</span></code></pre></div>
+<p><code>bind</code> removes the duplicated code:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="c1"># composing_with_bind.py</span>
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="kn">from</span> <span class="nn">pprint</span> <span class="kn">import</span> <span class="n">pprint</span>
+</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="kn">from</span> <span class="nn">returns.result</span> <span class="kn">import</span> <span class="n">Result</span>
+</span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a>
+</span><span id="__span-7-5"><a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a><span class="kn">from</span> <span class="nn">composing_functions</span> <span class="kn">import</span> <span class="p">(</span>
+</span><span id="__span-7-6"><a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a>    <span class="n">func_a</span><span class="p">,</span>
+</span><span id="__span-7-7"><a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a>    <span class="n">func_b</span><span class="p">,</span>
+</span><span id="__span-7-8"><a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a>    <span class="n">func_c</span><span class="p">,</span>
+</span><span id="__span-7-9"><a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a>    <span class="n">func_d</span><span class="p">,</span>
+</span><span id="__span-7-10"><a id="__codelineno-7-10" name="__codelineno-7-10" href="#__codelineno-7-10"></a><span class="p">)</span>
+</span><span id="__span-7-11"><a id="__codelineno-7-11" name="__codelineno-7-11" href="#__codelineno-7-11"></a><span class="c1">## [(0, &lt;Success: 0&gt;),</span>
+</span><span id="__span-7-12"><a id="__codelineno-7-12" name="__codelineno-7-12" href="#__codelineno-7-12"></a><span class="c1">##  (1, &lt;Failure: func_a(1)&gt;),</span>
+</span><span id="__span-7-13"><a id="__codelineno-7-13" name="__codelineno-7-13" href="#__codelineno-7-13"></a><span class="c1">##  (2, &lt;Success: 2&gt;),</span>
+</span><span id="__span-7-14"><a id="__codelineno-7-14" name="__codelineno-7-14" href="#__codelineno-7-14"></a><span class="c1">##  (3, &lt;Success: 3&gt;),</span>
+</span><span id="__span-7-15"><a id="__codelineno-7-15" name="__codelineno-7-15" href="#__codelineno-7-15"></a><span class="c1">##  (4, &lt;Success: 4&gt;)]</span>
+</span><span id="__span-7-16"><a id="__codelineno-7-16" name="__codelineno-7-16" href="#__codelineno-7-16"></a><span class="c1">## [(0, &lt;Failure: division by zero&gt;),</span>
+</span><span id="__span-7-17"><a id="__codelineno-7-17" name="__codelineno-7-17" href="#__codelineno-7-17"></a><span class="c1">##  (1, &lt;Failure: func_a(1)&gt;),</span>
+</span><span id="__span-7-18"><a id="__codelineno-7-18" name="__codelineno-7-18" href="#__codelineno-7-18"></a><span class="c1">##  (2, &lt;Failure: func_b(2)&gt;),</span>
+</span><span id="__span-7-19"><a id="__codelineno-7-19" name="__codelineno-7-19" href="#__codelineno-7-19"></a><span class="c1">##  (3, &lt;Failure: func_c(3): division by zero&gt;),</span>
+</span><span id="__span-7-20"><a id="__codelineno-7-20" name="__codelineno-7-20" href="#__codelineno-7-20"></a><span class="c1">##  (4, &lt;Success: func_d(1): 1&gt;)]</span>
+</span><span id="__span-7-21"><a id="__codelineno-7-21" name="__codelineno-7-21" href="#__codelineno-7-21"></a>
+</span><span id="__span-7-22"><a id="__codelineno-7-22" name="__codelineno-7-22" href="#__codelineno-7-22"></a>
+</span><span id="__span-7-23"><a id="__codelineno-7-23" name="__codelineno-7-23" href="#__codelineno-7-23"></a><span class="k">def</span> <span class="nf">composed</span><span class="p">(</span>
+</span><span id="__span-7-24"><a id="__codelineno-7-24" name="__codelineno-7-24" href="#__codelineno-7-24"></a>    <span class="n">i</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+</span><span id="__span-7-25"><a id="__codelineno-7-25" name="__codelineno-7-25" href="#__codelineno-7-25"></a><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Result</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span> <span class="o">|</span> <span class="ne">ZeroDivisionError</span> <span class="o">|</span> <span class="ne">ValueError</span><span class="p">]:</span>
+</span><span id="__span-7-26"><a id="__codelineno-7-26" name="__codelineno-7-26" href="#__codelineno-7-26"></a>    <span class="c1"># fmt: off</span>
+</span><span id="__span-7-27"><a id="__codelineno-7-27" name="__codelineno-7-27" href="#__codelineno-7-27"></a>    <span class="k">return</span> <span class="p">(</span>
+</span><span id="__span-7-28"><a id="__codelineno-7-28" name="__codelineno-7-28" href="#__codelineno-7-28"></a>        <span class="c1"># TODO: this is incorrect &amp; needs fixing</span>
+</span><span id="__span-7-29"><a id="__codelineno-7-29" name="__codelineno-7-29" href="#__codelineno-7-29"></a>        <span class="n">func_a</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+</span><span id="__span-7-30"><a id="__codelineno-7-30" name="__codelineno-7-30" href="#__codelineno-7-30"></a>        <span class="o">.</span><span class="n">bind</span><span class="p">(</span><span class="n">func_b</span><span class="p">)</span>  <span class="c1"># type: ignore</span>
+</span><span id="__span-7-31"><a id="__codelineno-7-31" name="__codelineno-7-31" href="#__codelineno-7-31"></a>        <span class="o">.</span><span class="n">bind</span><span class="p">(</span><span class="n">func_c</span><span class="p">)</span>  <span class="c1"># type: ignore</span>
+</span><span id="__span-7-32"><a id="__codelineno-7-32" name="__codelineno-7-32" href="#__codelineno-7-32"></a>        <span class="o">.</span><span class="n">bind</span><span class="p">(</span><span class="n">func_d</span><span class="p">)</span>  <span class="c1"># type: ignore</span>
+</span><span id="__span-7-33"><a id="__codelineno-7-33" name="__codelineno-7-33" href="#__codelineno-7-33"></a>    <span class="p">)</span>
+</span><span id="__span-7-34"><a id="__codelineno-7-34" name="__codelineno-7-34" href="#__codelineno-7-34"></a>
+</span><span id="__span-7-35"><a id="__codelineno-7-35" name="__codelineno-7-35" href="#__codelineno-7-35"></a>
+</span><span id="__span-7-36"><a id="__codelineno-7-36" name="__codelineno-7-36" href="#__codelineno-7-36"></a><span class="n">pprint</span><span class="p">([(</span><span class="n">i</span><span class="p">,</span> <span class="n">composed</span><span class="p">(</span><span class="n">i</span><span class="p">))</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">)])</span>
+</span><span id="__span-7-37"><a id="__codelineno-7-37" name="__codelineno-7-37" href="#__codelineno-7-37"></a><span class="c1">## [(0, &lt;Failure: division by zero&gt;),</span>
+</span><span id="__span-7-38"><a id="__codelineno-7-38" name="__codelineno-7-38" href="#__codelineno-7-38"></a><span class="c1">##  (1, &lt;Failure: func_a(1)&gt;),</span>
+</span><span id="__span-7-39"><a id="__codelineno-7-39" name="__codelineno-7-39" href="#__codelineno-7-39"></a><span class="c1">##  (2, &lt;Failure: func_b(2)&gt;),</span>
+</span><span id="__span-7-40"><a id="__codelineno-7-40" name="__codelineno-7-40" href="#__codelineno-7-40"></a><span class="c1">##  (3, &lt;Failure: func_c(3): division by zero&gt;),</span>
+</span><span id="__span-7-41"><a id="__codelineno-7-41" name="__codelineno-7-41" href="#__codelineno-7-41"></a><span class="c1">##  (4, &lt;Success: func_d(1): 1&gt;)]</span>
+</span></code></pre></div>
+<p>In <code>composed</code>, we call <code>func_a(i)</code> which returns a <code>Result</code>.
+The <code>bind</code> method is called on that <code>Result</code>, passing it the next function we want to call (<code>func_b</code>) as an argument.
+The return value of <code>bind</code> is <em>also</em> a <code>Result</code>, so we can call <code>bind</code> again upon that <code>Result</code>, passing it the third function we want to call (<code>func_c</code>), and so on.</p>
+<p>At each "chaining point" in <code>func_a(i).bind(func_b).bind(func_c).bind(func_d)</code>, <code>bind</code> checks the <code>Result</code> type to see if it <code>Success</code>.
+If so, it passes the result <code>answer</code> from that call as the argument to the next function in the chain.
+If not, that means <code>self</code> is a <code>Failure</code> object (containing specific error information), so all it needs to do is <code>return self</code>.
+The next call in the chain sees that the returned type is <code>Failure</code>, so it doesn’t try to apply the next function but just (again) returns the <code>Failure</code>.
+Once you produce a <code>Failure</code>, no more function calls occur (that is, it short-circuits) and the <code>Failure</code> result gets passed all the way out of the composed function so the caller can deal with that specific failure.</p>
+<h2 id="handling-multiple-arguments">Handling Multiple Arguments<a class="headerlink" href="#handling-multiple-arguments" title="Permanent link">#</a></h2>
+<p>We could continue adding features to our <code>Result</code> library until it becomes a complete solution.
+However, others have worked on this problem so it makes more sense to reuse their libraries.
+The most popular Python library that includes this extra functionality is <a href="https://github.com/dry-python/returns">Returns</a>.
+<code>Returns</code> includes other features, but we will only focus on <code>Result</code>.</p>
+<p>What if you need to create a <code>composed</code> function that takes multiple arguments?
+For this, we use something called "do notation," which you access using <code>Result.do</code>:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="c1"># multiple_arguments.py</span>
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="kn">from</span> <span class="nn">pprint</span> <span class="kn">import</span> <span class="n">pprint</span>
+</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>
+</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="kn">from</span> <span class="nn">composing_functions</span> <span class="kn">import</span> <span class="n">func_a</span><span class="p">,</span> <span class="n">func_b</span><span class="p">,</span> <span class="n">func_c</span>
+</span><span id="__span-8-5"><a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a>
+</span><span id="__span-8-6"><a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a><span class="c1">## [(0, &lt;Success: 0&gt;),</span>
+</span><span id="__span-8-7"><a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a><span class="c1">##  (1, &lt;Failure: func_a(1)&gt;),</span>
+</span><span id="__span-8-8"><a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a><span class="c1">##  (2, &lt;Success: 2&gt;),</span>
+</span><span id="__span-8-9"><a id="__codelineno-8-9" name="__codelineno-8-9" href="#__codelineno-8-9"></a><span class="c1">##  (3, &lt;Success: 3&gt;),</span>
+</span><span id="__span-8-10"><a id="__codelineno-8-10" name="__codelineno-8-10" href="#__codelineno-8-10"></a><span class="c1">##  (4, &lt;Success: 4&gt;)]</span>
+</span><span id="__span-8-11"><a id="__codelineno-8-11" name="__codelineno-8-11" href="#__codelineno-8-11"></a><span class="c1">## [(0, &lt;Failure: division by zero&gt;),</span>
+</span><span id="__span-8-12"><a id="__codelineno-8-12" name="__codelineno-8-12" href="#__codelineno-8-12"></a><span class="c1">##  (1, &lt;Failure: func_a(1)&gt;),</span>
+</span><span id="__span-8-13"><a id="__codelineno-8-13" name="__codelineno-8-13" href="#__codelineno-8-13"></a><span class="c1">##  (2, &lt;Failure: func_b(2)&gt;),</span>
+</span><span id="__span-8-14"><a id="__codelineno-8-14" name="__codelineno-8-14" href="#__codelineno-8-14"></a><span class="c1">##  (3, &lt;Failure: func_c(3): division by zero&gt;),</span>
+</span><span id="__span-8-15"><a id="__codelineno-8-15" name="__codelineno-8-15" href="#__codelineno-8-15"></a><span class="c1">##  (4, &lt;Success: func_d(1): 1&gt;)]</span>
+</span><span id="__span-8-16"><a id="__codelineno-8-16" name="__codelineno-8-16" href="#__codelineno-8-16"></a><span class="kn">from</span> <span class="nn">returns.result</span> <span class="kn">import</span> <span class="n">Result</span>
+</span><span id="__span-8-17"><a id="__codelineno-8-17" name="__codelineno-8-17" href="#__codelineno-8-17"></a>
+</span><span id="__span-8-18"><a id="__codelineno-8-18" name="__codelineno-8-18" href="#__codelineno-8-18"></a>
+</span><span id="__span-8-19"><a id="__codelineno-8-19" name="__codelineno-8-19" href="#__codelineno-8-19"></a><span class="k">def</span> <span class="nf">add</span><span class="p">(</span><span class="n">first</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">second</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">third</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+</span><span id="__span-8-20"><a id="__codelineno-8-20" name="__codelineno-8-20" href="#__codelineno-8-20"></a>    <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;add(</span><span class="si">{</span><span class="n">first</span><span class="si">}</span><span class="s2"> + </span><span class="si">{</span><span class="n">second</span><span class="si">}</span><span class="s2"> + </span><span class="si">{</span><span class="n">third</span><span class="si">}</span><span class="s2">): </span><span class="si">{</span><span class="n">first</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">second</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">third</span><span class="si">}</span><span class="s2">&quot;</span>
+</span><span id="__span-8-21"><a id="__codelineno-8-21" name="__codelineno-8-21" href="#__codelineno-8-21"></a>
+</span><span id="__span-8-22"><a id="__codelineno-8-22" name="__codelineno-8-22" href="#__codelineno-8-22"></a>
+</span><span id="__span-8-23"><a id="__codelineno-8-23" name="__codelineno-8-23" href="#__codelineno-8-23"></a><span class="k">def</span> <span class="nf">composed</span><span class="p">(</span>
+</span><span id="__span-8-24"><a id="__codelineno-8-24" name="__codelineno-8-24" href="#__codelineno-8-24"></a>    <span class="n">i</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">j</span><span class="p">:</span> <span class="nb">int</span>
+</span><span id="__span-8-25"><a id="__codelineno-8-25" name="__codelineno-8-25" href="#__codelineno-8-25"></a><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Result</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span> <span class="o">|</span> <span class="ne">ZeroDivisionError</span> <span class="o">|</span> <span class="ne">ValueError</span><span class="p">]:</span>
+</span><span id="__span-8-26"><a id="__codelineno-8-26" name="__codelineno-8-26" href="#__codelineno-8-26"></a>    <span class="c1"># fmt: off</span>
+</span><span id="__span-8-27"><a id="__codelineno-8-27" name="__codelineno-8-27" href="#__codelineno-8-27"></a>    <span class="k">return</span> <span class="n">Result</span><span class="o">.</span><span class="n">do</span><span class="p">(</span>
+</span><span id="__span-8-28"><a id="__codelineno-8-28" name="__codelineno-8-28" href="#__codelineno-8-28"></a>        <span class="n">add</span><span class="p">(</span><span class="n">first</span><span class="p">,</span> <span class="n">second</span><span class="p">,</span> <span class="n">third</span><span class="p">)</span>
+</span><span id="__span-8-29"><a id="__codelineno-8-29" name="__codelineno-8-29" href="#__codelineno-8-29"></a>        <span class="k">for</span> <span class="n">first</span> <span class="ow">in</span> <span class="n">func_a</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+</span><span id="__span-8-30"><a id="__codelineno-8-30" name="__codelineno-8-30" href="#__codelineno-8-30"></a>        <span class="k">for</span> <span class="n">second</span> <span class="ow">in</span> <span class="n">func_b</span><span class="p">(</span><span class="n">j</span><span class="p">)</span>
+</span><span id="__span-8-31"><a id="__codelineno-8-31" name="__codelineno-8-31" href="#__codelineno-8-31"></a>        <span class="k">for</span> <span class="n">third</span> <span class="ow">in</span> <span class="n">func_c</span><span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="n">j</span><span class="p">)</span>
+</span><span id="__span-8-32"><a id="__codelineno-8-32" name="__codelineno-8-32" href="#__codelineno-8-32"></a>    <span class="p">)</span>
+</span><span id="__span-8-33"><a id="__codelineno-8-33" name="__codelineno-8-33" href="#__codelineno-8-33"></a>
+</span><span id="__span-8-34"><a id="__codelineno-8-34" name="__codelineno-8-34" href="#__codelineno-8-34"></a>
+</span><span id="__span-8-35"><a id="__codelineno-8-35" name="__codelineno-8-35" href="#__codelineno-8-35"></a><span class="n">inputs</span> <span class="o">=</span> <span class="p">[(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span> <span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="mi">5</span><span class="p">)]</span>
+</span><span id="__span-8-36"><a id="__codelineno-8-36" name="__codelineno-8-36" href="#__codelineno-8-36"></a><span class="n">pprint</span><span class="p">([(</span><span class="n">args</span><span class="p">,</span> <span class="n">composed</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">))</span> <span class="k">for</span> <span class="n">args</span> <span class="ow">in</span> <span class="n">inputs</span><span class="p">])</span>
+</span><span id="__span-8-37"><a id="__codelineno-8-37" name="__codelineno-8-37" href="#__codelineno-8-37"></a><span class="c1">## [((1, 5), &lt;Failure: func_a(1)&gt;),</span>
+</span><span id="__span-8-38"><a id="__codelineno-8-38" name="__codelineno-8-38" href="#__codelineno-8-38"></a><span class="c1">##  ((7, 2), &lt;Failure: func_b(2)&gt;),</span>
+</span><span id="__span-8-39"><a id="__codelineno-8-39" name="__codelineno-8-39" href="#__codelineno-8-39"></a><span class="c1">##  ((2, 1), &lt;Failure: func_c(3): division by</span>
+</span><span id="__span-8-40"><a id="__codelineno-8-40" name="__codelineno-8-40" href="#__codelineno-8-40"></a><span class="c1">## zero&gt;),</span>
+</span><span id="__span-8-41"><a id="__codelineno-8-41" name="__codelineno-8-41" href="#__codelineno-8-41"></a><span class="c1">##  ((7, 5), &lt;Success: add(7 + 5 + 0): 12&gt;)]</span>
+</span></code></pre></div>
+<p><code>Returns</code> provides a <code>@safe</code> decorator that you see applied to the "plain" function <code>func_b</code>.
+This changes the normal <code>int</code> return type into a <code>Result</code> that includes <code>int</code> for the <code>Success</code> type but is also somehow able to recognize that the division might produce a <code>ZeroDivisionError</code> and include that in the <code>Failure</code> type.
+In addition, <code>@safe</code> is apparently catching the exception and converting it to the <code>ZeroDivisionError</code> returned as the information object in the <code>Failure</code> object.
+<code>@safe</code> is a helpful tool when converting exception-throwing code into error-returning code.</p>
+<p><code>func_c</code> adds some variety by rejecting <code>-1</code> and producing a <code>str</code> result.
+We can now produce <code>composed</code> using a <code>pipe</code> and <code>bind</code>.
+All the previous error-checking and short-circuiting behaviors happen as before, but the syntax is now more straightforward and readable.</p>
+<p>Notice that when the <code>outputs</code> list is created, the output from <code>reject0</code> only happens for the values <code>-1</code> and <code>2</code>, because the other values cause errors in the <code>composed</code> chain of operations.
+The value <code>1</code> never gets to <code>func_b</code> because it is intercepted by the prior <code>composed</code> call to <code>func_a</code>.
+The value <code>0</code> causes <code>func_b</code> to produce a <code>ZeroDivisionError</code> when it tries to perform the division inside the <code>print</code>.</p>
+<p>[Explain rest of example]</p>
+<p>Note that there may be an issue with the <code>Returns</code> library, which is that for proper type checking it requires using a MyPy extension.
+So far I have been unable to get that extension to work (however, I have no experience with MyPy extensions).</p>
+<h2 id="functional-error-handling-is-happening">Functional Error Handling is Happening<a class="headerlink" href="#functional-error-handling-is-happening" title="Permanent link">#</a></h2>
+<p>Functional error handling has already appeared in languages like Rust, Kotlin, and recent versions of C++ support these combined answer-error result types, with associated unpacking operations.
+In these languages, errors become part of the type system and it is far more difficult for an error to "slip through the cracks."</p>
+<p>Python has only been able to support functional error handling since the advent of typing and type checkers, and it doesn’t provide any direct language or library constructs for this.
+The benefits of better error handling and robust composability make it worth adopting a library like <code>Results</code>.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "..", "features": ["content.code.copy", "content.code.select", "navigation.indexes"], "search": "../assets/javascripts/workers/search.f8cc74c7.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.c8b220af.min.js"></script>
+      
+    
+  </body>
+</html>
