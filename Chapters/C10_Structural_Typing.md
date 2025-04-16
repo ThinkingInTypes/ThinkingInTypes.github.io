@@ -39,7 +39,7 @@ A protocol in Python is essentially an interface or template for a set of method
 It's defined by inheriting from `typing.Protocol` (available in the standard library `typing` module as of Python 3.8, or in `typing_extensions` for earlier versions).
 By creating a class that subclasses
 `Protocol`, you declare a group of methods and properties that form a "protocol."
-Any class that has those methods and properties (with compatible types) is considered an implementation of that protocol by static type checkers, even if it doesn't formally inherit from the protocol.
+Static type checkers consider any class with those methods and properties (with compatible types) an implementation of that protocol, even if it doesn't formally inherit from the protocol.
 
 **To define a protocol:** Create a class that inherits `Protocol` and define the method signatures (and any attribute types) that are required.
 Protocol methods typically have empty bodies (often using `...` or `pass`) because you're not providing an implementation, just a definition of the interface.
@@ -76,7 +76,7 @@ class Robot:
 
 
 def announce(speaker: Speaker) -> None:
-    # `speaker` can be any object that has .speak() returning str
+    # `speaker` can be any object with .speak() returning str
     print("Announcement:", speaker.speak())
 
 
@@ -278,7 +278,7 @@ Our `run_process` function doesn't care _how_ the logging is done, just that the
 `FileLogger`and `ListLogger` are two implementations--one writes to a file, the other stores messages in a Python list.
 Notice that neither`FileLogger`nor`ListLogger`subclasses`Logger`; they don't need to.
 They implicitly satisfy the protocol by having the correct`log`method.
-This design is very flexible: you can add new logger classes later (say, a`DatabaseLogger`that writes to a database, or reuse Python's built-in`logging.Logger`by writing an adapter that has a`log`method) without changing the code that uses the logger.
+This design is very flexible: you can add new logger classes later (say, a`DatabaseLogger`that writes to a database, or reuse Python's built-in`logging.Logger`by writing an adapter with a`log`method) without changing the code that uses the logger.
 During testing, as shown, we can use`ListLogger`to capture logs and make assertions on them.
 The static type checker will ensure that any object we pass as a`logger`to`run_process`has a`log(str)`method.
 In a nominal type system, you might have to define an abstract base class`Logger\` and make every logger inherit it.
@@ -310,7 +310,7 @@ This is especially useful when working with libraries that weren't built with yo
 Protocols thus increase reusability and extensibility of your code by focusing on what an object can do rather than what it is.
 
 It's worth mentioning that Python's standard library and frameworks have embraced the concept of protocols (even before the formal `Protocol` type existed) by using "duck typing" and abstract base classes.
-For instance, the act of iterating in Python checks for an `__iter__` method--any object that has `__iter__` is iterable.
+For instance, the act of iterating in Python checks for an `__iter__` method--any object with `__iter__` is iterable.
 The static typing system knows this too:
 you don't have to explicitly register your class as an `Iterable` ABC; if it has the right method, tools like Mypy will treat it as iterable.
 With `Protocol`, we can create our own such abstractions.
@@ -516,7 +516,7 @@ Here are some guidelines, pros and cons, and best practices to help decide:
   Protocols are great for defining a narrow interface that multiple disparate classes can implement without formal coupling.
   If you only care about one or a few methods on an object (and not about its exact type), a protocol lets you specify just that.
   This is especially useful for function parameters:
-  you can annotate a function to accept any object that has a `.close()` method, or a `.write()` method, etc., without forcing a common base class.
+  you can annotate a function to accept any object with a `.close()` method, or a `.write()` method, etc., without forcing a common base class.
 
 - You are working with third-party or existing classes that you can't modify to fit into your class hierarchy.
   Structural typing shines here because you can define a protocol that matches the external class's capabilities.
