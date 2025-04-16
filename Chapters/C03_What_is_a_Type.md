@@ -9,12 +9,13 @@ A type creates its own namespace and scope, which makes it easier to reason abou
 
 ## Defining "Type" in Programming
 
-For example, the integer type allows arithmetic operations like addition or subtraction, while a string type supports operations like concatenation.
-The purpose of having types is to give meaning to data and to inform the program (and the programmer) what kinds of behavior are valid for that data.
-If a piece of data is labeled as an integer type, the language knows it can perform numerical calculations on it; if it's a string type, it knows operations like splitting or joining make sense.
+The `int` type allows arithmetic operations like addition or subtraction, while the `str` type supports operations like concatenation.
+Types give meaning to data and inform the program (and the programmer) what kinds of behavior are valid for that data.
+If a piece of data is labeled as an `int`, the language knows it can perform numerical calculations on it; if it's a `str`, operations like splitting or joining make sense.
 
 In Python, types are associated with values, not with variables.
 You don't explicitly declare variable types; instead, any variable can reference any object, and that object carries its type with it.
+
 In Python, an object knows its type.
 You can always check that type at runtime using the built-in `type()` function or `isinstance()` function:
 
