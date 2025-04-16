@@ -204,6 +204,234 @@ Type variables can also depend on each other through constraints or bounds.
 However, Python's typing does not allow directly expressing complex relationships (like saying two type variables must be the same subtype of some base).
 In such cases, it's common to use a single `TypeVar` in multiple places to indicate they must match, or use protocols (discussed later) for more complex constraints.
 
+## `TypeVarTuple`
+
+> Introduced in PEP 646, `TypeVarTuple` is available experimentally in Python 3.11+, and officially supported by Pyright and (partially) by `mypy`.
+
+TypeVarTuple is like `*args`, but for types.
+It lets you define generic classes and functions that accept a variable number of types, creating more powerful and flexible type-safe abstractions.
+It enables _variadic generics_, which let you define types that accept a variable number of type parameters,
+similar to how `*args` and `**kwargs` work at runtime.
+`TypeVarTuple` allows you to define a tuple of type variables--not just a fixed number like `T1, T2, T3`, but any number of them.
+While a `TypeVar` supports a single generic type, a `TypeVarTuple` produces an unpackable tuple of types.
+`Unpack` spreads a `TypeVarTuple` into a signature.
+
+```python
+from typing import TypeVarTuple
+
+Ts = TypeVarTuple("Ts")
+```
+
+You can then use `*Ts` to mean "a variable-length list of types."
+
+Previously, you could only define generics like:
+
+```python
+# previous_generics.py
+from typing import Generic, TypeVar
+
+T = TypeVar("T")
+
+
+class Box(Generic[T]):
+    ...
+```
+
+But what if you want a generic `TupleWrapper` that can handle any number of types?
+Without `TypeVarTuple`, you'd have to manually define each arity.
+With it, you can write:
+
+```python
+from typing import Generic, TypeVarTuple
+
+Ts = TypeVarTuple("Ts")
+
+
+class TupleWrapper(Generic[*Ts]):
+    def __init__(self, *values: *Ts):
+        self.values = values
+
+
+t1 = TupleWrapper(1)  # TupleWrapper[int]
+t2 = TupleWrapper("a", 2, 3.14)  # TupleWrapper[str, int, float]
+```
+
+The type checker tracks the number and types of elements in `*Ts` individually.
+
+```python
+# generic_zip.py
+from typing import Callable
+
+
+def zip_variadic(*args: *Ts) -> tuple[*Ts]:
+    return args
+
+
+reveal_type(zip_variadic(1, "a", 3.14))
+# tuple[int, str, float]
+```
+
+### Limitations (2025)
+
+- Requires Python 3.11+ and a type checker that supports it (Pyright does well, mypy still partial)
+- Can't yet mix `TypeVar` and `TypeVarTuple` freely in all places
+- Still not supported in some older tools or linters
+
+### Related Concepts
+
+| Feature        | Purpose                                  |
+|----------------|------------------------------------------|
+| `TypeVar`      | A single generic type                    |
+| `ParamSpec`    | A tuple of parameter types for callables |
+| `TypeVarTuple` | A tuple of arbitrary generic types       |
+| `Unpack`       | Used with `TypeVarTuple` to unpack them  |
+
+### Example: N-dimensional Tensor Shape
+
+Suppose you're building a generic `Tensor` type that carries its shape as part of its type.
+For example, `Tensor[float, 3, 3]` for a 3×3 matrix, or `Tensor[float, 2, 2, 2]` for a 3D cube.
+With `TypeVarTuple`, we can capture the variable number of dimension sizes.
+
+```python
+# n_dimensional_tensor.py
+from typing import TypeVar, TypeVarTuple, Generic, Unpack
+
+# Data type (e.g., float, int):
+T = TypeVar("T")
+# A tuple of ints representing dimensions:
+Shape = TypeVarTuple("Shape")
+
+
+class Tensor(Generic[T, Unpack[Shape]]):
+
+    def __init__(self, data: list, *, shape: tuple[Unpack[Shape]]):
+        self.data = data
+        self.shape = shape
+
+
+def __repr__(self) -> str:
+    return f"Tensor(shape={self.shape})"
+
+
+t1 = Tensor[float, 3, 3](data=[[1.0] * 3] * 3, shape=(3, 3))  # 2D
+t2 = Tensor[int, 2, 2, 2](data=[[[1, 2], [3, 4]], [[5, 6], [7, 8]]], shape=(2, 2, 2))  # 3D
+
+print(t1)  # Tensor(shape=(3, 3))
+print(t2)  # Tensor(shape=(2, 2, 2))
+```
+
+- Type checker sees Tensor[float, 3, 3]
+- Shape is statically typed as (3, 3)
+
+### Example: Argument-Preserving Decorator
+
+Here's a decorator that logs a function call without changing its type signature, no matter how many arguments it takes:
+
+```python
+# argument_preserving_decorator.py
+from typing import Callable, ParamSpec, TypeVar, TypeVarTuple, Unpack
+
+P = ParamSpec("P")
+R = TypeVar("R")
+
+
+def log_call(fn: Callable[P, R]) -> Callable[P, R]:
+    def wrapper(*args: P.args, **kwargs: P.kwargs) -> R:
+        print(f"Calling {fn.__name__} with {args=}, {kwargs=}")
+        return fn(*args, **kwargs)
+
+    return wrapper
+
+
+@log_call
+def greet(name: str, age: int) -> str:
+    return f"Hi {name}, age {age}"
+
+
+@log_call
+def add(a: int, b: int) -> int:
+    return a + b
+
+
+print(greet("Alice", 30))
+print(add(2, 3))
+```
+
+- Type checker knows `greet` returns `str`, and `add` returns `int`
+
+- Arguments are preserved exactly
+
+This isn't strictly `TypeVarTuple`, but it complements it:
+
+- TypeVarTuple handles variadic type lists
+- ParamSpec handles variadic function arguments
+
+### Example: Record Type for Heterogeneous Tuples
+
+Let’s say you want a type-safe Record that stores a fixed tuple of fields,
+where each field can be a different type (like a database row or spreadsheet line):
+
+```python
+# heterogenous_record.py
+from typing import TypeVarTuple, Generic, Unpack
+
+Fields = TypeVarTuple("Fields")
+
+
+class Record(Generic[*Fields]):
+    def __init__(self, *fields: *Fields):
+        self.fields = fields
+
+    def __repr__(self) -> str:
+        return f"Record(fields={self.fields})"
+
+    def to_tuple(self) -> tuple[*Fields]:
+        return self.fields
+
+
+r1 = Record(1, "Alice", 3.14)  # Record[int, str, float]
+r2 = Record(True, None)  # Record[bool, NoneType]
+
+print(r1.to_tuple())
+print(r2.to_tuple())  
+```
+
+- The type checker knows r1 has shape tuple[int, str, float]
+- Each Record preserves the exact type signature of its fields
+
+### Example: `zip_variadic` and `unzip_variadic`
+
+`zip_variadic` that zips `tuple[X1, X2, ..., Xn], tuple[Y1, Y2, ..., Yn],` etc.
+We want to preserve the individual types of each position:
+
+```python
+from typing import TypeVarTuple, Unpack, Tuple
+
+Ts = TypeVarTuple("Ts")
+
+
+def zip_variadic(*args: tuple[Unpack[Ts]]) -> tuple[Tuple[*Ts], ...]:
+    return tuple(zip(*args))
+
+
+def unzip_variadic(packed: tuple[Tuple[*Ts], ...]) -> tuple[tuple[Unpack[Ts]]]:
+    return tuple(zip(*packed))
+
+
+a: tuple[int, str, float] = (1, "a", 3.14)
+b: tuple[int, str, float] = (2, "b", 2.71)
+c: tuple[int, str, float] = (3, "c", 1.41)
+
+zipped = zip_variadic(a, b, c)
+# zipped: tuple[tuple[int, int, int], tuple[str, str, str], tuple[float, float, float]]
+
+unzipped = unzip_variadic(zipped)
+# unzipped: tuple[tuple[int, str, float], tuple[int, str, float], tuple[int, str, float]]
+
+print(zipped)
+print(unzipped)
+```
+
 ## Variance: Covariance and Contravariance
 
 In the context of generics, *variance* describes how subtyping between complex types relates to subtyping between their component types.
@@ -224,6 +452,7 @@ This is a common source of confusion for those coming from languages like Java o
 # covariance.py
 from typing import Generic, TypeVar
 from animals import Animal, Dog
+
 ## Woof
 ## Woof
 ## Animal sound
@@ -259,6 +488,7 @@ Covariance is appropriate when the generic class is basically a container of T t
 # contravariance.py
 from typing import Generic, TypeVar
 from animals import Animal, Dog
+
 ## Woof
 ## Woof
 ## Animal sound
@@ -312,7 +542,7 @@ Z = TypeVar("Z")
 
 
 def curry_two_arg(
-    func: Callable[[X, Y], Z],
+        func: Callable[[X, Y], Z],
 ) -> Callable[[X], Callable[[Y], Z]]:
     def curried(x: X) -> Callable[[Y], Z]:
         def inner(y: Y) -> Z:
@@ -484,13 +714,13 @@ We can express this as:
 ```python
 # recursive_alias.py
 JSON = (
-    dict[str, "JSON"]
-    | list["JSON"]
-    | str
-    | int
-    | float
-    | bool
-    | None
+        dict[str, "JSON"]
+        | list["JSON"]
+        | str
+        | int
+        | float
+        | bool
+        | None
 )
 ```
 
@@ -765,7 +995,7 @@ Vector = list[tuple[T, T]]
 
 
 def scale_points(
-    points: Vector[int], factor: int
+        points: Vector[int], factor: int
 ) -> Vector[int]:
     return [
         (x * factor, y * factor) for (x, y) in points
@@ -801,6 +1031,7 @@ For example:
 ```python
 # example_25.py
 from box import Box
+
 ## 123
 ## Python
 
@@ -824,6 +1055,7 @@ A common mistake is expecting container types to be covariantly interchangeable:
 ```python
 # example_26.py
 from animals import Animal, Dog
+
 ## Woof
 ## Woof
 ## Animal sound

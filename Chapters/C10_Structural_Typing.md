@@ -139,15 +139,13 @@ def close_all(resources: Iterable[Closable]) -> None:
         res.close()
 
 
-# Using the close_all function with different resource types
-closables = [
+# All these have a close():
+closables = (
     FileResource("data.txt"),
     SocketResource(),
     open("other.txt", "w"),
-]
-close_all(
-    closables
-)  # OK: FileResource, SocketResource, and file objects all have close()
+)
+close_all(closables)
 ## Socket closed
 ```
 
@@ -170,6 +168,8 @@ For example:
 # example_4.py
 from typing import runtime_checkable, Protocol
 from file_resource import FileResource
+
+
 ## Socket closed
 
 
@@ -238,7 +238,7 @@ class ListLogger:
 
 
 def run_process(
-    task_name: str, logger: Logger
+        task_name: str, logger: Logger
 ) -> None:
     logger.log(f"Starting {task_name}")
     # Perform the task ...
@@ -374,8 +374,6 @@ For instance, a container of strings and a container of integers:
 
 ```python
 # container_types.py
-
-
 class StringContainer:
     def __init__(self, value: str):
         self.value = value
@@ -398,30 +396,20 @@ We can write functions that use the generic protocol to accept any kind of conta
 
 ```python
 # generic_function.py
-from container import Container
-from container_types import (
-    StringContainer,
-    IntContainer,
-)
+from typing import TypeVar
+from container import Container, T
+from container_types import StringContainer, IntContainer
 
 
-def print_item_and_return[C](
-    container: Container[C],
-) -> C:
+def print_item_and_return(container: Container[T]) -> T:
     item = container.get_item()
-    print("Got:", item)
-    return item  # The type of item is inferred as C
+    print(f"{item = }, {type(item) = }")
+    return item  # Type inferred as C
 
 
-# Using the generic function with different container types:
-x = print_item_and_return(
-    StringContainer("hello")
-)  # prints "hello", x is str
-## Got: hello
-y = print_item_and_return(
-    IntContainer(42)
-)  # prints "42", y is int
-## Got: 42
+# Use generic function with different container types:
+x: str = print_item_and_return(StringContainer("hello"))
+y: int = print_item_and_return(IntContainer(42))
 ```
 
 In the function `print_item_and_return`, we used `C` (could also use `T` again) as a type variable for the container's item type.
@@ -447,6 +435,7 @@ For example, if we have:
 # example_9.py
 from typing import TypeVar
 from logger_protocol import Logger
+
 ## Captured logs: ['Starting DataCleanup',
 ## 'Finished DataCleanup']
 

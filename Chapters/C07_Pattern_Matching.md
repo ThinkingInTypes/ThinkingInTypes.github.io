@@ -160,7 +160,7 @@ from typing import Any
 
 
 def wildcard_ignore(
-    point: tuple[float, Any, Any],
+        point: tuple[float, Any, Any],
 ) -> None:
     match point:
         case (x, _, _):
@@ -315,6 +315,9 @@ subject_annotation(10, 20, 30, 40)
 
 ```python
 # nested_patterns.py
+from typing import cast
+
+
 def nested_pattern(*values: int) -> None:
     match values:
         case [first, second, *rest]:
@@ -325,7 +328,10 @@ def nested_pattern(*values: int) -> None:
             print(
                 f"{first = }, {second = }, {rest = }"
             )
+
         case [(x, y), *rest]:
+            # Known pattern matching limitation in mypy:
+            x, y = cast(tuple[int, int], rest)
             print(f"({x=}, {y=}), *{rest}")
 
 
@@ -538,10 +544,10 @@ def shape_area(shape: Circle | Square) -> float:
     match shape:
         case Circle(radius=r):
             # Here shape is type Circle:
-            return 3.14 * r**2
+            return 3.14 * r ** 2
         case Square(side=s):
             # Here shape is type Square:
-            return s**2
+            return s ** 2
         case _:
             raise ValueError("Unsupported shape")
 ```
@@ -690,6 +696,8 @@ For example:
 ```python
 # example_16.py
 from colors import Color
+
+
 ## It's green!
 
 
@@ -759,13 +767,17 @@ Combining mapping patterns with guards can handle situations like "match a dict 
 
 ```python
 # example_18.py
+from typing import Any, cast
+
 request = {"method": "POST", "payload": {"id": 42}}
 
 match request:
     case {"method": m, "payload": data} if (
-        m == "POST" and "id" in data
+            m == "POST" and "id" in data
     ):
+        data = cast(dict[str, Any], data)
         print(f"POST request with id {data['id']}")
+
     case {"method": m}:
         print(f"Other request method: {m}")
 ## POST request with id 42
@@ -794,7 +806,7 @@ For example:
 def narrow(obj):
     match obj:
         case list as lst if all(
-            isinstance(x, int) for x in lst
+                isinstance(x, int) for x in lst
         ):
             # Here, lst is a list and we asserted all elements are int.
             total: int = sum(lst)

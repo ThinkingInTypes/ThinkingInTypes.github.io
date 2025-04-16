@@ -65,8 +65,8 @@ Let's unpack what that means and the pros and cons of each approach.
 ```python
 # example_2.py
 x = 10  # x is an int
-# Reassign to a different type:
-x = "hello"  # now x is a str
+# Reassign to a different type (str):
+x = "hello"  # type: ignore
 print(x)  # Output: hello
 ## hello
 ```
