@@ -260,7 +260,9 @@ The type checker tracks the number and types of elements in `*Ts` individually.
 
 ```python
 # generic_zip.py
-from typing import Callable
+from typing import Callable, TypeVarTuple, reveal_type
+
+Ts = TypeVarTuple("Ts")
 
 
 def zip_variadic(*args: *Ts) -> tuple[*Ts]:
