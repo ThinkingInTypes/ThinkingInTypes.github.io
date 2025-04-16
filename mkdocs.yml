@@ -25,26 +25,26 @@ markdown_extensions:
 
 
 nav:
-  - '1: Preface': 01_Preface.md
-  - '2: Foundations': 02_Foundations.md
-  - '3: What is a Type': 03_What_is_a_Type.md
-  - '4: Using Types': 04_Using_Types.md
-  - '5: Custom Types': 05_Custom_Types.md
-  - '6: Immutability': 06_Immutability.md
-  - '7: Pattern Matching': 07_Pattern_Matching.md
-  - '8: Generics': 08_Generics.md
-  - '9: Callables': 09_Callables.md
-  - '10: Structural Typing': 10_Structural_Typing.md
-  - '11: Make Illegal Types Unrepresentable': 11_Make_Illegal_Types_Unrepresentable.md
-  - '12: Errors as Values': 12_Errors_as_Values.md
-  - '13: Uncategorized Topics': 13_Uncategorized_Topics.md
-  - 'A1: Annotation Reference': A01_Annotation_Reference.md
-  - 'A2: Glossary': A02_Glossary.md
-  - 'A3: Guidelines': A03_Guidelines.md
-  - 'A4: Type Checkers': A04_Type_Checkers.md
-  - 'A5: Automatic Annotations': A05_Automatic_Annotations.md
-  - 'A6: Class Attributes': A06_Class_Attributes.md
-  - 'A7: Tools': A07_Tools.md
-  - 'A8: Book Utilities': A08_Book_Utilities.md
-  - 'A9: Book Notes': A09_Book_Notes.md
-  - 'A10: Reference': A10_Reference.md
+  - '1: Preface': C01_Preface.md
+  - '2: Foundations': C02_Foundations.md
+  - '3: What is a Type': C03_What_is_a_Type.md
+  - '4: Using Types': C04_Using_Types.md
+  - '5: Custom Types': C05_Custom_Types.md
+  - '6: Immutability': C06_Immutability.md
+  - '7: Pattern Matching': C07_Pattern_Matching.md
+  - '8: Generics': C08_Generics.md
+  - '9: Callables': C09_Callables.md
+  - '10: Structural Typing': C10_Structural_Typing.md
+  - '11: Make Illegal Types Unrepresentable': C11_Make_Illegal_Types_Unrepresentable.md
+  - '12: Errors as Values': C12_Errors_as_Values.md
+  - '13: Uncategorized Topics': C13_Uncategorized_Topics.md
+  - 'A1: Annotations': Z01_Appendix_Annotations.md
+  - 'A2: Glossary': Z02_Appendix_Glossary.md
+  - 'A3: Guidelines': Z03_Appendix_Guidelines.md
+  - 'A4: Type Checkers': Z04_Appendix_Type_Checkers.md
+  - 'A5: Automatic Annotations': Z05_Appendix_Automatic_Annotations.md
+  - 'A6: Class Attributes': Z06_Appendix_Class_Attributes.md
+  - 'A7: Tools': Z07_Appendix_Tools.md
+  - 'A8: Book Utilities': Z08_Appendix_Book_Utilities.md
+  - 'A9: Book Notes': Z09_Appendix_Book_Notes.md
+  - 'A10: Reference': Z10_Appendix_Reference.md
