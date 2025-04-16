@@ -132,7 +132,7 @@ def requires(*conditions: Condition):
         def wrapper(*args, **kwargs):
             for condition in conditions:
                 if not condition.check(
-                    *args, **kwargs
+                        *args, **kwargs
                 ):
                     raise ValueError(condition.message)
             return func(*args, **kwargs)
@@ -167,7 +167,7 @@ positivity = Condition(
 
 @requires(positivity)
 def sqrt(x) -> float:
-    return x**0.5
+    return x ** 0.5
 
 
 print(sqrt(4))
@@ -230,8 +230,8 @@ with Catch():
 Here, the `Condition`s are applied to methods, so their `lambda`s both include `self`.
 In `withdraw` you see multiple `Condition`s applied within one `requires` decorator.
 
-The Eiffel approach is an improvement over duplicating validation code at the beginning of each function body,
-i.e., what traditional Python functions do (assuming they _do_ check their arguments).
+If they validate their arguments, traditional Python functions tend to duplicate that validation code at the beginning of each function body.
+Design by Contract is an improvement over this.
 The `@requires` clearly shows that the arguments are constrained, and `Condition`s reduce duplicated code.
 
 DbC helps, but it has limitations:
@@ -259,17 +259,13 @@ from decimal import Decimal
 class Amount:
     value: Decimal
 
-    def __init__(
-        self, value: int | float | str | Decimal
-    ) -> None:
-        decimal_value = Decimal(str(value))
-        if decimal_value < Decimal("0"):
+    def __init__(self, value: int | float | str | Decimal):
+        d_value = Decimal(str(value))
+        if d_value < Decimal("0"):
             raise ValueError(
-                f"Amount({decimal_value}) cannot be negative"
+                f"Amount({d_value}) cannot be negative"
             )
-        object.__setattr__(
-            self, "value", decimal_value
-        )
+        object.__setattr__(self, "value", d_value)
 
     def __add__(self, other: "Amount") -> "Amount":
         return Amount(self.value + other.value)
@@ -323,12 +319,12 @@ class Balance(NamedTuple):
     amount: Amount
 
     def deposit(
-        self, deposit_amount: Amount
+            self, deposit_amount: Amount
     ) -> "Balance":
         return Balance(self.amount + deposit_amount)
 
     def withdraw(
-        self, withdrawal_amount: Amount
+            self, withdrawal_amount: Amount
     ) -> "Balance":
         return Balance(self.amount - withdrawal_amount)
 ```
@@ -372,13 +368,13 @@ with Catch():
 ## Error: Amount(-10) cannot be negative
 ```
 
-The code is significantly more straightforward to understand and change.
+This code is significantly more straightforward to understand and change.
 If we need to modify the underlying representation of `Amount` we only do it in one place.
-Suppose, for example, we discover Python's implementation of `Decimal` is too slow.
+For example, suppose we discover Python's implementation of `Decimal` is too slow.
 We can modify `Amount` to use, for example, a Rust implementation of decimal numbers.
 We _only_ need to change the code for `Amount` because the rest of the code uses `Amount`.
 
-Possibly best of all, any new code we write using custom types transparently uses all the type validations built into those types.
+Any new code we write that uses our custom types transparently benefits from all the type validations built into those types.
 If we add more validations to `Amount` or `Balance`, they automatically propagate to each site where those types are used.
 
 ## A `PhoneNumber` Type
@@ -397,7 +393,6 @@ class PhoneNumber:
     """
     A validated and normalized phone number.
     """
-
     country_code: str
     number: str  # Digits only, no formatting
 
@@ -407,9 +402,6 @@ class PhoneNumber:
 
     @classmethod
     def parse(cls, raw: str) -> Self:
-        """
-        Parses and validates a raw phone number string.
-        """
         cleaned = raw.strip()
         match = cls.phone_number_re.match(cleaned)
         if not match:
@@ -424,35 +416,26 @@ class PhoneNumber:
                 f"No digits found in: {raw!r}"
             )
 
-        country_code = (
-            cc if cc else "1"
-        )  # default to US
+        country_code = cc if cc else "1"  # default to US
         return cls(
             country_code=country_code, number=digits
         )
 
-    def __str__(self) -> str:
-        """
-        Formats the phone number as +<country> <formatted
-        number>.
-        """
-        formatted = self.format_number()
-        return f"+{self.country_code} {formatted}"
-
     def format_number(self) -> str:
-        """
-        Formatting rules for 10-digit numbers.
-        """
         if len(self.number) == 10:
             return f"({self.number[:3]}) {self.number[3:6]}-{self.number[6:]}"
         return self.number  # Fallback: just the digits
+
+    def __str__(self) -> str:
+        formatted = self.format_number()
+        return f"+{self.country_code} {formatted}"
 
     def __eq__(self, other: object) -> bool:
         if not isinstance(other, PhoneNumber):
             return NotImplemented
         return (
-            self.country_code == other.country_code
-            and self.number == other.number
+                self.country_code == other.country_code
+                and self.number == other.number
         )
 ```
 
@@ -492,7 +475,9 @@ for example, by converting the `PhoneNumber` type into a Rust module.
 
 I recently visited my friend Matt, who is a physics professor (we were undergraduate physics students together).
 He has a stellar reputation as a teacher, and I realized I had never watched him teach, so I decided to see him in action.
-This was an electronics lab, and the students were using programmable measurement tools, and the interface language these tools used was Python.
-To send commands to the programmable meter, the meter developers had decided to go the stringly-typed route.
-The students ended up wasting time trying to get the format of the strings correct.
+This was an electronics lab, and the students were using programmable measurement tools.
+The interface language these tools used was Python.
+To send commands to the programmable meter, the meter developers had used the stringly-typed route
+(The docs had a reference to Turbo C, so the meter was created long before Python's annotated types).
+The students ended up puzzling over getting the format of the strings correct.
 
