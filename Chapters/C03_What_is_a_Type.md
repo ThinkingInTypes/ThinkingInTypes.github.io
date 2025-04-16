@@ -4,6 +4,9 @@ A _type_ is a set of values.
 It classifies and categorizes data.
 It can also define operations.
 
+One reason we define types is to ensure correctness of what those types hold.
+A type creates its own namespace and scope, which makes it easier to reason about your code.
+
 ## Defining "Type" in Programming
 
 For example, the integer type allows arithmetic operations like addition or subtraction, while a string type supports operations like concatenation.
@@ -167,6 +170,7 @@ In code, you might handle this with try/except:
 ```python
 # example_5.py
 from example_4 import quacks
+
 ## Quack!
 ## I can quack, too!
 
