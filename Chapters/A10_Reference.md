@@ -46,7 +46,9 @@ from typing import ClassVar
 
 
 class Starship:
-    stats: ClassVar[dict[str, int]] = {}  # class variable
+    stats: ClassVar[
+        dict[str, int]
+    ] = {}  # class variable
     damage: int = 10  # instance variable
 ```
 
@@ -280,7 +282,7 @@ from typing import Callable
 
 
 def apply_to_ints(
-        func: Callable[[int, int], int], a: int, b: int
+    func: Callable[[int, int], int], a: int, b: int
 ) -> int:
     return func(a, b)
 ```
@@ -310,7 +312,9 @@ def read(data: str) -> str: ...
 def read(data: str | bytes) -> str:
     # single implementation handling both
     return (
-        data.decode() if isinstance(data, bytes) else data
+        data.decode()
+        if isinstance(data, bytes)
+        else data
     )
 ```
 
@@ -343,10 +347,10 @@ P = ParamSpec("P")
 
 
 def make_logged(
-        func: Callable[P, int],
+    func: Callable[P, int],
 ) -> Callable[Concatenate[str, P], int]:
     def wrapper(
-            prefix: str, *args: P.args, **kwargs: P.kwargs
+        prefix: str, *args: P.args, **kwargs: P.kwargs
     ) -> int:
         print(prefix, "Calling:", func.__name__)
         result = func(*args, **kwargs)
@@ -432,7 +436,7 @@ from typing import TypeGuard
 
 
 def is_str_list(
-        vals: list[object],
+    vals: list[object],
 ) -> TypeGuard[list[str]]:
     return all(isinstance(x, str) for x in vals)
 ```

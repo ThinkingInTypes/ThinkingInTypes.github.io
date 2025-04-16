@@ -159,7 +159,9 @@ def wildcard(status):
 from typing import Any
 
 
-def wildcard_ignore(point: tuple[float, Any, Any]) -> None:
+def wildcard_ignore(
+    point: tuple[float, Any, Any],
+) -> None:
     match point:
         case (x, _, _):
             print(f"x-coordinate is {x}")
@@ -263,7 +265,9 @@ The remaining cases are skipped.
 def rest_pattern(*values):
     match values:
         case [first, second, *rest]:
-            print(f"{first = }, {second = }, {rest = }")
+            print(
+                f"{first = }, {second = }, {rest = }"
+            )
 
 
 rest_pattern(10, 20, 30, 40)
@@ -297,7 +301,9 @@ def subject_annotation(*values: int) -> None:
             # --first: int
             # --second: int
             # --rest: list[int]
-            print(f"{first = }, {second = }, {rest = }")
+            print(
+                f"{first = }, {second = }, {rest = }"
+            )
 
 
 subject_annotation(10, 20, 30, 40)
@@ -316,7 +322,9 @@ def nested_pattern(*values: int) -> None:
             # --first: int
             # --second: int
             # --rest: list[int]
-            print(f"{first = }, {second = }, {rest = }")
+            print(
+                f"{first = }, {second = }, {rest = }"
+            )
         case [(x, y), *rest]:
             print(f"({x=}, {y=}), *{rest}")
 
@@ -413,8 +421,7 @@ user_info = {
 match user_info:
     case {"name": name, **rest}:
         print(f"Name: {name}, info: {rest}")
-## Name is Alice, other info: {'age': 30,
-## 'country': 'US'}
+## Name: Alice, info: {'age': 30, 'country': 'US'}
 ```
 
 This pattern looks for a `"name"` key and captures its value into `name`.
@@ -531,10 +538,10 @@ def shape_area(shape: Circle | Square) -> float:
     match shape:
         case Circle(radius=r):
             # Here shape is type Circle:
-            return 3.14 * r ** 2
+            return 3.14 * r**2
         case Square(side=s):
             # Here shape is type Square:
-            return s ** 2
+            return s**2
         case _:
             raise ValueError("Unsupported shape")
 ```
@@ -564,7 +571,7 @@ match user_input.lower:
         print("User said no")
     case _:
         print("Unrecognized response")
-## User said yes
+## Unrecognized response
 ```
 
 Here `"yes" | "y" | "yeah"` is a single pattern that will match the subject if it equals any of those three strings.
@@ -683,8 +690,6 @@ For example:
 ```python
 # example_16.py
 from colors import Color
-
-
 ## It's green!
 
 
@@ -693,7 +698,9 @@ def handle_color(color: Color):
         case Color.RED | Color.GREEN | Color.BLUE:
             ...  # handle known colors
         case _ as unknown:
-            raise ValueError(f"Unknown color: {unknown}")
+            raise ValueError(
+                f"Unknown color: {unknown}"
+            )
 ```
 
 Here, `_ as unknown` catches anything not handled and gives it the name `unknown` so we can include it in the error message.
@@ -756,7 +763,7 @@ request = {"method": "POST", "payload": {"id": 42}}
 
 match request:
     case {"method": m, "payload": data} if (
-            m == "POST" and "id" in data
+        m == "POST" and "id" in data
     ):
         print(f"POST request with id {data['id']}")
     case {"method": m}:
@@ -787,7 +794,7 @@ For example:
 def narrow(obj):
     match obj:
         case list as lst if all(
-                isinstance(x, int) for x in lst
+            isinstance(x, int) for x in lst
         ):
             # Here, lst is a list and we asserted all elements are int.
             total: int = sum(lst)

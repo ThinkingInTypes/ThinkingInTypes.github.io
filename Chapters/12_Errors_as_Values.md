@@ -404,14 +404,14 @@ def func_c(i: int) -> Result[int, ZeroDivisionError]:
 
 @safe  # Convert existing function
 def func_d(
-        i: int,
+    i: int,
 ) -> str:  # Result[str, ZeroDivisionError]
     j = int(1 / i)
     return f"func_d({i}): {j}"
 
 
 def composed(
-        i: int,
+    i: int,
 ) -> Result[str, str | ValueError | ZeroDivisionError]:
     result_a = func_a(i)
     if isinstance(result_a, Failure):
@@ -434,7 +434,7 @@ pprint([(i, composed(i)) for i in range(5)])
 ##  (1, <Failure: func_a(1)>),
 ##  (2, <Failure: func_b(2)>),
 ##  (3, <Failure: func_c(3): division by zero>),
-##  (4, <Success: func_d(4)>)]
+##  (4, <Success: func_d(1): 1>)]
 ```
 
 The `a`, `b` and `c` functions each have argument values that are unacceptable.
@@ -470,7 +470,7 @@ ERROR = TypeVar("ERROR")
 @dataclass(frozen=True)
 class Result(Generic[ANSWER, ERROR]):
     def bind(
-            self, func: Callable[[ANSWER], "Result"]
+        self, func: Callable[[ANSWER], "Result"]
     ) -> "Result[ANSWER, ERROR]":
         if isinstance(self, Success):
             return func(self.unwrap())
@@ -503,10 +503,20 @@ from composing_functions import (
     func_c,
     func_d,
 )
+## [(0, <Success: 0>),
+##  (1, <Failure: func_a(1)>),
+##  (2, <Success: 2>),
+##  (3, <Success: 3>),
+##  (4, <Success: 4>)]
+## [(0, <Failure: division by zero>),
+##  (1, <Failure: func_a(1)>),
+##  (2, <Failure: func_b(2)>),
+##  (3, <Failure: func_c(3): division by zero>),
+##  (4, <Success: func_d(1): 1>)]
 
 
 def composed(
-        i: int,
+    i: int,
 ) -> Result[str, str | ZeroDivisionError | ValueError]:
     # fmt: off
     return (
@@ -519,6 +529,11 @@ def composed(
 
 
 pprint([(i, composed(i)) for i in range(5)])
+## [(0, <Failure: division by zero>),
+##  (1, <Failure: func_a(1)>),
+##  (2, <Failure: func_b(2)>),
+##  (3, <Failure: func_c(3): division by zero>),
+##  (4, <Success: func_d(1): 1>)]
 ```
 
 In `composed`, we call `func_a(i)` which returns a `Result`.
@@ -556,7 +571,7 @@ from composing_functions import func_a, func_b, func_c
 ##  (1, <Failure: func_a(1)>),
 ##  (2, <Failure: func_b(2)>),
 ##  (3, <Failure: func_c(3): division by zero>),
-##  (4, <Success: func_d(4)>)]
+##  (4, <Success: func_d(1): 1>)]
 from returns.result import Result
 
 
@@ -565,7 +580,7 @@ def add(first: int, second: int, third: int) -> str:
 
 
 def composed(
-        i: int, j: int
+    i: int, j: int
 ) -> Result[str, str | ZeroDivisionError | ValueError]:
     # fmt: off
     return Result.do(
@@ -582,7 +597,7 @@ pprint([(args, composed(*args)) for args in inputs])
 ##  ((7, 2), <Failure: func_b(2)>),
 ##  ((2, 1), <Failure: func_c(3): division by
 ## zero>),
-##  ((7, 5), <Success: add(7 + 5 + 12): 24>)]
+##  ((7, 5), <Success: add(7 + 5 + 0): 12>)]
 ```
 
 `Returns` provides a `@safe` decorator that you see applied to the "plain" function `func_b`.

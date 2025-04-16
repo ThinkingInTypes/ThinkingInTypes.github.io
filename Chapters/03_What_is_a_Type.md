@@ -167,7 +167,6 @@ In code, you might handle this with try/except:
 ```python
 # example_5.py
 from example_4 import quacks
-
 ## Quack!
 ## I can quack, too!
 

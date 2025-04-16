@@ -13,7 +13,8 @@ Assumptions I make about your Python & programming knowledge.
 - Version control with GitHub
 - Project management with uv
 - Testing with Pytest (noting that there are valid reasons to use other systems)
-- Project organization (src directory)
+- Project organization (flat directory for examples distro)
+- Standard tools for code consistency, such as `ruff`
 
 ## Programming Philosophy
 

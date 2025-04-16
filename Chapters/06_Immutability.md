@@ -294,6 +294,7 @@ print(messenger := Messenger("foo", 12, 3.14))
 # Frozen dataclass is immutable:
 with Catch():
     messenger.name = "bar"  # type: ignore
+## Error: cannot assign to field 'name'
 
 # Automatically creates __hash__():
 d = {messenger: "value"}
@@ -348,9 +349,16 @@ Modifying a `Stars` instance after creation raises an error, further safeguardin
 ```python
 # modify_stars.py
 from stars import Stars
+## Stars(number=4)
+## Stars(number=9)
+## Error: Stars(number=45)
+## Error: Stars(number=11)
+## Error: Stars(number=11)
 
 
-def increase_stars(rating: Stars, increment: int) -> Stars:
+def increase_stars(
+    rating: Stars, increment: int
+) -> Stars:
     return Stars(rating.number + increment)
 ```
 

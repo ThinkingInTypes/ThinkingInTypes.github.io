@@ -19,7 +19,7 @@ For example, a simple identity function or an "echo" function can be made generi
 # typevars.py
 from typing import TypeVar
 
-T = TypeVar('T')  # Define a TypeVar named T
+T = TypeVar("T")  # Define a TypeVar named T
 
 
 def echo(value: T) -> T:
@@ -27,7 +27,9 @@ def echo(value: T) -> T:
 
 
 print(echo(42))
+## 42
 print(echo("Hello"))
+## Hello
 ```
 
 In `echo`, the type variable `T` represents the type of the `value` parameter and the return type.
@@ -50,7 +52,7 @@ Let's define a generic class `Box` that can hold a value of any type:
 # box.py
 from typing import Generic, TypeVar
 
-U = TypeVar('U')  # a generic type for content
+U = TypeVar("U")  # a generic type for content
 
 
 class Box(Generic[U]):
@@ -64,7 +66,9 @@ class Box(Generic[U]):
 int_box = Box(123)  # U is inferred as int
 str_box = Box("Python")  # U is inferred as str
 print(int_box.get_content())  # 123
+## 123
 print(str_box.get_content())  # Python
+## Python
 ```
 
 Here, `Box` is a generic class parameterized by `U`.
@@ -97,7 +101,7 @@ Python's typing provides two mechanisms for this: *constraints* and *bounds* for
 from typing import TypeVar
 
 # Define a TypeVar that can only be int or float
-Number = TypeVar('Number', int, float)
+Number = TypeVar("Number", int, float)
 
 
 def add(a: Number, b: Number) -> Number:
@@ -106,11 +110,15 @@ def add(a: Number, b: Number) -> Number:
 
 
 add(5, 10)  # valid, both int
+## 15
 add(3.5, 2.5)  # valid, both float
+## 6.0
 # valid, int and float are both allowed types:
 add(5, 2.5)
+## 7.5
 # ERROR: str not allowed for Number:
 add("A", "Z")  # type: ignore
+## AZ
 ```
 
 Here, `Number` is a `TypeVar` constrained to `int` or `float`.
@@ -137,7 +145,7 @@ class Dog(Animal):
         print("Woof")
 
 
-TAnimal = TypeVar('TAnimal', bound=Animal)
+TAnimal = TypeVar("TAnimal", bound=Animal)
 
 
 def make_them_speak(creatures: list[TAnimal]) -> None:
@@ -146,8 +154,15 @@ def make_them_speak(creatures: list[TAnimal]) -> None:
 
 
 pets: list[Dog] = [Dog(), Dog()]
-make_them_speak(pets)  # OK, Dog is a subclass of Animal
-make_them_speak([Animal()])  # OK, Animal itself is fine (Animal is the bound)
+make_them_speak(
+    pets
+)  # OK, Dog is a subclass of Animal
+## Woof
+## Woof
+make_them_speak(
+    [Animal()]
+)  # OK, Animal itself is fine (Animal is the bound)
+## Animal sound
 # make_them_speak(["not an animal"])  # type checker error
 ```
 
@@ -170,8 +185,8 @@ For instance, consider a function that takes two parameters of possibly differen
 # multiple_typevars.py
 from typing import TypeVar
 
-A = TypeVar('A')
-B = TypeVar('B')
+A = TypeVar("A")
+B = TypeVar("B")
 
 
 def pairify(x: A, y: B) -> tuple[A, B]:
@@ -209,8 +224,11 @@ This is a common source of confusion for those coming from languages like Java o
 # covariance.py
 from typing import Generic, TypeVar
 from animals import Animal, Dog
+## Woof
+## Woof
+## Animal sound
 
-T_co = TypeVar('T_co', covariant=True)
+T_co = TypeVar("T_co", covariant=True)
 
 
 class ReadOnlyBox(Generic[T_co]):
@@ -225,7 +243,7 @@ dog_box: ReadOnlyBox[Dog] = ReadOnlyBox(Dog())
 # Covariance in action:
 animal_box: ReadOnlyBox[Animal] = dog_box
 # pet is an Animal, a Dog:
-pet: Animal = animal_box.get_content()  
+pet: Animal = animal_box.get_content()
 ```
 
 Here, `ReadOnlyBox[T_co]` is defined with a covariant type parameter `T_co`.
@@ -241,8 +259,11 @@ Covariance is appropriate when the generic class is basically a container of T t
 # contravariance.py
 from typing import Generic, TypeVar
 from animals import Animal, Dog
+## Woof
+## Woof
+## Animal sound
 
-T_contra = TypeVar('T_contra', contravariant=True)
+T_contra = TypeVar("T_contra", contravariant=True)
 
 
 class Sink(Generic[T_contra]):
@@ -254,7 +275,9 @@ animal_sink: Sink[Animal] = Sink()
 # Contravariance in action:
 dog_sink: Sink[Dog] = animal_sink
 # dog_sink expects at least Dog, and Animal is broader:
-dog_sink.send(Dog())  
+dog_sink.send(Dog())
+## Processing <animals.Dog object at
+## 0x00000281C5AFA350>
 ```
 
 In this example, `Sink[T_contra]` is contravariant, indicating it only consumes values of type `T_contra` (here via the `send` method).
@@ -283,12 +306,14 @@ We can write a generic higher-order function to do this:
 # example_8.py
 from typing import Callable, TypeVar
 
-X = TypeVar('X')
-Y = TypeVar('Y')
-Z = TypeVar('Z')
+X = TypeVar("X")
+Y = TypeVar("Y")
+Z = TypeVar("Z")
 
 
-def curry_two_arg(func: Callable[[X, Y], Z]) -> Callable[[X], Callable[[Y], Z]]:
+def curry_two_arg(
+    func: Callable[[X, Y], Z],
+) -> Callable[[X], Callable[[Y], Z]]:
     def curried(x: X) -> Callable[[Y], Z]:
         def inner(y: Y) -> Z:
             return func(x, y)
@@ -303,7 +328,9 @@ def multiply(a: int, b: float) -> float:
 
 
 curried_mul = curry_two_arg(multiply)
-get_double = curried_mul(2)  # get_double is now Callable[[float], float]
+get_double = curried_mul(
+    2
+)  # get_double is now Callable[[float], float]
 result = get_double(3.5)  # result = 7.0
 ```
 
@@ -338,17 +365,21 @@ Here's how we can do it:
 
 ```python
 # example_9.py
-from __future__ import annotations  # For forward-referenced types
+from __future__ import (
+    annotations,
+)  # For forward-referenced types
 from dataclasses import dataclass, field
 from typing import Generic, TypeVar
 
-T = TypeVar('T')
+T = TypeVar("T")
 
 
 @dataclass
 class Tree(Generic[T]):
     value: T
-    children: list[Tree[T]] = field(default_factory=list)
+    children: list[Tree[T]] = field(
+        default_factory=list
+    )
 
     def add_child(self, child_value: T) -> Tree[T]:
         child = Tree(child_value)
@@ -387,7 +418,7 @@ Consider a base class that should return an instance of the subclass in a method
 # f_bounded_polymorphism.py
 from typing import TypeVar, Generic
 
-TSelf = TypeVar('TSelf', bound='Form')
+TSelf = TypeVar("TSelf", bound="Form")
 
 
 class Form(Generic[TSelf]):
@@ -396,17 +427,21 @@ class Form(Generic[TSelf]):
         return self
 
 
-class ContactForm(Form['ContactForm']):
+class ContactForm(Form["ContactForm"]):
     def __init__(self):
         self.title = ""
         self.fields = []
 
-    def add_field(self, name: str) -> 'ContactForm':
+    def add_field(self, name: str) -> "ContactForm":
         self.fields.append(name)
         return self
 
 
-form = ContactForm().set_title("Feedback").add_field("email")
+form = (
+    ContactForm()
+    .set_title("Feedback")
+    .add_field("email")
+)
 ```
 
 `TSelf` is a `TypeVar` bounded to `'Form'` (the base class).
@@ -448,7 +483,15 @@ We can express this as:
 
 ```python
 # recursive_alias.py
-JSON = dict[str, 'JSON'] | list['JSON'] | str | int | float | bool | None
+JSON = (
+    dict[str, "JSON"]
+    | list["JSON"]
+    | str
+    | int
+    | float
+    | bool
+    | None
+)
 ```
 
 This defines `JSON` as a recursive type alias: it can be a dictionary mapping strings to JSON values, or a list of JSON values, or a primitive type.
@@ -467,7 +510,7 @@ from recursive_alias import JSON
 config: JSON = {
     "name": "App",
     "features": ["login", "signup"],
-    "settings": {"theme": "dark", "volume": 5}
+    "settings": {"theme": "dark", "volume": 5},
 }
 ```
 
@@ -498,8 +541,7 @@ from typing import Protocol
 
 
 class Drawable(Protocol):
-    def draw(self) -> None:
-        ...
+    def draw(self) -> None: ...
 ```
 
 The `...` a.k.a. `pass` means we don't implement behavior in the `Protocol`, just the signature.
@@ -530,7 +572,9 @@ class Text:
 circle = Circle()
 text = Text()
 render(circle)  # OK, Circle has draw()
+## Drawing a circle
 render(text)  # OK, Text has draw()
+## Rendering text
 # render(123)   # type checker error: int has no draw()
 ```
 
@@ -565,12 +609,11 @@ You can define your own:
 # iterable_protocol.py
 from typing import Iterator, TypeVar, Protocol
 
-T = TypeVar('T', covariant=True)
+T = TypeVar("T", covariant=True)
 
 
 class IterableLike(Protocol[T]):
-    def __iter__(self) -> Iterator[T]:
-        ...
+    def __iter__(self) -> Iterator[T]: ...
 ```
 
 Now `IterableLike[T]` can be used to describe any iterable of `T` without forcing a specific inheritance.
@@ -591,8 +634,7 @@ from io import StringIO
 
 
 class Writable(Protocol):
-    def write(self, __s: str) -> int:
-        ...
+    def write(self, __s: str) -> int: ...
 
 
 def save_message(out: Writable, message: str) -> None:
@@ -609,6 +651,7 @@ buffer = StringIO()
 save_message(buffer, "Hello, Buffer!")
 buffer.seek(0)
 print(buffer.read())
+## Hello, Buffer!
 ```
 
 In this example, any object that implements `write(str)` can be passed to `save_message`.
@@ -644,9 +687,13 @@ For instance:
 # generic_alias.py
 from typing import TypeVar
 
-T = TypeVar('T')
-Pair = tuple[T, T]  # A pair of two items of the same type
-StrDict = dict[str, T]  # A dictionary with string keys and values of type T
+T = TypeVar("T")
+Pair = tuple[
+    T, T
+]  # A pair of two items of the same type
+StrDict = dict[
+    str, T
+]  # A dictionary with string keys and values of type T
 ```
 
 Here, `Pair` and `StrDict` are generic type aliases.
@@ -673,7 +720,10 @@ For example:
 # example_21.py
 from generic_alias import Pair
 
-r: Pair = ("x", 5)  # type checker treats this as tuple[Any, Any]
+r: Pair = (
+    "x",
+    5,
+)  # type checker treats this as tuple[Any, Any]
 ```
 
 This will not raise an immediate error, because `Pair` unqualified is basically `tuple[Any, Any]`,
@@ -690,8 +740,14 @@ For example:
 from generic_alias import Pair
 from typing import get_origin, get_args
 
-print(get_origin(Pair[int]))  # outputs: <class 'tuple'>
-print(get_args(Pair[int]))  # outputs: (<class 'int'>, <class 'int'>)
+print(
+    get_origin(Pair[int])
+)  # outputs: <class 'tuple'>
+## <class 'tuple'>
+print(
+    get_args(Pair[int])
+)  # outputs: (<class 'int'>, <class 'int'>)
+## (<class 'int'>, <class 'int'>)
 ```
 
 This shows that `Pair[int]` is recognized by the typing introspection as a tuple with two int arguments.
@@ -704,12 +760,16 @@ For example:
 # example_23.py
 from typing import TypeVar
 
-T = TypeVar('T')
+T = TypeVar("T")
 Vector = list[tuple[T, T]]
 
 
-def scale_points(points: Vector[int], factor: int) -> Vector[int]:
-    return [(x * factor, y * factor) for (x, y) in points]
+def scale_points(
+    points: Vector[int], factor: int
+) -> Vector[int]:
+    return [
+        (x * factor, y * factor) for (x, y) in points
+    ]
 ```
 
 Here `Vector[int]` is easier to read than `list[tuple[int, int]]`.
@@ -741,6 +801,8 @@ For example:
 ```python
 # example_25.py
 from box import Box
+## 123
+## Python
 
 box: Box[int] = Box(123)
 box.content = "not an int"  # type: ignore
@@ -762,6 +824,9 @@ A common mistake is expecting container types to be covariantly interchangeable:
 ```python
 # example_26.py
 from animals import Animal, Dog
+## Woof
+## Woof
+## Animal sound
 
 animals: list[Animal] = [Animal()]
 dogs: list[Dog] = [Dog()]
@@ -783,7 +848,7 @@ For example:
 # example_27.py
 from typing import TypeVar, Iterable
 
-T = TypeVar('T')
+T = TypeVar("T")
 
 
 def sort_items(items: list[T]) -> list[T]:
@@ -805,7 +870,7 @@ class Comparable(Protocol):
     def __lt__(self, other: Any) -> bool: ...
 
 
-U = TypeVar('U', bound=Comparable)
+U = TypeVar("U", bound=Comparable)
 
 
 def sort_items(items: list[U]) -> list[U]:
@@ -854,12 +919,11 @@ For example:
 # example_30.py
 from typing import TypeVar, Generic
 
-KT = TypeVar('KT')  # Key type
-VT = TypeVar('VT')  # Value type
+KT = TypeVar("KT")  # Key type
+VT = TypeVar("VT")  # Value type
 
 
-class BiMap(Generic[KT, VT]):
-    ...
+class BiMap(Generic[KT, VT]): ...
 ```
 
 This can make the code more self-documenting, especially if there are multiple type parameters that have roles (key vs. value, input vs. output, etc.).

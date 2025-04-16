@@ -170,8 +170,6 @@ For example:
 # example_4.py
 from typing import runtime_checkable, Protocol
 from file_resource import FileResource
-
-
 ## Socket closed
 
 
@@ -239,7 +237,9 @@ class ListLogger:
         self.messages.append(message)
 
 
-def run_process(task_name: str, logger: Logger) -> None:
+def run_process(
+    task_name: str, logger: Logger
+) -> None:
     logger.log(f"Starting {task_name}")
     # Perform the task ...
     logger.log(f"Finished {task_name}")
@@ -406,7 +406,7 @@ from container_types import (
 
 
 def print_item_and_return[C](
-        container: Container[C],
+    container: Container[C],
 ) -> C:
     item = container.get_item()
     print("Got:", item)
@@ -447,7 +447,6 @@ For example, if we have:
 # example_9.py
 from typing import TypeVar
 from logger_protocol import Logger
-
 ## Captured logs: ['Starting DataCleanup',
 ## 'Finished DataCleanup']
 
