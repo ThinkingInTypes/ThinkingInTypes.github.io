@@ -457,21 +457,25 @@ print("Zipped:", zipped)
 print("Unzipped:", unzipped)
 ```
 
-## Variance: Covariance and Contravariance
+## Variance
 
 In the context of generics, *variance* describes how subtyping between complex types relates to subtyping between their component types.
 In Python, all generics are invariant by default, meaning `Container[SubType]` is not a subtype of `Container[BaseType]` even if `SubType` is a subtype of `BaseType`.
 This is a common source of confusion for those coming from languages like Java or C#, but it's an important aspect of type safety.
 
-- **Invariant (default):** A generic class is invariant in its type parameters unless explicitly declared otherwise.
-  For example, given `Dog` is a subclass of `Animal`, `Box[Dog]` is not considered a subtype of `Box[Animal]`.
-  This is unsafe because you could then put a `Cat` (another `Animal`) into a `Box[Animal]` which is actually a `Box[Dog]` internally.
-  The type checker forbids treating `Box[Dog]` as a `Box[Animal]`.
+### Invariant (default)
 
-- **Covariant:** A generic type is covariant in a type parameter if `Generic[Sub]` is a subtype of `Generic[Base]` whenever `Sub` is a subtype of `Base`.
-  This usually makes sense for read-only or producer containers.
-  Python allows declaring a `TypeVar` as covariant when defining a class or interface.
-  For example:
+A generic class is invariant in its type parameters unless explicitly declared otherwise.
+For example, given `Dog` is a subclass of `Animal`, `Box[Dog]` is not considered a subtype of `Box[Animal]`.
+This is unsafe because you could then put a `Cat` (another `Animal`) into a `Box[Animal]` which is actually a `Box[Dog]` internally.
+The type checker forbids treating `Box[Dog]` as a `Box[Animal]`.
+
+### Covariant
+
+A generic type is covariant in a type parameter if `Generic[Sub]` is a subtype of `Generic[Base]` whenever `Sub` is a subtype of `Base`.
+This usually makes sense for read-only or producer containers.
+Python allows declaring a `TypeVar` as covariant when defining a class or interface.
+For example:
 
 ```python
 # covariance.py
@@ -500,10 +504,12 @@ Here, `ReadOnlyBox[T_co]` is defined with a covariant type parameter `T_co`.
 That signals to the type checker that it is safe to treat `ReadOnlyBox[Dog]` as a `ReadOnlyBox[Animal]`, because `ReadOnlyBox` only produces `T_co` (via `get_content`) and never consumes it in a type-specific way.
 Covariance is appropriate when the generic class is basically a container of T that only returns T (and doesn't accept T instances that could violate assumptions).
 
-- **Contravariant:** A generic type is contravariant in a type parameter if `Generic[Base]` is a subtype of `Generic[Sub]` whenever `Sub` is a subtype of `Base`.
-  This is suitable for consumer objects that only take in data of type T and do not produce it.
-  Python allows declaring a `TypeVar` as contravariant.
-  For example:
+### Contravariant
+
+A generic type is contravariant in a type parameter if `Generic[Base]` is a subtype of `Generic[Sub]` whenever `Sub` is a subtype of `Base`.
+This is suitable for consumer objects that only take in data of type T and do not produce it.
+Python allows declaring a `TypeVar` as contravariant.
+For example:
 
 ```python
 # contravariance.py
@@ -531,14 +537,18 @@ In this example, `Sink[T_contra]` is contravariant, indicating it only consumes 
 Because a `Sink[Animal]` can accept a `Dog` (since Dog is an Animal), it is safe to assign `animal_sink` to a `dog_sink` reference.
 In general, contravariance allows broadening the accepted types when substituting; a `Sink[Animal]` can stand in for a `Sink[Dog]` because anything that expects to only handle Dogs can also handle Animals (but not vice versa).
 
-**Using variance:** To declare a covariant or contravariant type variable, you set `covariant=True` or `contravariant=True` in the `TypeVar` definition.
+### Using Variance
+
+To declare a covariant or contravariant type variable, you set `covariant=True` or `contravariant=True` in the `TypeVar` definition.
 Note that variance can only be declared on class or interface type parameters (like for use in `Generic[...]` or `Protocol[...]`).
 Function type variables are always invariant.
 Most built-in collections in Python are invariant (e.g., `list` is invariant, which is why `list[Dog]` is not assignable to `list[Animal]`).
-Some abstract collection types or protocols are covariant (for instance, `collections.abc.Sequence` is covariant in its element type, because sequences are read-only containers as far as the typing system is concerned).
+Some abstract collection types or protocols are covariant (for instance, `collections.abc.Sequence` is covariant in its element type,
+because sequences are read-only containers as far as the typing system is concerned).
 
 Understanding variance is an advanced topic--many developers use generics effectively without explicitly declaring covariant/contravariant type variables.
-If you design your own generic classes, think about whether they only produce values of type T (covariant), only consume values of type T (contravariant), or both (invariant).
+If you design your own generic classes, think about whether they only produce values of type T (covariant),
+only consume values of type T (contravariant), or both (invariant).
 By default, if you do nothing special, your generics are invariant.
 
 ## Function Currying with Generics
@@ -1029,34 +1039,9 @@ Coordinates: TypeAlias = tuple[float, float]
 However, for simple cases, just using a capitalized variable name for the alias as above is usually clear enough to type checkers.
 (By convention, user-defined type aliases often start with a capital letter.) Python 3.12 is expected to bring a new syntax for generic aliases using the `type` keyword (PEP 695), but that's beyond the scope of this chapter.
 
-## Common Pitfalls and Best Practices
+## Guidelines
 
 Generics greatly enhance the expressiveness of Python's type system, but they can also introduce complexity.
-
-### Pitfall: Assuming Runtime Enforcement
-
-One key thing to understand is that Python's generics (and type hints in general) are a static analysis tool.
-They are not enforced at runtime.
-For example:
-
-```python
-# no_runtime_enforcement.py
-from box import Box
-
-## 123
-## Python
-
-box: Box[int] = Box(123)
-box.content = "not an int"  # type: ignore
-```
-
-This code will not raise an error at runtime even though we annotated `box` as `Box[int]` but then assigned a string to its content.
-At runtime, `box.content` is just a reference and Python is dynamically typed.
-The type parameter `T` in `Box[T]` is erased at runtime.
-
-Always use a static type checker on your code to actually get the benefits of generics.
-Type hints are most effective when paired with tools (or an IDE) that will warn you of violations.
-Don't rely on type hints for runtime logic; if something absolutely must be validated at runtime (e.g., an API input), you still need explicit checks or use libraries like Pydantic.
 
 ### Pitfall: Invariance Confusion
 
@@ -1161,7 +1146,7 @@ This is probably a design mistake.
 In such cases, use a normal specific type (or `Any`) if the function isn't meant to be generic.
 Use `TypeVar` only for functions that really need to be generic.
 
-### Best Practice: Use Descriptive Type Variable Names for Clarity
+### Practice: Use Descriptive Type Variable Names for Clarity
 
 While the convention is to use single-letter TypeVars like `T`, `U`, `V` for simple cases, in more complex generics consider using more descriptive names.
 For example:
@@ -1181,24 +1166,25 @@ This can make the code more self-documenting, especially if there are multiple t
 Python 3.12+ will even allow using these names in the syntax (like `def func[KeyType, ValueType](...) -> ...:`), which encourages descriptive names.
 In current Python, you can still achieve clarity by the variable name itself (e.g., `KeyType = TypeVar('KeyType')`) though the external name in the code is what you use.
 
-### Best Practice: Leverage Protocols for Flexibility
+### Practice: Leverage Protocols for Flexibility
 
 If you find yourself wanting to accept "any object that has method X," don't force a class hierarchy for typing purposes.
 Use a Protocol.
 This decouples your code's type requirements from specific implementations.
 It makes your functions more reusable.
 The standard library's `typing` module provides many ready-made protocols (like `Iterable`, `Iterator`, `Sequence`, `Mapping`, etc.) which you should use in type annotations instead of concrete types when possible.
-For instance, if a function just needs to read from a container, annotate it as accepting `Iterable[T]` rather than `list[T]`--this way tuples, sets, or any iterable will also be accepted.
+For instance, if a function just needs to read from a container, annotate it as accepting `Iterable[T]` rather than `list[T]`.
+This way, `tuple`s, `set`s, or any `Iterable` will also be accepted.
 
-### Best Practice: Be Mindful of Version Compatibility
+### Practice: Version Compatibility
 
 The typing ecosystem has evolved quickly.
-Be mindful of the Python version you are targeting:
+Be aware of the Python version you are targeting:
 
 - Python 3.7 and earlier: Use `from __future__ import annotations` to avoid forward reference issues.
   The `typing_extensions` module provides `Protocol`, `Literal`, `Final`, etc., which were not yet in `typing`.
   Also, generic built-in types like `list[int]` were not available; you had to use `typing.List[int]`.
-- Python 3.8: `typing.Protocol` was introduced (via PEP 544).
+- Python 3.8: `typing.Protocol` introduced via PEP 544.
   Also `Literal` and `Final` were added.
 - Python 3.9: Built-in generic types like `list[int]`, `dict[str, int]` are supported (PEP 585), so you no longer need to import those from `typing`.
   Also, `typing.Annotated` was introduced for adding metadata to types.
