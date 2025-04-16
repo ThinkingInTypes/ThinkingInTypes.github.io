@@ -1,4 +1,4 @@
-# Book Notes
+# Appendix: Book Notes
 
 Resources and Ideas for eventual inclusion in the book.
 

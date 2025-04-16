@@ -1,4 +1,4 @@
-# Automatic Annotations
+# Appendix: Automatic Annotations
 
 [Too specific to mypy--should cover other tools]
 

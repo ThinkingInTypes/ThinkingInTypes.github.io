@@ -1,4 +1,4 @@
-# Class Attributes
+# Appendix: Class Attributes
 
 > A number of type tools use a syntax that hacks class attribute syntax; the most obvious is dataclasses but there are others.
 > It's important to understand that this is special behavior created by the tool, and that ordinary classes do not behave this way.
@@ -368,14 +368,14 @@ To see this in action, we need a function that displays the inside of classes an
 
 def attributes(d: object) -> str:
     return (
-        ", ".join(
-            [
-                f"{k}: {v}"
-                for k, v in vars(d).items()
-                if not k.startswith("__")
-            ]
-        )
-        or "Empty"
+            ", ".join(
+                [
+                    f"{k}: {v}"
+                    for k, v in vars(d).items()
+                    if not k.startswith("__")
+                ]
+            )
+            or "Empty"
     )
 
 
@@ -512,7 +512,7 @@ from dataclasses import dataclass
 
 class A:
     def __init__(
-        self, x: int = 100, y: int = 200, z: int = 300
+            self, x: int = 100, y: int = 200, z: int = 300
     ):
         self.x = x
         self.y = y

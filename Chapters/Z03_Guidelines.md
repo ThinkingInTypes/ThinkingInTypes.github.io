@@ -1,4 +1,4 @@
-# Guidelines
+# Appendix: Guidelines
 
 \[\[Needs lots of work]]
 
@@ -17,7 +17,7 @@ Clear type annotations significantly improve code quality and maintainability:
 ```python
 # example_1.py
 def calculate_area(
-    width: float, height: float
+        width: float, height: float
 ) -> float:
     return width * height
 ```
@@ -93,7 +93,7 @@ from typing import Union
 
 
 def handle(
-    value: Union[int, str, None, float],
+        value: Union[int, str, None, float],
 ) -> None:
     pass
 ```

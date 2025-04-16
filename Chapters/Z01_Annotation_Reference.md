@@ -1,7 +1,7 @@
-# Annotation Reference
+# Appendix: Annotations
 
 | Annotation                       | Description                          | Example                                  |
-| -------------------------------- | ------------------------------------ | ---------------------------------------- |
+|----------------------------------|--------------------------------------|------------------------------------------|
 | `int`, `str`, `float`, `bool`    | Basic built-in types                 | `age: int = 25`                          |
 | `List[T]`, `list[T]`             | List containing items of type `T`    | `scores: list[int]`                      |
 | `Tuple[T, ...]`, `tuple[T, ...]` | Tuple with specified item types      | `coords: tuple[float, float]`            |

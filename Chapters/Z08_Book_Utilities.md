@@ -1,4 +1,4 @@
-# Book Utilities
+# Appendix: Book Utilities
 
 These are incorporated into book examples to make them easier to read and to reduce code duplication.
 They are placed in a subdirectory off the root of the project, named `book_utils`.

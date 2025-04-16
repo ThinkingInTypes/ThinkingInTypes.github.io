@@ -1,9 +1,9 @@
-# Glossary
+# Appendix: Glossary
 
 \[\[Add links to introductions in book]]
 
 | Term               | Definition                                                                               |
-| ------------------ | ---------------------------------------------------------------------------------------- |
+|--------------------|------------------------------------------------------------------------------------------|
 | **Annotation**     | Explicit type declaration for variables, functions, or classes.                          |
 | **Duck Typing**    | Determining an object's suitability based on presence of methods/attributes              |
 | **Generics**       | Type annotations parameterized by type variables.                                        |
