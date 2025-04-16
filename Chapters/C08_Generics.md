@@ -217,6 +217,7 @@ While a `TypeVar` supports a single generic type, a `TypeVarTuple` produces an u
 `Unpack` spreads a `TypeVarTuple` into a signature.
 
 ```python
+# typevartuple.py
 from typing import TypeVarTuple
 
 Ts = TypeVarTuple("Ts")
@@ -242,6 +243,7 @@ Without `TypeVarTuple`, you'd have to manually define each arity.
 With it, you can write:
 
 ```python
+# tuple_wrapper.py
 from typing import Generic, TypeVarTuple
 
 Ts = TypeVarTuple("Ts")
@@ -257,21 +259,38 @@ t2 = TupleWrapper("a", 2, 3.14)  # TupleWrapper[str, int, float]
 ```
 
 The type checker tracks the number and types of elements in `*Ts` individually.
+Let's explore TypeVarTuple by implementing a type-safe version of Python's built-in `zip()` function that works on `tuple`s of different types:
 
 ```python
-# generic_zip.py
-from typing import Callable, TypeVarTuple, reveal_type
+# variadic_zip.py
+from typing import TypeVarTuple, Unpack, Tuple, Any
 
 Ts = TypeVarTuple("Ts")
 
 
-def zip_variadic(*args: *Ts) -> tuple[*Ts]:
-    return args
+def zip_variadic(*args: tuple[Unpack[Ts]]) -> tuple[Tuple[*Ts], ...]:
+    return tuple(zip(*args))
 
 
-reveal_type(zip_variadic(1, "a", 3.14))
-# tuple[int, str, float]
+def unzip_variadic(packed: tuple[tuple[Any, ...], ...]) -> tuple[tuple[Any, ...], ...]:
+    return tuple(zip(*packed))
+
+
+a: tuple[int, str, float] = (1, "a", 3.14)
+b: tuple[int, str, float] = (2, "b", 2.71)
+c: tuple[int, str, float] = (3, "c", 1.41)
+
+zipped = zip_variadic(a, b, c)
+unzipped = unzip_variadic(zipped)
+
+print("Zipped:", zipped)
+print("Unzipped:", unzipped)
 ```
+
+The `zip_variadic` signature says:
+
+- `args` is a variadic list of tuples, each shaped like tuple[Unpack[Ts]]
+- The return value is a tuple of rows, where each row is tuple[*Ts] (e.g., one `int` row, one `str` row, one `float` row).
 
 ### Limitations (2025)
 
@@ -296,27 +315,33 @@ With `TypeVarTuple`, we can capture the variable number of dimension sizes.
 
 ```python
 # n_dimensional_tensor.py
-from typing import TypeVar, TypeVarTuple, Generic, Unpack
+from typing import TypeVar, TypeVarTuple, Generic, Unpack, Literal, TypeAlias
 
-# Data type (e.g., float, int):
 T = TypeVar("T")
-# A tuple of ints representing dimensions:
 Shape = TypeVarTuple("Shape")
 
 
 class Tensor(Generic[T, Unpack[Shape]]):
-
     def __init__(self, data: list, *, shape: tuple[Unpack[Shape]]):
         self.data = data
         self.shape = shape
 
+    def __repr__(self) -> str:
+        return f"Tensor(shape={self.shape})"
 
-def __repr__(self) -> str:
-    return f"Tensor(shape={self.shape})"
 
+Shape3x3: TypeAlias = tuple[Literal[3], Literal[3]]
+Shape2x2x2: TypeAlias = tuple[Literal[2], Literal[2], Literal[2]]
 
-t1 = Tensor[float, 3, 3](data=[[1.0] * 3] * 3, shape=(3, 3))  # 2D
-t2 = Tensor[int, 2, 2, 2](data=[[[1, 2], [3, 4]], [[5, 6], [7, 8]]], shape=(2, 2, 2))  # 3D
+t1 = Tensor[float, *Shape3x3](
+    data=[[1.0] * 3] * 3,
+    shape=(3, 3)
+)
+
+t2 = Tensor[int, *Shape2x2x2](
+    data=[[[1, 2], [3, 4]], [[5, 6], [7, 8]]],
+    shape=(2, 2, 2)
+)
 
 print(t1)  # Tensor(shape=(3, 3))
 print(t2)  # Tensor(shape=(2, 2, 2))
@@ -407,7 +432,8 @@ print(r2.to_tuple())
 We want to preserve the individual types of each position:
 
 ```python
-from typing import TypeVarTuple, Unpack, Tuple
+# variadic_zip.py
+from typing import TypeVarTuple, Unpack, Tuple, Any
 
 Ts = TypeVarTuple("Ts")
 
@@ -416,7 +442,7 @@ def zip_variadic(*args: tuple[Unpack[Ts]]) -> tuple[Tuple[*Ts], ...]:
     return tuple(zip(*args))
 
 
-def unzip_variadic(packed: tuple[Tuple[*Ts], ...]) -> tuple[tuple[Unpack[Ts]]]:
+def unzip_variadic(packed: tuple[tuple[Any, ...], ...]) -> tuple[tuple[Any, ...], ...]:
     return tuple(zip(*packed))
 
 
@@ -425,13 +451,10 @@ b: tuple[int, str, float] = (2, "b", 2.71)
 c: tuple[int, str, float] = (3, "c", 1.41)
 
 zipped = zip_variadic(a, b, c)
-# zipped: tuple[tuple[int, int, int], tuple[str, str, str], tuple[float, float, float]]
-
 unzipped = unzip_variadic(zipped)
-# unzipped: tuple[tuple[int, str, float], tuple[int, str, float], tuple[int, str, float]]
 
-print(zipped)
-print(unzipped)
+print("Zipped:", zipped)
+print("Unzipped:", unzipped)
 ```
 
 ## Variance: Covariance and Contravariance
@@ -454,10 +477,6 @@ This is a common source of confusion for those coming from languages like Java o
 # covariance.py
 from typing import Generic, TypeVar
 from animals import Animal, Dog
-
-## Woof
-## Woof
-## Animal sound
 
 T_co = TypeVar("T_co", covariant=True)
 
@@ -490,10 +509,6 @@ Covariance is appropriate when the generic class is basically a container of T t
 # contravariance.py
 from typing import Generic, TypeVar
 from animals import Animal, Dog
-
-## Woof
-## Woof
-## Animal sound
 
 T_contra = TypeVar("T_contra", contravariant=True)
 
@@ -535,7 +550,7 @@ For example, imagine a function that takes two arguments, and we want to get a n
 We can write a generic higher-order function to do this:
 
 ```python
-# example_8.py
+# curry_two_arg.py
 from typing import Callable, TypeVar
 
 X = TypeVar("X")
@@ -596,7 +611,7 @@ The class needs to refer to itself for the children.
 Here's how we can do it:
 
 ```python
-# example_9.py
+# self_referencing.py
 from __future__ import (
     annotations,
 )  # For forward-referenced types
@@ -736,7 +751,7 @@ In use, if you annotate a variable as `JSON`, the type checker will understand n
 For example:
 
 ```python
-# example_13.py
+# recursive_alias_applied.py
 from recursive_alias import JSON
 
 config: JSON = {
@@ -818,7 +833,7 @@ This is static duck typing in action: if it quacks like a duck, treat it as a du
 For example:
 
 ```python
-# example_16.py
+# protocols_with_attributes.py
 from typing import Protocol
 
 
@@ -935,7 +950,7 @@ Here, `Pair` and `StrDict` are generic type aliases.
 **Using generic aliases:**
 
 ```python
-# example_20.py
+# generic_alias_applied.py
 from generic_alias import Pair, StrDict
 
 p: Pair[int] = (10, 20)
@@ -949,13 +964,11 @@ If you don't subscript the alias (e.g., just use `Pair` by itself), the type var
 For example:
 
 ```python
-# example_21.py
+# generic_alias_tuple.py
 from generic_alias import Pair
 
-r: Pair = (
-    "x",
-    5,
-)  # type checker treats this as tuple[Any, Any]
+# type checker treats this as tuple[Any, Any]:
+r: Pair = ("x", 5,)  
 ```
 
 This will not raise an immediate error, because `Pair` unqualified is basically `tuple[Any, Any]`,
@@ -968,17 +981,13 @@ If you inspect `Pair[int]` at runtime, you'll get the underlying type.
 For example:
 
 ```python
-# example_22.py
+# inspect_alias.py
 from generic_alias import Pair
 from typing import get_origin, get_args
 
-print(
-    get_origin(Pair[int])
-)  # outputs: <class 'tuple'>
+print(get_origin(Pair[int]))
 ## <class 'tuple'>
-print(
-    get_args(Pair[int])
-)  # outputs: (<class 'int'>, <class 'int'>)
+print(get_args(Pair[int]))
 ## (<class 'int'>, <class 'int'>)
 ```
 
@@ -989,7 +998,7 @@ Type aliases are resolved during type checking and are essentially transparent a
 For example:
 
 ```python
-# example_23.py
+# vector.py
 from typing import TypeVar
 
 T = TypeVar("T")
@@ -1011,7 +1020,7 @@ The type checker ensures consistency just as if we wrote the full type.
 For example:
 
 ```python
-# example_24.py
+# typealias_annotation.py
 from typing import TypeAlias
 
 Coordinates: TypeAlias = tuple[float, float]
@@ -1031,7 +1040,7 @@ They are not enforced at runtime.
 For example:
 
 ```python
-# example_25.py
+# no_runtime_enforcement.py
 from box import Box
 
 ## 123
@@ -1055,7 +1064,7 @@ As mentioned earlier, most types are invariant.
 A common mistake is expecting container types to be covariantly interchangeable:
 
 ```python
-# example_26.py
+# invariance_confusion.py
 from animals import Animal, Dog
 
 ## Woof
@@ -1079,7 +1088,7 @@ Using a `TypeVar` when your function actually expects a more specific capability
 For example:
 
 ```python
-# example_27.py
+# too_general.py
 from typing import TypeVar, Iterable
 
 T = TypeVar("T")
@@ -1096,7 +1105,7 @@ The type checker wouldn't catch it because `T` was unconstrained (it can be anyt
 A better approach is to constrain `T` to types that support ordering:
 
 ```python
-# example_28.py
+# constrained_typevar.py
 from typing import Protocol, Any, TypeVar
 
 
@@ -1121,21 +1130,29 @@ A function using `Any` will accept and return anything without errors--it turns 
 
 ### Pitfall: Ignoring `TypeVar` Scope
 
+It’s easy to reach for a TypeVar when defining a function--but unless the function is truly generic, this can cause more confusion than clarity.
 Remember that a `TypeVar` is specific to the generic function or class where it's used.
 If you define a `TypeVar` at the top of a module and use it in a function signature, that function is generic.
 If you intended the function to only work with one specific type, you might accidentally make it generic by using a TypeVar.
-For example:
+
+If a TypeVar appears only once in a function signature, that function is technically generic, but there's no way to connect the type to anything else
+(e.g., a return value or another parameter).
+Type checkers will flag this as suspicious:
 
 ```python
-# example_29.py
-# from typing import TypeVar
+# accidental_genericity.py
+from typing import TypeVar
 
-# T = TypeVar('T')
+T = TypeVar('T')
+
+global_var = None  # Mypy requires to avoid NameError
 
 
-# def set_value(x: T) -> None:
-#    global global_var
-#    global_var = x
+# warning: TypeVar "T" appears only once 
+# in generic function signature:
+def set_value(x: T) -> None:  # type: ignore
+    global global_var
+    global_var = x
 ```
 
 If `global_var` is not also parameterized by `T` somehow, this use of `T` is misleading.
@@ -1150,7 +1167,7 @@ While the convention is to use single-letter TypeVars like `T`, `U`, `V` for sim
 For example:
 
 ```python
-# example_30.py
+# descriptive_typevars.py
 from typing import TypeVar, Generic
 
 KT = TypeVar("KT")  # Key type
