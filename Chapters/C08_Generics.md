@@ -420,7 +420,7 @@ r1 = Record(1, "Alice", 3.14)  # Record[int, str, float]
 r2 = Record(True, None)  # Record[bool, NoneType]
 
 print(r1.to_tuple())
-print(r2.to_tuple())  
+print(r2.to_tuple())
 ```
 
 - The type checker knows r1 has shape tuple[int, str, float]
@@ -978,7 +978,7 @@ For example:
 from generic_alias import Pair
 
 # type checker treats this as tuple[Any, Any]:
-r: Pair = ("x", 5,)  
+r: Pair = ("x", 5,)
 ```
 
 This will not raise an immediate error, because `Pair` unqualified is basically `tuple[Any, Any]`,
@@ -1090,7 +1090,7 @@ The type checker wouldn't catch it because `T` was unconstrained (it can be anyt
 A better approach is to constrain `T` to types that support ordering:
 
 ```python
-# constrained_typevar.py
+# bound_typevar.py
 from typing import Protocol, Any, TypeVar
 
 
