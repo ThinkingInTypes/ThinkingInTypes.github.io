@@ -125,7 +125,8 @@ with Catch():
 ```
 
 This approach centralizes validation yet remains cumbersome.
-Each method interacting with the attribute still requires pre-and post-condition checks, cluttering the code and potentially introducing errors if a developer neglects these checks.
+Each method interacting with the attribute still requires pre-and post-condition checks,
+cluttering the code and potentially introducing errors if a developer neglects these checks.
 
 ## Type Aliases & `NewType`
 
@@ -271,7 +272,7 @@ even though we can transparently access the underlying elements of each type (`i
 
 TODO: It seems like I have a lot of Pycon presentation material that can go here.
 
-Data classes were introduced in Python 3.7 to provide a structured, concise way to define data-holding objects.
+Data classes were introduced in Python 3.7 to provide a structured, concise way to define data-holding types.
 They streamline the process of creating types by generating essential methods automatically.
 
 ```python
@@ -832,8 +833,10 @@ like defining a parameter that only accepts a small set of constant values witho
 ### Differences
 
 - Type Checking vs. Runtime Behavior:
-    - `Literal`:
-      `Literal`s are a static type hint introduced in PEP 586. They exist solely for type checking and do not create a distinct runtime type. The type checker (and your IDE) knows that only those exact values are allowed, but at runtime, they are just ordinary values (e.g., ordinary strings).
+    - `Literal`: `Literal`s are a static type hint introduced in PEP 586.
+      They exist solely for type checking and do not create a distinct runtime type.
+      The type checker (and your IDE) knows that only those exact values are allowed, but at runtime,
+      they are ordinary values (e.g., ordinary strings).
     - `Enum`: An `Enum` is a real class (inheriting from `enum.Enum`) that creates distinct runtime objects. `Enum`s provide additional functionality like iteration over members, comparison, and custom methods. They work both at runtime and during static type checking.
 
 - Overhead and Simplicity:
@@ -879,7 +882,7 @@ print("NOPE" in allowed_set)
 ## False
 ```
 
-To check for membership, you must convert it to a `set` using the `__args__` property.
+To check for membership, you must convert it to a `set` using the `__args__` property, as seen in `allowed_set`.
 
 ## Choosing Between `Enum`, `Literal`, and `Set`
 
