@@ -160,7 +160,7 @@ from typing import Any
 
 
 def wildcard_ignore(
-        point: tuple[float, Any, Any],
+    point: tuple[float, Any, Any],
 ) -> None:
     match point:
         case (x, _, _):
@@ -265,9 +265,7 @@ The remaining cases are skipped.
 def rest_pattern(*values):
     match values:
         case [first, second, *rest]:
-            print(
-                f"{first = }, {second = }, {rest = }"
-            )
+            print(f"{first = }, {second = }, {rest = }")
 
 
 rest_pattern(10, 20, 30, 40)
@@ -301,9 +299,7 @@ def subject_annotation(*values: int) -> None:
             # --first: int
             # --second: int
             # --rest: list[int]
-            print(
-                f"{first = }, {second = }, {rest = }"
-            )
+            print(f"{first = }, {second = }, {rest = }")
 
 
 subject_annotation(10, 20, 30, 40)
@@ -325,9 +321,7 @@ def nested_pattern(*values: int) -> None:
             # --first: int
             # --second: int
             # --rest: list[int]
-            print(
-                f"{first = }, {second = }, {rest = }"
-            )
+            print(f"{first = }, {second = }, {rest = }")
 
         case [(x, y), *rest]:
             # Known pattern matching limitation in mypy:
@@ -544,10 +538,10 @@ def shape_area(shape: Circle | Square) -> float:
     match shape:
         case Circle(radius=r):
             # Here shape is type Circle:
-            return 3.14 * r ** 2
+            return 3.14 * r**2
         case Square(side=s):
             # Here shape is type Square:
-            return s ** 2
+            return s**2
         case _:
             raise ValueError("Unsupported shape")
 ```
@@ -706,9 +700,7 @@ def handle_color(color: Color):
         case Color.RED | Color.GREEN | Color.BLUE:
             ...  # handle known colors
         case _ as unknown:
-            raise ValueError(
-                f"Unknown color: {unknown}"
-            )
+            raise ValueError(f"Unknown color: {unknown}")
 ```
 
 Here, `_ as unknown` catches anything not handled and gives it the name `unknown` so we can include it in the error message.
@@ -773,7 +765,7 @@ request = {"method": "POST", "payload": {"id": 42}}
 
 match request:
     case {"method": m, "payload": data} if (
-            m == "POST" and "id" in data
+        m == "POST" and "id" in data
     ):
         data = cast(dict[str, Any], data)
         print(f"POST request with id {data['id']}")
@@ -806,7 +798,7 @@ For example:
 def narrow(obj):
     match obj:
         case list as lst if all(
-                isinstance(x, int) for x in lst
+            isinstance(x, int) for x in lst
         ):
             # Here, lst is a list and we asserted all elements are int.
             total: int = sum(lst)

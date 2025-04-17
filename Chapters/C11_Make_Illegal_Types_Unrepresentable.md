@@ -75,9 +75,7 @@ def f2(phone_num: str):
     check = re.compile(
         r"^\+?(\d{1,3})?[\s\-.()]*([\d\s\-.()]+)$"
     )
-    assert check.match(phone_num), (
-        f"Invalid {phone_num}"
-    )
+    assert check.match(phone_num), f"Invalid {phone_num}"
     ...
 ```
 
@@ -131,9 +129,7 @@ def requires(*conditions: Condition):
         @wraps(func)
         def wrapper(*args, **kwargs):
             for condition in conditions:
-                if not condition.check(
-                        *args, **kwargs
-                ):
+                if not condition.check(*args, **kwargs):
                     raise ValueError(condition.message)
             return func(*args, **kwargs)
 
@@ -167,7 +163,7 @@ positivity = Condition(
 
 @requires(positivity)
 def sqrt(x) -> float:
-    return x ** 0.5
+    return x**0.5
 
 
 print(sqrt(4))
@@ -211,7 +207,9 @@ class BankAccount:
     @requires(positive_amount)
     def deposit(self, amount: Decimal) -> str:
         self.balance += amount
-        return f"Deposited {amount}, balance: {self.balance}"
+        return (
+            f"Deposited {amount}, balance: {self.balance}"
+        )
 
 
 account = BankAccount(Decimal(100))
@@ -318,13 +316,11 @@ from amount import Amount
 class Balance(NamedTuple):
     amount: Amount
 
-    def deposit(
-            self, deposit_amount: Amount
-    ) -> "Balance":
+    def deposit(self, deposit_amount: Amount) -> "Balance":
         return Balance(self.amount + deposit_amount)
 
     def withdraw(
-            self, withdrawal_amount: Amount
+        self, withdrawal_amount: Amount
     ) -> "Balance":
         return Balance(self.amount - withdrawal_amount)
 ```
@@ -393,6 +389,7 @@ class PhoneNumber:
     """
     A validated and normalized phone number.
     """
+
     country_code: str
     number: str  # Digits only, no formatting
 
@@ -412,14 +409,10 @@ class PhoneNumber:
         cc, num = match.groups()
         digits = re.sub(r"\D", "", num)
         if not digits:
-            raise ValueError(
-                f"No digits found in: {raw!r}"
-            )
+            raise ValueError(f"No digits found in: {raw!r}")
 
         country_code = cc if cc else "1"  # default to US
-        return cls(
-            country_code=country_code, number=digits
-        )
+        return cls(country_code=country_code, number=digits)
 
     def format_number(self) -> str:
         if len(self.number) == 10:
@@ -434,8 +427,8 @@ class PhoneNumber:
         if not isinstance(other, PhoneNumber):
             return NotImplemented
         return (
-                self.country_code == other.country_code
-                and self.number == other.number
+            self.country_code == other.country_code
+            and self.number == other.number
         )
 ```
 

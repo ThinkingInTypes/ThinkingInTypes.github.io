@@ -154,9 +154,7 @@ def make_them_speak(creatures: list[TAnimal]) -> None:
 
 
 pets: list[Dog] = [Dog(), Dog()]
-make_them_speak(
-    pets
-)  # OK, Dog is a subclass of Animal
+make_them_speak(pets)  # OK, Dog is a subclass of Animal
 ## Woof
 ## Woof
 make_them_speak(
@@ -234,8 +232,7 @@ from typing import Generic, TypeVar
 T = TypeVar("T")
 
 
-class Box(Generic[T]):
-    ...
+class Box(Generic[T]): ...
 ```
 
 But what if you want a generic `TupleWrapper` that can handle any number of types?
@@ -255,7 +252,9 @@ class TupleWrapper(Generic[*Ts]):
 
 
 t1 = TupleWrapper(1)  # TupleWrapper[int]
-t2 = TupleWrapper("a", 2, 3.14)  # TupleWrapper[str, int, float]
+t2 = TupleWrapper(
+    "a", 2, 3.14
+)  # TupleWrapper[str, int, float]
 ```
 
 The type checker tracks the number and types of elements in `*Ts` individually.
@@ -268,11 +267,15 @@ from typing import TypeVarTuple, Unpack, Tuple, Any
 Ts = TypeVarTuple("Ts")
 
 
-def zip_variadic(*args: tuple[Unpack[Ts]]) -> tuple[Tuple[*Ts], ...]:
+def zip_variadic(
+    *args: tuple[Unpack[Ts]],
+) -> tuple[Tuple[*Ts], ...]:
     return tuple(zip(*args))
 
 
-def unzip_variadic(packed: tuple[tuple[Any, ...], ...]) -> tuple[tuple[Any, ...], ...]:
+def unzip_variadic(
+    packed: tuple[tuple[Any, ...], ...],
+) -> tuple[tuple[Any, ...], ...]:
     return tuple(zip(*packed))
 
 
@@ -315,14 +318,23 @@ With `TypeVarTuple`, we can capture the variable number of dimension sizes.
 
 ```python
 # n_dimensional_tensor.py
-from typing import TypeVar, TypeVarTuple, Generic, Unpack, Literal, TypeAlias
+from typing import (
+    TypeVar,
+    TypeVarTuple,
+    Generic,
+    Unpack,
+    Literal,
+    TypeAlias,
+)
 
 T = TypeVar("T")
 Shape = TypeVarTuple("Shape")
 
 
 class Tensor(Generic[T, Unpack[Shape]]):
-    def __init__(self, data: list, *, shape: tuple[Unpack[Shape]]):
+    def __init__(
+        self, data: list, *, shape: tuple[Unpack[Shape]]
+    ):
         self.data = data
         self.shape = shape
 
@@ -331,16 +343,17 @@ class Tensor(Generic[T, Unpack[Shape]]):
 
 
 Shape3x3: TypeAlias = tuple[Literal[3], Literal[3]]
-Shape2x2x2: TypeAlias = tuple[Literal[2], Literal[2], Literal[2]]
+Shape2x2x2: TypeAlias = tuple[
+    Literal[2], Literal[2], Literal[2]
+]
 
 t1 = Tensor[float, *Shape3x3](
-    data=[[1.0] * 3] * 3,
-    shape=(3, 3)
+    data=[[1.0] * 3] * 3, shape=(3, 3)
 )
 
 t2 = Tensor[int, *Shape2x2x2](
     data=[[[1, 2], [3, 4]], [[5, 6], [7, 8]]],
-    shape=(2, 2, 2)
+    shape=(2, 2, 2),
 )
 
 print(t1)  # Tensor(shape=(3, 3))
@@ -356,7 +369,13 @@ Here's a decorator that logs a function call without changing its type signature
 
 ```python
 # argument_preserving_decorator.py
-from typing import Callable, ParamSpec, TypeVar, TypeVarTuple, Unpack
+from typing import (
+    Callable,
+    ParamSpec,
+    TypeVar,
+    TypeVarTuple,
+    Unpack,
+)
 
 P = ParamSpec("P")
 R = TypeVar("R")
@@ -364,7 +383,9 @@ R = TypeVar("R")
 
 def log_call(fn: Callable[P, R]) -> Callable[P, R]:
     def wrapper(*args: P.args, **kwargs: P.kwargs) -> R:
-        print(f"Calling {fn.__name__} with {args=}, {kwargs=}")
+        print(
+            f"Calling {fn.__name__} with {args=}, {kwargs=}"
+        )
         return fn(*args, **kwargs)
 
     return wrapper
@@ -438,11 +459,15 @@ from typing import TypeVarTuple, Unpack, Tuple, Any
 Ts = TypeVarTuple("Ts")
 
 
-def zip_variadic(*args: tuple[Unpack[Ts]]) -> tuple[Tuple[*Ts], ...]:
+def zip_variadic(
+    *args: tuple[Unpack[Ts]],
+) -> tuple[Tuple[*Ts], ...]:
     return tuple(zip(*args))
 
 
-def unzip_variadic(packed: tuple[tuple[Any, ...], ...]) -> tuple[tuple[Any, ...], ...]:
+def unzip_variadic(
+    packed: tuple[tuple[Any, ...], ...],
+) -> tuple[tuple[Any, ...], ...]:
     return tuple(zip(*packed))
 
 
@@ -569,7 +594,7 @@ Z = TypeVar("Z")
 
 
 def curry_two_arg(
-        func: Callable[[X, Y], Z],
+    func: Callable[[X, Y], Z],
 ) -> Callable[[X], Callable[[Y], Z]]:
     def curried(x: X) -> Callable[[Y], Z]:
         def inner(y: Y) -> Z:
@@ -634,9 +659,7 @@ T = TypeVar("T")
 @dataclass
 class Tree(Generic[T]):
     value: T
-    children: list[Tree[T]] = field(
-        default_factory=list
-    )
+    children: list[Tree[T]] = field(default_factory=list)
 
     def add_child(self, child_value: T) -> Tree[T]:
         child = Tree(child_value)
@@ -695,9 +718,7 @@ class ContactForm(Form["ContactForm"]):
 
 
 form = (
-    ContactForm()
-    .set_title("Feedback")
-    .add_field("email")
+    ContactForm().set_title("Feedback").add_field("email")
 )
 ```
 
@@ -741,13 +762,13 @@ We can express this as:
 ```python
 # recursive_alias.py
 JSON = (
-        dict[str, "JSON"]
-        | list["JSON"]
-        | str
-        | int
-        | float
-        | bool
-        | None
+    dict[str, "JSON"]
+    | list["JSON"]
+    | str
+    | int
+    | float
+    | bool
+    | None
 )
 ```
 
@@ -945,9 +966,7 @@ For instance:
 from typing import TypeVar
 
 T = TypeVar("T")
-Pair = tuple[
-    T, T
-]  # A pair of two items of the same type
+Pair = tuple[T, T]  # A pair of two items of the same type
 StrDict = dict[
     str, T
 ]  # A dictionary with string keys and values of type T
@@ -978,7 +997,10 @@ For example:
 from generic_alias import Pair
 
 # type checker treats this as tuple[Any, Any]:
-r: Pair = ("x", 5,)
+r: Pair = (
+    "x",
+    5,
+)
 ```
 
 This will not raise an immediate error, because `Pair` unqualified is basically `tuple[Any, Any]`,
@@ -1016,11 +1038,9 @@ Vector = list[tuple[T, T]]
 
 
 def scale_points(
-        points: Vector[int], factor: int
+    points: Vector[int], factor: int
 ) -> Vector[int]:
-    return [
-        (x * factor, y * factor) for (x, y) in points
-    ]
+    return [(x * factor, y * factor) for (x, y) in points]
 ```
 
 Here `Vector[int]` is easier to read than `list[tuple[int, int]]`.
@@ -1128,12 +1148,12 @@ Type checkers will flag this as suspicious:
 # accidental_genericity.py
 from typing import TypeVar
 
-T = TypeVar('T')
+T = TypeVar("T")
 
 global_var = None  # Mypy requires to avoid NameError
 
 
-# warning: TypeVar "T" appears only once 
+# warning: TypeVar "T" appears only once
 # in generic function signature:
 def set_value(x: T) -> None:  # type: ignore
     global global_var

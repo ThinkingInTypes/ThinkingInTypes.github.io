@@ -341,8 +341,12 @@ class UserProfile:
     # Built-in factory ensures each instance gets a new empty list
     preferences: List[str] = field(default_factory=list)
     # Custom factory functions:
-    created_at: datetime = field(default_factory=current_time)
-    metadata: Dict[str, str] = field(default_factory=lambda: {"role": "user"})
+    created_at: datetime = field(
+        default_factory=current_time
+    )
+    metadata: Dict[str, str] = field(
+        default_factory=lambda: {"role": "user"}
+    )
     user_id: int = field(default_factory=random_id)
 
 
@@ -375,7 +379,7 @@ class Circle:
     area: float = 0.0
 
     def __post_init__(self):
-        self.area = pi * self.radius ** 2
+        self.area = pi * self.radius**2
 
 
 print(Circle(radius=5))

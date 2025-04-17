@@ -38,14 +38,12 @@ from typing import Callable
 
 
 def operate(
-        a: int, b: int, func: Callable[[int, int], int]
+    a: int, b: int, func: Callable[[int, int], int]
 ) -> int:
     return func(a, b)
 
 
-result = operate(
-    5, 3, lambda x, y: x * y
-)  # returns 15
+result = operate(5, 3, lambda x, y: x * y)  # returns 15
 ```
 
 Using `Callable` clearly defines expected function signatures, enhancing maintainability and correctness.
@@ -63,11 +61,9 @@ R = TypeVar("R")
 
 
 def logging_decorator(
-        func: Callable[P, R],
+    func: Callable[P, R],
 ) -> Callable[P, R]:
-    def wrapper(
-            *args: P.args, **kwargs: P.kwargs
-    ) -> R:
+    def wrapper(*args: P.args, **kwargs: P.kwargs) -> R:
         print(
             f"Calling {func.__name__} with {args} and {kwargs}"
         )
@@ -140,7 +136,7 @@ RequestHandler: TypeAlias = Callable[[str, dict], dict]
 
 
 def handle_request(
-        path: str, handler: RequestHandler
+    path: str, handler: RequestHandler
 ) -> dict:
     response = handler(path, {})
     return response
@@ -164,7 +160,7 @@ class Handler(Protocol):
 
 
 def process_request(
-        handler: Handler, request: dict
+    handler: Handler, request: dict
 ) -> dict:
     return handler(request)
 ```

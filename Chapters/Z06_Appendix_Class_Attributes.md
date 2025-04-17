@@ -368,22 +368,20 @@ To see this in action, we need a function that displays the inside of classes an
 
 def attributes(d: object) -> str:
     return (
-            ", ".join(
-                [
-                    f"{k}: {v}"
-                    for k, v in vars(d).items()
-                    if not k.startswith("__")
-                ]
-            )
-            or "Empty"
+        ", ".join(
+            [
+                f"{k}: {v}"
+                for k, v in vars(d).items()
+                if not k.startswith("__")
+            ]
+        )
+        or "Empty"
     )
 
 
 def show(obj: object, obj_name: str) -> None:
     klass: type = obj.__class__
-    print(
-        f"[Class {klass.__name__}] {attributes(klass)}"
-    )
+    print(f"[Class {klass.__name__}] {attributes(klass)}")
     print(f"[Object {obj_name}] {attributes(obj)}")
 ```
 
@@ -512,7 +510,7 @@ from dataclasses import dataclass
 
 class A:
     def __init__(
-            self, x: int = 100, y: int = 200, z: int = 300
+        self, x: int = 100, y: int = 200, z: int = 300
     ):
         self.x = x
         self.y = y
