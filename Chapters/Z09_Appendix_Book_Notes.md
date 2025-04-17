@@ -9,6 +9,10 @@ Resources and Ideas for eventual inclusion in the book.
 
 ---
 
+- reveal_type/assert_type
+
+---
+
 # AI-Generated Topic List
 
 Created by ChatGPT 4o.

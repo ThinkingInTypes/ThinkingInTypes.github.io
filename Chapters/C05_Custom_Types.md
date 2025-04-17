@@ -269,10 +269,10 @@ even though we can transparently access the underlying elements of each type (`i
 
 ## Data Classes
 
-Data classes,
-introduced in Python 3.7,
-significantly streamline the process of creating types by generating essential methods automatically.
-They provide a structured, concise way to define data-holding objects:
+TODO: It seems like I have a lot of Pycon presentation material that can go here.
+
+Data classes were introduced in Python 3.7 to provide a structured, concise way to define data-holding objects.
+They streamline the process of creating types by generating essential methods automatically.
 
 ```python
 # messenger.py
@@ -312,8 +312,16 @@ print(m)
 # TypeError: unhashable type: 'Messenger'
 ```
 
+TODO: Describe example
+
+### Post Init
+
 In a `dataclass`, validation logic resides in the `__post_init__` method, executed automatically after initialization.
-This guarantees that only valid `Stars` instances exist.
+Using `__post_init__` you can guarantee that only valid `Messenger` instances exist.
+
+TODO: Create/find a standalone `__post_init__` example
+
+### Initializers
 
 ### Composing Data Classes
 
@@ -375,6 +383,42 @@ print(person)
 
 This hierarchical validation structure ensures correctness and clarity at every composition level.
 Invalid data never propagates, vastly simplifying subsequent interactions.
+
+### `InitVar`
+
+`InitVar` is part of the `dataclasses` module.
+It allows you to define fields that are only used during initialization but are not stored as attributes of the dataclass object.
+`InitVar` fields are passed as parameters to the `__init__` method and can be used within the `__post_init__` method for additional initialization logic.
+They are not considered regular fields of the dataclass and are not included in the output of functions like `fields()`.
+
+```python
+# dataclass_initvar.py
+# pyright: reportAttributeAccessIssue=false
+# mypy: disable-error-code="attr-defined"
+from dataclasses import dataclass, InitVar
+from book_utils import Catch
+
+
+@dataclass
+class Book:
+    title: str
+    author: str
+    condition: InitVar[str]
+    shelf_id: int | None = None
+
+    def __post_init__(self, condition):
+        if condition == "Unacceptable":
+            self.shelf_id = None
+
+
+print(b := Book("Emma", "Jane Austen", "Good", 11))
+# "condition" doesn't exist outside __init__ or __post_init__:
+with Catch():
+    print(b.condition)  # noqa
+```
+
+In this example, `condition` is an `InitVar`.
+It is used to conditionally set the `shelf_id` in `__post_init__` but is not stored as an attribute of the `Book` instance.
 
 ## Enumerations
 
