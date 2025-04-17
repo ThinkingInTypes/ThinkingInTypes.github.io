@@ -1,5 +1,7 @@
 # Foundations
 
+[Primarily notes at this point; I find that the introduction doesn't usually emerge until later in the book writing process]
+
 ## The Evolution of Complex Systems
 
 Starting with assembly language.
