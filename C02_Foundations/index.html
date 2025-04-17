@@ -1017,6 +1017,7 @@ Scala leverages the JVM, which was a smart way to rapidly create an implementati
 Being backwards compatible with Java, however, constrained Scala's design.
 As strange as it sounds, Python doesn't have those constraints because its type system is optional.
 Because of this optionality, Python's type system can effectively start from nothing and go anywhere it needs to, unhindered by the constraints of compatibility with an existing language.</p>
+<p>Path as an example of a type (you don't typically inherit it)</p>
 <h2 id="who-this-book-is-for">Who This Book Is For<a class="headerlink" href="#who-this-book-is-for" title="Permanent link">#</a></h2>
 <p>Assumptions I make about your Python &amp; programming knowledge.</p>
 <h3 id="your-python-knowledge">Your Python Knowledge<a class="headerlink" href="#your-python-knowledge" title="Permanent link">#</a></h3>
@@ -1032,6 +1033,9 @@ Because of this optionality, Python's type system can effectively start from not
 <li>Testing with Pytest (noting that there are valid reasons to use other systems)</li>
 <li>Project organization (flat directory for examples distro)</li>
 <li>Standard tools for code consistency, such as <code>ruff</code></li>
+<li>Tested against multiple type checkers: Pycharm (builtin), Pyright, Mypy, Pyre, (Astral one when available)</li>
+<li>Invoke as a build system</li>
+<li>Developed on Windows, tested on Windows/Linux (should work fine on Mac)</li>
 </ul>
 <h3 id="programming-philosophy">Programming Philosophy<a class="headerlink" href="#programming-philosophy" title="Permanent link">#</a></h3>
 <ul>
