@@ -890,36 +890,38 @@
 <h1 id="structural-typing">Structural Typing<a class="headerlink" href="#structural-typing" title="Permanent link">#</a></h1>
 <p>In type systems, there are two fundamental ways to decide if one type is compatible with another:
 <em>nominal typing</em> and <em>structural typing</em>.
-Nominal typing (name-based typing) means type compatibility is determined by explicit declarations and the class hierarchy--an object's type is what its class name (or inheritance) says it is .
-For example, if class <code>Dog</code> inherits from class <code>Animal</code>, then <code>Dog</code> <em>is-a</em> subtype of <code>Animal</code> by definition, and a <code>Dog</code> instance can be used wherever an <code>Animal</code> is expected .
+Nominal typing (name-based typing) means type compatibility is determined by explicit declarations and the class hierarchy--an object's type is what its class name (or inheritance) says it is.
+For example, if class <code>Dog</code> inherits from class <code>Animal</code>, then <code>Dog</code> <em>is-a</em> subtype of <code>Animal</code> by definition, and a <code>Dog</code> instance can be used wherever an <code>Animal</code> is expected.
 This is how traditional object-oriented languages like Java or C++ work, and it's also the primary mode in Python's type system by default.</p>
 <p>On the other hand, structural typing determines type compatibility by the actual structure or capabilities of the object, not its explicit inheritance.
-In a structural type system, if an object has all the required methods and attributes of a type, then it qualifies as that type, regardless of its class name or parent classes .
-In other words, if it "walks like a duck and quacks like a duck, then it's treated as a duck"--this is the essence of the famous <em>duck typing</em> principle.
-Duck typing is a runtime concept in Python:
-you invoke methods or attributes on an object, and as long as it supports those operations, things work (if a required method is missing, you get an <code>AttributeError</code> at runtime)  .
-Structural typing can be seen as the static, compile-time equivalent of duck typing .
+In a structural type system, if an object has all the required methods and attributes of a type, then it qualifies as that type, regardless of its class name or parent classes.
+In other words, if it "walks like a duck and quacks like a duck, then it's treated as a duck."
+This is the essence of the famous <em>duck typing</em> principle.</p>
+<p>Duck typing is a runtime concept in Python:
+you invoke methods or attributes on an object, and as long as it supports those operations, things work (if a required method is missing, you get an <code>AttributeError</code> at runtime).
+Structural typing can be seen as the static, compile-time equivalent of duck typing.
 Instead of waiting for a runtime error, a structural type system (with the help of a static type checker) can verify ahead of time that an object has the necessary attributes to be used in a given context.
 This approach is more flexible than nominal typing because it doesn't require pre-planned inheritance relationships.
 It is also more explicit and safe than unguarded duck typing because the structure is checked (by a type checker) before the code runs.</p>
-<p>Python historically embraced duck typing at runtime--you just call methods on objects and trust they exist.
+<p>Python historically embraced duck typing at runtime--you call methods on objects and trust they exist.
 Prior to Python 3.8, static type checking in Python (via tools like MyPy, PyRight, etc.)
 was largely nominal:
 you would use abstract base classes or concrete classes to hint the types, and an object's class had to match the annotation or inherit from a matching class.
-This could make it awkward to type-hint code that was written in a duck-typed style.
+This could make it awkward to type-hint code written in a duck-typed style.
 For instance, if you had a function that worked with any object that had a <code>.read()</code> method, there wasn't a straightforward way to express that in a type hint without making all such objects share a common base class or using <code>typing.Any</code>.
-Python 3.8 remedied this by introducing <em>protocols</em> in the <code>typing</code> module .
+Python 3.8 remedied this by introducing <em>protocols</em> in the <code>typing</code> module.
 A protocol defines a <em>structural interface</em> that other classes can fulfill just by having the right methods/attributes, without inheritance.
 This brings the flexibility of duck typing into the realm of static type checking--essentially formalizing "If it quacks like a duck, it can be treated as a duck" in the type system.</p>
 <p>In summary, nominal typing ties compatibility to declared relationships (e.g., subclassing an interface or abstract class), whereas structural typing ties compatibility to an object's actual shape (the presence of specific methods/attributes).
 Python's type system now supports both:
-use nominal typing for clarity and runtime consistency with class relationships, and use structural typing (via protocols) for flexibility and to more directly model Python's duck-typed nature .</p>
+use nominal typing for clarity and runtime consistency with class relationships, and use structural typing (via protocols) for flexibility and to more directly model Python's duck-typed nature.</p>
 <h2 id="defining-and-using-protocols">Defining and Using Protocols<a class="headerlink" href="#defining-and-using-protocols" title="Permanent link">#</a></h2>
 <p>To leverage structural typing in Python's type hints, you define <em>protocols</em>.
 A protocol in Python is essentially an interface or template for a set of methods and attributes.
 It's defined by inheriting from <code>typing.Protocol</code> (available in the standard library <code>typing</code> module as of Python 3.8, or in <code>typing_extensions</code> for earlier versions).
 By creating a class that subclasses
-<code>Protocol</code>, you declare a group of methods and properties that form a "protocol"--any class that has those methods and properties (with compatible types) will be considered an implementation of that protocol by static type checkers, even if it doesn't formally inherit from the protocol.</p>
+<code>Protocol</code>, you declare a group of methods and properties that form a "protocol."
+Static type checkers consider any class with those methods and properties (with compatible types) an implementation of that protocol, even if it doesn't formally inherit from the protocol.</p>
 <p><strong>To define a protocol:</strong> Create a class that inherits <code>Protocol</code> and define the method signatures (and any attribute types) that are required.
 Protocol methods typically have empty bodies (often using <code>...</code> or <code>pass</code>) because you're not providing an implementation, just a definition of the interface.
 For example, suppose we want a protocol for "speaking" creatures or objects:
@@ -933,7 +935,7 @@ We can define:</p>
 </span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>    <span class="k">def</span> <span class="nf">speak</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span> <span class="o">...</span>
 </span></code></pre></div>
 <p>Here, <code>Speaker</code> is a protocol that any "speaker" object should follow.
-Now, any class that defines a <code>speak(self) -&gt; str</code> method will be considered a <code>Speaker</code> for typing purposes.
+Now, any class that defines a <code>speak(self) -&gt; str</code> method is considered a <code>Speaker</code> for typing purposes.
 We can create two completely unrelated classes that fulfill this protocol without explicit inheritance:</p>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="c1"># announce.py</span>
 </span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="kn">from</span> <span class="nn">speaker</span> <span class="kn">import</span> <span class="n">Speaker</span>
@@ -950,7 +952,7 @@ We can create two completely unrelated classes that fulfill this protocol withou
 </span><span id="__span-1-13"><a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a>
 </span><span id="__span-1-14"><a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a>
 </span><span id="__span-1-15"><a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a><span class="k">def</span> <span class="nf">announce</span><span class="p">(</span><span class="n">speaker</span><span class="p">:</span> <span class="n">Speaker</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-</span><span id="__span-1-16"><a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a>    <span class="c1"># `speaker` can be any object that has .speak() returning str</span>
+</span><span id="__span-1-16"><a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a>    <span class="c1"># `speaker` can be any object with .speak() returning str</span>
 </span><span id="__span-1-17"><a id="__codelineno-1-17" name="__codelineno-1-17" href="#__codelineno-1-17"></a>    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Announcement:&quot;</span><span class="p">,</span> <span class="n">speaker</span><span class="o">.</span><span class="n">speak</span><span class="p">())</span>
 </span><span id="__span-1-18"><a id="__codelineno-1-18" name="__codelineno-1-18" href="#__codelineno-1-18"></a>
 </span><span id="__span-1-19"><a id="__codelineno-1-19" name="__codelineno-1-19" href="#__codelineno-1-19"></a>
@@ -961,23 +963,24 @@ We can create two completely unrelated classes that fulfill this protocol withou
 </span></code></pre></div>
 <p>Even though <code>Dog</code> and <code>Robot</code> do not inherit from <code>Speaker</code> (and are not related to each other at all), the static type checker will accept them as valid arguments to <code>announce</code> because they structurally conform to the <code>Speaker</code> protocol by implementing the required method.
 This is the power of structural typing.
-The type checker treats <code>Dog</code> and <code>Robot</code> as subtypes of <code>Speaker</code> because they have the right <code>speak()</code> method signature .
+The type checker treats <code>Dog</code> and <code>Robot</code> as subtypes of <code>Speaker</code> because they have the right <code>speak()</code> method signature.
 If we tried to pass an object that lacks a <code>speak()</code> method (or has an incompatible signature), the type checker would flag an error, ensuring type safety.</p>
 <p>It's important to note that protocols are primarily a static concept--they are enforced by type checkers, not by the Python runtime (by default).
-Unlike an abstract base class (ABC), a protocol doesn't require classes to formally subclass it, and Python won't automatically error at runtime if a required method is missing.
+Unlike an abstract base class (ABC), a protocol doesn't require classes to formally subclass it, and Python will not produce an error at runtime if a required method is missing.
 For example, in the code above, if we call <code>announce(Dog())</code> and <code>Dog.speak</code> is missing or misnamed, we would only find out at runtime via an <code>AttributeError</code>.
 The protocol helps catch such issues before runtime by using tools like Mypy.
-The protocols defined in <code>typing</code> are optional and have no runtime effect on their own .
+The protocols defined in <code>typing</code> are optional and have no runtime effect on their own.
 This means you can use them freely for type hints without incurring runtime overhead or restrictions.
-Protocols do inherit from <code>abc.ABC</code> under the hood, but by default <code>isinstance()</code> and <code>issubclass()</code> checks against a protocol will not work without an explicit opt-in, as we'll discuss shortly.)</p>
+Protocols do inherit from <code>abc.ABC</code> under the hood,
+but by default <code>isinstance()</code> and <code>issubclass()</code> checks against a protocol will not work without an explicit opt-in.</p>
 <p><strong>Using a protocol in type hints:</strong> Once you have a protocol class, you use it as a type in annotations just like you would use an ABC or a concrete class.
 In the above example, the function <code>announce</code> was annotated to accept a <code>Speaker</code>.
-That tells readers and type checkers that any argument should "speak".
+That tells readers and type checkers that any argument should "speak."
 This is more expressive than using a base class like <code>Animal</code> or a union of types--we directly specify the capability we need.
 Another example:
 Python's standard library defines an <code>Iterable[T]</code> protocol (in <code>collections.abc</code> or <code>typing</code>) that essentially says the object has an <code>__iter__</code> method returning an iterator.
-If you annotate a function parameter as <code>Iterable[str]</code>, any object that can be iterated over to yield strings will be accepted--whether it's a list, a tuple, a custom container class with an <code>__iter__</code>, etc.
-The type checker doesn't require them to inherit from <code>Iterable</code>; having the method is enough .
+If you annotate a function parameter as <code>Iterable[str]</code>, any object that can be iterated over to yield strings is accepted--whether it's a list, a tuple, a custom container class with an <code>__iter__</code>, etc.
+The type checker doesn't require them to inherit from <code>Iterable</code>; having the method is enough.
 This demonstrates that many idiomatic Python "protocols" (iteration, context managers, etc.)
 are recognized structurally.
 Python's typing module and static checkers come with several predefined protocols (either explicitly as in <code>typing.Protocol</code> classes or implicitly via ABCs with structural hooks) for common patterns.</p>
@@ -1023,8 +1026,8 @@ We can define a protocol <code>Closable</code> and use it to write a function th
 We created a <code>FileResource</code> class and a <code>SocketResource</code> class that both implement <code>close()</code>.
 We also use a built-in file object from <code>open()</code>, which we know has a <code>close()</code> method.
 The <code>close_all</code> function is annotated to accept any iterable of <code>Closable</code> objects.
-Thanks to structural typing, it doesn't matter that these objects are of different types and don't share a common ancestor named <code>Closable</code>--as long as each has a callable <code>close()</code> method, the static type checker will be satisfied and, at runtime, the code will work.
-Mypy considers the built-in file object and our custom classes all as subtypes of <code>Closable</code> because they provide the required attribute .</p>
+Thanks to structural typing, it doesn't matter that these objects are of different types and don't share a common ancestor named <code>Closable</code>--as long as each has a callable <code>close()</code> method, the static type checker is satisfied and, at runtime, the code will work.
+Mypy considers the built-in file object and our custom classes all as subtypes of <code>Closable</code> because they provide the required attribute.</p>
 <p>One thing to be aware of:
 protocols by default cannot be used with <code>isinstance()</code> or <code>issubclass()</code> checks at runtime.
 If you try <code>isinstance(some_obj, Closable)</code> in the above example, Python will raise a <code>TypeError</code> unless you take additional steps.
@@ -1049,15 +1052,16 @@ For example:</p>
 </span><span id="__span-3-15"><a id="__codelineno-3-15" name="__codelineno-3-15" href="#__codelineno-3-15"></a>    <span class="n">FileResource</span><span class="p">(</span><span class="s2">&quot;data.txt&quot;</span><span class="p">),</span> <span class="n">Closable</span>
 </span><span id="__span-3-16"><a id="__codelineno-3-16" name="__codelineno-3-16" href="#__codelineno-3-16"></a><span class="p">)</span>  <span class="c1"># True, because FileResource has close()</span>
 </span></code></pre></div>
-<p>Now <code>Closable</code> can be used in <code>isinstance</code> and <code>issubclass</code> as a structural check .
-Use this feature carefully--it's useful for type introspection in frameworks or for asserting an object meets an interface at runtime, but it only checks the presence of attributes and not their types, and could give false positives if an attribute name matches but semantics differ.
+<p>Now <code>Closable</code> can be used in <code>isinstance</code> and <code>issubclass</code> as a structural check.
+Use this feature carefully; it's useful for type introspection in frameworks or for asserting an object meets an interface at runtime.
+However, it only checks the presence of attributes and not their types and could give false positives if an attribute name matches, but semantics differ.
 In most cases, protocols are used purely for static checking and documentation.</p>
 <h2 id="practical-protocol-examples">Practical Protocol Examples<a class="headerlink" href="#practical-protocol-examples" title="Permanent link">#</a></h2>
 <p>Protocols shine in real-world scenarios where you want to decouple code and reduce dependencies on concrete classes.
 A common use case is <em>dependency injection</em> and testing.
-In Python, it's common to write functions or classes that operate on objects with a particular interface, without caring about the concrete implementation.
+In Python, it's common to write functions or classes that operate on objects with a particular interface without caring about the concrete implementation.
 Protocols let you formally capture that interface in the type system.
-This makes your code's expectations clear and allows static analysis to ensure you didn't violate those expectations.
+This makes your code's expectations clear and allows static analysis to validate those expectations.
 Let's discuss a few practical examples.</p>
 <p><strong>1.
 Dependency injection and interchangeable components:</strong> Suppose you're writing a service that needs to log messages.
@@ -1066,79 +1070,90 @@ You can define a protocol for the logger's interface and program against that.
 For instance:</p>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="c1"># logger_protocol.py</span>
 </span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Protocol</span>
-</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>
-</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>
-</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="k">class</span> <span class="nc">Logger</span><span class="p">(</span><span class="n">Protocol</span><span class="p">):</span>
-</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>    <span class="k">def</span> <span class="nf">log</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span> <span class="o">...</span>
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="kn">import</span> <span class="nn">tempfile</span>
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="kn">import</span> <span class="nn">os</span>
+</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="kn">from</span> <span class="nn">contextlib</span> <span class="kn">import</span> <span class="n">AbstractContextManager</span>
 </span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a>
 </span><span id="__span-4-8"><a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a>
-</span><span id="__span-4-9"><a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a><span class="k">class</span> <span class="nc">FileLogger</span><span class="p">:</span>
-</span><span id="__span-4-10"><a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-</span><span id="__span-4-11"><a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a><span class="sd">    Concrete logger that writes to a file.</span>
-</span><span id="__span-4-12"><a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a><span class="sd">    &quot;&quot;&quot;</span>
-</span><span id="__span-4-13"><a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a>
-</span><span id="__span-4-14"><a id="__codelineno-4-14" name="__codelineno-4-14" href="#__codelineno-4-14"></a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
-</span><span id="__span-4-15"><a id="__codelineno-4-15" name="__codelineno-4-15" href="#__codelineno-4-15"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">filename</span> <span class="o">=</span> <span class="n">filename</span>
-</span><span id="__span-4-16"><a id="__codelineno-4-16" name="__codelineno-4-16" href="#__codelineno-4-16"></a>
-</span><span id="__span-4-17"><a id="__codelineno-4-17" name="__codelineno-4-17" href="#__codelineno-4-17"></a>    <span class="k">def</span> <span class="nf">log</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-</span><span id="__span-4-18"><a id="__codelineno-4-18" name="__codelineno-4-18" href="#__codelineno-4-18"></a>        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">filename</span><span class="p">,</span> <span class="s2">&quot;a&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
-</span><span id="__span-4-19"><a id="__codelineno-4-19" name="__codelineno-4-19" href="#__codelineno-4-19"></a>            <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">message</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
-</span><span id="__span-4-20"><a id="__codelineno-4-20" name="__codelineno-4-20" href="#__codelineno-4-20"></a>
-</span><span id="__span-4-21"><a id="__codelineno-4-21" name="__codelineno-4-21" href="#__codelineno-4-21"></a>
-</span><span id="__span-4-22"><a id="__codelineno-4-22" name="__codelineno-4-22" href="#__codelineno-4-22"></a><span class="k">class</span> <span class="nc">ListLogger</span><span class="p">:</span>
-</span><span id="__span-4-23"><a id="__codelineno-4-23" name="__codelineno-4-23" href="#__codelineno-4-23"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-</span><span id="__span-4-24"><a id="__codelineno-4-24" name="__codelineno-4-24" href="#__codelineno-4-24"></a><span class="sd">    Concrete logger that stores messages in a list (e.g.,</span>
-</span><span id="__span-4-25"><a id="__codelineno-4-25" name="__codelineno-4-25" href="#__codelineno-4-25"></a><span class="sd">    for testing).</span>
-</span><span id="__span-4-26"><a id="__codelineno-4-26" name="__codelineno-4-26" href="#__codelineno-4-26"></a><span class="sd">    &quot;&quot;&quot;</span>
-</span><span id="__span-4-27"><a id="__codelineno-4-27" name="__codelineno-4-27" href="#__codelineno-4-27"></a>
-</span><span id="__span-4-28"><a id="__codelineno-4-28" name="__codelineno-4-28" href="#__codelineno-4-28"></a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-</span><span id="__span-4-29"><a id="__codelineno-4-29" name="__codelineno-4-29" href="#__codelineno-4-29"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">messages</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
-</span><span id="__span-4-30"><a id="__codelineno-4-30" name="__codelineno-4-30" href="#__codelineno-4-30"></a>
-</span><span id="__span-4-31"><a id="__codelineno-4-31" name="__codelineno-4-31" href="#__codelineno-4-31"></a>    <span class="k">def</span> <span class="nf">log</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-</span><span id="__span-4-32"><a id="__codelineno-4-32" name="__codelineno-4-32" href="#__codelineno-4-32"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">messages</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
-</span><span id="__span-4-33"><a id="__codelineno-4-33" name="__codelineno-4-33" href="#__codelineno-4-33"></a>
-</span><span id="__span-4-34"><a id="__codelineno-4-34" name="__codelineno-4-34" href="#__codelineno-4-34"></a>
-</span><span id="__span-4-35"><a id="__codelineno-4-35" name="__codelineno-4-35" href="#__codelineno-4-35"></a><span class="k">def</span> <span class="nf">run_process</span><span class="p">(</span>
-</span><span id="__span-4-36"><a id="__codelineno-4-36" name="__codelineno-4-36" href="#__codelineno-4-36"></a>        <span class="n">task_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">logger</span><span class="p">:</span> <span class="n">Logger</span>
-</span><span id="__span-4-37"><a id="__codelineno-4-37" name="__codelineno-4-37" href="#__codelineno-4-37"></a><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-</span><span id="__span-4-38"><a id="__codelineno-4-38" name="__codelineno-4-38" href="#__codelineno-4-38"></a>    <span class="n">logger</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Starting </span><span class="si">{</span><span class="n">task_name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-</span><span id="__span-4-39"><a id="__codelineno-4-39" name="__codelineno-4-39" href="#__codelineno-4-39"></a>    <span class="c1"># Perform the task ...</span>
-</span><span id="__span-4-40"><a id="__codelineno-4-40" name="__codelineno-4-40" href="#__codelineno-4-40"></a>    <span class="n">logger</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Finished </span><span class="si">{</span><span class="n">task_name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-</span><span id="__span-4-41"><a id="__codelineno-4-41" name="__codelineno-4-41" href="#__codelineno-4-41"></a>
-</span><span id="__span-4-42"><a id="__codelineno-4-42" name="__codelineno-4-42" href="#__codelineno-4-42"></a>
-</span><span id="__span-4-43"><a id="__codelineno-4-43" name="__codelineno-4-43" href="#__codelineno-4-43"></a><span class="c1"># Using the run_process with different loggers</span>
-</span><span id="__span-4-44"><a id="__codelineno-4-44" name="__codelineno-4-44" href="#__codelineno-4-44"></a><span class="n">run_process</span><span class="p">(</span>
-</span><span id="__span-4-45"><a id="__codelineno-4-45" name="__codelineno-4-45" href="#__codelineno-4-45"></a>    <span class="s2">&quot;DataCleanup&quot;</span><span class="p">,</span> <span class="n">FileLogger</span><span class="p">(</span><span class="s2">&quot;app.log&quot;</span><span class="p">)</span>
-</span><span id="__span-4-46"><a id="__codelineno-4-46" name="__codelineno-4-46" href="#__codelineno-4-46"></a><span class="p">)</span>  <span class="c1"># logs to file</span>
-</span><span id="__span-4-47"><a id="__codelineno-4-47" name="__codelineno-4-47" href="#__codelineno-4-47"></a><span class="n">test_logger</span> <span class="o">=</span> <span class="n">ListLogger</span><span class="p">()</span>
-</span><span id="__span-4-48"><a id="__codelineno-4-48" name="__codelineno-4-48" href="#__codelineno-4-48"></a><span class="n">run_process</span><span class="p">(</span>
-</span><span id="__span-4-49"><a id="__codelineno-4-49" name="__codelineno-4-49" href="#__codelineno-4-49"></a>    <span class="s2">&quot;DataCleanup&quot;</span><span class="p">,</span> <span class="n">test_logger</span>
-</span><span id="__span-4-50"><a id="__codelineno-4-50" name="__codelineno-4-50" href="#__codelineno-4-50"></a><span class="p">)</span>  <span class="c1"># logs to list in memory</span>
-</span><span id="__span-4-51"><a id="__codelineno-4-51" name="__codelineno-4-51" href="#__codelineno-4-51"></a><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Captured logs:&quot;</span><span class="p">,</span> <span class="n">test_logger</span><span class="o">.</span><span class="n">messages</span><span class="p">)</span>
-</span><span id="__span-4-52"><a id="__codelineno-4-52" name="__codelineno-4-52" href="#__codelineno-4-52"></a><span class="c1">## Captured logs: [&#39;Starting DataCleanup&#39;,</span>
-</span><span id="__span-4-53"><a id="__codelineno-4-53" name="__codelineno-4-53" href="#__codelineno-4-53"></a><span class="c1">## &#39;Finished DataCleanup&#39;]</span>
+</span><span id="__span-4-9"><a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a><span class="k">class</span> <span class="nc">Logger</span><span class="p">(</span><span class="n">Protocol</span><span class="p">):</span>
+</span><span id="__span-4-10"><a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a>    <span class="k">def</span> <span class="nf">log</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span> <span class="o">...</span>
+</span><span id="__span-4-11"><a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a>
+</span><span id="__span-4-12"><a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a>
+</span><span id="__span-4-13"><a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a><span class="k">class</span> <span class="nc">FileLogger</span><span class="p">(</span><span class="n">AbstractContextManager</span><span class="p">):</span>
+</span><span id="__span-4-14"><a id="__codelineno-4-14" name="__codelineno-4-14" href="#__codelineno-4-14"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="__span-4-15"><a id="__codelineno-4-15" name="__codelineno-4-15" href="#__codelineno-4-15"></a><span class="sd">    Logger that writes to a temporary file.</span>
+</span><span id="__span-4-16"><a id="__codelineno-4-16" name="__codelineno-4-16" href="#__codelineno-4-16"></a><span class="sd">    Automatically cleans up via the context manager.</span>
+</span><span id="__span-4-17"><a id="__codelineno-4-17" name="__codelineno-4-17" href="#__codelineno-4-17"></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="__span-4-18"><a id="__codelineno-4-18" name="__codelineno-4-18" href="#__codelineno-4-18"></a>
+</span><span id="__span-4-19"><a id="__codelineno-4-19" name="__codelineno-4-19" href="#__codelineno-4-19"></a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span id="__span-4-20"><a id="__codelineno-4-20" name="__codelineno-4-20" href="#__codelineno-4-20"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">_temp_file</span> <span class="o">=</span> <span class="n">tempfile</span><span class="o">.</span><span class="n">NamedTemporaryFile</span><span class="p">(</span>
+</span><span id="__span-4-21"><a id="__codelineno-4-21" name="__codelineno-4-21" href="#__codelineno-4-21"></a>            <span class="n">delete</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf-8&quot;</span>
+</span><span id="__span-4-22"><a id="__codelineno-4-22" name="__codelineno-4-22" href="#__codelineno-4-22"></a>        <span class="p">)</span>
+</span><span id="__span-4-23"><a id="__codelineno-4-23" name="__codelineno-4-23" href="#__codelineno-4-23"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">filename</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_temp_file</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+</span><span id="__span-4-24"><a id="__codelineno-4-24" name="__codelineno-4-24" href="#__codelineno-4-24"></a>
+</span><span id="__span-4-25"><a id="__codelineno-4-25" name="__codelineno-4-25" href="#__codelineno-4-25"></a>    <span class="k">def</span> <span class="nf">log</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="__span-4-26"><a id="__codelineno-4-26" name="__codelineno-4-26" href="#__codelineno-4-26"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">_temp_file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">message</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+</span><span id="__span-4-27"><a id="__codelineno-4-27" name="__codelineno-4-27" href="#__codelineno-4-27"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">_temp_file</span><span class="o">.</span><span class="n">flush</span><span class="p">()</span>
+</span><span id="__span-4-28"><a id="__codelineno-4-28" name="__codelineno-4-28" href="#__codelineno-4-28"></a>
+</span><span id="__span-4-29"><a id="__codelineno-4-29" name="__codelineno-4-29" href="#__codelineno-4-29"></a>    <span class="k">def</span> <span class="fm">__exit__</span><span class="p">(</span>
+</span><span id="__span-4-30"><a id="__codelineno-4-30" name="__codelineno-4-30" href="#__codelineno-4-30"></a>        <span class="bp">self</span><span class="p">,</span> <span class="n">exc_type</span><span class="p">,</span> <span class="n">exc_value</span><span class="p">,</span> <span class="n">traceback</span>
+</span><span id="__span-4-31"><a id="__codelineno-4-31" name="__codelineno-4-31" href="#__codelineno-4-31"></a>    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="__span-4-32"><a id="__codelineno-4-32" name="__codelineno-4-32" href="#__codelineno-4-32"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">_temp_file</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</span><span id="__span-4-33"><a id="__codelineno-4-33" name="__codelineno-4-33" href="#__codelineno-4-33"></a>        <span class="k">try</span><span class="p">:</span>
+</span><span id="__span-4-34"><a id="__codelineno-4-34" name="__codelineno-4-34" href="#__codelineno-4-34"></a>            <span class="n">os</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">filename</span><span class="p">)</span>
+</span><span id="__span-4-35"><a id="__codelineno-4-35" name="__codelineno-4-35" href="#__codelineno-4-35"></a>        <span class="k">except</span> <span class="ne">FileNotFoundError</span><span class="p">:</span>
+</span><span id="__span-4-36"><a id="__codelineno-4-36" name="__codelineno-4-36" href="#__codelineno-4-36"></a>            <span class="k">pass</span>
+</span><span id="__span-4-37"><a id="__codelineno-4-37" name="__codelineno-4-37" href="#__codelineno-4-37"></a>
+</span><span id="__span-4-38"><a id="__codelineno-4-38" name="__codelineno-4-38" href="#__codelineno-4-38"></a>
+</span><span id="__span-4-39"><a id="__codelineno-4-39" name="__codelineno-4-39" href="#__codelineno-4-39"></a><span class="k">class</span> <span class="nc">ListLogger</span><span class="p">:</span>
+</span><span id="__span-4-40"><a id="__codelineno-4-40" name="__codelineno-4-40" href="#__codelineno-4-40"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="__span-4-41"><a id="__codelineno-4-41" name="__codelineno-4-41" href="#__codelineno-4-41"></a><span class="sd">    Logger that stores messages in a list</span>
+</span><span id="__span-4-42"><a id="__codelineno-4-42" name="__codelineno-4-42" href="#__codelineno-4-42"></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="__span-4-43"><a id="__codelineno-4-43" name="__codelineno-4-43" href="#__codelineno-4-43"></a>
+</span><span id="__span-4-44"><a id="__codelineno-4-44" name="__codelineno-4-44" href="#__codelineno-4-44"></a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span id="__span-4-45"><a id="__codelineno-4-45" name="__codelineno-4-45" href="#__codelineno-4-45"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">messages</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+</span><span id="__span-4-46"><a id="__codelineno-4-46" name="__codelineno-4-46" href="#__codelineno-4-46"></a>
+</span><span id="__span-4-47"><a id="__codelineno-4-47" name="__codelineno-4-47" href="#__codelineno-4-47"></a>    <span class="k">def</span> <span class="nf">log</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="__span-4-48"><a id="__codelineno-4-48" name="__codelineno-4-48" href="#__codelineno-4-48"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">messages</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
+</span><span id="__span-4-49"><a id="__codelineno-4-49" name="__codelineno-4-49" href="#__codelineno-4-49"></a>
+</span><span id="__span-4-50"><a id="__codelineno-4-50" name="__codelineno-4-50" href="#__codelineno-4-50"></a>
+</span><span id="__span-4-51"><a id="__codelineno-4-51" name="__codelineno-4-51" href="#__codelineno-4-51"></a><span class="k">def</span> <span class="nf">run_process</span><span class="p">(</span><span class="n">task_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">logger</span><span class="p">:</span> <span class="n">Logger</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="__span-4-52"><a id="__codelineno-4-52" name="__codelineno-4-52" href="#__codelineno-4-52"></a>    <span class="n">logger</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Starting </span><span class="si">{</span><span class="n">task_name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</span><span id="__span-4-53"><a id="__codelineno-4-53" name="__codelineno-4-53" href="#__codelineno-4-53"></a>    <span class="c1"># Perform the task ...</span>
+</span><span id="__span-4-54"><a id="__codelineno-4-54" name="__codelineno-4-54" href="#__codelineno-4-54"></a>    <span class="n">logger</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Finished </span><span class="si">{</span><span class="n">task_name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</span><span id="__span-4-55"><a id="__codelineno-4-55" name="__codelineno-4-55" href="#__codelineno-4-55"></a>
+</span><span id="__span-4-56"><a id="__codelineno-4-56" name="__codelineno-4-56" href="#__codelineno-4-56"></a>
+</span><span id="__span-4-57"><a id="__codelineno-4-57" name="__codelineno-4-57" href="#__codelineno-4-57"></a><span class="k">with</span> <span class="n">FileLogger</span><span class="p">()</span> <span class="k">as</span> <span class="n">file_logger</span><span class="p">:</span>
+</span><span id="__span-4-58"><a id="__codelineno-4-58" name="__codelineno-4-58" href="#__codelineno-4-58"></a>    <span class="n">run_process</span><span class="p">(</span><span class="s2">&quot;DataCleanup&quot;</span><span class="p">,</span> <span class="n">file_logger</span><span class="p">)</span>
+</span><span id="__span-4-59"><a id="__codelineno-4-59" name="__codelineno-4-59" href="#__codelineno-4-59"></a>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;log file: </span><span class="si">{</span><span class="n">file_logger</span><span class="o">.</span><span class="n">filename</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</span><span id="__span-4-60"><a id="__codelineno-4-60" name="__codelineno-4-60" href="#__codelineno-4-60"></a>    <span class="nb">print</span><span class="p">(</span><span class="n">file_logger</span><span class="o">.</span><span class="n">filename</span><span class="o">.</span><span class="n">read_text</span><span class="p">(</span><span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf-8&quot;</span><span class="p">))</span>
+</span><span id="__span-4-61"><a id="__codelineno-4-61" name="__codelineno-4-61" href="#__codelineno-4-61"></a>
+</span><span id="__span-4-62"><a id="__codelineno-4-62" name="__codelineno-4-62" href="#__codelineno-4-62"></a><span class="c1"># logs to list in memory:</span>
+</span><span id="__span-4-63"><a id="__codelineno-4-63" name="__codelineno-4-63" href="#__codelineno-4-63"></a><span class="n">test_logger</span> <span class="o">=</span> <span class="n">ListLogger</span><span class="p">()</span>
+</span><span id="__span-4-64"><a id="__codelineno-4-64" name="__codelineno-4-64" href="#__codelineno-4-64"></a><span class="n">run_process</span><span class="p">(</span><span class="s2">&quot;DataCleanup&quot;</span><span class="p">,</span> <span class="n">test_logger</span><span class="p">)</span>
+</span><span id="__span-4-65"><a id="__codelineno-4-65" name="__codelineno-4-65" href="#__codelineno-4-65"></a><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Captured logs:&quot;</span><span class="p">,</span> <span class="n">test_logger</span><span class="o">.</span><span class="n">messages</span><span class="p">)</span>
 </span></code></pre></div>
 <p>In <code>Logger(Protocol)</code>, we specify that a logger must have a <code>.log(str)</code> method.
 Our <code>run_process</code> function doesn't care <em>how</em> the logging is done, just that the object passed in can <code>.log</code> a message.
 <code>FileLogger</code>and <code>ListLogger</code> are two implementations--one writes to a file, the other stores messages in a Python list.
 Notice that neither<code>FileLogger</code>nor<code>ListLogger</code>subclasses<code>Logger</code>; they don't need to.
 They implicitly satisfy the protocol by having the correct<code>log</code>method.
-This design is very flexible: you can add new logger classes later (say, a<code>DatabaseLogger</code>that writes to a database, or reuse Python's built-in<code>logging.Logger</code>by writing an adapter that has a<code>log</code>method) without changing the code that uses the logger.
+This design is very flexible: you can add new logger classes later (say, a<code>DatabaseLogger</code>that writes to a database, or reuse Python's built-in<code>logging.Logger</code>by writing an adapter with a<code>log</code>method) without changing the code that uses the logger.
 During testing, as shown, we can use<code>ListLogger</code>to capture logs and make assertions on them.
 The static type checker will ensure that any object we pass as a<code>logger</code>to<code>run_process</code>has a<code>log(str)</code>method.
 In a nominal type system, you might have to define an abstract base class<code>Logger\</code> and make every logger inherit it.
-With protocols, you get the benefit of an interface without the inheritance--this reduces coupling and makes it easier to integrate third-party classes that weren't written with your ABC in mind .</p>
-<p><strong>2.
-Testing with fake or mock objects:</strong> Building on the above example, protocols are extremely handy for unit testing.
+With protocols, you get the benefit of an interface without the inheritance--this reduces coupling and makes it easier to integrate third-party classes that weren't written with your ABC in mind.</p>
+<p><strong>2. Testing with fake or mock objects:</strong> Building on the above example, protocols are extremely handy for unit testing.
 In tests, we often use fake objects or mocks to simulate real components (like databases, web services, etc.)
 without having to perform the real operations.
 With protocols, you can give those test doubles a clear interface.
 For example, if you have a function that fetches data from an API, you could define a protocol for the fetcher.
-In production you pass a real HTTP client, in tests you pass a dummy object that returns predetermined data.
-The protocol assures the dummy has the same method signature as the real client.
+In production, you pass a real HTTP client, in tests you pass a fake object that returns predetermined data.
+The protocol assures the fake has the same method signature as the real client.
 This avoids type checker warnings and makes tests cleaner.
-It's essentially the static typing analog of using an interface in other languages for dependency injection in tests.)
-Many testing libraries (like <code>unittest.mock</code>) create dynamic mocks that can be configured with attributes on the fly; to type-annotate those, you can either cast them to a Protocol or use a Protocol as a base for a dummy implementation.
+It's essentially the static typing analog of using an interface in other languages for dependency injection in tests.
+Many testing libraries (like <code>unittest.mock</code>) create dynamic mocks that can be configured with attributes on the fly; to type-annotate those, you can either cast them to a Protocol or use a Protocol as a base for a fake implementation.
 Using protocols in this way documents exactly what methods a mock is expected to provide.
 This can prevent situations where your test double is missing a method or has a typo that wouldn't be caught until runtime.
 In short, whenever you say "I need an object that can do X in my code, and I might swap different implementations of it," that's a cue to define a protocol for X.</p>
@@ -1146,16 +1161,16 @@ In short, whenever you say "I need an object that can do X in my code, and I mig
 Even if you're not writing multiple implementations immediately, defining a protocol for a role in your system can clarify the design.
 For example, you might define a <code>DataStore</code> protocol with methods like <code>save(item)</code> and <code>load(id)</code> that any storage backend should implement.
 Today you only have a database implementation, but tomorrow you might add an in-memory or file-based implementation--the protocol makes the contract clear.
-Moreover, if you want to accept objects from a third-party library that already have the necessary methods, protocols let you do so without subclassing or modifying those classes .
+Moreover, if you want to accept objects from a third-party library with the necessary methods, protocols let you do so without subclassing or modifying those classes.
 Suppose you're writing a function that can output data to any "file-like" object (something with a <code>.write()</code> method).
 The <code>io.TextIOBase</code> abstract class in Python is nominal, but not every file-like object will inherit it.
 By defining your own protocol with a <code>write(str)</code> method, your function can accept a wide range of objects (actual file handles, <code>io.StringIO</code> instances, custom writer objects) as long as they implement <code>write</code>.
 This is especially useful when working with libraries that weren't built with your interfaces; you can adapt them via protocols instead of being forced into their class hierarchy.
 Protocols thus increase reusability and extensibility of your code by focusing on what an object can do rather than what it is.</p>
 <p>It's worth mentioning that Python's standard library and frameworks have embraced the concept of protocols (even before the formal <code>Protocol</code> type existed) by using "duck typing" and abstract base classes.
-For instance, the act of iterating in Python checks for an <code>__iter__</code> method--any object that has <code>__iter__</code> is iterable.
+For instance, the act of iterating in Python checks for an <code>__iter__</code> method--any object with <code>__iter__</code> is iterable.
 The static typing system knows this too:
-you don't have to explicitly register your class as an <code>Iterable</code> ABC; if it has the right method, tools like Mypy will treat it as iterable .
+you don't have to explicitly register your class as an <code>Iterable</code> ABC; if it has the right method, tools like Mypy will treat it as iterable.
 With <code>Protocol</code>, we can create our own such abstractions.
 In modern Python, the combination of protocols and <code>@runtime_checkable</code> even lets us approximate some features of a language with a built-in interface system.</p>
 <p><strong>4.
@@ -1163,8 +1178,8 @@ Composition and adapters using protocols:</strong> Another practical pattern is 
 Because protocols don't require inheritance, you can make wrapper classes that add functionality while still conforming to an interface.
 For example, you might have a basic service class and then a logging wrapper class that takes a service and also implements the same service protocol to proxy calls and add logging.
 As long as both implement the protocol, code using the protocol can accept either the plain or the wrapped version.
-This was illustrated by defining an <code>AddServiceProtocol</code> for an addition service and creating both a normal implementation and a logging decorator implementation that forwards calls .
-The key takeaway is that structural typing focuses on the behavior, so even objects that don't share a lineage can work together if they fulfill the same behavioral contract.</p>
+This was illustrated by defining an <code>AddServiceProtocol</code> for an addition service and creating both a normal implementation and a logging decorator implementation that forwards calls.
+The key takeaway is that structural typing focuses on the behavior, so even objects that don't share lineage can work together if they fulfill the same behavioral contract.</p>
 <h2 id="combining-dataclasses-with-protocols">Combining Dataclasses with Protocols<a class="headerlink" href="#combining-dataclasses-with-protocols" title="Permanent link">#</a></h2>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="c1"># dataclasses_and_protocols.py</span>
 </span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span>
@@ -1201,9 +1216,9 @@ The key takeaway is that structural typing focuses on the behavior, so even obje
 A <em>generic protocol</em> allows you to define a protocol that is parameterized by a type (or multiple types), enabling more precise typing of method arguments and return values.
 Many built-in protocols are generic--for example, <code>Iterable[T]</code> is a protocol that can be <code>Iterable[int]</code>, <code>Iterable[str]</code>, etc., depending on what type it yields.
 We can do the same with our own protocols.</p>
-<p>To define a generic protocol, we use <code>TypeVar</code> and put the type variable in brackets after <code>Protocol</code> when defining the class .
+<p>To define a generic protocol, we use <code>TypeVar</code> and put the type variable in brackets after <code>Protocol</code> when defining the class.
 Let's say we want to define a container protocol that yields items of some type.
-We can make it generic so that a <code>Container[int]</code> will be a protocol for "container of ints" and <code>Container[str]</code> for "container of strings," but both are based on the same generic interface.
+We can make it generic so that a <code>Container[int]</code> is a protocol for "container of ints" and <code>Container[str]</code> for "container of strings," but both are based on the same generic interface.
 For example:</p>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="c1"># container.py</span>
 </span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Protocol</span><span class="p">,</span> <span class="n">TypeVar</span>
@@ -1260,14 +1275,14 @@ This is the benefit of generic protocols:
 they let you write flexible code that is still type-safe and retains specific type information.
 In other words, one protocol can work for many types without losing the ability to distinguish those types when it matters.
 The syntax we used (<code>Container[C]</code> inside the function annotation) leverages Python's ability to support generics in type hints.
-Under the hood, <code>Container[int]</code> is a <em>parameterized protocol</em> instance, but conceptually you can think of it like an interface template.)</p>
-<p>Keep in mind that user-defined generic protocols follow the same rules as normal generic classes for type checking .
+Under the hood, <code>Container[int]</code> is a <em>parameterized protocol</em> instance, but conceptually you can think of it like an interface template.</p>
+<p>Keep in mind that user-defined generic protocols follow the same rules as normal generic classes for type checking.
 You can declare variance for type variables if needed (covariant, contravariant) using <code>typing.Final</code> or by special syntax in <code>TypeVar</code>, although if you don't declare, the type checker will assume invariance (meaning <code>Container[SubClass]</code> is not a subtype of
 <code>Container[BaseClass]</code> unless you marked variance).
 In our container example, this is not an issue because we're primarily using it to carry the exact type.</p>
 <p>Another scenario for combining protocols with generics is when you want to put protocols as bounds on <code>TypeVar</code>s.
 For instance, you can declare <code>T = TypeVar('T', bound=SomeProtocol)</code> to indicate that a type variable must satisfy a certain protocol.
-This is analogous to saying "T must be a subtype of this Protocol," except since protocols aren't part of the class hierarchy, it really means any type used for T must structurally implement the protocol.
+This is analogous to saying, "T must be a subtype of this Protocol," except since protocols aren't part of the class hierarchy, it really means any type used for T must structurally implement the protocol.
 For example, if we have:</p>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="c1"># example_9.py</span>
 </span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">TypeVar</span>
@@ -1299,22 +1314,22 @@ However, under the hood this still creates a generic protocol with a type variab
 Most code at the time of writing still uses the earlier syntax with explicit <code>TypeVar</code> declarations, which is what we've shown above.</p>
 <p>In summary, combining protocols with generics lets you express very flexible and reusable type relationships.
 You can create protocols that work over a family of types while still preserving type information.
-Many of Python's built-in protocols are generic (for example, an iterator protocol <code>Iterator[T]</code> yields items of type T), and you can do the same in your own designs .
+Many of Python's built-in protocols are generic (for example, an iterator protocol <code>Iterator[T]</code> yields items of type T), and you can do the same in your own designs.
 This enables things like container types, numeric operations, or callback interfaces to be both generic and structural.
 When designing a generic protocol, think about what parts of the interface should change with the type (those become type variables) and which are fixed.
 The result is a very powerful abstraction that remains easy to use.</p>
 <h2 id="when-to-choose-structural-typing-over-nominal-typing">When to Choose Structural Typing Over Nominal Typing<a class="headerlink" href="#when-to-choose-structural-typing-over-nominal-typing" title="Permanent link">#</a></h2>
 <p>Now that we've explored what structural typing (via protocols) and nominal typing (via concrete classes or ABCs) offer, a natural question arises:
 When should you use one over the other? The answer often depends on the context and goals.
-Both approaches have their strengths, and in Python they complement each other rather than one completely replacing the other .
+Both approaches have their strengths, and in Python they complement each other rather than one completely replacing the other.
 Here are some guidelines, pros and cons, and best practices to help decide:</p>
 <p><strong>Use nominal typing (classes/ABCs) when:</strong></p>
 <ul>
 <li>
 <p>You want to reuse code via inheritance.
   If you have default method implementations or shared attributes that can be defined in a base class, an abstract base class can provide that.
-  Inheritance isn't the only way to reuse code, but when it makes sense (e.g.
-  a base class providing common functionality), nominal typing naturally goes along with it because subclasses inherit from the base.</p>
+  Inheritance isn't the only way to reuse code, but when it makes sense
+  (e.g., a base class providing common functionality), nominal typing naturally goes along with it because subclasses inherit from the base.</p>
 </li>
 <li>
 <p>You need a strict class hierarchy or runtime type information.
@@ -1335,13 +1350,13 @@ Here are some guidelines, pros and cons, and best practices to help decide:</p>
   Protocols are great for defining a narrow interface that multiple disparate classes can implement without formal coupling.
   If you only care about one or a few methods on an object (and not about its exact type), a protocol lets you specify just that.
   This is especially useful for function parameters:
-  you can annotate a function to accept any object that has a <code>.close()</code> method, or a <code>.write()</code> method, etc., without forcing a common base class .</p>
+  you can annotate a function to accept any object with a <code>.close()</code> method, or a <code>.write()</code> method, etc., without forcing a common base class.</p>
 </li>
 <li>
 <p>You are working with third-party or existing classes that you can't modify to fit into your class hierarchy.
   Structural typing shines here because you can define a protocol that matches the external class's capabilities.
   For example, if a 3rd-party library gives you objects that have a <code>.to_json()</code> method, and you want to treat those objects uniformly in your code, you can create a <code>ToJsonable</code> protocol with <code>to_json(self) -&gt; str</code> and use that in your type hints.
-  Any object from the library will satisfy the protocol if it has the method, without you needing to make it inherit from anything .
+  Any object from the library will satisfy the protocol if it has the method, without you needing to make it inherit from anything.
   This decoupling is very powerful in a language as dynamic as Python, where often we "duck type" through frameworks--now you can put an actual type hint on it.</p>
 </li>
 <li>
@@ -1363,22 +1378,22 @@ If you want an external class to be treated as an InterfaceY, you might have to 
 Structural typing (using protocols) is extremely flexible and mirrors Python's dynamic nature--you get to "write the interface after the fact."
 It encourages designing for capabilities rather than inheritance.
 The downside is that protocols are primarily static--they rely on the developer running a type checker.
-Python won't stop you from passing an object that doesn't fulfill the protocol (until you call a missing method and get an error at runtime, just like normal duck typing).
+Python won't stop you from passing an object that does not fulfill the protocol (until you call a missing method and get an error at runtime, just like normal duck typing).
 So if you need guaranteed enforcement in a running program, protocols alone won't give you that (they are optional).
 That said, in a team or project using type checks as part of CI, protocols can prevent a lot of mistakes.
 Another minor con is that protocols, if overused, could make it less obvious which classes actually implement which interface; with nominal typing you can always search for subclasses of an ABC.
-A mix is often best: use protocols for the broad "this is what we expect" contracts especially for external boundaries and flexible APIs, and use concrete classes or ABCs internally when you want more structure or reuse.</p>
+A mix is often best: use protocols for the broad "this is what we expect" contracts, especially for external boundaries and flexible APIs, and use concrete classes or ABCs internally when you want more structure or reuse.</p>
 <p><strong>Best practices:</strong> It's not an either/or choice--you can use both in the same codebase.
-For example, you might define an ABC with some default methods for a complex interface, but also define a protocol for a subset of that interface for use in a more generic function.
+For example, you might define an ABC with some default methods for a complex interface but also define a protocol for a subset of that interface for use in a more generic function.
 Choose structural typing when you want minimal coupling and maximum flexibility, especially at boundaries of your system or for "pluggable" functionality.
 Choose nominal typing when you want an explicit, enforced contract and possibly to leverage inheritance of code.
 Remember that protocols are most valuable when you are using static type checking; if your project doesn't use type checks, then a protocol is a <code>abc.ABC</code> with no abstract methods--it won't enforce anything by itself at runtime.
 In such cases, if enforcement is needed, an ABC with abstract methods (or even just documentation) might be better.
 However, even in purely dynamic contexts, many developers find protocols useful as documentation:
 by reading the Protocol class, you know what an object is expected to do.</p>
-<p>In Python's type system evolution, protocols were introduced to complement nominal typing, not to replace it .
+<p>In Python's type system evolution, protocols were introduced to complement nominal typing, not to replace it.
 They give you the freedom to write code in the Pythonic duck-typed style while still reaping the benefits of static analysis.
-A good guideline is to use protocols to describe roles that can be played by objects of different class hierarchies, and use nominal typing for relationships within a class hierarchy.
+A good guideline is to use protocols to describe roles that can be played by objects of different class hierarchies and use nominal typing for relationships within a class hierarchy.
 By following these practices, you can make your code both flexible and robust, leveraging the best of both worlds in Python's type system.</p>
 <h2 id="references">References<a class="headerlink" href="#references" title="Permanent link">#</a></h2>
 <ol>
