@@ -51,6 +51,8 @@ Being backwards compatible with Java, however, constrained Scala's design.
 As strange as it sounds, Python doesn't have those constraints because its type system is optional.
 Because of this optionality, Python's type system can effectively start from nothing and go anywhere it needs to, unhindered by the constraints of compatibility with an existing language.
 
+Path as an example of a type (you don't typically inherit it)
+
 ## Who This Book Is For
 
 Assumptions I make about your Python & programming knowledge.
@@ -68,6 +70,9 @@ Assumptions I make about your Python & programming knowledge.
 - Testing with Pytest (noting that there are valid reasons to use other systems)
 - Project organization (flat directory for examples distro)
 - Standard tools for code consistency, such as `ruff`
+- Tested against multiple type checkers: Pycharm (builtin), Pyright, Mypy, Pyre, (Astral one when available)
+- Invoke as a build system
+- Developed on Windows, tested on Windows/Linux (should work fine on Mac)
 
 ### Programming Philosophy
 
