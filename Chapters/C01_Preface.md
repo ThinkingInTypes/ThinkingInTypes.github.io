@@ -31,6 +31,11 @@ You can evaluate strategies to see which ones are more or less possible, and whi
 I've had some very enjoyable consulting experiences,
 but I wonder what things might have been like if I had seen and understood the difference between needs and strategies sooner.
 
+If you _do_ want to contribute financially to the book, there are ways:
+
+1. Although the lowest price on Leanpub is `0$` and you are encouraged to use that, it's also possible to raise that number.
+2. [Other ways? Contribute to the nonprofit? TBD]
+
 ### Creating This Book "In The Open"
 
 A very significant benefit of giving the book away is that I can build it "in the open."
@@ -60,7 +65,7 @@ AI has been a tremendously useful assistant, far better than what we've had in t
 
 To create this book, I've been as lazy as I've known how.
 But as with any book, I've developed a deep understanding of the topic by writing it.
-And if I've "cheated" by using AI, well, you can use the book for free, so it doesn't bother me (there are also ways to pay for it if you want).
+And if I've "cheated" by using AI, well, you can use the book for free, so it doesn't bother me.
 
 The Jevons Paradox, named after the English economist William Stanley Jevons, who identified it in 1865.
 Jevons observed that as coal use became more efficient—particularly with the invention of the Watt steam engine.
