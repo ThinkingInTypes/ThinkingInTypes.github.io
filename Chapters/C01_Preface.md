@@ -16,7 +16,7 @@ I'm sure I could have made a lot more money in computing in some other way, but:
 
 Many years later, I've come to ponder point two and realized that I had jumped to a convenient conclusion based on point one.
 If I was starting out now to pursue consulting, I would instead ask a lot of questions, probably starting with an AI.
-I would then talk to individual consultants and small consulting firms, and maybe even work for one for a time.
+I would then talk to individual consultants and small consulting firms, and maybe even work for one.
 Most importantly, I would try to get to the bottom of _why_ I wanted to be a consultant; what need does it satisfy (other than making a living).
 
 In my case the "why" is the need for connection and community and the need to be helpful.
@@ -46,7 +46,7 @@ This produces:
    Getting feedback as early as possible, and as the book evolved, was essential in making them what they were.
 2. Promotion. People are happy to tell other people about something they like that is free. There's no way to corrupt recommendations if there's no cost.
 3. Availability. Giving away _Thinking in Java_ in the late 90's meant that anyone in the world who had an internet connection could get it,
-   especially countries where books were expensive or prohibited in some way. And this produced more of point one.
+   especially countries where books were expensive or prohibited in some way. And this produced more feedback.
 
 
 - A "Business Model" can be about more than just money
@@ -68,9 +68,10 @@ But as with any book, I've developed a deep understanding of the topic by writin
 And if I've "cheated" by using AI, well, you can use the book for free, so it doesn't bother me.
 
 The Jevons Paradox, named after the English economist William Stanley Jevons, who identified it in 1865.
-Jevons observed that as coal use became more efficient—particularly with the invention of the Watt steam engine.
+Jevons observed that as coal use became more efficient, particularly with the invention of the Watt steam engine.
 Coal consumption increased rather than decreased.
 Increased efficiency in using a resource tends to increase (rather than decrease) the total consumption of that resource.
+Rebound effects: expected gains from efficiency are offset by behavioral or economic responses.
 As AI makes programmers more efficient in creating systems, the demand for programmers will increase.
 
 I used to have a bookcase full of computer programming books.
