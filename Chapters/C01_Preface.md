@@ -84,9 +84,9 @@ I've enjoyed writing books, but perhaps because of AI, this will be my last one.
 Perhaps I will hand over the teaching of programming to AI.
 If that happens, it means that I will have moved on to building tools for programmers and building systems for non-programmers.
 Ultimately, that will be more useful than writing books about programming.
-If that happens, I look forward to it.
+I look forward to it.
 
 ## Acknowledgements
 
-Most of the understanding I needed to explain this topic came from my attempts to help on the book by Bill Frasure and James Ward, titled "Effect-Oriented Programming," that we worked on for over four years.
+Most of the understanding I needed to explain this topic came from my attempts to help on the book [Effect-Oriented Programming](https://effectorientedprogramming.com/) with Bill Frasure and James Ward, that we worked on for over four years.
 I’ve also learned a lot from some of the interviews that James and I have done for the [Happy Path Programming podcast](https://happypathprogramming.com/).
