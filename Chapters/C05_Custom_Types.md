@@ -379,7 +379,7 @@ class Circle:
     area: float = 0.0
 
     def __post_init__(self):
-        self.area = pi * self.radius**2
+        self.area = pi * self.radius ** 2
 
 
 print(Circle(radius=5))
@@ -824,7 +824,66 @@ set_mode("auto")  # valid
 `Literal`s can serve as a lightweight substitute for `Enum`s when you only need to restrict values at the type level
 and do not require the additional runtime features of `Enum`s.
 This makes `Literal`s attractive for scenarios
-like defining a parameter that only accepts a small set of constant values without adding extra code complexity.
+like defining a parameter that only accepts
+a small set of constant values without adding extra code complexity.
+
+### Pattern Matching on Literals
+
+```python
+from typing import Literal
+
+Command = Literal["start", "stop", "pause"]
+
+
+def run_command(cmd: Command) -> str:
+    match cmd:
+        case "start":
+            return "System starting..."
+        case "stop":
+            return "System stopping..."
+        case "pause":
+            return "System pausing..."
+
+
+def run_string(cmd: str) -> str:
+    match cmd:
+        case "start":
+            return "System starting..."
+        case "stop":
+            return "System stopping..."
+        case "pause":
+            return "System pausing..."
+
+
+def unreachable_case(cmd: Command) -> str:
+    match cmd:
+        case "start":
+            return "System starting..."
+        case "stop":
+            return "System stopping..."
+        case "pause":
+            return "System pausing..."
+        case _:  # Should be unreachable
+            raise ValueError(f"Unhandled command: {cmd}")
+```
+
+In `run_command`, the `cmd` parameter is restricted to the values `"start"`, `"stop"`, or `"pause"`.
+The `match` statement uses pattern matching on these `Literal` values.
+A type checker will warn you if a branch is missing.
+This is called `exhaustiveness checking`.
+
+However, with the `match` in `run_string` there's no way to know what the legal cases are, so exhaustiveness checking is not possible.
+
+In `unreachable_case`, the last `case` should be unreachable, but not all type checkers will treat this properly.
+
+### Examples
+
+Can literals be created dynamically?
+Probably not.
+Example of Country with states, states with counties, counties with towns and cities,
+how far can Literal go?
+Compare that with the same example using Enums.
+Perhaps an example that mixes Literals and Enums
 
 ### Similarities
 
@@ -859,6 +918,48 @@ like defining a parameter that only accepts a small set of constant values witho
 
 Both approaches improve type safety,
 but if you need more robust functionality or runtime introspection, an `Enum` might be the better choice.
+
+### Literal Support for Enums
+
+The type checker knows the exact value of an `Enum` member and can narrow types accordingly.
+Because of this, type checkers can treat `Enum` values as `Literal`s.
+
+```python
+from enum import Enum
+
+
+class Color(Enum):
+    RED = "red"
+    GREEN = "green"
+    BLUE = "blue"
+
+
+# Did you intentionally leave out Color.BLUE?
+def paint1(color: Color) -> str:
+    if color == Color.RED:
+        return "You chose red"
+    elif color == Color.GREEN:
+        return "You chose green"
+    else:
+        return "Something else"
+
+
+print(paint1(Color.BLUE))
+
+
+# Exhaustiveness checking:
+def paint(color: Color) -> str:
+    match color:
+        case Color.RED:
+            return "You chose red"
+        case Color.GREEN:
+            return "You chose green"
+        case Color.BLUE:
+            return "You chose blue"
+```
+
+The type checker warns you if a branch is missing.
+This is essentially `Literal`-style exhaustiveness for `Enum`s.
 
 ### Converting a `Literal` to a `Set`
 
