@@ -14,14 +14,15 @@
 
 This is the first book I've written with AI, and it's been massively helpful.
 I've used it every way that I can.
-It has dramatically sped up the development of the book.
+It has dramatically sped up the development of the book and my understanding of the material.
+
 AI has been a tremendously useful assistant, far better than what we've had in the past, but:
 
 1. I've still had to come up with the questions.
 2. I've had to check, correct, and rewrite _everything_ it's produced.
 
-So I've been as lazy as I've been able to achieve with this book, and I've been able to produce it faster.
-But as with any book, I've developed a deep understanding of the topic by writing the book.
+To create this book, I've been as lazy as I've known how.
+But as with any book, I've developed a deep understanding of the topic by writing it.
 And if I've "cheated" by using AI, well, you can use the book for free, so it doesn't bother me (there are also ways to pay for it if you want).
 
 The Jevons Paradox, named after the English economist William Stanley Jevons, who identified it in 1865.
