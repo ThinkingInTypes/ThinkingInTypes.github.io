@@ -1,7 +1,5 @@
 # Immutability
 
-## Why Immutability Matters
-
 Immutability--the inability to change an object or variable after its creation--offers several key benefits in software design.
 By making data immutable, we greatly simplify the mental model needed to understand program state.
 In particular, immutability makes programs easier to reason about by eliminating the possibility of unexpected changes to data.
@@ -555,6 +553,233 @@ Python's approach to immutability is a mix of convention, static assurance, and 
 
 - Use `Final` (and `@final`) to convey and enforce via static analysis that certain variables or attributes shouldn't change or be overridden.
 - Use `@dataclass(frozen=True)` (or other techniques like `NamedTuple`s or custom `__setattr__` overrides) to prevent changes to object state at runtime.
+
+### NamedTuple Capabilities
+
+Here's an example showing everything you can do with `NamedTuple`s:
+
+```python
+# namedtuple_capabilities.py
+from collections import namedtuple
+from typing import NamedTuple, Optional
+
+# 1. Dynamically generating a NamedTuple:
+Point1 = namedtuple("Point1", ["x", "y"])
+p1 = Point1(10, 20)
+print(f"{p1 = }, {type(p1) = }")
+
+
+# 2. A simple immutable type:
+class Point2(NamedTuple):
+    x: int
+    y: int
+
+
+print(p2 := Point2(30, 40))
+
+
+# 3. Default values:
+class Employee(NamedTuple):
+    name: str
+    id: int = 0
+    department: Optional[str] = None
+
+
+print(f"Defaulted: {Employee("Alice")}")
+print(f"Full: {Employee("Bob", 123, "Engineering")}")
+
+
+# 4. Methods:
+class Circle(NamedTuple):
+    radius: float | int
+
+    def area(self) -> float:
+        from math import pi
+        return pi * (self.radius ** 2)
+
+
+print(f"{(c := Circle(5))} {c.area():.2f}")
+
+# 5. NamedTuple utilities: _replace, _asdict, _fields:
+print(f"Original Circle: {c}")
+c2 = c._replace(radius=10)
+print(f"{c2 = }, {c = }")
+print(f"Fields: {Circle._fields}")
+print(f"As dict: {c2._asdict()}")
+
+# 6. Sequence unpacking:
+x_val, y_val = p2
+print(f"{x_val = }, {y_val = }")
+
+
+# 7. Pattern matching
+def describe_point(pt: Point2) -> str:
+    match pt:
+        case Point2(x, y) if x == y:
+            return f"Diagonal point at ({x}, {y})"
+        case Point2(x, y):
+            return f"Point at x={x}, y={y}"
+
+
+print(describe_point(Point2(1, 1)))
+print(describe_point(Point2(2, 3)))
+
+
+# 8. Nested NamedTuples:
+class Address(NamedTuple):
+    street: str
+    city: str
+
+
+class Person(NamedTuple):
+    name: str
+    age: int
+    address: Address
+
+
+addr = Address("123 Maple St", "Springfield")
+person = Person("Carol", 29, addr)
+print(f"{person.name = }, {person.age = }, {person.address.city = }")
+
+
+# Nested pattern match: 
+def location_info(p: Person) -> str:
+    match p:
+        case Person(_, _, Address(_, city="Springfield")):
+            return f"Resident of Springfield"
+        case Person(name, _, Address(street, city)):
+            return f"{name} lives at {street}, {city}"
+
+
+print(location_info(person))
+```
+
+### What Frozen Dataclasses can do that NamedTuple Cannot
+
+```python
+# frozen_dataclass_vs_namedtuple.py
+from dataclasses import dataclass, field
+from typing import NamedTuple, Any
+
+
+# 1. Per-instance mutable default values via default_factory
+@dataclass(frozen=True)
+class Config:
+    options: list[str] = field(default_factory=list)
+
+
+c1 = Config()
+c2 = Config()
+c1.options.append("x")
+print(f"c1.options={c1.options}")  # ['x']
+print(f"c2.options={c2.options}")  # []
+
+# NamedTuple cannot use default_factory; defaults share same object
+# This is forced to use a single default list if provided, and no factory.
+PointNT = NamedTuple("PointNT", [("tags", list[str])])
+
+
+# 2. Validation and invariants via __post_init__
+@dataclass(frozen=True)
+class Person:
+    name: str
+    age: int
+
+    def __post_init__(self) -> None:
+        if self.age < 0:
+            raise ValueError(f"Age must be non-negative: {self.age}")
+
+
+try:
+    Person("Eve", -5)
+except ValueError as e:
+    print(f"Validation: {e}")
+
+
+# 3. Computed/derived fields with init=False
+@dataclass(frozen=True)
+class Rectangle:
+    width: float
+    height: float
+    area: float = field(init=False)
+
+    def __post_init__(self) -> None:
+        object.__setattr__(self, "area", self.width * self.height)
+
+
+rect = Rectangle(3.0, 4.0)
+print(f"Rectangle area={rect.area}")  # 12.0
+
+
+# 4. Hiding sensitive fields via repr
+@dataclass(frozen=True)
+class Credentials:
+    username: str
+    password: str = field(repr=False)
+
+
+cred = Credentials("user1", "s3cr3t")
+print(f"Credentials repr: {cred}")
+
+
+# 5. Keyword-only fields enforcement:
+@dataclass(frozen=True)
+class Point:
+    x: int
+    y: int
+    z: int = field(init=False)
+
+    def __post_init__(self) -> None:
+        object.__setattr__(self, "z", self.x + self.y)
+
+
+# Positional-only: x, y; z computed
+p = Point(1, 2)
+print(f"Point(z computed): {p}")
+
+
+# 6. Automatic ordering methods
+@dataclass(order=True, frozen=True)
+class Version:
+    major: int
+    minor: int
+    patch: int
+
+
+v1 = Version(1, 0, 0)
+v2 = Version(1, 1, 0)
+print(f"v1 < v2: {v1 < v2}")
+
+
+# 7. Customizing equality/hash behavior
+@dataclass(frozen=True, eq=False, unsafe_hash=True)
+class IDWrapper:
+    id_value: Any
+
+    def __eq__(self, other: object) -> bool:
+        if isinstance(other, IDWrapper):
+            return self.id_value == other.id_value
+        return NotImplemented
+
+
+w1 = IDWrapper(10)
+w2 = IDWrapper(10)
+print(f"Custom eq w1 == w2: {w1 == w2}, hash(w1)==hash(w2): {hash(w1) == hash(w2)}")
+
+
+# 8. Using slots for memory optimization:
+@dataclass(frozen=True, slots=True)
+class Point3D:
+    x: int
+    y: int
+    z: int
+
+
+pt = Point3D(0, 0, 0)
+print(f"Point3D slots: {pt}")  # No __dict__, uses slots
+```
+
+## Prefer Immutability
 
 With immutability, you get clarity, safety, and bug prevention--while still working within Python's flexible and dynamic nature.
 Immutability in Python is ultimately a matter of developer intent supported by language features that make it easier to achieve and maintain.

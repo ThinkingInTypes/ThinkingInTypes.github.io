@@ -481,5 +481,7 @@ This was an electronics lab, and the students were using programmable measuremen
 The interface language these tools used was Python.
 To send commands to the programmable meter, the meter developers had used the stringly-typed route
 (The docs had a reference to Turbo C, so the meter was created long before Python's annotated types).
-The students ended up puzzling over getting the format of the strings correct.
+The students ended up puzzling over getting the format of the strings correct, rather than doing the lab.
+
+## How Cyclopts uses Types
 
