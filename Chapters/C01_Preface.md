@@ -4,9 +4,46 @@
 
 ## Tight vs. Permissive Type Systems
 
-## Why am I creating this book "in the open"?
+## Why is This Book Free?
 
-- Thinking in C++ and Thinking in Java
+When I began writing about programming, there were user manuals, but these weren't very good.
+Magazine articles and books were the primary way people found information.
+The demand was high, so it was relatively easy to become a book author.
+I'm sure I could have made a lot more money in computing in some other way, but:
+
+1. I enjoyed the process of discovery and of writing about it.
+2. I had convinced myself that this was a good path to becoming a consultant.
+
+Many years later, I've come to ponder point two and realized that I had jumped to a convenient conclusion based on point one.
+If I was starting out now to pursue consulting, I would instead ask a lot of questions, probably starting with an AI.
+I would then talk to individual consultants and small consulting firms, and maybe even work for one for a time.
+Most importantly, I would try to get to the bottom of _why_ I wanted to be a consultant; what need does it satisfy (other than making a living).
+
+In my case the "why" is the need for connection and community and the need to be helpful.
+In the last 15 years I've studied this thing called _Nonviolent Communication_ (NVC) and taken a lot of enjoyable workshops on the subject.
+After becoming better at communicating, the biggest benefit of NVC is discovering your true needs.
+Once you know those, you can distinguish between needs and strategies--a strategy is one way to meet a need.
+We humans tend to get attached to strategies and often assume that the strategy _is_ the need.
+However, if you can discover and focus on your needs, it opens possibilities.
+Paying attention to needs allows you to look at multiple strategies instead of getting stuck on the first one that pops into your head.
+You can evaluate strategies to see which ones are more or less possible, and which ones might meet your needs better.
+
+I've had some very enjoyable consulting experiences,
+but I wonder what things might have been like if I had seen and understood the difference between needs and strategies sooner.
+
+### Creating This Book "In The Open"
+
+A very significant benefit of giving the book away is that I can build it "in the open."
+That is, I can publish it on the web as I'm creating it.
+This produces:
+
+1. Feedback. My most successful books, _Thinking in C++_ and _Thinking in Java_, were both tested on audiences many times before they were published in print.
+   Getting feedback as early as possible, and as the book evolved, was essential in making them what they were.
+2. Promotion. People are happy to tell other people about something they like that is free. There's no way to corrupt recommendations if there's no cost.
+3. Availability. Giving away _Thinking in Java_ in the late 90's meant that anyone in the world who had an internet connection could get it,
+   especially countries where books were expensive or prohibited in some way. And this produced more of point one.
+
+
 - A "Business Model" can be about more than just money
 - My goal is to create experiences. I'm not sure what form they might take, but perhaps it will be helping teams design types and architect their software.
 
