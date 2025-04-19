@@ -4,6 +4,7 @@
 """
 import sys
 from pathlib import Path
+from typing import Literal
 
 from invoke import Collection, task
 from pybooktools.invoke_tasks import prettier, rewrite_with_semantic_breaks
@@ -48,12 +49,12 @@ def sembr(ctx, chapter: Path):
 
 
 @task
-def validatemd(ctx):
+def validatemd(ctx, verbose: Literal["verbose", "quiet"] = "quiet"):
     """
     Validate all Markdown files in the directory
     """
     _ = ctx
-    validate_markdown_directory(markdown_chapters_path)
+    validate_markdown_directory(markdown_chapters_path, verbose)
 
 
 @task
