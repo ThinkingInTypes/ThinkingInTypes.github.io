@@ -2,7 +2,7 @@
 
 Type annotations (or "type hints") declare the expected data types of variables, function parameters, and return values.
 Python remains _dynamically typed_ at runtime--these hints are not enforced by the interpreter and are mainly for static analysis and documentation.
-Tools like type checkers (e.g., mypy, Pyright) and IDEs use the hints to catch errors or suggest code completions.
+Tools like type checkers (e.g., mypy, PyRight) and IDEs use the hints to catch errors or suggest code completions.
 Python's core team has no plan to make type hints mandatory; they are optional aids to improve code quality.
 
 ## Introduction via PEPs

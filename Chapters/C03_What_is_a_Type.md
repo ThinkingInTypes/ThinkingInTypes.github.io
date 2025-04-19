@@ -395,11 +395,11 @@ That said, there are some downsides or challenges with type annotations to be aw
 Overall, the Python community has increasingly embraced type hints because the benefits (especially for larger projects) have proven valuable: fewer bugs, easier collaboration, improved code quality.
 It's a way to get some advantages of statically typed languages without giving up Python's dynamic flexibility entirely.
 
-## Static Type Checkers: `mypy`, `pyright`, and Friends
+## Static Type Checkers: `mypy`, `PyRight`, and Friends
 
 Type hints by themselves do nothing unless you use a tool to check those hints against your code.
 While you might visually inspect code and spot a type mismatch, it's much more reliable to use automated tools.
-Two of the most popular type checking tools for Python are mypy and pyright.
+Two of the most popular type checking tools for Python are MyPy and PyRight.
 
 - **Mypy:** Mypy has been around since the early days of Python's gradual typing experiment (it was developed alongside PEP 484).
   It's a command-line tool (and a library) that you run on your Python code (or integrate into your editor/IDE) to static-check the types.
@@ -410,33 +410,33 @@ Two of the most popular type checking tools for Python are mypy and pyright.
   As the official mypy documentation states, it "is an optional static type checker for Python that aims to combine the benefits of dynamic (or 'duck') typing and static typing."
   You can run mypy as part of your development or CI (Continuous Integration) to prevent type regressions in a codebase.
 
-- **Pyright:** Pyright is a newer type checker, open-sourced by Microsoft.
+- **PyRight:** PyRight is a newer type checker, open-sourced by Microsoft.
   It is known for speed and is designed to handle large projects efficiently.
-  Pyright powers the Python type checking in Microsoft's VSCode editor (the Pylance extension).
-  Pyright is written in TypeScript (running on Node.js), which might sound unusual, but it means it's optimized for speed and can do things like watch files and re-check only what changed, etc.
-  Pyright is also fully aware of all the latest PEPs and typing features.
-  According to its documentation, "Pyright is a full-featured, standards-based static type checker for Python.
+  PyRight powers the Python type checking in Microsoft's VSCode editor (the PylLance extension).
+  PyRight is written in TypeScript (running on Node.js), which might sound unusual, but it means it's optimized for speed and can do things like watch files and re-check only what changed, etc.
+  PyRight is also fully aware of all the latest PEPs and typing features.
+  According to its documentation, "PyRight is a full-featured, standards-based static type checker for Python.
   It is designed for high performance and can be used with large Python source bases."
-  Many developers use Pyright via their editor for instant feedback as they code (and/or in CI as well).
-  For instance, as you're coding, Pyright can underline an inconsistent call in red immediately.
-  Pyright is also available as a command-line tool (via npm) if you prefer that route.
+  Many developers use PyRight via their editor for instant feedback as they code (and/or in CI as well).
+  For instance, as you're coding, PyRight can underline an inconsistent call in red immediately.
+  PyRight is also available as a command-line tool (via npm) if you prefer that route.
   One of its selling points is performance--it's been noted to be much faster than mypy on large codebases, though for small-to-medium projects both tools run quickly enough.
 
-Both mypy and pyright adhere to Python's typing rules (PEP 484 and successors) pretty closely.
+Both mypy and PyRight adhere to Python's typing rules (PEP 484 and successors) pretty closely.
 There are some minor differences and configuration options (for example, how strict they are about certain default behaviors, or handling of untyped code).
 Some teams use one, some use the other, and some even use both (one as an editor linter for speed, another as a final check in CI for thoroughness).
 The good news is you don't need to lock yourself in--you can try them out and see which fits your workflow.
 
-Aside from mypy and pyright, there are other tools worth mentioning:
+Aside from mypy and PyRight, there are other tools worth mentioning:
 
 - **PyCharm and Other IDEs:** PyCharm has its own built-in type checker that uses the same type hint information to warn about issues.
-  It's not as configurable as mypy/pyright, but it often catches many of the same things in real-time.
+  It's not as configurable as mypy/PyRight, but it often catches many of the same things in real-time.
 - **Pylint and Flake8:** These are linters that primarily focus on code style issues, but they have basic type checking rules or plugins (e.g., Pylint can catch some obvious type errors, though it's not as comprehensive as a dedicated type checker).
 - **Pyre:** A type checker from Facebook (written in OCaml).
   It's also fast and aimed at large applications.
-  Its usage is less widespread in the community compared to mypy/pyright, but it's an alternative.
-- **Typeguard, Enforce, etc.:** These are runtime type checking helpers.
-  For example, `typeguard` is a library that can be used to enforce type hints at runtime by wrapping functions (so if someone calls `func("hello")` when it expects an int, it will raise an error at call time).
+  Its usage is less widespread in the community compared to mypy/PyRight, but it's an alternative.
+- **TypeGuard, Enforce, etc.:** These are runtime type checking helpers.
+  For example, TypeGuard is a library that can be used to enforce type hints at runtime by wrapping functions (so if someone calls `func("hello")` when it expects an int, it will raise an error at call time).
   These can be useful in specific scenarios, but generally static checkers are more common in Python since runtime checks negate some of the performance benefits of dynamic typing.
 
 As an example of using a type checker, imagine we save the earlier `add` function example in a file and run a checker:
@@ -498,7 +498,7 @@ Let's clearly distinguish between runtime type checking and static type checking
   It's like a dry run of the program in terms of types.
   If you say a function returns an `int` but you return a `str` somewhere, a static checker can catch that.
   If you pass the wrong type to a function, it's caught before running.
-  This is what mypy, pyright, etc., do.
+  This is what mypy, PyRight, etc., do.
   They look at your code as data, not as a running program.
   The Python interpreter itself does not do static analysis--it doesn't look at annotations and refuses to run the program.
   You (or your development environment) have to invoke a tool to get static checking.
@@ -565,5 +565,5 @@ Embracing Python's type system--both its dynamic nature and its optional static 
 7. [PEP 484](https://peps.python.org/pep-0484/)
 8. [What Are Python Type-Hints and How to Use Them?--Andres Berejnoi](https://medium.com/@andresberejnoi/what-are-python-type-hints-and-how-to-use-them-andres-berejnoi-31835b92b038)
 9. [mypy--Optional Static Typing for Python](https://mypy-lang.org/)
-10. [microsoft/pyright: Static Type Checker for Python--GitHub](https://github.com/microsoft/pyright)
-11. [Statically type checking Python code using Pyright--DEV Community](https://dev.to/saranshk/statically-type-checking-python-code-using-pyright-2p6p)
+10. [microsoft/PyRight: Static Type Checker for Python--GitHub](https://github.com/microsoft/PyRight)
+11. [Statically type checking Python code using PyRight--DEV Community](https://dev.to/saranshk/statically-type-checking-python-code-using-PyRight-2p6p)

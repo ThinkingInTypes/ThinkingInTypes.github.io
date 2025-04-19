@@ -270,7 +270,7 @@ even though we can transparently access the underlying elements of each type (`i
 
 ## Data Classes
 
-TODO: It seems like I have a lot of Pycon presentation material that can go here.
+TODO: It seems like I have a lot of PyCon presentation material that can go here.
 
 Data classes were introduced in Python 3.7 to provide a structured, concise way to define data-holding types.
 They streamline the process of creating types by generating essential methods automatically.
@@ -1189,7 +1189,7 @@ Each approach has its specific use cases:
 
 - `Literal`s provide a quick and easy way to inform static type checkers without extra runtime behavior.
 - `Enum`s add clarity and runtime functionality at the cost of a little extra complexity.
-- `Set`s work well if your validation is purely runtime-oriented and you don’t need the additional benefits of static type restrictions.
+- `Set`s work well if your validation is purely runtime-oriented, and you don’t need the additional benefits of static type restrictions.
 
 Choosing between them depends on whether you prioritize compile-time type checking and better IDE support
 (favoring `Literal`s or `Enum`s) or need flexible, dynamic validation (favoring `set`s).

@@ -50,7 +50,7 @@ Many linters will flag reassignment of all-caps "constant" variables as a potent
 
 Another historical approach is to leverage Python's immutable built-in types.
 Python itself has immutable types like `int`, `float`, `str`, `tuple`, and `frozenset`.
-When you want to prevent modifications to a collection of values, you might use a tuple instead of a list, or a frozenset instead of a set.
+When you want to prevent modifications to a collection of values, you might use a tuple instead of a list, or a `frozenset` instead of a set.
 For instance, if you have a fixed set of options, using a tuple (`options = ("red", "green", "blue")`) conveys that this sequence is not to be altered.
 This isn't enforced by syntax, but the type's lack of mutating methods provides some safety.
 Trying to call a mutating method on an immutable type will result in an `AttributeError` or a runtime error (for example, attempting to append to a tuple will fail since tuples have no `append` method).
@@ -89,8 +89,8 @@ If later in the code you attempt to do `PI = 3.14` (reassigning the constant), t
 The same goes for changing `MAX_CONNECTIONS`.
 The Python interpreter itself will not stop you from doing this reassignment, but using `Final` elevates the constant from a mere convention to something that static analysis tools can verify.
 
-According to the Python typing documentation, _"Final names cannot be reassigned in any scope.
-Final names declared in class scopes cannot be overridden in subclasses."_.
+According to the Python typing documentation, "Final names cannot be reassigned in any scope.
+Final names declared in class scopes cannot be overridden in subclasses."
 In other words, marking a variable as `Final` means:
 
 - **No rebinding:** You can assign to it only once; the type checker flags any further assignments.

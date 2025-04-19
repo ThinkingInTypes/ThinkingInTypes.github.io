@@ -277,7 +277,7 @@ print("Captured logs:", test_logger.messages)
 
 In `Logger(Protocol)`, we specify that a logger must have a `.log(str)` method.
 Our `run_process` function doesn't care _how_ the logging is done, just that the object passed in can `.log` a message.
-`FileLogger`and `ListLogger` are two implementations--one writes to a file, the other stores messages in a Python list.
+`FileLogger` and `ListLogger` are two implementations--one writes to a file, the other stores messages in a Python list.
 Notice that neither`FileLogger`nor`ListLogger`subclasses`Logger`; they don't need to.
 They implicitly satisfy the protocol by having the correct`log`method.
 This design is very flexible: you can add new logger classes later (say, a`DatabaseLogger`that writes to a database, or reuse Python's built-in`logging.Logger`by writing an adapter with a`log`method) without changing the code that uses the logger.
@@ -309,7 +309,7 @@ Suppose you're writing a function that can output data to any "file-like" object
 The `io.TextIOBase` abstract class in Python is nominal, but not every file-like object will inherit it.
 By defining your own protocol with a `write(str)` method, your function can accept a wide range of objects (actual file handles, `io.StringIO` instances, custom writer objects) as long as they implement `write`.
 This is especially useful when working with libraries that weren't built with your interfaces; you can adapt them via protocols instead of being forced into their class hierarchy.
-Protocols thus increase reusability and extensibility of your code by focusing on what an object can do rather than what it is.
+Protocols thus increase the reusability and extensibility of your code by focusing on what an object can do rather than what it is.
 
 It's worth mentioning that Python's standard library and frameworks have embraced the concept of protocols (even before the formal `Protocol` type existed) by using "duck typing" and abstract base classes.
 For instance, the act of iterating in Python checks for an `__iter__` method--any object with `__iter__` is iterable.
@@ -363,7 +363,7 @@ print_id(Product(101, 19.99))
 ## Combining Protocols with Generics
 
 Just like classes and functions can be generic (using `TypeVar` to operate over a range of types), protocol classes can be generic as well.
-A _generic protocol_ allows you to define a protocol that is parameterized by a type (or multiple types), enabling more precise typing of method arguments and return values.
+A _generic protocol_ allows you to define a protocol parameterized by a type (or multiple types), enabling more precise typing of method arguments and return values.
 Many built-in protocols are generic--for example, `Iterable[T]` is a protocol that can be `Iterable[int]`, `Iterable[str]`, etc., depending on what type it yields.
 We can do the same with our own protocols.
 
@@ -478,7 +478,7 @@ class Container(Protocol):
     def get_item(self, type_: type[T]) -> T: ...
 ```
 
-to define a generic method `get_item` in a protocol.
+This defines a generic method `get_item` in a protocol.
 However, under the hood this still creates a generic protocol with a type variable `T`.
 Most code at the time of writing still uses the earlier syntax with explicit `TypeVar` declarations, which is what we've shown above.
 
@@ -521,16 +521,20 @@ Here are some guidelines, pros and cons, and best practices to help decide:
   you can annotate a function to accept any object with a `.close()` method, or a `.write()` method, etc., without forcing a common base class.
 
 - You are working with third-party or existing classes that you can't modify to fit into your class hierarchy.
-  Structural typing shines here because you can define a protocol that matches the external class's capabilities.
-  For example, if a 3rd-party library gives you objects that have a `.to_json()` method, and you want to treat those objects uniformly in your code, you can create a `ToJsonable` protocol with `to_json(self) -> str` and use that in your type hints.
-  Any object from the library will satisfy the protocol if it has the method, without you needing to make it inherit from anything.
-  This decoupling is very powerful in a language as dynamic as Python, where often we "duck type" through frameworks--now you can put an actual type hint on it.
+  Structural typing shines here because you can define a protocol that matches the external class's abilities.
+  For example, if a third-party library gives you objects that have a `.to_json()` method,
+  and you want to treat those objects uniformly in your code,
+  you can create a `ToJsonable` protocol with `to_json(self) -> str` and use that in your type hints.
+  Any object from the library will satisfy the protocol if it has the method,
+  without you needing to make it inherit from anything.
+  This decoupling is very powerful in a language as dynamic as Python,
+  where often we "duck type" through frameworks--now you can put an actual type hint on it.
 
 - You need generic interfaces or extension of existing ones.
   Protocols are useful for creating ad-hoc interfaces that might not have been foreseen initially.
   For instance, you might realize that two classes in different parts of your system happen to have similar methods for, say, resetting their state.
   You could retroactively define a `Resettable` protocol and update type hints to use it, without touching the classes themselves.
-  If later you make those classes formally implement an ABC, fine--but the protocol gave you an immediate way to express the concept in types and check it.
+  If you later make those classes formally implement an ABC, fine--but the protocol gave you an immediate way to express the concept in types and check it.
   Additionally, if you're designing a library and want to allow users to plug in their own objects (as long as they have certain methods), providing a protocol in your public API documentation is a nice way to communicate that.
   Users can either implement that Protocol (statically) or just ensure their classes match the signature.
 

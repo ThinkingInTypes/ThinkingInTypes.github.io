@@ -16,11 +16,12 @@ To enable the easy construction of programs, we need to be able to effortlessly 
 On top of that, such assemblages become their own components that can be stuck together just as easily.
 This composability scales up regardless of the size of the components.
 
-Over the years we have encountered numerous roadblocks to this goal.
+Over the years, we have encountered numerous roadblocks to this goal.
 
 ## Goto Considered Harmful
 
-[Djikstra’s 1968 note](https://homepages.cwi.nl/~storm/teaching/reader/Dijkstra68.pdf) had quite an impact on the programming community, which at the time consisted largely of assembly-language programmers.
+[Dijkstra's 1968 note](https://homepages.cwi.nl/~storm/teaching/reader/Dijkstra68.pdf) had quite an impact on the programming community,
+which at the time consisted largely of assembly-language programmers.
 For these, the goto statement was foundational, and denigrating it was a shock.
 Although he never explicitly mentioned functions in his note, the effect was to push programmers towards functions.
 [The creator of Structured Concurrency](https://vorpus.org/blog/notes-on-structured-concurrency-or-go-statement-considered-harmful/) provides a clear description of this.
@@ -29,7 +30,8 @@ Rather than jumping about within a limited program, functions present the caller
 This dramatically improves composability because you can no longer leave a section of code at any point using a goto.
 Within a function scope you cannot know what’s outside that scope, thus you can’t jump somewhere because you don’t know a destination to jump to.
 
-My programming training was primarily as a computer engineer and I spent the first few years of my career programming in assembly.
+My programming training was primarily as a computer engineer,
+and I spent the first few years of my career programming in assembly.
 Assembly supports subroutine calls and returns, but not the loading of arguments on the stack and passing results back out—the programmer must write this error-prone code by hand.
 
 Higher-level languages handle function arguments and returns for you, which made them a very desirable improvement as the size and complexity of programs grew beyond what the assembly programmer was able to hold in their head.
@@ -41,7 +43,7 @@ In Python, files are automatically modules, which is certainly one of the easies
 
 It wasn’t always this way.
 Breaking assembly-language programs into pieces was not easy, and early higher-level languages tended to be single-file programs and did not consider modularity.
-When the idea began to surface it was incorporated as a main feature of the Modula-2 language (a descendent of Pascal).
+When the idea began to surface, it was incorporated as a main feature of the Modula-2 language (a descendant of Pascal).
 The name tells you what a significant shift it was considered at the time.
 
 Modula-2 and similar languages required an explicit declaration of a module:
@@ -62,7 +64,7 @@ This prevents name collisions across a project and reduces the cognitive load on
 Prior to this, programs reached scaling limits as they grew larger.
 Program size in assembly language programs was limited by many different factors, so the need for modules was not seen until systems were able to grow larger because higher-level languages solved enough of these other factors.
 
-In modern languages, modularity is part of the background of a language and we don’t think much about it.
+In modern languages, modularity is part of the background of a language, and we don’t think much about it.
 At one time, however, the lack of modularity was a significant roadblock to code composability.
 
 ## Inheritance
@@ -70,17 +72,18 @@ At one time, however, the lack of modularity was a significant roadblock to code
 Object-oriented programming has a bit of a tortured history.
 Although the first OO language was Simula-67 (a compiled language), OO found its first real success with Smalltalk.
 But Smalltalk might be the most dynamic language you’ll ever encounter—literally everything is evaluated at runtime.
-While this worked well for the kinds of problems Smalltalk was good at solving, it turned out that taking the ideas of Smalltalk and imprinting them into a statically-typed language lost a _lot_ in translation.
+This worked well for the kinds of problems Smalltalk was good at solving. 
+However, taking the ideas of Smalltalk and imprinting them into a statically typed language lost a _lot_ in translation.
 
 ## Error Handling
 
-Error reporting and handling has been a significant impediment to composability.
+Error reporting and handling have been a significant impediment to composability.
 
 ### History
 
 Original programs were small (by present-day standards), written in assembly language (machine code quickly became too unwieldy), and tightly coupled to the underlying hardware.
 If something went wrong, the only way to report it was to change the output on a wire, to turn on a light or a buzzer.
-If you had one, you put a message on the console—this might as as a dot-matrix display.
+If you had one, you put a message on the console—this might be a dot-matrix display.
 Such an error message probably wasn’t friendly to the end-user of the system and usually required a tech support call to the manufacturer.
 
 Two of my first jobs were building embedded systems that controlled hardware.
@@ -108,15 +111,18 @@ Programmers produced a scattered collection of solutions to the reporting proble
 
 - Use [signals](https://en.wikipedia.org/wiki/C_signal_handling) if the operating system supports it.
 
-The operating system was something that needed to be discovered.
-As programmers found themselves rewriting the same basic code over and over again, and much of that repeated code involved manipulating hardware and the attendant specialized knowledge required, it became clear that we needed a layer to eliminate this extra work, work that to some degree every program required.
+The operating system needed to be discovered.
+As programmers found themselves rewriting the same basic code over and over again, 
+and much of that repeated code involved manipulating hardware and the attendant specialized knowledge required, 
+it became clear that we needed a layer to eliminate this extra work--work that to some degree every program required.
 
 A fundamental question that designers were trying to understand during this evolution was:
 
 > _Who is responsible for error handling, the OS or the language?_
 
 Since every program has the potential for errors, it initially seemed obvious that this activity should be the domain of the operating system.
-Some early operating systems allowed the program to invoke an error which would then jump to the operating system, and a few OSes even experimented with the ability to "resume" back to the point where the error occurred, so the handler could fix the problem and continue processing.
+Some early operating systems allowed the program to invoke an error which would then jump to the operating system. 
+A few OSes even experimented with the ability to "resume" back to the point where the error occurred, so the handler could fix the problem and continue processing.
 Notably, these systems did not find success and resumption was removed.
 
 Further experiments eventually made it clear that the language needed primary responsibility for error reporting and handling (there are a few special cases, such as out-of-memory errors, which must still be handled by the OS).
@@ -148,8 +154,9 @@ Exceptions seemed like a great idea:
 4. Errors can be handled close to the origin, or generalized by catching them "further out" so that multiple error sources can be managed with a single handler.
 5. Exception hierarchies allow more general exception handlers to handle multiple exception subtypes.
 
-To be clear, exceptions were a big improvement over all of the previous (non) solutions to the error reporting problem.
-Exceptions moved us forward for awhile (and became entrenched in programming culture) until folks started discovering pain points.
+To be clear, exceptions were a big improvement over all the previous (non) solutions to the error reporting problem.
+Exceptions moved us forward for a while (and became entrenched in programming culture)
+until folks started discovering pain points.
 As is often the case, this happened as we tried to scale up to create larger and more complex systems.
 And once again, the underlying issue was composability.
 
@@ -161,7 +168,7 @@ We only figure it out when scaling composability.
 
 ### 1. The Two Kinds of Errors are Conflated
 
-Recoverable vs panic (Recovering/Retrying requires programming) With exceptions, the two types are conflated.
+Recoverable vs. panic (Recovering/Retrying requires programming) With exceptions, the two types are conflated.
 One of the best explanations of this is by [Joe Duffy](https://joeduffyblog.com/2016/02/07/the-error-model/).
 
 ### 2. Not Part of the Type System
@@ -181,7 +188,7 @@ Exception hierarchies allow the library programmer to use an exception base type
 This obscures important details; if the exception specification just uses a base type, there’s no way for the compiler to enforce coverage of specific exceptions.
 
 When errors are included in the type system, you can know all the errors that can occur just by looking at the type information.
-If a library component adds a new error then that must be reflected in that component’s type signature, which means that the code using it immediately knows that it is no longer covering all the error conditions, and will produce type errors until it is fixed.
+If a library component adds a new error, then that must be reflected in that component’s type signature, which means that the code using it immediately knows that it is no longer covering all the error conditions, and will produce type errors until it is fixed.
 
 ### 3. Exception Specifications Create a "Shadow Type System"
 
@@ -194,14 +201,14 @@ C++ exception specifications were originally optional and not statically type-ch
 After many years these were deprecated in favor of the statically-typed [`expected` specification](https://en.cppreference.com/w/cpp/utility/expected) (which takes the functional approached described in this paper).
 
 Java created checked exceptions, which must be explicitly dealt with in your code, and runtime exceptions, which could be ignored.
-Eventually they added a feature that allows checked exceptions to be easily converted into runtime exceptions.
+Eventually, they added a feature that allows checked exceptions to be easily converted into runtime exceptions.
 Java functions can always return `null` without any warning.
 
 Both systems (the original C++ dynamic exception specifications, and Java exception specifications) had too many holes, and it was too difficult to effectively support both the main and shadow type systems.
 
 ### 4. Exceptions Destroy Partial Calculations
 
-Let’s start with a example where we populate a `List` with the results of a sequence of calls to the function `func_a`:
+Let’s start with an example where we populate a `List` with the results of a sequence of calls to the function `func_a`:
 
 ```python
 # discarded_state.py
@@ -442,8 +449,12 @@ Notice that `b` and `c` both use built-in exception types as arguments to `Failu
 
 In `composed`, we call `a`, `b` and `c` in sequence.
 After each call, we check to see if the result type is `Failure`.
-If so, the calculation has failed and we can’t continue, so we return the current result, which is a `Failure` object containing the reason for the failure.
-If it succeeds, it is a `Success` which contains an `unwrap` method that is used to extract the answer from that calculation—if you look back at `Result`, you’ll see that it returns the `ANSWER` type so its use can be properly type-checked.
+If so, the calculation has failed, and we can’t continue, so we return the current result,
+which is a `Failure` object containing the reason for the failure.
+If it succeeds,
+it is a `Success`
+which contains an `unwrap` method that is used to extract the answer from that calculation—if you look back at `Result`,
+you’ll see that it returns the `ANSWER` type so its use can be properly type-checked.
 
 This means that any failure during a sequence of composed function calls will short-circuit out of `composed`, returning a `Failure` that tells you exactly what happened, and that you must decide what to do with.
 You can’t just ignore it and assume that it will "bubble up" until it finds an appropriate handler.
@@ -456,7 +467,7 @@ every time you call a function within a composed function, you must write code t
 This is extra repetitive work that interrupts the flow and readability of the program.
 We need some way to reduce or eliminate the extra code.
 
-Lets modify `Result` to add a new member function, `bind`:
+Let's modify `Result` to add a new member function, `bind`:
 
 ```python
 # result_with_bind.py
@@ -549,7 +560,7 @@ Once you produce a `Failure`, no more function calls occur (that is, it short-ci
 ## Handling Multiple Arguments
 
 We could continue adding features to our `Result` library until it becomes a complete solution.
-However, others have worked on this problem so it makes more sense to reuse their libraries.
+However, others have worked on this problem, so it makes more sense to reuse their libraries.
 The most popular Python library that includes this extra functionality is [Returns](https://github.com/dry-python/returns).
 `Returns` includes other features, but we will only focus on `Result`.
 
@@ -621,7 +632,7 @@ So far I have been unable to get that extension to work (however, I have no expe
 ## Functional Error Handling is Happening
 
 Functional error handling has already appeared in languages like Rust, Kotlin, and recent versions of C++ support these combined answer-error result types, with associated unpacking operations.
-In these languages, errors become part of the type system and it is far more difficult for an error to "slip through the cracks."
+In these languages, errors become part of the type system, and it is far more difficult for an error to "slip through the cracks."
 
 Python has only been able to support functional error handling since the advent of typing and type checkers, and it doesn’t provide any direct language or library constructs for this.
 The benefits of better error handling and robust composability make it worth adopting a library like `Results`.

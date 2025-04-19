@@ -206,7 +206,7 @@ In such cases, it's common to use a single `TypeVar` in multiple places to indic
 
 ## `TypeVarTuple`
 
-> Introduced in PEP 646, `TypeVarTuple` is available experimentally in Python 3.11+, and officially supported by Pyright and (partially) by `mypy`.
+> Introduced in PEP 646, `TypeVarTuple` is available experimentally in Python 3.11+, and officially supported by PyRight and (partially) by MyPy`.
 
 TypeVarTuple is like `*args`, but for types.
 It lets you define generic classes and functions that accept a variable number of types, creating more powerful and flexible type-safe abstractions.
@@ -299,7 +299,7 @@ The `zip_variadic` signature says:
 
 ### Limitations (2025)
 
-- Requires Python 3.11+ and a type checker that supports it (Pyright does well, mypy still partial)
+- Requires Python 3.11+ and a type checker that supports it (PyRight does well, mypy still partial)
 - Can't yet mix `TypeVar` and `TypeVarTuple` freely in all places
 - Still not supported in some older tools or linters
 
@@ -956,7 +956,7 @@ data: StrDict[int] = {"age": 30, "year": 2025}
 
 These annotations make the intent clearer: `p` is a pair of ints, `q` a pair of strs, and `data` is a string-to-int map.
 Under the hood, the type checker treats `Pair[int]` as `tuple[int, int]`.
-If you don't subscript the alias (e.g., just use `Pair` by itself), the type variables are typically treated as `Any`.
+If you do not subscript the alias (e.g., just use `Pair` by itself), the type variables are typically treated as `Any`.
 For example:
 
 ```python
@@ -975,7 +975,7 @@ but it defeats the purpose of the alias since it's not enforcing that both eleme
 Always supply type parameters for a generic alias to avoid inadvertently falling back to `Any`.
 
 **Alias vs direct use:** Type aliases don't create new types at runtime; they are solely for type checking and readability.
-In code, `Pair[int]` does not exist as a real class, it's just an alias for `tuple[int, int]`.
+In code, `Pair[int]` does not exist as a real class; it's just an alias for `tuple[int, int]`.
 If you inspect `Pair[int]` at runtime, you'll get the underlying type.
 For example:
 
@@ -1067,7 +1067,7 @@ T = TypeVar("T")
 
 
 def sort_items(items: list[T]) -> list[T]:
-    # Pyright issue:
+    # PyRight issue:
     return sorted(items)  # type: ignore
 ```
 
