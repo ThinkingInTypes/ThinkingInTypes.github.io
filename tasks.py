@@ -8,6 +8,7 @@ from pathlib import Path
 from invoke import Collection, task
 from pybooktools.invoke_tasks import prettier, rewrite_with_semantic_breaks
 from pybooktools.md_cleaner import clean_markdown
+from pybooktools.pymarkdown_validator.validate import validate_markdown_directory
 from rich.console import Console
 from rich.prompt import Confirm
 
@@ -20,8 +21,8 @@ console = Console()
 
 def confirm(message: str, default: bool = True) -> None:
     if not Confirm.ask(
-        f"[yellow]{message}[/yellow]",
-        default=default,
+            f"[yellow]{message}[/yellow]",
+            default=default,
     ):
         console.print("[red]Cancelled by user.[/red]")
         sys.exit(1)
@@ -47,6 +48,15 @@ def sembr(ctx, chapter: Path):
 
 
 @task
+def validatemd(ctx):
+    """
+    Validate all Markdown files in the directory
+    """
+    _ = ctx
+    validate_markdown_directory(markdown_chapters_path)
+
+
+@task
 def cleanmd(ctx, chapter: Path):
     """
     clean markdown files
@@ -59,4 +69,4 @@ def cleanmd(ctx, chapter: Path):
     chapter.write_text(cleaned_markdown, encoding="utf-8")
 
 
-namespace = Collection(z, sembr, prettier, cleanmd)
+namespace = Collection(z, sembr, prettier, cleanmd, validatemd)

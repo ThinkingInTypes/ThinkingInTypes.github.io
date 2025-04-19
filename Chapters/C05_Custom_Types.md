@@ -964,6 +964,7 @@ a small set of constant values without adding extra code complexity.
 ### Pattern Matching on Literals
 
 ```python
+# literal_pattern_matching.py
 from typing import Literal
 
 Command = Literal["start", "stop", "pause"]
@@ -977,28 +978,21 @@ def run_command(cmd: Command) -> str:
             return "System stopping..."
         case "pause":
             return "System pausing..."
-
-
-def run_string(cmd: str) -> str:
-    match cmd:
-        case "start":
-            return "System starting..."
-        case "stop":
-            return "System stopping..."
-        case "pause":
-            return "System pausing..."
-
-
-def unreachable_case(cmd: Command) -> str:
-    match cmd:
-        case "start":
-            return "System starting..."
-        case "stop":
-            return "System stopping..."
-        case "pause":
-            return "System pausing..."
-        case _:  # Should be unreachable
+        # Should not need this; some type checkers
+        # require it anyway:
+        case _:  # Unreachable
             raise ValueError(f"Unhandled command: {cmd}")
+
+
+def run_string(cmd: str) -> str | None:
+    match cmd:
+        case "start":
+            return "System starting..."
+        case "stop":
+            return "System stopping..."
+        case "pause":
+            return "System pausing..."
+    return None
 ```
 
 In `run_command`, the `cmd` parameter is restricted to the values `"start"`, `"stop"`, or `"pause"`.
@@ -1007,8 +1001,6 @@ A type checker will warn you if a branch is missing.
 This is called `exhaustiveness checking`.
 
 However, with the `match` in `run_string` there's no way to know what the legal cases are, so exhaustiveness checking is not possible.
-
-In `unreachable_case`, the last `case` should be unreachable, but not all type checkers will treat this properly.
 
 ### Examples
 
@@ -1059,6 +1051,7 @@ The type checker knows the exact value of an `Enum` member and can narrow types 
 Because of this, type checkers can treat `Enum` values as `Literal`s.
 
 ```python
+# enum_exhaustiveness.py
 from enum import Enum
 
 
@@ -1082,7 +1075,7 @@ print(paint1(Color.BLUE))
 
 
 # Exhaustiveness checking:
-def paint(color: Color) -> str:
+def paint2(color: Color) -> str:
     match color:
         case Color.RED:
             return "You chose red"
