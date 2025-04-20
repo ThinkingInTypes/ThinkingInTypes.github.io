@@ -486,7 +486,6 @@ For example:
 # covariance.py
 from typing import Generic, TypeVar
 from animals import Animal, Dog
-
 ## Woof
 ## Woof
 ## Animal sound
@@ -524,7 +523,6 @@ For example:
 # contravariance.py
 from typing import Generic, TypeVar
 from animals import Animal, Dog
-
 ## Woof
 ## Woof
 ## Animal sound
@@ -543,7 +541,7 @@ dog_sink: Sink[Dog] = animal_sink
 # dog_sink expects at least Dog, and Animal is broader:
 dog_sink.send(Dog())
 ## Processing <animals.Dog object at
-## 0x000001A397336350>
+## 0x00000207204E6350>
 ```
 
 In this example, `Sink[T_contra]` is contravariant, indicating it only consumes values of type `T_contra` (here via the `send` method).
@@ -1059,7 +1057,6 @@ A common mistake is expecting container types to be covariantly interchangeable:
 ```python
 # invariance_confusion.py
 from animals import Animal, Dog
-
 ## Woof
 ## Woof
 ## Animal sound
