@@ -172,6 +172,8 @@ For example:
 # example_4.py
 from typing import runtime_checkable, Protocol
 from file_resource import FileResource
+
+
 ## Socket closed
 
 
@@ -199,8 +201,8 @@ Protocols let you formally capture that interface in the type system.
 This makes your code's expectations clear and allows static analysis to validate those expectations.
 Let's discuss a few practical examples.
 
-**1.
-Dependency injection and interchangeable components:** Suppose you're writing a service that needs to log messages.
+**1. Dependency injection and interchangeable components:**
+Suppose you're writing a service that needs to log messages.
 You might want the ability to swap out the logger--sometimes logging to a file, sometimes to the console, or maybe collecting logs in memory for testing.
 You can define a protocol for the logger's interface and program against that.
 For instance:
@@ -301,7 +303,8 @@ The static type checker will ensure that any object we pass as a`logger`to`run_p
 In a nominal type system, you might have to define an abstract base class`Logger\` and make every logger inherit it.
 With protocols, you get the benefit of an interface without the inheritance--this reduces coupling and makes it easier to integrate third-party classes that weren't written with your ABC in mind.
 
-**2. Testing with fake or mock objects:** Building on the above example, protocols are extremely handy for unit testing.
+**2. Testing with fake or mock objects:**
+Building on the above example, protocols are extremely handy for unit testing.
 In tests, we often use fake objects or mocks to simulate real components (like databases, web services, etc.)
 without having to perform the real operations.
 With protocols, you can give those test doubles a clear interface.
@@ -315,7 +318,8 @@ Using protocols in this way documents exactly what methods a mock is expected to
 This can prevent situations where your test double is missing a method or has a typo that wouldn't be caught until runtime.
 In short, whenever you say "I need an object that can do X in my code, and I might swap different implementations of it," that's a cue to define a protocol for X.
 
-**3.Interface design and third-party integration:** Protocols can serve as interfaces in your application design.
+**3.Interface design and third-party integration:**
+Protocols can serve as interfaces in your application design.
 Even if you're not writing multiple implementations immediately, defining a protocol for a role in your system can clarify the design.
 For example, you might define a `DataStore` protocol with methods like `save(item)` and `load(id)` that any storage backend should implement.
 Today you only have a database implementation, but tomorrow you might add an in-memory or file-based implementation--the protocol makes the contract clear.
@@ -468,6 +472,7 @@ For example, if we have:
 # example_9.py
 from typing import TypeVar
 from logger_protocol import Logger
+
 ## log file: logs\log.txt
 ## Starting DataCleanup
 ## Finished DataCleanup
