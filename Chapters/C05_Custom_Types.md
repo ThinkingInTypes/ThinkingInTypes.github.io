@@ -251,8 +251,6 @@ def increment(uid: UserID) -> UserID:
 
 # Access underlying list operation:
 print(increment(users[-1]))
-
-
 ## 43
 
 
@@ -358,7 +356,17 @@ user1.preferences.append("dark_mode")
 user2.preferences.append("notifications")
 user2.metadata["role"] = "admin"
 print(f"{user1 = }")
+## user1 = UserProfile(username='Alice',
+## preferences=['dark_mode'],
+## created_at=datetime.datetime(2025, 4, 19, 17,
+## 59, 7, 90218), metadata={'role': 'user'},
+## user_id=5237)
 print(f"{user2 = }")
+## user2 = UserProfile(username='Bob',
+## preferences=['notifications'],
+## created_at=datetime.datetime(2025, 4, 19, 17,
+## 59, 7, 90230), metadata={'role': 'admin'},
+## user_id=5297)
 ```
 
 ### Post Init
@@ -379,10 +387,11 @@ class Circle:
     area: float = 0.0
 
     def __post_init__(self):
-        self.area = pi * self.radius ** 2
+        self.area = pi * self.radius**2
 
 
 print(Circle(radius=5))
+## Circle(radius=5, area=78.53981633974483)
 ```
 
 Here's a slightly more complex example:
@@ -405,6 +414,8 @@ class Team:
 
 
 print(Team("alice", ["bob", "carol", "ted"]))
+## Team(leader='Alice', members=['Alice', 'bob',
+## 'carol', 'ted'])
 ```
 
 ### Initializers
@@ -433,6 +444,7 @@ class Point:
 
 
 print(Point(" 10.5 , 20.3 "))
+## Point(x=10.5, y=20.3)
 ```
 
 A defined `__init__` allows you to customize how fields are initialized.
@@ -535,9 +547,13 @@ class Book:
 
 
 print(b := Book("Emma", "Jane Austen", "Good", 11))
+## Book(title='Emma', author='Jane Austen',
+## shelf_id=11)
 # "condition" doesn't exist outside __init__ or __post_init__:
 with Catch():
     print(b.condition)  # noqa
+## Error: 'Book' object has no attribute
+## 'condition'
 ```
 
 In this example, `condition` is an `InitVar`.
@@ -807,7 +823,16 @@ Here are all the ways you can use `Enum`s:
 """
 Comprehensive demonstration of Enum capabilities.
 """
-from enum import Enum, auto, unique, IntEnum, StrEnum, Flag, IntFlag
+
+from enum import (
+    Enum,
+    auto,
+    unique,
+    IntEnum,
+    StrEnum,
+    Flag,
+    IntFlag,
+)
 
 
 # 1. Basic Enum definition
@@ -818,7 +843,9 @@ class Color(Enum):
 
 
 print(Color.RED)
+## Color.RED
 print(Color.RED.name, Color.RED.value)
+## RED 1
 
 
 # 2. Enum with auto values
@@ -829,6 +856,8 @@ class Status(Enum):
 
 
 print(list(Status))
+## [<Status.PENDING: 1>, <Status.RUNNING: 2>,
+## <Status.DONE: 3>]
 
 
 # 3. Custom values and types
@@ -838,19 +867,30 @@ class HttpStatus(IntEnum):
     INTERNAL_ERROR = 500
 
 
-print(f"HttpStatus.OK = {HttpStatus.OK}, as int: {int(HttpStatus.OK)}")
+print(
+    f"HttpStatus.OK = {HttpStatus.OK}, as int: {int(HttpStatus.OK)}"
+)
+## HttpStatus.OK = 200, as int: 200
 
 # 4. Iteration and comparison
 for color in Color:
     print(f"Color: {color.name} = {color.value}")
+## Color: RED = 1
+## Color: GREEN = 2
+## Color: BLUE = 3
 
 print(Color.RED == Color.RED)
+## True
 print(Color.RED is Color.RED)
+## True
 print(Color.RED == Color.GREEN)
+## False
 
 # 5. Access by name and value
 print(Color["BLUE"])
+## Color.BLUE
 print(Color(2))  # GREEN
+## Color.GREEN
 
 
 # 6. Unique constraint
@@ -870,7 +910,9 @@ class Fruit(StrEnum):
 
 
 print(Fruit.APPLE.upper())
+## APPLE
 print(f"JSON-ready: {Fruit.BANANA!r}")
+## JSON-ready: <Fruit.BANANA: 'banana'>
 
 
 # 8. Methods and properties on Enums
@@ -886,6 +928,7 @@ class Shape(Enum):
 
 
 print(f"Shape.CIRCLE has {Shape.CIRCLE.sides()} sides")
+## Shape.CIRCLE has 0 sides
 
 
 # 9. Aliases
@@ -895,8 +938,12 @@ class Mood(Enum):
     SAD = 2
 
 
-print(f"Members: {[m for m in Mood]}")  # Only one member per value
+print(
+    f"Members: {[m for m in Mood]}"
+)  # Only one member per value
+## Members: [<Mood.HAPPY: 1>, <Mood.SAD: 2>]
 print(f"Alias: {Mood.JOYFUL is Mood.HAPPY}")
+## Alias: True
 
 
 # 10. Bitwise Flags
@@ -908,7 +955,9 @@ class Permission(Flag):
 
 user_perm = Permission.READ | Permission.WRITE  # type: ignore
 print(f"User permissions: {user_perm}")
+## User permissions: Permission.READ|WRITE
 print(f"Can execute? {Permission.EXECUTE in user_perm}")
+## Can execute? False
 
 
 # IntFlag for bitwise checks with ints
@@ -921,7 +970,9 @@ class Access(IntFlag):
 
 perm = Access.READ | Access.EXECUTE
 print(f"perm & Access.WRITE: {perm & Access.WRITE}")
+## perm & Access.WRITE: 0
 print(f"perm has EXECUTE: {bool(perm & Access.EXECUTE)}")
+## perm has EXECUTE: True
 
 # 11. Pattern matching
 status = Status.DONE
@@ -932,6 +983,7 @@ match status:
         print("Job is in progress")
     case Status.DONE:
         print("Job completed")
+## Job completed
 ```
 
 `Enum`s improve robustness by making code both readable and safely constrained.
@@ -1072,6 +1124,7 @@ def paint1(color: Color) -> str:
 
 
 print(paint1(Color.BLUE))
+## Something else
 
 
 # Exhaustiveness checking:
@@ -1107,7 +1160,7 @@ print("NOPE" in ParamVal)  # type: ignore
 # Convert literal values to a set:
 allowed_set = set(ParamVal.__args__)  # type: ignore
 print(allowed_set)
-## {'MAX', 'DEF', 'MIN'}
+## {'DEF', 'MIN', 'MAX'}
 print("MIN" in allowed_set)
 ## True
 print("NOPE" in allowed_set)

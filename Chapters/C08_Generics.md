@@ -270,13 +270,13 @@ Ts = TypeVarTuple("Ts")
 
 
 def zip_variadic(
-        *args: tuple[Unpack[Ts]],
+    *args: tuple[Unpack[Ts]],
 ) -> tuple[Tuple[*Ts], ...]:
     return tuple(zip(*args))
 
 
 def unzip_variadic(
-        packed: tuple[tuple[Any, ...], ...],
+    packed: tuple[tuple[Any, ...], ...],
 ) -> tuple[tuple[Any, ...], ...]:
     return tuple(zip(*packed))
 
@@ -289,7 +289,11 @@ zipped = zip_variadic(a, b, c)
 unzipped = unzip_variadic(zipped)
 
 print("Zipped:", zipped)
+## Zipped: ((1, 2, 3), ('a', 'b', 'c'), (3.14,
+## 2.71, 1.41))
 print("Unzipped:", unzipped)
+## Unzipped: ((1, 'a', 3.14), (2, 'b', 2.71), (3,
+## 'c', 1.41))
 ```
 
 The `zip_variadic` signature says:
@@ -335,7 +339,7 @@ Shape = TypeVarTuple("Shape")
 
 class Tensor(Generic[T, Unpack[Shape]]):
     def __init__(
-            self, data: list, *, shape: tuple[Unpack[Shape]]
+        self, data: list, *, shape: tuple[Unpack[Shape]]
     ):
         self.data = data
         self.shape = shape
@@ -359,7 +363,9 @@ t2 = Tensor[int, *Shape2x2x2](
 )
 
 print(t1)  # Tensor(shape=(3, 3))
+## Tensor(shape=(3, 3))
 print(t2)  # Tensor(shape=(2, 2, 2))
+## Tensor(shape=(2, 2, 2))
 ```
 
 - Type checker sees Tensor[float, 3, 3]
@@ -404,7 +410,12 @@ def add(a: int, b: int) -> int:
 
 
 print(greet("Alice", 30))
+## Calling greet with args=('Alice', 30),
+## kwargs={}
+## Hi Alice, age 30
 print(add(2, 3))
+## Calling add with args=(2, 3), kwargs={}
+## 5
 ```
 
 - Type checker knows `greet` returns `str`, and `add` returns `int`
@@ -443,7 +454,9 @@ r1 = Record(1, "Alice", 3.14)  # Record[int, str, float]
 r2 = Record(True, None)  # Record[bool, NoneType]
 
 print(r1.to_tuple())
+## (1, 'Alice', 3.14)
 print(r2.to_tuple())
+## (True, None)
 ```
 
 - The type checker knows r1 has shape tuple[int, str, float]
@@ -473,6 +486,9 @@ For example:
 # covariance.py
 from typing import Generic, TypeVar
 from animals import Animal, Dog
+## Woof
+## Woof
+## Animal sound
 
 T_co = TypeVar("T_co", covariant=True)
 
@@ -507,6 +523,9 @@ For example:
 # contravariance.py
 from typing import Generic, TypeVar
 from animals import Animal, Dog
+## Woof
+## Woof
+## Animal sound
 
 T_contra = TypeVar("T_contra", contravariant=True)
 
@@ -522,7 +541,7 @@ dog_sink: Sink[Dog] = animal_sink
 # dog_sink expects at least Dog, and Animal is broader:
 dog_sink.send(Dog())
 ## Processing <animals.Dog object at
-## 0x00000281C5AFA350>
+## 0x000001A397336350>
 ```
 
 In this example, `Sink[T_contra]` is contravariant, indicating it only consumes values of type `T_contra` (here via the `send` method).
@@ -561,7 +580,7 @@ Z = TypeVar("Z")
 
 
 def curry_two_arg(
-        func: Callable[[X, Y], Z],
+    func: Callable[[X, Y], Z],
 ) -> Callable[[X], Callable[[Y], Z]]:
     def curried(x: X) -> Callable[[Y], Z]:
         def inner(y: Y) -> Z:
@@ -729,13 +748,13 @@ We can express this as:
 ```python
 # recursive_alias.py
 JSON = (
-        dict[str, "JSON"]
-        | list["JSON"]
-        | str
-        | int
-        | float
-        | bool
-        | None
+    dict[str, "JSON"]
+    | list["JSON"]
+    | str
+    | int
+    | float
+    | bool
+    | None
 )
 ```
 
@@ -1005,7 +1024,7 @@ Vector = list[tuple[T, T]]
 
 
 def scale_points(
-        points: Vector[int], factor: int
+    points: Vector[int], factor: int
 ) -> Vector[int]:
     return [(x * factor, y * factor) for (x, y) in points]
 ```
@@ -1038,7 +1057,6 @@ A common mistake is expecting container types to be covariantly interchangeable:
 ```python
 # invariance_confusion.py
 from animals import Animal, Dog
-
 ## Woof
 ## Woof
 ## Animal sound

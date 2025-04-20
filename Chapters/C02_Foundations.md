@@ -28,6 +28,7 @@ For example, the syntax of creating an enumeration looks like inheritance:
 ```python
 # enumeration_definition.py
 print("Can you inherit from an Enum?")
+## Can you inherit from an Enum?
 ```
 
 A NamedTuple is also defined in a way that looks like inheritance (other examples).

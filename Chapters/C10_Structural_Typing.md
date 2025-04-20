@@ -172,8 +172,6 @@ For example:
 # example_4.py
 from typing import runtime_checkable, Protocol
 from file_resource import FileResource
-
-
 ## Socket closed
 
 
@@ -268,11 +266,17 @@ with FileLogger() as file_logger:
     run_process("DataCleanup", file_logger)
     print(f"log file: {file_logger.filename}")
     print(file_logger.filename.read_text(encoding="utf-8"))
+## log file:
+## C:\Users\bruce\AppData\Local\Temp\tmpo1017u64
+## Starting DataCleanup
+## Finished DataCleanup
 
 # logs to list in memory:
 test_logger = ListLogger()
 run_process("DataCleanup", test_logger)
 print("Captured logs:", test_logger.messages)
+## Captured logs: ['Starting DataCleanup',
+## 'Finished DataCleanup']
 ```
 
 In `Logger(Protocol)`, we specify that a logger must have a `.log(str)` method.
@@ -425,7 +429,9 @@ def print_item_and_return(container: Container[T]) -> T:
 
 # Use generic function with different container types:
 x: str = print_item_and_return(StringContainer("hello"))
+## item = 'hello', type(item) = <class 'str'>
 y: int = print_item_and_return(IntContainer(42))
+## item = 42, type(item) = <class 'int'>
 ```
 
 In the function `print_item_and_return`, we used `C` (could also use `T` again) as a type variable for the container's item type.
@@ -451,7 +457,10 @@ For example, if we have:
 # example_9.py
 from typing import TypeVar
 from logger_protocol import Logger
-
+## log file:
+## C:\Users\bruce\AppData\Local\Temp\tmpmsta1v9j
+## Starting DataCleanup
+## Finished DataCleanup
 ## Captured logs: ['Starting DataCleanup',
 ## 'Finished DataCleanup']
 
