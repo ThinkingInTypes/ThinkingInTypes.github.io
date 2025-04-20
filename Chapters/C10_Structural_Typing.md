@@ -223,10 +223,10 @@ class FileLogger(AbstractContextManager):
     Logger that writes to a known log file in a fixed directory.
     """
 
-    def __init__(self, path: Path = Path("logs/log.txt")):
+    def __init__(self, path: Path = Path("./log.txt")):
         path.parent.mkdir(parents=True, exist_ok=True)
         self.filename = path
-        self._file = self.filename.open("a", encoding="utf-8")
+        self._file = self.filename.open("w", encoding="utf-8")
 
     def log(self, message: str) -> None:
         self._file.write(message + "\n")
@@ -252,35 +252,26 @@ def run_process(task_name: str, logger: Logger) -> None:
     logger.log(f"Starting {task_name}")
     # Perform the task ...
     logger.log(f"Finished {task_name}")
+```
 
+In `Logger(Protocol)`, we specify that a logger must have a `.log(str)` method.
+Our `run_process` function doesn't care _how_ the logging is done, just that the object passed in can `.log` a message.
+`FileLogger` and `ListLogger` are two implementations--one writes to a file, the other stores messages in a Python list.
+Notice that neither`FileLogger`nor`ListLogger`subclasses`Logger`; they don't need to.
+They implicitly satisfy the protocol by having the correct`log`method.
+This design is very flexible: you can add new logger classes later (say, a`DatabaseLogger`that writes to a database, or reuse Python's built-in`logging.Logger`by writing an adapter with a`log`method) without changing the code that uses the logger.
+
+Here, `FileLogger` stores results in `log.txt`, and we can use`ListLogger`to capture logs and make assertions on them:
+
+```python
+# logger_protocol_demo.py
+from logger_protocol import FileLogger, ListLogger, run_process
 
 with FileLogger() as file_logger:
     run_process("DataCleanup", file_logger)
     print(f"log file: {file_logger.filename}")
     print(file_logger.filename.read_text(encoding="utf-8"))
-## log file: logs\log.txt
-## Starting DataCleanup
-## Finished DataCleanup
-## Starting DataCleanup
-## Finished DataCleanup
-## Starting DataCleanup
-## Finished DataCleanup
-## Starting DataCleanup
-## Finished DataCleanup
-## Starting DataCleanup
-## Finished DataCleanup
-## Starting DataCleanup
-## Finished DataCleanup
-## Starting DataCleanup
-## Finished DataCleanup
-## Starting DataCleanup
-## Finished DataCleanup
-## Starting DataCleanup
-## Finished DataCleanup
-## Starting DataCleanup
-## Finished DataCleanup
-## Starting DataCleanup
-## Finished DataCleanup
+## log file: log.txt
 ## Starting DataCleanup
 ## Finished DataCleanup
 
@@ -292,16 +283,10 @@ print("Captured logs:", test_logger.messages)
 ## 'Finished DataCleanup']
 ```
 
-In `Logger(Protocol)`, we specify that a logger must have a `.log(str)` method.
-Our `run_process` function doesn't care _how_ the logging is done, just that the object passed in can `.log` a message.
-`FileLogger` and `ListLogger` are two implementations--one writes to a file, the other stores messages in a Python list.
-Notice that neither`FileLogger`nor`ListLogger`subclasses`Logger`; they don't need to.
-They implicitly satisfy the protocol by having the correct`log`method.
-This design is very flexible: you can add new logger classes later (say, a`DatabaseLogger`that writes to a database, or reuse Python's built-in`logging.Logger`by writing an adapter with a`log`method) without changing the code that uses the logger.
-During testing, as shown, we can use`ListLogger`to capture logs and make assertions on them.
-The static type checker will ensure that any object we pass as a`logger`to`run_process`has a`log(str)`method.
-In a nominal type system, you might have to define an abstract base class`Logger\` and make every logger inherit it.
-With protocols, you get the benefit of an interface without the inheritance--this reduces coupling and makes it easier to integrate third-party classes that weren't written with your ABC in mind.
+The static type checker ensures that any object we pass as a`logger`to`run_process`has a`log(str)`method.
+In a nominal type system, you might have to define an abstract base class`Logger` and make every logger inherit it.
+With protocols, you get the benefit of an interface without inheritance.
+This reduces coupling and makes it easier to integrate third-party classes that weren't written with your ABC in mind.
 
 **2. Testing with fake or mock objects:**
 Building on the above example, protocols are extremely handy for unit testing.
@@ -473,35 +458,7 @@ For example, if we have:
 from typing import TypeVar
 from logger_protocol import Logger
 
-## log file: logs\log.txt
-## Starting DataCleanup
-## Finished DataCleanup
-## Starting DataCleanup
-## Finished DataCleanup
-## Starting DataCleanup
-## Finished DataCleanup
-## Starting DataCleanup
-## Finished DataCleanup
-## Starting DataCleanup
-## Finished DataCleanup
-## Starting DataCleanup
-## Finished DataCleanup
-## Starting DataCleanup
-## Finished DataCleanup
-## Starting DataCleanup
-## Finished DataCleanup
-## Starting DataCleanup
-## Finished DataCleanup
-## Starting DataCleanup
-## Finished DataCleanup
-## Starting DataCleanup
-## Finished DataCleanup
-## Captured logs: ['Starting DataCleanup',
-## 'Finished DataCleanup']
-
-T = TypeVar(
-    "T", bound=Logger
-)  # using our Logger protocol from earlier
+T = TypeVar("T", bound=Logger)
 ```
 
 This means any type filling in for T must have a `.log(str) -> None` method.

@@ -134,42 +134,48 @@ Constraints are useful for functions that operate on a few specific types that d
 
 ```python
 # animals.py
-from typing import TypeVar
+from dataclasses import dataclass
+from typing import TypeVar, Optional
 
 
+@dataclass
 class Animal:
-    def speak(self) -> None:
-        print("Animal sound")
+    name: Optional[str] = None
+
+    def say(self) -> None:
+        print(f"{self.name}: Animal sound")
 
 
 class Dog(Animal):
-    def speak(self) -> None:
-        print("Woof")
+    def say(self) -> None:
+        print(f"{self.name}: Woof")
 
 
 TAnimal = TypeVar("TAnimal", bound=Animal)
 
 
-def make_them_speak(creatures: list[TAnimal]) -> None:
+def speak(creatures: list[TAnimal]) -> None:
     for creature in creatures:
-        creature.speak()
-
-
-pets: list[Dog] = [Dog(), Dog()]
-make_them_speak(pets)  # OK, Dog is a subclass of Animal
-## Woof
-## Woof
-make_them_speak(
-    [Animal()]
-)  # OK, Animal itself is fine (Animal is the bound)
-## Animal sound
-# make_them_speak(["not an animal"])  # type checker error
+        creature.say()
 ```
 
 `TAnimal` is bounded by `Animal`, meaning any substitution for `TAnimal` must be `Animal` or a subclass of `Animal`.
-The `make_them_speak` function can then accept a list of `Animal` or any subtype (like `Dog`).
+The `speak` function can then accept a list of `Animal` or any subtype (like `Dog`).
 Inside the function, we know that each item has the `speak()` method (since everything is at least `Animal`).
-If we tried to call `make_them_speak` with a list of something else (say `str` or `int`), the type checker rejects it.
+If we tried to call `speak` with a list of something else (say `str` or `int`), the type checker rejects it.
+
+```python
+# animal_demo.py
+from animals import Animal, Dog, speak
+
+pets: list[Dog] = [Dog(), Dog()]
+speak(pets)  # OK, Dog is a subclass of Animal
+## Woof
+## Woof
+speak([Animal()])  # OK, Animal is the bound
+## Animal sound
+# make_them_speak(["not an animal"])  # type checker error
+```
 
 Use constraints when the valid types are a specific set of unrelated types.
 Use a bound when the valid types share a common base class or trait that you want to enforce.
@@ -486,9 +492,6 @@ For example:
 # covariance.py
 from typing import Generic, TypeVar
 from animals import Animal, Dog
-## Woof
-## Woof
-## Animal sound
 
 T_co = TypeVar("T_co", covariant=True)
 
@@ -522,10 +525,8 @@ For example:
 ```python
 # contravariance.py
 from typing import Generic, TypeVar
+
 from animals import Animal, Dog
-## Woof
-## Woof
-## Animal sound
 
 T_contra = TypeVar("T_contra", contravariant=True)
 
@@ -537,11 +538,11 @@ class Sink(Generic[T_contra]):
 
 animal_sink: Sink[Animal] = Sink()
 # Contravariance in action:
-dog_sink: Sink[Dog] = animal_sink
+dog_sink: Sink[Dog] = animal_sink  # type: ignore # Pycharm
 # dog_sink expects at least Dog, and Animal is broader:
 dog_sink.send(Dog())
 ## Processing <animals.Dog object at
-## 0x00000207204E6350>
+## 0x000001AAAC98D160>
 ```
 
 In this example, `Sink[T_contra]` is contravariant, indicating it only consumes values of type `T_contra` (here via the `send` method).
@@ -633,9 +634,8 @@ Here's how we can do it:
 
 ```python
 # self_referencing.py
-from __future__ import (
-    annotations,
-)  # For forward-referenced types
+# For forward-referenced types:
+from __future__ import annotations
 from dataclasses import dataclass, field
 from typing import Generic, TypeVar
 
@@ -674,6 +674,8 @@ If you try to, say, add a `Tree[int]` as a child of a `Tree[str]`, the type chec
 At runtime, this is just a normal class; Python doesn't prevent mixing types in the list, but the static typing helps you avoid those mistakes in your code.
 
 ### F-Bounded Polymorphism (Self types)
+
+TODO: Check that self types are introduced earlier, probably in "Using Types"
 
 Another scenario with recursive generics is when a class needs to use its own type as a `TypeVar`.
 This is sometimes called *F-bounded polymorphism* or self-referential generics.
@@ -1057,9 +1059,6 @@ A common mistake is expecting container types to be covariantly interchangeable:
 ```python
 # invariance_confusion.py
 from animals import Animal, Dog
-## Woof
-## Woof
-## Animal sound
 
 animals: list[Animal] = [Animal()]
 dogs: list[Dog] = [Dog()]
