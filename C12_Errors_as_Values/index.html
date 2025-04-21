@@ -1125,16 +1125,18 @@ Both definitions fit my overall definition; they achieve the same goal but in di
 <p>To enable the easy construction of programs, we need to be able to effortlessly assemble components in the same way that a child assembles Legos—by sticking them together, without requiring extra activities.
 On top of that, such assemblages become their own components that can be stuck together just as easily.
 This composability scales up regardless of the size of the components.</p>
-<p>Over the years we have encountered numerous roadblocks to this goal.</p>
+<p>Over the years, we have encountered numerous roadblocks to this goal.</p>
 <h2 id="goto-considered-harmful">Goto Considered Harmful<a class="headerlink" href="#goto-considered-harmful" title="Permanent link">#</a></h2>
-<p><a href="https://homepages.cwi.nl/~storm/teaching/reader/Dijkstra68.pdf">Djikstra’s 1968 note</a> had quite an impact on the programming community, which at the time consisted largely of assembly-language programmers.
+<p><a href="https://homepages.cwi.nl/~storm/teaching/reader/Dijkstra68.pdf">Dijkstra's 1968 note</a> had quite an impact on the programming community,
+which at the time consisted largely of assembly-language programmers.
 For these, the goto statement was foundational, and denigrating it was a shock.
 Although he never explicitly mentioned functions in his note, the effect was to push programmers towards functions.
 <a href="https://vorpus.org/blog/notes-on-structured-concurrency-or-go-statement-considered-harmful/">The creator of Structured Concurrency</a> provides a clear description of this.</p>
 <p>Rather than jumping about within a limited program, functions present the caller with a single entry and exit point.
 This dramatically improves composability because you can no longer leave a section of code at any point using a goto.
 Within a function scope you cannot know what’s outside that scope, thus you can’t jump somewhere because you don’t know a destination to jump to.</p>
-<p>My programming training was primarily as a computer engineer and I spent the first few years of my career programming in assembly.
+<p>My programming training was primarily as a computer engineer,
+and I spent the first few years of my career programming in assembly.
 Assembly supports subroutine calls and returns, but not the loading of arguments on the stack and passing results back out—the programmer must write this error-prone code by hand.</p>
 <p>Higher-level languages handle function arguments and returns for you, which made them a very desirable improvement as the size and complexity of programs grew beyond what the assembly programmer was able to hold in their head.</p>
 <h2 id="modules">Modules<a class="headerlink" href="#modules" title="Permanent link">#</a></h2>
@@ -1142,7 +1144,7 @@ Assembly supports subroutine calls and returns, but not the loading of arguments
 In Python, files are automatically modules, which is certainly one of the easiest solutions.</p>
 <p>It wasn’t always this way.
 Breaking assembly-language programs into pieces was not easy, and early higher-level languages tended to be single-file programs and did not consider modularity.
-When the idea began to surface it was incorporated as a main feature of the Modula-2 language (a descendent of Pascal).
+When the idea began to surface, it was incorporated as a main feature of the Modula-2 language (a descendant of Pascal).
 The name tells you what a significant shift it was considered at the time.</p>
 <p>Modula-2 and similar languages required an explicit declaration of a module:</p>
 <div class="language-text highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>MODULE Hello;
@@ -1157,19 +1159,20 @@ Python’s merging of modules with files makes more sense in hindsight and has t
 This prevents name collisions across a project and reduces the cognitive load on the programmer.
 Prior to this, programs reached scaling limits as they grew larger.
 Program size in assembly language programs was limited by many different factors, so the need for modules was not seen until systems were able to grow larger because higher-level languages solved enough of these other factors.</p>
-<p>In modern languages, modularity is part of the background of a language and we don’t think much about it.
+<p>In modern languages, modularity is part of the background of a language, and we don’t think much about it.
 At one time, however, the lack of modularity was a significant roadblock to code composability.</p>
 <h2 id="inheritance">Inheritance<a class="headerlink" href="#inheritance" title="Permanent link">#</a></h2>
 <p>Object-oriented programming has a bit of a tortured history.
 Although the first OO language was Simula-67 (a compiled language), OO found its first real success with Smalltalk.
 But Smalltalk might be the most dynamic language you’ll ever encounter—literally everything is evaluated at runtime.
-While this worked well for the kinds of problems Smalltalk was good at solving, it turned out that taking the ideas of Smalltalk and imprinting them into a statically-typed language lost a <em>lot</em> in translation.</p>
+This worked well for the kinds of problems Smalltalk was good at solving. 
+However, taking the ideas of Smalltalk and imprinting them into a statically typed language lost a <em>lot</em> in translation.</p>
 <h2 id="error-handling">Error Handling<a class="headerlink" href="#error-handling" title="Permanent link">#</a></h2>
-<p>Error reporting and handling has been a significant impediment to composability.</p>
+<p>Error reporting and handling have been a significant impediment to composability.</p>
 <h3 id="history">History<a class="headerlink" href="#history" title="Permanent link">#</a></h3>
 <p>Original programs were small (by present-day standards), written in assembly language (machine code quickly became too unwieldy), and tightly coupled to the underlying hardware.
 If something went wrong, the only way to report it was to change the output on a wire, to turn on a light or a buzzer.
-If you had one, you put a message on the console—this might as as a dot-matrix display.
+If you had one, you put a message on the console—this might be a dot-matrix display.
 Such an error message probably wasn’t friendly to the end-user of the system and usually required a tech support call to the manufacturer.</p>
 <p>Two of my first jobs were building embedded systems that controlled hardware.
 These systems had to work right.
@@ -1197,14 +1200,17 @@ Users began to expect more interactive experiences, so programmers had to begin 
 <p>Use <a href="https://en.wikipedia.org/wiki/C_signal_handling">signals</a> if the operating system supports it.</p>
 </li>
 </ul>
-<p>The operating system was something that needed to be discovered.
-As programmers found themselves rewriting the same basic code over and over again, and much of that repeated code involved manipulating hardware and the attendant specialized knowledge required, it became clear that we needed a layer to eliminate this extra work, work that to some degree every program required.</p>
+<p>The operating system needed to be discovered.
+As programmers found themselves rewriting the same basic code over and over again, 
+and much of that repeated code involved manipulating hardware and the attendant specialized knowledge required, 
+it became clear that we needed a layer to eliminate this extra work--work that to some degree every program required.</p>
 <p>A fundamental question that designers were trying to understand during this evolution was:</p>
 <blockquote>
 <p><em>Who is responsible for error handling, the OS or the language?</em></p>
 </blockquote>
 <p>Since every program has the potential for errors, it initially seemed obvious that this activity should be the domain of the operating system.
-Some early operating systems allowed the program to invoke an error which would then jump to the operating system, and a few OSes even experimented with the ability to "resume" back to the point where the error occurred, so the handler could fix the problem and continue processing.
+Some early operating systems allowed the program to invoke an error which would then jump to the operating system. 
+A few OSes even experimented with the ability to "resume" back to the point where the error occurred, so the handler could fix the problem and continue processing.
 Notably, these systems did not find success and resumption was removed.</p>
 <p>Further experiments eventually made it clear that the language needed primary responsibility for error reporting and handling (there are a few special cases, such as out-of-memory errors, which must still be handled by the OS).
 This is because an OS is designed to be general-purpose, and thus cannot know the specific situation that caused an error, whereas language code can be close to the problem.
@@ -1231,8 +1237,9 @@ You could imagine calling the OS to install custom error-handling routines, and 
 <li>Errors can be handled close to the origin, or generalized by catching them "further out" so that multiple error sources can be managed with a single handler.</li>
 <li>Exception hierarchies allow more general exception handlers to handle multiple exception subtypes.</li>
 </ol>
-<p>To be clear, exceptions were a big improvement over all of the previous (non) solutions to the error reporting problem.
-Exceptions moved us forward for awhile (and became entrenched in programming culture) until folks started discovering pain points.
+<p>To be clear, exceptions were a big improvement over all the previous (non) solutions to the error reporting problem.
+Exceptions moved us forward for a while (and became entrenched in programming culture)
+until folks started discovering pain points.
 As is often the case, this happened as we tried to scale up to create larger and more complex systems.
 And once again, the underlying issue was composability.</p>
 <h2 id="problems-with-exceptions">Problems with Exceptions<a class="headerlink" href="#problems-with-exceptions" title="Permanent link">#</a></h2>
@@ -1240,7 +1247,7 @@ And once again, the underlying issue was composability.</p>
 It's hard to prove during language design; things work in the small but don't scale.
 We only figure it out when scaling composability.</p>
 <h3 id="1-the-two-kinds-of-errors-are-conflated">1. The Two Kinds of Errors are Conflated<a class="headerlink" href="#1-the-two-kinds-of-errors-are-conflated" title="Permanent link">#</a></h3>
-<p>Recoverable vs panic (Recovering/Retrying requires programming) With exceptions, the two types are conflated.
+<p>Recoverable vs. panic (Recovering/Retrying requires programming) With exceptions, the two types are conflated.
 One of the best explanations of this is by <a href="https://joeduffyblog.com/2016/02/07/the-error-model/">Joe Duffy</a>.</p>
 <h3 id="2-not-part-of-the-type-system">2. Not Part of the Type System<a class="headerlink" href="#2-not-part-of-the-type-system" title="Permanent link">#</a></h3>
 <p>If the type system doesn’t include exceptions as part of a function signature, you can’t know what exceptions you must handle when calling other functions (i.e.:
@@ -1254,7 +1261,7 @@ Even though you made no changes to your code.</p>
 Exception hierarchies allow the library programmer to use an exception base type in the exception specification.
 This obscures important details; if the exception specification just uses a base type, there’s no way for the compiler to enforce coverage of specific exceptions.</p>
 <p>When errors are included in the type system, you can know all the errors that can occur just by looking at the type information.
-If a library component adds a new error then that must be reflected in that component’s type signature, which means that the code using it immediately knows that it is no longer covering all the error conditions, and will produce type errors until it is fixed.</p>
+If a library component adds a new error, then that must be reflected in that component’s type signature, which means that the code using it immediately knows that it is no longer covering all the error conditions, and will produce type errors until it is fixed.</p>
 <h3 id="3-exception-specifications-create-a-shadow-type-system">3. Exception Specifications Create a "Shadow Type System"<a class="headerlink" href="#3-exception-specifications-create-a-shadow-type-system" title="Permanent link">#</a></h3>
 <p>Languages like C++ and Java attempted to add notation indicating the exceptions that might emerge from a function call.
 This was well-intentioned and seems to produce the necessary information the client programmer needs to handle errors.
@@ -1263,11 +1270,11 @@ To make the shadow type system work, its rules were warped to the point where it
 <p>C++ exception specifications were originally optional and not statically type-checked.
 After many years these were deprecated in favor of the statically-typed <a href="https://en.cppreference.com/w/cpp/utility/expected"><code>expected</code> specification</a> (which takes the functional approached described in this paper).</p>
 <p>Java created checked exceptions, which must be explicitly dealt with in your code, and runtime exceptions, which could be ignored.
-Eventually they added a feature that allows checked exceptions to be easily converted into runtime exceptions.
+Eventually, they added a feature that allows checked exceptions to be easily converted into runtime exceptions.
 Java functions can always return <code>null</code> without any warning.</p>
 <p>Both systems (the original C++ dynamic exception specifications, and Java exception specifications) had too many holes, and it was too difficult to effectively support both the main and shadow type systems.</p>
 <h3 id="4-exceptions-destroy-partial-calculations">4. Exceptions Destroy Partial Calculations<a class="headerlink" href="#4-exceptions-destroy-partial-calculations" title="Permanent link">#</a></h3>
-<p>Let’s start with a example where we populate a <code>List</code> with the results of a sequence of calls to the function <code>func_a</code>:</p>
+<p>Let’s start with an example where we populate a <code>List</code> with the results of a sequence of calls to the function <code>func_a</code>:</p>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="c1"># discarded_state.py</span>
 </span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="c1"># Exception throws everything away</span>
 </span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="kn">from</span> <span class="nn">book_utils</span> <span class="kn">import</span> <span class="n">Catch</span>
@@ -1478,8 +1485,12 @@ The <code>Result</code> type ensures that the <code>composed</code> function pro
 Notice that <code>b</code> and <code>c</code> both use built-in exception types as arguments to <code>Failure</code>, but those exceptions are never raised—they are used to convey information, just like the <code>str</code> in <code>a</code>.</p>
 <p>In <code>composed</code>, we call <code>a</code>, <code>b</code> and <code>c</code> in sequence.
 After each call, we check to see if the result type is <code>Failure</code>.
-If so, the calculation has failed and we can’t continue, so we return the current result, which is a <code>Failure</code> object containing the reason for the failure.
-If it succeeds, it is a <code>Success</code> which contains an <code>unwrap</code> method that is used to extract the answer from that calculation—if you look back at <code>Result</code>, you’ll see that it returns the <code>ANSWER</code> type so its use can be properly type-checked.</p>
+If so, the calculation has failed, and we can’t continue, so we return the current result,
+which is a <code>Failure</code> object containing the reason for the failure.
+If it succeeds,
+it is a <code>Success</code>
+which contains an <code>unwrap</code> method that is used to extract the answer from that calculation—if you look back at <code>Result</code>,
+you’ll see that it returns the <code>ANSWER</code> type so its use can be properly type-checked.</p>
 <p>This means that any failure during a sequence of composed function calls will short-circuit out of <code>composed</code>, returning a <code>Failure</code> that tells you exactly what happened, and that you must decide what to do with.
 You can’t just ignore it and assume that it will "bubble up" until it finds an appropriate handler.
 You are forced to deal with it at the point of origin, which is typically when you know the most about an error.</p>
@@ -1488,7 +1499,7 @@ You are forced to deal with it at the point of origin, which is typically when y
 every time you call a function within a composed function, you must write code to check the <code>Result</code> type and extract the <code>answer</code> with <code>unwrap</code>.
 This is extra repetitive work that interrupts the flow and readability of the program.
 We need some way to reduce or eliminate the extra code.</p>
-<p>Lets modify <code>Result</code> to add a new member function, <code>bind</code>:</p>
+<p>Let's modify <code>Result</code> to add a new member function, <code>bind</code>:</p>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="c1"># result_with_bind.py</span>
 </span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span>
 </span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Generic</span><span class="p">,</span> <span class="n">TypeVar</span>
@@ -1572,7 +1583,7 @@ The next call in the chain sees that the returned type is <code>Failure</code>, 
 Once you produce a <code>Failure</code>, no more function calls occur (that is, it short-circuits) and the <code>Failure</code> result gets passed all the way out of the composed function so the caller can deal with that specific failure.</p>
 <h2 id="handling-multiple-arguments">Handling Multiple Arguments<a class="headerlink" href="#handling-multiple-arguments" title="Permanent link">#</a></h2>
 <p>We could continue adding features to our <code>Result</code> library until it becomes a complete solution.
-However, others have worked on this problem so it makes more sense to reuse their libraries.
+However, others have worked on this problem, so it makes more sense to reuse their libraries.
 The most popular Python library that includes this extra functionality is <a href="https://github.com/dry-python/returns">Returns</a>.
 <code>Returns</code> includes other features, but we will only focus on <code>Result</code>.</p>
 <p>What if you need to create a <code>composed</code> function that takes multiple arguments?
@@ -1634,7 +1645,7 @@ The value <code>0</code> causes <code>func_b</code> to produce a <code>ZeroDivis
 So far I have been unable to get that extension to work (however, I have no experience with MyPy extensions).</p>
 <h2 id="functional-error-handling-is-happening">Functional Error Handling is Happening<a class="headerlink" href="#functional-error-handling-is-happening" title="Permanent link">#</a></h2>
 <p>Functional error handling has already appeared in languages like Rust, Kotlin, and recent versions of C++ support these combined answer-error result types, with associated unpacking operations.
-In these languages, errors become part of the type system and it is far more difficult for an error to "slip through the cracks."</p>
+In these languages, errors become part of the type system, and it is far more difficult for an error to "slip through the cracks."</p>
 <p>Python has only been able to support functional error handling since the advent of typing and type checkers, and it doesn’t provide any direct language or library constructs for this.
 The benefits of better error handling and robust composability make it worth adopting a library like <code>Results</code>.</p>
 

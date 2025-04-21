@@ -514,6 +514,15 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#t-strings" class="md-nav__link">
+    <span class="md-ellipsis">
+      T-Strings
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#faster-development-clearer-results" class="md-nav__link">
     <span class="md-ellipsis">
       Faster Development, Clearer Results
@@ -1142,6 +1151,15 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#t-strings" class="md-nav__link">
+    <span class="md-ellipsis">
+      T-Strings
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#faster-development-clearer-results" class="md-nav__link">
     <span class="md-ellipsis">
       Faster Development, Clearer Results
@@ -1287,15 +1305,17 @@ This rewritten <code>process_value</code> definition is equivalent to the previo
 </span><span id="__span-7-7"><a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a>
 </span><span id="__span-7-8"><a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a>
 </span><span id="__span-7-9"><a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a><span class="nb">print</span><span class="p">(</span><span class="n">f1</span><span class="p">(</span><span class="mi">42</span><span class="p">),</span> <span class="n">f1</span><span class="p">(</span><span class="s2">&quot;forty-two&quot;</span><span class="p">),</span> <span class="n">f1</span><span class="p">(</span><span class="kc">None</span><span class="p">))</span>
-</span><span id="__span-7-10"><a id="__codelineno-7-10" name="__codelineno-7-10" href="#__codelineno-7-10"></a><span class="c1">## 42 forty-two None</span>
+</span><span id="__span-7-10"><a id="__codelineno-7-10" name="__codelineno-7-10" href="#__codelineno-7-10"></a>
 </span><span id="__span-7-11"><a id="__codelineno-7-11" name="__codelineno-7-11" href="#__codelineno-7-11"></a>
-</span><span id="__span-7-12"><a id="__codelineno-7-12" name="__codelineno-7-12" href="#__codelineno-7-12"></a>
-</span><span id="__span-7-13"><a id="__codelineno-7-13" name="__codelineno-7-13" href="#__codelineno-7-13"></a><span class="k">def</span> <span class="nf">f2</span><span class="p">(</span><span class="n">value</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span> <span class="o">|</span> <span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-</span><span id="__span-7-14"><a id="__codelineno-7-14" name="__codelineno-7-14" href="#__codelineno-7-14"></a>    <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
-</span><span id="__span-7-15"><a id="__codelineno-7-15" name="__codelineno-7-15" href="#__codelineno-7-15"></a>
-</span><span id="__span-7-16"><a id="__codelineno-7-16" name="__codelineno-7-16" href="#__codelineno-7-16"></a>
-</span><span id="__span-7-17"><a id="__codelineno-7-17" name="__codelineno-7-17" href="#__codelineno-7-17"></a><span class="nb">print</span><span class="p">(</span><span class="n">f2</span><span class="p">(</span><span class="mi">42</span><span class="p">),</span> <span class="n">f2</span><span class="p">(</span><span class="s2">&quot;forty-two&quot;</span><span class="p">),</span> <span class="n">f2</span><span class="p">(</span><span class="kc">None</span><span class="p">))</span>
-</span><span id="__span-7-18"><a id="__codelineno-7-18" name="__codelineno-7-18" href="#__codelineno-7-18"></a><span class="c1">## 42 forty-two None</span>
+</span><span id="__span-7-12"><a id="__codelineno-7-12" name="__codelineno-7-12" href="#__codelineno-7-12"></a><span class="c1">## 42 forty-two None</span>
+</span><span id="__span-7-13"><a id="__codelineno-7-13" name="__codelineno-7-13" href="#__codelineno-7-13"></a>
+</span><span id="__span-7-14"><a id="__codelineno-7-14" name="__codelineno-7-14" href="#__codelineno-7-14"></a>
+</span><span id="__span-7-15"><a id="__codelineno-7-15" name="__codelineno-7-15" href="#__codelineno-7-15"></a><span class="k">def</span> <span class="nf">f2</span><span class="p">(</span><span class="n">value</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span> <span class="o">|</span> <span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+</span><span id="__span-7-16"><a id="__codelineno-7-16" name="__codelineno-7-16" href="#__codelineno-7-16"></a>    <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+</span><span id="__span-7-17"><a id="__codelineno-7-17" name="__codelineno-7-17" href="#__codelineno-7-17"></a>
+</span><span id="__span-7-18"><a id="__codelineno-7-18" name="__codelineno-7-18" href="#__codelineno-7-18"></a>
+</span><span id="__span-7-19"><a id="__codelineno-7-19" name="__codelineno-7-19" href="#__codelineno-7-19"></a><span class="nb">print</span><span class="p">(</span><span class="n">f2</span><span class="p">(</span><span class="mi">42</span><span class="p">),</span> <span class="n">f2</span><span class="p">(</span><span class="s2">&quot;forty-two&quot;</span><span class="p">),</span> <span class="n">f2</span><span class="p">(</span><span class="kc">None</span><span class="p">))</span>
+</span><span id="__span-7-20"><a id="__codelineno-7-20" name="__codelineno-7-20" href="#__codelineno-7-20"></a><span class="c1">## 42 forty-two None</span>
 </span></code></pre></div>
 <p>If you must support older Python versions, use <code>Union</code>.</p>
 <h2 id="lists-tuples-sets-and-dicts"><code>List</code>s, <code>Tuple</code>s, <code>Set</code>s, and <code>Dict</code>s<a class="headerlink" href="#lists-tuples-sets-and-dicts" title="Permanent link">#</a></h2>
@@ -1401,7 +1421,7 @@ A <code>Mapping[K, V]</code> has keys of type <code>K</code> and values of type 
 </span><span id="__span-14-3"><a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a>
 </span><span id="__span-14-4"><a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a>
 </span><span id="__span-14-5"><a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a><span class="k">def</span> <span class="nf">get_user_age</span><span class="p">(</span>
-</span><span id="__span-14-6"><a id="__codelineno-14-6" name="__codelineno-14-6" href="#__codelineno-14-6"></a>    <span class="n">users</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">],</span> <span class="n">username</span><span class="p">:</span> <span class="nb">str</span>
+</span><span id="__span-14-6"><a id="__codelineno-14-6" name="__codelineno-14-6" href="#__codelineno-14-6"></a>        <span class="n">users</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">],</span> <span class="n">username</span><span class="p">:</span> <span class="nb">str</span>
 </span><span id="__span-14-7"><a id="__codelineno-14-7" name="__codelineno-14-7" href="#__codelineno-14-7"></a><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
 </span><span id="__span-14-8"><a id="__codelineno-14-8" name="__codelineno-14-8" href="#__codelineno-14-8"></a>    <span class="k">return</span> <span class="n">users</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">username</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
 </span></code></pre></div>
@@ -1445,6 +1465,8 @@ As a side note, if a function is meant to never return normally (for instance, o
 <p>Specialized annotations like <code>Sequence</code>, <code>Mapping</code>, <code>Iterable</code>, and <code>Iterator</code> let you capture the interface or behavior you require, rather than a specific concrete type.
 They are especially useful in library or API design, where over-specifying types can needlessly limit the utility of a function or class.
 By using these abstract collection types, you make your code flexible while still retaining the benefits of type checking.</p>
+<h2 id="t-strings">T-Strings<a class="headerlink" href="#t-strings" title="Permanent link">#</a></h2>
+<p>https://davepeck.org/2025/04/11/pythons-new-t-strings/</p>
 <h2 id="faster-development-clearer-results">Faster Development, Clearer Results<a class="headerlink" href="#faster-development-clearer-results" title="Permanent link">#</a></h2>
 <p>Type annotations make intentions explicit.
 This produces code that is easier to understand and maintain.

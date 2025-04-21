@@ -363,7 +363,7 @@
         <li class="md-nav__item">
   <a href="#static-type-checkers-mypy-pyright-and-friends" class="md-nav__link">
     <span class="md-ellipsis">
-      Static Type Checkers: mypy, pyright, and Friends
+      Static Type Checkers: mypy, PyRight, and Friends
     </span>
   </a>
   
@@ -907,7 +907,7 @@
         <li class="md-nav__item">
   <a href="#static-type-checkers-mypy-pyright-and-friends" class="md-nav__link">
     <span class="md-ellipsis">
-      Static Type Checkers: mypy, pyright, and Friends
+      Static Type Checkers: mypy, PyRight, and Friends
     </span>
   </a>
   
@@ -1106,16 +1106,15 @@ If not, Python throws an error, and we handle that (or let it propagate).
 In code, you might handle this with try/except:</p>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="c1"># example_5.py</span>
 </span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="kn">from</span> <span class="nn">example_4</span> <span class="kn">import</span> <span class="n">quacks</span>
-</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>
-</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="c1">## Quack!</span>
-</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="c1">## I can quack, too!</span>
-</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>
-</span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="k">try</span><span class="p">:</span>
-</span><span id="__span-4-8"><a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a>    <span class="n">quacks</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
-</span><span id="__span-4-9"><a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a><span class="k">except</span> <span class="ne">AttributeError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-</span><span id="__span-4-10"><a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Oops: </span><span class="si">{</span><span class="n">e</span><span class="w"> </span><span class="si">= }</span><span class="s2">&quot;</span><span class="p">)</span>
-</span><span id="__span-4-11"><a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a><span class="c1">## Oops: e = AttributeError(&quot;&#39;int&#39; object has no</span>
-</span><span id="__span-4-12"><a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a><span class="c1">## attribute &#39;quack&#39;&quot;)</span>
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="c1">## Quack!</span>
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="c1">## I can quack, too!</span>
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>
+</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="k">try</span><span class="p">:</span>
+</span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a>    <span class="n">quacks</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
+</span><span id="__span-4-8"><a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a><span class="k">except</span> <span class="ne">AttributeError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+</span><span id="__span-4-9"><a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Oops: </span><span class="si">{</span><span class="n">e</span><span class="w"> </span><span class="si">= }</span><span class="s2">&quot;</span><span class="p">)</span>
+</span><span id="__span-4-10"><a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a><span class="c1">## Oops: e = AttributeError(&quot;&#39;int&#39; object has no</span>
+</span><span id="__span-4-11"><a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a><span class="c1">## attribute &#39;quack&#39;&quot;)</span>
 </span></code></pre></div>
 <p>In Python, it's idiomatic to write code that assumes objects have the right methods (duck typing) and deal with exceptions if they don't, rather than explicitly checking types upfront.</p>
 <p>Duck-typed functions are extremely flexible.
@@ -1310,10 +1309,10 @@ They produce significant benefits, especially for larger projects:</p>
 </ul>
 <p>Overall, the Python community has increasingly embraced type hints because the benefits (especially for larger projects) have proven valuable: fewer bugs, easier collaboration, improved code quality.
 It's a way to get some advantages of statically typed languages without giving up Python's dynamic flexibility entirely.</p>
-<h2 id="static-type-checkers-mypy-pyright-and-friends">Static Type Checkers: <code>mypy</code>, <code>pyright</code>, and Friends<a class="headerlink" href="#static-type-checkers-mypy-pyright-and-friends" title="Permanent link">#</a></h2>
+<h2 id="static-type-checkers-mypy-pyright-and-friends">Static Type Checkers: <code>mypy</code>, <code>PyRight</code>, and Friends<a class="headerlink" href="#static-type-checkers-mypy-pyright-and-friends" title="Permanent link">#</a></h2>
 <p>Type hints by themselves do nothing unless you use a tool to check those hints against your code.
 While you might visually inspect code and spot a type mismatch, it's much more reliable to use automated tools.
-Two of the most popular type checking tools for Python are mypy and pyright.</p>
+Two of the most popular type checking tools for Python are MyPy and PyRight.</p>
 <ul>
 <li>
 <p><strong>Mypy:</strong> Mypy has been around since the early days of Python's gradual typing experiment (it was developed alongside PEP 484).
@@ -1326,33 +1325,33 @@ Two of the most popular type checking tools for Python are mypy and pyright.</p>
   You can run mypy as part of your development or CI (Continuous Integration) to prevent type regressions in a codebase.</p>
 </li>
 <li>
-<p><strong>Pyright:</strong> Pyright is a newer type checker, open-sourced by Microsoft.
+<p><strong>PyRight:</strong> PyRight is a newer type checker, open-sourced by Microsoft.
   It is known for speed and is designed to handle large projects efficiently.
-  Pyright powers the Python type checking in Microsoft's VSCode editor (the Pylance extension).
-  Pyright is written in TypeScript (running on Node.js), which might sound unusual, but it means it's optimized for speed and can do things like watch files and re-check only what changed, etc.
-  Pyright is also fully aware of all the latest PEPs and typing features.
-  According to its documentation, "Pyright is a full-featured, standards-based static type checker for Python.
+  PyRight powers the Python type checking in Microsoft's VSCode editor (the PylLance extension).
+  PyRight is written in TypeScript (running on Node.js), which might sound unusual, but it means it's optimized for speed and can do things like watch files and re-check only what changed, etc.
+  PyRight is also fully aware of all the latest PEPs and typing features.
+  According to its documentation, "PyRight is a full-featured, standards-based static type checker for Python.
   It is designed for high performance and can be used with large Python source bases."
-  Many developers use Pyright via their editor for instant feedback as they code (and/or in CI as well).
-  For instance, as you're coding, Pyright can underline an inconsistent call in red immediately.
-  Pyright is also available as a command-line tool (via npm) if you prefer that route.
+  Many developers use PyRight via their editor for instant feedback as they code (and/or in CI as well).
+  For instance, as you're coding, PyRight can underline an inconsistent call in red immediately.
+  PyRight is also available as a command-line tool (via npm) if you prefer that route.
   One of its selling points is performance--it's been noted to be much faster than mypy on large codebases, though for small-to-medium projects both tools run quickly enough.</p>
 </li>
 </ul>
-<p>Both mypy and pyright adhere to Python's typing rules (PEP 484 and successors) pretty closely.
+<p>Both mypy and PyRight adhere to Python's typing rules (PEP 484 and successors) pretty closely.
 There are some minor differences and configuration options (for example, how strict they are about certain default behaviors, or handling of untyped code).
 Some teams use one, some use the other, and some even use both (one as an editor linter for speed, another as a final check in CI for thoroughness).
 The good news is you don't need to lock yourself in--you can try them out and see which fits your workflow.</p>
-<p>Aside from mypy and pyright, there are other tools worth mentioning:</p>
+<p>Aside from mypy and PyRight, there are other tools worth mentioning:</p>
 <ul>
 <li><strong>PyCharm and Other IDEs:</strong> PyCharm has its own built-in type checker that uses the same type hint information to warn about issues.
-  It's not as configurable as mypy/pyright, but it often catches many of the same things in real-time.</li>
+  It's not as configurable as mypy/PyRight, but it often catches many of the same things in real-time.</li>
 <li><strong>Pylint and Flake8:</strong> These are linters that primarily focus on code style issues, but they have basic type checking rules or plugins (e.g., Pylint can catch some obvious type errors, though it's not as comprehensive as a dedicated type checker).</li>
 <li><strong>Pyre:</strong> A type checker from Facebook (written in OCaml).
   It's also fast and aimed at large applications.
-  Its usage is less widespread in the community compared to mypy/pyright, but it's an alternative.</li>
-<li><strong>Typeguard, Enforce, etc.:</strong> These are runtime type checking helpers.
-  For example, <code>typeguard</code> is a library that can be used to enforce type hints at runtime by wrapping functions (so if someone calls <code>func("hello")</code> when it expects an int, it will raise an error at call time).
+  Its usage is less widespread in the community compared to mypy/PyRight, but it's an alternative.</li>
+<li><strong>TypeGuard, Enforce, etc.:</strong> These are runtime type checking helpers.
+  For example, TypeGuard is a library that can be used to enforce type hints at runtime by wrapping functions (so if someone calls <code>func("hello")</code> when it expects an int, it will raise an error at call time).
   These can be useful in specific scenarios, but generally static checkers are more common in Python since runtime checks negate some of the performance benefits of dynamic typing.</li>
 </ul>
 <p>As an example of using a type checker, imagine we save the earlier <code>add</code> function example in a file and run a checker:</p>
@@ -1408,7 +1407,7 @@ By acting as an automated guardrail, they produce overall code quality improveme
   It's like a dry run of the program in terms of types.
   If you say a function returns an <code>int</code> but you return a <code>str</code> somewhere, a static checker can catch that.
   If you pass the wrong type to a function, it's caught before running.
-  This is what mypy, pyright, etc., do.
+  This is what mypy, PyRight, etc., do.
   They look at your code as data, not as a running program.
   The Python interpreter itself does not do static analysis--it doesn't look at annotations and refuses to run the program.
   You (or your development environment) have to invoke a tool to get static checking.
@@ -1465,8 +1464,8 @@ You can adopt it gradually and use it to the degree that it adds value for your 
 <li><a href="https://peps.python.org/pep-0484/">PEP 484</a></li>
 <li><a href="https://medium.com/@andresberejnoi/what-are-python-type-hints-and-how-to-use-them-andres-berejnoi-31835b92b038">What Are Python Type-Hints and How to Use Them?--Andres Berejnoi</a></li>
 <li><a href="https://mypy-lang.org/">mypy--Optional Static Typing for Python</a></li>
-<li><a href="https://github.com/microsoft/pyright">microsoft/pyright: Static Type Checker for Python--GitHub</a></li>
-<li><a href="https://dev.to/saranshk/statically-type-checking-python-code-using-pyright-2p6p">Statically type checking Python code using Pyright--DEV Community</a></li>
+<li><a href="https://github.com/microsoft/PyRight">microsoft/PyRight: Static Type Checker for Python--GitHub</a></li>
+<li><a href="https://dev.to/saranshk/statically-type-checking-python-code-using-PyRight-2p6p">Statically type checking Python code using PyRight--DEV Community</a></li>
 </ol>
 
 
