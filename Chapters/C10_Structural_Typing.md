@@ -172,8 +172,6 @@ For example:
 # example_4.py
 from typing import runtime_checkable, Protocol
 from file_resource import FileResource
-
-
 ## Socket closed
 
 
@@ -226,13 +224,17 @@ class FileLogger(AbstractContextManager):
     def __init__(self, path: Path = Path("./log.txt")):
         path.parent.mkdir(parents=True, exist_ok=True)
         self.filename = path
-        self._file = self.filename.open("w", encoding="utf-8")
+        self._file = self.filename.open(
+            "w", encoding="utf-8"
+        )
 
     def log(self, message: str) -> None:
         self._file.write(message + "\n")
         self._file.flush()
 
-    def __exit__(self, exc_type, exc_value, traceback) -> None:
+    def __exit__(
+        self, exc_type, exc_value, traceback
+    ) -> None:
         self._file.close()
 
 
@@ -265,7 +267,11 @@ Here, `FileLogger` stores results in `log.txt`, and we can use`ListLogger`to cap
 
 ```python
 # logger_protocol_demo.py
-from logger_protocol import FileLogger, ListLogger, run_process
+from logger_protocol import (
+    FileLogger,
+    ListLogger,
+    run_process,
+)
 
 with FileLogger() as file_logger:
     run_process("DataCleanup", file_logger)

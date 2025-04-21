@@ -170,10 +170,10 @@ from animals import Animal, Dog, speak
 
 pets: list[Dog] = [Dog(), Dog()]
 speak(pets)  # OK, Dog is a subclass of Animal
-## Woof
-## Woof
+## None: Woof
+## None: Woof
 speak([Animal()])  # OK, Animal is the bound
-## Animal sound
+## None: Animal sound
 # make_them_speak(["not an animal"])  # type checker error
 ```
 
@@ -276,13 +276,13 @@ Ts = TypeVarTuple("Ts")
 
 
 def zip_variadic(
-        *args: tuple[Unpack[Ts]],
+    *args: tuple[Unpack[Ts]],
 ) -> tuple[Tuple[*Ts], ...]:
     return tuple(zip(*args))
 
 
 def unzip_variadic(
-        packed: tuple[tuple[Any, ...], ...],
+    packed: tuple[tuple[Any, ...], ...],
 ) -> tuple[tuple[Any, ...], ...]:
     return tuple(zip(*packed))
 
@@ -345,7 +345,7 @@ Shape = TypeVarTuple("Shape")
 
 class Tensor(Generic[T, Unpack[Shape]]):
     def __init__(
-            self, data: list, *, shape: tuple[Unpack[Shape]]
+        self, data: list, *, shape: tuple[Unpack[Shape]]
     ):
         self.data = data
         self.shape = shape
@@ -541,8 +541,7 @@ animal_sink: Sink[Animal] = Sink()
 dog_sink: Sink[Dog] = animal_sink  # type: ignore # Pycharm
 # dog_sink expects at least Dog, and Animal is broader:
 dog_sink.send(Dog())
-## Processing <animals.Dog object at
-## 0x000001AAAC98D160>
+## Processing Dog(name=None)
 ```
 
 In this example, `Sink[T_contra]` is contravariant, indicating it only consumes values of type `T_contra` (here via the `send` method).
@@ -581,7 +580,7 @@ Z = TypeVar("Z")
 
 
 def curry_two_arg(
-        func: Callable[[X, Y], Z],
+    func: Callable[[X, Y], Z],
 ) -> Callable[[X], Callable[[Y], Z]]:
     def curried(x: X) -> Callable[[Y], Z]:
         def inner(y: Y) -> Z:
@@ -750,13 +749,13 @@ We can express this as:
 ```python
 # recursive_alias.py
 JSON = (
-        dict[str, "JSON"]
-        | list["JSON"]
-        | str
-        | int
-        | float
-        | bool
-        | None
+    dict[str, "JSON"]
+    | list["JSON"]
+    | str
+    | int
+    | float
+    | bool
+    | None
 )
 ```
 
@@ -1026,7 +1025,7 @@ Vector = list[tuple[T, T]]
 
 
 def scale_points(
-        points: Vector[int], factor: int
+    points: Vector[int], factor: int
 ) -> Vector[int]:
     return [(x * factor, y * factor) for (x, y) in points]
 ```
