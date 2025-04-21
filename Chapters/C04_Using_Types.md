@@ -164,6 +164,8 @@ def f1(value: int | str | None) -> str:
 
 
 print(f1(42), f1("forty-two"), f1(None))
+
+
 ## 42 forty-two None
 
 
@@ -324,7 +326,7 @@ from typing import Mapping
 
 
 def get_user_age(
-    users: Mapping[str, int], username: str
+        users: Mapping[str, int], username: str
 ) -> int:
     return users.get(username, 0)
 ```
@@ -377,6 +379,10 @@ As a side note, if a function is meant to never return normally (for instance, o
 Specialized annotations like `Sequence`, `Mapping`, `Iterable`, and `Iterator` let you capture the interface or behavior you require, rather than a specific concrete type.
 They are especially useful in library or API design, where over-specifying types can needlessly limit the utility of a function or class.
 By using these abstract collection types, you make your code flexible while still retaining the benefits of type checking.
+
+## T-Strings
+
+https://davepeck.org/2025/04/11/pythons-new-t-strings/
 
 ## Faster Development, Clearer Results
 
