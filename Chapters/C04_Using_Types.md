@@ -384,6 +384,8 @@ By using these abstract collection types, you make your code flexible while stil
 
 https://davepeck.org/2025/04/11/pythons-new-t-strings/
 
+Also custom f string format specifiers
+
 ## Faster Development, Clearer Results
 
 Type annotations make intentions explicit.
