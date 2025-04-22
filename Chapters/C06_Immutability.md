@@ -306,8 +306,6 @@ We can apply this approach to the `Stars` example:
 # stars.py
 from dataclasses import dataclass
 
-from book_utils import Catch
-
 
 @dataclass(frozen=True)
 class Stars:
@@ -315,6 +313,12 @@ class Stars:
 
     def __post_init__(self) -> None:
         assert 1 <= self.number <= 10, f"{self}"
+```
+
+```python
+# star_demo.py
+from stars import Stars
+from book_utils import Catch
 
 
 def f1(s: Stars) -> Stars:
@@ -328,6 +332,7 @@ def f2(s: Stars) -> Stars:
 stars1 = Stars(4)
 print(stars1)
 ## Stars(number=4)
+
 print(f1(stars1))
 ## Stars(number=9)
 with Catch():
@@ -347,11 +352,6 @@ Modifying a `Stars` instance after creation raises an error, further safeguardin
 ```python
 # modify_stars.py
 from stars import Stars
-## Stars(number=4)
-## Stars(number=9)
-## Error: Stars(number=45)
-## Error: Stars(number=11)
-## Error: Stars(number=11)
 
 
 def increase_stars(rating: Stars, increment: int) -> Stars:

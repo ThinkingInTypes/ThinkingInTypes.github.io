@@ -164,8 +164,6 @@ def f1(value: int | str | None) -> str:
 
 
 print(f1(42), f1("forty-two"), f1(None))
-
-
 ## 42 forty-two None
 
 
@@ -326,7 +324,7 @@ from typing import Mapping
 
 
 def get_user_age(
-        users: Mapping[str, int], username: str
+    users: Mapping[str, int], username: str
 ) -> int:
     return users.get(username, 0)
 ```

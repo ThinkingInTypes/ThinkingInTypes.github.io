@@ -72,7 +72,7 @@ At one time, however, the lack of modularity was a significant roadblock to code
 Object-oriented programming has a bit of a tortured history.
 Although the first OO language was Simula-67 (a compiled language), OO found its first real success with Smalltalk.
 But Smalltalk might be the most dynamic language you’ll ever encounter—literally everything is evaluated at runtime.
-This worked well for the kinds of problems Smalltalk was good at solving. 
+This worked well for the kinds of problems Smalltalk was good at solving.
 However, taking the ideas of Smalltalk and imprinting them into a statically typed language lost a _lot_ in translation.
 
 ## Error Handling
@@ -112,8 +112,8 @@ Programmers produced a scattered collection of solutions to the reporting proble
 - Use [signals](https://en.wikipedia.org/wiki/C_signal_handling) if the operating system supports it.
 
 The operating system needed to be discovered.
-As programmers found themselves rewriting the same basic code over and over again, 
-and much of that repeated code involved manipulating hardware and the attendant specialized knowledge required, 
+As programmers found themselves rewriting the same basic code over and over again,
+and much of that repeated code involved manipulating hardware and the attendant specialized knowledge required,
 it became clear that we needed a layer to eliminate this extra work--work that to some degree every program required.
 
 A fundamental question that designers were trying to understand during this evolution was:
@@ -121,7 +121,7 @@ A fundamental question that designers were trying to understand during this evol
 > _Who is responsible for error handling, the OS or the language?_
 
 Since every program has the potential for errors, it initially seemed obvious that this activity should be the domain of the operating system.
-Some early operating systems allowed the program to invoke an error which would then jump to the operating system. 
+Some early operating systems allowed the program to invoke an error which would then jump to the operating system.
 A few OSes even experimented with the ability to "resume" back to the point where the error occurred, so the handler could fix the problem and continue processing.
 Notably, these systems did not find success and resumption was removed.
 
@@ -340,8 +340,6 @@ The modified version of the example using `Result` is now:
 # return_result.py
 # Result type returns Success/Failure
 # Using https://github.com/dry-python/returns
-from pprint import pprint
-
 from returns.result import Failure, Result, Success
 
 
@@ -349,7 +347,12 @@ def func_a(i: int) -> Result[int, str]:
     if i == 1:
         return Failure(f"func_a({i})")
     return Success(i)
+```
 
+```python
+# return_result_demo.py
+from pprint import pprint
+from return_result import func_a
 
 pprint([(i, func_a(i)) for i in range(5)])
 ## [(0, <Success: 0>),
@@ -377,12 +380,6 @@ The `Result` type ensures that the `composed` function properly represents both 
 from pprint import pprint
 
 from return_result import func_a
-
-## [(0, <Success: 0>),
-##  (1, <Failure: func_a(1)>),
-##  (2, <Success: 2>),
-##  (3, <Success: 3>),
-##  (4, <Success: 4>)]
 from returns.result import (
     Failure,
     Result,
@@ -434,7 +431,12 @@ def composed(
         return result_c  # type: ignore
 
     return func_d(result_c.unwrap())  # type: ignore
+```
 
+```python
+# composing_functions_demo.py
+from pprint import pprint
+from composing_functions import composed
 
 pprint([(i, composed(i)) for i in range(5)])
 ## [(0, <Failure: division by zero>),
@@ -514,16 +516,6 @@ from composing_functions import (
     func_c,
     func_d,
 )
-## [(0, <Success: 0>),
-##  (1, <Failure: func_a(1)>),
-##  (2, <Success: 2>),
-##  (3, <Success: 3>),
-##  (4, <Success: 4>)]
-## [(0, <Failure: division by zero>),
-##  (1, <Failure: func_a(1)>),
-##  (2, <Failure: func_b(2)>),
-##  (3, <Failure: func_c(3): division by zero>),
-##  (4, <Success: func_d(1): 1>)]
 
 
 def composed(
@@ -572,17 +564,6 @@ For this, we use something called "do notation," which you access using `Result.
 from pprint import pprint
 
 from composing_functions import func_a, func_b, func_c
-
-## [(0, <Success: 0>),
-##  (1, <Failure: func_a(1)>),
-##  (2, <Success: 2>),
-##  (3, <Success: 3>),
-##  (4, <Success: 4>)]
-## [(0, <Failure: division by zero>),
-##  (1, <Failure: func_a(1)>),
-##  (2, <Failure: func_b(2)>),
-##  (3, <Failure: func_c(3): division by zero>),
-##  (4, <Success: func_d(1): 1>)]
 from returns.result import Result
 
 

@@ -131,7 +131,7 @@ Duck typing means you often write functions that work on any object that support
 For example, consider a function that makes an object quack:
 
 ```python
-# example_4.py
+# duck_typing.py
 class Duck:
     def quack(self):
         print("Quack!")
@@ -144,7 +144,11 @@ class Car:
 
 def quacks(entity):
     entity.quack()
+```
 
+```python
+# duck_typing_demo.py
+from duck_typing import Duck, Car, quacks
 
 donald = Duck()
 studebaker = Car()
@@ -170,9 +174,7 @@ In code, you might handle this with try/except:
 
 ```python
 # example_5.py
-from example_4 import quacks
-## Quack!
-## I can quack, too!
+from duck_typing import quacks
 
 try:
     quacks(42)

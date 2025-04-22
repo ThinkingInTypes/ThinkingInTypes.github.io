@@ -118,7 +118,7 @@ We can define a protocol `Closable` and use it to write a function that closes a
 
 ```python
 # file_resource.py
-from typing import Protocol, Iterable
+from typing import Protocol
 
 
 class Closable(Protocol):
@@ -136,6 +136,16 @@ class FileResource:
 class SocketResource:
     def close(self) -> None:
         print("Socket closed")
+```
+
+```python
+# file_resource_demo.py
+from file_resource import (
+    Closable,
+    FileResource,
+    SocketResource,
+)
+from typing import Iterable
 
 
 def close_all(resources: Iterable[Closable]) -> None:
@@ -172,7 +182,6 @@ For example:
 # example_4.py
 from typing import runtime_checkable, Protocol
 from file_resource import FileResource
-## Socket closed
 
 
 @runtime_checkable
@@ -180,9 +189,9 @@ class Closable(Protocol):
     def close(self) -> None: ...
 
 
-isinstance(
-    FileResource("data.txt"), Closable
-)  # True, because FileResource has close()
+# FileResource has close():
+print(isinstance(FileResource("data.txt"), Closable))
+## True
 ```
 
 Now `Closable` can be used in `isinstance` and `issubclass` as a structural check.

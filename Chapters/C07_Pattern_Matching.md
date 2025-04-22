@@ -54,7 +54,11 @@ class Color(Enum):
     RED = 1
     GREEN = 2
     BLUE = 3
+```
 
+```python
+# color_demo.py
+from colors import Color
 
 color = Color.GREEN
 match color:
@@ -481,7 +485,7 @@ What happens here:
   Here we put a message for non-User instances.
 
 So effectively, `User(name=X, age=Y)` in a pattern means "is the subject a `User`?
-If yes, let `X = subject.name` and `Y = subject.age`, and proceed; otherwise this pattern fails." 
+If yes, let `X = subject.name` and `Y = subject.age`, and proceed; otherwise this pattern fails."
 The class pattern is doing an `isinstance(subject, User)` check and attribute lookups under the hood.
 
 ### Details
@@ -509,7 +513,7 @@ The class pattern is doing an `isinstance(subject, User)` check and attribute lo
 One subtle aspect to remember is that writing something like `case User("Bob")` in a pattern does not call the `User` constructor.
 It might look like a construction, but in a `case` context it's pattern syntax.
 Whatever appears after `case` is interpreted purely as a pattern, not normal executable code.
-If `User` were a dataclass with a `__post_init__` that prints when an object is created, 
+If `User` were a dataclass with a `__post_init__` that prints when an object is created,
 a subject expression of `match User("Alice"):` creates a `User("Alice")` instance as an expression to match.
 But `case User("Bob"):` does not create a new user; it just means "match a User with some attribute equal to Bob."
 This distinction is important.
@@ -593,7 +597,7 @@ Each alternative pattern is tried in order (left to right) as part of the same c
 If anyone succeeds, the whole OR pattern succeeds and that case executes.
 If an OR pattern is complex, be mindful that all subpatterns should make sense in the same context because they share the same action block.
 Also, variables bound in an `OR` pattern must be bound in all alternatives to be usable in the block (otherwise it'd be ambiguous which value they have).
-For instance, `case ("a", x) | ("b", x):` is valid because either way an `x` will be bound (if the tuple second element, 
+For instance, `case ("a", x) | ("b", x):` is valid because either way an `x` will be bound (if the tuple second element,
 whether the pattern matches "a" or "b" as first element).
 But `case ("a", x) | "foo":` is tricky--in the first alternative `x` would be bound, but in the second alternative (just the string "foo"), there's no `x`.
 In such cases, the capture `x` is not allowed because it wouldn't always have a value.
@@ -693,7 +697,6 @@ For example:
 ```python
 # example_16.py
 from colors import Color
-## It's green!
 
 
 def handle_color(color: Color):
