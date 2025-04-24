@@ -485,3 +485,4 @@ The students ended up puzzling over getting the format of the strings correct, r
 
 ## How Cyclopts uses Types
 
+Create simplified example from C:\git\pybooktools\src\pybooktools\util\python_example_validator.py
