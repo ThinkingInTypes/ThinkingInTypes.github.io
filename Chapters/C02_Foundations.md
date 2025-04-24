@@ -8,18 +8,19 @@ Crashes are spectacular, spewing parts across the landscape.
 You figure out what went wrong by hunting through the remnants of the crash,
 but it's more common to make a guess as to what happened, adjust something and go back to the starting line.
 
-Then a new breed of racers start showing up.
+A new breed of racers show up.
 They carry helmets and install three-point seat belts.
 They add bumpers and turn signals and even radios to communicate with each other.
 Their carts become cars, filled with devices that make it look like they don't plan to crash,
 but to finish the course without a scratch.
-The occasional crash does happen, but when it does they add even more devices to their cars.
+The occasional crash does happen. 
+They add even more devices to their cars.
 
 They start driving in teams, and those teams get bigger as they use their mechanisms to cooperate.
 They start building bigger cars out of smaller cars,
 and eventually outgrow the original track with the size and complexity of what they can create.
 
-Not all the original cart racers see the value in all this gadgetry.
+Not all the original cart racers see value in all this gadgetry.
 Some prefer the danger of driving all-out without safety features and guardrails, and the thrill of the crash.
 These racers are limited to a smaller track.
 
