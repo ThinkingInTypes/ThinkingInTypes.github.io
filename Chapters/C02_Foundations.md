@@ -2,6 +2,27 @@
 
 [Primarily notes at this point; I find that the introduction doesn't usually emerge until later in the book writing process]
 
+In the before times, programming is like playing a kart-racing game.
+You hop in your cart and drive as fast as you can, controlling the kart with the steering wheel and brakes.
+Crashes are spectacular, spewing parts across the landscape.
+You figure out what went wrong by hunting through the remnants of the crash,
+but it's more common to make a guess as to what happened, adjust something and go back to the starting line.
+
+Then a new breed of racers start showing up.
+They carry helmets and install three-point seat belts.
+They add bumpers and turn signals and even radios to communicate with each other.
+Their carts become cars, filled with devices that make it look like they don't plan to crash,
+but to finish the course without a scratch.
+The occasional crash does happen, but when it does they add even more devices to their cars.
+
+They start driving in teams, and those teams get bigger as they use their mechanisms to cooperate.
+They start building bigger cars out of smaller cars,
+and eventually outgrow the original track with the size and complexity of what they can create.
+
+Not all the original cart racers see the value in all this gadgetry.
+Some prefer the danger of driving all-out without safety features and guardrails, and the thrill of the crash.
+These racers are limited to a smaller track.
+
 ## The Evolution of Complex Systems
 
 Starting with assembly language.
@@ -91,5 +112,5 @@ Assumptions I make about your Python & programming knowledge.
 - The examples do not have `__main__`s; everything is at the top level.
 - If a top-level-statement (TLS) produces output, that output will appear on the following line(s), commented with `##`.
 - Lines to be called out in text are marked with comments
-- Black for consistent formatting
+- Black or Ruff for consistent formatting
 - Listings 47 Characters wide: readable on a phone
