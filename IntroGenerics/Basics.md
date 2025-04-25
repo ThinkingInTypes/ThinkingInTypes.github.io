@@ -1,4 +1,4 @@
-# Introduction to Generics
+# Generics
 
 Python generics allow classes and functions to operate on data of various types while preserving type information for static analysis.
 In Python, generics are primarily a static typing feature: they enable more precise type hints but do not change runtime behavior.
@@ -21,6 +21,7 @@ In Python's typing system, we create one with `TypeVar`.
 For example:
 
 ```python
+# example_1.py
 from typing import TypeVar
 
 T = TypeVar('T')
@@ -32,6 +33,7 @@ A class parameterized by a type variable becomes a generic class.
 This is typically declared by inheriting from `Generic[T]`:
 
 ```python
+# example_2.py
 from typing import Generic
 
 class Box(Generic[T]):
@@ -45,6 +47,7 @@ When used, a concrete type argument replaces `T`, e.g.
 In practice, type checkers use this to ensure type safety:
 
 ```python
+# example_3.py
 b1 = Box(42)         # Inferred as Box[int], content is int
 b2 = Box[str]("hi")  # Explicitly Box[str]
 b1.content + 5       # OK, content is int
@@ -59,6 +62,7 @@ A more elaborate example is a generic holder or container class.
 For instance, a simple `Holder` class can store and retrieve an item of type `T`:
 
 ```python
+# example_4.py
 from typing import Generic, TypeVar
 
 T = TypeVar('T')
@@ -75,6 +79,7 @@ Because `Holder` is generic, one can create `Holder[int]` or `Holder[str]`.
 The type checker will enforce that the `value` and return type of `get()` match the specified type parameter:
 
 ```python
+# example_5.py
 h1: Holder[int] = Holder(10)
 x = h1.get()       # x is inferred as int
 h1._value = "oops" # Type error: assigning str to Holder[int]
@@ -84,6 +89,7 @@ A classic use of generics is implementing custom container classes.
 For example, a generic stack might look like this:
 
 ```python
+# example_6.py
 from typing import Generic, TypeVar
 
 T = TypeVar('T')
@@ -106,6 +112,7 @@ This `Stack` class uses `T` to type its items and methods.
 It can be used for any element type:
 
 ```python
+# example_7.py
 s_int: Stack[int] = Stack()
 s_int.push(5)
 value = s_int.pop()     # value is an int
@@ -131,6 +138,7 @@ Generics are not limited to classes: functions can also be generic.
 For example, a function that returns its argument can be annotated to be generic in its parameter and return type:
 
 ```python
+# example_8.py
 from typing import TypeVar
 
 T = TypeVar('T')
@@ -144,6 +152,7 @@ More complex examples include functions that operate on generic containers.
 For instance:
 
 ```python
+# example_9.py
 from typing import Sequence, TypeVar
 
 T = TypeVar('T')
@@ -162,6 +171,7 @@ The `tuple` type is special-cased: it can be parameterized with a type for each 
 For example:
 
 ```python
+# example_10.py
 from typing import Tuple, TypeVar
 
 T = TypeVar('T')
@@ -183,6 +193,7 @@ For functions that yield multiple values in a loop, generator annotations can al
 A simple example is a generator that repeats a value of type `T`:
 
 ```python
+# example_11.py
 from typing import Iterator, TypeVar
 
 T = TypeVar('T')
@@ -201,6 +212,7 @@ In typing terms this is simply `Callable[[], T]`.
 For example:
 
 ```python
+# example_12.py
 from typing import Callable, TypeVar
 
 T = TypeVar('T')
@@ -228,6 +240,7 @@ For example, the typing module defines `Iterable[T]` and `Iterator[T]` as generi
 We can write our own:
 
 ```python
+# example_13.py
 from typing import Protocol, TypeVar
 
 T = TypeVar('T')
@@ -247,6 +260,7 @@ Protocols with generics become especially useful for describing functions that w
 For example:
 
 ```python
+# example_14.py
 from typing import Protocol, TypeVar
 
 T = TypeVar('T')
@@ -271,6 +285,7 @@ The built-in collection types (like `list`, `dict`, `tuple`) use this to return 
 For example:
 
 ```python
+# example_15.py
 from typing import get_origin, get_args
 
 alias = list[int]
@@ -287,6 +302,7 @@ This avoids needing complex metaclasses.
 For example:
 
 ```python
+# example_16.py
 class MyGeneric:
     def __init__(self, value):
         self.value = value

@@ -7,6 +7,7 @@ User-defined generics are built with `TypeVar` and `Generic`: you declare a type
 For instance, defining
 
 ```python
+# example_1.py
 from typing import TypeVar, Generic
 
 T = TypeVar('T')
@@ -30,6 +31,7 @@ Without generics, you might write one holder per type, or use a very broad type 
 For instance:
 
 ```python
+# example_2.py
 class Automobile:
     pass
 
@@ -45,6 +47,7 @@ This `Holder1` only holds `Automobile` objects.
 Alternatively, a "generic" approach pre-3.5 is to use `object` (or no annotation) so any type can be stored:
 
 ```python
+# example_3.py
 class ObjectHolder:
     def __init__(self, value: object) -> None:
         self.value = value
@@ -60,6 +63,7 @@ While this is flexible, it loses type safety: the caller must cast the result of
 In contrast, a generic holder class in Python uses a `TypeVar` so the compiler infers or checks types for you:
 
 ```python
+# example_4.py
 from typing import TypeVar, Generic
 from dataclasses import dataclass
 
@@ -84,6 +88,7 @@ Generics shine for containers.
 For example, a generic stack can be built easily using a list (or other internal container) with a type parameter:
 
 ```python
+# example_5.py
 from typing import TypeVar, Generic
 
 T = TypeVar('T')
@@ -116,6 +121,7 @@ We could also implement a linked-node stack in Python, similar to the Java examp
 For instance:
 
 ```python
+# example_6.py
 from typing import Optional
 from dataclasses import dataclass
 
@@ -147,6 +153,7 @@ Another container example is the `RandomList<T>` (a list that selects a random e
 In Python, we can do:
 
 ```python
+# example_7.py
 import random
 
 S = TypeVar('S')
@@ -170,6 +177,7 @@ In Python, we can use a `@dataclass` or a `NamedTuple` to define fixed-field tup
 For example, a generic 2-tuple:
 
 ```python
+# example_8.py
 from typing import NamedTuple, TypeVar, Generic
 
 A = TypeVar('A')
@@ -190,6 +198,7 @@ but for compatibility one could also write it with a `TypeVar` and subclassing `
 using `@dataclass`:
 
 ```python
+# example_9.py
 from dataclasses import dataclass
 
 @dataclass
@@ -207,6 +216,7 @@ One nice feature in modern Python is pattern matching (PEP 634) with such classe
 For example:
 
 ```python
+# example_10.py
 match p:
     case Pair(first=f, second=s):
         print(f, s)
@@ -216,6 +226,7 @@ If `p` is a `Pair`, this destructures it into its fields.
 Similarly, dataclasses support attribute patterns:
 
 ```python
+# example_11.py
 match pt:
     case Point(x=xx, y=yy):
         print(xx, yy)  # prints 3 4
@@ -229,6 +240,7 @@ You can also write generic functions with `TypeVar`.
 For instance, set operations (union, intersection) generalize over any element type `T`:
 
 ```python
+# example_12.py
 from typing import TypeVar, Set
 
 T = TypeVar('T')
@@ -253,6 +265,7 @@ For functions, Python's type system can infer type variables per call.
 For example, in PEP 484 they illustrate:
 
 ```python
+# example_13.py
 from typing import TypeVar
 U = TypeVar('U')
 
@@ -270,6 +283,7 @@ For variable-argument (varargs) functions, you can use generics too.
 For example, a function that makes a list from its arguments:
 
 ```python
+# example_14.py
 T = TypeVar('T')
 
 def make_list(*args: T) -> list[T]:
@@ -292,6 +306,7 @@ In Java, a `Supplier<T>` is an interface with a `get()` method returning `T`.
 In Python, we might use a `Callable[[], T]` or simply write a class with a method to produce objects.
 
 ```python
+# example_15.py
 from typing import Type, TypeVar
 
 T = TypeVar('T')
@@ -319,6 +334,7 @@ We can also define iterators or generators with generics.
 For example, a Fibonacci generator class:
 
 ```python
+# example_16.py
 from typing import Iterator
 
 class Fibonacci:
@@ -348,6 +364,7 @@ A protocol can be generic too.
 For example, many built-in protocols are generic: the standard `Iterable[T]` is defined as:
 
 ```python
+# example_17.py
 from typing import Protocol, Iterator
 
 class Iterable(Protocol[T]):
@@ -361,6 +378,7 @@ We can write our own protocol.
 For example, suppose we want any object that has a method `f()` returning `None`:
 
 ```python
+# example_18.py
 from typing import Protocol
 
 class HasF(Protocol):
@@ -396,6 +414,7 @@ As PEP 585 explains, this lets us use a unified syntax for generics in annotatio
 For instance:
 
 ```python
+# example_19.py
 my_list: list[str] = ["a", "b", "c"]   # list of str
 my_map: dict[str, int] = {"x": 1}      # dict of str->int
 ```
@@ -409,6 +428,7 @@ One benefit is that you don't need a custom metaclass to allow `C[T]`; the speci
 For example, you could write:
 
 ```python
+# example_20.py
 class Wrapper:
     def __init__(self, x):
         self.x = x
