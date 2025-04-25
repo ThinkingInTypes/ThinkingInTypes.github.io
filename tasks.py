@@ -8,7 +8,7 @@ from typing import Literal
 
 from invoke import Collection, task
 from pybooktools.invoke_tasks import prettier, rewrite_with_semantic_breaks
-from pybooktools.md_cleaner import clean_markdown
+from pybooktools.md_cleaner import clean_ai_generated_markdown
 from pybooktools.pymarkdown_validator.validate import validate_markdown_directory
 from rich.console import Console
 from rich.prompt import Confirm
@@ -58,7 +58,7 @@ def validatemd(ctx, verbose: Literal["verbose", "quiet"] = "quiet"):
 
 
 @task
-def cleanmd(ctx, chapter: Path):
+def clean_ai_generated_md(ctx, chapter: Path):
     """
     clean markdown files
     """
@@ -66,8 +66,8 @@ def cleanmd(ctx, chapter: Path):
     if not isinstance(chapter, Path):
         chapter = Path(chapter)
     markdown = chapter.read_text(encoding="utf-8")
-    cleaned_markdown = clean_markdown(markdown)
+    cleaned_markdown = clean_ai_generated_markdown(markdown)
     chapter.write_text(cleaned_markdown, encoding="utf-8")
 
 
-namespace = Collection(z, sembr, prettier, cleanmd, validatemd)
+namespace = Collection(z, sembr, prettier, clean_ai_generated_md, validatemd)
