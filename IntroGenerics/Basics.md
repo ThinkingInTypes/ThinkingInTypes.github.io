@@ -1,21 +1,22 @@
 # Introduction to Generics
 
-Python **generics** allow classes and functions to operate on data of _various types_ while preserving type information for static analysis.
+Python generics allow classes and functions to operate on data of various types while preserving type information for static analysis.
 In Python, generics are primarily a static typing feature: they enable more precise type hints but do not change runtime behavior.
 In other words, generic types are mainly used by type checkers to catch errors early and to document code intent.
-For example, a _generic_ list of integers can be denoted as `list[int]`, distinguishing it from `list[str]`.
-Such parameterized types--types _with_ type parameters--are called _generic types_.
+For example, a generic list of integers can be denoted as `list[int]`, distinguishing it from `list[str]`.
+Such parameterized types--types with type parameters--are called generic types.
 Python's built-in collections (like `list`, `dict`, `tuple`, etc.) support this syntax (since PEP 585), and the `typing` module provides tools (`TypeVar`, `Generic`, `Protocol`, etc.) for defining user-defined generics.
 
-This chapter introduces how to write and use generics in Python using both **static typing** tools and some runtime mechanisms.
+This chapter introduces how to write and use generics in Python using both static typing tools and some runtime mechanisms.
 We assume familiarity with Python's basic typing module, so we focus on how to declare generic classes and functions, and how to use features like `TypeVar`, `Generic`, and `Protocol` (structural typing) to write reusable, type-safe code.
-We also touch on relevant Python 3.x enhancements (e.g. `__class_getitem__`) that enable generic behavior at runtime.
-Throughout, we provide complete code examples of typical use cases: a simple _holder_ class, tuples for multiple-return values, a custom _stack_, generic generator functions (suppliers), and protocol-based interfaces.
+We also touch on relevant Python 3.x enhancements (e.g.
+`__class_getitem__`) that enable generic behavior at runtime.
+Throughout, we provide complete code examples of typical use cases: a simple holder class, tuples for multiple-return values, a custom stack, generic generator functions (suppliers), and protocol-based interfaces.
 We emphasize idiomatic patterns and best practices, ensuring each concept is explained from first principles and built up gradually.
 
 ## Type Variables and Generic Classes
 
-A **type variable** is a symbol that stands in for an arbitrary type.
+A type variable is a symbol that stands in for an arbitrary type.
 In Python's typing system, we create one with `TypeVar`.
 For example:
 
@@ -25,9 +26,9 @@ from typing import TypeVar
 T = TypeVar('T')
 ```
 
-Here `T` can represent _any type_.
+Here `T` can represent any type.
 Once defined, `T` can be used in type annotations for functions or classes.
-A class parameterized by a type variable becomes a _generic class_.
+A class parameterized by a type variable becomes a generic class.
 This is typically declared by inheriting from `Generic[T]`:
 
 ```python
@@ -39,7 +40,8 @@ class Box(Generic[T]):
 ```
 
 The definition above makes `Box` generic: it can hold a value of any type.
-When used, a concrete type argument replaces `T`, e.g. `Box[int]` is a `Box` of integers.
+When used, a concrete type argument replaces `T`, e.g.
+`Box[int]` is a `Box` of integers.
 In practice, type checkers use this to ensure type safety:
 
 ```python
@@ -49,10 +51,11 @@ b1.content + 5       # OK, content is int
 b2.content + 5       # Error: content is str, not compatible with +
 ```
 
-This resembles how built-in collections are parameterized (e.g. `list[str]`, `dict[str, int]`).
+This resembles how built-in collections are parameterized (e.g.
+`list[str]`, `dict[str, int]`).
 In fact, user-defined generic classes work much like built-ins.
 
-A more elaborate example is a **generic holder** or container class.
+A more elaborate example is a generic holder or container class.
 For instance, a simple `Holder` class can store and retrieve an item of type `T`:
 
 ```python
@@ -78,7 +81,7 @@ h1._value = "oops" # Type error: assigning str to Holder[int]
 ```
 
 A classic use of generics is implementing custom container classes.
-For example, a generic **stack** might look like this:
+For example, a generic stack might look like this:
 
 ```python
 from typing import Generic, TypeVar
@@ -100,7 +103,7 @@ class Stack(Generic[T]):
 ```
 
 This `Stack` class uses `T` to type its items and methods.
-It can be used for _any_ element type:
+It can be used for any element type:
 
 ```python
 s_int: Stack[int] = Stack()
@@ -118,7 +121,8 @@ Type checkers will flag incorrect type usages.
 Internally, all `Stack` instances still use a regular Python list, but annotating `self._items: list[T]` helps static tools know that each element must be a `T`.
 
 By convention, type variables often have short names (`T`, `U`, `V`, etc.), but more descriptive names can be used if needed.
-One can also constrain or bound type variables (e.g. `TypeVar('T', bound=SomeClass)`) to restrict which types are allowed; this is useful when methods rely on certain operations or interfaces.
+One can also constrain or bound type variables (e.g.
+`TypeVar('T', bound=SomeClass)`) to restrict which types are allowed; this is useful when methods rely on certain operations or interfaces.
 For an introductory treatment, it suffices to know that `TypeVar('T')` means "some arbitrary type" and `Generic[T]` makes a class generic over that type.
 
 ## Generic Functions and Tuples
@@ -149,9 +153,10 @@ def first_element(xs: Sequence[T]) -> T:
 
 This function takes a sequence of `T` and returns an element of type `T` .
 If you pass a `Sequence[int]`, the return type is `int`.
-The typing docs give similar examples, e.g. `def first[T](l: Sequence[T]) -> T` .
+The typing docs give similar examples, e.g.
+`def first[T](l: Sequence[T]) -> T` .
 
-Another common pattern is **swapping** or returning multiple values of possibly different types.
+Another common pattern is swapping or returning multiple values of possibly different types.
 In Python, functions can return tuples of values.
 The `tuple` type is special-cased: it can be parameterized with a type for each position.
 For example:
@@ -174,7 +179,7 @@ Here `swap` is generic over two type variables `T` and `U`, and it returns a `tu
 The typing system allows a tuple to have multiple type parameters to reflect differing types per position.
 In practice, this means code like `a, b = swap(a, b)` will type-check only if `a` and `b` have the appropriate types.
 
-For functions that yield multiple values in a loop, **generator** annotations can also be generic.
+For functions that yield multiple values in a loop, generator annotations can also be generic.
 A simple example is a generator that repeats a value of type `T`:
 
 ```python
@@ -187,9 +192,11 @@ def repeat_value(value: T, n: int) -> Iterator[T]:
 ```
 
 This generator yields values of whatever type `T` is.
-If you call `repeat_value("x", 3)`, the static return type is `Iterator[str]`. (Under the hood, a generator is an iterator; one could also use `Generator[T, None, None]` annotation if sending values or return statements were needed.) The official typing documentation shows analogous examples for generators, e.g. `Iterator[int]` or `Generator[int, None, None]` annotations for yield-only generators.
+If you call `repeat_value("x", 3)`, the static return type is `Iterator[str]`.
+(Under the hood, a generator is an iterator; one could also use `Generator[T, None, None]` annotation if sending values or return statements were needed.) The official typing documentation shows analogous examples for generators, e.g.
+`Iterator[int]` or `Generator[int, None, None]` annotations for yield-only generators.
 
-Another related concept is a **supplier** or callback: a function with no arguments that returns a value of type `T`.
+Another related concept is a supplier or callback: a function with no arguments that returns a value of type `T`.
 In typing terms this is simply `Callable[[], T]`.
 For example:
 
@@ -202,7 +209,6 @@ Supplier = Callable[[], T]
 def use_supplier(supplier: Supplier[T]) -> T:
     return supplier()
 
-# Example usage:
 def five() -> int:
     return 5
 
@@ -215,7 +221,7 @@ This is an idiomatic way to annotate functions that accept generic callbacks or 
 
 ## Protocols and Structural Typing
 
-Generic typing in Python includes **protocols**, which describe _interfaces_ (structural types).
+Generic typing in Python includes protocols, which describe interfaces (structural types).
 A `Protocol` is like a lightweight interface: a class that defines certain methods or attributes, and any type that implements those methods is considered to satisfy the protocol (without explicit inheritance).
 Protocols themselves can be generic.
 For example, the typing module defines `Iterable[T]` and `Iterator[T]` as generic protocols.
@@ -251,13 +257,14 @@ class Container(Protocol[T]):
 Now any class that implements `__contains__` can be used with a `Container[T]` annotation.
 You might write `def contains_item(c: Container[int], item: int) -> bool` and a list of ints or a custom container would both be accepted by a type checker.
 
-Protocols support **structural subtyping**: a class doesn't need to _inherit_ from the protocol to satisfy it.
-This makes protocols a powerful complement to generics: they define _interfaces_ for types rather than tying to concrete classes.
+Protocols support structural subtyping: a class doesn't need to inherit from the protocol to satisfy it.
+This makes protocols a powerful complement to generics: they define interfaces for types rather than tying to concrete classes.
 In generic code, use protocols to specify required capabilities (methods), and use `Generic[T]` on classes or functions when you want to preserve and propagate an arbitrary type parameter.
 
 ## Runtime Generics and `__class_getitem__`
 
-Type hints are usually for static analysis, and by default are **erased at runtime** (e.g. `list[int]` yields a special object at runtime, but instances of `list` just behave as normal lists).
+Type hints are usually for static analysis, and by default are erased at runtime (e.g.
+`list[int]` yields a special object at runtime, but instances of `list` just behave as normal lists).
 However, Python does support some runtime generic behavior.
 Since Python 3.7 (PEP 560) and more fully in 3.9 (PEP 585), classes can implement a special method `__class_getitem__` to enable the subscription syntax (`Class[...]`).
 The built-in collection types (like `list`, `dict`, `tuple`) use this to return a `GenericAlias` object, which carries type information in attributes (accessible via `typing.get_origin` and `typing.get_args` if needed).
@@ -305,46 +312,47 @@ Python's design keeps runtime and static typing largely separate, but features l
 
 When using generics in Python:
 
-- **Prefer Generic to dynamic checks:** Generics help document and verify code without runtime overhead.
+- Prefer Generic to dynamic checks: Generics help document and verify code without runtime overhead.
 Avoid unnecessary type-checking code and rely on annotations.
 For example, use `list[T]` or `List[T]` annotations instead of checking types in code.
 
-- **Name type variables clearly:** Single-letter names (`T`, `U`, `V`) are common, but descriptive names (e.g.
+- Name type variables clearly: Single-letter names (`T`, `U`, `V`) are common, but descriptive names (e.g.
 `KT`, `VT` for "key type" and "value type" in a mapping) can clarify meaning.
 Some common conventions: `T` for a generic type, `V` for value, `K` for key, `E` for element.
 
-- **Use bounds for interfaces:** If a type variable must support certain operations, use `bound`.
+- Use bounds for interfaces: If a type variable must support certain operations, use `bound`.
 For example, `S = TypeVar('S', bound=SupportsClose)` to indicate `S` must have a `close()` method.
 
-- **Differentiate class and function generics:** A method inside a generic class can refer to the class's type variables.
+- Differentiate class and function generics: A method inside a generic class can refer to the class's type variables.
 If a function is generic independent of a class, define its own `TypeVar`.
 Don't mix a class's `T` with a function's `T` accidentally.
 
-- **Mixing generic and concrete bases:** When subclassing, you can extend generic base classes.
+- Mixing generic and concrete bases: When subclassing, you can extend generic base classes.
 For example `class MyMap(Mapping[KT, VT])` makes `MyMap` generic.
-But if you inherit from a concrete generic container, you cannot add new type parameters. (The typing docs cover these rules in detail .)
+But if you inherit from a concrete generic container, you cannot add new type parameters.
+(The typing docs cover these rules in detail .)
 
-- **Built-in generics syntax:** Since Python 3.9+, you can write built-in generics directly: use `list[int]`, `dict[str, float]`, etc., in annotations.
+- Built-in generics syntax: Since Python 3.9+, you can write built-in generics directly: use `list[int]`, `dict[str, float]`, etc., in annotations.
 (For older versions, import from `typing` like `from typing import List`.) This is now the recommended style as it avoids duplicating typing and runtime classes.
 
-- **Prefer structural types (Protocols) for flexible interfaces:** If a function only needs certain methods from its input, use a protocol type instead of a concrete class.
+- Prefer structural types (Protocols) for flexible interfaces: If a function only needs certain methods from its input, use a protocol type instead of a concrete class.
 E.g., use `Iterable[T]` rather than `list[T]` if any iterable is fine.
 
-- **Be aware of type erasure:** At runtime, generic type parameters are not enforced.
+- Be aware of type erasure: At runtime, generic type parameters are not enforced.
 A `Stack[int]` is the same as `Stack[str]` at runtime.
 Therefore, do not rely on type parameters for logic.
 They are for tools and readability.
 If runtime behavior must vary by type, use other patterns (e.g., factory functions).
 
-- **Document assumptions:** Even with type hints, document what a generic type means.
-For instance, in a generic container class docstring, note that it holds "elements of type _T_" or similar.
+- Document assumptions: Even with type hints, document what a generic type means.
+For instance, in a generic container class docstring, note that it holds "elements of type T" or similar.
 
 Finally, keep in mind that generics are an advanced feature.
 You can write a lot of correct Python without them, but they greatly enhance clarity in larger codebases.
 As the official documentation notes, user-defined generics are optional, not mandatory, and many programs work well without declaring custom type variables.
 Use generics where they make code more maintainable and safe, especially in libraries or interfaces meant for reuse.
 
-**Summary:** Python's generics (via `TypeVar`, `Generic`, and related tools) let you write classes and functions that are abstract over types while still providing static type-checking guarantees.
+Summary: Python's generics (via `TypeVar`, `Generic`, and related tools) let you write classes and functions that are abstract over types while still providing static type-checking guarantees.
 You define type variables and use them in annotations, enable generic subscription (`Class[T]`), and optionally define protocols for interface constraints.
 Built-in collection types now support parameterized annotations (`list[int]`, `tuple[str, float]`, etc.), and generator/coroutine types can similarly be parameterized.
 The combination of generics and protocols enables expressive, type-safe code without sacrificing Python's dynamism.
