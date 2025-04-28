@@ -1009,11 +1009,90 @@ class Color(StrMixin, Enum):
 Here, Color mixes in `str` behavior.
 Because it's an `Enum`, you can't inherit from `Color`.
 
+TODO: Make the following a subsection?
+
 Because you can't inherit from an `Enum`, your `Enum` can be included in exhaustivity analysis during pattern matching:
 
 ```python
 # enum_exhaustivity.py
+from enum import Enum
+
+class Status(Enum):
+  OPEN = "open"
+  CLOSED = "closed"
+  PENDING = "pending"
+
+  def handle_status(self) -> str:
+    match self:
+      case Status.OPEN:
+        return "Handling open status."
+      case Status.CLOSED:
+        return "Handling closed status."
+      case Status.PENDING:
+        return "Handling pending status."
+      # No `case _:` fallback needed if we cover all members!
+
+print(Status.OPEN.handle())   
+print(Status.CLOSED.handle()) 
+print(Status.PENDING.handle())
 ```
+
+Because `Enum`s are closed, you know all possible `Status` members: `OPEN`, `CLOSED`, `PENDING`.
+The type checker warns you if you forget to handle a case.
+No "unknown" cases can sneak in later because `Enum`s can't be subclassed.
+
+### Attach Functionality to Enum Members
+
+```python
+# state_machine.py
+from enum import Enum
+
+def open_next(self) -> "Status":
+  print("Moving from OPEN to PENDING.")
+  return Status.PENDING
+
+def pending_next(self) -> "Status":
+  print("Moving from PENDING to CLOSED.")
+  return Status.CLOSED
+
+def closed_next(self) -> "Status":
+  print("CLOSED is a final state. Staying put.")
+  return Status.CLOSED
+
+class Status(Enum):
+  OPEN = ("open", open_next)
+  PENDING = ("pending", pending_next)
+  CLOSED = ("closed", closed_next)
+
+  def __init__(self, label: str, next_handler: callable):
+    self._label = label
+    self._next_handler = next_handler
+
+  def next(self) -> "Status":
+    return self._next_handler(self)
+
+  @property
+  def label(self) -> str:
+    return self._label
+
+
+def start(state: Status = Status.OPEN):
+  while(state != Status.CLOSED):
+    print(state.label)
+    state = state.next()
+```
+
+Each `Enum` member (`Status.OPEN`, etc.) carries two pieces of information:
+
+1. A label ("open", "pending" or "closed")
+
+2. A handler function `_next_handler`
+
+In the `__init__`, we capture these and assign to instance attributes (`_label`, `_next_handler`).
+The `next()` method calls the stored function.
+
+
+
 
 ## `Literal`: The Lightweight `Enum`
 
