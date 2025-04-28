@@ -985,6 +985,36 @@ match status:
 `Enum`s improve robustness by making code both readable and safely constrained.
 For simplicity and IDE interactivity, choose `Enum`s over data classes for fixed-value sets.
 
+### Enum Mixins
+
+You cannot subclass a concrete `Enum` class to make a new `Enum`.
+Python forbids this by design.
+An `Enum` defines a closed set of named values.
+Allowing inheritance conflicts with the meaning of "the set of valid members."
+
+The only thing you can inherit when dealing with `Enum`s is mixins, like adding methods:
+
+```python
+# enum_mixins.py
+from enum import Enum
+
+class StrMixin(str):
+  pass
+
+class Color(StrMixin, Enum):
+  RED = "red"
+  GREEN = "green"
+```
+
+Here, Color mixes in `str` behavior.
+Because it's an `Enum`, you can't inherit from `Color`.
+
+Because you can't inherit from an `Enum`, your `Enum` can be included in exhaustivity analysis during pattern matching:
+
+```python
+# enum_exhaustivity.py
+```
+
 ## `Literal`: The Lightweight `Enum`
 
 `Literal` types specify a set of permissible values to ensure values match expected exact constants:
