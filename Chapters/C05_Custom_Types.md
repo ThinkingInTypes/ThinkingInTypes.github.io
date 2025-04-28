@@ -1009,7 +1009,7 @@ class Color(StrMixin, Enum):
 Here, Color mixes in `str` behavior.
 Because it's an `Enum`, you can't inherit from `Color`.
 
-TODO: Make the following a subsection?
+### Enums and Exhaustivity
 
 Because you can't inherit from an `Enum`, your `Enum` can be included in exhaustivity analysis during pattern matching:
 
