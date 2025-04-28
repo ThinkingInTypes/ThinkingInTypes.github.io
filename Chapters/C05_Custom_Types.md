@@ -1236,6 +1236,8 @@ This is called `exhaustiveness checking`.
 
 However, with the `match` in `run_string` there's no way to know what the legal cases are, so exhaustiveness checking is not possible.
 
+[Example of exhaustiveness checking with subclasses]
+
 ### Examples
 
 Can literals be created dynamically?
