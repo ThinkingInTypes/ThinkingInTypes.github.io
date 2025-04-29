@@ -14,7 +14,7 @@ towards clearer, more reliable code.
 
 This chapter describes Python tools that modify the normal behavior of class attributes.
 It's important to understand that this behavior is created by the tool and that ordinary classes do not behave this way.
-Read the [Class Attributes](Z06_Appendix_Class_Attributes.md) appendix for a deeper understanding.
+Read the [Class Attributes](Z05_Appendix_Class_Attributes.md) appendix for a deeper understanding.
 
 ## Ensuring Correctness
 
