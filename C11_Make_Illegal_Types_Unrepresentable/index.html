@@ -904,15 +904,18 @@ With this approach, you:</p>
 <li>Naturally move towards Domain-Driven Design.</li>
 </ol>
 <h2 id="stringly-typed">"Stringly Typed"<a class="headerlink" href="#stringly-typed" title="Permanent link">#</a></h2>
-<p>Years ago I came across some research looking at the way generic components like <code>List</code>, <code>Set</code> and <code>Map</code> were used in Java.
+<p>Years ago I came across some research looking at the way generic components like <code>List</code>, <code>Set</code> and <code>Map</code> were used in
+Java.
 Only a tiny percentage of the code reviewed used anything <em>except</em> strings as type parameters.
 This study suggested that the vast majority of systems were using strings as their primary data type.</p>
-<p>Because you can put any characters in any format into a string, such "stringly typed" systems (an ironic play on "strongly typed") may be the worst of all possible worlds.
+<p>Because you can put any characters in any format into a string, such "stringly typed" systems (an ironic play on "
+strongly typed") may be the worst of all possible worlds.
 Unless it's actually text, classifying something as a string doesn't tell you anything.
 When a function receives a string meant to represent a type, that function can assume precisely nothing about it.
 Every such function must start from scratch and analyze that string to see if it conforms to what that function needs.</p>
 <p>Changing the meaning of a stringly-typed item is a daunting job.
-You must look through every function that uses it and ensure that your change is reflected in the validations in every single function.
+You must look through every function that uses it and ensure that your change is reflected in the validations in every
+single function.
 Because the logic is distributed, it's highly likely you will miss some.</p>
 <p>Consider representing phone numbers as strings.
 Here are just a few of the different formats you might encounter:</p>
@@ -968,14 +971,19 @@ Here's one of the worst approaches imaginable:</p>
 </span></code></pre></div>
 <p>Each function has its own custom code and reports errors differently.
 There might be many such functions spread throughout the system.
-If there's a bug or any change in the way phone numbers are validated, all validation code must be hunted down and corrected, and any tests must also be updated.</p>
+If there's a bug or any change in the way phone numbers are validated, all validation code must be hunted down and
+corrected, and any tests must also be updated.</p>
 <p>Does anyone set out to write code like this?
-Probably not--it starts out seeming like "the simplest thing" and just continues to accumulate, one logical step at a time.
-Although <em>you</em> might not write code like this, systems like this exist for phone numbers and for many other data items represented as strings.
+Probably not--it starts out seeming like "the simplest thing" and just continues to accumulate, one logical step at a
+time.
+Although <em>you</em> might not write code like this, systems like this exist for phone numbers and for many other data items
+represented as strings.
 We'll learn how custom types dramatically simplify validation and guarantee correctness throughout your system.</p>
 <h2 id="design-by-contract">Design by Contract<a class="headerlink" href="#design-by-contract" title="Permanent link">#</a></h2>
-<p>The argument-validation problem was observed by Bertrand Meyer and introduced as a core concept in his Eiffel programming language, described in the book <em>Object-Oriented Software Construction</em> (1988).
-<em>Design By Contract</em> (DbC) tried to reduce errors by treating the interaction between software components as a formal agreement:</p>
+<p>The argument-validation problem was observed by Bertrand Meyer and introduced as a core concept in his Eiffel
+programming language, described in the book <em>Object-Oriented Software Construction</em> (1988).
+<em>Design By Contract</em> (DbC) tried to reduce errors by treating the interaction between software components as a formal
+agreement:</p>
 <ul>
 <li><strong><em>Preconditions</em></strong>:
   What must be true before a function/method runs.</li>
@@ -1011,7 +1019,8 @@ We'll learn how custom types dramatically simplify validation and guarantee corr
 </tr>
 </tbody>
 </table>
-<p>The intent was that each function used these to ensure the correctness of the inputs and outputs of that function, and the state of the object.
+<p>The intent was that each function used these to ensure the correctness of the inputs and outputs of that function, and
+the state of the object.
 In particular, <code>require</code> typically checks the argument values for correctness.
 For preconditions in Python, we can create a <code>requires</code> decorator to check argument values:</p>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1"># require.py</span>
@@ -1038,7 +1047,8 @@ For preconditions in Python, we can create a <code>requires</code> decorator to 
 </span><span id="__span-2-22"><a id="__codelineno-2-22" name="__codelineno-2-22" href="#__codelineno-2-22"></a>    <span class="k">return</span> <span class="n">decorator</span>
 </span></code></pre></div>
 <p>A <code>Condition</code> combines each <code>check</code> with a description of the failure condition.
-<code>check</code> is a <code>Callable</code> (usually a function) that takes the same arguments as the decorated function and returns a <code>bool</code> indicating whether the condition is satisfied.</p>
+<code>check</code> is a <code>Callable</code> (usually a function) that takes the same arguments as the decorated function and returns a
+<code>bool</code> indicating whether the condition is satisfied.</p>
 <p><code>requires</code> is a <em>decorator factory</em>; it returns a decorator that can be applied to any function.
 It accepts any number of <code>Condition</code> instances.</p>
 <p>This inner function <code>decorator</code> is the actual decorator; it wraps the target function <code>func</code>.</p>
@@ -1116,12 +1126,14 @@ Consider managing a bank account:</p>
 </span></code></pre></div>
 <p>Here, the <code>Condition</code>s are applied to methods, so their <code>lambda</code>s both include <code>self</code>.
 In <code>withdraw</code> you see multiple <code>Condition</code>s applied within one <code>requires</code> decorator.</p>
-<p>If they validate their arguments, traditional Python functions tend to duplicate that validation code at the beginning of each function body.
+<p>If they validate their arguments, traditional Python functions tend to duplicate that validation code at the beginning
+of each function body.
 Design by Contract is an improvement over this.
 The <code>@requires</code> clearly shows that the arguments are constrained, and <code>Condition</code>s reduce duplicated code.</p>
 <p>DbC helps, but it has limitations:</p>
 <ol>
-<li>A programmer can forget to use <code>requires</code>, or choose to perform argument checks by hand if DbC doesn't make sense to them.</li>
+<li>A programmer can forget to use <code>requires</code>, or choose to perform argument checks by hand if DbC doesn't make sense to
+   them.</li>
 <li>Validations are spread throughout your system.
    Using <code>Condition</code> reduces logic duplication, but making changes still risks missing updates on functions.</li>
 </ol>
@@ -1129,7 +1141,8 @@ The <code>@requires</code> clearly shows that the arguments are constrained, and
 <p>Instead of DbC, we can encode validations into custom types.
 This way, incorrect objects of those types cannot successfully be created.
 In addition, the types are usually <em>domain driven</em>, that is, they represent a concept from the problem domain.</p>
-<p>For the bank example, we start by creating an <code>Amount</code>, which is a <code>Decimal</code> value with the fundamental property that it cannot be negative.
+<p>For the bank example, we start by creating an <code>Amount</code>, which is a <code>Decimal</code> value with the fundamental property that it
+cannot be negative.
 If an <code>Amount</code> object exists, you know it cannot contain a negative value:</p>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="c1"># amount.py</span>
 </span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">dataclasses</span><span class="w"> </span><span class="kn">import</span> <span class="n">dataclass</span>
@@ -1161,7 +1174,8 @@ It turns <code>value</code> by converting it to a <code>str</code>.
 This is passed to <code>Decimal</code> and the result is checked to ensure it is non-negative.</p>
 <p><code>__init__</code> modifies itself using <code>object.__setattr__</code>, but other than that we want it safely immutable.
 Modifying a frozen <code>dataclass</code> using <code>object.__setattr__</code> is best only done during construction.
-You'll more commonly call <code>object.__setattr__</code> in <code>__post_init__</code>, but if you find yourself using it in other methods, reconsider whether your type is really frozen.
+You'll more commonly call <code>object.__setattr__</code> in <code>__post_init__</code>, but if you find yourself using it in other methods,
+reconsider whether your type is really frozen.
 Requiring <code>object.__setattr__</code> to modify a frozen <code>dataclass</code> means you have a way to search for modifications.</p>
 <p>Note that <code>__add__</code> and <code>__sub__</code> return new <code>Amount</code> objects without checking whether they are non-negative
 The <code>Amount</code> initialization takes care of that.</p>
@@ -1200,7 +1214,8 @@ Thus, we can produce an immutable using <code>NamedTuple</code>:</p>
 </span></code></pre></div>
 <p>Note that <code>Balance</code> produces new immutable objects when you <code>deposit</code> and <code>withdraw</code>.
 Because it uses <code>Amount</code>, it needs no special validation checks.</p>
-<p>In the new, improved <code>BankAccount</code>, the need for validation disappears because it is automatically enforced by the types:</p>
+<p>In the new, improved <code>BankAccount</code>, the need for validation disappears because it is automatically enforced by the
+types:</p>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="c1"># typed_bank_account.py</span>
 </span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">dataclasses</span><span class="w"> </span><span class="kn">import</span> <span class="n">dataclass</span>
 </span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="kn">from</span><span class="w"> </span><span class="nn">amount</span><span class="w"> </span><span class="kn">import</span> <span class="n">Amount</span>
@@ -1238,8 +1253,10 @@ If we need to modify the underlying representation of <code>Amount</code> we onl
 For example, suppose we discover Python's implementation of <code>Decimal</code> is too slow.
 We can modify <code>Amount</code> to use, for example, a Rust implementation of decimal numbers.
 We <em>only</em> need to change the code for <code>Amount</code> because the rest of the code uses <code>Amount</code>.</p>
-<p>Any new code we write that uses our custom types transparently benefits from all the type validations built into those types.
-If we add more validations to <code>Amount</code> or <code>Balance</code>, they automatically propagate to each site where those types are used.</p>
+<p>Any new code we write that uses our custom types transparently benefits from all the type validations built into those
+types.
+If we add more validations to <code>Amount</code> or <code>Balance</code>, they automatically propagate to each site where those types are
+used.</p>
 <h2 id="a-phonenumber-type">A <code>PhoneNumber</code> Type<a class="headerlink" href="#a-phonenumber-type" title="Permanent link">#</a></h2>
 <p>Let's apply this approach to the stringly-typed phone number problem shown at the beginning of the chapter.</p>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="c1"># phone_number.py</span>
@@ -1325,14 +1342,15 @@ If you need to improve the performance of <code>PhoneNumber</code> creation and 
 for example, by converting the <code>PhoneNumber</code> type into a Rust module.</p>
 <h2 id="the-programmable-meter">The Programmable Meter<a class="headerlink" href="#the-programmable-meter" title="Permanent link">#</a></h2>
 <p>I recently visited my friend Matt, who is a physics professor (we were undergraduate physics students together).
-He has a stellar reputation as a teacher, and I realized I had never watched him teach, so I decided to see him in action.
+He has a stellar reputation as a teacher, and I realized I had never watched him teach, so I decided to see him in
+action.
 This was an electronics lab, and the students were using programmable measurement tools.
 The interface language these tools used was Python.
 To send commands to the programmable meter, the meter developers had used the stringly-typed route
 (The docs had a reference to Turbo C, so the meter was created long before Python's annotated types).
-The students ended up puzzling over getting the format of the strings correct, rather than doing the lab.</p>
+The students ended up puzzling over getting the format of the strings correct rather than doing the lab.</p>
 <h2 id="how-cyclopts-uses-types">How Cyclopts uses Types<a class="headerlink" href="#how-cyclopts-uses-types" title="Permanent link">#</a></h2>
-<p>Create simplified example from C:\git\pybooktools\src\pybooktools\util\python_example_validator.py</p>
+<p>Create a simplified example from C:\git\pybooktools\src\pybooktools\util\python_example_validator.py</p>
 
 
 

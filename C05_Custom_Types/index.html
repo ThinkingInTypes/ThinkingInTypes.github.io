@@ -1485,10 +1485,13 @@
 <ul>
 <li>Incorporate examples from https://github.com/BruceEckel/DataClassesAsTypes</li>
 </ul>
-<p>This chapter began as a presentation at a Python conference, inspired by conversations with fellow programmers exploring functional programming techniques.
+<p>This chapter began as a presentation at a Python conference, inspired by conversations with fellow programmers exploring
+functional programming techniques.
 Specifically, the idea arose from a podcast discussion about Scala's smart types.
-After extensive study of functional programming, several concepts coalesced into an approach that leverages Python’s data classes effectively.
-This chapter aims to share those insights and illustrate the practical benefits of Python data classes, guiding you towards clearer, more reliable code.</p>
+After extensive study of functional programming, several concepts coalesced into an approach that leverages Python’s
+data classes effectively.
+This chapter aims to share those insights and illustrate the practical benefits of Python data classes, guiding you
+towards clearer, more reliable code.</p>
 <h2 id="misunderstanding-class-attributes">Misunderstanding Class Attributes<a class="headerlink" href="#misunderstanding-class-attributes" title="Permanent link">#</a></h2>
 <p>This chapter describes Python tools that modify the normal behavior of class attributes.
 It's important to understand that this behavior is created by the tool and that ordinary classes do not behave this way.
@@ -1529,7 +1532,8 @@ Traditionally, Python programmers use an integer type, checking its validity whe
 </span><span id="__span-0-31"><a id="__codelineno-0-31" name="__codelineno-0-31" href="#__codelineno-0-31"></a>    <span class="nb">print</span><span class="p">(</span><span class="n">f2</span><span class="p">(</span><span class="n">stars1</span><span class="p">))</span>
 </span><span id="__span-0-32"><a id="__codelineno-0-32" name="__codelineno-0-32" href="#__codelineno-0-32"></a><span class="c1">## Error: f2: 99</span>
 </span></code></pre></div>
-<p>However, each time the integer is used, its validity must be rechecked, leading to duplicated logic, scattered validation, and potential mistakes.</p>
+<p>However, each time the integer is used, its validity must be rechecked, leading to duplicated logic, scattered
+validation, and potential mistakes.</p>
 <h2 id="traditional-object-oriented-encapsulation">Traditional Object-Oriented Encapsulation<a class="headerlink" href="#traditional-object-oriented-encapsulation" title="Permanent link">#</a></h2>
 <p>Object-oriented programming (OOP) suggests encapsulating validation within the class.
 Python typically uses a private attribute (indicated with a single leading underscore) for encapsulation:</p>
@@ -1635,13 +1639,16 @@ We normally name type aliases with CamelCase to indicate they are types:</p>
 </span><span id="__span-2-28"><a id="__codelineno-2-28" name="__codelineno-2-28" href="#__codelineno-2-28"></a><span class="c1">#     [Number(11), Number(3.14), Number(&quot;1.618&quot;)])</span>
 </span><span id="__span-2-29"><a id="__codelineno-2-29" name="__codelineno-2-29" href="#__codelineno-2-29"></a><span class="c1"># )</span>
 </span></code></pre></div>
-<p>Using <code>Number</code> and <code>Measurements</code> is functionally identical to writing the annotation as <code>int | float</code> or <code>list[Number]</code>.
+<p>Using <code>Number</code> and <code>Measurements</code> is functionally identical to writing the annotation as <code>int | float</code> or
+<code>list[Number]</code>.
 The aliases:</p>
 <ul>
-<li>Gives a meaningful name to the type, indicating what the <code>list</code> of <code>Number</code>s represents--in this case, a collection called <code>Measurements</code>.</li>
+<li>Gives a meaningful name to the type, indicating what the <code>list</code> of <code>Number</code>s represents--in this case, a collection
+  called <code>Measurements</code>.</li>
 <li>Avoids repeating a complex type annotation in multiple places.</li>
 <li>Improves readability by abstracting away the details of the type structure.</li>
-<li>If the definition of <code>Measurements</code> changes (if we use a different type to represent <code>Number</code>), we can update the alias in one place.</li>
+<li>If the definition of <code>Measurements</code> changes (if we use a different type to represent <code>Number</code>), we can update the
+  alias in one place.</li>
 </ul>
 <p>You can see from the output that type aliases do not create new types at runtime;
 they are purely for the benefit of the type system and the developer.</p>
@@ -1854,8 +1861,10 @@ With <code>__post_init__</code>, you can guarantee that only valid instances of 
 <h3 id="initializers">Initializers<a class="headerlink" href="#initializers" title="Permanent link">#</a></h3>
 <p>Normally you'll define a <code>__post_init__</code> to perform <em>validation</em>.
 Sometimes, you'll need to define an <code>__init__</code> to perform <em>initialization</em>.</p>
-<p>A custom <code>__init__</code> makes sense primarily when you need fundamentally different initialization logic than the field-based constructor allows.
-You need a completely alternative interface, such as parsing inputs from a different format (e.g., strings, dicts, files) and then assigning to fields.
+<p>A custom <code>__init__</code> makes sense primarily when you need fundamentally different initialization logic than the
+field-based constructor allows.
+You need a completely alternative interface, such as parsing inputs from a different format (e.g., strings, dicts,
+files) and then assigning to fields.
 For example, consider parsing two pieces of <code>float</code> data from a single <code>str</code> argument:</p>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="c1"># custom_init.py</span>
 </span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">dataclasses</span><span class="w"> </span><span class="kn">import</span> <span class="n">dataclass</span>
@@ -1881,8 +1890,10 @@ You retain dataclass features like <code>__repr__</code>, <code>__eq__</code>, a
 <p>Dataclasses auto-generate an <code>__init__</code> unless you explicitly define one.
 If you provide a custom <code>__init__</code>, the automatic one is replaced.
 You can still use <code>__post_init__</code>, but must call it explicitly from your custom <code>__init__</code>.</p>
-<p>Prefer <code>__post_init__</code> for simple validation, transformation, or default adjustments after standard field initialization.
-Use a custom <code>__init__</code> if you require fundamentally different or more complex input logic that's incompatible with the autogenerated initializer.</p>
+<p>Prefer <code>__post_init__</code> for simple validation, transformation, or default adjustments after standard field
+initialization.
+Use a custom <code>__init__</code> if you require fundamentally different or more complex input logic that's incompatible with the
+autogenerated initializer.</p>
 <h3 id="composing-data-classes">Composing Data Classes<a class="headerlink" href="#composing-data-classes" title="Permanent link">#</a></h3>
 <p>Composition, another functional programming cornerstone, creates complex data types from simpler ones.
 Consider a <code>Person</code> object composed of <code>FullName</code>, <code>BirthDate</code>, and <code>Email</code> data classes:</p>
@@ -1941,8 +1952,10 @@ Consider a <code>Person</code> object composed of <code>FullName</code>, <code>B
 Invalid data never propagates, vastly simplifying subsequent interactions.</p>
 <h3 id="initvar"><code>InitVar</code><a class="headerlink" href="#initvar" title="Permanent link">#</a></h3>
 <p><code>InitVar</code> is part of the <code>dataclasses</code> module.
-It allows you to define fields that are only used during initialization but are not stored as attributes of the dataclass object.
-<code>InitVar</code> fields are passed as parameters to the <code>__init__</code> method and can be used within the <code>__post_init__</code> method for additional initialization logic.
+It allows you to define fields that are only used during initialization but are not stored as attributes of the
+dataclass object.
+<code>InitVar</code> fields are passed as parameters to the <code>__init__</code> method and can be used within the <code>__post_init__</code> method for
+additional initialization logic.
 They are not considered regular fields of the dataclass and are not included in the output of functions like <code>fields()</code>.</p>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="c1"># dataclass_initvar.py</span>
 </span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="c1"># pyright: reportAttributeAccessIssue=false</span>
@@ -1973,7 +1986,8 @@ They are not considered regular fields of the dataclass and are not included in 
 </span><span id="__span-11-27"><a id="__codelineno-11-27" name="__codelineno-11-27" href="#__codelineno-11-27"></a><span class="c1">## &#39;condition&#39;</span>
 </span></code></pre></div>
 <p>In this example, <code>condition</code> is an <code>InitVar</code>.
-It is used to conditionally set the <code>shelf_id</code> in <code>__post_init__</code> but is not stored as an attribute of the <code>Book</code> instance.</p>
+It is used to conditionally set the <code>shelf_id</code> in <code>__post_init__</code> but is not stored as an attribute of the <code>Book</code>
+instance.</p>
 <h2 id="enumerations">Enumerations<a class="headerlink" href="#enumerations" title="Permanent link">#</a></h2>
 <p>An <code>Enum</code> is also a type and is preferable when you have a smaller set of values.
 <code>Enum</code>s provide additional type safety for fixed-value sets</p>
@@ -2399,12 +2413,14 @@ Allowing inheritance conflicts with the meaning of "the set of valid members."</
 <div class="language-python highlight"><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="c1"># enum_mixins.py</span>
 </span><span id="__span-16-2"><a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">enum</span><span class="w"> </span><span class="kn">import</span> <span class="n">Enum</span>
 </span><span id="__span-16-3"><a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a>
-</span><span id="__span-16-4"><a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a><span class="k">class</span><span class="w"> </span><span class="nc">StrMixin</span><span class="p">(</span><span class="nb">str</span><span class="p">):</span>
-</span><span id="__span-16-5"><a id="__codelineno-16-5" name="__codelineno-16-5" href="#__codelineno-16-5"></a>  <span class="k">pass</span>
-</span><span id="__span-16-6"><a id="__codelineno-16-6" name="__codelineno-16-6" href="#__codelineno-16-6"></a>
-</span><span id="__span-16-7"><a id="__codelineno-16-7" name="__codelineno-16-7" href="#__codelineno-16-7"></a><span class="k">class</span><span class="w"> </span><span class="nc">Color</span><span class="p">(</span><span class="n">StrMixin</span><span class="p">,</span> <span class="n">Enum</span><span class="p">):</span>
-</span><span id="__span-16-8"><a id="__codelineno-16-8" name="__codelineno-16-8" href="#__codelineno-16-8"></a>  <span class="n">RED</span> <span class="o">=</span> <span class="s2">&quot;red&quot;</span>
-</span><span id="__span-16-9"><a id="__codelineno-16-9" name="__codelineno-16-9" href="#__codelineno-16-9"></a>  <span class="n">GREEN</span> <span class="o">=</span> <span class="s2">&quot;green&quot;</span>
+</span><span id="__span-16-4"><a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a>
+</span><span id="__span-16-5"><a id="__codelineno-16-5" name="__codelineno-16-5" href="#__codelineno-16-5"></a><span class="k">class</span><span class="w"> </span><span class="nc">StrMixin</span><span class="p">(</span><span class="nb">str</span><span class="p">):</span>
+</span><span id="__span-16-6"><a id="__codelineno-16-6" name="__codelineno-16-6" href="#__codelineno-16-6"></a>    <span class="k">pass</span>
+</span><span id="__span-16-7"><a id="__codelineno-16-7" name="__codelineno-16-7" href="#__codelineno-16-7"></a>
+</span><span id="__span-16-8"><a id="__codelineno-16-8" name="__codelineno-16-8" href="#__codelineno-16-8"></a>
+</span><span id="__span-16-9"><a id="__codelineno-16-9" name="__codelineno-16-9" href="#__codelineno-16-9"></a><span class="k">class</span><span class="w"> </span><span class="nc">Color</span><span class="p">(</span><span class="n">StrMixin</span><span class="p">,</span> <span class="n">Enum</span><span class="p">):</span>
+</span><span id="__span-16-10"><a id="__codelineno-16-10" name="__codelineno-16-10" href="#__codelineno-16-10"></a>    <span class="n">RED</span> <span class="o">=</span> <span class="s2">&quot;red&quot;</span>
+</span><span id="__span-16-11"><a id="__codelineno-16-11" name="__codelineno-16-11" href="#__codelineno-16-11"></a>    <span class="n">GREEN</span> <span class="o">=</span> <span class="s2">&quot;green&quot;</span>
 </span></code></pre></div>
 <p>Here, Color mixes in <code>str</code> behavior.
 Because it's an <code>Enum</code>, you can't inherit from <code>Color</code>.</p>
@@ -2415,27 +2431,30 @@ Because it's an <code>Enum</code>, you can't inherit from <code>Color</code>.</p
 </span><span id="__span-17-3"><a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a>
 </span><span id="__span-17-4"><a id="__codelineno-17-4" name="__codelineno-17-4" href="#__codelineno-17-4"></a>
 </span><span id="__span-17-5"><a id="__codelineno-17-5" name="__codelineno-17-5" href="#__codelineno-17-5"></a><span class="k">class</span><span class="w"> </span><span class="nc">Status</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
-</span><span id="__span-17-6"><a id="__codelineno-17-6" name="__codelineno-17-6" href="#__codelineno-17-6"></a>  <span class="n">OPEN</span> <span class="o">=</span> <span class="s2">&quot;open&quot;</span>
-</span><span id="__span-17-7"><a id="__codelineno-17-7" name="__codelineno-17-7" href="#__codelineno-17-7"></a>  <span class="n">CLOSED</span> <span class="o">=</span> <span class="s2">&quot;closed&quot;</span>
-</span><span id="__span-17-8"><a id="__codelineno-17-8" name="__codelineno-17-8" href="#__codelineno-17-8"></a>  <span class="n">PENDING</span> <span class="o">=</span> <span class="s2">&quot;pending&quot;</span>
+</span><span id="__span-17-6"><a id="__codelineno-17-6" name="__codelineno-17-6" href="#__codelineno-17-6"></a>    <span class="n">OPEN</span> <span class="o">=</span> <span class="s2">&quot;open&quot;</span>
+</span><span id="__span-17-7"><a id="__codelineno-17-7" name="__codelineno-17-7" href="#__codelineno-17-7"></a>    <span class="n">CLOSED</span> <span class="o">=</span> <span class="s2">&quot;closed&quot;</span>
+</span><span id="__span-17-8"><a id="__codelineno-17-8" name="__codelineno-17-8" href="#__codelineno-17-8"></a>    <span class="n">PENDING</span> <span class="o">=</span> <span class="s2">&quot;pending&quot;</span>
 </span><span id="__span-17-9"><a id="__codelineno-17-9" name="__codelineno-17-9" href="#__codelineno-17-9"></a>
-</span><span id="__span-17-10"><a id="__codelineno-17-10" name="__codelineno-17-10" href="#__codelineno-17-10"></a>  <span class="k">def</span><span class="w"> </span><span class="nf">handle</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-</span><span id="__span-17-11"><a id="__codelineno-17-11" name="__codelineno-17-11" href="#__codelineno-17-11"></a>    <span class="k">match</span> <span class="bp">self</span><span class="p">:</span>
-</span><span id="__span-17-12"><a id="__codelineno-17-12" name="__codelineno-17-12" href="#__codelineno-17-12"></a>      <span class="k">case</span> <span class="n">Status</span><span class="o">.</span><span class="n">OPEN</span><span class="p">:</span>
-</span><span id="__span-17-13"><a id="__codelineno-17-13" name="__codelineno-17-13" href="#__codelineno-17-13"></a>        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;open: </span><span class="si">{</span><span class="bp">self</span><span class="si">}</span><span class="s2">&quot;</span>
-</span><span id="__span-17-14"><a id="__codelineno-17-14" name="__codelineno-17-14" href="#__codelineno-17-14"></a>      <span class="k">case</span> <span class="n">Status</span><span class="o">.</span><span class="n">CLOSED</span><span class="p">:</span>
-</span><span id="__span-17-15"><a id="__codelineno-17-15" name="__codelineno-17-15" href="#__codelineno-17-15"></a>        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;closed: </span><span class="si">{</span><span class="bp">self</span><span class="si">}</span><span class="s2">&quot;</span>
-</span><span id="__span-17-16"><a id="__codelineno-17-16" name="__codelineno-17-16" href="#__codelineno-17-16"></a>      <span class="k">case</span> <span class="n">Status</span><span class="o">.</span><span class="n">PENDING</span><span class="p">:</span>
-</span><span id="__span-17-17"><a id="__codelineno-17-17" name="__codelineno-17-17" href="#__codelineno-17-17"></a>        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;pending: </span><span class="si">{</span><span class="bp">self</span><span class="si">}</span><span class="s2">&quot;</span>
-</span><span id="__span-17-18"><a id="__codelineno-17-18" name="__codelineno-17-18" href="#__codelineno-17-18"></a>      <span class="c1"># Not possible, but some type checkers</span>
-</span><span id="__span-17-19"><a id="__codelineno-17-19" name="__codelineno-17-19" href="#__codelineno-17-19"></a>      <span class="c1"># haven&#39;t caught up yet:</span>
-</span><span id="__span-17-20"><a id="__codelineno-17-20" name="__codelineno-17-20" href="#__codelineno-17-20"></a>      <span class="k">case</span><span class="w"> </span><span class="k">_</span><span class="p">:</span>
-</span><span id="__span-17-21"><a id="__codelineno-17-21" name="__codelineno-17-21" href="#__codelineno-17-21"></a>        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;Unhandled: </span><span class="si">{</span><span class="bp">self</span><span class="si">}</span><span class="s2">&quot;</span>
+</span><span id="__span-17-10"><a id="__codelineno-17-10" name="__codelineno-17-10" href="#__codelineno-17-10"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">handle</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+</span><span id="__span-17-11"><a id="__codelineno-17-11" name="__codelineno-17-11" href="#__codelineno-17-11"></a>        <span class="k">match</span> <span class="bp">self</span><span class="p">:</span>
+</span><span id="__span-17-12"><a id="__codelineno-17-12" name="__codelineno-17-12" href="#__codelineno-17-12"></a>            <span class="k">case</span> <span class="n">Status</span><span class="o">.</span><span class="n">OPEN</span><span class="p">:</span>
+</span><span id="__span-17-13"><a id="__codelineno-17-13" name="__codelineno-17-13" href="#__codelineno-17-13"></a>                <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;open: </span><span class="si">{</span><span class="bp">self</span><span class="si">}</span><span class="s2">&quot;</span>
+</span><span id="__span-17-14"><a id="__codelineno-17-14" name="__codelineno-17-14" href="#__codelineno-17-14"></a>            <span class="k">case</span> <span class="n">Status</span><span class="o">.</span><span class="n">CLOSED</span><span class="p">:</span>
+</span><span id="__span-17-15"><a id="__codelineno-17-15" name="__codelineno-17-15" href="#__codelineno-17-15"></a>                <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;closed: </span><span class="si">{</span><span class="bp">self</span><span class="si">}</span><span class="s2">&quot;</span>
+</span><span id="__span-17-16"><a id="__codelineno-17-16" name="__codelineno-17-16" href="#__codelineno-17-16"></a>            <span class="k">case</span> <span class="n">Status</span><span class="o">.</span><span class="n">PENDING</span><span class="p">:</span>
+</span><span id="__span-17-17"><a id="__codelineno-17-17" name="__codelineno-17-17" href="#__codelineno-17-17"></a>                <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;pending: </span><span class="si">{</span><span class="bp">self</span><span class="si">}</span><span class="s2">&quot;</span>
+</span><span id="__span-17-18"><a id="__codelineno-17-18" name="__codelineno-17-18" href="#__codelineno-17-18"></a>            <span class="c1"># Not possible, but some type checkers</span>
+</span><span id="__span-17-19"><a id="__codelineno-17-19" name="__codelineno-17-19" href="#__codelineno-17-19"></a>            <span class="c1"># haven&#39;t caught up yet:</span>
+</span><span id="__span-17-20"><a id="__codelineno-17-20" name="__codelineno-17-20" href="#__codelineno-17-20"></a>            <span class="k">case</span><span class="w"> </span><span class="k">_</span><span class="p">:</span>
+</span><span id="__span-17-21"><a id="__codelineno-17-21" name="__codelineno-17-21" href="#__codelineno-17-21"></a>                <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;Unhandled: </span><span class="si">{</span><span class="bp">self</span><span class="si">}</span><span class="s2">&quot;</span>
 </span><span id="__span-17-22"><a id="__codelineno-17-22" name="__codelineno-17-22" href="#__codelineno-17-22"></a>
 </span><span id="__span-17-23"><a id="__codelineno-17-23" name="__codelineno-17-23" href="#__codelineno-17-23"></a>
 </span><span id="__span-17-24"><a id="__codelineno-17-24" name="__codelineno-17-24" href="#__codelineno-17-24"></a><span class="nb">print</span><span class="p">(</span><span class="n">Status</span><span class="o">.</span><span class="n">OPEN</span><span class="o">.</span><span class="n">handle</span><span class="p">())</span>
-</span><span id="__span-17-25"><a id="__codelineno-17-25" name="__codelineno-17-25" href="#__codelineno-17-25"></a><span class="nb">print</span><span class="p">(</span><span class="n">Status</span><span class="o">.</span><span class="n">CLOSED</span><span class="o">.</span><span class="n">handle</span><span class="p">())</span>
-</span><span id="__span-17-26"><a id="__codelineno-17-26" name="__codelineno-17-26" href="#__codelineno-17-26"></a><span class="nb">print</span><span class="p">(</span><span class="n">Status</span><span class="o">.</span><span class="n">PENDING</span><span class="o">.</span><span class="n">handle</span><span class="p">())</span>
+</span><span id="__span-17-25"><a id="__codelineno-17-25" name="__codelineno-17-25" href="#__codelineno-17-25"></a><span class="c1">## open: Status.OPEN</span>
+</span><span id="__span-17-26"><a id="__codelineno-17-26" name="__codelineno-17-26" href="#__codelineno-17-26"></a><span class="nb">print</span><span class="p">(</span><span class="n">Status</span><span class="o">.</span><span class="n">CLOSED</span><span class="o">.</span><span class="n">handle</span><span class="p">())</span>
+</span><span id="__span-17-27"><a id="__codelineno-17-27" name="__codelineno-17-27" href="#__codelineno-17-27"></a><span class="c1">## closed: Status.CLOSED</span>
+</span><span id="__span-17-28"><a id="__codelineno-17-28" name="__codelineno-17-28" href="#__codelineno-17-28"></a><span class="nb">print</span><span class="p">(</span><span class="n">Status</span><span class="o">.</span><span class="n">PENDING</span><span class="o">.</span><span class="n">handle</span><span class="p">())</span>
+</span><span id="__span-17-29"><a id="__codelineno-17-29" name="__codelineno-17-29" href="#__codelineno-17-29"></a><span class="c1">## pending: Status.PENDING</span>
 </span></code></pre></div>
 <p>Because <code>Enum</code>s are closed, you know all possible <code>Status</code> members: <code>OPEN</code>, <code>CLOSED</code>, <code>PENDING</code>.
 The type checker warns you if you forget to handle a case.
@@ -2448,49 +2467,57 @@ No "unknown" cases can sneak in later because <code>Enum</code>s can't be subcla
 </span><span id="__span-18-5"><a id="__codelineno-18-5" name="__codelineno-18-5" href="#__codelineno-18-5"></a>
 </span><span id="__span-18-6"><a id="__codelineno-18-6" name="__codelineno-18-6" href="#__codelineno-18-6"></a>
 </span><span id="__span-18-7"><a id="__codelineno-18-7" name="__codelineno-18-7" href="#__codelineno-18-7"></a><span class="k">def</span><span class="w"> </span><span class="nf">open_next</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">Status</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Status</span><span class="p">:</span>
-</span><span id="__span-18-8"><a id="__codelineno-18-8" name="__codelineno-18-8" href="#__codelineno-18-8"></a>  <span class="n">_</span> <span class="o">=</span> <span class="bp">self</span>  <span class="c1"># Silence unused variable warning.</span>
-</span><span id="__span-18-9"><a id="__codelineno-18-9" name="__codelineno-18-9" href="#__codelineno-18-9"></a>  <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Moving from OPEN to PENDING.&quot;</span><span class="p">)</span>
-</span><span id="__span-18-10"><a id="__codelineno-18-10" name="__codelineno-18-10" href="#__codelineno-18-10"></a>  <span class="k">return</span> <span class="n">Status</span><span class="o">.</span><span class="n">PENDING</span>
+</span><span id="__span-18-8"><a id="__codelineno-18-8" name="__codelineno-18-8" href="#__codelineno-18-8"></a>    <span class="n">_</span> <span class="o">=</span> <span class="bp">self</span>  <span class="c1"># Silence unused variable warning.</span>
+</span><span id="__span-18-9"><a id="__codelineno-18-9" name="__codelineno-18-9" href="#__codelineno-18-9"></a>    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Moving from OPEN to PENDING.&quot;</span><span class="p">)</span>
+</span><span id="__span-18-10"><a id="__codelineno-18-10" name="__codelineno-18-10" href="#__codelineno-18-10"></a>    <span class="k">return</span> <span class="n">Status</span><span class="o">.</span><span class="n">PENDING</span>
 </span><span id="__span-18-11"><a id="__codelineno-18-11" name="__codelineno-18-11" href="#__codelineno-18-11"></a>
 </span><span id="__span-18-12"><a id="__codelineno-18-12" name="__codelineno-18-12" href="#__codelineno-18-12"></a>
 </span><span id="__span-18-13"><a id="__codelineno-18-13" name="__codelineno-18-13" href="#__codelineno-18-13"></a><span class="k">def</span><span class="w"> </span><span class="nf">pending_next</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">Status</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Status</span><span class="p">:</span>
-</span><span id="__span-18-14"><a id="__codelineno-18-14" name="__codelineno-18-14" href="#__codelineno-18-14"></a>  <span class="n">_</span> <span class="o">=</span> <span class="bp">self</span>
-</span><span id="__span-18-15"><a id="__codelineno-18-15" name="__codelineno-18-15" href="#__codelineno-18-15"></a>  <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Moving from PENDING to CLOSED.&quot;</span><span class="p">)</span>
-</span><span id="__span-18-16"><a id="__codelineno-18-16" name="__codelineno-18-16" href="#__codelineno-18-16"></a>  <span class="k">return</span> <span class="n">Status</span><span class="o">.</span><span class="n">CLOSED</span>
+</span><span id="__span-18-14"><a id="__codelineno-18-14" name="__codelineno-18-14" href="#__codelineno-18-14"></a>    <span class="n">_</span> <span class="o">=</span> <span class="bp">self</span>
+</span><span id="__span-18-15"><a id="__codelineno-18-15" name="__codelineno-18-15" href="#__codelineno-18-15"></a>    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Moving from PENDING to CLOSED.&quot;</span><span class="p">)</span>
+</span><span id="__span-18-16"><a id="__codelineno-18-16" name="__codelineno-18-16" href="#__codelineno-18-16"></a>    <span class="k">return</span> <span class="n">Status</span><span class="o">.</span><span class="n">CLOSED</span>
 </span><span id="__span-18-17"><a id="__codelineno-18-17" name="__codelineno-18-17" href="#__codelineno-18-17"></a>
 </span><span id="__span-18-18"><a id="__codelineno-18-18" name="__codelineno-18-18" href="#__codelineno-18-18"></a>
 </span><span id="__span-18-19"><a id="__codelineno-18-19" name="__codelineno-18-19" href="#__codelineno-18-19"></a><span class="k">def</span><span class="w"> </span><span class="nf">closed_next</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">Status</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Status</span><span class="p">:</span>
-</span><span id="__span-18-20"><a id="__codelineno-18-20" name="__codelineno-18-20" href="#__codelineno-18-20"></a>  <span class="n">_</span> <span class="o">=</span> <span class="bp">self</span>
-</span><span id="__span-18-21"><a id="__codelineno-18-21" name="__codelineno-18-21" href="#__codelineno-18-21"></a>  <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;CLOSED is a final state. Staying put.&quot;</span><span class="p">)</span>
-</span><span id="__span-18-22"><a id="__codelineno-18-22" name="__codelineno-18-22" href="#__codelineno-18-22"></a>  <span class="k">return</span> <span class="n">Status</span><span class="o">.</span><span class="n">CLOSED</span>
+</span><span id="__span-18-20"><a id="__codelineno-18-20" name="__codelineno-18-20" href="#__codelineno-18-20"></a>    <span class="n">_</span> <span class="o">=</span> <span class="bp">self</span>
+</span><span id="__span-18-21"><a id="__codelineno-18-21" name="__codelineno-18-21" href="#__codelineno-18-21"></a>    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;CLOSED is a final state. Staying put.&quot;</span><span class="p">)</span>
+</span><span id="__span-18-22"><a id="__codelineno-18-22" name="__codelineno-18-22" href="#__codelineno-18-22"></a>    <span class="k">return</span> <span class="n">Status</span><span class="o">.</span><span class="n">CLOSED</span>
 </span><span id="__span-18-23"><a id="__codelineno-18-23" name="__codelineno-18-23" href="#__codelineno-18-23"></a>
 </span><span id="__span-18-24"><a id="__codelineno-18-24" name="__codelineno-18-24" href="#__codelineno-18-24"></a>
 </span><span id="__span-18-25"><a id="__codelineno-18-25" name="__codelineno-18-25" href="#__codelineno-18-25"></a><span class="k">class</span><span class="w"> </span><span class="nc">Status</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
-</span><span id="__span-18-26"><a id="__codelineno-18-26" name="__codelineno-18-26" href="#__codelineno-18-26"></a>  <span class="n">OPEN</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;open&quot;</span><span class="p">,</span> <span class="n">open_next</span><span class="p">)</span>
-</span><span id="__span-18-27"><a id="__codelineno-18-27" name="__codelineno-18-27" href="#__codelineno-18-27"></a>  <span class="n">PENDING</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;pending&quot;</span><span class="p">,</span> <span class="n">pending_next</span><span class="p">)</span>
-</span><span id="__span-18-28"><a id="__codelineno-18-28" name="__codelineno-18-28" href="#__codelineno-18-28"></a>  <span class="n">CLOSED</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;closed&quot;</span><span class="p">,</span> <span class="n">closed_next</span><span class="p">)</span>
+</span><span id="__span-18-26"><a id="__codelineno-18-26" name="__codelineno-18-26" href="#__codelineno-18-26"></a>    <span class="n">OPEN</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;open&quot;</span><span class="p">,</span> <span class="n">open_next</span><span class="p">)</span>
+</span><span id="__span-18-27"><a id="__codelineno-18-27" name="__codelineno-18-27" href="#__codelineno-18-27"></a>    <span class="n">PENDING</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;pending&quot;</span><span class="p">,</span> <span class="n">pending_next</span><span class="p">)</span>
+</span><span id="__span-18-28"><a id="__codelineno-18-28" name="__codelineno-18-28" href="#__codelineno-18-28"></a>    <span class="n">CLOSED</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;closed&quot;</span><span class="p">,</span> <span class="n">closed_next</span><span class="p">)</span>
 </span><span id="__span-18-29"><a id="__codelineno-18-29" name="__codelineno-18-29" href="#__codelineno-18-29"></a>
-</span><span id="__span-18-30"><a id="__codelineno-18-30" name="__codelineno-18-30" href="#__codelineno-18-30"></a>  <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">label</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">next_handler</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">Status</span><span class="p">],</span> <span class="n">Status</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-</span><span id="__span-18-31"><a id="__codelineno-18-31" name="__codelineno-18-31" href="#__codelineno-18-31"></a>    <span class="bp">self</span><span class="o">.</span><span class="n">_label</span> <span class="o">=</span> <span class="n">label</span>
-</span><span id="__span-18-32"><a id="__codelineno-18-32" name="__codelineno-18-32" href="#__codelineno-18-32"></a>    <span class="bp">self</span><span class="o">.</span><span class="n">_next_handler</span> <span class="o">=</span> <span class="n">next_handler</span>
-</span><span id="__span-18-33"><a id="__codelineno-18-33" name="__codelineno-18-33" href="#__codelineno-18-33"></a>
-</span><span id="__span-18-34"><a id="__codelineno-18-34" name="__codelineno-18-34" href="#__codelineno-18-34"></a>  <span class="k">def</span><span class="w"> </span><span class="nf">next</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Status</span><span class="p">:</span>
-</span><span id="__span-18-35"><a id="__codelineno-18-35" name="__codelineno-18-35" href="#__codelineno-18-35"></a>    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_next_handler</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
-</span><span id="__span-18-36"><a id="__codelineno-18-36" name="__codelineno-18-36" href="#__codelineno-18-36"></a>
-</span><span id="__span-18-37"><a id="__codelineno-18-37" name="__codelineno-18-37" href="#__codelineno-18-37"></a>  <span class="nd">@property</span>
-</span><span id="__span-18-38"><a id="__codelineno-18-38" name="__codelineno-18-38" href="#__codelineno-18-38"></a>  <span class="k">def</span><span class="w"> </span><span class="nf">label</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-</span><span id="__span-18-39"><a id="__codelineno-18-39" name="__codelineno-18-39" href="#__codelineno-18-39"></a>    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_label</span>
+</span><span id="__span-18-30"><a id="__codelineno-18-30" name="__codelineno-18-30" href="#__codelineno-18-30"></a>    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+</span><span id="__span-18-31"><a id="__codelineno-18-31" name="__codelineno-18-31" href="#__codelineno-18-31"></a>        <span class="bp">self</span><span class="p">,</span>
+</span><span id="__span-18-32"><a id="__codelineno-18-32" name="__codelineno-18-32" href="#__codelineno-18-32"></a>        <span class="n">label</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+</span><span id="__span-18-33"><a id="__codelineno-18-33" name="__codelineno-18-33" href="#__codelineno-18-33"></a>        <span class="n">next_handler</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">Status</span><span class="p">],</span> <span class="n">Status</span><span class="p">],</span>
+</span><span id="__span-18-34"><a id="__codelineno-18-34" name="__codelineno-18-34" href="#__codelineno-18-34"></a>    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="__span-18-35"><a id="__codelineno-18-35" name="__codelineno-18-35" href="#__codelineno-18-35"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">_label</span> <span class="o">=</span> <span class="n">label</span>
+</span><span id="__span-18-36"><a id="__codelineno-18-36" name="__codelineno-18-36" href="#__codelineno-18-36"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">_next_handler</span> <span class="o">=</span> <span class="n">next_handler</span>
+</span><span id="__span-18-37"><a id="__codelineno-18-37" name="__codelineno-18-37" href="#__codelineno-18-37"></a>
+</span><span id="__span-18-38"><a id="__codelineno-18-38" name="__codelineno-18-38" href="#__codelineno-18-38"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">next</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Status</span><span class="p">:</span>
+</span><span id="__span-18-39"><a id="__codelineno-18-39" name="__codelineno-18-39" href="#__codelineno-18-39"></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_next_handler</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 </span><span id="__span-18-40"><a id="__codelineno-18-40" name="__codelineno-18-40" href="#__codelineno-18-40"></a>
-</span><span id="__span-18-41"><a id="__codelineno-18-41" name="__codelineno-18-41" href="#__codelineno-18-41"></a>
-</span><span id="__span-18-42"><a id="__codelineno-18-42" name="__codelineno-18-42" href="#__codelineno-18-42"></a><span class="n">state</span> <span class="o">=</span> <span class="n">Status</span><span class="o">.</span><span class="n">OPEN</span>
-</span><span id="__span-18-43"><a id="__codelineno-18-43" name="__codelineno-18-43" href="#__codelineno-18-43"></a><span class="k">while</span> <span class="n">state</span> <span class="o">!=</span> <span class="n">Status</span><span class="o">.</span><span class="n">CLOSED</span><span class="p">:</span>
-</span><span id="__span-18-44"><a id="__codelineno-18-44" name="__codelineno-18-44" href="#__codelineno-18-44"></a>  <span class="nb">print</span><span class="p">(</span><span class="n">state</span><span class="o">.</span><span class="n">label</span><span class="p">)</span>
-</span><span id="__span-18-45"><a id="__codelineno-18-45" name="__codelineno-18-45" href="#__codelineno-18-45"></a>  <span class="n">state</span> <span class="o">=</span> <span class="n">state</span><span class="o">.</span><span class="n">next</span><span class="p">()</span>
+</span><span id="__span-18-41"><a id="__codelineno-18-41" name="__codelineno-18-41" href="#__codelineno-18-41"></a>    <span class="nd">@property</span>
+</span><span id="__span-18-42"><a id="__codelineno-18-42" name="__codelineno-18-42" href="#__codelineno-18-42"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">label</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+</span><span id="__span-18-43"><a id="__codelineno-18-43" name="__codelineno-18-43" href="#__codelineno-18-43"></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_label</span>
+</span><span id="__span-18-44"><a id="__codelineno-18-44" name="__codelineno-18-44" href="#__codelineno-18-44"></a>
+</span><span id="__span-18-45"><a id="__codelineno-18-45" name="__codelineno-18-45" href="#__codelineno-18-45"></a>
+</span><span id="__span-18-46"><a id="__codelineno-18-46" name="__codelineno-18-46" href="#__codelineno-18-46"></a><span class="n">state</span> <span class="o">=</span> <span class="n">Status</span><span class="o">.</span><span class="n">OPEN</span>
+</span><span id="__span-18-47"><a id="__codelineno-18-47" name="__codelineno-18-47" href="#__codelineno-18-47"></a><span class="k">while</span> <span class="n">state</span> <span class="o">!=</span> <span class="n">Status</span><span class="o">.</span><span class="n">CLOSED</span><span class="p">:</span>
+</span><span id="__span-18-48"><a id="__codelineno-18-48" name="__codelineno-18-48" href="#__codelineno-18-48"></a>    <span class="nb">print</span><span class="p">(</span><span class="n">state</span><span class="o">.</span><span class="n">label</span><span class="p">)</span>
+</span><span id="__span-18-49"><a id="__codelineno-18-49" name="__codelineno-18-49" href="#__codelineno-18-49"></a>    <span class="n">state</span> <span class="o">=</span> <span class="n">state</span><span class="o">.</span><span class="n">next</span><span class="p">()</span>
+</span><span id="__span-18-50"><a id="__codelineno-18-50" name="__codelineno-18-50" href="#__codelineno-18-50"></a><span class="c1">## open</span>
+</span><span id="__span-18-51"><a id="__codelineno-18-51" name="__codelineno-18-51" href="#__codelineno-18-51"></a><span class="c1">## Moving from OPEN to PENDING.</span>
+</span><span id="__span-18-52"><a id="__codelineno-18-52" name="__codelineno-18-52" href="#__codelineno-18-52"></a><span class="c1">## pending</span>
+</span><span id="__span-18-53"><a id="__codelineno-18-53" name="__codelineno-18-53" href="#__codelineno-18-53"></a><span class="c1">## Moving from PENDING to CLOSED.</span>
 </span></code></pre></div>
 <p>Each <code>Enum</code> member (<code>Status.OPEN</code>, etc.) carries two pieces of information:</p>
 <ol>
 <li>
-<p>A label ("open", "pending" or "closed")</p>
+<p>A label: "open" or "pending" or "closed"</p>
 </li>
 <li>
 <p>A handler function <code>_next_handler</code></p>
@@ -2508,62 +2535,80 @@ fully typed and as clean as possible. Here's a way to do that:</p>
 </span><span id="__span-19-4"><a id="__codelineno-19-4" name="__codelineno-19-4" href="#__codelineno-19-4"></a>
 </span><span id="__span-19-5"><a id="__codelineno-19-5" name="__codelineno-19-5" href="#__codelineno-19-5"></a>
 </span><span id="__span-19-6"><a id="__codelineno-19-6" name="__codelineno-19-6" href="#__codelineno-19-6"></a><span class="k">class</span><span class="w"> </span><span class="nc">Event</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
-</span><span id="__span-19-7"><a id="__codelineno-19-7" name="__codelineno-19-7" href="#__codelineno-19-7"></a>  <span class="n">SUBMIT</span> <span class="o">=</span> <span class="s2">&quot;submit&quot;</span>
-</span><span id="__span-19-8"><a id="__codelineno-19-8" name="__codelineno-19-8" href="#__codelineno-19-8"></a>  <span class="n">APPROVE</span> <span class="o">=</span> <span class="s2">&quot;approve&quot;</span>
-</span><span id="__span-19-9"><a id="__codelineno-19-9" name="__codelineno-19-9" href="#__codelineno-19-9"></a>  <span class="n">REJECT</span> <span class="o">=</span> <span class="s2">&quot;reject&quot;</span>
-</span><span id="__span-19-10"><a id="__codelineno-19-10" name="__codelineno-19-10" href="#__codelineno-19-10"></a>  <span class="n">REOPEN</span> <span class="o">=</span> <span class="s2">&quot;reopen&quot;</span>
+</span><span id="__span-19-7"><a id="__codelineno-19-7" name="__codelineno-19-7" href="#__codelineno-19-7"></a>    <span class="n">SUBMIT</span> <span class="o">=</span> <span class="s2">&quot;submit&quot;</span>
+</span><span id="__span-19-8"><a id="__codelineno-19-8" name="__codelineno-19-8" href="#__codelineno-19-8"></a>    <span class="n">APPROVE</span> <span class="o">=</span> <span class="s2">&quot;approve&quot;</span>
+</span><span id="__span-19-9"><a id="__codelineno-19-9" name="__codelineno-19-9" href="#__codelineno-19-9"></a>    <span class="n">REJECT</span> <span class="o">=</span> <span class="s2">&quot;reject&quot;</span>
+</span><span id="__span-19-10"><a id="__codelineno-19-10" name="__codelineno-19-10" href="#__codelineno-19-10"></a>    <span class="n">REOPEN</span> <span class="o">=</span> <span class="s2">&quot;reopen&quot;</span>
 </span><span id="__span-19-11"><a id="__codelineno-19-11" name="__codelineno-19-11" href="#__codelineno-19-11"></a>
 </span><span id="__span-19-12"><a id="__codelineno-19-12" name="__codelineno-19-12" href="#__codelineno-19-12"></a>
 </span><span id="__span-19-13"><a id="__codelineno-19-13" name="__codelineno-19-13" href="#__codelineno-19-13"></a><span class="k">class</span><span class="w"> </span><span class="nc">Status</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
-</span><span id="__span-19-14"><a id="__codelineno-19-14" name="__codelineno-19-14" href="#__codelineno-19-14"></a>  <span class="n">OPEN</span> <span class="o">=</span> <span class="s2">&quot;open&quot;</span>
-</span><span id="__span-19-15"><a id="__codelineno-19-15" name="__codelineno-19-15" href="#__codelineno-19-15"></a>  <span class="n">PENDING</span> <span class="o">=</span> <span class="s2">&quot;pending&quot;</span>
-</span><span id="__span-19-16"><a id="__codelineno-19-16" name="__codelineno-19-16" href="#__codelineno-19-16"></a>  <span class="n">CLOSED</span> <span class="o">=</span> <span class="s2">&quot;closed&quot;</span>
+</span><span id="__span-19-14"><a id="__codelineno-19-14" name="__codelineno-19-14" href="#__codelineno-19-14"></a>    <span class="n">OPEN</span> <span class="o">=</span> <span class="s2">&quot;open&quot;</span>
+</span><span id="__span-19-15"><a id="__codelineno-19-15" name="__codelineno-19-15" href="#__codelineno-19-15"></a>    <span class="n">PENDING</span> <span class="o">=</span> <span class="s2">&quot;pending&quot;</span>
+</span><span id="__span-19-16"><a id="__codelineno-19-16" name="__codelineno-19-16" href="#__codelineno-19-16"></a>    <span class="n">CLOSED</span> <span class="o">=</span> <span class="s2">&quot;closed&quot;</span>
 </span><span id="__span-19-17"><a id="__codelineno-19-17" name="__codelineno-19-17" href="#__codelineno-19-17"></a>
-</span><span id="__span-19-18"><a id="__codelineno-19-18" name="__codelineno-19-18" href="#__codelineno-19-18"></a>  <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">label</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-</span><span id="__span-19-19"><a id="__codelineno-19-19" name="__codelineno-19-19" href="#__codelineno-19-19"></a>    <span class="bp">self</span><span class="o">.</span><span class="n">_label</span> <span class="o">=</span> <span class="n">label</span>
+</span><span id="__span-19-18"><a id="__codelineno-19-18" name="__codelineno-19-18" href="#__codelineno-19-18"></a>    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">label</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="__span-19-19"><a id="__codelineno-19-19" name="__codelineno-19-19" href="#__codelineno-19-19"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">_label</span> <span class="o">=</span> <span class="n">label</span>
 </span><span id="__span-19-20"><a id="__codelineno-19-20" name="__codelineno-19-20" href="#__codelineno-19-20"></a>
-</span><span id="__span-19-21"><a id="__codelineno-19-21" name="__codelineno-19-21" href="#__codelineno-19-21"></a>  <span class="k">def</span><span class="w"> </span><span class="nf">on_event</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">:</span> <span class="n">Event</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Status&quot;</span><span class="p">:</span>
-</span><span id="__span-19-22"><a id="__codelineno-19-22" name="__codelineno-19-22" href="#__codelineno-19-22"></a>    <span class="n">mapping</span> <span class="o">=</span> <span class="n">_TRANSITIONS</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="p">{})</span>
-</span><span id="__span-19-23"><a id="__codelineno-19-23" name="__codelineno-19-23" href="#__codelineno-19-23"></a>    <span class="n">next_state</span> <span class="o">=</span> <span class="n">mapping</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">event</span><span class="p">)</span>
-</span><span id="__span-19-24"><a id="__codelineno-19-24" name="__codelineno-19-24" href="#__codelineno-19-24"></a>    <span class="k">if</span> <span class="n">next_state</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-</span><span id="__span-19-25"><a id="__codelineno-19-25" name="__codelineno-19-25" href="#__codelineno-19-25"></a>      <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Invalid </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2"> &amp; </span><span class="si">{</span><span class="n">event</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-</span><span id="__span-19-26"><a id="__codelineno-19-26" name="__codelineno-19-26" href="#__codelineno-19-26"></a>      <span class="k">return</span> <span class="bp">self</span>
-</span><span id="__span-19-27"><a id="__codelineno-19-27" name="__codelineno-19-27" href="#__codelineno-19-27"></a>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2"> + </span><span class="si">{</span><span class="n">event</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2"> -&gt; </span><span class="si">{</span><span class="n">next_state</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-</span><span id="__span-19-28"><a id="__codelineno-19-28" name="__codelineno-19-28" href="#__codelineno-19-28"></a>    <span class="k">return</span> <span class="n">next_state</span>
-</span><span id="__span-19-29"><a id="__codelineno-19-29" name="__codelineno-19-29" href="#__codelineno-19-29"></a>
-</span><span id="__span-19-30"><a id="__codelineno-19-30" name="__codelineno-19-30" href="#__codelineno-19-30"></a>  <span class="nd">@property</span>
-</span><span id="__span-19-31"><a id="__codelineno-19-31" name="__codelineno-19-31" href="#__codelineno-19-31"></a>  <span class="k">def</span><span class="w"> </span><span class="nf">label</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-</span><span id="__span-19-32"><a id="__codelineno-19-32" name="__codelineno-19-32" href="#__codelineno-19-32"></a>    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_label</span>
-</span><span id="__span-19-33"><a id="__codelineno-19-33" name="__codelineno-19-33" href="#__codelineno-19-33"></a>
-</span><span id="__span-19-34"><a id="__codelineno-19-34" name="__codelineno-19-34" href="#__codelineno-19-34"></a>
-</span><span id="__span-19-35"><a id="__codelineno-19-35" name="__codelineno-19-35" href="#__codelineno-19-35"></a><span class="c1"># Mapping of transitions: {current_status: {event: next_status}}</span>
-</span><span id="__span-19-36"><a id="__codelineno-19-36" name="__codelineno-19-36" href="#__codelineno-19-36"></a><span class="n">_TRANSITIONS</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="n">Status</span><span class="p">,</span> <span class="n">Dict</span><span class="p">[</span><span class="n">Event</span><span class="p">,</span> <span class="n">Status</span><span class="p">]]</span> <span class="o">=</span> <span class="p">{</span>
-</span><span id="__span-19-37"><a id="__codelineno-19-37" name="__codelineno-19-37" href="#__codelineno-19-37"></a>  <span class="n">Status</span><span class="o">.</span><span class="n">OPEN</span><span class="p">:</span> <span class="p">{</span><span class="n">Event</span><span class="o">.</span><span class="n">SUBMIT</span><span class="p">:</span> <span class="n">Status</span><span class="o">.</span><span class="n">PENDING</span><span class="p">},</span>
-</span><span id="__span-19-38"><a id="__codelineno-19-38" name="__codelineno-19-38" href="#__codelineno-19-38"></a>  <span class="n">Status</span><span class="o">.</span><span class="n">PENDING</span><span class="p">:</span> <span class="p">{</span><span class="n">Event</span><span class="o">.</span><span class="n">APPROVE</span><span class="p">:</span> <span class="n">Status</span><span class="o">.</span><span class="n">CLOSED</span><span class="p">,</span> <span class="n">Event</span><span class="o">.</span><span class="n">REJECT</span><span class="p">:</span> <span class="n">Status</span><span class="o">.</span><span class="n">OPEN</span><span class="p">},</span>
-</span><span id="__span-19-39"><a id="__codelineno-19-39" name="__codelineno-19-39" href="#__codelineno-19-39"></a>  <span class="n">Status</span><span class="o">.</span><span class="n">CLOSED</span><span class="p">:</span> <span class="p">{</span><span class="n">Event</span><span class="o">.</span><span class="n">REOPEN</span><span class="p">:</span> <span class="n">Status</span><span class="o">.</span><span class="n">OPEN</span><span class="p">},</span>
-</span><span id="__span-19-40"><a id="__codelineno-19-40" name="__codelineno-19-40" href="#__codelineno-19-40"></a><span class="p">}</span>
-</span><span id="__span-19-41"><a id="__codelineno-19-41" name="__codelineno-19-41" href="#__codelineno-19-41"></a>
-</span><span id="__span-19-42"><a id="__codelineno-19-42" name="__codelineno-19-42" href="#__codelineno-19-42"></a>
-</span><span id="__span-19-43"><a id="__codelineno-19-43" name="__codelineno-19-43" href="#__codelineno-19-43"></a><span class="k">def</span><span class="w"> </span><span class="nf">run</span><span class="p">(</span><span class="n">initial</span><span class="p">:</span> <span class="n">Status</span><span class="p">,</span> <span class="n">events</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">Event</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-</span><span id="__span-19-44"><a id="__codelineno-19-44" name="__codelineno-19-44" href="#__codelineno-19-44"></a><span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
-</span><span id="__span-19-45"><a id="__codelineno-19-45" name="__codelineno-19-45" href="#__codelineno-19-45"></a><span class="sd">  Execute a sequence of events starting from the given initial status.</span>
-</span><span id="__span-19-46"><a id="__codelineno-19-46" name="__codelineno-19-46" href="#__codelineno-19-46"></a><span class="sd">  &quot;&quot;&quot;</span>
-</span><span id="__span-19-47"><a id="__codelineno-19-47" name="__codelineno-19-47" href="#__codelineno-19-47"></a>  <span class="n">state</span> <span class="o">=</span> <span class="n">initial</span>
-</span><span id="__span-19-48"><a id="__codelineno-19-48" name="__codelineno-19-48" href="#__codelineno-19-48"></a>  <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Starting at </span><span class="si">{</span><span class="n">state</span><span class="o">.</span><span class="n">label</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-</span><span id="__span-19-49"><a id="__codelineno-19-49" name="__codelineno-19-49" href="#__codelineno-19-49"></a>  <span class="k">for</span> <span class="n">event</span> <span class="ow">in</span> <span class="n">events</span><span class="p">:</span>
-</span><span id="__span-19-50"><a id="__codelineno-19-50" name="__codelineno-19-50" href="#__codelineno-19-50"></a>    <span class="n">state</span> <span class="o">=</span> <span class="n">state</span><span class="o">.</span><span class="n">on_event</span><span class="p">(</span><span class="n">event</span><span class="p">)</span>
-</span><span id="__span-19-51"><a id="__codelineno-19-51" name="__codelineno-19-51" href="#__codelineno-19-51"></a>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Now at </span><span class="si">{</span><span class="n">state</span><span class="o">.</span><span class="n">label</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-</span><span id="__span-19-52"><a id="__codelineno-19-52" name="__codelineno-19-52" href="#__codelineno-19-52"></a>
-</span><span id="__span-19-53"><a id="__codelineno-19-53" name="__codelineno-19-53" href="#__codelineno-19-53"></a>
-</span><span id="__span-19-54"><a id="__codelineno-19-54" name="__codelineno-19-54" href="#__codelineno-19-54"></a><span class="n">workflow</span> <span class="o">=</span> <span class="p">[</span>
-</span><span id="__span-19-55"><a id="__codelineno-19-55" name="__codelineno-19-55" href="#__codelineno-19-55"></a>  <span class="n">Event</span><span class="o">.</span><span class="n">SUBMIT</span><span class="p">,</span>
-</span><span id="__span-19-56"><a id="__codelineno-19-56" name="__codelineno-19-56" href="#__codelineno-19-56"></a>  <span class="n">Event</span><span class="o">.</span><span class="n">REOPEN</span><span class="p">,</span>
-</span><span id="__span-19-57"><a id="__codelineno-19-57" name="__codelineno-19-57" href="#__codelineno-19-57"></a>  <span class="n">Event</span><span class="o">.</span><span class="n">REJECT</span><span class="p">,</span>
-</span><span id="__span-19-58"><a id="__codelineno-19-58" name="__codelineno-19-58" href="#__codelineno-19-58"></a>  <span class="n">Event</span><span class="o">.</span><span class="n">SUBMIT</span><span class="p">,</span>
-</span><span id="__span-19-59"><a id="__codelineno-19-59" name="__codelineno-19-59" href="#__codelineno-19-59"></a>  <span class="n">Event</span><span class="o">.</span><span class="n">APPROVE</span><span class="p">,</span>
-</span><span id="__span-19-60"><a id="__codelineno-19-60" name="__codelineno-19-60" href="#__codelineno-19-60"></a>  <span class="n">Event</span><span class="o">.</span><span class="n">REOPEN</span><span class="p">,</span>
-</span><span id="__span-19-61"><a id="__codelineno-19-61" name="__codelineno-19-61" href="#__codelineno-19-61"></a><span class="p">]</span>
-</span><span id="__span-19-62"><a id="__codelineno-19-62" name="__codelineno-19-62" href="#__codelineno-19-62"></a><span class="n">run</span><span class="p">(</span><span class="n">Status</span><span class="o">.</span><span class="n">OPEN</span><span class="p">,</span> <span class="n">workflow</span><span class="p">)</span>
+</span><span id="__span-19-21"><a id="__codelineno-19-21" name="__codelineno-19-21" href="#__codelineno-19-21"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">on_event</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">:</span> <span class="n">Event</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Status&quot;</span><span class="p">:</span>
+</span><span id="__span-19-22"><a id="__codelineno-19-22" name="__codelineno-19-22" href="#__codelineno-19-22"></a>        <span class="n">mapping</span> <span class="o">=</span> <span class="n">_TRANSITIONS</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="p">{})</span>
+</span><span id="__span-19-23"><a id="__codelineno-19-23" name="__codelineno-19-23" href="#__codelineno-19-23"></a>        <span class="n">next_state</span> <span class="o">=</span> <span class="n">mapping</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">event</span><span class="p">)</span>
+</span><span id="__span-19-24"><a id="__codelineno-19-24" name="__codelineno-19-24" href="#__codelineno-19-24"></a>        <span class="k">if</span> <span class="n">next_state</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="__span-19-25"><a id="__codelineno-19-25" name="__codelineno-19-25" href="#__codelineno-19-25"></a>            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Invalid </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2"> &amp; </span><span class="si">{</span><span class="n">event</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</span><span id="__span-19-26"><a id="__codelineno-19-26" name="__codelineno-19-26" href="#__codelineno-19-26"></a>            <span class="k">return</span> <span class="bp">self</span>
+</span><span id="__span-19-27"><a id="__codelineno-19-27" name="__codelineno-19-27" href="#__codelineno-19-27"></a>        <span class="nb">print</span><span class="p">(</span>
+</span><span id="__span-19-28"><a id="__codelineno-19-28" name="__codelineno-19-28" href="#__codelineno-19-28"></a>            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2"> + </span><span class="si">{</span><span class="n">event</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2"> -&gt; </span><span class="si">{</span><span class="n">next_state</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span>
+</span><span id="__span-19-29"><a id="__codelineno-19-29" name="__codelineno-19-29" href="#__codelineno-19-29"></a>        <span class="p">)</span>
+</span><span id="__span-19-30"><a id="__codelineno-19-30" name="__codelineno-19-30" href="#__codelineno-19-30"></a>        <span class="k">return</span> <span class="n">next_state</span>
+</span><span id="__span-19-31"><a id="__codelineno-19-31" name="__codelineno-19-31" href="#__codelineno-19-31"></a>
+</span><span id="__span-19-32"><a id="__codelineno-19-32" name="__codelineno-19-32" href="#__codelineno-19-32"></a>    <span class="nd">@property</span>
+</span><span id="__span-19-33"><a id="__codelineno-19-33" name="__codelineno-19-33" href="#__codelineno-19-33"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">label</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+</span><span id="__span-19-34"><a id="__codelineno-19-34" name="__codelineno-19-34" href="#__codelineno-19-34"></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_label</span>
+</span><span id="__span-19-35"><a id="__codelineno-19-35" name="__codelineno-19-35" href="#__codelineno-19-35"></a>
+</span><span id="__span-19-36"><a id="__codelineno-19-36" name="__codelineno-19-36" href="#__codelineno-19-36"></a>
+</span><span id="__span-19-37"><a id="__codelineno-19-37" name="__codelineno-19-37" href="#__codelineno-19-37"></a><span class="c1"># Mapping of transitions: {current_status: {event: next_status}}</span>
+</span><span id="__span-19-38"><a id="__codelineno-19-38" name="__codelineno-19-38" href="#__codelineno-19-38"></a><span class="n">_TRANSITIONS</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="n">Status</span><span class="p">,</span> <span class="n">Dict</span><span class="p">[</span><span class="n">Event</span><span class="p">,</span> <span class="n">Status</span><span class="p">]]</span> <span class="o">=</span> <span class="p">{</span>
+</span><span id="__span-19-39"><a id="__codelineno-19-39" name="__codelineno-19-39" href="#__codelineno-19-39"></a>    <span class="n">Status</span><span class="o">.</span><span class="n">OPEN</span><span class="p">:</span> <span class="p">{</span><span class="n">Event</span><span class="o">.</span><span class="n">SUBMIT</span><span class="p">:</span> <span class="n">Status</span><span class="o">.</span><span class="n">PENDING</span><span class="p">},</span>
+</span><span id="__span-19-40"><a id="__codelineno-19-40" name="__codelineno-19-40" href="#__codelineno-19-40"></a>    <span class="n">Status</span><span class="o">.</span><span class="n">PENDING</span><span class="p">:</span> <span class="p">{</span>
+</span><span id="__span-19-41"><a id="__codelineno-19-41" name="__codelineno-19-41" href="#__codelineno-19-41"></a>        <span class="n">Event</span><span class="o">.</span><span class="n">APPROVE</span><span class="p">:</span> <span class="n">Status</span><span class="o">.</span><span class="n">CLOSED</span><span class="p">,</span>
+</span><span id="__span-19-42"><a id="__codelineno-19-42" name="__codelineno-19-42" href="#__codelineno-19-42"></a>        <span class="n">Event</span><span class="o">.</span><span class="n">REJECT</span><span class="p">:</span> <span class="n">Status</span><span class="o">.</span><span class="n">OPEN</span><span class="p">,</span>
+</span><span id="__span-19-43"><a id="__codelineno-19-43" name="__codelineno-19-43" href="#__codelineno-19-43"></a>    <span class="p">},</span>
+</span><span id="__span-19-44"><a id="__codelineno-19-44" name="__codelineno-19-44" href="#__codelineno-19-44"></a>    <span class="n">Status</span><span class="o">.</span><span class="n">CLOSED</span><span class="p">:</span> <span class="p">{</span><span class="n">Event</span><span class="o">.</span><span class="n">REOPEN</span><span class="p">:</span> <span class="n">Status</span><span class="o">.</span><span class="n">OPEN</span><span class="p">},</span>
+</span><span id="__span-19-45"><a id="__codelineno-19-45" name="__codelineno-19-45" href="#__codelineno-19-45"></a><span class="p">}</span>
+</span><span id="__span-19-46"><a id="__codelineno-19-46" name="__codelineno-19-46" href="#__codelineno-19-46"></a>
+</span><span id="__span-19-47"><a id="__codelineno-19-47" name="__codelineno-19-47" href="#__codelineno-19-47"></a>
+</span><span id="__span-19-48"><a id="__codelineno-19-48" name="__codelineno-19-48" href="#__codelineno-19-48"></a><span class="k">def</span><span class="w"> </span><span class="nf">run</span><span class="p">(</span><span class="n">initial</span><span class="p">:</span> <span class="n">Status</span><span class="p">,</span> <span class="n">events</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">Event</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="__span-19-49"><a id="__codelineno-19-49" name="__codelineno-19-49" href="#__codelineno-19-49"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="__span-19-50"><a id="__codelineno-19-50" name="__codelineno-19-50" href="#__codelineno-19-50"></a><span class="sd">    Execute a sequence of events starting from the given initial status.</span>
+</span><span id="__span-19-51"><a id="__codelineno-19-51" name="__codelineno-19-51" href="#__codelineno-19-51"></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="__span-19-52"><a id="__codelineno-19-52" name="__codelineno-19-52" href="#__codelineno-19-52"></a>    <span class="n">state</span> <span class="o">=</span> <span class="n">initial</span>
+</span><span id="__span-19-53"><a id="__codelineno-19-53" name="__codelineno-19-53" href="#__codelineno-19-53"></a>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Starting at </span><span class="si">{</span><span class="n">state</span><span class="o">.</span><span class="n">label</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</span><span id="__span-19-54"><a id="__codelineno-19-54" name="__codelineno-19-54" href="#__codelineno-19-54"></a>    <span class="k">for</span> <span class="n">event</span> <span class="ow">in</span> <span class="n">events</span><span class="p">:</span>
+</span><span id="__span-19-55"><a id="__codelineno-19-55" name="__codelineno-19-55" href="#__codelineno-19-55"></a>        <span class="n">state</span> <span class="o">=</span> <span class="n">state</span><span class="o">.</span><span class="n">on_event</span><span class="p">(</span><span class="n">event</span><span class="p">)</span>
+</span><span id="__span-19-56"><a id="__codelineno-19-56" name="__codelineno-19-56" href="#__codelineno-19-56"></a>        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Now at </span><span class="si">{</span><span class="n">state</span><span class="o">.</span><span class="n">label</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</span><span id="__span-19-57"><a id="__codelineno-19-57" name="__codelineno-19-57" href="#__codelineno-19-57"></a>
+</span><span id="__span-19-58"><a id="__codelineno-19-58" name="__codelineno-19-58" href="#__codelineno-19-58"></a>
+</span><span id="__span-19-59"><a id="__codelineno-19-59" name="__codelineno-19-59" href="#__codelineno-19-59"></a><span class="n">workflow</span> <span class="o">=</span> <span class="p">[</span>
+</span><span id="__span-19-60"><a id="__codelineno-19-60" name="__codelineno-19-60" href="#__codelineno-19-60"></a>    <span class="n">Event</span><span class="o">.</span><span class="n">SUBMIT</span><span class="p">,</span>
+</span><span id="__span-19-61"><a id="__codelineno-19-61" name="__codelineno-19-61" href="#__codelineno-19-61"></a>    <span class="n">Event</span><span class="o">.</span><span class="n">REOPEN</span><span class="p">,</span>
+</span><span id="__span-19-62"><a id="__codelineno-19-62" name="__codelineno-19-62" href="#__codelineno-19-62"></a>    <span class="n">Event</span><span class="o">.</span><span class="n">REJECT</span><span class="p">,</span>
+</span><span id="__span-19-63"><a id="__codelineno-19-63" name="__codelineno-19-63" href="#__codelineno-19-63"></a>    <span class="n">Event</span><span class="o">.</span><span class="n">SUBMIT</span><span class="p">,</span>
+</span><span id="__span-19-64"><a id="__codelineno-19-64" name="__codelineno-19-64" href="#__codelineno-19-64"></a>    <span class="n">Event</span><span class="o">.</span><span class="n">APPROVE</span><span class="p">,</span>
+</span><span id="__span-19-65"><a id="__codelineno-19-65" name="__codelineno-19-65" href="#__codelineno-19-65"></a>    <span class="n">Event</span><span class="o">.</span><span class="n">REOPEN</span><span class="p">,</span>
+</span><span id="__span-19-66"><a id="__codelineno-19-66" name="__codelineno-19-66" href="#__codelineno-19-66"></a><span class="p">]</span>
+</span><span id="__span-19-67"><a id="__codelineno-19-67" name="__codelineno-19-67" href="#__codelineno-19-67"></a><span class="n">run</span><span class="p">(</span><span class="n">Status</span><span class="o">.</span><span class="n">OPEN</span><span class="p">,</span> <span class="n">workflow</span><span class="p">)</span>
+</span><span id="__span-19-68"><a id="__codelineno-19-68" name="__codelineno-19-68" href="#__codelineno-19-68"></a><span class="c1">## Starting at open</span>
+</span><span id="__span-19-69"><a id="__codelineno-19-69" name="__codelineno-19-69" href="#__codelineno-19-69"></a><span class="c1">## OPEN + SUBMIT -&gt; PENDING</span>
+</span><span id="__span-19-70"><a id="__codelineno-19-70" name="__codelineno-19-70" href="#__codelineno-19-70"></a><span class="c1">## Now at pending</span>
+</span><span id="__span-19-71"><a id="__codelineno-19-71" name="__codelineno-19-71" href="#__codelineno-19-71"></a><span class="c1">## Invalid PENDING &amp; REOPEN</span>
+</span><span id="__span-19-72"><a id="__codelineno-19-72" name="__codelineno-19-72" href="#__codelineno-19-72"></a><span class="c1">## Now at pending</span>
+</span><span id="__span-19-73"><a id="__codelineno-19-73" name="__codelineno-19-73" href="#__codelineno-19-73"></a><span class="c1">## PENDING + REJECT -&gt; OPEN</span>
+</span><span id="__span-19-74"><a id="__codelineno-19-74" name="__codelineno-19-74" href="#__codelineno-19-74"></a><span class="c1">## Now at open</span>
+</span><span id="__span-19-75"><a id="__codelineno-19-75" name="__codelineno-19-75" href="#__codelineno-19-75"></a><span class="c1">## OPEN + SUBMIT -&gt; PENDING</span>
+</span><span id="__span-19-76"><a id="__codelineno-19-76" name="__codelineno-19-76" href="#__codelineno-19-76"></a><span class="c1">## Now at pending</span>
+</span><span id="__span-19-77"><a id="__codelineno-19-77" name="__codelineno-19-77" href="#__codelineno-19-77"></a><span class="c1">## PENDING + APPROVE -&gt; CLOSED</span>
+</span><span id="__span-19-78"><a id="__codelineno-19-78" name="__codelineno-19-78" href="#__codelineno-19-78"></a><span class="c1">## Now at closed</span>
+</span><span id="__span-19-79"><a id="__codelineno-19-79" name="__codelineno-19-79" href="#__codelineno-19-79"></a><span class="c1">## CLOSED + REOPEN -&gt; OPEN</span>
+</span><span id="__span-19-80"><a id="__codelineno-19-80" name="__codelineno-19-80" href="#__codelineno-19-80"></a><span class="c1">## Now at open</span>
 </span></code></pre></div>
 <h2 id="literal-the-lightweight-enum"><code>Literal</code>: The Lightweight <code>Enum</code><a class="headerlink" href="#literal-the-lightweight-enum" title="Permanent link">#</a></h2>
 <p><code>Literal</code> types specify a set of permissible values to ensure values match expected exact constants:</p>
@@ -2619,15 +2664,16 @@ a small set of constant values without adding extra code complexity.</p>
 The <code>match</code> statement uses pattern matching on these <code>Literal</code> values.
 A type checker will warn you if a branch is missing.
 This is called <code>exhaustiveness checking</code>.</p>
-<p>However, with the <code>match</code> in <code>run_string</code> there's no way to know what the legal cases are, so exhaustiveness checking is not possible.</p>
+<p>However, with the <code>match</code> in <code>run_string</code> there's no way to know what the legal cases are, so exhaustiveness checking is
+not possible.</p>
 <p>[Example of exhaustiveness checking with subclasses]</p>
 <h3 id="examples">Examples<a class="headerlink" href="#examples" title="Permanent link">#</a></h3>
 <p>Can literals be created dynamically?
 Probably not.
 Example of Country with states, states with counties, counties with towns and cities,
-how far can Literal go?
+how far can <code>Literal</code> go?
 Compare that with the same example using Enums.
-Perhaps an example that mixes Literals and Enums</p>
+Perhaps an example that mixes <code>Literal</code>s and <code>Enum</code>s</p>
 <h3 id="similarities">Similarities<a class="headerlink" href="#similarities" title="Permanent link">#</a></h3>
 <ul>
 <li>Value Restriction:<br />
@@ -2645,14 +2691,18 @@ Perhaps an example that mixes Literals and Enums</p>
   They exist solely for type checking and do not create a distinct runtime type.
   The type checker (and your IDE) knows that only those exact values are allowed, but at runtime,
   they are ordinary values (e.g., ordinary strings).</li>
-<li><code>Enum</code>: An <code>Enum</code> is a real class (inheriting from <code>enum.Enum</code>) that creates distinct runtime objects. <code>Enum</code>s provide additional functionality like iteration over members, comparison, and custom methods. They work both at runtime and during static type checking.</li>
+<li><code>Enum</code>: An <code>Enum</code> is a real class (inheriting from <code>enum.Enum</code>) that creates distinct runtime objects. <code>Enum</code>s
+  provide additional functionality like iteration over members, comparison, and custom methods. They work both at
+  runtime and during static type checking.</li>
 </ul>
 </li>
 <li>
 <p>Overhead and Simplicity:</p>
 <ul>
-<li><code>Literal</code>: Using <code>Literal</code>s is simple and lightweight if you just want to specify allowed constant values. There’s no additional boilerplate, so it’s a good choice when you only need type constraints.</li>
-<li><code>Enum</code>: <code>Enum</code>s come with more structure and can encapsulate behavior. However, they require defining a class and are slightly heavier in terms of syntax and runtime footprint.</li>
+<li><code>Literal</code>: Using <code>Literal</code>s is simple and lightweight if you just want to specify allowed constant values. There’s
+  no additional boilerplate, so it’s a good choice when you only need type constraints.</li>
+<li><code>Enum</code>: <code>Enum</code>s come with more structure and can encapsulate behavior. However, they require defining a class and
+  are slightly heavier in terms of syntax and runtime footprint.</li>
 </ul>
 </li>
 </ul>
@@ -2668,7 +2718,8 @@ Perhaps an example that mixes Literals and Enums</p>
 <li>
 <p>Use <code>Enum</code>s if:</p>
 <ul>
-<li>You need runtime features, such as iterating over allowed values, custom methods, or more semantic richness (e.g., when each value might need its own behavior or additional attributes).</li>
+<li>You need runtime features, such as iterating over allowed values, custom methods, or more semantic richness (e.g.,
+  when each value might need its own behavior or additional attributes).</li>
 <li>You want a self-documenting interface that clearly models a set of related constants as a distinct type.</li>
 </ul>
 </li>
@@ -2730,7 +2781,7 @@ This is essentially <code>Literal</code>-style exhaustiveness for <code>Enum</co
 </span><span id="__span-23-12"><a id="__codelineno-23-12" name="__codelineno-23-12" href="#__codelineno-23-12"></a><span class="c1"># Convert literal values to a set:</span>
 </span><span id="__span-23-13"><a id="__codelineno-23-13" name="__codelineno-23-13" href="#__codelineno-23-13"></a><span class="n">allowed_set</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">ParamVal</span><span class="o">.</span><span class="n">__args__</span><span class="p">)</span>  <span class="c1"># type: ignore</span>
 </span><span id="__span-23-14"><a id="__codelineno-23-14" name="__codelineno-23-14" href="#__codelineno-23-14"></a><span class="nb">print</span><span class="p">(</span><span class="n">allowed_set</span><span class="p">)</span>
-</span><span id="__span-23-15"><a id="__codelineno-23-15" name="__codelineno-23-15" href="#__codelineno-23-15"></a><span class="c1">## {&#39;MAX&#39;, &#39;DEF&#39;, &#39;MIN&#39;}</span>
+</span><span id="__span-23-15"><a id="__codelineno-23-15" name="__codelineno-23-15" href="#__codelineno-23-15"></a><span class="c1">## {&#39;MAX&#39;, &#39;MIN&#39;, &#39;DEF&#39;}</span>
 </span><span id="__span-23-16"><a id="__codelineno-23-16" name="__codelineno-23-16" href="#__codelineno-23-16"></a><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;MIN&quot;</span> <span class="ow">in</span> <span class="n">allowed_set</span><span class="p">)</span>
 </span><span id="__span-23-17"><a id="__codelineno-23-17" name="__codelineno-23-17" href="#__codelineno-23-17"></a><span class="c1">## True</span>
 </span><span id="__span-23-18"><a id="__codelineno-23-18" name="__codelineno-23-18" href="#__codelineno-23-18"></a><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;NOPE&quot;</span> <span class="ow">in</span> <span class="n">allowed_set</span><span class="p">)</span>
@@ -2738,7 +2789,7 @@ This is essentially <code>Literal</code>-style exhaustiveness for <code>Enum</co
 </span></code></pre></div>
 <p>To check for membership, you must convert it to a <code>set</code> using the <code>__args__</code> property, as seen in <code>allowed_set</code>.</p>
 <h2 id="choosing-between-enum-literal-and-set">Choosing Between <code>Enum</code>, <code>Literal</code>, and <code>Set</code><a class="headerlink" href="#choosing-between-enum-literal-and-set" title="Permanent link">#</a></h2>
-<p>Each approach has its strengths and trade‐offs.
+<p>Each approach has its strengths and trade-offs.
 The best choice depends on your requirements for type safety, runtime behavior, and code clarity.</p>
 <h3 id="literal"><code>Literal</code><a class="headerlink" href="#literal" title="Permanent link">#</a></h3>
 <p>Pros:</p>
@@ -2755,17 +2806,22 @@ The best choice depends on your requirements for type safety, runtime behavior, 
 </ul>
 <p>When to Use:</p>
 <ul>
-<li>Use <code>Literal</code>s when you need to enforce a small set of constant values at the type level, and you are comfortable relying on static type checkers and IDEs for guidance.</li>
-<li>They are ideal for simple cases where you want to ensure that only a few specific string values (alongside other types, like numbers) are accepted.</li>
+<li>Use <code>Literal</code>s when you need to enforce a small set of constant values at the type level, and you are comfortable
+  relying on static type checkers and IDEs for guidance.</li>
+<li>They are ideal for simple cases where you want to ensure that only a few specific string values (alongside other
+  types, like numbers) are accepted.</li>
 </ul>
 <h3 id="enum"><code>Enum</code><a class="headerlink" href="#enum" title="Permanent link">#</a></h3>
-<p><code>Enum</code>s create a distinct type at runtime and define a collection of symbolic names bound to constant values. For example:</p>
+<p><code>Enum</code>s create a distinct type at runtime and define a collection of symbolic names bound to constant values. For
+example:</p>
 <p>Pros:</p>
 <ul>
 <li>Runtime Features: <code>Enum</code>s are real classes at runtime, so they support iteration, comparison, and custom methods.</li>
-<li>Clarity and Self-Documentation: Using an <code>Enum</code> clearly signals that the parameter is one of a predetermined, fixed set.
+<li>Clarity and Self-Documentation: Using an <code>Enum</code> clearly signals that the parameter is one of a predetermined, fixed
+  set.
   IDE autocompletion can also list the valid members.</li>
-<li>Extra Functionality: You can add methods or properties to an <code>Enum</code> if the values need to carry extra meaning (for instance, mapping to specific instrument settings).</li>
+<li>Extra Functionality: You can add methods or properties to an <code>Enum</code> if the values need to carry extra meaning (for
+  instance, mapping to specific instrument settings).</li>
 </ul>
 <p>Cons:</p>
 <ul>
@@ -2774,8 +2830,10 @@ The best choice depends on your requirements for type safety, runtime behavior, 
 </ul>
 <p>When to Use:</p>
 <ul>
-<li>Use <code>Enum</code>s when you need not only type safety at the static level but also runtime assurance--such as when you need to iterate over allowed options or attach extra behavior.</li>
-<li><code>Enum</code>s are excellent for cases where the set of allowed values is fixed, and you might want to use them throughout your codebase in a uniform, well-documented manner.</li>
+<li>Use <code>Enum</code>s when you need not only type safety at the static level but also runtime assurance--such as when you need
+  to iterate over allowed options or attach extra behavior.</li>
+<li><code>Enum</code>s are excellent for cases where the set of allowed values is fixed, and you might want to use them throughout
+  your codebase in a uniform, well-documented manner.</li>
 </ul>
 <h3 id="set"><code>Set</code><a class="headerlink" href="#set" title="Permanent link">#</a></h3>
 <p>A set is a built-in Python data structure that holds unique elements.
@@ -2789,12 +2847,15 @@ In the context of allowed values, you might define
 </ul>
 <p>Cons:</p>
 <ul>
-<li>Not a Type Annotation: <code>Set</code>s do not integrate with static type checkers. They only serve at runtime to check if a value belongs to the allowed set.</li>
-<li>No Static Safety: Unlike <code>Literal</code>s or <code>Enum</code>s, sets don’t give you compile-time guarantees or IDE autocompletion for allowed values.</li>
+<li>Not a Type Annotation: <code>Set</code>s do not integrate with static type checkers. They only serve at runtime to check if a
+  value belongs to the allowed set.</li>
+<li>No Static Safety: Unlike <code>Literal</code>s or <code>Enum</code>s, sets don’t give you compile-time guarantees or IDE autocompletion for
+  allowed values.</li>
 </ul>
 <p>When to Use:</p>
 <ul>
-<li>Use sets for runtime validation where you need a simple way to confirm membership (e.g., inside a helper function that checks if a value is valid).</li>
+<li>Use sets for runtime validation where you need a simple way to confirm membership (e.g., inside a helper function that
+  checks if a value is valid).</li>
 <li>They are ideal when the allowed values are defined once and only used for dynamic checks, not for type annotations.</li>
 </ul>
 <h3 id="choosing">Choosing<a class="headerlink" href="#choosing" title="Permanent link">#</a></h3>
@@ -2802,7 +2863,8 @@ In the context of allowed values, you might define
 <ul>
 <li><code>Literal</code>s provide a quick and easy way to inform static type checkers without extra runtime behavior.</li>
 <li><code>Enum</code>s add clarity and runtime functionality at the cost of a little extra complexity.</li>
-<li><code>Set</code>s work well if your validation is purely runtime-oriented, and you don’t need the additional benefits of static type restrictions.</li>
+<li><code>Set</code>s work well if your validation is purely runtime-oriented, and you don’t need the additional benefits of static
+  type restrictions.</li>
 </ul>
 <p>Choosing between them depends on whether you prioritize compile-time type checking and better IDE support
 (favoring <code>Literal</code>s or <code>Enum</code>s) or need flexible, dynamic validation (favoring <code>set</code>s).
