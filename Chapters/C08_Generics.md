@@ -462,7 +462,7 @@ Let’s say you want a type-safe Record that stores a fixed tuple of fields,
 where each field can be a different type (like a database row or spreadsheet line):
 
 ```python
-# heterogenous_record.py
+# heterogeneous_record.py
 from typing import TypeVarTuple, Generic, Unpack
 
 Fields = TypeVarTuple("Fields")
