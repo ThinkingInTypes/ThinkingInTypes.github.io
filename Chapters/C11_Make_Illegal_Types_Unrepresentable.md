@@ -22,8 +22,8 @@ Java.
 Only a tiny percentage of the code reviewed used anything _except_ strings as type parameters.
 This study suggested that the vast majority of systems were using strings as their primary data type.
 
-Because you can put any characters in any format into a string, such "stringly typed" systems (an ironic play on "
-strongly typed") may be the worst of all possible worlds.
+Because you can put any characters in any format into a string, such "stringly typed" systems
+(an ironic play on "strongly typed") may be the worst of all possible worlds.
 Unless it's actually text, classifying something as a string doesn't tell you anything.
 When a function receives a string meant to represent a type, that function can assume precisely nothing about it.
 Every such function must start from scratch and analyze that string to see if it conforms to what that function needs.
@@ -271,6 +271,7 @@ If an `Amount` object exists, you know it cannot contain a negative value:
 
 ```python
 # amount.py
+from __future__ import annotations
 from dataclasses import dataclass
 from decimal import Decimal
 
@@ -287,10 +288,10 @@ class Amount:
             )
         object.__setattr__(self, "value", d_value)
 
-    def __add__(self, other: "Amount") -> "Amount":
+    def __add__(self, other: "Amount") -> Amount:
         return Amount(self.value + other.value)
 
-    def __sub__(self, other: "Amount") -> "Amount":
+    def __sub__(self, other: "Amount") -> Amount:
         return Amount(self.value - other.value)
 ```
 
@@ -332,6 +333,7 @@ Thus, we can produce an immutable using `NamedTuple`:
 
 ```python
 # balance.py
+from __future__ import annotations
 from typing import NamedTuple
 from amount import Amount
 
@@ -339,13 +341,11 @@ from amount import Amount
 class Balance(NamedTuple):
     amount: Amount
 
-    def deposit(self, deposit_amount: Amount) -> "Balance":
-        return Balance(self.amount + deposit_amount)
+    def deposit(self, amount: Amount) -> Balance:
+        return Balance(self.amount + amount)
 
-    def withdraw(
-        self, withdrawal_amount: Amount
-    ) -> "Balance":
-        return Balance(self.amount - withdrawal_amount)
+    def withdraw(self, amount: Amount) -> Balance:
+        return Balance(self.amount - amount)
 ```
 
 Note that `Balance` produces new immutable objects when you `deposit` and `withdraw`.

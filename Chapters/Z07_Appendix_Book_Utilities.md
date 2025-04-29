@@ -2,7 +2,8 @@
 
 These are incorporated into book examples to make them easier to read and to reduce code duplication.
 They are placed in a subdirectory off the root of the project, named `book_utils`.
-Because the book examples are extracted into a flat layout in the examples repository, you can import directly from `book_utils`.
+Because the book examples are extracted into a flat layout in the examples repository, you can import directly from
+`book_utils`.
 
 ## Exception Catcher
 
@@ -20,14 +21,14 @@ the context manager in case argument evaluation raises an exception.
 To do this the function should be provided as a zero-argument callable.
 If the function takes arguments, it must be wrapped in a lambda to delay evaluation.
 """
-
+from __future__ import annotations
 from typing import Any, Callable, TypeVar
 
 R = TypeVar("R")
 
 
 class Catch:
-    def __enter__(self) -> "Catch":
+    def __enter__(self) -> Catch:
         return self
 
     def __exit__(
@@ -58,15 +59,18 @@ The `Catch` class serves two roles:
 1. **Context Manager** (`__enter__` and `__exit__` methods)
 2. **Callable Object** (`__call__` method)
 
-This combination allows it to handle exceptions and display meaningful error messages without stopping program execution.
+This combination allows it to handle exceptions and display meaningful error messages without stopping program
+execution.
 
 ### Context Manager
 
-A context manager in Python is used with the `with` statement, typically to set up and tear down resources or to catch exceptions.
+A context manager in Python is used with the `with` statement, typically to set up and tear down resources or to catch
+exceptions.
 The `Catch` class implements this using:
 
 - **`__enter__(self)`**\
-  When the context is entered, it returns the instance (`self`), making the methods of the class accessible within the block.
+  When the context is entered, it returns the instance (`self`), making the methods of the class accessible within the
+  block.
 
 - **`__exit__(self, exc_type, exc_value, traceback)`**\
   Automatically called when the context manager block (`with` statement) finishes execution.
@@ -76,7 +80,8 @@ The `Catch` class implements this using:
     - `exc_value`: the actual exception object containing the message
     - `traceback`: the traceback object detailing where the exception occurred
 
-  If an exception occurs (`exc_type is not None`), the `Catch` class prints the error message and returns `True` to indicate that the exception has been handled and should not propagate further.
+  If an exception occurs (`exc_type is not None`), the `Catch` class prints the error message and returns `True` to
+  indicate that the exception has been handled and should not propagate further.
 
 Example usage as a context manager:
 
@@ -92,7 +97,8 @@ with Catch():
 ### Callable Interface (`__call__` method)
 
 The `Catch` class also defines a `__call__` method, allowing its instances to be called as functions.
-This lets you explicitly wrap a callable (like a lambda or zero-argument function) inside its own try-except block, capturing and handling exceptions raised during both argument evaluation and function execution.
+This lets you explicitly wrap a callable (like a lambda or zero-argument function) inside its own try-except block,
+capturing and handling exceptions raised during both argument evaluation and function execution.
 
 In the `__call__` method signature, `func` is a zero-argument callable.
 It executes this callable within a try-except block:
@@ -121,7 +127,8 @@ with Catch() as catch:
 ## Error: division by zero
 ```
 
-Using lambdas here is essential because it delays the evaluation of arguments until inside the `Catch` context, ensuring that errors raised during argument construction are caught properly.
+Using lambdas here is essential because it delays the evaluation of arguments until inside the `Catch` context, ensuring
+that errors raised during argument construction are caught properly.
 Here's a more complex example with argument construction that throws exceptions:
 
 ```python
