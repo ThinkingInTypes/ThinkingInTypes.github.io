@@ -17,17 +17,20 @@ With this approach, you:
 
 ## "Stringly Typed"
 
-Years ago I came across some research looking at the way generic components like `List`, `Set` and `Map` were used in Java.
+Years ago I came across some research looking at the way generic components like `List`, `Set` and `Map` were used in
+Java.
 Only a tiny percentage of the code reviewed used anything _except_ strings as type parameters.
 This study suggested that the vast majority of systems were using strings as their primary data type.
 
-Because you can put any characters in any format into a string, such "stringly typed" systems (an ironic play on "strongly typed") may be the worst of all possible worlds.
+Because you can put any characters in any format into a string, such "stringly typed" systems (an ironic play on "
+strongly typed") may be the worst of all possible worlds.
 Unless it's actually text, classifying something as a string doesn't tell you anything.
 When a function receives a string meant to represent a type, that function can assume precisely nothing about it.
 Every such function must start from scratch and analyze that string to see if it conforms to what that function needs.
 
 Changing the meaning of a stringly-typed item is a daunting job.
-You must look through every function that uses it and ensure that your change is reflected in the validations in every single function.
+You must look through every function that uses it and ensure that your change is reflected in the validations in every
+single function.
 Because the logic is distributed, it's highly likely you will miss some.
 
 Consider representing phone numbers as strings.
@@ -90,17 +93,22 @@ def f3(phonenumber: str):
 
 Each function has its own custom code and reports errors differently.
 There might be many such functions spread throughout the system.
-If there's a bug or any change in the way phone numbers are validated, all validation code must be hunted down and corrected, and any tests must also be updated.
+If there's a bug or any change in the way phone numbers are validated, all validation code must be hunted down and
+corrected, and any tests must also be updated.
 
 Does anyone set out to write code like this?
-Probably not--it starts out seeming like "the simplest thing" and just continues to accumulate, one logical step at a time.
-Although _you_ might not write code like this, systems like this exist for phone numbers and for many other data items represented as strings.
+Probably not--it starts out seeming like "the simplest thing" and just continues to accumulate, one logical step at a
+time.
+Although _you_ might not write code like this, systems like this exist for phone numbers and for many other data items
+represented as strings.
 We'll learn how custom types dramatically simplify validation and guarantee correctness throughout your system.
 
 ## Design by Contract
 
-The argument-validation problem was observed by Bertrand Meyer and introduced as a core concept in his Eiffel programming language, described in the book _Object-Oriented Software Construction_ (1988).
-_Design By Contract_ (DbC) tried to reduce errors by treating the interaction between software components as a formal agreement:
+The argument-validation problem was observed by Bertrand Meyer and introduced as a core concept in his Eiffel
+programming language, described in the book _Object-Oriented Software Construction_ (1988).
+_Design By Contract_ (DbC) tried to reduce errors by treating the interaction between software components as a formal
+agreement:
 
 - **_Preconditions_**:
   What must be true before a function/method runs.
@@ -118,7 +126,8 @@ Eiffel provided explicit keywords to make DbC a first-class citizen in the langu
 | `invariant` | Class-wide conditions                      |
 | `old`       | Refers to previous state in postconditions |
 
-The intent was that each function used these to ensure the correctness of the inputs and outputs of that function, and the state of the object.
+The intent was that each function used these to ensure the correctness of the inputs and outputs of that function, and
+the state of the object.
 In particular, `require` typically checks the argument values for correctness.
 For preconditions in Python, we can create a `requires` decorator to check argument values:
 
@@ -148,7 +157,8 @@ def requires(*conditions: Condition):
 ```
 
 A `Condition` combines each `check` with a description of the failure condition.
-`check` is a `Callable` (usually a function) that takes the same arguments as the decorated function and returns a `bool` indicating whether the condition is satisfied.
+`check` is a `Callable` (usually a function) that takes the same arguments as the decorated function and returns a
+`bool` indicating whether the condition is satisfied.
 
 `requires` is a _decorator factory_; it returns a decorator that can be applied to any function.
 It accepts any number of `Condition` instances.
@@ -237,13 +247,15 @@ with Catch():
 Here, the `Condition`s are applied to methods, so their `lambda`s both include `self`.
 In `withdraw` you see multiple `Condition`s applied within one `requires` decorator.
 
-If they validate their arguments, traditional Python functions tend to duplicate that validation code at the beginning of each function body.
+If they validate their arguments, traditional Python functions tend to duplicate that validation code at the beginning
+of each function body.
 Design by Contract is an improvement over this.
 The `@requires` clearly shows that the arguments are constrained, and `Condition`s reduce duplicated code.
 
 DbC helps, but it has limitations:
 
-1. A programmer can forget to use `requires`, or choose to perform argument checks by hand if DbC doesn't make sense to them.
+1. A programmer can forget to use `requires`, or choose to perform argument checks by hand if DbC doesn't make sense to
+   them.
 2. Validations are spread throughout your system.
    Using `Condition` reduces logic duplication, but making changes still risks missing updates on functions.
 
@@ -253,7 +265,8 @@ Instead of DbC, we can encode validations into custom types.
 This way, incorrect objects of those types cannot successfully be created.
 In addition, the types are usually _domain driven_, that is, they represent a concept from the problem domain.
 
-For the bank example, we start by creating an `Amount`, which is a `Decimal` value with the fundamental property that it cannot be negative.
+For the bank example, we start by creating an `Amount`, which is a `Decimal` value with the fundamental property that it
+cannot be negative.
 If an `Amount` object exists, you know it cannot contain a negative value:
 
 ```python
@@ -289,7 +302,8 @@ This is passed to `Decimal` and the result is checked to ensure it is non-negati
 
 `__init__` modifies itself using `object.__setattr__`, but other than that we want it safely immutable.
 Modifying a frozen `dataclass` using `object.__setattr__` is best only done during construction.
-You'll more commonly call `object.__setattr__` in `__post_init__`, but if you find yourself using it in other methods, reconsider whether your type is really frozen.
+You'll more commonly call `object.__setattr__` in `__post_init__`, but if you find yourself using it in other methods,
+reconsider whether your type is really frozen.
 Requiring `object.__setattr__` to modify a frozen `dataclass` means you have a way to search for modifications.
 
 Note that `__add__` and `__sub__` return new `Amount` objects without checking whether they are non-negative
@@ -337,7 +351,8 @@ class Balance(NamedTuple):
 Note that `Balance` produces new immutable objects when you `deposit` and `withdraw`.
 Because it uses `Amount`, it needs no special validation checks.
 
-In the new, improved `BankAccount`, the need for validation disappears because it is automatically enforced by the types:
+In the new, improved `BankAccount`, the need for validation disappears because it is automatically enforced by the
+types:
 
 ```python
 # typed_bank_account.py
@@ -379,8 +394,10 @@ For example, suppose we discover Python's implementation of `Decimal` is too slo
 We can modify `Amount` to use, for example, a Rust implementation of decimal numbers.
 We _only_ need to change the code for `Amount` because the rest of the code uses `Amount`.
 
-Any new code we write that uses our custom types transparently benefits from all the type validations built into those types.
-If we add more validations to `Amount` or `Balance`, they automatically propagate to each site where those types are used.
+Any new code we write that uses our custom types transparently benefits from all the type validations built into those
+types.
+If we add more validations to `Amount` or `Balance`, they automatically propagate to each site where those types are
+used.
 
 ## A `PhoneNumber` Type
 
@@ -476,13 +493,14 @@ for example, by converting the `PhoneNumber` type into a Rust module.
 ## The Programmable Meter
 
 I recently visited my friend Matt, who is a physics professor (we were undergraduate physics students together).
-He has a stellar reputation as a teacher, and I realized I had never watched him teach, so I decided to see him in action.
+He has a stellar reputation as a teacher, and I realized I had never watched him teach, so I decided to see him in
+action.
 This was an electronics lab, and the students were using programmable measurement tools.
 The interface language these tools used was Python.
 To send commands to the programmable meter, the meter developers had used the stringly-typed route
 (The docs had a reference to Turbo C, so the meter was created long before Python's annotated types).
-The students ended up puzzling over getting the format of the strings correct, rather than doing the lab.
+The students ended up puzzling over getting the format of the strings correct rather than doing the lab.
 
 ## How Cyclopts uses Types
 
-Create simplified example from C:\git\pybooktools\src\pybooktools\util\python_example_validator.py
+Create a simplified example from C:\git\pybooktools\src\pybooktools\util\python_example_validator.py
