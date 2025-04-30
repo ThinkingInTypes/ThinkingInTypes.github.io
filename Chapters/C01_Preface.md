@@ -69,6 +69,17 @@ He also made the distinction between _object-based_ and _object-oriented_.
 The former turned out to be the very problem we wanted to solve, to liberate ourselves from the limitations of the language's built-in types.
 The latter turned out to be a huge distraction.
 
+The book _Design Patterns: Elements of Reusable Object-Oriented Software_ appeared in 1994 and answered the question, "what are we supposed to do with OOP."
+It was such a success that its four primary authors garnered the nickname _Gang of Four_, and "GoF" became the shorthand way to refer to the book.
+There were indeed many interesting ways to apply OOP to design problems.
+The question felt answered and yet upon closer inspection, the design examples given in the book turned out to be rather obscure.
+And the most confounding thing was in the preface [check this] of the book, where they said "Prefer composition to inheritance."
+After writing this complicated tome about OOP, they tried to convince us, right at the beginning, to avoid it.
+
+No one noticed the admonishment for many years, because that was not the answer we were looking for.
+Asking "how do I do this?" and being answered "don't" is one of the more common jokes, and frustrating things, about programmers.
+So we forged ahead and dutifully struggled to understand the GoF patterns and attempted to understand how they would be used in everyday software designs.
+
 ## Strong Typing vs. Strong Testing
 
 ## Tight vs. Permissive Type Systems
