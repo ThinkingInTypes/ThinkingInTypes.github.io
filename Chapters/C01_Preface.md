@@ -26,7 +26,7 @@ that we still carry the terms in programming today despite there being no physic
 
 At the beginning of my career, a huge portion of the programming world went down a rabbit hole called _Object-Oriented Programming_ (OOP).
 That particular Wonderlandian dream has lasted for decades, but in recent years we've finally started waking up from it.
-I've had a number of conversations with fellow OOP teachers and all of us are beginning to feel quite foolish that we didn't see the illusions earlier.
+I've had a number of conversations with fellow OOP teachers, and all of us are beginning to feel quite foolish that we didn't see the illusions earlier.
 But those illusions were both complex and compelling.
 
 This book is one attempt to help undo the damage produced by the illusion of OOP.
@@ -44,8 +44,15 @@ It arrived on a big tape reel, containing a C program that we had to compile wit
 The standardization of the C language was years away, and every machine had their own variant of C,
 so the C++ compiler had to be written in a common subset that would work with most C compilers.
 
-Once you compiled this program, you ended up with `cfront` which would take your C++ code and translate it into C code which you then compiled for your
-machine using your local C compiler.
+Compiling this program produced `cfront` which takes your C++ code and translates it into C code.
+You passed this generated C to your local C compiler to produce the resulting executable.
+This approach was brilliant because it worked atop the diaspora of C compilers available at that time.
+
+The language itself was brilliant because it was an evolution of the dominant C language.
+These days we are comfortable learning new and different languages, but back then people were still getting comfortable with C (many had been assembly programmers
+so the idea of a compiler was still strange), and they had very little interest in taking a chance on something that didn't feel like C.
+
+As I burrowed my way into this new language I came across a mystery: the keyword `virtual`.
 
 ## Strong Typing vs. Strong Testing
 
