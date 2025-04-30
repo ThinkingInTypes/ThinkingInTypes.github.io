@@ -1,2 +1,4 @@
 site/
 /.idea
+/slide_show
+slide_show/slideshow_prompt.md
