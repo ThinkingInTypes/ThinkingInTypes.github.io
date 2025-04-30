@@ -101,7 +101,6 @@ Probably not--it starts out seeming like "the simplest thing" and just continues
 time.
 Although _you_ might not write code like this, systems like this exist for phone numbers and for many other data items
 represented as strings.
-We'll learn how custom types dramatically simplify validation and guarantee correctness throughout your system.
 
 ## Design by Contract
 
