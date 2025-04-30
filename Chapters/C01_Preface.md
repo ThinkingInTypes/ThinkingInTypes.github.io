@@ -78,7 +78,11 @@ After writing this complicated tome about OOP, they tried to convince us, right 
 
 No one noticed the admonishment for many years, because that was not the answer we were looking for.
 Asking "how do I do this?" and being answered "don't" is one of the more common jokes, and frustrating things, about programmers.
-So we forged ahead and dutifully struggled to understand the GoF patterns and attempted to understand how they would be used in everyday software designs.
+So we forged ahead and dutifully struggled to understand the GoF patterns and how they might be applied to everyday software designs.
+
+I remember older programmers trying to point out that "you don't really need that."
+Often I assumed they were just curmudgeons stuck in the past.
+But occasionally I wondered if they somehow saw or something that I was somehow missing.
 
 ## Strong Typing vs. Strong Testing
 
