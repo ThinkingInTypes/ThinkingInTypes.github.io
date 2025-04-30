@@ -1092,7 +1092,8 @@
 <blockquote>
 <p><em>Most of what we've been working towards in programming—whether we are aware of it or not—is composability.</em></p>
 </blockquote>
-<p>Discovering the meaning of composability is part of this path--there are different definitions depending on the programming language paradigm under scrutiny.
+<p>Discovering the meaning of composability is part of this path--there are different definitions depending on the
+programming language paradigm under scrutiny.
 Here’s my definition:</p>
 <blockquote>
 <p>The ability to assemble bigger pieces from smaller pieces.</p>
@@ -1101,28 +1102,37 @@ Here’s my definition:</p>
 For example, composition in object-oriented programming means "putting objects inside other objects."
 When dealing with functions, composability means "calling functions within other functions."
 Both definitions fit my overall definition; they achieve the same goal but in different specific ways.</p>
-<p>To enable the easy construction of programs, we need to be able to effortlessly assemble components in the same way that a child assembles Legos—by sticking them together, without requiring extra activities.
+<p>To enable the easy construction of programs, we need to be able to effortlessly assemble components in the same way that
+a child assembles Legos—by sticking them together, without requiring extra activities.
 On top of that, such assemblages become their own components that can be stuck together just as easily.
 This composability scales up regardless of the size of the components.</p>
 <p>Over the years, we have encountered numerous roadblocks to this goal.</p>
 <h2 id="goto-considered-harmful">Goto Considered Harmful<a class="headerlink" href="#goto-considered-harmful" title="Permanent link">#</a></h2>
-<p><a href="https://homepages.cwi.nl/~storm/teaching/reader/Dijkstra68.pdf">Dijkstra's 1968 note</a> had quite an impact on the programming community,
+<p><a href="https://homepages.cwi.nl/~storm/teaching/reader/Dijkstra68.pdf">Dijkstra's 1968 note</a> had quite an impact on the
+programming community,
 which at the time consisted largely of assembly-language programmers.
 For these, the goto statement was foundational, and denigrating it was a shock.
 Although he never explicitly mentioned functions in his note, the effect was to push programmers towards functions.
-<a href="https://vorpus.org/blog/notes-on-structured-concurrency-or-go-statement-considered-harmful/">The creator of Structured Concurrency</a> provides a clear description of this.</p>
+<a href="https://vorpus.org/blog/notes-on-structured-concurrency-or-go-statement-considered-harmful/">The creator of Structured Concurrency</a>
+provides a clear description of this.</p>
 <p>Rather than jumping about within a limited program, functions present the caller with a single entry and exit point.
 This dramatically improves composability because you can no longer leave a section of code at any point using a goto.
-Within a function scope you cannot know what’s outside that scope, thus you can’t jump somewhere because you don’t know a destination to jump to.</p>
+Within a function scope you cannot know what’s outside that scope, thus you can’t jump somewhere because you don’t know
+a destination to jump to.</p>
 <p>My programming training was primarily as a computer engineer,
 and I spent the first few years of my career programming in assembly.
-Assembly supports subroutine calls and returns, but not the loading of arguments on the stack and passing results back out—the programmer must write this error-prone code by hand.</p>
-<p>Higher-level languages handle function arguments and returns for you, which made them a very desirable improvement as the size and complexity of programs grew beyond what the assembly programmer was able to hold in their head.</p>
+Assembly supports subroutine calls and returns, but not the loading of arguments on the stack and passing results back
+out—the programmer must write this error-prone code by hand.</p>
+<p>Higher-level languages handle function arguments and returns for you, which made them a very desirable improvement as
+the size and complexity of programs grew beyond what the assembly programmer was able to hold in their head.</p>
 <h2 id="modules">Modules<a class="headerlink" href="#modules" title="Permanent link">#</a></h2>
-<p>Tim Peters’ observation of the value of namespaces (see <a href="https://peps.python.org/pep-0020/">The Zen of Python</a>) is the core of the idea of modules, which more modern languages incorporate (unfortunately C++ had to inherit C’s messy system, for backwards compatibility).
+<p>Tim Peters’ observation of the value of namespaces (see <a href="https://peps.python.org/pep-0020/">The Zen of Python</a>) is the
+core of the idea of modules, which more modern languages incorporate (unfortunately C++ had to inherit C’s messy system,
+for backwards compatibility).
 In Python, files are automatically modules, which is certainly one of the easiest solutions.</p>
 <p>It wasn’t always this way.
-Breaking assembly-language programs into pieces was not easy, and early higher-level languages tended to be single-file programs and did not consider modularity.
+Breaking assembly-language programs into pieces was not easy, and early higher-level languages tended to be single-file
+programs and did not consider modularity.
 When the idea began to surface, it was incorporated as a main feature of the Modula-2 language (a descendant of Pascal).
 The name tells you what a significant shift it was considered at the time.</p>
 <p>Modula-2 and similar languages required an explicit declaration of a module:</p>
@@ -1132,12 +1142,16 @@ The name tells you what a significant shift it was considered at the time.</p>
 </span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>  WriteString(&quot;Hello World!&quot;)
 </span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>END Hello.
 </span></code></pre></div>
-<p>This allowed complete granularity independent of file organization; perhaps this was because programmers were used to thinking in terms of one big file-per-program.
-Python’s merging of modules with files makes more sense in hindsight and has the benefit of eliminating the <a href="https://en.wikipedia.org/wiki/Modula-2">(significant) extra verbiage</a>, only a portion of which is shown here.</p>
-<p>The main benefit of modules is name control—each module creates a scope for names (a namespace) which allows programmers the freedom to choose any name at will within a module.
+<p>This allowed complete granularity independent of file organization; perhaps this was because programmers were used to
+thinking in terms of one big file-per-program.
+Python’s merging of modules with files makes more sense in hindsight and has the benefit of eliminating
+the <a href="https://en.wikipedia.org/wiki/Modula-2">(significant) extra verbiage</a>, only a portion of which is shown here.</p>
+<p>The main benefit of modules is name control—each module creates a scope for names (a namespace) which allows programmers
+the freedom to choose any name at will within a module.
 This prevents name collisions across a project and reduces the cognitive load on the programmer.
 Prior to this, programs reached scaling limits as they grew larger.
-Program size in assembly language programs was limited by many different factors, so the need for modules was not seen until systems were able to grow larger because higher-level languages solved enough of these other factors.</p>
+Program size in assembly language programs was limited by many different factors, so the need for modules was not seen
+until systems were able to grow larger because higher-level languages solved enough of these other factors.</p>
 <p>In modern languages, modularity is part of the background of a language, and we don’t think much about it.
 At one time, however, the lack of modularity was a significant roadblock to code composability.</p>
 <h2 id="inheritance">Inheritance<a class="headerlink" href="#inheritance" title="Permanent link">#</a></h2>
@@ -1149,31 +1163,38 @@ However, taking the ideas of Smalltalk and imprinting them into a statically typ
 <h2 id="error-handling">Error Handling<a class="headerlink" href="#error-handling" title="Permanent link">#</a></h2>
 <p>Error reporting and handling have been a significant impediment to composability.</p>
 <h3 id="history">History<a class="headerlink" href="#history" title="Permanent link">#</a></h3>
-<p>Original programs were small (by present-day standards), written in assembly language (machine code quickly became too unwieldy), and tightly coupled to the underlying hardware.
+<p>Original programs were small (by present-day standards), written in assembly language (machine code quickly became too
+unwieldy), and tightly coupled to the underlying hardware.
 If something went wrong, the only way to report it was to change the output on a wire, to turn on a light or a buzzer.
 If you had one, you put a message on the console—this might be a dot-matrix display.
-Such an error message probably wasn’t friendly to the end-user of the system and usually required a tech support call to the manufacturer.</p>
+Such an error message probably wasn’t friendly to the end-user of the system and usually required a tech support call to
+the manufacturer.</p>
 <p>Two of my first jobs were building embedded systems that controlled hardware.
 These systems had to work right.
 There was no point in reporting most errors because an error normally meant the software was broken.</p>
 <p>For business and scientific programming, Fortran and Cobol were batch processed on punch cards.
 If something went wrong, either the compilation failed or the resulting data was bad.
 No real-time error-handling was necessary because the program didn’t run in real time.</p>
-<p>As time-sharing operating systems like Unix became a common way to distribute computing resources, program execution became more immediate.
-Users began to expect more interactive experiences, so programmers had to begin thinking about how to report and handle errors during the execution of a program, and in ideal cases recovering from those errors so the program could continue without shutting down.</p>
+<p>As time-sharing operating systems like Unix became a common way to distribute computing resources, program execution
+became more immediate.
+Users began to expect more interactive experiences, so programmers had to begin thinking about how to report and handle
+errors during the execution of a program, and in ideal cases recovering from those errors so the program could continue
+without shutting down.</p>
 <p>Programmers produced a scattered collection of solutions to the reporting problem:</p>
 <ul>
 <li>
 <p>Indicate failure by returning a special value from a function call.
   This only works when the special value doesn't occur from an ordinary call to that function.
   For example, if your function returns any <code>int</code>, you can't use <code>0</code> or <code>-1</code> to report an error.
-  A bigger problem is that you rely on the client programmer to pay attention to the return value and know what to do about errors.</p>
+  A bigger problem is that you rely on the client programmer to pay attention to the return value and know what to do
+  about errors.</p>
 </li>
 <li>
 <p>Indicate failure by <a href="https://en.wikipedia.org/wiki/Errno.h">setting a global flag</a>.
   This is a single flag shared by all functions in the program.
   The client programmer must know to watch that flag.
-  If the flag isn't checked right away, it might get overwritten by a different function call in which case the error is lost.</p>
+  If the flag isn't checked right away, it might get overwritten by a different function call in which case the error is
+  lost.</p>
 </li>
 <li>
 <p>Use <a href="https://en.wikipedia.org/wiki/C_signal_handling">signals</a> if the operating system supports it.</p>
@@ -1187,14 +1208,19 @@ it became clear that we needed a layer to eliminate this extra work--work that t
 <blockquote>
 <p><em>Who is responsible for error handling, the OS or the language?</em></p>
 </blockquote>
-<p>Since every program has the potential for errors, it initially seemed obvious that this activity should be the domain of the operating system.
+<p>Since every program has the potential for errors, it initially seemed obvious that this activity should be the domain of
+the operating system.
 Some early operating systems allowed the program to invoke an error which would then jump to the operating system.
-A few OSes even experimented with the ability to "resume" back to the point where the error occurred, so the handler could fix the problem and continue processing.
+A few OSes even experimented with the ability to "resume" back to the point where the error occurred, so the handler
+could fix the problem and continue processing.
 Notably, these systems did not find success and resumption was removed.</p>
-<p>Further experiments eventually made it clear that the language needed primary responsibility for error reporting and handling (there are a few special cases, such as out-of-memory errors, which must still be handled by the OS).
-This is because an OS is designed to be general-purpose, and thus cannot know the specific situation that caused an error, whereas language code can be close to the problem.
+<p>Further experiments eventually made it clear that the language needed primary responsibility for error reporting and
+handling (there are a few special cases, such as out-of-memory errors, which must still be handled by the OS).
+This is because an OS is designed to be general-purpose, and thus cannot know the specific situation that caused an
+error, whereas language code can be close to the problem.
 Customization is normally the domain of the language.
-You could imagine calling the OS to install custom error-handling routines, and you can also imagine how quickly that would become overwhelmingly messy.</p>
+You could imagine calling the OS to install custom error-handling routines, and you can also imagine how quickly that
+would become overwhelmingly messy.</p>
 <p>If errors are in the language domain, the next question is how to report and handle them.</p>
 <h2 id="exceptions">Exceptions<a class="headerlink" href="#exceptions" title="Permanent link">#</a></h2>
 <p>Unifying error reporting and recovery</p>
@@ -1205,15 +1231,18 @@ You could imagine calling the OS to install custom error-handling routines, and 
 <li>BASIC had "On Error Go To" (and "resume"?)</li>
 <li>Pascal</li>
 <li>C++</li>
-<li>Java created checked exceptions, which must be explicitly dealt with in your code, and runtime exceptions, which could be ignored.</li>
-<li>Python has exceptions but doesn’t provide any type annotation or other mechanism to indicate what exceptions might emerge from a function call.</li>
+<li>Java created checked exceptions, which must be explicitly dealt with in your code, and runtime exceptions, which could
+  be ignored.</li>
+<li>Python has exceptions but doesn’t provide any type annotation or other mechanism to indicate what exceptions might
+  emerge from a function call.</li>
 </ul>
 <p>Exceptions seemed like a great idea:</p>
 <ol>
 <li>A standardized way to correct problems so that an operation can recover and retry.</li>
 <li>There's only one way to report errors.</li>
 <li>Errors cannot be ignored—they flow upward until caught or displayed on the console with program termination.</li>
-<li>Errors can be handled close to the origin, or generalized by catching them "further out" so that multiple error sources can be managed with a single handler.</li>
+<li>Errors can be handled close to the origin, or generalized by catching them "further out" so that multiple error
+   sources can be managed with a single handler.</li>
 <li>Exception hierarchies allow more general exception handlers to handle multiple exception subtypes.</li>
 </ol>
 <p>To be clear, exceptions were a big improvement over all the previous (non) solutions to the error reporting problem.
@@ -1229,29 +1258,45 @@ We only figure it out when scaling composability.</p>
 <p>Recoverable vs. panic (Recovering/Retrying requires programming) With exceptions, the two types are conflated.
 One of the best explanations of this is by <a href="https://joeduffyblog.com/2016/02/07/the-error-model/">Joe Duffy</a>.</p>
 <h3 id="2-not-part-of-the-type-system">2. Not Part of the Type System<a class="headerlink" href="#2-not-part-of-the-type-system" title="Permanent link">#</a></h3>
-<p>If the type system doesn’t include exceptions as part of a function signature, you can’t know what exceptions you must handle when calling other functions (i.e.:
+<p>If the type system doesn’t include exceptions as part of a function signature, you can’t know what exceptions you must
+handle when calling other functions (i.e.:
 composing).
-Even if you track down all the possible exceptions thrown explicitly in the code (by hunting for them in their source code!), built-in exceptions can still happen without evidence in the code:
+Even if you track down all the possible exceptions thrown explicitly in the code (by hunting for them in their source
+code!), built-in exceptions can still happen without evidence in the code:
 divide-by-zero is a great example of this.</p>
-<p>You can be using a library and handling all the exceptions from it (or perhaps just the ones you found in the documentation), and a newer version of that library can quietly add a new exception, and suddenly you are no longer detecting and/or handling all the exceptions.
+<p>You can be using a library and handling all the exceptions from it (or perhaps just the ones you found in the
+documentation), and a newer version of that library can quietly add a new exception, and suddenly you are no longer
+detecting and/or handling all the exceptions.
 Even though you made no changes to your code.</p>
-<p>Languages like C++ and Java attempted to solve this problem by adding <em>exception specifications,</em> a notation that allows you to add the exception types that may be thrown, as part of the function’s type signature.</p>
-<p>Object-oriented languages that enforce exception specifications (C++, Java) and create exception hierarchies introduce another problem.
+<p>Languages like C++ and Java attempted to solve this problem by adding <em>exception specifications,</em> a notation that allows
+you to add the exception types that may be thrown, as part of the function’s type signature.</p>
+<p>Object-oriented languages that enforce exception specifications (C++, Java) and create exception hierarchies introduce
+another problem.
 Exception hierarchies allow the library programmer to use an exception base type in the exception specification.
-This obscures important details; if the exception specification just uses a base type, there’s no way for the compiler to enforce coverage of specific exceptions.</p>
-<p>When errors are included in the type system, you can know all the errors that can occur just by looking at the type information.
-If a library component adds a new error, then that must be reflected in that component’s type signature, which means that the code using it immediately knows that it is no longer covering all the error conditions, and will produce type errors until it is fixed.</p>
+This obscures important details; if the exception specification just uses a base type, there’s no way for the compiler
+to enforce coverage of specific exceptions.</p>
+<p>When errors are included in the type system, you can know all the errors that can occur just by looking at the type
+information.
+If a library component adds a new error, then that must be reflected in that component’s type signature, which means
+that the code using it immediately knows that it is no longer covering all the error conditions, and will produce type
+errors until it is fixed.</p>
 <h3 id="3-exception-specifications-create-a-shadow-type-system">3. Exception Specifications Create a "Shadow Type System"<a class="headerlink" href="#3-exception-specifications-create-a-shadow-type-system" title="Permanent link">#</a></h3>
 <p>Languages like C++ and Java attempted to add notation indicating the exceptions that might emerge from a function call.
 This was well-intentioned and seems to produce the necessary information the client programmer needs to handle errors.
-The fundamental problem was that this created an alternate or "shadow" type system that doesn’t follow the same rules as the primary type system.
-To make the shadow type system work, its rules were warped to the point where it became effectively useless (a discovery that has taken years to realize).</p>
+The fundamental problem was that this created an alternate or "shadow" type system that doesn’t follow the same rules as
+the primary type system.
+To make the shadow type system work, its rules were warped to the point where it became effectively useless (a discovery
+that has taken years to realize).</p>
 <p>C++ exception specifications were originally optional and not statically type-checked.
-After many years these were deprecated in favor of the statically-typed <a href="https://en.cppreference.com/w/cpp/utility/expected"><code>expected</code> specification</a> (which takes the functional approached described in this paper).</p>
-<p>Java created checked exceptions, which must be explicitly dealt with in your code, and runtime exceptions, which could be ignored.
+After many years these were deprecated in favor of the statically-typed <a href="https://en.cppreference.com/w/cpp/utility/expected">
+<code>expected</code> specification</a> (which takes the functional approached
+described in this paper).</p>
+<p>Java created checked exceptions, which must be explicitly dealt with in your code, and runtime exceptions, which could
+be ignored.
 Eventually, they added a feature that allows checked exceptions to be easily converted into runtime exceptions.
 Java functions can always return <code>null</code> without any warning.</p>
-<p>Both systems (the original C++ dynamic exception specifications, and Java exception specifications) had too many holes, and it was too difficult to effectively support both the main and shadow type systems.</p>
+<p>Both systems (the original C++ dynamic exception specifications, and Java exception specifications) had too many holes,
+and it was too difficult to effectively support both the main and shadow type systems.</p>
 <h3 id="4-exceptions-destroy-partial-calculations">4. Exceptions Destroy Partial Calculations<a class="headerlink" href="#4-exceptions-destroy-partial-calculations" title="Permanent link">#</a></h3>
 <p>Let’s start with an example where we populate a <code>List</code> with the results of a sequence of calls to the function <code>func_a</code>:</p>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="c1"># discarded_state.py</span>
@@ -1281,9 +1326,11 @@ This:</p>
    It would be quite valuable to see in <code>result</code> the parts that succeeded and those that failed.</li>
 </ol>
 <h2 id="the-functional-solution">The Functional Solution<a class="headerlink" href="#the-functional-solution" title="Permanent link">#</a></h2>
-<p>Instead of creating a complex implementation to report and handle errors, the functional approach creates a "return package" containing the answer along with the (potential) error information.
+<p>Instead of creating a complex implementation to report and handle errors, the functional approach creates a "return
+package" containing the answer along with the (potential) error information.
 Instead of only returning the answer, we return this package from the function.</p>
-<p>This package is a new type, with operations that prevent the programmer from plucking the result from the package without dealing with error conditions (a failing of the Go language approach).</p>
+<p>This package is a new type, with operations that prevent the programmer from plucking the result from the package
+without dealing with error conditions (a failing of the Go language approach).</p>
 <p>A first attempt uses <em>type unions</em> to create a nameless return package:</p>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1"># return_union.py</span>
 </span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="c1"># Type union aka Sum Type</span>
@@ -1313,10 +1360,17 @@ Instead of only returning the answer, we return this package from the function.<
 </span><span id="__span-2-26"><a id="__codelineno-2-26" name="__codelineno-2-26" href="#__codelineno-2-26"></a><span class="c1">## 4: answer = 4</span>
 </span></code></pre></div>
 <p><code>func_a</code> returns a <code>str</code> to indicate an error, and an <code>int</code> answer if there is no error.
-In the pattern match, we are forced to check the result type to determine whether an error occurs; we cannot just assume it is an <code>int</code>.</p>
-<p>An important problem with this approach is that it is not clear which type is the success value and which type represents the error condition—because we are trying to repurpose existing built-in types to represent new meanings.</p>
-<p>In hindsight, it might seem like this "return package" approach is much more obvious than the elaborate exception-handling scheme that was adopted for C++, Java and other languages, but at the time the apparent overhead of returning extra bytes seemed unacceptable (I don’t know of any comparisons between that and the overhead of exception-handling mechanisms, but I do know that the goal of C++ exception handling is to have zero execution overhead if no exceptions occur).</p>
-<p>Note that in the definition of <code>composed</code>, the type checker requires that you return <code>int | str</code> because <code>func_a</code> returns those types.
+In the pattern match, we are forced to check the result type to determine whether an error occurs; we cannot just assume
+it is an <code>int</code>.</p>
+<p>An important problem with this approach is that it is not clear which type is the success value and which type
+represents the error condition—because we are trying to repurpose existing built-in types to represent new meanings.</p>
+<p>In hindsight, it might seem like this "return package" approach is much more obvious than the elaborate
+exception-handling scheme that was adopted for C++, Java and other languages, but at the time the apparent overhead of
+returning extra bytes seemed unacceptable (I don’t know of any comparisons between that and the overhead of
+exception-handling mechanisms, but I do know that the goal of C++ exception handling is to have zero execution overhead
+if no exceptions occur).</p>
+<p>Note that in the definition of <code>composed</code>, the type checker requires that you return <code>int | str</code> because <code>func_a</code>
+returns those types.
 Thus, when composing, type-safety is preserved.
 This means you won’t lose error type information during composition, so composability automatically scales.</p>
 <h2 id="creating-a-new-return-type">Creating a New Return Type<a class="headerlink" href="#creating-a-new-return-type" title="Permanent link">#</a></h2>
@@ -1351,13 +1405,16 @@ We’ll call this <code>Result</code> and define it using generics to make it un
 </span><span id="__span-3-25"><a id="__codelineno-3-25" name="__codelineno-3-25" href="#__codelineno-3-25"></a>    <span class="n">error</span><span class="p">:</span> <span class="n">ERROR</span>  <span class="c1"># Usage: return Failure(error)</span>
 </span></code></pre></div>
 <p>A <code>TypeVar</code> defines a generic parameter.
-We want <code>Result</code> to contain a type for an <code>ANSWER</code> when the function call is successful, and an <code>ERROR</code> to indicate how the function call failed.
+We want <code>Result</code> to contain a type for an <code>ANSWER</code> when the function call is successful, and an <code>ERROR</code> to indicate how
+the function call failed.
 Each subtype of <code>Result</code> only holds one field:
 <code>answer</code> for a successful <code>Success</code> calculation, and <code>error</code> for a <code>Failure</code>.
-Thus, if a <code>Failure</code> is returned, the client programmer cannot reach in and grab the <code>answer</code> field because it doesn’t exist.
+Thus, if a <code>Failure</code> is returned, the client programmer cannot reach in and grab the <code>answer</code> field because it doesn’t
+exist.
 The client programmer is forced to properly analyze the <code>Result</code>.</p>
 <p>We could use a frozen <code>dataclass</code> instead of a <code>NamedTuple</code> here, but the latter is more concise.</p>
-<p>To use <code>Result</code>, you <code>return Success(answer)</code> when you’ve successfully created an answer, and <code>return Failure(error)</code> to indicate a failure.
+<p>To use <code>Result</code>, you <code>return Success(answer)</code> when you’ve successfully created an answer, and <code>return Failure(error)</code> to
+indicate a failure.
 <code>unwrap</code> is a convenience method which is only available for a <code>Success</code>.</p>
 <p>The modified version of the example using <code>Result</code> is now:</p>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="c1"># return_result.py</span>
@@ -1383,14 +1440,18 @@ The client programmer is forced to properly analyze the <code>Result</code>.</p>
 </span><span id="__span-5-10"><a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a><span class="c1">##  (4, &lt;Success: 4&gt;)]</span>
 </span></code></pre></div>
 <p>Now <code>func_a</code> returns a single type, <code>Result</code>.
-The first type parameter to <code>Result</code> is the type returned by <code>Success</code> and the second type parameter is the type returned by <code>Failure</code>.
-The <code>outputs</code> from the comprehension are all of type <code>Result</code>, and we have preserved the successful calculations even though there is a failing call.
-We can also pattern-match on the outputs, and it is crystal-clear which match is for the success and which is for the failure.</p>
+The first type parameter to <code>Result</code> is the type returned by <code>Success</code> and the second type parameter is the type
+returned by <code>Failure</code>.
+The <code>outputs</code> from the comprehension are all of type <code>Result</code>, and we have preserved the successful calculations even
+though there is a failing call.
+We can also pattern-match on the outputs, and it is crystal-clear which match is for the success and which is for the
+failure.</p>
 <p>The <code>returns</code> library has been slipped in here, but its basic form is that of <code>result.py</code>.</p>
 <h2 id="composing-with-result">Composing with <code>Result</code><a class="headerlink" href="#composing-with-result" title="Permanent link">#</a></h2>
 <p>The previous examples included very composition in the <code>composed</code> functions which just called a single other function.
 What if you need to compose a more complex function from multiple other functions?
-The <code>Result</code> type ensures that the <code>composed</code> function properly represents both the <code>Answer</code> type but also the various different errors that can occur:</p>
+The <code>Result</code> type ensures that the <code>composed</code> function properly represents both the <code>Answer</code> type but also the various
+different errors that can occur:</p>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="c1"># composing_functions.py</span>
 </span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">pprint</span><span class="w"> </span><span class="kn">import</span> <span class="n">pprint</span>
 </span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>
@@ -1459,7 +1520,8 @@ The <code>Result</code> type ensures that the <code>composed</code> function pro
 </span><span id="__span-7-10"><a id="__codelineno-7-10" name="__codelineno-7-10" href="#__codelineno-7-10"></a><span class="c1">##  (4, &lt;Success: func_d(1): 1&gt;)]</span>
 </span></code></pre></div>
 <p>The <code>a</code>, <code>b</code> and <code>c</code> functions each have argument values that are unacceptable.
-Notice that <code>b</code> and <code>c</code> both use built-in exception types as arguments to <code>Failure</code>, but those exceptions are never raised—they are used to convey information, just like the <code>str</code> in <code>a</code>.</p>
+Notice that <code>b</code> and <code>c</code> both use built-in exception types as arguments to <code>Failure</code>, but those exceptions are never
+raised—they are used to convey information, just like the <code>str</code> in <code>a</code>.</p>
 <p>In <code>composed</code>, we call <code>a</code>, <code>b</code> and <code>c</code> in sequence.
 After each call, we check to see if the result type is <code>Failure</code>.
 If so, the calculation has failed, and we can’t continue, so we return the current result,
@@ -1468,44 +1530,47 @@ If it succeeds,
 it is a <code>Success</code>
 which contains an <code>unwrap</code> method that is used to extract the answer from that calculation—if you look back at <code>Result</code>,
 you’ll see that it returns the <code>ANSWER</code> type so its use can be properly type-checked.</p>
-<p>This means that any failure during a sequence of composed function calls will short-circuit out of <code>composed</code>, returning a <code>Failure</code> that tells you exactly what happened, and that you must decide what to do with.
+<p>This means that any failure during a sequence of composed function calls will short-circuit out of <code>composed</code>, returning
+a <code>Failure</code> that tells you exactly what happened, and that you must decide what to do with.
 You can’t just ignore it and assume that it will "bubble up" until it finds an appropriate handler.
 You are forced to deal with it at the point of origin, which is typically when you know the most about an error.</p>
 <h2 id="simplifying-composition-with-bind">Simplifying Composition with <code>bind</code><a class="headerlink" href="#simplifying-composition-with-bind" title="Permanent link">#</a></h2>
 <p>There’s still a problem that impedes our ultimate goal of composability:
-every time you call a function within a composed function, you must write code to check the <code>Result</code> type and extract the <code>answer</code> with <code>unwrap</code>.
+every time you call a function within a composed function, you must write code to check the <code>Result</code> type and extract
+the <code>answer</code> with <code>unwrap</code>.
 This is extra repetitive work that interrupts the flow and readability of the program.
 We need some way to reduce or eliminate the extra code.</p>
 <p>Let's modify <code>Result</code> to add a new member function, <code>bind</code>:</p>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="c1"># result_with_bind.py</span>
-</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">dataclasses</span><span class="w"> </span><span class="kn">import</span> <span class="n">dataclass</span>
-</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Generic</span><span class="p">,</span> <span class="n">TypeVar</span>
-</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a>
-</span><span id="__span-8-5"><a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a><span class="n">ANSWER</span> <span class="o">=</span> <span class="n">TypeVar</span><span class="p">(</span><span class="s2">&quot;ANSWER&quot;</span><span class="p">)</span>
-</span><span id="__span-8-6"><a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a><span class="n">ERROR</span> <span class="o">=</span> <span class="n">TypeVar</span><span class="p">(</span><span class="s2">&quot;ERROR&quot;</span><span class="p">)</span>
-</span><span id="__span-8-7"><a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a>
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
+</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="kn">from</span><span class="w"> </span><span class="nn">dataclasses</span><span class="w"> </span><span class="kn">import</span> <span class="n">dataclass</span>
+</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Generic</span><span class="p">,</span> <span class="n">TypeVar</span>
+</span><span id="__span-8-5"><a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a>
+</span><span id="__span-8-6"><a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a><span class="n">ANSWER</span> <span class="o">=</span> <span class="n">TypeVar</span><span class="p">(</span><span class="s2">&quot;ANSWER&quot;</span><span class="p">)</span>
+</span><span id="__span-8-7"><a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a><span class="n">ERROR</span> <span class="o">=</span> <span class="n">TypeVar</span><span class="p">(</span><span class="s2">&quot;ERROR&quot;</span><span class="p">)</span>
 </span><span id="__span-8-8"><a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a>
-</span><span id="__span-8-9"><a id="__codelineno-8-9" name="__codelineno-8-9" href="#__codelineno-8-9"></a><span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-</span><span id="__span-8-10"><a id="__codelineno-8-10" name="__codelineno-8-10" href="#__codelineno-8-10"></a><span class="k">class</span><span class="w"> </span><span class="nc">Result</span><span class="p">(</span><span class="n">Generic</span><span class="p">[</span><span class="n">ANSWER</span><span class="p">,</span> <span class="n">ERROR</span><span class="p">]):</span>
-</span><span id="__span-8-11"><a id="__codelineno-8-11" name="__codelineno-8-11" href="#__codelineno-8-11"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">bind</span><span class="p">(</span>
-</span><span id="__span-8-12"><a id="__codelineno-8-12" name="__codelineno-8-12" href="#__codelineno-8-12"></a>        <span class="bp">self</span><span class="p">,</span> <span class="n">func</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">ANSWER</span><span class="p">],</span> <span class="s2">&quot;Result&quot;</span><span class="p">]</span>
-</span><span id="__span-8-13"><a id="__codelineno-8-13" name="__codelineno-8-13" href="#__codelineno-8-13"></a>    <span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Result[ANSWER, ERROR]&quot;</span><span class="p">:</span>
-</span><span id="__span-8-14"><a id="__codelineno-8-14" name="__codelineno-8-14" href="#__codelineno-8-14"></a>        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">Success</span><span class="p">):</span>
-</span><span id="__span-8-15"><a id="__codelineno-8-15" name="__codelineno-8-15" href="#__codelineno-8-15"></a>            <span class="k">return</span> <span class="n">func</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">unwrap</span><span class="p">())</span>
-</span><span id="__span-8-16"><a id="__codelineno-8-16" name="__codelineno-8-16" href="#__codelineno-8-16"></a>        <span class="k">return</span> <span class="bp">self</span>  <span class="c1"># Pass the Failure forward</span>
-</span><span id="__span-8-17"><a id="__codelineno-8-17" name="__codelineno-8-17" href="#__codelineno-8-17"></a>
+</span><span id="__span-8-9"><a id="__codelineno-8-9" name="__codelineno-8-9" href="#__codelineno-8-9"></a>
+</span><span id="__span-8-10"><a id="__codelineno-8-10" name="__codelineno-8-10" href="#__codelineno-8-10"></a><span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</span><span id="__span-8-11"><a id="__codelineno-8-11" name="__codelineno-8-11" href="#__codelineno-8-11"></a><span class="k">class</span><span class="w"> </span><span class="nc">Result</span><span class="p">(</span><span class="n">Generic</span><span class="p">[</span><span class="n">ANSWER</span><span class="p">,</span> <span class="n">ERROR</span><span class="p">]):</span>
+</span><span id="__span-8-12"><a id="__codelineno-8-12" name="__codelineno-8-12" href="#__codelineno-8-12"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">bind</span><span class="p">(</span>
+</span><span id="__span-8-13"><a id="__codelineno-8-13" name="__codelineno-8-13" href="#__codelineno-8-13"></a>        <span class="bp">self</span><span class="p">,</span> <span class="n">func</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">ANSWER</span><span class="p">],</span> <span class="s2">&quot;Result&quot;</span><span class="p">]</span>
+</span><span id="__span-8-14"><a id="__codelineno-8-14" name="__codelineno-8-14" href="#__codelineno-8-14"></a>    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Result</span><span class="p">[</span><span class="n">ANSWER</span><span class="p">,</span> <span class="n">ERROR</span><span class="p">]:</span>
+</span><span id="__span-8-15"><a id="__codelineno-8-15" name="__codelineno-8-15" href="#__codelineno-8-15"></a>        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">Success</span><span class="p">):</span>
+</span><span id="__span-8-16"><a id="__codelineno-8-16" name="__codelineno-8-16" href="#__codelineno-8-16"></a>            <span class="k">return</span> <span class="n">func</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">unwrap</span><span class="p">())</span>
+</span><span id="__span-8-17"><a id="__codelineno-8-17" name="__codelineno-8-17" href="#__codelineno-8-17"></a>        <span class="k">return</span> <span class="bp">self</span>  <span class="c1"># Pass the Failure forward</span>
 </span><span id="__span-8-18"><a id="__codelineno-8-18" name="__codelineno-8-18" href="#__codelineno-8-18"></a>
-</span><span id="__span-8-19"><a id="__codelineno-8-19" name="__codelineno-8-19" href="#__codelineno-8-19"></a><span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-</span><span id="__span-8-20"><a id="__codelineno-8-20" name="__codelineno-8-20" href="#__codelineno-8-20"></a><span class="k">class</span><span class="w"> </span><span class="nc">Success</span><span class="p">(</span><span class="n">Result</span><span class="p">[</span><span class="n">ANSWER</span><span class="p">,</span> <span class="n">ERROR</span><span class="p">]):</span>
-</span><span id="__span-8-21"><a id="__codelineno-8-21" name="__codelineno-8-21" href="#__codelineno-8-21"></a>    <span class="n">answer</span><span class="p">:</span> <span class="n">ANSWER</span>
-</span><span id="__span-8-22"><a id="__codelineno-8-22" name="__codelineno-8-22" href="#__codelineno-8-22"></a>
-</span><span id="__span-8-23"><a id="__codelineno-8-23" name="__codelineno-8-23" href="#__codelineno-8-23"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">unwrap</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ANSWER</span><span class="p">:</span>
-</span><span id="__span-8-24"><a id="__codelineno-8-24" name="__codelineno-8-24" href="#__codelineno-8-24"></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">answer</span>
-</span><span id="__span-8-25"><a id="__codelineno-8-25" name="__codelineno-8-25" href="#__codelineno-8-25"></a>
+</span><span id="__span-8-19"><a id="__codelineno-8-19" name="__codelineno-8-19" href="#__codelineno-8-19"></a>
+</span><span id="__span-8-20"><a id="__codelineno-8-20" name="__codelineno-8-20" href="#__codelineno-8-20"></a><span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</span><span id="__span-8-21"><a id="__codelineno-8-21" name="__codelineno-8-21" href="#__codelineno-8-21"></a><span class="k">class</span><span class="w"> </span><span class="nc">Success</span><span class="p">(</span><span class="n">Result</span><span class="p">[</span><span class="n">ANSWER</span><span class="p">,</span> <span class="n">ERROR</span><span class="p">]):</span>
+</span><span id="__span-8-22"><a id="__codelineno-8-22" name="__codelineno-8-22" href="#__codelineno-8-22"></a>    <span class="n">answer</span><span class="p">:</span> <span class="n">ANSWER</span>
+</span><span id="__span-8-23"><a id="__codelineno-8-23" name="__codelineno-8-23" href="#__codelineno-8-23"></a>
+</span><span id="__span-8-24"><a id="__codelineno-8-24" name="__codelineno-8-24" href="#__codelineno-8-24"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">unwrap</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ANSWER</span><span class="p">:</span>
+</span><span id="__span-8-25"><a id="__codelineno-8-25" name="__codelineno-8-25" href="#__codelineno-8-25"></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">answer</span>
 </span><span id="__span-8-26"><a id="__codelineno-8-26" name="__codelineno-8-26" href="#__codelineno-8-26"></a>
-</span><span id="__span-8-27"><a id="__codelineno-8-27" name="__codelineno-8-27" href="#__codelineno-8-27"></a><span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-</span><span id="__span-8-28"><a id="__codelineno-8-28" name="__codelineno-8-28" href="#__codelineno-8-28"></a><span class="k">class</span><span class="w"> </span><span class="nc">Failure</span><span class="p">(</span><span class="n">Result</span><span class="p">[</span><span class="n">ANSWER</span><span class="p">,</span> <span class="n">ERROR</span><span class="p">]):</span>
-</span><span id="__span-8-29"><a id="__codelineno-8-29" name="__codelineno-8-29" href="#__codelineno-8-29"></a>    <span class="n">error</span><span class="p">:</span> <span class="n">ERROR</span>
+</span><span id="__span-8-27"><a id="__codelineno-8-27" name="__codelineno-8-27" href="#__codelineno-8-27"></a>
+</span><span id="__span-8-28"><a id="__codelineno-8-28" name="__codelineno-8-28" href="#__codelineno-8-28"></a><span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</span><span id="__span-8-29"><a id="__codelineno-8-29" name="__codelineno-8-29" href="#__codelineno-8-29"></a><span class="k">class</span><span class="w"> </span><span class="nc">Failure</span><span class="p">(</span><span class="n">Result</span><span class="p">[</span><span class="n">ANSWER</span><span class="p">,</span> <span class="n">ERROR</span><span class="p">]):</span>
+</span><span id="__span-8-30"><a id="__codelineno-8-30" name="__codelineno-8-30" href="#__codelineno-8-30"></a>    <span class="n">error</span><span class="p">:</span> <span class="n">ERROR</span>
 </span></code></pre></div>
 <p><code>bind</code> removes the duplicated code:</p>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="c1"># composing_with_bind.py</span>
@@ -1542,16 +1607,22 @@ We need some way to reduce or eliminate the extra code.</p>
 </span></code></pre></div>
 <p>In <code>composed</code>, we call <code>func_a(i)</code> which returns a <code>Result</code>.
 The <code>bind</code> method is called on that <code>Result</code>, passing it the next function we want to call (<code>func_b</code>) as an argument.
-The return value of <code>bind</code> is <em>also</em> a <code>Result</code>, so we can call <code>bind</code> again upon that <code>Result</code>, passing it the third function we want to call (<code>func_c</code>), and so on.</p>
-<p>At each "chaining point" in <code>func_a(i).bind(func_b).bind(func_c).bind(func_d)</code>, <code>bind</code> checks the <code>Result</code> type to see if it <code>Success</code>.
+The return value of <code>bind</code> is <em>also</em> a <code>Result</code>, so we can call <code>bind</code> again upon that <code>Result</code>, passing it the third
+function we want to call (<code>func_c</code>), and so on.</p>
+<p>At each "chaining point" in <code>func_a(i).bind(func_b).bind(func_c).bind(func_d)</code>, <code>bind</code> checks the <code>Result</code> type to see
+if it <code>Success</code>.
 If so, it passes the result <code>answer</code> from that call as the argument to the next function in the chain.
-If not, that means <code>self</code> is a <code>Failure</code> object (containing specific error information), so all it needs to do is <code>return self</code>.
-The next call in the chain sees that the returned type is <code>Failure</code>, so it doesn’t try to apply the next function but just (again) returns the <code>Failure</code>.
-Once you produce a <code>Failure</code>, no more function calls occur (that is, it short-circuits) and the <code>Failure</code> result gets passed all the way out of the composed function so the caller can deal with that specific failure.</p>
+If not, that means <code>self</code> is a <code>Failure</code> object (containing specific error information), so all it needs to do is
+<code>return self</code>.
+The next call in the chain sees that the returned type is <code>Failure</code>, so it doesn’t try to apply the next function but
+just (again) returns the <code>Failure</code>.
+Once you produce a <code>Failure</code>, no more function calls occur (that is, it short-circuits) and the <code>Failure</code> result gets
+passed all the way out of the composed function so the caller can deal with that specific failure.</p>
 <h2 id="handling-multiple-arguments">Handling Multiple Arguments<a class="headerlink" href="#handling-multiple-arguments" title="Permanent link">#</a></h2>
 <p>We could continue adding features to our <code>Result</code> library until it becomes a complete solution.
 However, others have worked on this problem, so it makes more sense to reuse their libraries.
-The most popular Python library that includes this extra functionality is <a href="https://github.com/dry-python/returns">Returns</a>.
+The most popular Python library that includes this extra functionality
+is <a href="https://github.com/dry-python/returns">Returns</a>.
 <code>Returns</code> includes other features, but we will only focus on <code>Result</code>.</p>
 <p>What if you need to create a <code>composed</code> function that takes multiple arguments?
 For this, we use something called "do notation," which you access using <code>Result.do</code>:</p>
@@ -1587,22 +1658,30 @@ For this, we use something called "do notation," which you access using <code>Re
 </span><span id="__span-10-30"><a id="__codelineno-10-30" name="__codelineno-10-30" href="#__codelineno-10-30"></a><span class="c1">##  ((7, 5), &lt;Success: add(7 + 5 + 0): 12&gt;)]</span>
 </span></code></pre></div>
 <p><code>Returns</code> provides a <code>@safe</code> decorator that you see applied to the "plain" function <code>func_b</code>.
-This changes the normal <code>int</code> return type into a <code>Result</code> that includes <code>int</code> for the <code>Success</code> type but is also somehow able to recognize that the division might produce a <code>ZeroDivisionError</code> and include that in the <code>Failure</code> type.
-In addition, <code>@safe</code> is apparently catching the exception and converting it to the <code>ZeroDivisionError</code> returned as the information object in the <code>Failure</code> object.
+This changes the normal <code>int</code> return type into a <code>Result</code> that includes <code>int</code> for the <code>Success</code> type but is also somehow
+able to recognize that the division might produce a <code>ZeroDivisionError</code> and include that in the <code>Failure</code> type.
+In addition, <code>@safe</code> is apparently catching the exception and converting it to the <code>ZeroDivisionError</code> returned as the
+information object in the <code>Failure</code> object.
 <code>@safe</code> is a helpful tool when converting exception-throwing code into error-returning code.</p>
 <p><code>func_c</code> adds some variety by rejecting <code>-1</code> and producing a <code>str</code> result.
 We can now produce <code>composed</code> using a <code>pipe</code> and <code>bind</code>.
-All the previous error-checking and short-circuiting behaviors happen as before, but the syntax is now more straightforward and readable.</p>
-<p>Notice that when the <code>outputs</code> list is created, the output from <code>reject0</code> only happens for the values <code>-1</code> and <code>2</code>, because the other values cause errors in the <code>composed</code> chain of operations.
+All the previous error-checking and short-circuiting behaviors happen as before, but the syntax is now more
+straightforward and readable.</p>
+<p>Notice that when the <code>outputs</code> list is created, the output from <code>reject0</code> only happens for the values <code>-1</code> and <code>2</code>,
+because the other values cause errors in the <code>composed</code> chain of operations.
 The value <code>1</code> never gets to <code>func_b</code> because it is intercepted by the prior <code>composed</code> call to <code>func_a</code>.
 The value <code>0</code> causes <code>func_b</code> to produce a <code>ZeroDivisionError</code> when it tries to perform the division inside the <code>print</code>.</p>
 <p>[Explain rest of example]</p>
-<p>Note that there may be an issue with the <code>Returns</code> library, which is that for proper type checking it requires using a MyPy extension.
+<p>Note that there may be an issue with the <code>Returns</code> library, which is that for proper type checking it requires using a
+MyPy extension.
 So far I have been unable to get that extension to work (however, I have no experience with MyPy extensions).</p>
 <h2 id="functional-error-handling-is-happening">Functional Error Handling is Happening<a class="headerlink" href="#functional-error-handling-is-happening" title="Permanent link">#</a></h2>
-<p>Functional error handling has already appeared in languages like Rust, Kotlin, and recent versions of C++ support these combined answer-error result types, with associated unpacking operations.
-In these languages, errors become part of the type system, and it is far more difficult for an error to "slip through the cracks."</p>
-<p>Python has only been able to support functional error handling since the advent of typing and type checkers, and it doesn’t provide any direct language or library constructs for this.
+<p>Functional error handling has already appeared in languages like Rust, Kotlin, and recent versions of C++ support these
+combined answer-error result types, with associated unpacking operations.
+In these languages, errors become part of the type system, and it is far more difficult for an error to "slip through
+the cracks."</p>
+<p>Python has only been able to support functional error handling since the advent of typing and type checkers, and it
+doesn’t provide any direct language or library constructs for this.
 The benefits of better error handling and robust composability make it worth adopting a library like <code>Results</code>.</p>
 
 

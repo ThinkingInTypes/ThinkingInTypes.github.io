@@ -263,6 +263,15 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#whats-wrong-with-objects" class="md-nav__link">
+    <span class="md-ellipsis">
+      What's Wrong with Objects?
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#strong-typing-vs-strong-testing" class="md-nav__link">
     <span class="md-ellipsis">
       Strong Typing vs. Strong Testing
@@ -798,6 +807,15 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#whats-wrong-with-objects" class="md-nav__link">
+    <span class="md-ellipsis">
+      What's Wrong with Objects?
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#strong-typing-vs-strong-testing" class="md-nav__link">
     <span class="md-ellipsis">
       Strong Typing vs. Strong Testing
@@ -880,9 +898,47 @@
 <blockquote>
 <p>This is a work in progress.
 A lot of the material is rough and in early form, especially the prose.
-However, the book development tooling is in place, so all the examples are tested (If something doesn't work, I'll know about it).
+However, the book development tooling is in place, so all the examples are tested (If something doesn't work, I'll
+know about it).
 My hope is that even during development you will find the material useful.</p>
 </blockquote>
+<p>At the beginning of the book <em>Alice in Wonderland</em>, Alice sees a white rabbit wearing clothing and holding a watch.
+The rabbit runs off, very concerned about being late for something, and Alice follows him.
+She falls down a rabbit hole, and this leads to many bizarre and complicated adventures.
+The story ends when she wakes up and realizes it was all a dream.</p>
+<p>This is the origin of the phrase "going down a rabbit hole."
+I feel silly explaining it, but I've begun having getting-old experiences where I realize that something that was
+common earlier in my life has become so obsolete that all we are left with is obscure references--which I understand but
+younger people don't.</p>
+<p>A young friend rescued a typewriter from a dumpster, fascinated with all the physical mechanisms for stamping letters
+onto paper.
+But they were completely baffled by the way that paper got moved forward so you could start typing the next line.
+I had to demonstrate the way you pushed the arm attached to the paper carriage, so that it would not only advance the
+roller--that is, perform a "line feed"--but also move the carriage back to the starting position--a "carriage return."
+I've seen the expressions in younger programmers when they realize that those words came from physical typewriters and
+that we still carry the terms in programming today despite there being no physical analogue anymore.</p>
+<p>At the beginning of my career, a huge portion of the programming world went down a rabbit hole called <em>Object-Oriented Programming</em> (OOP).
+That particular Wonderlandian dream has lasted for decades, but in recent years we've finally started waking up from it.
+I've had a number of conversations with fellow OOP teachers, and all of us are beginning to feel quite foolish that we didn't see the illusions earlier.
+But those illusions were both complex and compelling.</p>
+<p>This book is one attempt to help undo the damage produced by the illusion of OOP.</p>
+<h2 id="whats-wrong-with-objects">What's Wrong with Objects?<a class="headerlink" href="#whats-wrong-with-objects" title="Permanent link">#</a></h2>
+<p>My first experience with OO programming was during the infancy of C++ in the mid-1980s.
+I was working in the School of Oceanography at the University of Washington under Tom Keffer, who had gotten a research grant to explore making programming easier.
+Our target audience was scientists and engineers, who were still primarily using Fortran, an acronym for FORmula TRANslation.
+Translating formulas into Fortran was an onerous process, and we hoped to create a system where the resulting code looked like the original math equations.
+The ability to create objects and to combine them with operators seemed very promising, so we settled on C++, even though it was in its infancy.</p>
+<p>The C++ compiler had to be physically mailed to us from Bell Labs; it might even have been Bjarne Stroustrup or Andrew Koenig who did the mailing.
+It arrived on a big tape reel, containing a C program that we had to compile with our local C compiler.
+The standardization of the C language was years away, and every machine had their own variant of C,
+so the C++ compiler had to be written in a common subset that would work with most C compilers.</p>
+<p>Compiling this program produced <code>cfront</code> which takes your C++ code and translates it into C code.
+You passed this generated C to your local C compiler to produce the resulting executable.
+This approach was brilliant because it worked atop the diaspora of C compilers available at that time.</p>
+<p>The language itself was brilliant because it was an evolution of the dominant C language.
+These days we are comfortable learning new and different languages, but back then people were still getting comfortable with C (many had been assembly programmers
+so the idea of a compiler was still strange), and they had very little interest in taking a chance on something that didn't feel like C.</p>
+<p>As I burrowed my way into this new language I came across a mystery: the keyword <code>virtual</code>.</p>
 <h2 id="strong-typing-vs-strong-testing">Strong Typing vs. Strong Testing<a class="headerlink" href="#strong-typing-vs-strong-testing" title="Permanent link">#</a></h2>
 <h2 id="tight-vs-permissive-type-systems">Tight vs. Permissive Type Systems<a class="headerlink" href="#tight-vs-permissive-type-systems" title="Permanent link">#</a></h2>
 <h2 id="why-is-this-book-free">Why is This Book Free?<a class="headerlink" href="#why-is-this-book-free" title="Permanent link">#</a></h2>
@@ -894,23 +950,29 @@ I'm sure I could have made a lot more money in computing in some other way, but:
 <li>I enjoyed the process of discovery and of writing about it.</li>
 <li>I had convinced myself that this was a good path to becoming a consultant.</li>
 </ol>
-<p>Many years later, I've come to ponder point two and realized that I had jumped to a convenient conclusion based on point one.
+<p>Many years later, I've come to ponder point two and realized that I had jumped to a convenient conclusion based on point
+one.
 If I was starting out now to pursue consulting, I would instead ask a lot of questions, probably starting with an AI.
 I would then talk to individual consultants and small consulting firms, and maybe even work for one.
-Most importantly, I would try to get to the bottom of <em>why</em> I wanted to be a consultant; what need does it satisfy (other than making a living).</p>
+Most importantly, I would try to get to the bottom of <em>why</em> I wanted to be a consultant; what need does it satisfy (
+other than making a living).</p>
 <p>In my case the "why" is the need for connection and community and the need to be helpful.
-In the last 15 years I've studied this thing called <em>Nonviolent Communication</em> (NVC) and taken a lot of enjoyable workshops on the subject.
+In the last 15 years I've studied this thing called <em>Nonviolent Communication</em> (NVC) and taken a lot of enjoyable
+workshops on the subject.
 After becoming better at communicating, the biggest benefit of NVC is discovering your true needs.
 Once you know those, you can distinguish between needs and strategies--a strategy is one way to meet a need.
 We humans tend to get attached to strategies and often assume that the strategy <em>is</em> the need.
 However, if you can discover and focus on your needs, it opens possibilities.
-Paying attention to needs allows you to look at multiple strategies instead of getting stuck on the first one that pops into your head.
+Paying attention to needs allows you to look at multiple strategies instead of getting stuck on the first one that pops
+into your head.
 You can evaluate strategies to see which ones are more or less possible, and which ones might meet your needs better.</p>
 <p>I've had some very enjoyable consulting experiences,
-but I wonder what things might have been like if I had seen and understood the difference between needs and strategies sooner.</p>
+but I wonder what things might have been like if I had seen and understood the difference between needs and strategies
+sooner.</p>
 <p>If you <em>do</em> want to contribute financially to the book, there are ways:</p>
 <ol>
-<li>Although the lowest price on Leanpub is <code>0$</code> and you are encouraged to use that, it's also possible to raise that number.</li>
+<li>Although the lowest price on Leanpub is <code>0$</code> and you are encouraged to use that, it's also possible to raise that
+   number.</li>
 <li>[Other ways? Contribute to the nonprofit? TBD]</li>
 </ol>
 <h3 id="creating-this-book-in-the-open">Creating This Book "In The Open"<a class="headerlink" href="#creating-this-book-in-the-open" title="Permanent link">#</a></h3>
@@ -918,17 +980,21 @@ but I wonder what things might have been like if I had seen and understood the d
 That is, I can publish it on the web as I'm creating it.
 This produces:</p>
 <ol>
-<li>Feedback. My most successful books, <em>Thinking in C++</em> and <em>Thinking in Java</em>, were both tested on audiences many times before they were published in print.
+<li>Feedback. My most successful books, <em>Thinking in C++</em> and <em>Thinking in Java</em>, were both tested on audiences many
+   times before they were published in print.
    Getting feedback as early as possible, and as the book evolved, was essential in making them what they were.</li>
-<li>Promotion. People are happy to tell other people about something they like that is free. There's no way to corrupt recommendations if there's no cost.</li>
+<li>Promotion. People are happy to tell other people about something they like that is free. There's no way to corrupt
+   recommendations if there's no cost.</li>
 <li>
-<p>Availability. Giving away <em>Thinking in Java</em> in the late 90's meant that anyone in the world who had an internet connection could get it,
+<p>Availability. Giving away <em>Thinking in Java</em> in the late 90's meant that anyone in the world who had an internet
+   connection could get it,
    especially countries where books were expensive or prohibited in some way. And this produced more feedback.</p>
 </li>
 <li>
 <p>A "Business Model" can be about more than just money</p>
 </li>
-<li>My goal is to create experiences. I'm not sure what form they might take, but perhaps it will be helping teams design types and architect their software.</li>
+<li>My goal is to create experiences. I'm not sure what form they might take, but perhaps it will be helping teams design
+  types and architect their software.</li>
 </ol>
 <h2 id="yes-i-used-ai">Yes, I Used AI<a class="headerlink" href="#yes-i-used-ai" title="Permanent link">#</a></h2>
 <p>This is the first book I've written with AI, and it's been massively helpful.
@@ -945,23 +1011,29 @@ And if I've "cheated" by using AI, well, you can use the book for free, so it do
 <p>The Jevons Paradox, named after the English economist William Stanley Jevons, who identified it in 1865.
 Jevons observed that as coal use became more efficient, particularly with the invention of the Watt steam engine.
 Coal consumption increased rather than decreased.
-Increased efficiency in using a resource tends to increase (rather than decrease) the total consumption of that resource.
+Increased efficiency in using a resource tends to increase (rather than decrease) the total consumption of that
+resource.
 Rebound effects: expected gains from efficiency are offset by behavioral or economic responses.
 As AI makes programmers more efficient in creating systems, the demand for programmers will increase.</p>
 <p>I used to have a bookcase full of computer programming books.
 Then it became much easier to search the internet for answers than look in books.
 Eventually I got rid of most of my books.
-It's now become much easier to ask questions of an AI and have it generate examples and prose (although both must be rewritten).
+It's now become much easier to ask questions of an AI and have it generate examples and prose (although both must be
+rewritten).
 So I will tend to use AI more than other resources, still verifying as I did with those other resources.
 Using the AI has taught me to be better at asking questions, and I hope this book might do the same for you.</p>
 <p>I've enjoyed writing books, but perhaps because of AI, this will be my last one.
 Perhaps I will hand over the teaching of programming to AI.
-If that happens, it means that I will have moved on to building tools for programmers and building systems for non-programmers.
+If that happens, it means that I will have moved on to building tools for programmers and building systems for
+non-programmers.
 Ultimately, that will be more useful than writing books about programming.
 I look forward to it.</p>
 <h2 id="acknowledgements">Acknowledgements<a class="headerlink" href="#acknowledgements" title="Permanent link">#</a></h2>
-<p>Most of the understanding I needed to explain this topic came from my attempts to help on the book <a href="https://effectorientedprogramming.com/">Effect-Oriented Programming</a> with Bill Frasure and James Ward, that we worked on for over four years.
-I’ve also learned a lot from some of the interviews that James and I have done for the <a href="https://happypathprogramming.com/">Happy Path Programming podcast</a>.</p>
+<p>Most of the understanding I needed to explain this topic came from my attempts to help on the
+book <a href="https://effectorientedprogramming.com/">Effect-Oriented Programming</a> with Bill Frasure and James Ward, that we
+worked on for over four years.
+I’ve also learned a lot from some of the interviews that James and I have done for
+the <a href="https://happypathprogramming.com/">Happy Path Programming podcast</a>.</p>
 
 
 

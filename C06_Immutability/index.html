@@ -1095,32 +1095,48 @@
 
 
 <h1 id="immutability">Immutability<a class="headerlink" href="#immutability" title="Permanent link">#</a></h1>
-<p>Immutability--the inability to change an object or variable after its creation--offers several key benefits in software design.
+<p>Immutability--the inability to change an object or variable after its creation--offers several key benefits in software
+design.
 By making data immutable, we greatly simplify the mental model needed to understand program state.
-In particular, immutability makes programs easier to reason about by eliminating the possibility of unexpected changes to data.
-This reduction in "the realm of possibility" for how data can evolve means fewer potential bugs and side effects in our code.
-An immutable variable gives us one less thing to worry about when tracing through a program's logic, because once it's set, it won't arbitrarily change under us.</p>
+In particular, immutability makes programs easier to reason about by eliminating the possibility of unexpected changes
+to data.
+This reduction in "the realm of possibility" for how data can evolve means fewer potential bugs and side effects in our
+code.
+An immutable variable gives us one less thing to worry about when tracing through a program's logic, because once it's
+set, it won't arbitrarily change under us.</p>
 <p>Another major benefit is safety in concurrent contexts.
 In multithreaded code, shared mutable state is a common source of issues like data races.
-Immutability helps prevent these by ensuring that once a shared object is created, threads can read it without needing locks or fear of one thread modifying it out from under another.
+Immutability helps prevent these by ensuring that once a shared object is created, threads can read it without needing
+locks or fear of one thread modifying it out from under another.
 Even in single-threaded programs, immutability prevents accidental modifications that could lead to corrupted state.
-With mutable state, a stray assignment or method call can silently alter data and introduce bugs that are hard to track down.
-In contrast, if you attempt to modify an immutable piece of state, it will typically fail fast--either with a clear error at runtime or (ideally) an error caught by a static analysis tool before the code even runs.
+With mutable state, a stray assignment or method call can silently alter data and introduce bugs that are hard to track
+down.
+In contrast, if you attempt to modify an immutable piece of state, it will typically fail fast--either with a clear
+error at runtime or (ideally) an error caught by a static analysis tool before the code even runs.
 This fail-fast behavior makes bugs much easier to detect and fix.</p>
 <p>Some concrete advantages of embracing immutability:</p>
 <ul>
 <li><strong>Easier Reasoning:</strong> You can trust that values won't change unexpectedly, making functions behave more predictably.</li>
-<li><strong>Thread-Safety:</strong> Immutable objects can be freely shared between threads without synchronization, since no thread can alter them and cause race conditions.</li>
-<li><strong>Avoiding Bugs:</strong> Accidental mutations are caught early--either by a runtime exception or by a type checker--instead of silently corrupting state.</li>
-<li><strong>Safe Sharing and Caching:</strong> You can safely reuse or cache immutable objects (even as keys in dictionaries or members of sets) since their hash or contents won't change after creation.
-  This aligns with Python's rule that objects used as dictionary keys must be immutable (e.g., using a tuple instead of a list for a key).</li>
+<li><strong>Thread-Safety:</strong> Immutable objects can be freely shared between threads without synchronization, since no thread can
+  alter them and cause race conditions.</li>
+<li><strong>Avoiding Bugs:</strong> Accidental mutations are caught early--either by a runtime exception or by a type checker--instead
+  of silently corrupting state.</li>
+<li><strong>Safe Sharing and Caching:</strong> You can safely reuse or cache immutable objects (even as keys in dictionaries or members
+  of sets) since their hash or contents won't change after creation.
+  This aligns with Python's rule that objects used as dictionary keys must be immutable (e.g., using a tuple instead of
+  a list for a key).</li>
 </ul>
-<p>Functional programming strongly advocates immutability, preventing accidental changes and thus simplifying reasoning about your code.
-Designing with immutability leads to code that is safer, more robust in concurrent environments, and easier to understand.
-As a dynamic language, Python doesn't enforce immutability by default, but it provides patterns and tools to achieve immutable-like behavior where beneficial.</p>
+<p>Functional programming strongly advocates immutability, preventing accidental changes and thus simplifying reasoning
+about your code.
+Designing with immutability leads to code that is safer, more robust in concurrent environments, and easier to
+understand.
+As a dynamic language, Python doesn't enforce immutability by default, but it provides patterns and tools to achieve
+immutable-like behavior where beneficial.</p>
 <h2 id="immutability-by-convention-in-python">Immutability by Convention in Python<a class="headerlink" href="#immutability-by-convention-in-python" title="Permanent link">#</a></h2>
-<p>Python does not have a built-in <code>const</code> declaration to make a variable truly immutable, nor does it allow truly unchangeable user-defined objects in all cases.
-Instead, Python developers have traditionally relied on conventions and certain immutable built-in types to signal that something should not be changed.</p>
+<p>Python does not have a built-in <code>const</code> declaration to make a variable truly immutable, nor does it allow truly
+unchangeable user-defined objects in all cases.
+Instead, Python developers have traditionally relied on conventions and certain immutable built-in types to signal that
+something should not be changed.</p>
 <p>One common convention is the use of ALL_CAPS names for constants.
 According to PEP 8 (Python's style guide),
 "constants are usually defined on a module level and written in all capital letters with underscores separating words."
@@ -1131,24 +1147,35 @@ For example, one might write:</p>
 </span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>    <span class="s2">&quot;postgres://localhost/db&quot;</span>  <span class="c1"># constant configuration</span>
 </span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="p">)</span>
 </span></code></pre></div>
-<p>By writing these names in uppercase, we indicate to other developers (and ourselves) that these values should be treated as immutable constants.
-The Python interpreter won't stop you from reassigning <code>MAX_OVERFLOW</code> to a different value--this is purely a human convention--but following this naming scheme makes the code's intent clear.
+<p>By writing these names in uppercase, we indicate to other developers (and ourselves) that these values should be treated
+as immutable constants.
+The Python interpreter won't stop you from reassigning <code>MAX_OVERFLOW</code> to a different value--this is purely a human
+convention--but following this naming scheme makes the code's intent clear.
 Many linters will flag reassignment of all-caps "constant" variables as a potential issue, reinforcing the convention.</p>
 <p>Another historical approach is to leverage Python's immutable built-in types.
 Python itself has immutable types like <code>int</code>, <code>float</code>, <code>str</code>, <code>tuple</code>, and <code>frozenset</code>.
-When you want to prevent modifications to a collection of values, you might use a tuple instead of a list, or a <code>frozenset</code> instead of a set.
-For instance, if you have a fixed set of options, using a tuple (<code>options = ("red", "green", "blue")</code>) conveys that this sequence is not to be altered.
+When you want to prevent modifications to a collection of values, you might use a tuple instead of a list, or a
+<code>frozenset</code> instead of a set.
+For instance, if you have a fixed set of options, using a tuple (<code>options = ("red", "green", "blue")</code>) conveys that this
+sequence is not to be altered.
 This isn't enforced by syntax, but the type's lack of mutating methods provides some safety.
-Trying to call a mutating method on an immutable type will result in an <code>AttributeError</code> or a runtime error (for example, attempting to append to a tuple will fail since tuples have no <code>append</code> method).</p>
-<p>In summary, before formal language support for immutability, Python developers used naming conventions and choice of immutable types to signal immutability.
-This approach relies on discipline: the interpreter won't stop someone from breaking the rules, but clear conventions help maintain correctness.
-Python's philosophy has long been <em>"we are all consenting adults here"</em>--meaning if someone really wants to mutate something, the language lets them, but by following conventions like all-caps constants and using immutable data types, you can largely avoid accidental mutations.</p>
+Trying to call a mutating method on an immutable type will result in an <code>AttributeError</code> or a runtime error (for
+example, attempting to append to a tuple will fail since tuples have no <code>append</code> method).</p>
+<p>In summary, before formal language support for immutability, Python developers used naming conventions and choice of
+immutable types to signal immutability.
+This approach relies on discipline: the interpreter won't stop someone from breaking the rules, but clear conventions
+help maintain correctness.
+Python's philosophy has long been <em>"we are all consenting adults here"</em>--meaning if someone really wants to mutate
+something, the language lets them, but by following conventions like all-caps constants and using immutable data types,
+you can largely avoid accidental mutations.</p>
 <p>Modern Python, however, has introduced better ways to enforce immutability or at least catch mutations early.
-The two main tools we'll discuss are the <code>Final</code> type hint (for variables and attributes that shouldn't be reassigned) and frozen dataclasses (for creating immutable data objects).
+The two main tools we'll discuss are the <code>Final</code> type hint (for variables and attributes that shouldn't be reassigned)
+and frozen dataclasses (for creating immutable data objects).
 These provide a more formal way to achieve immutability beyond just convention.</p>
 <h2 id="using-final-for-constants-and-immutable-references">Using <code>Final</code> for Constants and Immutable References<a class="headerlink" href="#using-final-for-constants-and-immutable-references" title="Permanent link">#</a></h2>
 <p>Python 3.8 introduced the <code>Final</code> qualifier.
-<code>Final</code> allows you to declare that a name--whether a module-level variable, a class attribute, or an instance attribute--cannot be reassigned after initialization.
+<code>Final</code> allows you to declare that a name--whether a module-level variable, a class attribute, or an instance
+attribute--cannot be reassigned after initialization.
 This is a purely static indication; it's enforced by the type checker but not by the Python runtime.</p>
 <h3 id="declaring-final-variables">Declaring Final Variables<a class="headerlink" href="#declaring-final-variables" title="Permanent link">#</a></h3>
 <p>To use it, import <code>Final</code> from <code>typing</code> and annotate your constant definitions.
@@ -1159,18 +1186,21 @@ For example:</p>
 </span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="n">PI</span><span class="p">:</span> <span class="n">Final</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="mf">3.14159</span>
 </span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="n">MAX_CONNECTIONS</span><span class="p">:</span> <span class="n">Final</span> <span class="o">=</span> <span class="mi">100</span>  <span class="c1"># type inferred as int</span>
 </span></code></pre></div>
-<p>Here, <code>PI</code> and <code>MAX_CONNECTIONS</code> are marked as <code>Final</code>, signaling that these names should never be re-bound to a new value.
+<p>Here, <code>PI</code> and <code>MAX_CONNECTIONS</code> are marked as <code>Final</code>, signaling that these names should never be re-bound to a new
+value.
 A type checker will enforce this.
 If later in the code you attempt to do <code>PI = 3.14</code> (reassigning the constant), the type checker will emit an error, e.g.
 "Error: can't assign to final attribute."
 The same goes for changing <code>MAX_CONNECTIONS</code>.
-The Python interpreter itself will not stop you from doing this reassignment, but using <code>Final</code> elevates the constant from a mere convention to something that static analysis tools can verify.</p>
+The Python interpreter itself will not stop you from doing this reassignment, but using <code>Final</code> elevates the constant
+from a mere convention to something that static analysis tools can verify.</p>
 <p>According to the Python typing documentation, "Final names cannot be reassigned in any scope.
 Final names declared in class scopes cannot be overridden in subclasses."
 In other words, marking a variable as <code>Final</code> means:</p>
 <ul>
 <li><strong>No rebinding:</strong> You can assign to it only once; the type checker flags any further assignments.</li>
-<li><strong>No override in subclass:</strong> If you mark a class attribute as <code>Final</code>, a subclass cannot override that attribute with a new value.</li>
+<li><strong>No override in subclass:</strong> If you mark a class attribute as <code>Final</code>, a subclass cannot override that attribute with
+  a new value.</li>
 </ul>
 <p>Let's illustrate this with a quick example:</p>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1"># example_3.py</span>
@@ -1189,10 +1219,12 @@ In other words, marking a variable as <code>Final</code> means:</p>
 </span></code></pre></div>
 <p>In the above code, <code>RATE</code> is a module-level constant.
 If somewhere else we had <code>RATE = 2500</code>, a tool like mypy would report an error ("can't assign to final name 'RATE'").
-Similarly, <code>BaseConfig.TIMEOUT</code> is a constant class attribute; attempting to override it in <code>SubConfig</code> would be flagged ("can't override a final attribute").
+Similarly, <code>BaseConfig.TIMEOUT</code> is a constant class attribute; attempting to override it in <code>SubConfig</code> would be
+flagged ("can't override a final attribute").
 This helps maintain invariants in class hierarchies.</p>
 <p>It's important to note that <code>Final</code> can also be used for instance attributes in <code>__init__</code>.
-If you have an instance attribute that should only be set once (in the initializer) and never changed, you can annotate it with <code>Final</code> in the class body and then assign it in the constructor.
+If you have an instance attribute that should only be set once (in the initializer) and never changed, you can annotate
+it with <code>Final</code> in the class body and then assign it in the constructor.
 For example:</p>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="c1"># example_4.py</span>
 </span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Final</span>
@@ -1210,16 +1242,22 @@ For example:</p>
 </span></code></pre></div>
 <p>Here, <code>User.name</code> and <code>User.id</code> are intended to never change after the object is created.
 We use <code>Final[str]</code> and <code>Final[int]</code> in the annotation.
-The <code>__init__</code> uses <code>object.__setattr__</code> to bypass immutability enforcement (more on that technique in the next section about frozen dataclasses).
+The <code>__init__</code> uses <code>object.__setattr__</code> to bypass immutability enforcement (more on that technique in the next section
+about frozen dataclasses).
 A type checker would ensure that no code later tries to reassign <code>user.name</code> or <code>user.id</code>.
-For dataclasses, it's more idiomatic to use the <code>frozen=True</code> parameter (discussed below) rather than manually handling <code>Final</code> on instance attributes, but this example shows it's possible.</p>
+For dataclasses, it's more idiomatic to use the <code>frozen=True</code> parameter (discussed below) rather than manually handling
+<code>Final</code> on instance attributes, but this example shows it's possible.</p>
 <p><strong>Runtime behavior of Final:</strong> At runtime, <code>Final</code> does not truly "freeze" the value.
 It does not make the object itself immutable--it only prevents the name from being rebound in type-checked code.
-For instance, if you declare <code>numbers: Final[list[int]] = [1, 2, 3]</code>, you are not supposed to reassign <code>numbers</code> to a new list, but you <em>can still mutate the list itself</em> (e.g.
+For instance, if you declare <code>numbers: Final[list[int]] = [1, 2, 3]</code>, you are not supposed to reassign <code>numbers</code> to a
+new list, but you <em>can still mutate the list itself</em> (e.g.
 <code>numbers.append(4)</code> will succeed) because the list object is still mutable.
-The type checker might warn you if the type is <code>Final[Sequence[int]]</code> instead (since <code>Sequence</code> has no <code>append</code> method), but with <code>Final[list[int]]</code> the list methods are available.
-In short, marking something <code>Final</code> guarantees that the <em>name</em> won't be re-bound to a different object, but it does not magically make the object's contents immutable.
-If true immutability of the content is needed, combine <code>Final</code> with an immutable type (e.g., use a tuple or use an immutable interface like <code>Sequence</code> instead of <code>list</code>).
+The type checker might warn you if the type is <code>Final[Sequence[int]]</code> instead (since <code>Sequence</code> has no <code>append</code> method),
+but with <code>Final[list[int]]</code> the list methods are available.
+In short, marking something <code>Final</code> guarantees that the <em>name</em> won't be re-bound to a different object, but it does not
+magically make the object's contents immutable.
+If true immutability of the content is needed, combine <code>Final</code> with an immutable type (e.g., use a tuple or use an
+immutable interface like <code>Sequence</code> instead of <code>list</code>).
 For example:</p>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="c1"># example_5.py</span>
 </span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Final</span><span class="p">,</span> <span class="n">Sequence</span>
@@ -1235,23 +1273,31 @@ For example:</p>
 </span><span id="__span-4-12"><a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a>    <span class="mi">3</span><span class="p">,</span>
 </span><span id="__span-4-13"><a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a><span class="p">]</span>  <span class="c1"># `data2` treated as Sequence, so no mutation methods</span>
 </span></code></pre></div>
-<p>In the above, <code>data1.append(4)</code> is allowed by the type system (though <code>data1</code> name can't be re-bound), whereas <code>data2.append(4)</code> would be rejected by a type checker because a <code>Sequence[int]</code> is assumed to be immutable (it lacks an <code>append</code> method).
-This demonstrates the difference between preventing reassignment of a variable and ensuring true immutability of the object.</p>
+<p>In the above, <code>data1.append(4)</code> is allowed by the type system (though <code>data1</code> name can't be re-bound), whereas
+<code>data2.append(4)</code> would be rejected by a type checker because a <code>Sequence[int]</code> is assumed to be immutable (it lacks an
+<code>append</code> method).
+This demonstrates the difference between preventing reassignment of a variable and ensuring true immutability of the
+object.</p>
 <p>Finally, note that Python also provides a <code>@final</code> decorator in <code>typing</code> which can be applied to classes or methods.
 This is related to immutability in the sense of preventing changes in inheritance.
-Decorating a class with <code>@final</code> means you intend it not to be subclassed, and a type checker will flag any subclass attempt as an error.
+Decorating a class with <code>@final</code> means you intend it not to be subclassed, and a type checker will flag any subclass
+attempt as an error.
 Similarly, marking a method with <code>@final</code> means it should not be overridden in any subclass.
 This is more about preventing <em>behavioral modification</em> via inheritance rather than value mutation.
 It can be useful in design to ensure certain classes remain closed for extension (similar to <code>final</code> classes in Java).
-At runtime, as of Python 3.11, the <code>@final</code> decorator sets a <code>__final__ = True</code> attribute on the class or function to help introspection, but it doesn't enforce anything on its own.
-Like the <code>Final</code> annotation, <code>@final</code> is a tool for communicating intent and catching errors early with the help of static analysis.</p>
+At runtime, as of Python 3.11, the <code>@final</code> decorator sets a <code>__final__ = True</code> attribute on the class or function to
+help introspection, but it doesn't enforce anything on its own.
+Like the <code>Final</code> annotation, <code>@final</code> is a tool for communicating intent and catching errors early with the help of
+static analysis.</p>
 <p><code>Final</code> in Python typing is a lightweight way to get the benefits of immutability by preventing reassignments.
 It formalizes the "ALL_CAPS means constant" convention into something a type checker can understand.
 Combined with immutable types or interfaces, it can help you create APIs that promise not to mutate state.
-However, for more complex state (especially when you want to bundle multiple values), Python's dataclasses offer another approach to enforce immutability at runtime.</p>
+However, for more complex state (especially when you want to bundle multiple values), Python's dataclasses offer another
+approach to enforce immutability at runtime.</p>
 <h2 id="immutable-data-classes">Immutable Data Classes<a class="headerlink" href="#immutable-data-classes" title="Permanent link">#</a></h2>
 <p>By default, dataclass instances are mutable (their fields can be assigned to freely).
-However, <code>dataclasses</code> support an immutability feature: if you specify <code>frozen=True</code> in the <code>@dataclass</code> decorator, the resulting class will prevent any assignment to its fields after object creation.
+However, <code>dataclasses</code> support an immutability feature: if you specify <code>frozen=True</code> in the <code>@dataclass</code> decorator, the
+resulting class will prevent any assignment to its fields after object creation.
 In other words, a frozen dataclass instance is effectively immutable (or "frozen") once it's constructed.</p>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="c1"># example_6.py</span>
 </span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">dataclasses</span><span class="w"> </span><span class="kn">import</span> <span class="n">dataclass</span>
@@ -1278,14 +1324,20 @@ In other words, a frozen dataclass instance is effectively immutable (or "frozen
 </span></code></pre></div>
 <p>Running this code will result in a runtime error at the line <code>p.x = 5</code>.
 Specifically, Python will raise a <code>dataclasses.FrozenInstanceError</code> with the message "cannot assign to field 'x'".
-The dataclass machinery has made the <code>Point</code> class's instances immutable by overriding the attribute-setting behavior: any attempt to set an attribute on a frozen instance triggers that exception.</p>
-<p>Under the hood, when you use <code>@dataclass(frozen=True)</code>, Python generates an <code>__setattr__</code> method (and a <code>__delattr__</code> method) for your class that intercepts all attempts to set or delete attributes and immediately throws a <code>FrozenInstanceError</code>.
+The dataclass machinery has made the <code>Point</code> class's instances immutable by overriding the attribute-setting behavior:
+any attempt to set an attribute on a frozen instance triggers that exception.</p>
+<p>Under the hood, when you use <code>@dataclass(frozen=True)</code>, Python generates an <code>__setattr__</code> method (and a <code>__delattr__</code>
+method) for your class that intercepts all attempts to set or delete attributes and immediately throws a
+<code>FrozenInstanceError</code>.
 This effectively locks down the instance after <code>__init__</code> finishes.
-The exception <code>FrozenInstanceError</code> is a subclass of <code>AttributeError</code>, which is consistent with what Python normally throws if you try to assign to a read-only attribute.</p>
+The exception <code>FrozenInstanceError</code> is a subclass of <code>AttributeError</code>, which is consistent with what Python normally
+throws if you try to assign to a read-only attribute.</p>
 <p>Because of this, frozen dataclasses give you actual runtime enforcement of immutability.
-Unlike the <code>Final</code> type hint, which is only checked by static analyzers, a frozen dataclass will actively prevent mutation in a running program.
+Unlike the <code>Final</code> type hint, which is only checked by static analyzers, a frozen dataclass will actively prevent
+mutation in a running program.
 This can be a powerful tool for ensuring certain objects remain constant.
-It's especially handy for value objects (like points, coordinates, config objects, etc.) where you want to make sure their state doesn't change once created.</p>
+It's especially handy for value objects (like points, coordinates, config objects, etc.) where you want to make sure
+their state doesn't change once created.</p>
 <h3 id="example-frozen-dataclass-in-action">Example: Frozen Dataclass in Action<a class="headerlink" href="#example-frozen-dataclass-in-action" title="Permanent link">#</a></h3>
 <p>Let's illustrate with a more detailed example and show what happens if we attempt to mutate a frozen <code>dataclass</code>:</p>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="c1"># frozen_person.py</span>
@@ -1313,14 +1365,19 @@ It's especially handy for value objects (like points, coordinates, config object
 <p>The auto-generated <code>__setattr__</code> method of the dataclass raises an error.
 This demonstrates that our <code>Person</code> instance is effectively read-only.</p>
 <p>True immutability in Python can't be enforced; if you go out of your way to subvert immutability, you can.
-The goal of frozen dataclasses is to protect against <em>accidental or careless</em> mutations, not to provide an unbreakable security boundary.
+The goal of frozen dataclasses is to protect against <em>accidental or careless</em> mutations, not to provide an unbreakable
+security boundary.
 In normal usage, you would treat the frozen instance as completely immutable.</p>
-<p>Because instances of frozen dataclasses are immutable (by design and by behavior), they are also hashable by default, provided the class is comparable.
+<p>Because instances of frozen dataclasses are immutable (by design and by behavior), they are also hashable by default,
+provided the class is comparable.
 The dataclass decorator, by default, will generate an <code>__eq__</code> method for you (unless you opt out).
-If you set <code>frozen=True</code> (and do not disable equality), it will also generate a <code>__hash__</code> method so that instances can be used in sets or as dictionary keys.
-Specifically, if <code>eq=True</code> and <code>frozen=True</code>, Python will automatically add a <code>__hash__</code> method for the class based on its fields.
+If you set <code>frozen=True</code> (and do not disable equality), it will also generate a <code>__hash__</code> method so that instances can
+be used in sets or as dictionary keys.
+Specifically, if <code>eq=True</code> and <code>frozen=True</code>, Python will automatically add a <code>__hash__</code> method for the class based on
+its fields.
 This makes sense: an object that is equal based on its field values and cannot change those values can safely be hashed.
-Conversely, a mutable dataclass (eq=True, frozen=False) gets a <code>__hash__ = None</code> by default, marking it as unhashable (since its hash could change if fields changed).
+Conversely, a mutable dataclass (eq=True, frozen=False) gets a <code>__hash__ = None</code> by default, marking it as unhashable (
+since its hash could change if fields changed).
 This is an example of how immutability (or lack thereof) interacts with Python's runtime behavior.</p>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="c1"># frozen_data_classes.py</span>
 </span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">dataclasses</span><span class="w"> </span><span class="kn">import</span> <span class="n">dataclass</span>
@@ -1403,18 +1460,25 @@ This greatly simplifies code maintenance and readability.</p>
 <p>Understanding how these features are implemented gives insight into their guarantees and limitations.</p>
 <h4 id="final"><code>Final</code><a class="headerlink" href="#final" title="Permanent link">#</a></h4>
 <p>This is entirely a compile-time (static) concept.
-When you declare a variable or attribute with <code>Final</code>, the Python interpreter records that in the <code>__annotations__</code> of the module or class, but it does not prevent assignments at runtime.
+When you declare a variable or attribute with <code>Final</code>, the Python interpreter records that in the <code>__annotations__</code> of
+the module or class, but it does not prevent assignments at runtime.
 The enforcement comes from type checkers.
-Tools like mypy will scan your code and, if you try to reassign a <code>Final</code> variable, they will emit an error and refuse to consider the code type-safe.
-As of Python 3.11, marking classes or methods with the <code>@final</code> decorator will set a <code>__final__ = True</code> attribute on the object, which is mostly for introspection or tooling--Python won't stop you from subclassing a <code>@final</code> class or overriding a
+Tools like mypy will scan your code and, if you try to reassign a <code>Final</code> variable, they will emit an error and refuse
+to consider the code type-safe.
+As of Python 3.11, marking classes or methods with the <code>@final</code> decorator will set a <code>__final__ = True</code> attribute on the
+object, which is mostly for introspection or tooling--Python won't stop you from subclassing a <code>@final</code> class or
+overriding a
 <code>@final</code> method at runtime, but doing so would likely cause your type checker to complain or your linter to warn you.
-One key thing to remember is that <code>Final</code> is about the name binding, not the object's mutability: a <code>Final</code> list can still be changed in content, and <code>Final</code> doesn't make a dataclass frozen or anything of that sort.
+One key thing to remember is that <code>Final</code> is about the name binding, not the object's mutability: a <code>Final</code> list can
+still be changed in content, and <code>Final</code> doesn't make a dataclass frozen or anything of that sort.
 It's a tool for design-by-contract: signaling intent and catching mistakes early.</p>
 <h4 id="frozen-dataclass">Frozen dataclass<a class="headerlink" href="#frozen-dataclass" title="Permanent link">#</a></h4>
 <p>This provides <em>runtime</em> enforcement by generating code.
 When you use <code>frozen=True</code>, the dataclass decorator modifies your class definition.
-It creates a custom <code>__setattr__</code> and <code>__delattr__</code> on the class that will raise <code>FrozenInstanceError</code> whenever someone tries to set or delete an attribute on an instance.
-During object creation, the dataclass-generated <code>__init__</code> uses <code>object.__setattr__</code> internally for each field to bypass the restriction while initializing values.
+It creates a custom <code>__setattr__</code> and <code>__delattr__</code> on the class that will raise <code>FrozenInstanceError</code> whenever someone
+tries to set or delete an attribute on an instance.
+During object creation, the dataclass-generated <code>__init__</code> uses <code>object.__setattr__</code> internally for each field to bypass
+the restriction while initializing values.
 Once construction is done, any further attribute setting goes through the overridden <code>__setattr__</code> and is blocked.
 It's not unbreakable; a savvy user could call <code>object.__setattr__</code> themselves, or manipulate low-level object state.
 Although you cannot create truly immutable Python objects, <code>frozen=True</code> emulates immutability.
@@ -1424,33 +1488,46 @@ In day-to-day practice, a frozen dataclass is as good as immutable.</p>
 As noted, setting attributes in <code>__init__</code> uses a slightly slower path (calling <code>object.__setattr__</code> for each field).
 In the vast majority of cases this overhead is negligible (a few extra function calls during object creation).
 It's rare to create so many objects that this becomes a bottleneck, but it's something to be aware of.
-Accessing attributes and all other operations on a frozen dataclass are just as fast as on a regular class; it's only the initialization that's marginally slower.
-For <code>Final</code> type hints, there is virtually no runtime cost at all, since it doesn't inject any checking--it's purely a compile-time concept.</p>
+Accessing attributes and all other operations on a frozen dataclass are just as fast as on a regular class; it's only
+the initialization that's marginally slower.
+For <code>Final</code> type hints, there is virtually no runtime cost at all, since it doesn't inject any checking--it's purely a
+compile-time concept.</p>
 <h3 id="combining-final-and-frozen-dataclasses">Combining <code>Final</code> and frozen dataclasses<a class="headerlink" href="#combining-final-and-frozen-dataclasses" title="Permanent link">#</a></h3>
 <p>You generally don't need <code>Final</code> annotations inside a frozen dataclass.
 If a dataclass is frozen, all its fields are effectively final by design; you can't rebind them after construction.
-For example, if you have <code>@dataclass(frozen=True) class C: x: int</code>, a type checker will treat <code>c.x</code> as a read-only property.</p>
-<p>Note that in a dataclass, a bare <code>x: Final[int] = 3</code> is treated as an instance field default, whereas normally a <code>Final</code> at class level means a class variable.
+For example, if you have <code>@dataclass(frozen=True) class C: x: int</code>, a type checker will treat <code>c.x</code> as a read-only
+property.</p>
+<p>Note that in a dataclass, a bare <code>x: Final[int] = 3</code> is treated as an instance field default, whereas normally a <code>Final</code>
+at class level means a class variable.
 You can use <code>Final</code> to indicate a class-level constant inside a dataclass.
-However, it doesn't make sense to use <code>Final</code> on fields (instance attributes), because <code>frozen=True</code> already makes those fields immutable.</p>
+However, it doesn't make sense to use <code>Final</code> on fields (instance attributes), because <code>frozen=True</code> already makes those
+fields immutable.</p>
 <h3 id="using-__post_init__-in-frozen-dataclasses">Using <code>__post_init__</code> in Frozen Dataclasses<a class="headerlink" href="#using-__post_init__-in-frozen-dataclasses" title="Permanent link">#</a></h3>
-<p>One challenge with frozen dataclasses is that you cannot assign to fields outside the initializer--but what if you need to compute one field based on others?
-In a regular (mutable) dataclass, it's common to use a <code>__post_init__</code> method to perform additional initialization or validation after the auto-generated <code>__init__</code> has run.
-With frozen dataclasses, however, you must be careful: by the time <code>__post_init__</code> executes, the <code>__setattr__</code> override that enforces immutability is already in place.
-Any attempt to do <code>self.field = value</code> in <code>__post_init__</code> will trigger a <code>FrozenInstanceError</code> just like an outside assignment would (because internally it uses the same attribute-setting mechanism).</p>
+<p>One challenge with frozen dataclasses is that you cannot assign to fields outside the initializer--but what if you need
+to compute one field based on others?
+In a regular (mutable) dataclass, it's common to use a <code>__post_init__</code> method to perform additional initialization or
+validation after the auto-generated <code>__init__</code> has run.
+With frozen dataclasses, however, you must be careful: by the time <code>__post_init__</code> executes, the <code>__setattr__</code> override
+that enforces immutability is already in place.
+Any attempt to do <code>self.field = value</code> in <code>__post_init__</code> will trigger a <code>FrozenInstanceError</code> just like an outside
+assignment would (because internally it uses the same attribute-setting mechanism).</p>
 <p>So how can we set up derived fields or perform adjustments in <code>__post_init__</code> for a frozen class?
 The answer is to bypass the frozen <code>__setattr__</code> using the base class (<code>object</code>) method.
 Python lets us call the underlying <code>object.__setattr__</code> method directly, which sets the attribute.
 This is exactly how dataclasses themselves initialize fields for frozen instances.
-The dataclass documentation notes: <em>"There is a tiny performance penalty when using <code>frozen=True</code>: <code>__init__</code> cannot use assignment to initialize fields, and must use <code>object.__setattr__</code>."</em>.
+The dataclass documentation notes: <em>"There is a tiny performance penalty when using <code>frozen=True</code>: <code>__init__</code> cannot use
+assignment to initialize fields, and must use <code>object.__setattr__</code>."</em>.
 The dataclass-generated <code>__init__</code> knows to do this for the fields that are set in the constructor.
 We can apply the same technique in <code>__post_init__</code>.</p>
-<p><strong>Correct approach:</strong> Use <code>object.__setattr__(self, 'field_name', value)</code> in your <code>__post_init__</code> for any field that needs to be set on a frozen dataclass.
+<p><strong>Correct approach:</strong> Use <code>object.__setattr__(self, 'field_name', value)</code> in your <code>__post_init__</code> for any field that
+needs to be set on a frozen dataclass.
 This calls the built-in <code>object</code> class's <code>__setattr__</code> implementation, which writes to the instance's <code>__dict__</code>.</p>
 <p>Let's demonstrate this with an example.
-Suppose we want to have a <code>Rectangle</code> dataclass that stores width and height, and we also want to store the area as a field for quick access.
+Suppose we want to have a <code>Rectangle</code> dataclass that stores width and height, and we also want to store the area as a
+field for quick access.
 We want the class to be frozen (immutable).
-We can declare <code>area</code> as a field with <code>init=False</code> (so it's not passed to the constructor), and then compute it in <code>__post_init__</code> as follows:</p>
+We can declare <code>area</code> as a field with <code>init=False</code> (so it's not passed to the constructor), and then compute it in
+<code>__post_init__</code> as follows:</p>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="c1"># example_8.py</span>
 </span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">dataclasses</span><span class="w"> </span><span class="kn">import</span> <span class="n">dataclass</span><span class="p">,</span> <span class="n">field</span>
 </span><span id="__span-11-3"><a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a>
@@ -1473,7 +1550,8 @@ We can declare <code>area</code> as a field with <code>init=False</code> (so it'
 We marked it with <code>field(init=False)</code> so that dataclasses knows not to expect it as a parameter.
 In <code>__post_init__</code>, we calculate the area and assign it using <code>object.__setattr__</code>.
 This is the crucial step to avoid the <code>FrozenInstanceError</code>.
-We could also use <code>super.setattr('area', self.width _ self.height)</code>--since the immediate base class is<code>object</code>, this has the same effect.
+We could also use <code>super.setattr('area', self.width _ self.height)</code>--since the immediate base class is<code>object</code>, this has
+the same effect.
 After <code>__post_init__</code> the <code>Rectangle</code>instance will a correct <code>area</code> but be frozen for further modifications.</p>
 <p>Let's test this behavior:</p>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="c1"># example_9.py</span>
@@ -1492,10 +1570,13 @@ After <code>__post_init__</code> the <code>Rectangle</code>instance will a corre
 <p>As expected, printing <code>r.area</code> gives 12.0, which means our <code>__post_init__</code> successfully set the value.
 And attempting to assign <code>r.width</code> after creation raises an error, confirming the instance is immutable.
 We have effectively created an immutable data object with some logic in its initialization.</p>
-<p>A word of caution: using <code>object.__setattr__</code> is a bit of a loophole--it's meant to be used only during object initialization.
-You wouldn't normally call <code>object.__setattr__</code> on a frozen instance outside of <code>__init__</code>/<code>__post_init__</code> because that would defeat the point of immutability.
+<p>A word of caution: using <code>object.__setattr__</code> is a bit of a loophole--it's meant to be used only during object
+initialization.
+You wouldn't normally call <code>object.__setattr__</code> on a frozen instance outside of <code>__init__</code>/<code>__post_init__</code> because that
+would defeat the point of immutability.
 (If someone is determined to bypass immutability, they can, but that's not normal usage.)
-If you find yourself needing to change a frozen object after creation via such tricks, it may be a sign that the design should be reconsidered (maybe that piece of data shouldn't be frozen).
+If you find yourself needing to change a frozen object after creation via such tricks, it may be a sign that the design
+should be reconsidered (maybe that piece of data shouldn't be frozen).
 Generally, use this technique only to set up derived fields or cached values at construction time.</p>
 <h2 id="namedtuple">NamedTuple<a class="headerlink" href="#namedtuple" title="Permanent link">#</a></h2>
 <p>In many cases, a <code>NamedTuple</code> can be used in lieu of a frozen <code>dataclass</code>.
@@ -1527,7 +1608,8 @@ but they do so in different ways and with different design goals in mind.</p>
 a <code>NamedTuple</code> is a subclass of <code>tuple</code> and uses a generated <code>new</code> method to create instances.
 Customization of construction logic is limited because you cannot define an init
 (instead, you override new if needed, which is more cumbersome).
-<code>NamedTuple</code> instances are immutable since they are <code>tuple</code> subclasses, so you cannot assign to their fields after creation.
+<code>NamedTuple</code> instances are immutable since they are <code>tuple</code> subclasses, so you cannot assign to their fields after
+creation.
 A <code>NamedTuple</code> automatically generates a <code>repr</code> that prints the field names along with their values
 (e.g., Point(x=1, y=2)) in a manner similar to a standard <code>tuple</code> representation.
 An <code>__eq__</code> is generated based on the <code>tuple</code>’s content,
@@ -1553,8 +1635,10 @@ Dataclasses offer per-field customization (default values, default_factory, comp
 that allows fine-tuning of instances behavior.</p>
 <p>Python's approach to immutability is a mix of convention, static assurance, and runtime enforcement:</p>
 <ul>
-<li>Use <code>Final</code> (and <code>@final</code>) to convey and enforce via static analysis that certain variables or attributes shouldn't change or be overridden.</li>
-<li>Use <code>@dataclass(frozen=True)</code> (or other techniques like <code>NamedTuple</code>s or custom <code>__setattr__</code> overrides) to prevent changes to object state at runtime.</li>
+<li>Use <code>Final</code> (and <code>@final</code>) to convey and enforce via static analysis that certain variables or attributes shouldn't
+  change or be overridden.</li>
+<li>Use <code>@dataclass(frozen=True)</code> (or other techniques like <code>NamedTuple</code>s or custom <code>__setattr__</code> overrides) to prevent
+  changes to object state at runtime.</li>
 </ul>
 <h3 id="namedtuple-capabilities">NamedTuple Capabilities<a class="headerlink" href="#namedtuple-capabilities" title="Permanent link">#</a></h3>
 <p>Here's an example showing everything you can do with <code>NamedTuple</code>s:</p>
@@ -1632,46 +1716,49 @@ that allows fine-tuning of instances behavior.</p>
 </span><span id="__span-14-72"><a id="__codelineno-14-72" name="__codelineno-14-72" href="#__codelineno-14-72"></a>            <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;Diagonal point at (</span><span class="si">{</span><span class="n">x</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">y</span><span class="si">}</span><span class="s2">)&quot;</span>
 </span><span id="__span-14-73"><a id="__codelineno-14-73" name="__codelineno-14-73" href="#__codelineno-14-73"></a>        <span class="k">case</span> <span class="n">Point2</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
 </span><span id="__span-14-74"><a id="__codelineno-14-74" name="__codelineno-14-74" href="#__codelineno-14-74"></a>            <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;Point at x=</span><span class="si">{</span><span class="n">x</span><span class="si">}</span><span class="s2">, y=</span><span class="si">{</span><span class="n">y</span><span class="si">}</span><span class="s2">&quot;</span>
-</span><span id="__span-14-75"><a id="__codelineno-14-75" name="__codelineno-14-75" href="#__codelineno-14-75"></a>
-</span><span id="__span-14-76"><a id="__codelineno-14-76" name="__codelineno-14-76" href="#__codelineno-14-76"></a>
-</span><span id="__span-14-77"><a id="__codelineno-14-77" name="__codelineno-14-77" href="#__codelineno-14-77"></a><span class="nb">print</span><span class="p">(</span><span class="n">describe_point</span><span class="p">(</span><span class="n">Point2</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)))</span>
-</span><span id="__span-14-78"><a id="__codelineno-14-78" name="__codelineno-14-78" href="#__codelineno-14-78"></a><span class="c1">## Diagonal point at (1, 1)</span>
-</span><span id="__span-14-79"><a id="__codelineno-14-79" name="__codelineno-14-79" href="#__codelineno-14-79"></a><span class="nb">print</span><span class="p">(</span><span class="n">describe_point</span><span class="p">(</span><span class="n">Point2</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">)))</span>
-</span><span id="__span-14-80"><a id="__codelineno-14-80" name="__codelineno-14-80" href="#__codelineno-14-80"></a><span class="c1">## Point at x=2, y=3</span>
-</span><span id="__span-14-81"><a id="__codelineno-14-81" name="__codelineno-14-81" href="#__codelineno-14-81"></a>
+</span><span id="__span-14-75"><a id="__codelineno-14-75" name="__codelineno-14-75" href="#__codelineno-14-75"></a>        <span class="k">case</span><span class="w"> </span><span class="k">_</span><span class="p">:</span>
+</span><span id="__span-14-76"><a id="__codelineno-14-76" name="__codelineno-14-76" href="#__codelineno-14-76"></a>            <span class="k">return</span> <span class="s2">&quot;Unknown point&quot;</span>
+</span><span id="__span-14-77"><a id="__codelineno-14-77" name="__codelineno-14-77" href="#__codelineno-14-77"></a>
+</span><span id="__span-14-78"><a id="__codelineno-14-78" name="__codelineno-14-78" href="#__codelineno-14-78"></a><span class="nb">print</span><span class="p">(</span><span class="n">describe_point</span><span class="p">(</span><span class="n">Point2</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)))</span>
+</span><span id="__span-14-79"><a id="__codelineno-14-79" name="__codelineno-14-79" href="#__codelineno-14-79"></a><span class="c1">## Diagonal point at (1, 1)</span>
+</span><span id="__span-14-80"><a id="__codelineno-14-80" name="__codelineno-14-80" href="#__codelineno-14-80"></a><span class="nb">print</span><span class="p">(</span><span class="n">describe_point</span><span class="p">(</span><span class="n">Point2</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">)))</span>
+</span><span id="__span-14-81"><a id="__codelineno-14-81" name="__codelineno-14-81" href="#__codelineno-14-81"></a><span class="c1">## Point at x=2, y=3</span>
 </span><span id="__span-14-82"><a id="__codelineno-14-82" name="__codelineno-14-82" href="#__codelineno-14-82"></a>
-</span><span id="__span-14-83"><a id="__codelineno-14-83" name="__codelineno-14-83" href="#__codelineno-14-83"></a><span class="c1"># 8. Nested NamedTuples:</span>
-</span><span id="__span-14-84"><a id="__codelineno-14-84" name="__codelineno-14-84" href="#__codelineno-14-84"></a><span class="k">class</span><span class="w"> </span><span class="nc">Address</span><span class="p">(</span><span class="n">NamedTuple</span><span class="p">):</span>
-</span><span id="__span-14-85"><a id="__codelineno-14-85" name="__codelineno-14-85" href="#__codelineno-14-85"></a>    <span class="n">street</span><span class="p">:</span> <span class="nb">str</span>
-</span><span id="__span-14-86"><a id="__codelineno-14-86" name="__codelineno-14-86" href="#__codelineno-14-86"></a>    <span class="n">city</span><span class="p">:</span> <span class="nb">str</span>
-</span><span id="__span-14-87"><a id="__codelineno-14-87" name="__codelineno-14-87" href="#__codelineno-14-87"></a>
+</span><span id="__span-14-83"><a id="__codelineno-14-83" name="__codelineno-14-83" href="#__codelineno-14-83"></a>
+</span><span id="__span-14-84"><a id="__codelineno-14-84" name="__codelineno-14-84" href="#__codelineno-14-84"></a><span class="c1"># 8. Nested NamedTuples:</span>
+</span><span id="__span-14-85"><a id="__codelineno-14-85" name="__codelineno-14-85" href="#__codelineno-14-85"></a><span class="k">class</span><span class="w"> </span><span class="nc">Address</span><span class="p">(</span><span class="n">NamedTuple</span><span class="p">):</span>
+</span><span id="__span-14-86"><a id="__codelineno-14-86" name="__codelineno-14-86" href="#__codelineno-14-86"></a>    <span class="n">street</span><span class="p">:</span> <span class="nb">str</span>
+</span><span id="__span-14-87"><a id="__codelineno-14-87" name="__codelineno-14-87" href="#__codelineno-14-87"></a>    <span class="n">city</span><span class="p">:</span> <span class="nb">str</span>
 </span><span id="__span-14-88"><a id="__codelineno-14-88" name="__codelineno-14-88" href="#__codelineno-14-88"></a>
-</span><span id="__span-14-89"><a id="__codelineno-14-89" name="__codelineno-14-89" href="#__codelineno-14-89"></a><span class="k">class</span><span class="w"> </span><span class="nc">Person</span><span class="p">(</span><span class="n">NamedTuple</span><span class="p">):</span>
-</span><span id="__span-14-90"><a id="__codelineno-14-90" name="__codelineno-14-90" href="#__codelineno-14-90"></a>    <span class="n">name</span><span class="p">:</span> <span class="nb">str</span>
-</span><span id="__span-14-91"><a id="__codelineno-14-91" name="__codelineno-14-91" href="#__codelineno-14-91"></a>    <span class="n">age</span><span class="p">:</span> <span class="nb">int</span>
-</span><span id="__span-14-92"><a id="__codelineno-14-92" name="__codelineno-14-92" href="#__codelineno-14-92"></a>    <span class="n">address</span><span class="p">:</span> <span class="n">Address</span>
-</span><span id="__span-14-93"><a id="__codelineno-14-93" name="__codelineno-14-93" href="#__codelineno-14-93"></a>
+</span><span id="__span-14-89"><a id="__codelineno-14-89" name="__codelineno-14-89" href="#__codelineno-14-89"></a>
+</span><span id="__span-14-90"><a id="__codelineno-14-90" name="__codelineno-14-90" href="#__codelineno-14-90"></a><span class="k">class</span><span class="w"> </span><span class="nc">Person</span><span class="p">(</span><span class="n">NamedTuple</span><span class="p">):</span>
+</span><span id="__span-14-91"><a id="__codelineno-14-91" name="__codelineno-14-91" href="#__codelineno-14-91"></a>    <span class="n">name</span><span class="p">:</span> <span class="nb">str</span>
+</span><span id="__span-14-92"><a id="__codelineno-14-92" name="__codelineno-14-92" href="#__codelineno-14-92"></a>    <span class="n">age</span><span class="p">:</span> <span class="nb">int</span>
+</span><span id="__span-14-93"><a id="__codelineno-14-93" name="__codelineno-14-93" href="#__codelineno-14-93"></a>    <span class="n">address</span><span class="p">:</span> <span class="n">Address</span>
 </span><span id="__span-14-94"><a id="__codelineno-14-94" name="__codelineno-14-94" href="#__codelineno-14-94"></a>
-</span><span id="__span-14-95"><a id="__codelineno-14-95" name="__codelineno-14-95" href="#__codelineno-14-95"></a><span class="n">addr</span> <span class="o">=</span> <span class="n">Address</span><span class="p">(</span><span class="s2">&quot;123 Maple St&quot;</span><span class="p">,</span> <span class="s2">&quot;Springfield&quot;</span><span class="p">)</span>
-</span><span id="__span-14-96"><a id="__codelineno-14-96" name="__codelineno-14-96" href="#__codelineno-14-96"></a><span class="n">person</span> <span class="o">=</span> <span class="n">Person</span><span class="p">(</span><span class="s2">&quot;Carol&quot;</span><span class="p">,</span> <span class="mi">29</span><span class="p">,</span> <span class="n">addr</span><span class="p">)</span>
-</span><span id="__span-14-97"><a id="__codelineno-14-97" name="__codelineno-14-97" href="#__codelineno-14-97"></a><span class="nb">print</span><span class="p">(</span>
-</span><span id="__span-14-98"><a id="__codelineno-14-98" name="__codelineno-14-98" href="#__codelineno-14-98"></a>    <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">person</span><span class="o">.</span><span class="n">name</span><span class="w"> </span><span class="si">= }</span><span class="s2">, </span><span class="si">{</span><span class="n">person</span><span class="o">.</span><span class="n">age</span><span class="w"> </span><span class="si">= }</span><span class="s2">, </span><span class="si">{</span><span class="n">person</span><span class="o">.</span><span class="n">address</span><span class="o">.</span><span class="n">city</span><span class="w"> </span><span class="si">= }</span><span class="s2">&quot;</span>
-</span><span id="__span-14-99"><a id="__codelineno-14-99" name="__codelineno-14-99" href="#__codelineno-14-99"></a><span class="p">)</span>
-</span><span id="__span-14-100"><a id="__codelineno-14-100" name="__codelineno-14-100" href="#__codelineno-14-100"></a><span class="c1">## person.name = &#39;Carol&#39;, person.age = 29,</span>
-</span><span id="__span-14-101"><a id="__codelineno-14-101" name="__codelineno-14-101" href="#__codelineno-14-101"></a><span class="c1">## person.address.city = &#39;Springfield&#39;</span>
-</span><span id="__span-14-102"><a id="__codelineno-14-102" name="__codelineno-14-102" href="#__codelineno-14-102"></a>
+</span><span id="__span-14-95"><a id="__codelineno-14-95" name="__codelineno-14-95" href="#__codelineno-14-95"></a>
+</span><span id="__span-14-96"><a id="__codelineno-14-96" name="__codelineno-14-96" href="#__codelineno-14-96"></a><span class="n">addr</span> <span class="o">=</span> <span class="n">Address</span><span class="p">(</span><span class="s2">&quot;123 Maple St&quot;</span><span class="p">,</span> <span class="s2">&quot;Springfield&quot;</span><span class="p">)</span>
+</span><span id="__span-14-97"><a id="__codelineno-14-97" name="__codelineno-14-97" href="#__codelineno-14-97"></a><span class="n">person</span> <span class="o">=</span> <span class="n">Person</span><span class="p">(</span><span class="s2">&quot;Carol&quot;</span><span class="p">,</span> <span class="mi">29</span><span class="p">,</span> <span class="n">addr</span><span class="p">)</span>
+</span><span id="__span-14-98"><a id="__codelineno-14-98" name="__codelineno-14-98" href="#__codelineno-14-98"></a><span class="nb">print</span><span class="p">(</span>
+</span><span id="__span-14-99"><a id="__codelineno-14-99" name="__codelineno-14-99" href="#__codelineno-14-99"></a>    <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">person</span><span class="o">.</span><span class="n">name</span><span class="w"> </span><span class="si">= }</span><span class="s2">, </span><span class="si">{</span><span class="n">person</span><span class="o">.</span><span class="n">age</span><span class="w"> </span><span class="si">= }</span><span class="s2">, </span><span class="si">{</span><span class="n">person</span><span class="o">.</span><span class="n">address</span><span class="o">.</span><span class="n">city</span><span class="w"> </span><span class="si">= }</span><span class="s2">&quot;</span>
+</span><span id="__span-14-100"><a id="__codelineno-14-100" name="__codelineno-14-100" href="#__codelineno-14-100"></a><span class="p">)</span>
+</span><span id="__span-14-101"><a id="__codelineno-14-101" name="__codelineno-14-101" href="#__codelineno-14-101"></a><span class="c1">## person.name = &#39;Carol&#39;, person.age = 29,</span>
+</span><span id="__span-14-102"><a id="__codelineno-14-102" name="__codelineno-14-102" href="#__codelineno-14-102"></a><span class="c1">## person.address.city = &#39;Springfield&#39;</span>
 </span><span id="__span-14-103"><a id="__codelineno-14-103" name="__codelineno-14-103" href="#__codelineno-14-103"></a>
-</span><span id="__span-14-104"><a id="__codelineno-14-104" name="__codelineno-14-104" href="#__codelineno-14-104"></a><span class="c1"># Nested pattern match:</span>
-</span><span id="__span-14-105"><a id="__codelineno-14-105" name="__codelineno-14-105" href="#__codelineno-14-105"></a><span class="k">def</span><span class="w"> </span><span class="nf">location_info</span><span class="p">(</span><span class="n">p</span><span class="p">:</span> <span class="n">Person</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-</span><span id="__span-14-106"><a id="__codelineno-14-106" name="__codelineno-14-106" href="#__codelineno-14-106"></a>    <span class="k">match</span> <span class="n">p</span><span class="p">:</span>
-</span><span id="__span-14-107"><a id="__codelineno-14-107" name="__codelineno-14-107" href="#__codelineno-14-107"></a>        <span class="k">case</span><span class="w"> </span><span class="n">Person</span><span class="p">(</span><span class="k">_</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">Address</span><span class="p">(</span><span class="n">_</span><span class="p">,</span> <span class="n">city</span><span class="o">=</span><span class="s2">&quot;Springfield&quot;</span><span class="p">)):</span>
-</span><span id="__span-14-108"><a id="__codelineno-14-108" name="__codelineno-14-108" href="#__codelineno-14-108"></a>            <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;Resident of Springfield&quot;</span>
-</span><span id="__span-14-109"><a id="__codelineno-14-109" name="__codelineno-14-109" href="#__codelineno-14-109"></a>        <span class="k">case</span><span class="w"> </span><span class="n">Person</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="k">_</span><span class="p">,</span> <span class="n">Address</span><span class="p">(</span><span class="n">street</span><span class="p">,</span> <span class="n">city</span><span class="p">)):</span>
-</span><span id="__span-14-110"><a id="__codelineno-14-110" name="__codelineno-14-110" href="#__codelineno-14-110"></a>            <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2"> lives at </span><span class="si">{</span><span class="n">street</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">city</span><span class="si">}</span><span class="s2">&quot;</span>
-</span><span id="__span-14-111"><a id="__codelineno-14-111" name="__codelineno-14-111" href="#__codelineno-14-111"></a>
-</span><span id="__span-14-112"><a id="__codelineno-14-112" name="__codelineno-14-112" href="#__codelineno-14-112"></a>
-</span><span id="__span-14-113"><a id="__codelineno-14-113" name="__codelineno-14-113" href="#__codelineno-14-113"></a><span class="nb">print</span><span class="p">(</span><span class="n">location_info</span><span class="p">(</span><span class="n">person</span><span class="p">))</span>
-</span><span id="__span-14-114"><a id="__codelineno-14-114" name="__codelineno-14-114" href="#__codelineno-14-114"></a><span class="c1">## Resident of Springfield</span>
+</span><span id="__span-14-104"><a id="__codelineno-14-104" name="__codelineno-14-104" href="#__codelineno-14-104"></a>
+</span><span id="__span-14-105"><a id="__codelineno-14-105" name="__codelineno-14-105" href="#__codelineno-14-105"></a><span class="c1"># Nested pattern match:</span>
+</span><span id="__span-14-106"><a id="__codelineno-14-106" name="__codelineno-14-106" href="#__codelineno-14-106"></a><span class="k">def</span><span class="w"> </span><span class="nf">location_info</span><span class="p">(</span><span class="n">p</span><span class="p">:</span> <span class="n">Person</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+</span><span id="__span-14-107"><a id="__codelineno-14-107" name="__codelineno-14-107" href="#__codelineno-14-107"></a>    <span class="k">match</span> <span class="n">p</span><span class="p">:</span>
+</span><span id="__span-14-108"><a id="__codelineno-14-108" name="__codelineno-14-108" href="#__codelineno-14-108"></a>        <span class="k">case</span><span class="w"> </span><span class="n">Person</span><span class="p">(</span><span class="k">_</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">Address</span><span class="p">(</span><span class="n">_</span><span class="p">,</span> <span class="n">city</span><span class="o">=</span><span class="s2">&quot;Springfield&quot;</span><span class="p">)):</span>
+</span><span id="__span-14-109"><a id="__codelineno-14-109" name="__codelineno-14-109" href="#__codelineno-14-109"></a>            <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;Resident of Springfield&quot;</span>
+</span><span id="__span-14-110"><a id="__codelineno-14-110" name="__codelineno-14-110" href="#__codelineno-14-110"></a>        <span class="k">case</span><span class="w"> </span><span class="n">Person</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="k">_</span><span class="p">,</span> <span class="n">Address</span><span class="p">(</span><span class="n">street</span><span class="p">,</span> <span class="n">city</span><span class="p">)):</span>
+</span><span id="__span-14-111"><a id="__codelineno-14-111" name="__codelineno-14-111" href="#__codelineno-14-111"></a>            <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2"> lives at </span><span class="si">{</span><span class="n">street</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">city</span><span class="si">}</span><span class="s2">&quot;</span>
+</span><span id="__span-14-112"><a id="__codelineno-14-112" name="__codelineno-14-112" href="#__codelineno-14-112"></a>        <span class="k">case</span><span class="w"> </span><span class="k">_</span><span class="p">:</span>
+</span><span id="__span-14-113"><a id="__codelineno-14-113" name="__codelineno-14-113" href="#__codelineno-14-113"></a>            <span class="k">return</span> <span class="s2">&quot;Unknown location</span>
+</span><span id="__span-14-114"><a id="__codelineno-14-114" name="__codelineno-14-114" href="#__codelineno-14-114"></a>
+</span><span id="__span-14-115"><a id="__codelineno-14-115" name="__codelineno-14-115" href="#__codelineno-14-115"></a>
+</span><span id="__span-14-116"><a id="__codelineno-14-116" name="__codelineno-14-116" href="#__codelineno-14-116"></a><span class="nb">print</span><span class="p">(</span><span class="n">location_info</span><span class="p">(</span><span class="n">person</span><span class="p">))</span>
+</span><span id="__span-14-117"><a id="__codelineno-14-117" name="__codelineno-14-117" href="#__codelineno-14-117"></a><span class="c1">## Resident of Springfield</span>
 </span></code></pre></div>
 <h3 id="what-frozen-dataclasses-can-do-that-namedtuple-cannot">What Frozen Dataclasses can do that NamedTuple Cannot<a class="headerlink" href="#what-frozen-dataclasses-can-do-that-namedtuple-cannot" title="Permanent link">#</a></h3>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="c1"># frozen_dataclass_vs_namedtuple.py</span>
@@ -1812,9 +1899,12 @@ that allows fine-tuning of instances behavior.</p>
 </span><span id="__span-15-136"><a id="__codelineno-15-136" name="__codelineno-15-136" href="#__codelineno-15-136"></a><span class="c1">## Point3D slots: Point3D(x=0, y=0, z=0)</span>
 </span></code></pre></div>
 <h2 id="prefer-immutability">Prefer Immutability<a class="headerlink" href="#prefer-immutability" title="Permanent link">#</a></h2>
-<p>With immutability, you get clarity, safety, and bug prevention--while still working within Python's flexible and dynamic nature.
-Immutability in Python is ultimately a matter of developer intent supported by language features that make it easier to achieve and maintain.
-With <code>Final</code> and frozen dataclasses, we now have the means to clearly communicate and enforce that intent, leading to more robust and maintainable codebases.</p>
+<p>With immutability, you get clarity, safety, and bug prevention--while still working within Python's flexible and dynamic
+nature.
+Immutability in Python is ultimately a matter of developer intent supported by language features that make it easier to
+achieve and maintain.
+With <code>Final</code> and frozen dataclasses, we now have the means to clearly communicate and enforce that intent, leading to
+more robust and maintainable codebases.</p>
 <h2 id="references">References<a class="headerlink" href="#references" title="Permanent link">#</a></h2>
 <ol>
 <li><a href="https://justincaustin.com/blog/mimicking-immutability-python-type-hints/">Mimicking Immutability in Python with Type Hints | Justin Austin</a></li>

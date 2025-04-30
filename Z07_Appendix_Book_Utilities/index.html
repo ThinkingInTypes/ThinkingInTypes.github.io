@@ -845,7 +845,8 @@
 <h1 id="appendix-book-utilities">Appendix: Book Utilities<a class="headerlink" href="#appendix-book-utilities" title="Permanent link">#</a></h1>
 <p>These are incorporated into book examples to make them easier to read and to reduce code duplication.
 They are placed in a subdirectory off the root of the project, named <code>book_utils</code>.
-Because the book examples are extracted into a flat layout in the examples repository, you can import directly from <code>book_utils</code>.</p>
+Because the book examples are extracted into a flat layout in the examples repository, you can import directly from
+<code>book_utils</code>.</p>
 <h2 id="exception-catcher">Exception Catcher<a class="headerlink" href="#exception-catcher" title="Permanent link">#</a></h2>
 <p>When a function call is known to succeed, the ordinary <code>print()</code> can be used.
 If a function call can fail with an exception, <code>Catch</code> used as a context manager will catch and display the error.</p>
@@ -859,14 +860,14 @@ If a function call can fail with an exception, <code>Catch</code> used as a cont
 </span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="sd">To do this the function should be provided as a zero-argument callable.</span>
 </span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="sd">If the function takes arguments, it must be wrapped in a lambda to delay evaluation.</span>
 </span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="sd">&quot;&quot;&quot;</span>
-</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>
+</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
 </span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a><span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">TypeVar</span>
 </span><span id="__span-0-13"><a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a>
 </span><span id="__span-0-14"><a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a><span class="n">R</span> <span class="o">=</span> <span class="n">TypeVar</span><span class="p">(</span><span class="s2">&quot;R&quot;</span><span class="p">)</span>
 </span><span id="__span-0-15"><a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a>
 </span><span id="__span-0-16"><a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a>
 </span><span id="__span-0-17"><a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a><span class="k">class</span><span class="w"> </span><span class="nc">Catch</span><span class="p">:</span>
-</span><span id="__span-0-18"><a id="__codelineno-0-18" name="__codelineno-0-18" href="#__codelineno-0-18"></a>    <span class="k">def</span><span class="w"> </span><span class="fm">__enter__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Catch&quot;</span><span class="p">:</span>
+</span><span id="__span-0-18"><a id="__codelineno-0-18" name="__codelineno-0-18" href="#__codelineno-0-18"></a>    <span class="k">def</span><span class="w"> </span><span class="fm">__enter__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Catch</span><span class="p">:</span>
 </span><span id="__span-0-19"><a id="__codelineno-0-19" name="__codelineno-0-19" href="#__codelineno-0-19"></a>        <span class="k">return</span> <span class="bp">self</span>
 </span><span id="__span-0-20"><a id="__codelineno-0-20" name="__codelineno-0-20" href="#__codelineno-0-20"></a>
 </span><span id="__span-0-21"><a id="__codelineno-0-21" name="__codelineno-0-21" href="#__codelineno-0-21"></a>    <span class="k">def</span><span class="w"> </span><span class="fm">__exit__</span><span class="p">(</span>
@@ -896,14 +897,17 @@ If a function call can fail with an exception, <code>Catch</code> used as a cont
 <li><strong>Context Manager</strong> (<code>__enter__</code> and <code>__exit__</code> methods)</li>
 <li><strong>Callable Object</strong> (<code>__call__</code> method)</li>
 </ol>
-<p>This combination allows it to handle exceptions and display meaningful error messages without stopping program execution.</p>
+<p>This combination allows it to handle exceptions and display meaningful error messages without stopping program
+execution.</p>
 <h3 id="context-manager">Context Manager<a class="headerlink" href="#context-manager" title="Permanent link">#</a></h3>
-<p>A context manager in Python is used with the <code>with</code> statement, typically to set up and tear down resources or to catch exceptions.
+<p>A context manager in Python is used with the <code>with</code> statement, typically to set up and tear down resources or to catch
+exceptions.
 The <code>Catch</code> class implements this using:</p>
 <ul>
 <li>
 <p><strong><code>__enter__(self)</code></strong>\
-  When the context is entered, it returns the instance (<code>self</code>), making the methods of the class accessible within the block.</p>
+  When the context is entered, it returns the instance (<code>self</code>), making the methods of the class accessible within the
+  block.</p>
 </li>
 <li>
 <p><strong><code>__exit__(self, exc_type, exc_value, traceback)</code></strong>\
@@ -916,7 +920,8 @@ The <code>Catch</code> class implements this using:</p>
 </ul>
 </li>
 </ul>
-<p>If an exception occurs (<code>exc_type is not None</code>), the <code>Catch</code> class prints the error message and returns <code>True</code> to indicate that the exception has been handled and should not propagate further.</p>
+<p>If an exception occurs (<code>exc_type is not None</code>), the <code>Catch</code> class prints the error message and returns <code>True</code> to
+  indicate that the exception has been handled and should not propagate further.</p>
 <p>Example usage as a context manager:</p>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="c1"># simple_form.py</span>
 </span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">book_utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">Catch</span>
@@ -927,7 +932,8 @@ The <code>Catch</code> class implements this using:</p>
 </span></code></pre></div>
 <h3 id="callable-interface-__call__-method">Callable Interface (<code>__call__</code> method)<a class="headerlink" href="#callable-interface-__call__-method" title="Permanent link">#</a></h3>
 <p>The <code>Catch</code> class also defines a <code>__call__</code> method, allowing its instances to be called as functions.
-This lets you explicitly wrap a callable (like a lambda or zero-argument function) inside its own try-except block, capturing and handling exceptions raised during both argument evaluation and function execution.</p>
+This lets you explicitly wrap a callable (like a lambda or zero-argument function) inside its own try-except block,
+capturing and handling exceptions raised during both argument evaluation and function execution.</p>
 <p>In the <code>__call__</code> method signature, <code>func</code> is a zero-argument callable.
 It executes this callable within a try-except block:</p>
 <ul>
@@ -952,7 +958,8 @@ It executes this callable within a try-except block:</p>
 </span><span id="__span-2-15"><a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a><span class="c1">## No lambda aborts the context:</span>
 </span><span id="__span-2-16"><a id="__codelineno-2-16" name="__codelineno-2-16" href="#__codelineno-2-16"></a><span class="c1">## Error: division by zero</span>
 </span></code></pre></div>
-<p>Using lambdas here is essential because it delays the evaluation of arguments until inside the <code>Catch</code> context, ensuring that errors raised during argument construction are caught properly.
+<p>Using lambdas here is essential because it delays the evaluation of arguments until inside the <code>Catch</code> context, ensuring
+that errors raised during argument construction are caught properly.
 Here's a more complex example with argument construction that throws exceptions:</p>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="c1"># demo_exception_checker.py</span>
 </span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">dataclasses</span><span class="w"> </span><span class="kn">import</span> <span class="n">dataclass</span>
