@@ -4,7 +4,7 @@
 > A lot of the material is rough and in early form, especially the prose.
 > However, the book development tooling is in place, so all the examples are tested (If something doesn't work, I'll
 > know about it).
-> My hope is that even during development you will find the material useful.
+> My hope is that even during development, you will find the material useful.
 
 At the beginning of the book _Alice in Wonderland_, Alice sees a white rabbit wearing clothing and holding a watch.
 The rabbit runs off, very concerned about being late for something, and Alice follows him.
@@ -19,8 +19,8 @@ younger people don't.
 A young friend rescued a typewriter from a dumpster, fascinated with all the physical mechanisms for stamping letters
 onto paper.
 But they were completely baffled by the way that paper got moved forward so you could start typing the next line.
-I had to demonstrate the way you pushed the arm attached to the paper carriage, so that it would not only advance the
-roller--that is, perform a "line feed"--but also move the carriage back to the starting position--a "carriage return."
+I demonstrated pushing the arm attached to the paper carriage; it not only advances the roller--that is, performs a "line feed"--but it
+also moves the carriage back to the starting position--a "carriage return."
 I've seen the expressions in younger programmers when they realize that those words came from physical typewriters and
 that we still carry the terms in programming today despite there being no physical analogue anymore.
 
@@ -49,34 +49,37 @@ You passed this generated C to your local C compiler to produce the resulting ex
 This approach was brilliant because it worked atop the diaspora of C compilers available at that time.
 
 The language itself was brilliant because it was an evolution of the dominant C language.
-These days we are comfortable learning new and different languages, but back then people were still getting comfortable with C (many had been assembly programmers
-so the idea of a compiler was still strange), and they had very little interest in taking a chance on something that didn't feel like C.
+These days we are comfortable learning new and different languages.
+Back then, people were still getting comfortable with C--many had been assembly programmers, so the idea of a compiler was still strange.
+They had little interest in taking a chance on something that didn't feel like C.
 
-As I burrowed my way into this new language I came across a mystery: the keyword `virtual`.
-Because `cfront` emitted C code, I was able to sleuth my way through the convoluted process of dynamic binding in a statically-compiled language.
+As I burrowed my way into this new language, I came across a mystery: the keyword `virtual`.
+Because `cfront` emitted C code, I was able to sleuth my way through the convoluted process of dynamic binding in a statically compiled language.
 Although this seemed like a weird thing to do, I reasoned that this very weirdness meant it must be especially important.
 And I, along with everyone else, began trying to understand what we were supposed to do with this new feature.
 
 This lead to writing books, teaching, and consulting about OOP.
-An industry grew up around it, and the reign of OOP influenced numerous new languages--you had to have it.
+An industry grew up around it, and the reign of OOP influenced new languages--you had to have it.
 
-And teaching it was tough, because you had to come up with introductory examples that made some kind of sense.
+Teaching it was tough because you had to come up with introductory examples that made some kind of sense.
+If a class solved a problem but had no possibilities for inheritance, it didn't make the case for OOP, so we didn't use it.
 Shapes and pets and colors were repeated again and again.
-If a class just solved a problem but had no possibilities for inheritance, it didn't make the case for OOP so we didn't use it.
 
-I still remember Bjarne Stroustrup saying "user-defined types" and how powerful that sounded.
+I still remember Bjarne Stroustrup saying "user-defined types," and how powerful that sounded.
 He also made the distinction between _object-based_ and _object-oriented_.
 The former turned out to be the very problem we wanted to solve, to liberate ourselves from the limitations of the language's built-in types.
 The latter turned out to be a huge distraction.
 
-The book _Design Patterns: Elements of Reusable Object-Oriented Software_ appeared in 1994 and answered the question, "what are we supposed to do with OOP."
+The book _Design Patterns: Elements of Reusable Object-Oriented Software_ appeared in 1994 and answered the question, "what are we supposed to do with OOP?"
 It was such a success that its four primary authors garnered the nickname _Gang of Four_, and "GoF" became the shorthand way to refer to the book.
-There were indeed many interesting ways to apply OOP to design problems.
-The question felt answered and yet upon closer inspection, the design examples given in the book turned out to be rather obscure.
+
+The GoF book showed that there were indeed many interesting ways to apply OOP to design problems.
+The question felt answered.
+However, upon closer inspection the design examples given in the book turned out to be rather obscure.
 And the most confounding thing was in the preface [check this] of the book, where they said "Prefer composition to inheritance."
 After writing this complicated tome about OOP, they tried to convince us, right at the beginning, to avoid it.
 
-No one noticed the admonishment for many years, because that was not the answer we were looking for.
+No one noticed the admonishment for many years because that was not the answer we were looking for.
 Asking "how do I do this?" and being answered "don't" is one of the more common jokes, and frustrating things, about programmers.
 So we forged ahead and dutifully struggled to understand the GoF patterns and how they might be applied to everyday software designs.
 
@@ -102,11 +105,10 @@ Many years later, I've come to ponder point two and realized that I had jumped t
 one.
 If I was starting out now to pursue consulting, I would instead ask a lot of questions, probably starting with an AI.
 I would then talk to individual consultants and small consulting firms, and maybe even work for one.
-Most importantly, I would try to get to the bottom of _why_ I wanted to be a consultant; what need does it satisfy (
-other than making a living).
+Most importantly, I would try to get to the bottom of _why_ I wanted to be a consultant; what need does it satisfy (other than making a living).
 
-In my case the "why" is the need for connection and community and the need to be helpful.
-In the last 15 years I've studied this thing called _Nonviolent Communication_ (NVC) and taken a lot of enjoyable
+In my case, the "why" is the need for connection and community and the need to be helpful.
+In the last 15 years, I've studied this thing called _Nonviolent Communication_ (NVC) and taken a lot of enjoyable
 workshops on the subject.
 After becoming better at communicating, the biggest benefit of NVC is discovering your true needs.
 Once you know those, you can distinguish between needs and strategies--a strategy is one way to meet a need.
@@ -170,8 +172,8 @@ Rebound effects: expected gains from efficiency are offset by behavioral or econ
 As AI makes programmers more efficient in creating systems, the demand for programmers will increase.
 
 I used to have a bookcase full of computer programming books.
-Then it became much easier to search the internet for answers than look in books.
-Eventually I got rid of most of my books.
+Then it became much easier to search the internet for answers than look at books.
+Eventually, I got rid of most of my books.
 It's now become much easier to ask questions of an AI and have it generate examples and prose (although both must be
 rewritten).
 So I will tend to use AI more than other resources, still verifying as I did with those other resources.
