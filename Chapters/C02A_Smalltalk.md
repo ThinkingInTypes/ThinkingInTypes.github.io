@@ -24,10 +24,10 @@ Python has a lot of the dynamic flexibility of Smalltalk but:
 1. It has a compile phase--this is brief and simple compared to non-dynamic languages, but it does some basic checking before the program runs.
 2. Python's data elements have types; they are not just an object that will accept any message.
 
-By contrast, statically typed languages require that an object's type (its class, interface, or trait) explicitly declare all the methods it supports,
-and any call to a nonexistent method is caught at compile time as a type error.
-Statically typed languages trade away Smalltalk's on-the-fly flexibility for the guarantee that method calls won't go astray;
-as a result, certain idioms common in Smalltalk (such as adding methods to objects at runtime or relying on duck typing)
+Statically typed languages require that an object's type (its class, interface, or trait) explicitly declare all the methods it supports.
+Any call to a nonexistent method is caught at compile time as a type error.
+Statically typed languages trade away Smalltalk's on-the-fly flexibility for the guarantee that method calls won't go astray.
+Thus, certain idioms common in Smalltalk (such as adding methods to objects at runtime or relying on duck typing)
 are impractical or impossible to express in a statically typed language.
 
 In Smalltalk, the set of messages an object can respond to essentially defines its type at that moment--but this "type" is not a formal, static annotation;
@@ -46,3 +46,93 @@ Smalltalk was designed to be a highly dynamic language, allowing developers to m
 
 Because Smalltalk doesn't have a static way to encode expectations (types), the
 community invented TDD--writing tests--to catch errors; xUnit testing was prototyped in Smalltalk.
+
+## Emulating Smalltalk in Python
+
+Because Python is a dynamic language, it is possible to emulate Smalltalk's behavior.
+`type()` is most commonly seen as a function that returns the type of its argument:
+
+```python
+# type_function.py
+class Plumbus: pass
+
+
+print(type(Plumbus()))
+```
+
+However, `type()` can also be a class constructor to dynamically create a new class: `type(name, bases, dict)`:
+
+```python
+# dynamic_class_creation.py
+
+BaseAnimal = type(
+    "BaseAnimal",  # name
+    (object,),  # bases
+    {  # class body (attributes/methods)
+        "speak": lambda self: print("Generic animal sound.")
+    }
+)
+
+Cat = type(  # Subclassing
+    "Cat",
+    (BaseAnimal,),
+    {
+        "speak": lambda self: print("Meow!")
+    }
+)
+
+feline = Cat()
+feline.speak()  # type: ignore
+```
+
+Lambdas are used here for brevity; more typically you'll see function names placed in the `dict`.
+
+We can also create a Smalltalk-like object that and dynamically adapts to new messages:
+
+```python
+# smalltalk_parrot.py
+from dataclasses import dataclass, field
+from types import MethodType
+
+
+@dataclass
+class Parrot:
+    known_phrases: list[str] = field(default_factory=list)
+    _dynamic_methods: set[str] = field(default_factory=set, init=False, repr=False)
+
+    def __getattr__(self, name: str):
+        def handler(*args, **kwargs):
+            return self.does_not_understand(name, *args, **kwargs)
+
+        return handler
+
+    def __dir__(self) -> list[str]:
+        return sorted(set(super().__dir__()) | self._dynamic_methods)
+
+    def does_not_understand(self, message: str, *args, **kwargs):
+        print(f"[Class] Parrot learns new phrase: {message}")
+
+        def new_method(self, *args, **kwargs):
+            print(f"Parrot says: {message}")
+            self.known_phrases.append(message)
+
+        setattr(self.__class__, message, new_method)
+        self._dynamic_methods.add(message)
+
+        return getattr(self, message)(*args, **kwargs)
+```
+
+```python
+# learning_parrot.py
+from smalltalk_parrot import Parrot
+
+polly = Parrot()
+coco = Parrot()
+
+print("Before learning:", [m for m in dir(polly) if not m.startswith('_')])
+
+polly.hello()
+coco.squawk()
+
+print("After learning:", [m for m in dir(polly) if not m.startswith('_')])
+```
