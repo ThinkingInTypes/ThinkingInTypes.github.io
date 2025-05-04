@@ -54,10 +54,12 @@ Because Python is a dynamic language, it is possible to emulate Smalltalk's beha
 
 ```python
 # type_function.py
-class Plumbus: pass
+class Plumbus:
+    pass
 
 
 print(type(Plumbus()))
+## <class '__main__.Plumbus'>
 ```
 
 However, `type()` can also be a class constructor to dynamically create a new class: `type(name, bases, dict)`:
@@ -68,59 +70,54 @@ However, `type()` can also be a class constructor to dynamically create a new cl
 BaseAnimal = type(
     "BaseAnimal",  # name
     (object,),  # bases
-    {  # class body (attributes/methods)
-        "speak": lambda self: print("Generic animal sound.")
-    }
+    # class body (attributes/methods):
+    {"speak": lambda self: print("Generic animal sound.")},
 )
 
 Cat = type(  # Subclassing
     "Cat",
     (BaseAnimal,),
-    {
-        "speak": lambda self: print("Meow!")
-    }
+    {"speak": lambda self: print("Meow!")},
 )
 
 feline = Cat()
 feline.speak()  # type: ignore
+## Meow!
 ```
 
-Lambdas are used here for brevity; more typically you'll see function names placed in the `dict`.
+Lambdas are used here for brevity; more typically you'll see function names placed in the class body `dict`.
 
-We can also create a Smalltalk-like object that and dynamically adapts to new messages:
+We can also create a Smalltalk-like object that dynamically adapts to new messages:
 
 ```python
 # smalltalk_parrot.py
 from dataclasses import dataclass, field
-from types import MethodType
 
 
 @dataclass
 class Parrot:
     known_phrases: list[str] = field(default_factory=list)
-    _dynamic_methods: set[str] = field(default_factory=set, init=False, repr=False)
 
     def __getattr__(self, name: str):
         def handler(*args, **kwargs):
-            return self.does_not_understand(name, *args, **kwargs)
+            return self.not_found(name, *args, **kwargs)
 
         return handler
 
-    def __dir__(self) -> list[str]:
-        return sorted(set(super().__dir__()) | self._dynamic_methods)
-
-    def does_not_understand(self, message: str, *args, **kwargs):
-        print(f"[Class] Parrot learns new phrase: {message}")
+    def not_found(self, message: str, *args, **kwargs):
+        print(f"[Class] Parrot learns: {message}")
 
         def new_method(self, *args, **kwargs):
             print(f"Parrot says: {message}")
             self.known_phrases.append(message)
 
         setattr(self.__class__, message, new_method)
-        self._dynamic_methods.add(message)
-
         return getattr(self, message)(*args, **kwargs)
 ```
+
+The `__getattr__` method only runs if you try to access an attribute or method that doesn’t yet exist on either the instance or its class.
+It captures the missing attribute `name`.
+Then it returns a placeholder function `handler` that, when called, delegates to `self.not_found(...)`.
 
 ```python
 # learning_parrot.py
@@ -129,10 +126,18 @@ from smalltalk_parrot import Parrot
 polly = Parrot()
 coco = Parrot()
 
-print("Before learning:", [m for m in dir(polly) if not m.startswith('_')])
+# Before learning:
+print(polly.known_phrases, coco.known_phrases)
+## [] []
 
 polly.hello()
+## [Class] Parrot learns: hello
+## Parrot says: hello
 coco.squawk()
+## [Class] Parrot learns: squawk
+## Parrot says: squawk
 
-print("After learning:", [m for m in dir(polly) if not m.startswith('_')])
+# After learning:
+print(polly.known_phrases, coco.known_phrases)
+## ['hello'] ['squawk']
 ```
