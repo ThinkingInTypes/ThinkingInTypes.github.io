@@ -119,6 +119,21 @@ The `__getattr__` method only runs if you try to access an attribute or method t
 It captures the missing attribute `name`.
 Then it returns a placeholder function `handler` that, when called, delegates to `self.not_found(...)`.
 
+The `not_found` method teaches the parrot a new “method” on the fly and then immediately invokes it.
+The `new_method` appends the phrase to that instance’s `known_phrases`.
+
+The call to `setattr(self.__class__, message, new_method)` attaches `new_method` to the class.
+Now all `Parrot` instances have a real method named message.
+
+Finally, `not_found` calls the new method in the `return` expression using `getattr`.
+
+So, the first time you say `polly.hello()`, `__getattr__` catches the missing `hello`, returns `handler`, which calls `not_found("hello")`.
+`not_found` prints that the class learned `"hello"`, then dynamically creates and installs `Parrot.hello`, appends `"hello"` to `polly.known_phrases`, and invokes `polly.hello()`.
+For subsequent calls to `polly.hello()`, the method now exists on the class, so `__getattr__` is bypassed.
+It simply prints “Parrot says: hello” and appends again to that instance’s list.
+
+Other instances (e.g., `coco`) immediately gain a `hello` method, but their `known_phrases` remain separate: each instance tracks only the phrases it has ever spoken.
+
 ```python
 # learning_parrot.py
 from smalltalk_parrot import Parrot
@@ -133,11 +148,15 @@ print(polly.known_phrases, coco.known_phrases)
 polly.hello()
 ## [Class] Parrot learns: hello
 ## Parrot says: hello
+coco.hello()
+## Parrot says: hello
 coco.squawk()
 ## [Class] Parrot learns: squawk
 ## Parrot says: squawk
 
 # After learning:
 print(polly.known_phrases, coco.known_phrases)
-## ['hello'] ['squawk']
+## ['hello'] ['hello', 'squawk']
 ```
+
+Although `polly` and `coco` share each created method, each instance maintains its own `known_phrases` history.
