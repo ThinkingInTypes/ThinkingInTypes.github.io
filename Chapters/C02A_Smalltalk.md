@@ -123,7 +123,7 @@ The `not_found` method teaches the parrot a new “method” on the fly and then
 The `new_method` appends the phrase to that instance’s `known_phrases`.
 
 The call to `setattr(self.__class__, message, new_method)` attaches `new_method` to the class.
-Now all `Parrot` instances have a real method named message.
+Now all `Parrot` instances have a method with the name in the argument `message`.
 
 Finally, `not_found` calls the new method in the `return` expression using `getattr`.
 
