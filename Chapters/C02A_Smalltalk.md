@@ -33,14 +33,15 @@ are impractical or impossible to express in a statically typed language.
 In Smalltalk, the set of messages an object can respond to essentially defines its type at that moment--but this "type" is not a formal, static annotation;
 it's just the object's current behavior, which can even change as the program runs.
 Two objects are effectively the same type if they handle the same messages, regardless of their class lineage or internal representation.
-Smalltalk is strongly dynamically typed: every object's type is
-well-defined at runtime and objects do not change types arbitrarily, but the language does not check types until a message is actually sent.
+Smalltalk is strongly dynamically typed: every object's type is well-defined at runtime,
+and objects do not change types arbitrarily, but the language does not check types until a message is actually sent.
 Ultimately, whether Smalltalk can be said to have a "type system" in any meaningful sense depends on how one defines the term:
 it certainly lacks compile-time type checking, yet it still categorizes and dispatches on types at runtime.
 Meanwhile, languages like Java, Rust, and TypeScript use static type systems to rigidly define what can happen in a program, prioritizing
 reliability and clarity over the dynamic extensibility that made Smalltalk so uniquely powerful.
 
-Smalltalk is described as a reflective, object-oriented language known for its simplicity, dynamic nature, and highly interactive development environment, treating everything as an object
+Smalltalk is described as a reflective, object-oriented language known for its simplicity, dynamic nature,
+and highly interactive development environment, treating everything as an object.
 and supporting live coding for great flexibility and interactivity.
 Smalltalk was designed to be a highly dynamic language, allowing developers to manipulate and experiment with code in real-time.
 
@@ -96,7 +97,7 @@ from dataclasses import dataclass, field
 
 @dataclass
 class Parrot:
-    known_phrases: list[str] = field(default_factory=list)
+    known_phrases: set[str] = field(default_factory=set)
 
     def __getattr__(self, name: str):
         def handler(*args, **kwargs):
@@ -109,7 +110,7 @@ class Parrot:
 
         def new_method(self, *args, **kwargs):
             print(f"Parrot says: {message}")
-            self.known_phrases.append(message)
+            self.known_phrases.add(message)
 
         setattr(self.__class__, message, new_method)
         return getattr(self, message)(*args, **kwargs)
@@ -119,8 +120,8 @@ The `__getattr__` method only runs if you try to access an attribute or method t
 It captures the missing attribute `name`.
 Then it returns a placeholder function `handler` that, when called, delegates to `self.not_found(...)`.
 
-The `not_found` method teaches the parrot a new “method” on the fly and then immediately invokes it.
-The `new_method` appends the phrase to that instance’s `known_phrases`.
+The `not_found` method teaches the parrot a new "method" on the fly and then immediately invokes it.
+The `new_method` adds the phrase to that instance’s `known_phrases`.
 
 The call to `setattr(self.__class__, message, new_method)` attaches `new_method` to the class.
 Now all `Parrot` instances have a method with the name in the argument `message`.
@@ -128,9 +129,9 @@ Now all `Parrot` instances have a method with the name in the argument `message`
 Finally, `not_found` calls the new method in the `return` expression using `getattr`.
 
 So, the first time you say `polly.hello()`, `__getattr__` catches the missing `hello`, returns `handler`, which calls `not_found("hello")`.
-`not_found` prints that the class learned `"hello"`, then dynamically creates and installs `Parrot.hello`, appends `"hello"` to `polly.known_phrases`, and invokes `polly.hello()`.
+`not_found` prints that the class learned `"hello"`, then dynamically creates and installs `Parrot.hello`, adds `"hello"` to `polly.known_phrases`, and invokes `polly.hello()`.
 For subsequent calls to `polly.hello()`, the method now exists on the class, so `__getattr__` is bypassed.
-It simply prints “Parrot says: hello” and appends again to that instance’s list.
+It simply prints "Parrot says: hello" and adds again to that instance’s list.
 
 Other instances (e.g., `coco`) immediately gain a `hello` method, but their `known_phrases` remain separate: each instance tracks only the phrases it has ever spoken.
 
@@ -143,7 +144,7 @@ coco = Parrot()
 
 # Before learning:
 print(polly.known_phrases, coco.known_phrases)
-## [] []
+## set() set()
 
 polly.hello()
 ## [Class] Parrot learns: hello
@@ -156,7 +157,7 @@ coco.squawk()
 
 # After learning:
 print(polly.known_phrases, coco.known_phrases)
-## ['hello'] ['hello', 'squawk']
+## {'hello'} {'hello', 'squawk'}
 ```
 
 Although `polly` and `coco` share each created method, each instance maintains its own `known_phrases` history.
@@ -188,7 +189,9 @@ class SmalltalkObject:
         return handler
 
     def not_found(self, message, *args, **kwargs):
-        print(f"{self.__class__.__name__}: '{message}' not found")
+        print(
+            f"{self.__class__.__name__}: '{message}' not found"
+        )
 ```
 
 When you say `obj.some_attr`, Python (internally) runs `type(obj).__getattribute__(obj, "some_attr")`.
@@ -202,6 +205,7 @@ from smalltalk_object import SmalltalkObject
 
 obj = SmalltalkObject()
 obj.dance()
+## SmalltalkObject: 'dance' not found
 ```
 
 Python can't find the method `dance`, so it calls `obj.__getattr__("dance")` which returns a function `handler(...)`.
@@ -218,7 +222,7 @@ from smalltalk_object import SmalltalkObject
 
 class Chatbot(SmalltalkObject):
     def __init__(self):
-        self.history = []
+        self.history = set()
 ```
 
 If we send the `hello()` message to the `Chatbot`, it doesn't understand it:
@@ -229,6 +233,7 @@ from chatbot import Chatbot
 
 bot = Chatbot()
 bot.hello()
+## Chatbot: 'hello' not found
 ```
 
 It uses `__getattr__` to search for `hello()` which it doesn't find, so it falls back to `not_found`.
@@ -238,40 +243,48 @@ It uses `__getattr__` to search for `hello()` which it doesn't find, so it falls
 ```python
 # add_hello.py
 from chatbot import Chatbot
-from talk_to_chatbot import bot
+
+bot = Chatbot()
 
 
 def hello(self):
     print("Hello! I'm your chatbot.")
-    self.history.append("hello")
+    self.history.add("hello")
 
 
 setattr(Chatbot, "hello", hello)
 bot.hello()
+## Hello! I'm your chatbot.
 ```
 
 We added this method at runtime.
 No compilation step--just live system growth.
 
-### Make it remember unknown messages
+Now let's make it remember unknown messages by creating a new `not_found` that adds unknown messages to its `history`:
 
-We override the default `not_found` with a new version that appends unknown messages to its `history`.
+```python
+# not_found_with_history.py
+
+
+def not_found(self, message, *args, **kwargs):
+    print(f"Don't know '{message}'; remembering it.")
+    self.history.add(message)
+```
+
+We override the default `not_found` with our new version:
 
 ```python
 # override_not_found.py
 from chatbot import Chatbot
-from talk_to_chatbot import bot
+from not_found_with_history import not_found
 
-
-def not_found(self, message, *args, **kwargs):
-    print(f"Sorry, I don't understand '{message}', but I'll remember it.")
-    self.history.append(message)
-
-
+bot = Chatbot()
 setattr(Chatbot, "not_found", not_found)
 
 bot.weather()
+## Don't know 'weather'; remembering it.
 bot.joke()
+## Don't know 'joke'; remembering it.
 ```
 
 The chatbot learns from what it hears.
@@ -279,18 +292,23 @@ The chatbot learns from what it hears.
 ### Teach it a joke
 
 ```python
+# joke.py
+def joke(self):
+    print("Why did the duck cross the road?")
+    print("It was the chicken's day off.")
+    self.history.add("joke")
+```
+
+```python
 # learn_joke.py
 from chatbot import Chatbot
-from add_hello import bot
+from joke import joke
 
-
-def joke(self):
-    print("Why did the duck cross the road? It was the chicken's day off.")
-    self.history.append("joke")
-
-
+bot = Chatbot()
 setattr(Chatbot, "joke", joke)
 bot.joke()
+## Why did the duck cross the road?
+## It was the chicken's day off.
 ```
 
 Again, we add behavior dynamically.
@@ -300,11 +318,20 @@ Again, we add behavior dynamically.
 ```python
 # introspection.py
 from add_hello import bot
+
+## Hello! I'm your chatbot.
 import override_not_found
+
+## Don't know 'weather'; remembering it.
+## Don't know 'joke'; remembering it.
 import learn_joke
+## Why did the duck cross the road?
+## It was the chicken's day off.
 
 print([m for m in dir(bot) if not m.startswith("_")])
+## ['hello', 'history', 'joke', 'not_found']
 print(bot.history)
+## {'hello'}
 ```
 
 Just like a Smalltalk browser, we inspect our object's current interface and state.
