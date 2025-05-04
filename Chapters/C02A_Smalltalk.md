@@ -217,7 +217,7 @@ from smalltalk_object import SmalltalkObject
 
 
 class Chatbot(SmalltalkObject):
-    def init(self):
+    def __init__(self):
         self.history = []
 ```
 
@@ -238,6 +238,7 @@ It uses `__getattr__` to search for `hello()` which it doesn't find, so it falls
 ```python
 # add_hello.py
 from chatbot import Chatbot
+from talk_to_chatbot import bot
 
 
 def hello(self):
@@ -259,6 +260,7 @@ We override the default `not_found` with a new version that appends unknown mess
 ```python
 # override_not_found.py
 from chatbot import Chatbot
+from talk_to_chatbot import bot
 
 
 def not_found(self, message, *args, **kwargs):
@@ -274,11 +276,12 @@ bot.joke()
 
 The chatbot learns from what it hears.
 
-### Step 6: Teach it a joke
+### Teach it a joke
 
 ```python
 # learn_joke.py
 from chatbot import Chatbot
+from add_hello import bot
 
 
 def joke(self):
@@ -292,13 +295,11 @@ bot.joke()
 
 Again, we add behavior dynamically.
 
-### Step 7: Inspect its capabilities
-
-# Messages it understands:
+### Inspect its capabilities
 
 ```python
 # introspection.py
-import add_hello
+from add_hello import bot
 import override_not_found
 import learn_joke
 
