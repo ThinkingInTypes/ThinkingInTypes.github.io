@@ -1,27 +1,36 @@
 ---
-theme: default
+# You can also start simply with 'default'
+#theme: seriph
+# random image from a curated Unsplash collection by Anthony
+# like them? see https://unsplash.com/collections/94734566/slidev
+# some information about your slides (markdown enabled)
 title: Thinking in Types
-titleTemplate: '%s'
-author: Bruce Eckel
-lineNumbers: false
+info: |
+  ## From ThinkingInTypes.com
+# apply unocss classes to the current slide
 class: text-center
+# https://sli.dev/features/drawing
+drawings:
+  persist: false
+# slide transition: https://sli.dev/guide/animations.html#slide-transitions
+# enable MDC Syntax: https://sli.dev/features/mdc
+mdc: true
+# open graph
+# seoMeta:
+#  ogImage: https://cover.sli.dev
 transition: fade-out
-#layout: image
-#image: background.png
-layout: cover
-background: background.png
+
+layout: image
+image: background.png
 backgroundSize: contain
-colorSchema: dark
 ---
 
 # Make Illegal States Unrepresentable
 
 ## Pycon 2025 Typing Summit
 
-#### From ThinkingInTypes.com
+### From ThinkingInTypes.com
 
----
-zoom: 1.1
 ---
 
 ```python
@@ -51,8 +60,6 @@ class Parrot:
 ```
 
 ---
-zoom: 2.1
----
 
 ```python
 # missing_method.py
@@ -62,11 +69,3 @@ obj = SmalltalkObject()
 obj.dance()
 ## SmalltalkObject: 'dance' not found
 ```
-
----
-<<< ..\..\ThinkingInTypes_Examples\c05_custom_types\birth_date.py
----
-
----
-<<< ..\..\ThinkingInTypes_Examples\c11_make_illegal_types_unrepresentable\require.py
----
