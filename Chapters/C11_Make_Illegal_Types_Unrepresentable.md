@@ -4,16 +4,16 @@ A common strategy for preventing problems is to check values after arguments are
 This spreads validation code across functions, producing maintenance problems.
 This chapter moves validation into custom types that make invalid data impossible.
 In addition, data is checked when you create an instance, rather than when data is passed to a function.
-With this approach, you:
+This approach:
 
-1. Discover problems sooner.
-2. Clarify the meaning of your code.
-3. Share custom type benefits across all functions that use those types.
-4. Eliminate duplicate validation checks and their associated maintenance.
-5. Make changes easier by localizing validation to a single point.
-6. Eliminate the need for techniques such as Design By Contract (DBC).
-7. Enable more focused testing with finer granularity.
-8. Naturally move towards Domain-Driven Design.
+1. Discovers problems sooner.
+2. Clarifies the meaning of code.
+3. Shares custom type benefits across all functions that use those types.
+4. Eliminates duplicate validation checks and their associated maintenance.
+5. Makes changes easier by localizing validation to a single point.
+6. Eliminates the need for techniques such as Design By Contract (DBC).
+7. Enables more focused testing with finer granularity.
+8. Helps produce Domain-Driven Design.
 
 ## "Stringly Typed"
 
@@ -57,7 +57,7 @@ phone_numbers: list[str] = [
 ```
 
 Any function that takes a phone number represented as a string must first validate that number.
-Here's one of the worst approaches imaginable:
+Here's a common but awkward approach:
 
 ```python
 # phone_number_functions.py
@@ -93,8 +93,8 @@ def f3(phonenumber: str):
 
 Each function has its own custom code and reports errors differently.
 There might be many such functions spread throughout the system.
-If there's a bug or any change in the way phone numbers are validated, all validation code must be hunted down and
-corrected, and any tests must also be updated.
+If there's a bug or any change in the way phone numbers are validated, all validation code must be found and corrected,
+and any tests must also be updated.
 
 Does anyone set out to write code like this?
 Probably not--it starts out seeming like "the simplest thing" and just continues to accumulate, one logical step at a
@@ -181,7 +181,7 @@ positivity = Condition(
 
 @requires(positivity)
 def sqrt(x) -> float:
-    return x**0.5
+    return x ** 0.5
 
 
 print(sqrt(4))
@@ -217,17 +217,17 @@ sufficient_balance = Condition(
 class BankAccount:
     balance: Decimal
 
-    @requires(positive_amount, sufficient_balance)
-    def withdraw(self, amount: Decimal) -> str:
-        self.balance -= amount
-        return f"Withdrew {amount}, balance: {self.balance}"
-
     @requires(positive_amount)
     def deposit(self, amount: Decimal) -> str:
         self.balance += amount
         return (
             f"Deposited {amount}, balance: {self.balance}"
         )
+
+    @requires(positive_amount, sufficient_balance)
+    def withdraw(self, amount: Decimal) -> str:
+        self.balance -= amount
+        return f"Withdrew {amount}, balance: {self.balance}"
 
 
 account = BankAccount(Decimal(100))
@@ -287,10 +287,10 @@ class Amount:
             )
         object.__setattr__(self, "value", d_value)
 
-    def __add__(self, other: "Amount") -> Amount:
+    def __add__(self, other: Amount) -> Amount:
         return Amount(self.value + other.value)
 
-    def __sub__(self, other: "Amount") -> Amount:
+    def __sub__(self, other: Amount) -> Amount:
         return Amount(self.value - other.value)
 ```
 
@@ -393,10 +393,8 @@ For example, suppose we discover Python's implementation of `Decimal` is too slo
 We can modify `Amount` to use, for example, a Rust implementation of decimal numbers.
 We _only_ need to change the code for `Amount` because the rest of the code uses `Amount`.
 
-Any new code we write that uses our custom types transparently benefits from all the type validations built into those
-types.
-If we add more validations to `Amount` or `Balance`, they automatically propagate to each site where those types are
-used.
+Any new code we write that uses our custom types benefits from all the type validations built into those types.
+If we add more validations to `Amount` or `Balance`, they automatically propagate to each site where those types are used.
 
 ## A `PhoneNumber` Type
 
@@ -414,10 +412,8 @@ class PhoneNumber:
     """
     A validated and normalized phone number.
     """
-
     country_code: str
     number: str  # Digits only, no formatting
-
     phone_number_re = re.compile(
         r"^\+?(\d{1,3})?[\s\-.()]*([\d\s\-.()]+)$"
     )
@@ -452,8 +448,8 @@ class PhoneNumber:
         if not isinstance(other, PhoneNumber):
             return NotImplemented
         return (
-            self.country_code == other.country_code
-            and self.number == other.number
+                self.country_code == other.country_code
+                and self.number == other.number
         )
 ```
 
