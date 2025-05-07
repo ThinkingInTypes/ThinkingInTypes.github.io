@@ -179,7 +179,7 @@ positivity = Condition(
 
 @requires(positivity)
 def sqrt(x) -> float:
-    return x ** 0.5
+    return x**0.5
 
 
 print(sqrt(4))
@@ -244,8 +244,7 @@ with Catch():
 Here, the `Condition`s are applied to methods, so their `lambda`s both include `self`.
 In `withdraw` you see multiple `Condition`s applied within one `requires` decorator.
 
-If they validate their arguments, traditional Python functions tend to duplicate that validation code at the beginning
-of each function body.
+If they validate their arguments, traditional Python functions tend to duplicate that validation code at the beginning of each function body.
 Design by Contract is an improvement over this.
 The `@requires` clearly shows that the arguments are constrained, and `Condition`s reduce duplicated code.
 
@@ -277,13 +276,16 @@ from decimal import Decimal
 class Amount:
     value: Decimal
 
-    def __init__(self, value: int | float | str | Decimal):
+    @classmethod
+    def of(
+        cls, value: int | float | str | Decimal
+    ) -> Amount:
         d_value = Decimal(str(value))
         if d_value < Decimal("0"):
             raise ValueError(
                 f"Amount({d_value}) cannot be negative"
             )
-        object.__setattr__(self, "value", d_value)
+        return cls(d_value)
 
     def __add__(self, other: Amount) -> Amount:
         return Amount(self.value + other.value)
@@ -314,14 +316,14 @@ If you provide an incorrect `value` to `Amount`, the `Decimal` constructor throw
 from amount import Amount
 from book_utils import Catch
 
-print(Amount(123))
+print(Amount.of(123))
 ## Amount(value=Decimal('123'))
-print(Amount("123"))
+print(Amount.of("123"))
 ## Amount(value=Decimal('123'))
-print(Amount(1.23))
+print(Amount.of(1.23))
 ## Amount(value=Decimal('1.23'))
 with Catch():
-    Amount("not-a-number")
+    Amount.of("not-a-number")
 ## Error: [<class 'decimal.ConversionSyntax'>]
 ```
 
@@ -379,16 +381,15 @@ class BankAccount:
         )
 
 
-account = BankAccount(Balance(Amount(100)))
-print(account.deposit(Amount(50)))
-## Deposited 50, balance: 150
-print(account.withdraw(Amount(30)))
-## Withdrew 30, balance: 120
+account = BankAccount(Balance(Amount.of(100)))
+print(account.deposit(Amount.of(50)))
+## Deposited 50, Balance: 150
+print(account.withdraw(Amount.of(30)))
+## Withdrew 30, Balance: 120
 with Catch():
-    account.withdraw(Amount(200))
-## Error: Amount(-80) cannot be negative
+    account.withdraw(Amount.of(200))
 with Catch():
-    account.deposit(Amount(-10))
+    account.deposit(Amount.of(-10))
 ## Error: Amount(-10) cannot be negative
 ```
 
@@ -417,6 +418,7 @@ class PhoneNumber:
     """
     A validated and normalized phone number.
     """
+
     country_code: str
     number: str  # Digits only, no formatting
     phone_number_re = re.compile(
@@ -445,7 +447,7 @@ class PhoneNumber:
             area, prefix, line = (
                 self.number[:3],
                 self.number[3:6],
-                self.number[6:]
+                self.number[6:],
             )
             return f"({area}) {prefix}-{line}"
         return self.number  # Fallback: just digits
@@ -458,8 +460,8 @@ class PhoneNumber:
         if not isinstance(other, PhoneNumber):
             return NotImplemented
         return (
-                self.country_code == other.country_code
-                and self.number == other.number
+            self.country_code == other.country_code
+            and self.number == other.number
         )
 ```
 
