@@ -1016,8 +1016,6 @@ For instance:</p>
 </span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="k">with</span> <span class="n">Catch</span><span class="p">():</span>
 </span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>    <span class="c1"># Can&#39;t add a str to an int:</span>
 </span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>    <span class="n">result</span> <span class="o">=</span> <span class="n">x</span> <span class="o">+</span> <span class="s2">&quot;world&quot;</span>  <span class="c1"># type: ignore</span>
-</span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="c1">## Error: unsupported operand type(s) for +: &#39;int&#39;</span>
-</span><span id="__span-2-9"><a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="c1">## and &#39;str&#39;</span>
 </span></code></pre></div>
 <p>We attempted to "add" a string <code>"world"</code> to <code>x</code>, which is an integer.
 Python only discovers the problem while running the line: realizing it can't add an <code>int</code> and <code>str</code>, it throws a <code>TypeError</code> exception.
@@ -1151,8 +1149,6 @@ If somewhere else in the code we call <code>greet(123)</code>, a type-checking t
 </span><span id="__span-7-10"><a id="__codelineno-7-10" name="__codelineno-7-10" href="#__codelineno-7-10"></a><span class="c1">## 15</span>
 </span><span id="__span-7-11"><a id="__codelineno-7-11" name="__codelineno-7-11" href="#__codelineno-7-11"></a><span class="k">with</span> <span class="n">Catch</span><span class="p">():</span>
 </span><span id="__span-7-12"><a id="__codelineno-7-12" name="__codelineno-7-12" href="#__codelineno-7-12"></a>    <span class="n">add</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="s2">&quot;5&quot;</span><span class="p">)</span>  <span class="c1"># type: ignore</span>
-</span><span id="__span-7-13"><a id="__codelineno-7-13" name="__codelineno-7-13" href="#__codelineno-7-13"></a><span class="c1">## Error: unsupported operand type(s) for +: &#39;int&#39;</span>
-</span><span id="__span-7-14"><a id="__codelineno-7-14" name="__codelineno-7-14" href="#__codelineno-7-14"></a><span class="c1">## and &#39;str&#39;</span>
 </span></code></pre></div>
 <p>The second call <code>add(10, "5")</code> is a mistake: we intended both arguments to be <code>int</code>s.
 Running this code would produce a runtime error when trying to add an integer to a string (<code>TypeError: unsupported operand type(s) for +: 'int' and 'str'</code>).
@@ -1196,9 +1192,6 @@ Python 3.10 introduced the <code>|</code> operator for types, so instead of writ
 </span><span id="__span-9-19"><a id="__codelineno-9-19" name="__codelineno-9-19" href="#__codelineno-9-19"></a><span class="k">with</span> <span class="n">Catch</span><span class="p">():</span>
 </span><span id="__span-9-20"><a id="__codelineno-9-20" name="__codelineno-9-20" href="#__codelineno-9-20"></a>    <span class="c1"># Raises TypeError, static checker flags it:</span>
 </span><span id="__span-9-21"><a id="__codelineno-9-21" name="__codelineno-9-21" href="#__codelineno-9-21"></a>    <span class="n">is_file</span><span class="p">(</span><span class="mi">12345</span><span class="p">)</span>  <span class="c1"># type: ignore</span>
-</span><span id="__span-9-22"><a id="__codelineno-9-22" name="__codelineno-9-22" href="#__codelineno-9-22"></a><span class="c1">## Error: argument should be a str or an</span>
-</span><span id="__span-9-23"><a id="__codelineno-9-23" name="__codelineno-9-23" href="#__codelineno-9-23"></a><span class="c1">## os.PathLike object where __fspath__ returns a</span>
-</span><span id="__span-9-24"><a id="__codelineno-9-24" name="__codelineno-9-24" href="#__codelineno-9-24"></a><span class="c1">## str, not &#39;int&#39;</span>
 </span></code></pre></div>
 <p>The function <code>is_file</code> can accept either a file path as a normal string or a <code>Path</code> object (from the <code>pathlib</code> module)--thanks to the union type <code>str | Path</code>.
 Inside the function we convert whatever it is to a <code>Path</code> for uniform processing.
@@ -1358,8 +1351,6 @@ The good news is you don't need to lock yourself in--you can try them out and se
 </span><span id="__span-11-11"><a id="__codelineno-11-11" name="__codelineno-11-11" href="#__codelineno-11-11"></a><span class="k">with</span> <span class="n">Catch</span><span class="p">():</span>
 </span><span id="__span-11-12"><a id="__codelineno-11-12" name="__codelineno-11-12" href="#__codelineno-11-12"></a>    <span class="c1"># Second arg is not an int:</span>
 </span><span id="__span-11-13"><a id="__codelineno-11-13" name="__codelineno-11-13" href="#__codelineno-11-13"></a>    <span class="n">add</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="s2">&quot;5&quot;</span><span class="p">)</span>  <span class="c1"># type: ignore</span>
-</span><span id="__span-11-14"><a id="__codelineno-11-14" name="__codelineno-11-14" href="#__codelineno-11-14"></a><span class="c1">## Error: unsupported operand type(s) for +: &#39;int&#39;</span>
-</span><span id="__span-11-15"><a id="__codelineno-11-15" name="__codelineno-11-15" href="#__codelineno-11-15"></a><span class="c1">## and &#39;str&#39;</span>
 </span></code></pre></div>
 <p>If we run mypy on this file, we might get an output like:</p>
 <div class="language-text highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>error: Argument 2 to &quot;add&quot; has incompatible type &quot;str&quot;; expected &quot;int&quot;

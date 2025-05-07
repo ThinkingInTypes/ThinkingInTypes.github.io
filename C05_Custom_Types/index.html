@@ -1575,8 +1575,6 @@ Python typically uses a private attribute (indicated with a single leading under
 </span><span id="__span-1-57"><a id="__codelineno-1-57" name="__codelineno-1-57" href="#__codelineno-1-57"></a><span class="c1"># @property without setter prevents mutation:</span>
 </span><span id="__span-1-58"><a id="__codelineno-1-58" name="__codelineno-1-58" href="#__codelineno-1-58"></a><span class="k">with</span> <span class="n">Catch</span><span class="p">():</span>
 </span><span id="__span-1-59"><a id="__codelineno-1-59" name="__codelineno-1-59" href="#__codelineno-1-59"></a>    <span class="n">stars1</span><span class="o">.</span><span class="n">number</span> <span class="o">=</span> <span class="mi">99</span>  <span class="c1"># type: ignore</span>
-</span><span id="__span-1-60"><a id="__codelineno-1-60" name="__codelineno-1-60" href="#__codelineno-1-60"></a><span class="c1">## Error: property &#39;number&#39; of &#39;Stars&#39; object has</span>
-</span><span id="__span-1-61"><a id="__codelineno-1-61" name="__codelineno-1-61" href="#__codelineno-1-61"></a><span class="c1">## no setter</span>
 </span></code></pre></div>
 <p>This approach centralizes validation yet remains cumbersome.
 Each method interacting with the attribute still requires pre-and post-condition checks,
@@ -1961,8 +1959,6 @@ They are not considered regular fields of the dataclass and are not included in 
 </span><span id="__span-11-23"><a id="__codelineno-11-23" name="__codelineno-11-23" href="#__codelineno-11-23"></a><span class="c1"># &quot;condition&quot; doesn&#39;t exist outside __init__ or __post_init__:</span>
 </span><span id="__span-11-24"><a id="__codelineno-11-24" name="__codelineno-11-24" href="#__codelineno-11-24"></a><span class="k">with</span> <span class="n">Catch</span><span class="p">():</span>
 </span><span id="__span-11-25"><a id="__codelineno-11-25" name="__codelineno-11-25" href="#__codelineno-11-25"></a>    <span class="nb">print</span><span class="p">(</span><span class="n">b</span><span class="o">.</span><span class="n">condition</span><span class="p">)</span>  <span class="c1"># noqa</span>
-</span><span id="__span-11-26"><a id="__codelineno-11-26" name="__codelineno-11-26" href="#__codelineno-11-26"></a><span class="c1">## Error: &#39;Book&#39; object has no attribute</span>
-</span><span id="__span-11-27"><a id="__codelineno-11-27" name="__codelineno-11-27" href="#__codelineno-11-27"></a><span class="c1">## &#39;condition&#39;</span>
 </span></code></pre></div>
 <p>In this example, <code>condition</code> is an <code>InitVar</code>.
 It is used to conditionally set the <code>shelf_id</code> in <code>__post_init__</code> but is not stored as an attribute of the <code>Book</code>
@@ -2969,7 +2965,6 @@ Once you adopt this approach, you'll find your development process smoother, mor
 </span><span id="__span-29-12"><a id="__codelineno-29-12" name="__codelineno-29-12" href="#__codelineno-29-12"></a><span class="n">order</span> <span class="o">=</span> <span class="n">Order</span><span class="p">(</span><span class="n">order_id</span><span class="o">=</span><span class="mi">123</span><span class="p">)</span>
 </span><span id="__span-29-13"><a id="__codelineno-29-13" name="__codelineno-29-13" href="#__codelineno-29-13"></a><span class="k">with</span> <span class="n">Catch</span><span class="p">():</span>
 </span><span id="__span-29-14"><a id="__codelineno-29-14" name="__codelineno-29-14" href="#__codelineno-29-14"></a>    <span class="n">order</span><span class="o">.</span><span class="n">order_id</span> <span class="o">=</span> <span class="mi">456</span>  <span class="c1"># type: ignore</span>
-</span><span id="__span-29-15"><a id="__codelineno-29-15" name="__codelineno-29-15" href="#__codelineno-29-15"></a><span class="c1">## Error: cannot assign to field &#39;order_id&#39;</span>
 </span></code></pre></div>
 
 
