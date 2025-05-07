@@ -162,7 +162,7 @@ The inner function `decorator` is the actual decorator; it wraps the target func
 `wrapper` is the new function that will replace `func`.
 `@wraps(func)` preserves metadata like the function name and docstring.
 
-To use it, create one or more `Condition` objects and decorate functions with them using `requires`:
+To use it, create one or more `Condition` objects, then use those to decorate functions with `requires`:
 
 ```python
 # basic_requires.py
@@ -251,15 +251,18 @@ Design by Contract helps, but it has limitations:
    or choose to perform argument checks by hand if Design by Contract doesn't make sense to them.
 2. Validations are spread throughout your system.
    Using `Condition` reduces logic duplication, but making changes still risks missing updates on functions.
+3. It can be tricky; note the use of `self` in `positive_amount` and `sufficient_balance` so those can be applied to methods.
+   This might require new understanding for the user of `requires`.
 
 ## Centralizing Validation into Custom Types
 
-Instead of Design by Contract, we can encode validations into custom types.
+A more straightforward approach than DbC is to encode validations into custom types.
 This way, incorrect objects of those types cannot successfully be created.
+Custom types tend to be easier to understand and use than precondition checks.
+If a type constraint changes, that change immediately propagates to all usages of that type.
 In addition, the types are usually _domain driven_, that is, they represent a concept from the problem domain.
 
-For the bank example, we start by creating an `Amount`, which is a `Decimal` value with the fundamental property that it
-cannot be negative.
+For the bank example, we start by creating an `Amount`, which is a `Decimal` value with the fundamental property that it cannot be negative.
 If an `Amount` object exists, you know it cannot contain a negative value:
 
 ```python
@@ -302,7 +305,7 @@ You'll more commonly call `object.__setattr__` in `__post_init__`, but if you fi
 reconsider whether your type is really frozen.
 Requiring `object.__setattr__` to modify a frozen `dataclass` means you have a way to search for modifications.
 
-Note that `__add__` and `__sub__` return new `Amount` objects without checking whether they are non-negative
+Note that `__add__` and `__sub__` return new `Amount` objects without checking whether they are non-negative.
 The `Amount` initialization takes care of that.
 
 If you provide an incorrect `value` to `Amount`, the `Decimal` constructor throws an exception:
@@ -346,8 +349,8 @@ class Balance:
 Note that `Balance` produces new immutable objects when you `deposit` and `withdraw`.
 Because it uses `Amount`, it needs no special validation checks.
 
-In the new, improved `BankAccount`, the need for validation disappears because it is automatically enforced by the
-types:
+In the new, improved `BankAccount`,
+the need for validation disappears because it is automatically enforced by the types:
 
 ```python
 # typed_bank_account.py
@@ -496,11 +499,11 @@ for example, by converting the `PhoneNumber` type into a Rust module.
 ## The Programmable Meter
 
 I recently visited my friend Matt, who is a physics professor (we were undergraduate physics students together).
-He has a stellar reputation as a teacher, and I realized I had never watched him teach, so I decided to see him in
-action.
+He has a stellar reputation as a teacher, and I realized I had never watched him teach,
+so I decided to see him in action.
 This was an electronics lab, and the students were using programmable measurement tools.
 The interface language these tools used was Python.
-To send commands to the programmable meter, the meter developers had used the stringly-typed route
+To send commands to the programmable meter, the meter developers had used the "stringly-typed" route
 (The docs had a reference to Turbo C, so the meter was created long before Python's annotated types).
 The students ended up puzzling over getting the format of the strings correct rather than doing the lab.
 
