@@ -95,17 +95,14 @@ If there's a bug or any change in the way phone numbers are validated, all valid
 and any tests must also be updated.
 
 Does anyone set out to write code like this?
-Probably not--it starts out seeming like "the simplest thing" and just continues to accumulate, one logical step at a
-time.
-Although _you_ might not write code like this, systems like this exist for phone numbers and for many other data items
-represented as strings.
+Probably not--it starts out seeming like "the simplest thing" and just continues to accumulate, one logical step at a time.
+Although _you_ might not write code like this, systems like this exist for phone numbers and for many other data items represented as strings.
 
 ## Design by Contract
 
-The argument-validation problem was observed by Bertrand Meyer and introduced as a core concept in his Eiffel
-programming language, described in the book _Object-Oriented Software Construction_ (1988).
-_Design By Contract_ (DbC) tried to reduce errors by treating the interaction between software components as a formal
-agreement:
+The argument-validation problem was observed by Bertrand Meyer and introduced as a core concept in his Eiffel programming language,
+described in the book _Object-Oriented Software Construction_ (1988).
+_Design By Contract_ (DbC) tried to reduce errors by treating the interaction between software components as a formal agreement:
 
 - **_Preconditions_**:
   What must be true before a function/method runs.
@@ -114,7 +111,7 @@ agreement:
 - **_Invariants_**:
   What must always be true about the object state.
 
-Eiffel provided explicit keywords to make DbC a first-class citizen in the language:
+Eiffel provided explicit keywords to make Design by Contract a first-class citizen in the language:
 
 | Keyword     | Purpose                                    |
 |-------------|--------------------------------------------|
@@ -123,18 +120,20 @@ Eiffel provided explicit keywords to make DbC a first-class citizen in the langu
 | `invariant` | Class-wide conditions                      |
 | `old`       | Refers to previous state in postconditions |
 
-The intent was that each function used these to ensure the correctness of the inputs and outputs of that function, and
-the state of the object.
+The intent was that each function used these to ensure the correctness of the inputs and outputs of that function,
+and the state of the object.
 In particular, `require` typically checks the argument values for correctness.
 For preconditions in Python, we can create a `requires` decorator to check argument values:
 
 ```python
 # require.py
-from typing import Callable, NamedTuple
+from dataclasses import dataclass
+from typing import Callable
 from functools import wraps
 
 
-class Condition(NamedTuple):
+@dataclass(frozen=True)
+class Condition:
     check: Callable[..., bool]
     message: str
 
@@ -159,9 +158,7 @@ A `Condition` combines each `check` with a description of the failure condition.
 
 `requires` is a _decorator factory_; it returns a decorator that can be applied to any function.
 It accepts any number of `Condition` instances.
-
-This inner function `decorator` is the actual decorator; it wraps the target function `func`.
-
+The inner function `decorator` is the actual decorator; it wraps the target function `func`.
 `wrapper` is the new function that will replace `func`.
 `@wraps(func)` preserves metadata like the function name and docstring.
 
@@ -179,7 +176,7 @@ positivity = Condition(
 
 @requires(positivity)
 def sqrt(x) -> float:
-    return x**0.5
+    return x ** 0.5
 
 
 print(sqrt(4))
@@ -189,7 +186,7 @@ with Catch():
 ## Error: x must be positive
 ```
 
-`requires` produces an improved design-by-contract tool for validating function arguments.
+`requires` produces an improved Design by Contract tool for validating function arguments.
 Consider managing a bank account:
 
 ```python
@@ -248,16 +245,16 @@ If they validate their arguments, traditional Python functions tend to duplicate
 Design by Contract is an improvement over this.
 The `@requires` clearly shows that the arguments are constrained, and `Condition`s reduce duplicated code.
 
-DbC helps, but it has limitations:
+Design by Contract helps, but it has limitations:
 
-1. A programmer can forget to use `requires`, or choose to perform argument checks by hand if DbC doesn't make sense to
-   them.
+1. A programmer can forget to use `requires`,
+   or choose to perform argument checks by hand if Design by Contract doesn't make sense to them.
 2. Validations are spread throughout your system.
    Using `Condition` reduces logic duplication, but making changes still risks missing updates on functions.
 
 ## Centralizing Validation into Custom Types
 
-Instead of DbC, we can encode validations into custom types.
+Instead of Design by Contract, we can encode validations into custom types.
 This way, incorrect objects of those types cannot successfully be created.
 In addition, the types are usually _domain driven_, that is, they represent a concept from the problem domain.
 
@@ -268,8 +265,10 @@ If an `Amount` object exists, you know it cannot contain a negative value:
 ```python
 # amount.py
 from __future__ import annotations
+
 from dataclasses import dataclass
 from decimal import Decimal
+from typing import Self
 
 
 @dataclass(frozen=True)
@@ -277,15 +276,12 @@ class Amount:
     value: Decimal
 
     @classmethod
-    def of(
-        cls, value: int | float | str | Decimal
-    ) -> Amount:
-        d_value = Decimal(str(value))
-        if d_value < Decimal("0"):
-            raise ValueError(
-                f"Amount({d_value}) cannot be negative"
-            )
-        return cls(d_value)
+    def of(cls, value: int | float | str) -> Self:
+        return cls(Decimal(str(value)))
+
+    def __post_init__(self) -> None:  # Runtime check
+        if self.value < Decimal("0"):
+            raise ValueError(f"Negative Amount({self.value})")
 
     def __add__(self, other: Amount) -> Amount:
         return Amount(self.value + other.value)
@@ -312,32 +308,32 @@ The `Amount` initialization takes care of that.
 If you provide an incorrect `value` to `Amount`, the `Decimal` constructor throws an exception:
 
 ```python
-# bad_amount.py
+# demo_amount.py
+from decimal import Decimal
+
 from amount import Amount
 from book_utils import Catch
 
-print(Amount.of(123))
-## Amount(value=Decimal('123'))
-print(Amount.of("123"))
-## Amount(value=Decimal('123'))
-print(Amount.of(1.23))
-## Amount(value=Decimal('1.23'))
+print(Amount.of(123))  # int
+print(Amount.of("123"))  # str
+print(Amount.of(1.23))  # float
+print(Amount(Decimal("12.34")))
 with Catch():
     Amount.of("not-a-number")
 ## Error: [<class 'decimal.ConversionSyntax'>]
 ```
 
-Now we define a bank-account `Balance` that contains an `Amount`, but doesn't need special construction behavior.
-Thus, we can produce an immutable using `NamedTuple`:
+Now we define a bank-account `Balance` that contains an `Amount`, but doesn't need special construction behavior:
 
 ```python
 # balance.py
 from __future__ import annotations
-from typing import NamedTuple
+from dataclasses import dataclass
 from amount import Amount
 
 
-class Balance(NamedTuple):
+@dataclass(frozen=True)
+class Balance:
     amount: Amount
 
     def deposit(self, amount: Amount) -> Balance:
@@ -408,31 +404,31 @@ Let's apply this approach to the stringly-typed phone number problem shown at th
 
 ```python
 # phone_number.py
+# Validated and normalized phone number
 from dataclasses import dataclass
 from typing import Self
 import re
 
+_PHONE_RE = re.compile(r"^\+?(\d{1,3})?[\s\-.()]*([\d\s\-.()]+)$")
+
 
 @dataclass(frozen=True)
 class PhoneNumber:
-    """
-    A validated and normalized phone number.
-    """
-
     country_code: str
     number: str  # Digits only, no formatting
-    phone_number_re = re.compile(
-        r"^\+?(\d{1,3})?[\s\-.()]*([\d\s\-.()]+)$"
-    )
+
+    def __new__(cls, *args, **kwargs):
+        # Deny subclassing and direct instantiation
+        if cls is not PhoneNumber:
+            raise TypeError("Subclassing PhoneNumber is not allowed")
+        return super().__new__(cls)
 
     @classmethod
-    def parse(cls, raw: str) -> Self:
+    def of(cls, raw: str) -> Self:
         cleaned = raw.strip()
-        match = cls.phone_number_re.match(cleaned)
+        match = _PHONE_RE.match(cleaned)
         if not match:
-            raise ValueError(
-                f"Invalid phone number: {raw!r}"
-            )
+            raise ValueError(f"Invalid phone number: {raw!r}")
 
         cc, num = match.groups()
         digits = re.sub(r"\D", "", num)
@@ -460,8 +456,8 @@ class PhoneNumber:
         if not isinstance(other, PhoneNumber):
             return NotImplemented
         return (
-            self.country_code == other.country_code
-            and self.number == other.number
+                self.country_code == other.country_code
+                and self.number == other.number
         )
 ```
 
