@@ -325,6 +325,7 @@ import override_not_found
 ## Don't know 'weather'; remembering it.
 ## Don't know 'joke'; remembering it.
 import learn_joke
+
 ## Why did the duck cross the road?
 ## It was the chicken's day off.
 
@@ -335,3 +336,11 @@ print(bot.history)
 ```
 
 Just like a Smalltalk browser, we inspect our object's current interface and state.
+
+## Why Smalltalk OOP Didn't Become Statically Compiled OOP
+
+### A Proof-of-Concept is not a Product
+
+### The Dynamism of Smalltalk Can't be Tied Down
+
+Arguably the only success story, Ruby, is a kind of Smalltalk. 
