@@ -176,7 +176,7 @@ positivity = Condition(
 
 @requires(positivity)
 def sqrt(x) -> float:
-    return x ** 0.5
+    return x**0.5
 
 
 print(sqrt(4))
@@ -284,7 +284,9 @@ class Amount:
 
     def __post_init__(self) -> None:  # Runtime check
         if self.value < Decimal("0"):
-            raise ValueError(f"Negative Amount({self.value})")
+            raise ValueError(
+                f"Negative Amount({self.value})"
+            )
 
     def __add__(self, other: Amount) -> Amount:
         return Amount(self.value + other.value)
@@ -318,9 +320,13 @@ from amount import Amount
 from book_utils import Catch
 
 print(Amount.of(123))  # int
+## Amount(value=Decimal('123'))
 print(Amount.of("123"))  # str
+## Amount(value=Decimal('123'))
 print(Amount.of(1.23))  # float
+## Amount(value=Decimal('1.23'))
 print(Amount(Decimal("12.34")))
+## Amount(value=Decimal('12.34'))
 with Catch():
     Amount.of("not-a-number")
 ## Error: [<class 'decimal.ConversionSyntax'>]
@@ -387,9 +393,10 @@ print(account.withdraw(Amount.of(30)))
 ## Withdrew 30, Balance: 120
 with Catch():
     account.withdraw(Amount.of(200))
+## Error: Negative Amount(-80)
 with Catch():
     account.deposit(Amount.of(-10))
-## Error: Amount(-10) cannot be negative
+## Error: Negative Amount(-10)
 ```
 
 This code is significantly more straightforward to understand and change.
@@ -412,7 +419,9 @@ from dataclasses import dataclass
 from typing import Self
 import re
 
-_PHONE_RE = re.compile(r"^\+?(\d{1,3})?[\s\-.()]*([\d\s\-.()]+)$")
+_PHONE_RE = re.compile(
+    r"^\+?(\d{1,3})?[\s\-.()]*([\d\s\-.()]+)$"
+)
 
 
 @dataclass(frozen=True)
@@ -423,7 +432,9 @@ class PhoneNumber:
     def __new__(cls, *args, **kwargs):
         # Deny subclassing and direct instantiation
         if cls is not PhoneNumber:
-            raise TypeError("Subclassing PhoneNumber is not allowed")
+            raise TypeError(
+                "Subclassing PhoneNumber is not allowed"
+            )
         return super().__new__(cls)
 
     @classmethod
@@ -431,7 +442,9 @@ class PhoneNumber:
         cleaned = raw.strip()
         match = _PHONE_RE.match(cleaned)
         if not match:
-            raise ValueError(f"Invalid phone number: {raw!r}")
+            raise ValueError(
+                f"Invalid phone number: {raw!r}"
+            )
 
         cc, num = match.groups()
         digits = re.sub(r"\D", "", num)
@@ -459,8 +472,8 @@ class PhoneNumber:
         if not isinstance(other, PhoneNumber):
             return NotImplemented
         return (
-                self.country_code == other.country_code
-                and self.number == other.number
+            self.country_code == other.country_code
+            and self.number == other.number
         )
 ```
 

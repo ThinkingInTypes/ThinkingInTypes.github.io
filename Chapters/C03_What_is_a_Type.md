@@ -91,8 +91,6 @@ x = 10
 with Catch():
     # Can't add a str to an int:
     result = x + "world"  # type: ignore
-## Error: unsupported operand type(s) for +: 'int'
-## and 'str'
 ```
 
 We attempted to "add" a string `"world"` to `x`, which is an integer.
@@ -253,8 +251,6 @@ print(add(10, 5))
 ## 15
 with Catch():
     add(10, "5")  # type: ignore
-## Error: unsupported operand type(s) for +: 'int'
-## and 'str'
 ```
 
 The second call `add(10, "5")` is a mistake: we intended both arguments to be `int`s.
@@ -306,9 +302,6 @@ print(is_file(Path("nonexistent.txt")))
 with Catch():
     # Raises TypeError, static checker flags it:
     is_file(12345)  # type: ignore
-## Error: argument should be a str or an
-## os.PathLike object where __fspath__ returns a
-## str, not 'int'
 ```
 
 The function `is_file` can accept either a file path as a normal string or a `Path` object (from the `pathlib` module)--thanks to the union type `str | Path`.
@@ -467,8 +460,6 @@ print(add(10, 5))
 with Catch():
     # Second arg is not an int:
     add(10, "5")  # type: ignore
-## Error: unsupported operand type(s) for +: 'int'
-## and 'str'
 ```
 
 If we run mypy on this file, we might get an output like:

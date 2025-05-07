@@ -124,8 +124,6 @@ with Catch():
 # @property without setter prevents mutation:
 with Catch():
     stars1.number = 99  # type: ignore
-## Error: property 'number' of 'Stars' object has
-## no setter
 ```
 
 This approach centralizes validation yet remains cumbersome.
@@ -561,8 +559,6 @@ print(b := Book("Emma", "Jane Austen", "Good", 11))
 # "condition" doesn't exist outside __init__ or __post_init__:
 with Catch():
     print(b.condition)  # noqa
-## Error: 'Book' object has no attribute
-## 'condition'
 ```
 
 In this example, `condition` is an `InitVar`.
@@ -1647,5 +1643,4 @@ class Order:
 order = Order(order_id=123)
 with Catch():
     order.order_id = 456  # type: ignore
-## Error: cannot assign to field 'order_id'
 ```
