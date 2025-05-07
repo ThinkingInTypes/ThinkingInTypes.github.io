@@ -17,8 +17,7 @@ This approach:
 
 ## "Stringly Typed"
 
-Years ago I came across some research looking at the way generic components like `List`, `Set` and `Map` were used in
-Java.
+Years ago I came across some research looking at the way generic components like `List`, `Set` and `Map` were used in Java.
 Only a tiny percentage of the code reviewed used anything _except_ strings as type parameters.
 This study suggested that the vast majority of systems were using strings as their primary data type.
 
@@ -29,12 +28,11 @@ When a function receives a string meant to represent a type, that function can a
 Every such function must start from scratch and analyze that string to see if it conforms to what that function needs.
 
 Changing the meaning of a stringly-typed item is a daunting job.
-You must look through every function that uses it and ensure that your change is reflected in the validations in every
-single function.
+You must hunt through your code base and ensure that your change is reflected in the validations in every single function.
 Because the logic is distributed, it's highly likely you will miss some.
 
 Consider representing phone numbers as strings.
-Here are just a few of the different formats you might encounter:
+Here are some formats you might encounter:
 
 ```python
 # string_phone_numbers.py
@@ -398,7 +396,7 @@ This code is significantly more straightforward to understand and change.
 If we need to modify the underlying representation of `Amount` we only do it in one place.
 For example, suppose we discover Python's implementation of `Decimal` is too slow.
 We can modify `Amount` to use, for example, a Rust implementation of decimal numbers.
-We _only_ need to change the code for `Amount` because the rest of the code uses `Amount`.
+We _only_ need to change the code for `Amount`; all code that uses `Amount` automatically adopts the new behavior.
 
 Any new code we write that uses our custom types benefits from all the type validations built into those types.
 If we add more validations to `Amount` or `Balance`, they automatically propagate to each site where those types are used.
@@ -510,4 +508,4 @@ The students ended up puzzling over getting the format of the strings correct ra
 
 ## How Cyclopts uses Types
 
-Create a simplified example from C:\git\pybooktools\src\pybooktools\util\python_example_validator.py
+Create a simplified example from [python_example_validator.py](https://github.com/BruceEckel/pybooktools/blob/main/src/pybooktools/util/python_example_validator.py).

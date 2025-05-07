@@ -2,12 +2,12 @@
 
 In Smalltalk, an object's identity and capabilities are not described by an explicit static type annotation.
 Instead, an object is defined by the messages it can respond to.
-In other words, an object's protocol--the collection of message selectors (methods) it understands--is effectively its "type".
+In other words, an object's protocol--the collection of message selectors (methods) it understands--is effectively its "type."
 You determine what an object can do by the messages you send it and how it responds, not by checking a formal static type label.
 
 This message-centric view is fundamental to the Smalltalk experience.
 All computation in Smalltalk is performed by sending messages to objects.
-There are no free functions or primitive operations outside of this model--every operation is a message send to some object.
+There are no free functions or primitive operations outside of this model--every operation is a message sent to some object.
 The result of a message depends entirely on the receiver object: the same message selector might do something completely different on another object because each class provides its own method for that message.
 This means the object itself decides how to fulfill a request,
 reinforcing the idea that what matters is the object's behavior (its responses to messages), not an external static description.
@@ -16,7 +16,7 @@ reinforcing the idea that what matters is the object's behavior (its responses t
 
 Because there are no declared types on variables or method arguments in Smalltalk, the concept of "type" becomes an emergent property of an object's behavior.
 A Smalltalk object's type can be thought of as "the set of messages to which an object can meaningfully respond."
-In modern parlance this is essentially duck typing--"if it walks like a duck and quacks like a duck, it's a duck."
+In modern parlance, this is essentially duck typing--"if it walks like a duck and quacks like a duck, it's a duck."
 Smalltalkers don't ask "Is this object of type Duck?"--there is no formal type check or interface to query.
 Instead, they ask *"Can this object respond to the messages we associate with a duck (like `quack`or `swim`)?".
 If yes, then for all intents and purposes, it can play the role of a duck in the program.
@@ -47,7 +47,7 @@ In fact, Smalltalk was the first language to introduce this kind of open-ended m
 Using `doesNotUnderstand:`, programmers have implemented features like remote method invocation proxies,
 lazy-loaded objects, futures, and other patterns that require catching arbitrary messages at runtime.
 The existence of `doesNotUnderstand:` underscores that an object's "type" (its message-handling ability) isn't necessarily fixed by its class--it can be extended or altered at runtime in a very dynamic fashion.
-Thanks to this mechanism, an object can respond to a message that wasn't even considered when it was written.
+Thanks to this mechanism, an object can respond to a message without considering when it was written.
 From a philosophical view, this pushes the "duck typing" idea to the extreme: an object can choose to attempt anything asked of it,
 defining its behavior on the fly.
 
@@ -63,7 +63,7 @@ If it isn't, that's effectively a type mismatch, caught by the runtime (often du
 ## Classes as Behavioral Templates, Not Compile-Time Constraints
 
 Smalltalk is a class-based OO language, and every object is an instance of some class.
-However, a class in Smalltalk is not the same as a "type" in the static sense; it's more like a template that defines behavior and structure.
+However, a class in Smalltalk is not a "type" in the static sense; it's more like a template that defines behavior and structure.
 A class specifies which messages its instances will understand (by providing method implementations for those messages), and it defines the internal state structure.
 Two different classes could end up implementing the same protocol (thus effectively the same behavioral
 type), but they would still be distinct classes (perhaps with different internal representations).
@@ -81,17 +81,18 @@ In day-to-day practice, a Smalltalk developer
 does often think in terms of an object's class when reasoning about what messages it can handle--the class system is the primary organizational tool for behavior.
 But this is a convention and convenience, not an enforcement mechanism.
 You could always substitute an object of a completely different class in a piece of code, as long as it implements the needed messages.
-The Smalltalk environment even allows adding methods to classes at runtime, or creating entirely new classes on the fly, which means the system's notion of who can respond to what is always
+The Smalltalk environment even allows adding methods to classes at runtime or creating entirely new classes on the fly, which means the system's notion of who can respond to what is always
 malleable.
 Classes thus shape an object's behavior, but they do not constitute a static contract imposed on the rest of the program.
 
 It's illuminating to compare this with how statically typed languages use classes.
 In a language like Java or C++, a class (or an interface) is treated as a type contract.
-Programmers in those languages think of types as a form of guarantee or enforcement
-: if a variable is declared of interface type `Drawable`, the compiler guarantees it can only ever hold objects that implement the `draw()` method (and will refuse to compile code that tries to call a non-existent method or assign an incompatible type).
+Programmers in those languages think of types as a form of guarantee or enforcement:
+if a variable is declared of interface type `Drawable`,
+the compiler guarantees it can only ever hold objects that implement the `draw()` method
+(and will refuse to compile code that tries to call a non-existent method or assign an incompatible type).
 Types in statically typed languages act
-like promises enforced by the compiler
---they delineate what you can and cannot do at compile time.
+like promises enforced by the compiler--they delineate what you can and cannot do at compile time.
 They also function as explicit documentation: you read a function signature and see exactly what types it accepts/returns, shaping your expectations.
 Many developers in static systems conceptualize a type as a contractual
 specification of an object's interface (sometimes even enriched with static checks for invariants, generics, etc., as the "shape" of data).
@@ -101,7 +102,7 @@ It's more a description for the programmer and a container of methods.
 The "contract" in Smalltalk is informal and psychological: you are expected to pass objects that will do the right thing.
 If you violate that expectation, the system will tell you at runtime.
 Thus, the mental model shifts from "I have a guarantee this object supports X, Y, Z operations" to
-"I believe (or have tested) that this object supports X, Y,Z--and if I'm wrong, I'll find out when I run the code."
+"I believe (or have tested) that this object supports X, Y, Z--and if I'm wrong, I'll find out when I run the code."
 The class of the object is a strong hint (since class defines the methods), but it's not an enforced boundary.
 Indeed, a seasoned Smalltalker might say an object's true "type" is simply the set of messages it knows how to
 handle, regardless of its class name.
@@ -141,13 +142,13 @@ of state-process, and extreme late-binding of all things."
 (Late-binding here refers to deciding at run-time what method to invoke for a given message--precisely what dynamic typing entails.) This mindset puts the focus on behavior rather than classification.
 If you ask a Smalltalker "what type is this object?" they are likely to answer in terms of its class or its responsibilities (e.g.
 "this is a kind of stream object--it can next/nextPut: etc.").
-They wouldn't typically enumerate a static type name with a fixed interface contract, because that's not how the language frames the discussion.
+They wouldn't typically enumerate a static type name with a fixed interface contract because that's not how the language frames the discussion.
 
 All you can do with any object is send it a message and observe the result; therefore, conceptually, "type" is just a description of those results you can expect.
 
-## Contrast with Static Typing Mindset
+## Contrast with the Static Typing Mindset
 
-To crystallize the differences, it helps to compare the Smalltalk approach with how statically-typed language programmers think about types:
+To crystallize the differences, it helps to compare the Smalltalk approach with how statically typed language programmers think about types:
 
 Types as Explicit Contracts (Static Languages): In a static language (Java, C#, Haskell, etc.), a type is an explicit contract or
 blueprint for both the compiler and the programmer.
@@ -176,9 +177,8 @@ But you also can't pass a `Matrix` to `foo` unless `Matrix` is declared to be a 
   "if it quacks like a duck, it's a duck."
   The trade-off is that mistakes show up at runtime, so thorough testing and a good suite of examples are essential to gain confidence in the code's correctness.
 
-Classes vs.
-Types: Smalltalk's classes fill some of the same roles as static types (grouping objects with similar behavior, giving a name to a set of methods), but they are not used as a compile-time gatekeeper
-.
+Classes vs. Types: Smalltalk's classes fill some of the same roles as static types (grouping objects with similar behavior,
+giving a name to a set of methods), but they are not used as a compile-time gatekeeper.
 They are more for the programmer's organization and the runtime method lookup.
 In statically typed languages, you often have distinct concepts of "class vs interface vs type parameter," etc., which are all part of the type system.
 Smalltalk collapses much of that--a class is essentially a concrete implementation and
@@ -188,34 +188,33 @@ But they are also free to pass in any other object that honors the same messages
 `OrderedCollection` subclass) to code that was written with `OrderedCollection` in mind.
 The flexibility is higher, though the guarantee is only verified when the code actually runs.
 
-In summary, programmers in statically-typed languages often view types as static contracts or enforcement mechanisms, whereas Smalltalk programmers view types more as emergent properties of objects
-.
+In summary, programmers in statically typed languages often view types as static contracts or enforcement mechanisms, whereas Smalltalk programmers view types more as emergent properties of objects.
 The Smalltalker's mindset is shaped by a live, message-oriented world where you gain understanding by sending messages and watching objects behave.
-It's a very
-experience-driven understanding of type: an object "proves" its type by working correctly in response to your messages, not by satisfying a compiler check ahead of time.
-This can be incredibly liberating--it encourages focusing on what needs to happen in the problem domain, letting different kinds of objects participate as long as they behave appropriately.
-As the Smalltalk ethos would suggest,
-"Look at what the object does, not what it says it is."
+It's a very experience-driven understanding of type: an object "proves" its type by working correctly in response to your messages,
+not by satisfying a compiler check ahead of time.
+This can be incredibly liberating--it encourages focusing on what needs to happen in the problem domain,
+letting different kinds of objects participate as long as they behave appropriately.
+As the Smalltalk ethos would suggest, "Look at what the object does, not what it says it is."
 
 ## Conclusion: The Philosophical Takeaway
 
 From a practical and philosophical perspective, "type" in Smalltalk is less a label and more a dynamic quality of an object's behavior.
 It's defined by the messages an object understands and how it responds, which is ultimately determined by its class's methods (and any clever
 `doesNotUnderstand:` tricks).
-An object can certainly be said to "have a type" in Smalltalk--but that type isn't a static tag; it's the set of messages it can handle, i.e.
-its
-protocol.
-Smalltalk's class system provides the structure for those protocols (acting as a template for behavior), but it doesn't impose the sort of strict borders that static type systems do.
+An object can certainly be said to "have a type" in Smalltalk--but that type isn't a static tag; it's the set of messages it can handle,
+i.e., its protocol.
+Smalltalk's class system provides the structure for those protocols (acting as a template for behavior),
+but it doesn't impose the sort of strict borders that static type systems do.
 Instead of types as fences that keep misuse at bay, Smalltalk offers open pastures
 where objects roam freely as long as they know how to handle the interactions (messages) that come their way.
 
 The lived Smalltalk experience is one of constant discovery and feedback: you send a message and see what happens.
-This leads to a very concrete understanding of an object's capabilities--you gain knowledge of its "type" by observing it in
-action.
+This leads to a very concrete understanding of an object's capabilities--you gain knowledge of its "type" by observing it in action.
 Philosophically, this shifts the notion of type from an abstract compile-time idea to a tangible runtime reality.
 Rather than trust a compiler's assurances, you come to trust the objects themselves (and your tests of them).
-Smalltalk's message-driven worldview teaches that an object
-is exactly what it does.
+Smalltalk's message-driven worldview teaches that an object is exactly what it does.
 By emphasizing messaging and late binding, it reminds us that software is ultimately about dynamic interactions.
 In statically typed systems, type is often treated as essence; in Smalltalk, type is experience.
-The result is a programming model that is highly flexible, deeply object-oriented, and rooted in the immediate reality of message sends--a model where the concept of "type" lives not in declarations, but in the rich interplay between objects at runtime.
+The result is a programming model that is highly flexible, deeply object-oriented,
+and rooted in the immediate reality of message sends--a model where the concept of "type" lives not in declarations,
+but in the rich interplay between objects at runtime.
