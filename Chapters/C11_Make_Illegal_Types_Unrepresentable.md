@@ -1,8 +1,8 @@
 # Make Illegal Types Unrepresentable
 
-A common strategy for preventing problems is to check values after arguments are passed to functions.
+A common strategy for preventing problems is to validate function arguments.
 This spreads validation code across functions, producing maintenance problems.
-This chapter moves validation into custom types that make invalid data impossible.
+This chapter moves validation into custom types that make invalid arguments impossible.
 In addition, data is checked when you create an instance, rather than when data is passed to a function.
 This approach:
 
@@ -54,7 +54,7 @@ phone_numbers: list[str] = [
 ]
 ```
 
-Any function that takes a phone number represented as a string must first validate that number.
+Any function that takes a phone number as a string must first validate that argument.
 Here's a common but awkward approach:
 
 ```python
@@ -176,7 +176,7 @@ positivity = Condition(
 
 @requires(positivity)
 def sqrt(x) -> float:
-    return x**0.5
+    return x ** 0.5
 
 
 print(sqrt(4))
@@ -472,8 +472,8 @@ class PhoneNumber:
         if not isinstance(other, PhoneNumber):
             return NotImplemented
         return (
-            self.country_code == other.country_code
-            and self.number == other.number
+                self.country_code == other.country_code
+                and self.number == other.number
         )
 ```
 

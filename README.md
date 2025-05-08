@@ -16,7 +16,7 @@
 
 ## Tools
 
-- `uvx mdformat`  Formats fenced code blocks in markdown files
+- `uvx mdformat`  Formats fenced code blocks in Markdown files
 - `docker run -v ${PWD}:/data ghcr.io/bobheadxi/readable fmt *`  Formats Markdown files including [Semantic Line Breaks](https://sembr.org/)
 - [sembr](https://github.com/admk/sembr) Just does semantic line breaks using AI, but it also breaks at clauses rather than just sentences.
 
@@ -28,4 +28,4 @@
 
 ## TODO
 
-- Widen standard width (including Ruff reformatting) to fit code slides on slidev
+- Widen standard width (including Ruff reformatting) to fit code slides on Slidev
