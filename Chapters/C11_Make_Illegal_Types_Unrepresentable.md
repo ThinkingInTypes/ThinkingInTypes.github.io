@@ -260,9 +260,8 @@ Custom types tend to be easier to understand and use than precondition checks.
 If a type constraint changes, that change immediately propagates to all usages of that type.
 In addition, the types are usually _domain driven_, that is, they represent a concept from the problem domain.
 
-For the bank example, we start by creating an `Amount`,
-which is a `Decimal` value with the fundamental properties that it cannot be negative and cannot have more than two decimal places.
-If an `Amount` object exists, you know it cannot contain a negative value:
+For the bank example, we start by creating an `Amount`, which is a `Decimal` value with some fundamental constraints.
+If an `Amount` object exists, you know it cannot contain a negative value or more than two decimal places:
 
 ```python
 # amount.py
@@ -278,46 +277,38 @@ class Amount:
     value: Decimal
 
     @classmethod
-    def of(cls, value: int | float | str) -> Self:
+    def of(cls, value: int | float | str | Decimal) -> Self:
         if isinstance(value, float):
             text = repr(value)
-            if 'e' in text.lower():
+            if "e" in text.lower():
                 raise ValueError(f"{value!r}: out of range")
-            if '.' in text:
-                frac = text.split('.', 1)[1]
-                if len(frac) > 2:
-                    raise ValueError(
-                        f"{value!r}: >2 decimal places"
-                    )
-            return cls(Decimal(text))
-        return cls(Decimal(str(value)))  # For int or str
+            parts = text.split(".", 1)
+            if len(parts) == 2 and len(parts[1]) > 2:
+                raise ValueError(f"{value!r}: >2 decimal places")
+            dec = Decimal(text)
+        else:
+            dec = (
+                value
+                if isinstance(value, Decimal)
+                else Decimal(str(value))
+            )
+
+        return cls(dec)
 
     def __post_init__(self) -> None:
-        # Negative amount check
         if self.value < Decimal("0"):
             raise ValueError(f"Negative Amount({self.value})")
 
-        # Determine decimal places:
-        match self.value.as_tuple().exponent:
-            case int() as exponent if exponent < 0:
-                places = -exponent
-            case int():
-                places = 0
-            case _:
-                raise ValueError(
-                    f"Non-finite Decimal({self.value})"
-                )
-
-        if places > 2:
+        if int(self.value.as_tuple().exponent) > 2:
             raise ValueError(
                 f"Amount({self.value}): >2 decimal places"
             )
 
     def __add__(self, other: Amount) -> Amount:
-        return Amount(self.value + other.value)
+        return Amount.of(self.value + other.value)
 
     def __sub__(self, other: Amount) -> Amount:
-        return Amount(self.value - other.value)
+        return Amount.of(self.value - other.value)
 ```
 
 Although `Amount` is a frozen `dataclass`, it is still possible to write an `__init__` method.
@@ -350,23 +341,27 @@ print(Amount.of("123"))  # str
 ## Amount(value=Decimal('123'))
 print(Amount.of(1.23))  # float
 ## Amount(value=Decimal('1.23'))
+print(Amount.of(Decimal("1.23")))
+## Amount(value=Decimal('1.23'))
 with Catch():
     Amount.of(-123)
+## Error: Negative Amount(-123)
 with Catch():
     Amount.of(1.111)
+## Error: 1.111: >2 decimal places
+with Catch():
+    Amount.of("not-a-number")
+## Error: [<class 'decimal.ConversionSyntax'>]
 # Can construct from Decimal:
 print(Amount(Decimal("12.34")))
 ## Amount(value=Decimal('12.34'))
 with Catch():
     Amount(Decimal("-12.34"))
+## Error: Negative Amount(-12.34)
 with Catch():
     Amount(Decimal("1.111"))
-with Catch():
-    Amount.of("not-a-number")
-## Error: [<class 'decimal.ConversionSyntax'>]
+## Error: Amount(1.111): >2 decimal places
 ```
-
-TODO: Consider failing if decimal fraction is greater than two digits
 
 Now we define a bank-account `Balance` that contains an `Amount`, but doesn't need special construction behavior:
 
@@ -441,7 +436,7 @@ For example, suppose we discover Python's implementation of `Decimal` is too slo
 We can modify `Amount` to use, for example, a Rust implementation of decimal numbers.
 We _only_ need to change the code for `Amount`; all code that uses `Amount` automatically adopts the new behavior.
 
-Any new code we write that uses our custom types benefits from all the type validations built into those types.
+All code we write that uses our custom types benefits from all the type validations for those custom types.
 If we add more validations to `Amount` or `Balance`, they automatically propagate to each site where those types are used.
 
 ## A `PhoneNumber` Type
