@@ -176,7 +176,7 @@ positivity = Condition(
 
 @requires(positivity)
 def sqrt(x) -> float:
-    return x**0.5
+    return x ** 0.5
 
 
 print(sqrt(4))
@@ -215,19 +215,19 @@ class BankAccount:
     @requires(positive_amount)
     def deposit(self, amount: Decimal) -> str:
         self.balance += amount
-        return f"Deposited {amount}, balance: {self.balance}"
+        return f"Deposit {amount}, balance: {self.balance}"
 
     @requires(positive_amount, sufficient_balance)
     def withdraw(self, amount: Decimal) -> str:
         self.balance -= amount
-        return f"Withdrew {amount}, balance: {self.balance}"
+        return f"Withdraw {amount}, balance: {self.balance}"
 
 
 account = BankAccount(Decimal(100))
 print(account.deposit(Decimal(50)))
-## Deposited 50, balance: 150
+## Deposit 50, balance: 150
 print(account.withdraw(Decimal(30)))
-## Withdrew 30, balance: 120
+## Withdraw 30, balance: 120
 with Catch():
     account.withdraw(Decimal(200))
 ## Error: Insufficient balance
@@ -260,7 +260,8 @@ Custom types tend to be easier to understand and use than precondition checks.
 If a type constraint changes, that change immediately propagates to all usages of that type.
 In addition, the types are usually _domain driven_, that is, they represent a concept from the problem domain.
 
-For the bank example, we start by creating an `Amount`, which is a `Decimal` value with the fundamental property that it cannot be negative.
+For the bank example, we start by creating an `Amount`,
+which is a `Decimal` value with the fundamental properties that it cannot be negative and cannot have more than two decimal places.
 If an `Amount` object exists, you know it cannot contain a negative value:
 
 ```python
@@ -278,11 +279,39 @@ class Amount:
 
     @classmethod
     def of(cls, value: int | float | str) -> Self:
-        return cls(Decimal(str(value)))
+        if isinstance(value, float):
+            text = repr(value)
+            if 'e' in text.lower():
+                raise ValueError(f"{value!r}: out of range")
+            if '.' in text:
+                frac = text.split('.', 1)[1]
+                if len(frac) > 2:
+                    raise ValueError(
+                        f"{value!r}: >2 decimal places"
+                    )
+            return cls(Decimal(text))
+        return cls(Decimal(str(value)))  # For int or str
 
-    def __post_init__(self) -> None:  # Runtime check
+    def __post_init__(self) -> None:
+        # Negative amount check
         if self.value < Decimal("0"):
             raise ValueError(f"Negative Amount({self.value})")
+
+        # Determine decimal places:
+        match self.value.as_tuple().exponent:
+            case int() as exponent if exponent < 0:
+                places = -exponent
+            case int():
+                places = 0
+            case _:
+                raise ValueError(
+                    f"Non-finite Decimal({self.value})"
+                )
+
+        if places > 2:
+            raise ValueError(
+                f"Amount({self.value}): >2 decimal places"
+            )
 
     def __add__(self, other: Amount) -> Amount:
         return Amount(self.value + other.value)
@@ -321,12 +350,23 @@ print(Amount.of("123"))  # str
 ## Amount(value=Decimal('123'))
 print(Amount.of(1.23))  # float
 ## Amount(value=Decimal('1.23'))
+with Catch():
+    Amount.of(-123)
+with Catch():
+    Amount.of(1.111)
+# Can construct from Decimal:
 print(Amount(Decimal("12.34")))
 ## Amount(value=Decimal('12.34'))
+with Catch():
+    Amount(Decimal("-12.34"))
+with Catch():
+    Amount(Decimal("1.111"))
 with Catch():
     Amount.of("not-a-number")
 ## Error: [<class 'decimal.ConversionSyntax'>]
 ```
+
+TODO: Consider failing if decimal fraction is greater than two digits
 
 Now we define a bank-account `Balance` that contains an `Amount`, but doesn't need special construction behavior:
 
@@ -370,23 +410,23 @@ class BankAccount:
     def deposit(self, amount: Amount) -> str:
         self.balance = self.balance.deposit(amount)
         return (
-            f"Deposited {amount.value}, "
+            f"Deposit {amount.value}, "
             f"Balance: {self.balance.amount.value}"
         )
 
     def withdraw(self, amount: Amount) -> str:
         self.balance = self.balance.withdraw(amount)
         return (
-            f"Withdrew {amount.value}, "
+            f"Withdraw {amount.value}, "
             f"Balance: {self.balance.amount.value}"
         )
 
 
 account = BankAccount(Balance(Amount.of(100)))
 print(account.deposit(Amount.of(50)))
-## Deposited 50, Balance: 150
+## Deposit 50, Balance: 150
 print(account.withdraw(Amount.of(30)))
-## Withdrew 30, Balance: 120
+## Withdraw 30, Balance: 120
 with Catch():
     account.withdraw(Amount.of(200))
 ## Error: Negative Amount(-80)
@@ -466,8 +506,8 @@ class PhoneNumber:
         if not isinstance(other, PhoneNumber):
             return NotImplemented
         return (
-            self.country_code == other.country_code
-            and self.number == other.number
+                self.country_code == other.country_code
+                and self.number == other.number
         )
 ```
 

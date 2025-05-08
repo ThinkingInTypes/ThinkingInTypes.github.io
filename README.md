@@ -28,5 +28,5 @@
 
 ## TODO
 
-- Widen standard width (including Ruff reformatting) to fit code slides on Slidev
 - Test on Linux Subsystem for Windows
+- Tooling should allow easy round-trip update of an individual file, also easy insertion of a single code example

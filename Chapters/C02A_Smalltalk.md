@@ -157,7 +157,7 @@ coco.squawk()
 
 # After learning:
 print(polly.known_phrases, coco.known_phrases)
-## {'hello'} {'hello', 'squawk'}
+## {'hello'} {'squawk', 'hello'}
 ```
 
 Although `polly` and `coco` share each created method, each instance maintains its own `known_phrases` history.
@@ -325,6 +325,7 @@ import override_not_found
 ## Don't know 'weather'; remembering it.
 ## Don't know 'joke'; remembering it.
 import learn_joke
+
 ## Why did the duck cross the road?
 ## It was the chicken's day off.
 
@@ -341,5 +342,11 @@ Just like a Smalltalk browser, we inspect our object's current interface and sta
 ### A Proof-of-Concept is not a Product
 
 ### The Dynamism of Smalltalk Can't be Tied Down
+
+### Inheritance Forces you to Deal with the Base Class
+
+You _must_ make your new class a "type of" the base class, and all that entails, including overriding methods you don't care about.
+Your new class _belongs_ to the base class, but with composition, the member object belongs to your new class.
+With composition, the object does what you want it to do, with inheritance, you must do what the base class wants you to do.
 
 Arguably the only success story, Ruby, is a kind of Smalltalk. 
