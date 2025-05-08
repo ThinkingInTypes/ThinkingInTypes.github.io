@@ -135,9 +135,7 @@ from typing import Callable, TypeAlias
 RequestHandler: TypeAlias = Callable[[str, dict], dict]
 
 
-def handle_request(
-    path: str, handler: RequestHandler
-) -> dict:
+def handle_request(path: str, handler: RequestHandler) -> dict:
     response = handler(path, {})
     return response
 ```
@@ -159,9 +157,7 @@ class Handler(Protocol):
     def __call__(self, request: dict) -> dict: ...
 
 
-def process_request(
-    handler: Handler, request: dict
-) -> dict:
+def process_request(handler: Handler, request: dict) -> dict:
     return handler(request)
 ```
 

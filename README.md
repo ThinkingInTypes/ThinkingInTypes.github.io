@@ -29,3 +29,4 @@
 ## TODO
 
 - Widen standard width (including Ruff reformatting) to fit code slides on Slidev
+- Test on Linux Subsystem for Windows

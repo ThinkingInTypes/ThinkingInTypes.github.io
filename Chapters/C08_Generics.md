@@ -281,9 +281,7 @@ class TupleWrapper(Generic[*Ts]):
 
 
 t1 = TupleWrapper(1)  # TupleWrapper[int]
-t2 = TupleWrapper(
-    "a", 2, 3.14
-)  # TupleWrapper[str, int, float]
+t2 = TupleWrapper("a", 2, 3.14)  # TupleWrapper[str, int, float]
 ```
 
 The type checker tracks the number and types of elements in `*Ts` individually.
@@ -378,13 +376,9 @@ class Tensor(Generic[T, Unpack[Shape]]):
 
 
 Shape3x3: TypeAlias = tuple[Literal[3], Literal[3]]
-Shape2x2x2: TypeAlias = tuple[
-    Literal[2], Literal[2], Literal[2]
-]
+Shape2x2x2: TypeAlias = tuple[Literal[2], Literal[2], Literal[2]]
 
-t1 = Tensor[float, *Shape3x3](
-    data=[[1.0] * 3] * 3, shape=(3, 3)
-)
+t1 = Tensor[float, *Shape3x3](data=[[1.0] * 3] * 3, shape=(3, 3))
 
 t2 = Tensor[int, *Shape2x2x2](
     data=[[[1, 2], [3, 4]], [[5, 6], [7, 8]]],
@@ -420,9 +414,7 @@ R = TypeVar("R")
 
 def log_call(fn: Callable[P, R]) -> Callable[P, R]:
     def wrapper(*args: P.args, **kwargs: P.kwargs) -> R:
-        print(
-            f"Calling {fn.__name__} with {args=}, {kwargs=}"
-        )
+        print(f"Calling {fn.__name__} with {args=}, {kwargs=}")
         return fn(*args, **kwargs)
 
     return wrapper
@@ -753,9 +745,7 @@ class ContactForm(Form["ContactForm"]):
         return self
 
 
-form = (
-    ContactForm().set_title("Feedback").add_field("email")
-)
+form = ContactForm().set_title("Feedback").add_field("email")
 ```
 
 `TSelf` is a `TypeVar` bounded to `'Form'` (the base class).

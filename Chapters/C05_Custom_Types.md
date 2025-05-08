@@ -209,9 +209,7 @@ def process(data: Measurements) -> None:
 
 
 process(
-    Measurements(
-        [Number(11), Number(3.14), Number("1.618")]
-    )
+    Measurements([Number(11), Number(3.14), Number("1.618")])
 )
 ## {'data': __main__.Measurements, 'return':
 ## <class 'NoneType'>}
@@ -627,9 +625,7 @@ class Month(Enum):
 
     @staticmethod
     def number(month_number: int):
-        assert 1 <= month_number <= 12, (
-            f"Month({month_number})"
-        )
+        assert 1 <= month_number <= 12, f"Month({month_number})"
         return list(Month)[month_number - 1]
 
     def check_day(self, day: Day):
@@ -758,9 +754,7 @@ class Months:
     )
 
     def number(self, month_number: int):
-        assert 1 <= month_number <= 12, (
-            f"Month({month_number})"
-        )
+        assert 1 <= month_number <= 12, f"Month({month_number})"
         return self.months[month_number - 1]
 
 
@@ -1162,9 +1156,7 @@ class Status(Enum):
         if next_state is None:
             print(f"Invalid {self.name} & {event.name}")
             return self
-        print(
-            f"{self.name} + {event.name} -> {next_state.name}"
-        )
+        print(f"{self.name} + {event.name} -> {next_state.name}")
         return next_state
 
     @property
@@ -1397,7 +1389,7 @@ print("NOPE" in ParamVal)  # type: ignore
 # Convert literal values to a set:
 allowed_set = set(ParamVal.__args__)  # type: ignore
 print(allowed_set)
-## {'MIN', 'MAX', 'DEF'}
+## {'MAX', 'DEF', 'MIN'}
 print("MIN" in allowed_set)
 ## True
 print("NOPE" in allowed_set)
@@ -1587,9 +1579,7 @@ class Order:
     products: list[Product]
 
     def total(self) -> float:
-        return sum(
-            product.price for product in self.products
-        )
+        return sum(product.price for product in self.products)
 ```
 
 Strongly typed domain models help catch issues early, facilitating clearer, safer, and more maintainable codebases.

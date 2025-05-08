@@ -176,7 +176,7 @@ positivity = Condition(
 
 @requires(positivity)
 def sqrt(x) -> float:
-    return x ** 0.5
+    return x**0.5
 
 
 print(sqrt(4))
@@ -215,9 +215,7 @@ class BankAccount:
     @requires(positive_amount)
     def deposit(self, amount: Decimal) -> str:
         self.balance += amount
-        return (
-            f"Deposited {amount}, balance: {self.balance}"
-        )
+        return f"Deposited {amount}, balance: {self.balance}"
 
     @requires(positive_amount, sufficient_balance)
     def withdraw(self, amount: Decimal) -> str:
@@ -284,9 +282,7 @@ class Amount:
 
     def __post_init__(self) -> None:  # Runtime check
         if self.value < Decimal("0"):
-            raise ValueError(
-                f"Negative Amount({self.value})"
-            )
+            raise ValueError(f"Negative Amount({self.value})")
 
     def __add__(self, other: Amount) -> Amount:
         return Amount(self.value + other.value)
@@ -442,9 +438,7 @@ class PhoneNumber:
         cleaned = raw.strip()
         match = _PHONE_RE.match(cleaned)
         if not match:
-            raise ValueError(
-                f"Invalid phone number: {raw!r}"
-            )
+            raise ValueError(f"Invalid phone number: {raw!r}")
 
         cc, num = match.groups()
         digits = re.sub(r"\D", "", num)
@@ -472,8 +466,8 @@ class PhoneNumber:
         if not isinstance(other, PhoneNumber):
             return NotImplemented
         return (
-                self.country_code == other.country_code
-                and self.number == other.number
+            self.country_code == other.country_code
+            and self.number == other.number
         )
 ```
 

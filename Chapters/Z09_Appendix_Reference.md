@@ -305,9 +305,7 @@ def read(data: str) -> str: ...
 
 def read(data: str | bytes) -> str:
     # single implementation handling both
-    return (
-        data.decode() if isinstance(data, bytes) else data
-    )
+    return data.decode() if isinstance(data, bytes) else data
 ```
 
 Here two overloads declare that `read()` accepts either bytes or str and always returns str.
