@@ -28,14 +28,14 @@ from typing import Any, Callable, TypeVar
 
 R = TypeVar("R")
 
-_PASS_THROUGH = ["# type: ignore", "# noqa"]
+_NO_REPORT = ["# type: ignore", "# noqa"]
 
 
 class Catch:
     """
     Catch and print expected errors, but allow programming errors to propagate.
     Programming errors include SyntaxError, NameError, TypeError, and AttributeError.
-    Lines annotated with any marker in _PASS_THROUGH are never reported.
+    Lines annotated with any marker in _NO_REPORT are never reported.
     """
 
     _fatal_exceptions = (SyntaxError, NameError, TypeError, AttributeError)
@@ -75,7 +75,7 @@ class Catch:
     def _is_ignored_frame(self, tb: Any) -> bool:
         frames = _traceback.extract_tb(tb) if tb is not None else []
         return any(
-            any(tag in (frame.line or "") for tag in _PASS_THROUGH)
+            any(tag in (frame.line or "") for tag in _NO_REPORT)
             for frame in frames
         )
 ```
