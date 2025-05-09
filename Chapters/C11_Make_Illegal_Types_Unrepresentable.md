@@ -379,7 +379,7 @@ Note that `Balance` produces new immutable objects when you `deposit` and `withd
 Because it uses `Amount`, it needs no special validation checks.
 
 In the new, improved `BankAccount`,
-the need for validation disappears because it is automatically enforced by the types:
+the need for argument validation disappears because it is automatically enforced by the types:
 
 ```python
 # typed_bank_account.py
@@ -527,8 +527,7 @@ for raw in phone_numbers:
 
 Every function that works with phone numbers only uses the `PhoneNumber` type.
 If you need to modify the behavior of a `PhoneNumber`, you do it in only one place.
-If you need to improve the performance of `PhoneNumber` creation and use, you do it in only one place,
-for example, by converting the `PhoneNumber` type into a Rust module.
+If you need to improve the performance of `PhoneNumber` creation and use, you do it in only one place.
 
 ## The Programmable Meter
 
