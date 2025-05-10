@@ -438,6 +438,7 @@ Let's apply this approach to the stringly-typed phone number problem shown at th
 ```python
 # phone_number.py
 # Validated and normalized phone number
+from __future__ import annotations
 from dataclasses import dataclass
 from typing import Self
 import re
@@ -452,27 +453,29 @@ class PhoneNumber:
     country_code: str
     number: str  # Digits only, no formatting
 
-    def __new__(cls, *args, **kwargs):
-        # Deny subclassing and direct instantiation
-        if cls is not PhoneNumber:
-            raise TypeError(
-                "Subclassing PhoneNumber is not allowed"
+    def __post_init__(self) -> None:
+        # Validate country code: 1-3 digits
+        if not re.fullmatch(r"\d{1,3}", self.country_code):
+            raise ValueError(
+                f"Invalid country code: {self.country_code!r}"
             )
-        return super().__new__(cls)
+        # Validate number: digits only
+        if not re.fullmatch(r"\d+", self.number):
+            raise ValueError(
+                f"Invalid number digits: {self.number!r}"
+            )
 
     @classmethod
     def of(cls, raw: str) -> Self:
-        cleaned = raw.strip()
-        match = _PHONE_RE.match(cleaned)
+        # Parse and validate a raw phone number string.
+        match = _PHONE_RE.match(raw.strip())
         if not match:
             raise ValueError(f"Invalid phone number: {raw!r}")
-
         cc, num = match.groups()
         digits = re.sub(r"\D", "", num)
         if not digits:
             raise ValueError(f"No digits in: {raw!r}")
-
-        country_code = cc if cc else "1"  # default to US
+        country_code = cc or "1"  # default to US
         return cls(country_code, digits)
 
     def format_number(self) -> str:
@@ -483,15 +486,14 @@ class PhoneNumber:
                 self.number[6:],
             )
             return f"({area}) {prefix}-{line}"
-        return self.number  # Fallback: just digits
+        return self.number
 
     def __str__(self) -> str:
-        formatted = self.format_number()
-        return f"+{self.country_code} {formatted}"
+        return f"+{self.country_code} {self.format_number()}"
 
     def __eq__(self, other: object) -> bool:
         if not isinstance(other, PhoneNumber):
-            return NotImplemented
+            return NotImplemented  # Instead of False
         return (
             self.country_code == other.country_code
             and self.number == other.number
@@ -508,21 +510,22 @@ from book_utils import Catch
 
 for raw in phone_numbers:
     with Catch():
-        pn = PhoneNumber.of(raw)
-        print(f"{raw!r} -> {pn}")
-## '5551234' -> +555 1234
-## '555-1234' -> +555 1234
-## '(555) 123-4567' -> +1 (555) 123-4567
-## '555.123.4567' -> +555 1234567
-## '+1-555-123-4567' -> +1 (555) 123-4567
-## '+44 20 7946 0958' -> +44 (207) 946-0958
-## '5551234567' -> +555 1234567
-## '555 1234' -> +555 1234
+        print(PhoneNumber.of(raw))
+## +555 1234
+## +555 1234
+## +1 (555) 123-4567
+## +555 1234567
+## +1 (555) 123-4567
+## +44 (207) 946-0958
+## +555 1234567
+## +555 1234
 ## Error: Invalid phone number: '555-12ab'
 ## Error: Invalid phone number: 'CallMeMaybe'
-## '01234' -> +012 34
+## +012 34
 ## Error: Invalid phone number: ''
-## ' 5551234 ' -> +555 1234
+## +555 1234
+print(PhoneNumber("886", "7775551212"))
+## +886 (777) 555-1212
 ```
 
 Every function that works with phone numbers only uses the `PhoneNumber` type.
