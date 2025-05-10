@@ -1000,7 +1000,7 @@ The <code>Catch</code> class implements this using:</p>
 </span></code></pre></div>
 <h3 id="callable-interface-__call__-method">Callable Interface (<code>__call__</code> method)<a class="headerlink" href="#callable-interface-__call__-method" title="Permanent link">#</a></h3>
 <p>The <code>Catch</code> class also defines a <code>__call__</code> method, allowing its instances to be called as functions.
-This lets you explicitly wrap a callable (like a lambda or zero-argument function) inside its own try-except block,
+This explicitly wraps a callable (like a lambda or zero-argument function) inside its own try-except block,
 capturing and handling exceptions raised during both argument evaluation and function execution.</p>
 <p>In the <code>__call__</code> method signature, <code>func</code> is a zero-argument callable.
 It executes this callable within a try-except block:</p>

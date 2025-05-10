@@ -1786,7 +1786,7 @@ Type aliases can also be generic, e.g.
 In older versions, you might see <code>TypeAlias</code> from <code>typing</code> used as an annotation to mark an assignment as a type alias, especially when forward references are involved (to hint to the checker that a string is meant to be a type name).
 PEP 695 deprecates the need for <code>TypeAlias</code> by introducing the explicit alias syntax.</p>
 <h3 id="newtype-distinct-types-based-on-existing-ones">NewType--Distinct Types Based on Existing Ones<a class="headerlink" href="#newtype-distinct-types-based-on-existing-ones" title="Permanent link">#</a></h3>
-<p>The <code>typing.NewType</code> helper lets you define a distinct type that is interchangeable with some base type at runtime but treated as a separate type by type checkers.
+<p>The <code>typing.NewType</code> helper defines a distinct type that is interchangeable with some base type at runtime but treated as a separate type by type checkers.
 For example:</p>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="c1"># example_5.py</span>
 </span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">NewType</span>
@@ -2067,7 +2067,7 @@ When using <code>total=False</code>, by default all keys are optional unless mar
 Conversely, with <code>total=True</code> (default), all keys are required unless marked <code>NotRequired</code>.
 \
 Another addition is PEP 705 (Python 3.13) which introduced <code>typing.ReadOnly</code> for TypedDict.
-This lets you designate certain keys as read-only (cannot be changed once set) for static checking purposes.
+This designates certain keys as read-only (cannot be changed once set) for static checking purposes.
 Example:
 <code>class Config(TypedDict): host: ReadOnly[str]; port: int</code>.
 Changing <code>host</code> after creation would be flagged.
