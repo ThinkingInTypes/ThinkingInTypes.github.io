@@ -1137,12 +1137,16 @@
 The most common is <code># type: ignore</code>, which tells type checkers to ignore all type errors on that line.
 For example:</p>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1"># example_1.py</span>
-</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="c1"># Without ignore, this would be a type error (int vs. str).</span>
-</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="k">def</span> <span class="nf">add</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>    <span class="k">return</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span>
-</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>
-</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>
-</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="n">result</span> <span class="o">=</span> <span class="n">add</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="s2">&quot;7&quot;</span><span class="p">)</span>  <span class="c1"># type: ignore</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="kn">from</span> <span class="nn">book_utils</span> <span class="kn">import</span> <span class="n">Catch</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="k">def</span> <span class="nf">add</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>    <span class="k">return</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span>
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="c1"># Without ignore, this produces a type error (int vs. str):</span>
+</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="k">with</span> <span class="n">Catch</span><span class="p">():</span>
+</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>    <span class="n">result</span> <span class="o">=</span> <span class="n">add</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="s2">&quot;7&quot;</span><span class="p">)</span>  <span class="c1"># type: ignore</span>
 </span></code></pre></div>
 <p>Here the <code># type: ignore</code> comment silences the mismatch.
 Mypy's documentation explicitly notes that you can add <code># type: ignore</code> to silence the checker on a particular line.</p>
@@ -1155,7 +1159,7 @@ In Pyright you can also use tool-specific variants like <code># pyright: ignore<
 By default <code># noqa</code> with no code ignores all warnings on that line.
 For example:</p>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="c1"># example_2.py</span>
-</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="kn">from</span> <span class="nn">math</span> <span class="kn">import</span> <span class="o">*</span>  <span class="c1"># noqa</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="kn">from</span> <span class="nn">math</span> <span class="kn">import</span> <span class="o">*</span>  <span class="c1"># type: ignore  # noqa</span>
 </span></code></pre></div>
 <p>Without <code># noqa</code>, a linter like Flake8 would warn about the wildcard import.
 You can also target specific rule codes.
@@ -1171,7 +1175,7 @@ In short, use <code># noqa</code> to silence specific linter errors on a line (o
 In that case you can chain the comments.
 For example, to please both Mypy and Ruff, do:</p>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="c1"># example_4.py</span>
-</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="kn">from</span> <span class="nn">.local</span> <span class="kn">import</span> <span class="o">*</span>  <span class="c1"># type: ignore  # noqa</span>
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="kn">from</span> <span class="nn">book_utils</span> <span class="kn">import</span> <span class="o">*</span>  <span class="c1"># type: ignore  # noqa</span>
 </span></code></pre></div>
 <p>The order matters: put <code># type: ignore</code> before <code># noqa</code> (with at least two spaces) so each tool recognizes its part.
 Mypy scans the line first and stops, then Ruff/Flake8 reads <code># noqa</code>.
@@ -1183,8 +1187,8 @@ Without careful ordering, you might accidentally hide errors from one tool or th
 You can even specify particular rule names.
 For example:</p>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="c1"># example_5.py</span>
-</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="n">foo</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="s2">&quot;123&quot;</span>  <span class="c1"># pyright: ignore</span>
-</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="n">bar</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="s2">&quot;123&quot;</span>  <span class="c1"># pyright: ignore [reportGeneralTypeIssues]</span>
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="n">foo</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="s2">&quot;123&quot;</span>  <span class="c1"># pyright: ignore # noqa</span>
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="n">bar</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="s2">&quot;123&quot;</span>  <span class="c1"># pyright: ignore [reportGeneralTypeIssues] # type: ignore # noqa</span>
 </span></code></pre></div>
 <p>The first comment silences all Pyright errors on that line, the second suppresses only the named category.
 Pyright prefers its own <code># pyright: ignore</code> (it validates rule names) to avoid over-suppressing compared to the blanket <code># type: ignore</code>.</p>
@@ -1206,7 +1210,7 @@ For instance:</p>
 </span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="k">class</span> <span class="nc">Server</span><span class="p">:</span>
 </span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>    <span class="k">def</span> <span class="nf">accept</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 </span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">socket</span> <span class="o">=</span> <span class="nb">object</span><span class="p">()</span>  <span class="c1"># imagine this is set in listen()</span>
-</span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">socket</span><span class="o">.</span><span class="n">recv</span><span class="p">()</span>  <span class="c1"># pytype: disable=attribute-error</span>
+</span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">socket</span><span class="o">.</span><span class="n">recv</span><span class="p">()</span>  <span class="c1"># pytype: disable=attribute-error # type: ignore # noqa</span>
 </span></code></pre></div>
 <p>Here we disable the "attribute-error" warning that <code>socket</code> might not have <code>recv</code> yet.
 You can disable warnings per-line or even for the rest of the file by writing a <code>disable</code> comment on its own.
