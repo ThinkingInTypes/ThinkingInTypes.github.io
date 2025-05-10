@@ -1,6 +1,6 @@
 # Appendix: Error Suppression
 
-| Tool    | `# type: ignore` Support                                 |
+| Tool    | `# type: ignore`                                         |
 |---------|----------------------------------------------------------|
 | Mypy    | Fully supported; can specify codes like `[arg-type]`     |
 | Pyright | Fully supported via PEP 484                              |

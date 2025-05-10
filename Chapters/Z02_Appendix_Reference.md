@@ -147,7 +147,7 @@ PEP 695 deprecates the need for `TypeAlias` by introducing the explicit alias sy
 
 ### NewType--Distinct Types Based on Existing Ones
 
-The `typing.NewType` helper lets you define a distinct type that is interchangeable with some base type at runtime but treated as a separate type by type checkers.
+The `typing.NewType` helper defines a distinct type that is interchangeable with some base type at runtime but treated as a separate type by type checkers.
 For example:
 
 ```python
@@ -500,7 +500,7 @@ When using `total=False`, by default all keys are optional unless marked `Requir
 Conversely, with `total=True` (default), all keys are required unless marked `NotRequired`.
 \
 Another addition is PEP 705 (Python 3.13) which introduced `typing.ReadOnly` for TypedDict.
-This lets you designate certain keys as read-only (cannot be changed once set) for static checking purposes.
+This designates certain keys as read-only (cannot be changed once set) for static checking purposes.
 Example:
 `class Config(TypedDict): host: ReadOnly[str]; port: int`.
 Changing `host` after creation would be flagged.

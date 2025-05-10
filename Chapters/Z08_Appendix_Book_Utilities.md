@@ -123,7 +123,7 @@ with Catch():
 ### Callable Interface (`__call__` method)
 
 The `Catch` class also defines a `__call__` method, allowing its instances to be called as functions.
-This lets you explicitly wrap a callable (like a lambda or zero-argument function) inside its own try-except block,
+This explicitly wraps a callable (like a lambda or zero-argument function) inside its own try-except block,
 capturing and handling exceptions raised during both argument evaluation and function execution.
 
 In the `__call__` method signature, `func` is a zero-argument callable.

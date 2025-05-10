@@ -2,7 +2,7 @@
 
 Python 3.10 added _structural pattern matching_ via the `match...case` statement.
 Pattern matching compares a value (the _subject_) against a series of _patterns_, and executes code based on the pattern that fits.
-Unlike a simple switch on a single value, structural pattern matching lets you destructure complex data and test for conditions in one expressive syntax.
+Unlike a simple switch on a single value, structural pattern matching destructures complex data and tests for conditions in one expressive syntax.
 
 A `match` statement looks similar to a **switch**/**case** from other languages, but Python's patterns can match structure (like the shape of a sequence or the attributes of an object) and bind variables.
 Python tries each `case` in order and executes the first one that matches, with a wildcard `_` as a catch-all default.

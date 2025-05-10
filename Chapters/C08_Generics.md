@@ -234,7 +234,7 @@ discussed later) for more complex constraints.
 > and (partially) by MyPy`.
 
 `TypeVarTuple` is like `*args`, but for types.
-It lets you define generic classes and functions that accept a variable number of types, creating more powerful and
+It defines generic classes and functions that accept a variable number of types, creating more powerful and
 flexible type-safe abstractions.
 It enables _variadic generics_, which let you define types that accept a variable number of type parameters,
 similar to how `*args` and `**kwargs` work at runtime.
@@ -649,7 +649,7 @@ We could also achieve a similar result using `ParamSpec` from `typing` (which al
 parameters),
 but using explicit type variables for a fixed small number of parameters is straightforward for illustration.
 
-Currying is not very common in idiomatic Python but can be useful for creating specialized functions from generic ones.
+Currying is not common in idiomatic Python but can be useful for creating specialized functions from generic ones.
 The benefit of adding generics in currying (as opposed to writing a lambda or using `functools.partial`)
 is that the intermediate and final functions retain precise type information.
 This helps catch errors if you pass wrong types to the curried functions and provides better auto-completion in editors.

@@ -494,12 +494,12 @@ This defines a generic method `get_item` in a protocol.
 However, under the hood this still creates a generic protocol with a type variable `T`.
 Most code at the time of writing still uses the earlier syntax with explicit `TypeVar` declarations, which is what we've shown above.
 
-In summary, combining protocols with generics lets you express very flexible and reusable type relationships.
+In summary, combining protocols with generics expresses flexible and reusable type relationships.
 You can create protocols that work over a family of types while still preserving type information.
 Many of Python's built-in protocols are generic (for example, an iterator protocol `Iterator[T]` yields items of type T), and you can do the same in your own designs.
 This enables things like container types, numeric operations, or callback interfaces to be both generic and structural.
 When designing a generic protocol, think about what parts of the interface should change with the type (those become type variables) and which are fixed.
-The result is a very powerful abstraction that remains easy to use.
+The result is a powerful abstraction that remains easy to use.
 
 ## When to Choose Structural Typing Over Nominal Typing
 
@@ -528,7 +528,7 @@ Here are some guidelines, pros and cons, and best practices to help decide:
 
 - You want to keep it lightweight and focused purely on the method/attribute requirements.
   Protocols are great for defining a narrow interface that multiple disparate classes can implement without formal coupling.
-  If you only care about one or a few methods on an object (and not about its exact type), a protocol lets you specify just that.
+  If you only care about one or a few methods on an object (and not about its exact type), a protocol enables that.
   This is especially useful for function parameters:
   you can annotate a function to accept any object with a `.close()` method, or a `.write()` method, etc., without forcing a common base class.
 
