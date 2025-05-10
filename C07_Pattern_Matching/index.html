@@ -648,27 +648,6 @@
   
   
     <li class="md-nav__item">
-      <a href="../C13_Uncategorized_Topics/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    13: Uncategorized Topics
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-  
-    <li class="md-nav__item">
       <a href="../Z01_Appendix_Quick_Reference/" class="md-nav__link">
         
   
@@ -842,6 +821,69 @@
   
   <span class="md-ellipsis">
     A9: Reference
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Z10_Appendix_Error_Suppression/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    A10: Error Suppression
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Z11_Appendix_Dynamic_Smalltalk_vs_Static_Typing/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    A11: Dynamic Smalltalk vs Static Typing
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Z12_Appendix_Uncategorized_Topics/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    A12: Uncategorized Topics
     
   </span>
   
@@ -1132,7 +1174,7 @@ The subject <code>"hello"</code> is not <code>"quit"</code>, so it falls to <cod
 This pattern matches unconditionally and binds the name <code>other</code> to the value of <code>command</code> (which is <code>"hello"</code>).
 The result is that it prints: <code>Received unknown command: 'hello'</code>.
 Essentially, <code>other</code> serves as a catch-all variable for "anything else."
-In this role, a capture is similar to the wildcard <code>_</code> (which also matches anything) except that we actually get to use the captured value in the code.</p>
+In this role, a capture is similar to the wildcard <code>_</code> (which also matches anything) except that we can use the captured value in the code.</p>
 <p>Capture patterns are extremely useful when you need to extract parts of a structure.
 For example, matching a tuple <code>case (x, y):</code> uses two capture sub-patterns <code>x</code> and <code>y</code> to pull out the elements of the tuple.
 Similarly, <code>case {"user": name, "id": id}:</code> on a dictionary captures the values of the <code>"user"</code> and <code>"id"</code> keys into the variables <code>name</code> and <code>id</code> respectively.
@@ -1170,7 +1212,7 @@ Since <code>_</code> is not a valid variable name (in pattern context it's speci
 </span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>
 </span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>
 </span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="k">def</span> <span class="nf">wildcard_ignore</span><span class="p">(</span>
-</span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>    <span class="n">point</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span>
+</span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>        <span class="n">point</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span>
 </span><span id="__span-5-7"><a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 </span><span id="__span-5-8"><a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a>    <span class="k">match</span> <span class="n">point</span><span class="p">:</span>
 </span><span id="__span-5-9"><a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a>        <span class="k">case</span><span class="w"> </span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="k">_</span><span class="p">,</span> <span class="n">_</span><span class="p">):</span>
@@ -1426,7 +1468,7 @@ If you have a fixed schema for a dict, pattern matching can clearly express the 
 (For truly fixed keys, a dataclass or custom class might be a better fit, which leads us to class patterns.)</p>
 <h2 id="class-patterns">Class Patterns<a class="headerlink" href="#class-patterns" title="Permanent link">#</a></h2>
 <p>Class patterns match objects of a specific class and extract their attributes.
-They use a syntax reminiscent of calling a constructor, but no object is actually created in a case pattern--instead, Python checks the subject is an instance of that class and then pulls out specified attributes.
+They use a syntax reminiscent of calling a constructor, but no object is created in a case pattern--instead, Python checks the subject is an instance of that class and then pulls out specified attributes.
 This is a form of <em>structured binding</em> or deconstruction for user-defined types.</p>
 <p>The basic form is <code>ClassName(attr1=subpattern1, attr2=subpattern2, ...)</code>.
 You list the class to match and the attributes you want to check or capture.
@@ -1518,10 +1560,10 @@ For example, if a function parameter <code>shape: Shape</code> where <code>Shape
 </span><span id="__span-14-14"><a id="__codelineno-14-14" name="__codelineno-14-14" href="#__codelineno-14-14"></a>    <span class="k">match</span> <span class="n">shape</span><span class="p">:</span>
 </span><span id="__span-14-15"><a id="__codelineno-14-15" name="__codelineno-14-15" href="#__codelineno-14-15"></a>        <span class="k">case</span> <span class="n">Circle</span><span class="p">(</span><span class="n">radius</span><span class="o">=</span><span class="n">r</span><span class="p">):</span>
 </span><span id="__span-14-16"><a id="__codelineno-14-16" name="__codelineno-14-16" href="#__codelineno-14-16"></a>            <span class="c1"># Here shape is type Circle:</span>
-</span><span id="__span-14-17"><a id="__codelineno-14-17" name="__codelineno-14-17" href="#__codelineno-14-17"></a>            <span class="k">return</span> <span class="mf">3.14</span> <span class="o">*</span> <span class="n">r</span><span class="o">**</span><span class="mi">2</span>
+</span><span id="__span-14-17"><a id="__codelineno-14-17" name="__codelineno-14-17" href="#__codelineno-14-17"></a>            <span class="k">return</span> <span class="mf">3.14</span> <span class="o">*</span> <span class="n">r</span> <span class="o">**</span> <span class="mi">2</span>
 </span><span id="__span-14-18"><a id="__codelineno-14-18" name="__codelineno-14-18" href="#__codelineno-14-18"></a>        <span class="k">case</span> <span class="n">Square</span><span class="p">(</span><span class="n">side</span><span class="o">=</span><span class="n">s</span><span class="p">):</span>
 </span><span id="__span-14-19"><a id="__codelineno-14-19" name="__codelineno-14-19" href="#__codelineno-14-19"></a>            <span class="c1"># Here shape is type Square:</span>
-</span><span id="__span-14-20"><a id="__codelineno-14-20" name="__codelineno-14-20" href="#__codelineno-14-20"></a>            <span class="k">return</span> <span class="n">s</span><span class="o">**</span><span class="mi">2</span>
+</span><span id="__span-14-20"><a id="__codelineno-14-20" name="__codelineno-14-20" href="#__codelineno-14-20"></a>            <span class="k">return</span> <span class="n">s</span> <span class="o">**</span> <span class="mi">2</span>
 </span><span id="__span-14-21"><a id="__codelineno-14-21" name="__codelineno-14-21" href="#__codelineno-14-21"></a>        <span class="k">case</span><span class="w"> </span><span class="k">_</span><span class="p">:</span>
 </span><span id="__span-14-22"><a id="__codelineno-14-22" name="__codelineno-14-22" href="#__codelineno-14-22"></a>            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Unsupported shape&quot;</span><span class="p">)</span>
 </span></code></pre></div>
@@ -1701,7 +1743,7 @@ They should ideally just inspect the bound variables or the subject.</p>
 </span><span id="__span-21-5"><a id="__codelineno-21-5" name="__codelineno-21-5" href="#__codelineno-21-5"></a>
 </span><span id="__span-21-6"><a id="__codelineno-21-6" name="__codelineno-21-6" href="#__codelineno-21-6"></a><span class="k">match</span> <span class="n">request</span><span class="p">:</span>
 </span><span id="__span-21-7"><a id="__codelineno-21-7" name="__codelineno-21-7" href="#__codelineno-21-7"></a>    <span class="k">case</span> <span class="p">{</span><span class="s2">&quot;method&quot;</span><span class="p">:</span> <span class="n">m</span><span class="p">,</span> <span class="s2">&quot;payload&quot;</span><span class="p">:</span> <span class="n">data</span><span class="p">}</span> <span class="k">if</span> <span class="p">(</span>
-</span><span id="__span-21-8"><a id="__codelineno-21-8" name="__codelineno-21-8" href="#__codelineno-21-8"></a>        <span class="n">m</span> <span class="o">==</span> <span class="s2">&quot;POST&quot;</span> <span class="ow">and</span> <span class="s2">&quot;id&quot;</span> <span class="ow">in</span> <span class="n">data</span>
+</span><span id="__span-21-8"><a id="__codelineno-21-8" name="__codelineno-21-8" href="#__codelineno-21-8"></a>            <span class="n">m</span> <span class="o">==</span> <span class="s2">&quot;POST&quot;</span> <span class="ow">and</span> <span class="s2">&quot;id&quot;</span> <span class="ow">in</span> <span class="n">data</span>
 </span><span id="__span-21-9"><a id="__codelineno-21-9" name="__codelineno-21-9" href="#__codelineno-21-9"></a>    <span class="p">):</span>
 </span><span id="__span-21-10"><a id="__codelineno-21-10" name="__codelineno-21-10" href="#__codelineno-21-10"></a>        <span class="n">data</span> <span class="o">=</span> <span class="n">cast</span><span class="p">(</span><span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span> <span class="n">data</span><span class="p">)</span>
 </span><span id="__span-21-11"><a id="__codelineno-21-11" name="__codelineno-21-11" href="#__codelineno-21-11"></a>        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;POST request with id </span><span class="si">{</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>

@@ -564,27 +564,6 @@
   
   
     <li class="md-nav__item">
-      <a href="../C13_Uncategorized_Topics/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    13: Uncategorized Topics
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-  
-    <li class="md-nav__item">
       <a href="../Z01_Appendix_Quick_Reference/" class="md-nav__link">
         
   
@@ -758,6 +737,69 @@
   
   <span class="md-ellipsis">
     A9: Reference
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Z10_Appendix_Error_Suppression/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    A10: Error Suppression
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Z11_Appendix_Dynamic_Smalltalk_vs_Static_Typing/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    A11: Dynamic Smalltalk vs Static Typing
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Z12_Appendix_Uncategorized_Topics/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    A12: Uncategorized Topics
     
   </span>
   
@@ -1364,13 +1406,13 @@ abstract base classes can ensure at runtime that certain methods are implemented
 They can also provide default behavior.
 However, nominal typing is less flexible--everything must be planned or adapted to fit the hierarchy.
 If you want an external class to be treated as an InterfaceY, you might have to write an adapter or subclass it, which could be clunky or impossible (if you don't control that class).
-Structural typing (using protocols) is extremely flexible and mirrors Python's dynamic nature--you get to "write the interface after the fact."
+Structural typing (using protocols) is extremely flexible and mirrors Python's dynamic nature--you can "write the interface after the fact."
 It encourages designing for capabilities rather than inheritance.
 The downside is that protocols are primarily static--they rely on the developer running a type checker.
 Python won't stop you from passing an object that does not fulfill the protocol (until you call a missing method and get an error at runtime, just like normal duck typing).
 So if you need guaranteed enforcement in a running program, protocols alone won't give you that (they are optional).
 That said, in a team or project using type checks as part of CI, protocols can prevent a lot of mistakes.
-Another minor con is that protocols, if overused, could make it less obvious which classes actually implement which interface; with nominal typing you can always search for subclasses of an ABC.
+Another minor con is that protocols, if overused, could make it less obvious which classes implement which interface; with nominal typing you can always search for subclasses of an ABC.
 A mix is often best: use protocols for the broad "this is what we expect" contracts, especially for external boundaries and flexible APIs, and use concrete classes or ABCs internally when you want more structure or reuse.</p>
 <p><strong>Best practices:</strong> It's not an either/or choice--you can use both in the same codebase.
 For example, you might define an ABC with some default methods for a complex interface but also define a protocol for a subset of that interface for use in a more generic function.

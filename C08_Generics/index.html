@@ -849,27 +849,6 @@
   
   
     <li class="md-nav__item">
-      <a href="../C13_Uncategorized_Topics/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    13: Uncategorized Topics
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-  
-    <li class="md-nav__item">
       <a href="../Z01_Appendix_Quick_Reference/" class="md-nav__link">
         
   
@@ -1043,6 +1022,69 @@
   
   <span class="md-ellipsis">
     A9: Reference
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Z10_Appendix_Error_Suppression/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    A10: Error Suppression
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Z11_Appendix_Dynamic_Smalltalk_vs_Static_Typing/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    A11: Dynamic Smalltalk vs Static Typing
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Z12_Appendix_Uncategorized_Topics/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    A12: Uncategorized Topics
     
   </span>
   
@@ -1687,13 +1729,13 @@ Let's explore <code>TypeVarTuple</code> by implementing a type-safe version of P
 </span><span id="__span-9-5"><a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a>
 </span><span id="__span-9-6"><a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a>
 </span><span id="__span-9-7"><a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a><span class="k">def</span> <span class="nf">zip_variadic</span><span class="p">(</span>
-</span><span id="__span-9-8"><a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a>    <span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">Unpack</span><span class="p">[</span><span class="n">Ts</span><span class="p">]],</span>
+</span><span id="__span-9-8"><a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a>        <span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">Unpack</span><span class="p">[</span><span class="n">Ts</span><span class="p">]],</span>
 </span><span id="__span-9-9"><a id="__codelineno-9-9" name="__codelineno-9-9" href="#__codelineno-9-9"></a><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="o">*</span><span class="n">Ts</span><span class="p">],</span> <span class="o">...</span><span class="p">]:</span>
 </span><span id="__span-9-10"><a id="__codelineno-9-10" name="__codelineno-9-10" href="#__codelineno-9-10"></a>    <span class="k">return</span> <span class="nb">tuple</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">))</span>
 </span><span id="__span-9-11"><a id="__codelineno-9-11" name="__codelineno-9-11" href="#__codelineno-9-11"></a>
 </span><span id="__span-9-12"><a id="__codelineno-9-12" name="__codelineno-9-12" href="#__codelineno-9-12"></a>
 </span><span id="__span-9-13"><a id="__codelineno-9-13" name="__codelineno-9-13" href="#__codelineno-9-13"></a><span class="k">def</span> <span class="nf">unzip_variadic</span><span class="p">(</span>
-</span><span id="__span-9-14"><a id="__codelineno-9-14" name="__codelineno-9-14" href="#__codelineno-9-14"></a>    <span class="n">packed</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="n">Any</span><span class="p">,</span> <span class="o">...</span><span class="p">],</span> <span class="o">...</span><span class="p">],</span>
+</span><span id="__span-9-14"><a id="__codelineno-9-14" name="__codelineno-9-14" href="#__codelineno-9-14"></a>        <span class="n">packed</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="n">Any</span><span class="p">,</span> <span class="o">...</span><span class="p">],</span> <span class="o">...</span><span class="p">],</span>
 </span><span id="__span-9-15"><a id="__codelineno-9-15" name="__codelineno-9-15" href="#__codelineno-9-15"></a><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="n">Any</span><span class="p">,</span> <span class="o">...</span><span class="p">],</span> <span class="o">...</span><span class="p">]:</span>
 </span><span id="__span-9-16"><a id="__codelineno-9-16" name="__codelineno-9-16" href="#__codelineno-9-16"></a>    <span class="k">return</span> <span class="nb">tuple</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="o">*</span><span class="n">packed</span><span class="p">))</span>
 </span><span id="__span-9-17"><a id="__codelineno-9-17" name="__codelineno-9-17" href="#__codelineno-9-17"></a>
@@ -1771,7 +1813,7 @@ With <code>TypeVarTuple</code>, we can capture the variable number of dimension 
 </span><span id="__span-10-14"><a id="__codelineno-10-14" name="__codelineno-10-14" href="#__codelineno-10-14"></a>
 </span><span id="__span-10-15"><a id="__codelineno-10-15" name="__codelineno-10-15" href="#__codelineno-10-15"></a><span class="k">class</span> <span class="nc">Tensor</span><span class="p">(</span><span class="n">Generic</span><span class="p">[</span><span class="n">T</span><span class="p">,</span> <span class="n">Unpack</span><span class="p">[</span><span class="n">Shape</span><span class="p">]]):</span>
 </span><span id="__span-10-16"><a id="__codelineno-10-16" name="__codelineno-10-16" href="#__codelineno-10-16"></a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
-</span><span id="__span-10-17"><a id="__codelineno-10-17" name="__codelineno-10-17" href="#__codelineno-10-17"></a>        <span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="nb">list</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">shape</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">Unpack</span><span class="p">[</span><span class="n">Shape</span><span class="p">]]</span>
+</span><span id="__span-10-17"><a id="__codelineno-10-17" name="__codelineno-10-17" href="#__codelineno-10-17"></a>            <span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="nb">list</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">shape</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">Unpack</span><span class="p">[</span><span class="n">Shape</span><span class="p">]]</span>
 </span><span id="__span-10-18"><a id="__codelineno-10-18" name="__codelineno-10-18" href="#__codelineno-10-18"></a>    <span class="p">):</span>
 </span><span id="__span-10-19"><a id="__codelineno-10-19" name="__codelineno-10-19" href="#__codelineno-10-19"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">data</span>
 </span><span id="__span-10-20"><a id="__codelineno-10-20" name="__codelineno-10-20" href="#__codelineno-10-20"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">shape</span> <span class="o">=</span> <span class="n">shape</span>
@@ -1895,7 +1937,7 @@ type safety.</p>
 <h3 id="invariant-default">Invariant (default)<a class="headerlink" href="#invariant-default" title="Permanent link">#</a></h3>
 <p>A generic class is invariant in its type parameters unless explicitly declared otherwise.
 For example, given <code>Dog</code> is a subclass of <code>Animal</code>, <code>Box[Dog]</code> is not considered a subtype of <code>Box[Animal]</code>.
-This is unsafe because you could then put a <code>Cat</code> (another <code>Animal</code>) into a <code>Box[Animal]</code> which is actually a <code>Box[Dog]</code>
+This is unsafe because you could then put a <code>Cat</code> (another <code>Animal</code>) into a <code>Box[Animal]</code> which is a <code>Box[Dog]</code>
 internally.
 The type checker forbids treating <code>Box[Dog]</code> as a <code>Box[Animal]</code>.</p>
 <h3 id="covariant">Covariant<a class="headerlink" href="#covariant" title="Permanent link">#</a></h3>
@@ -1994,7 +2036,7 @@ We can write a generic higher-order function to do this:</p>
 </span><span id="__span-15-7"><a id="__codelineno-15-7" name="__codelineno-15-7" href="#__codelineno-15-7"></a>
 </span><span id="__span-15-8"><a id="__codelineno-15-8" name="__codelineno-15-8" href="#__codelineno-15-8"></a>
 </span><span id="__span-15-9"><a id="__codelineno-15-9" name="__codelineno-15-9" href="#__codelineno-15-9"></a><span class="k">def</span> <span class="nf">curry_two_arg</span><span class="p">(</span>
-</span><span id="__span-15-10"><a id="__codelineno-15-10" name="__codelineno-15-10" href="#__codelineno-15-10"></a>    <span class="n">func</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">],</span> <span class="n">Z</span><span class="p">],</span>
+</span><span id="__span-15-10"><a id="__codelineno-15-10" name="__codelineno-15-10" href="#__codelineno-15-10"></a>        <span class="n">func</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">],</span> <span class="n">Z</span><span class="p">],</span>
 </span><span id="__span-15-11"><a id="__codelineno-15-11" name="__codelineno-15-11" href="#__codelineno-15-11"></a><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">X</span><span class="p">],</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">Y</span><span class="p">],</span> <span class="n">Z</span><span class="p">]]:</span>
 </span><span id="__span-15-12"><a id="__codelineno-15-12" name="__codelineno-15-12" href="#__codelineno-15-12"></a>    <span class="k">def</span> <span class="nf">curried</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="n">X</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">Y</span><span class="p">],</span> <span class="n">Z</span><span class="p">]:</span>
 </span><span id="__span-15-13"><a id="__codelineno-15-13" name="__codelineno-15-13" href="#__codelineno-15-13"></a>        <span class="k">def</span> <span class="nf">inner</span><span class="p">(</span><span class="n">y</span><span class="p">:</span> <span class="n">Y</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Z</span><span class="p">:</span>
@@ -2147,13 +2189,13 @@ or a list of JSON, or a primitive (<code>str</code>, <code>int</code>, <code>boo
 We can express this as:</p>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-19-1"><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a><span class="c1"># recursive_alias.py</span>
 </span><span id="__span-19-2"><a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a><span class="n">JSON</span> <span class="o">=</span> <span class="p">(</span>
-</span><span id="__span-19-3"><a id="__codelineno-19-3" name="__codelineno-19-3" href="#__codelineno-19-3"></a>    <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="s2">&quot;JSON&quot;</span><span class="p">]</span>
-</span><span id="__span-19-4"><a id="__codelineno-19-4" name="__codelineno-19-4" href="#__codelineno-19-4"></a>    <span class="o">|</span> <span class="nb">list</span><span class="p">[</span><span class="s2">&quot;JSON&quot;</span><span class="p">]</span>
-</span><span id="__span-19-5"><a id="__codelineno-19-5" name="__codelineno-19-5" href="#__codelineno-19-5"></a>    <span class="o">|</span> <span class="nb">str</span>
-</span><span id="__span-19-6"><a id="__codelineno-19-6" name="__codelineno-19-6" href="#__codelineno-19-6"></a>    <span class="o">|</span> <span class="nb">int</span>
-</span><span id="__span-19-7"><a id="__codelineno-19-7" name="__codelineno-19-7" href="#__codelineno-19-7"></a>    <span class="o">|</span> <span class="nb">float</span>
-</span><span id="__span-19-8"><a id="__codelineno-19-8" name="__codelineno-19-8" href="#__codelineno-19-8"></a>    <span class="o">|</span> <span class="nb">bool</span>
-</span><span id="__span-19-9"><a id="__codelineno-19-9" name="__codelineno-19-9" href="#__codelineno-19-9"></a>    <span class="o">|</span> <span class="kc">None</span>
+</span><span id="__span-19-3"><a id="__codelineno-19-3" name="__codelineno-19-3" href="#__codelineno-19-3"></a>        <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="s2">&quot;JSON&quot;</span><span class="p">]</span>
+</span><span id="__span-19-4"><a id="__codelineno-19-4" name="__codelineno-19-4" href="#__codelineno-19-4"></a>        <span class="o">|</span> <span class="nb">list</span><span class="p">[</span><span class="s2">&quot;JSON&quot;</span><span class="p">]</span>
+</span><span id="__span-19-5"><a id="__codelineno-19-5" name="__codelineno-19-5" href="#__codelineno-19-5"></a>        <span class="o">|</span> <span class="nb">str</span>
+</span><span id="__span-19-6"><a id="__codelineno-19-6" name="__codelineno-19-6" href="#__codelineno-19-6"></a>        <span class="o">|</span> <span class="nb">int</span>
+</span><span id="__span-19-7"><a id="__codelineno-19-7" name="__codelineno-19-7" href="#__codelineno-19-7"></a>        <span class="o">|</span> <span class="nb">float</span>
+</span><span id="__span-19-8"><a id="__codelineno-19-8" name="__codelineno-19-8" href="#__codelineno-19-8"></a>        <span class="o">|</span> <span class="nb">bool</span>
+</span><span id="__span-19-9"><a id="__codelineno-19-9" name="__codelineno-19-9" href="#__codelineno-19-9"></a>        <span class="o">|</span> <span class="kc">None</span>
 </span><span id="__span-19-10"><a id="__codelineno-19-10" name="__codelineno-19-10" href="#__codelineno-19-10"></a><span class="p">)</span>
 </span></code></pre></div>
 <p>This defines <code>JSON</code> as a recursive type alias: it can be a dictionary mapping strings to JSON values, or a list of JSON
@@ -2392,7 +2434,7 @@ For example:</p>
 </span><span id="__span-30-6"><a id="__codelineno-30-6" name="__codelineno-30-6" href="#__codelineno-30-6"></a>
 </span><span id="__span-30-7"><a id="__codelineno-30-7" name="__codelineno-30-7" href="#__codelineno-30-7"></a>
 </span><span id="__span-30-8"><a id="__codelineno-30-8" name="__codelineno-30-8" href="#__codelineno-30-8"></a><span class="k">def</span> <span class="nf">scale_points</span><span class="p">(</span>
-</span><span id="__span-30-9"><a id="__codelineno-30-9" name="__codelineno-30-9" href="#__codelineno-30-9"></a>    <span class="n">points</span><span class="p">:</span> <span class="n">Vector</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span> <span class="n">factor</span><span class="p">:</span> <span class="nb">int</span>
+</span><span id="__span-30-9"><a id="__codelineno-30-9" name="__codelineno-30-9" href="#__codelineno-30-9"></a>        <span class="n">points</span><span class="p">:</span> <span class="n">Vector</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span> <span class="n">factor</span><span class="p">:</span> <span class="nb">int</span>
 </span><span id="__span-30-10"><a id="__codelineno-30-10" name="__codelineno-30-10" href="#__codelineno-30-10"></a><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Vector</span><span class="p">[</span><span class="nb">int</span><span class="p">]:</span>
 </span><span id="__span-30-11"><a id="__codelineno-30-11" name="__codelineno-30-11" href="#__codelineno-30-11"></a>    <span class="k">return</span> <span class="p">[(</span><span class="n">x</span> <span class="o">*</span> <span class="n">factor</span><span class="p">,</span> <span class="n">y</span> <span class="o">*</span> <span class="n">factor</span><span class="p">)</span> <span class="k">for</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span> <span class="ow">in</span> <span class="n">points</span><span class="p">]</span>
 </span></code></pre></div>
@@ -2429,7 +2471,7 @@ interfaces (<code>Sequence[BaseType]</code> which is covariant for reading, or <
 Alternatively, copy the list to a new covariant container if needed for output only.
 Understanding when to use covariant or contravariant TypeVars (or just avoiding the situation) is important.</p>
 <h3 id="pitfall-too-general-typevars-or-overuse-of-any">Pitfall: Too General TypeVars (or Overuse of Any)<a class="headerlink" href="#pitfall-too-general-typevars-or-overuse-of-any" title="Permanent link">#</a></h3>
-<p>Using a <code>TypeVar</code> when your function actually expects a more specific capability can lead to confusing errors or overly
+<p>Using a <code>TypeVar</code> when your function expects a more specific capability can lead to confusing errors or overly
 permissive acceptance.
 For example:</p>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-33-1"><a id="__codelineno-33-1" name="__codelineno-33-1" href="#__codelineno-33-1"></a><span class="c1"># too_general.py</span>

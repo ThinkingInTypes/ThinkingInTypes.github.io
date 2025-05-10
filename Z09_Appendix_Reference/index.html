@@ -14,6 +14,8 @@
         <link rel="prev" href="../Z08_Appendix_Book_Notes/">
       
       
+        <link rel="next" href="../Z10_Appendix_Error_Suppression/">
+      
       
       <link rel="icon" href="../img/favicon.png">
       <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.8">
@@ -451,27 +453,6 @@
   
   <span class="md-ellipsis">
     12: Errors as Values
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../C13_Uncategorized_Topics/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    13: Uncategorized Topics
     
   </span>
   
@@ -1145,6 +1126,69 @@
   
 </nav>
       
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Z10_Appendix_Error_Suppression/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    A10: Error Suppression
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Z11_Appendix_Dynamic_Smalltalk_vs_Static_Typing/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    A11: Dynamic Smalltalk vs Static Typing
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Z12_Appendix_Uncategorized_Topics/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    A12: Uncategorized Topics
+    
+  </span>
+  
+
+      </a>
     </li>
   
 
@@ -1874,7 +1918,7 @@ Overloading is for the benefit of static analysis; at runtime only the final imp
 <h3 id="override-decorator-pep-698">Override decorator (PEP 698)<a class="headerlink" href="#override-decorator-pep-698" title="Permanent link">#</a></h3>
 <p>In Python 3.12 a new <code>typing.override</code> decorator was added to improve correctness in class hierarchies.
 You place <code>@override</code> on a method to override a method of the same name in the base class.
-This doesn't change runtime behavior, but a type checker will verify that you are actually overriding a base class method and that your method's signature is compatible with the base class version.
+This doesn't change runtime behavior, but a type checker will verify that you are overriding a base class method and that your method's signature is compatible with the base class version.
 This helps catch errors where you intended to override a method but misspelled its name or got the signature wrong.
 Using <code>@override</code> can make code maintenance safer in large class hierarchies.</p>
 <h2 id="parameter-specifications-for-higher-order-functions-pep-612">Parameter Specifications for Higher-Order Functions (PEP 612)<a class="headerlink" href="#parameter-specifications-for-higher-order-functions-pep-612" title="Permanent link">#</a></h2>
