@@ -29,12 +29,16 @@ For example:
 
 ```python
 # example_1.py
-# Without ignore, this would be a type error (int vs. str).
+from book_utils import Catch
+
+
 def add(x: int, y: int) -> int:
     return x + y
 
 
-result = add(5, "7")  # type: ignore
+# Without ignore, this produces a type error (int vs. str):
+with Catch():
+    result = add(5, "7")  # type: ignore
 ```
 
 Here the `# type: ignore` comment silences the mismatch.
@@ -53,7 +57,7 @@ For example:
 
 ```python
 # example_2.py
-from math import *  # noqa
+from math import *  # type: ignore  # noqa
 ```
 
 Without `# noqa`, a linter like Flake8 would warn about the wildcard import.
@@ -77,7 +81,7 @@ For example, to please both Mypy and Ruff, do:
 
 ```python
 # example_4.py
-from .local import *  # type: ignore  # noqa
+from book_utils import *  # type: ignore  # noqa
 ```
 
 The order matters: put `# type: ignore` before `# noqa` (with at least two spaces) so each tool recognizes its part.
@@ -96,8 +100,8 @@ For example:
 
 ```python
 # example_5.py
-foo: int = "123"  # pyright: ignore
-bar: int = "123"  # pyright: ignore [reportGeneralTypeIssues]
+foo: int = "123"  # pyright: ignore # noqa
+bar: int = "123"  # pyright: ignore [reportGeneralTypeIssues] # type: ignore # noqa
 ```
 
 The first comment silences all Pyright errors on that line, the second suppresses only the named category.
@@ -130,8 +134,7 @@ For instance:
 class Server:
     def accept(self):
         self.socket = object()  # imagine this is set in listen()
-        return self.socket.recv()  # pytype: disable=attribute-error
-
+        return self.socket.recv()  # pytype: disable=attribute-error # type: ignore # noqa
 ```
 
 Here we disable the "attribute-error" warning that `socket` might not have `recv` yet.

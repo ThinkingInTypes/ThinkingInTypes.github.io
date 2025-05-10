@@ -38,7 +38,6 @@ nav:
   - '10: Structural Typing': C10_Structural_Typing.md
   - '11: Make Illegal Types Unrepresentable': C11_Make_Illegal_Types_Unrepresentable.md
   - '12: Errors as Values': C12_Errors_as_Values.md
-  - '13: Uncategorized Topics': C13_Uncategorized_Topics.md
   - 'A1: Quick Reference': Z01_Appendix_Quick_Reference.md
   - 'A2: Guidelines': Z02_Appendix_Guidelines.md
   - 'A3: Type Checkers': Z03_Appendix_Type_Checkers.md
@@ -48,3 +47,6 @@ nav:
   - 'A7: Book Utilities': Z07_Appendix_Book_Utilities.md
   - 'A8: Book Notes': Z08_Appendix_Book_Notes.md
   - 'A9: Reference': Z09_Appendix_Reference.md
+  - 'A10: Error Suppression': Z10_Appendix_Error_Suppression.md
+  - 'A11: Dynamic Smalltalk vs Static Typing': Z11_Appendix_Dynamic_Smalltalk_vs_Static_Typing.md
+  - 'A12: Uncategorized Topics': Z12_Appendix_Uncategorized_Topics.md

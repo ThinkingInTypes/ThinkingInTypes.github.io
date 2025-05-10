@@ -23,7 +23,7 @@ Building Stubbornly Resilient Python Code
 > My hope is that even during development, you will find the material useful.
 
 <style>
-  @media screen and (min-width: 960px) {
+  @media screen and (min-width: 1200px) {
     .toc-toggle-button {
       display: none !important;
     }
