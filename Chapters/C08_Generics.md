@@ -296,13 +296,13 @@ Ts = TypeVarTuple("Ts")
 
 
 def zip_variadic(
-        *args: tuple[Unpack[Ts]],
+    *args: tuple[Unpack[Ts]],
 ) -> tuple[Tuple[*Ts], ...]:
     return tuple(zip(*args))
 
 
 def unzip_variadic(
-        packed: tuple[tuple[Any, ...], ...],
+    packed: tuple[tuple[Any, ...], ...],
 ) -> tuple[tuple[Any, ...], ...]:
     return tuple(zip(*packed))
 
@@ -366,7 +366,7 @@ Shape = TypeVarTuple("Shape")
 
 class Tensor(Generic[T, Unpack[Shape]]):
     def __init__(
-            self, data: list, *, shape: tuple[Unpack[Shape]]
+        self, data: list, *, shape: tuple[Unpack[Shape]]
     ):
         self.data = data
         self.shape = shape
@@ -613,7 +613,7 @@ Z = TypeVar("Z")
 
 
 def curry_two_arg(
-        func: Callable[[X, Y], Z],
+    func: Callable[[X, Y], Z],
 ) -> Callable[[X], Callable[[Y], Z]]:
     def curried(x: X) -> Callable[[Y], Z]:
         def inner(y: Y) -> Z:
@@ -792,13 +792,13 @@ We can express this as:
 ```python
 # recursive_alias.py
 JSON = (
-        dict[str, "JSON"]
-        | list["JSON"]
-        | str
-        | int
-        | float
-        | bool
-        | None
+    dict[str, "JSON"]
+    | list["JSON"]
+    | str
+    | int
+    | float
+    | bool
+    | None
 )
 ```
 
@@ -1089,7 +1089,7 @@ Vector = list[tuple[T, T]]
 
 
 def scale_points(
-        points: Vector[int], factor: int
+    points: Vector[int], factor: int
 ) -> Vector[int]:
     return [(x * factor, y * factor) for (x, y) in points]
 ```

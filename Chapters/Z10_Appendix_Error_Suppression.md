@@ -118,7 +118,6 @@ For example:
 def f(x: int) -> str:
     return x  # type: ignore      # This mismatches return type
     # pyre-ignore-all-errors[7]  # ignore "incompatible return type" for file
-
 ```
 
 Pyre's docs explain that `# pyre-ignore` means "there's an issue with the type checker or code… we have decided not to fix this".
