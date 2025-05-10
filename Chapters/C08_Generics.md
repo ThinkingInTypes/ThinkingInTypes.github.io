@@ -296,13 +296,13 @@ Ts = TypeVarTuple("Ts")
 
 
 def zip_variadic(
-    *args: tuple[Unpack[Ts]],
+        *args: tuple[Unpack[Ts]],
 ) -> tuple[Tuple[*Ts], ...]:
     return tuple(zip(*args))
 
 
 def unzip_variadic(
-    packed: tuple[tuple[Any, ...], ...],
+        packed: tuple[tuple[Any, ...], ...],
 ) -> tuple[tuple[Any, ...], ...]:
     return tuple(zip(*packed))
 
@@ -366,7 +366,7 @@ Shape = TypeVarTuple("Shape")
 
 class Tensor(Generic[T, Unpack[Shape]]):
     def __init__(
-        self, data: list, *, shape: tuple[Unpack[Shape]]
+            self, data: list, *, shape: tuple[Unpack[Shape]]
     ):
         self.data = data
         self.shape = shape
@@ -496,7 +496,7 @@ type safety.
 
 A generic class is invariant in its type parameters unless explicitly declared otherwise.
 For example, given `Dog` is a subclass of `Animal`, `Box[Dog]` is not considered a subtype of `Box[Animal]`.
-This is unsafe because you could then put a `Cat` (another `Animal`) into a `Box[Animal]` which is actually a `Box[Dog]`
+This is unsafe because you could then put a `Cat` (another `Animal`) into a `Box[Animal]` which is a `Box[Dog]`
 internally.
 The type checker forbids treating `Box[Dog]` as a `Box[Animal]`.
 
@@ -613,7 +613,7 @@ Z = TypeVar("Z")
 
 
 def curry_two_arg(
-    func: Callable[[X, Y], Z],
+        func: Callable[[X, Y], Z],
 ) -> Callable[[X], Callable[[Y], Z]]:
     def curried(x: X) -> Callable[[Y], Z]:
         def inner(y: Y) -> Z:
@@ -792,13 +792,13 @@ We can express this as:
 ```python
 # recursive_alias.py
 JSON = (
-    dict[str, "JSON"]
-    | list["JSON"]
-    | str
-    | int
-    | float
-    | bool
-    | None
+        dict[str, "JSON"]
+        | list["JSON"]
+        | str
+        | int
+        | float
+        | bool
+        | None
 )
 ```
 
@@ -1089,7 +1089,7 @@ Vector = list[tuple[T, T]]
 
 
 def scale_points(
-    points: Vector[int], factor: int
+        points: Vector[int], factor: int
 ) -> Vector[int]:
     return [(x * factor, y * factor) for (x, y) in points]
 ```
@@ -1140,7 +1140,7 @@ Understanding when to use covariant or contravariant TypeVars (or just avoiding 
 
 ### Pitfall: Too General TypeVars (or Overuse of Any)
 
-Using a `TypeVar` when your function actually expects a more specific capability can lead to confusing errors or overly
+Using a `TypeVar` when your function expects a more specific capability can lead to confusing errors or overly
 permissive acceptance.
 For example:
 

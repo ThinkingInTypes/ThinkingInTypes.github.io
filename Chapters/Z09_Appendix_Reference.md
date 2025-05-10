@@ -317,7 +317,7 @@ Overloading is for the benefit of static analysis; at runtime only the final imp
 
 In Python 3.12 a new `typing.override` decorator was added to improve correctness in class hierarchies.
 You place `@override` on a method to override a method of the same name in the base class.
-This doesn't change runtime behavior, but a type checker will verify that you are actually overriding a base class method and that your method's signature is compatible with the base class version.
+This doesn't change runtime behavior, but a type checker will verify that you are overriding a base class method and that your method's signature is compatible with the base class version.
 This helps catch errors where you intended to override a method but misspelled its name or got the signature wrong.
 Using `@override` can make code maintenance safer in large class hierarchies.
 

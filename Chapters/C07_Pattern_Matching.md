@@ -119,7 +119,7 @@ The subject `"hello"` is not `"quit"`, so it falls to `case other:`.
 This pattern matches unconditionally and binds the name `other` to the value of `command` (which is `"hello"`).
 The result is that it prints: `Received unknown command: 'hello'`.
 Essentially, `other` serves as a catch-all variable for "anything else."
-In this role, a capture is similar to the wildcard `_` (which also matches anything) except that we actually get to use the captured value in the code.
+In this role, a capture is similar to the wildcard `_` (which also matches anything) except that we can use the captured value in the code.
 
 Capture patterns are extremely useful when you need to extract parts of a structure.
 For example, matching a tuple `case (x, y):` uses two capture sub-patterns `x` and `y` to pull out the elements of the tuple.
@@ -164,7 +164,7 @@ from typing import Any
 
 
 def wildcard_ignore(
-    point: tuple[float, Any, Any],
+        point: tuple[float, Any, Any],
 ) -> None:
     match point:
         case (x, _, _):
@@ -443,7 +443,7 @@ If you have a fixed schema for a dict, pattern matching can clearly express the 
 ## Class Patterns
 
 Class patterns match objects of a specific class and extract their attributes.
-They use a syntax reminiscent of calling a constructor, but no object is actually created in a case pattern--instead, Python checks the subject is an instance of that class and then pulls out specified attributes.
+They use a syntax reminiscent of calling a constructor, but no object is created in a case pattern--instead, Python checks the subject is an instance of that class and then pulls out specified attributes.
 This is a form of _structured binding_ or deconstruction for user-defined types.
 
 The basic form is `ClassName(attr1=subpattern1, attr2=subpattern2, ...)`.
@@ -544,10 +544,10 @@ def shape_area(shape: Circle | Square) -> float:
     match shape:
         case Circle(radius=r):
             # Here shape is type Circle:
-            return 3.14 * r**2
+            return 3.14 * r ** 2
         case Square(side=s):
             # Here shape is type Square:
-            return s**2
+            return s ** 2
         case _:
             raise ValueError("Unsupported shape")
 ```
@@ -769,7 +769,7 @@ request = {"method": "POST", "payload": {"id": 42}}
 
 match request:
     case {"method": m, "payload": data} if (
-        m == "POST" and "id" in data
+            m == "POST" and "id" in data
     ):
         data = cast(dict[str, Any], data)
         print(f"POST request with id {data['id']}")

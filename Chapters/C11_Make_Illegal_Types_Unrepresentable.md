@@ -23,7 +23,7 @@ This study suggested that the vast majority of systems were using strings as the
 
 Because you can put any characters in any format into a string, such "stringly typed" systems
 (an ironic play on "strongly typed") may be the worst of all possible worlds.
-Unless it's actually text, classifying something as a string doesn't tell you anything.
+Unless it's text, classifying something as a string doesn't tell you anything.
 When a function receives a string meant to represent a type, that function can assume precisely nothing about it.
 Every such function must start from scratch and analyze that string to see if it conforms to what that function needs.
 
