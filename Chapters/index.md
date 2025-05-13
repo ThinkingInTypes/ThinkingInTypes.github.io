@@ -21,6 +21,7 @@ Building Stubbornly Resilient Python Code
 > However, the book development tooling is in place, so all examples are tested
 > (If something doesn't work, please [report it](https://github.com/ThinkingInTypes/ThinkingInTypes_Examples/issues)).
 > My hope is that even during development, you will find the material useful.
+> Pull requests welcome.
 
 <style>
   @media screen and (min-width: 1200px) {
