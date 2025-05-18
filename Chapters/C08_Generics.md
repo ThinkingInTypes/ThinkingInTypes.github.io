@@ -8,18 +8,40 @@ early during development.
 
 TODO: Probably divide this into "Generics" here and "Advanced Generics" at the end of the book.
 
-## Defining Custom Generics with TypeVar and Generic
+## Defining Custom Generics
 
-Python supports *parameterized types* via the `typing` module.
-The most fundamental tool for creating generics is `TypeVar`, which allows you to declare a *type variable*--a
-placeholder for an arbitrary type that can vary.
-You typically pair `TypeVar` with the `Generic` base class (or the shorthand notation in newer Python versions) to
-define generic classes, or with function definitions to create generic functions.
+Python directly supports *parameterized types*.
+This allows you to declare a *type variable*, which is a placeholder for an arbitrary type.
 
-### Generic Functions with TypeVar
+### Generic Functions
 
 For functions, a type variable enables the function to accept and return values of the same arbitrary type.
-For example, a simple identity function or an "echo" function can be made generic:
+Here is a generic function expressing identity:
+
+```python
+# generic_function.py
+
+def identity[T](value: T) -> T:
+    return value
+
+
+print(identity(42))
+## 42
+print(identity("Hello"))
+## Hello
+```
+
+Here, the type variable `T` contains the type of both the `value` parameter and the return type.
+The type checker enforces that both are the same type.
+If you call `identity(42)`, `T` is inferred as `int`, so the function takes returns an `int`.
+For `identity("Hello")`, `T` is `str`.
+Thus, this function works for any type but always returns the same type it is given.
+
+Generic functions are useful for algorithms that work uniformly on multiple types.
+Common examples include utility functions like `identity`, data retrieval functions that return the type of whatever
+they fetch, or factory functions that construct objects of a type.
+
+Originally, type variables had to be explicitly declared using `TypeVar`:
 
 ```python
 # typevars.py
@@ -28,79 +50,60 @@ from typing import TypeVar
 T = TypeVar("T")  # Define a TypeVar named T
 
 
-def echo(value: T) -> T:
+def identity(value: T) -> T:
     return value
 
 
-print(echo(42))
+print(identity(42))
 ## 42
-print(echo("Hello"))
+print(identity("Hello"))
 ## Hello
 ```
 
-In `echo`, the type variable `T` represents the type of the `value` parameter and the return type.
-The type checker will enforce that both are the same.
-When you call `echo(42)`, `T` is inferred as `int` (so the function returns an `int`), and for `echo("Hello")`, `T` is
-`str`.
-This way, one function works for any type but always returns the same type it was given.
+Python 3.12 removed this requirement, improving the syntax significantly.
+This book uses the modern syntax, but you may come across older code that uses `TypeVar`s.
 
-Generic functions are useful for algorithms that work uniformly on multiple types.
-Common examples include utility functions like `identity`, data retrieval functions that return the type of whatever
-they fetch, or factory functions that construct objects of a type.
-
-### Generic Classes with TypeVar and Generic
+### Generic Classes
 
 For classes, generics allow the class to operate on or store various types without sacrificing type safety.
-To define a generic class, you use `TypeVar` and have the class inherit from `Generic[T]` (where `T` is a type
-variable).
-Alternatively, for Python 3.9+, you can use the square bracket notation directly in the class definition (in Python
-3.12+, the syntax is further improved to allow inline type parameters, but we'll use the standard approach for
-compatibility).
-
-Let's define a generic class `Box` that can hold a value of any type:
+Here's a generic class `Box` that can hold a value of any type:
 
 ```python
 # box.py
-from typing import Generic, TypeVar
+from dataclasses import dataclass
+from typing_extensions import reveal_type
 
-U = TypeVar("U")  # a generic type for content
 
-
-class Box(Generic[U]):
-    def __init__(self, content: U) -> None:
-        self.content: U = content
+@dataclass
+class Box[U]:
+    content: U
 
     def get_content(self) -> U:
+        reveal_type(self.content)
         return self.content
 
 
 int_box = Box(123)  # U is inferred as int
 str_box = Box("Python")  # U is inferred as str
-print(int_box.get_content())  # 123
+print(int_box.get_content())
 ## 123
-print(str_box.get_content())  # Python
+print(str_box.get_content())
 ## Python
 ```
 
-Here, `Box` is a generic class parameterized by `U`.
-When we create `Box(123)`, the type checker knows `U` is `int` for that instance (a `Box[int]`), and for
-`Box("Python")`, `U` is `str` (`Box[str]`).
+`Box` is a generic class parameterized by `U`.
+When we create `Box(123)`, the type checker knows `U` is `int` for that instance.
+For `Box("Python")`, `U` is `str` (`Box[str]`).
 The attribute `content` and return type of `get_content` are accordingly typed.
 
-The class definition `class Box(Generic[U])` tells the type system that `Box` has a type parameter `U`.
+The class definition `class Box[U]` tells the type system that `Box` has a type parameter `U`.
 At runtime, `Box` is just a normal class (after all, Python's generics are mostly static and erased at runtime), but for
 type checking, `Box[int]` and `Box[str]` are treated as different instantiations of the generic class.
-This prevents, for example, accidentally putting a `str` into a `Box[int]` after it's been created.
+This prevents, for example, accidentally putting a `str` into a `Box[int]`.
 
 Note that we did not explicitly write `Box[int]` or `Box[str]` when constructing the boxes.
 The type checker infers `U` from the constructor argument.
-We could also annotate variables or parameters with explicit instantiations like `Box[int]` if needed.
-
-In newer Python, the built-in collection classes (list, dict, etc.) and user-defined generics support the shorthand
-`ClassName[Type]` syntax directly.
-For example, one can define `class Box[T]:` in Python 3.12+ instead of using `Generic[T]`.
-However, to keep this guide accessible, we stick to the classic notation with `Generic` for now, which works in Python
-3.7 and above.
+We can also annotate variables or parameters with explicit instantiations like `Box[int]` if needed.
 
 ## Constraints and Bounds on Type Variables
 
@@ -225,8 +228,7 @@ The type of `result` is a tuple whose first element is a `str` and second is an 
 Type variables can also depend on each other through constraints or bounds.
 However, Python's typing does not allow directly expressing complex relationships (like saying two type variables must
 be the same subtype of some base).
-In such cases, it's common to use a single `TypeVar` in multiple places to indicate they must match, or use protocols (
-discussed later) for more complex constraints.
+In such cases, it's common to use a single `TypeVar` in multiple places to indicate they must match, or use protocols (discussed later) for more complex constraints.
 
 ## `TypeVarTuple`
 
@@ -256,12 +258,7 @@ Previously, you could only define generics like:
 
 ```python
 # previous_generics.py
-from typing import Generic, TypeVar
-
-T = TypeVar("T")
-
-
-class Box(Generic[T]): ...
+class Box[T]: ...
 ```
 
 But what if you want a generic `TupleWrapper` that can handle any number of types?
@@ -270,12 +267,8 @@ With it, you can write:
 
 ```python
 # tuple_wrapper.py
-from typing import Generic, TypeVarTuple
 
-Ts = TypeVarTuple("Ts")
-
-
-class TupleWrapper(Generic[*Ts]):
+class TupleWrapper[*Ts]:
     def __init__(self, *values: *Ts):
         self.values = values
 
@@ -351,22 +344,11 @@ With `TypeVarTuple`, we can capture the variable number of dimension sizes.
 
 ```python
 # n_dimensional_tensor.py
-from typing import (
-    TypeVar,
-    TypeVarTuple,
-    Generic,
-    Unpack,
-    Literal,
-    TypeAlias,
-)
+from typing import Literal, TypeAlias
 
-T = TypeVar("T")
-Shape = TypeVarTuple("Shape")
-
-
-class Tensor(Generic[T, Unpack[Shape]]):
+class Tensor[T, *Shape]:
     def __init__(
-        self, data: list, *, shape: tuple[Unpack[Shape]]
+        self, data: list, *, shape: tuple[*Shape]
     ):
         self.data = data
         self.shape = shape
@@ -404,8 +386,6 @@ from typing import (
     Callable,
     ParamSpec,
     TypeVar,
-    TypeVarTuple,
-    Unpack,
 )
 
 P = ParamSpec("P")
@@ -496,11 +476,11 @@ type safety.
 
 A generic class is invariant in its type parameters unless explicitly declared otherwise.
 For example, given `Dog` is a subclass of `Animal`, `Box[Dog]` is not considered a subtype of `Box[Animal]`.
-This is unsafe because you could then put a `Cat` (another `Animal`) into a `Box[Animal]` which is a `Box[Dog]`
+This is unsafe because you can then put a `Cat` (another `Animal`) into a `Box[Animal]` which is a `Box[Dog]`
 internally.
 The type checker forbids treating `Box[Dog]` as a `Box[Animal]`.
 
-### Covariant
+### Covariance
 
 A generic type is covariant in a type parameter if `Generic[Sub]` is a subtype of `Generic[Base]` whenever `Sub` is a
 subtype of `Base`.
@@ -535,9 +515,9 @@ Here, `ReadOnlyBox[T_co]` is defined with a covariant type parameter `T_co`.
 That signals to the type checker that it is safe to treat `ReadOnlyBox[Dog]` as a `ReadOnlyBox[Animal]`, because
 `ReadOnlyBox` only produces `T_co` (via `get_content`) and never consumes it in a type-specific way.
 Covariance is appropriate when the generic class is basically a container of T that only returns T (and doesn't accept T
-instances that could violate assumptions).
+instances that can violate assumptions).
 
-### Contravariant
+### Contravariance
 
 A generic type is contravariant in a type parameter if `Generic[Base]` is a subtype of `Generic[Sub]` whenever `Sub` is
 a subtype of `Base`.
@@ -645,7 +625,7 @@ The types are correctly maintained.
 
 This kind of generic currying function uses higher-order generics (a function that returns another function).
 Python's `Callable` type is used to annotate callables.
-We could also achieve a similar result using `ParamSpec` from `typing` (which allows capturing an arbitrary list of
+We can also achieve a similar result using `ParamSpec` from `typing` (which allows capturing an arbitrary list of
 parameters),
 but using explicit type variables for a fixed small number of parameters is straightforward for illustration.
 
@@ -934,7 +914,7 @@ class IterableLike(Protocol[T]):
 ```
 
 Now `IterableLike[T]` can be used to describe any iterable of `T` without forcing a specific inheritance.
-If you have a function that processes an iterable of `T`, you could annotate a parameter as `IterableLike[T]`.
+For a function that processes an iterable of `T`, you can annotate a parameter as `IterableLike[T]`.
 Any class that has an `__iter__` method returning an iterator of `T` will match.
 For example, built-in lists, sets, etc., already implement `__iter__`, so they satisfy `IterableLike`.
 
@@ -992,7 +972,7 @@ forgiveness rather than permission."
 **Use cases:** Protocols are useful when you want to accept "any object that has these methods."
 For example:
 
-- A serialization utility that works with any object that has a `to_json()` method could define a protocol for that
+- A serialization utility that works with any object that has a `to_json()` method can define a protocol for that
   method.
 - Defining callback signatures via protocols (PEP 544 allows a special case of protocols with `__call__` to match
   callables).
@@ -1132,11 +1112,11 @@ animals = dogs  # type: ignore
 ```
 
 Here a newcomer might think "a list of Dogs is a list of Animals," but that's not allowed because of invariance.
-The pitfall is not realizing that mutation of the list could break type assumptions.
+The pitfall is not realizing that mutation of the list can break type assumptions.
 If you find yourself needing to treat a `list[SubType]` as a `list[BaseType]`, reconsider your design or use abstract
 interfaces (`Sequence[BaseType]` which is covariant for reading, or `Collection[BaseType]`).
 Alternatively, copy the list to a new covariant container if needed for output only.
-Understanding when to use covariant or contravariant TypeVars (or just avoiding the situation) is important.
+Understand when to use covariant or contravariant TypeVars (or just avoid the situation).
 
 ### Pitfall: Too General TypeVars (or Overuse of Any)
 
@@ -1221,7 +1201,7 @@ def set_value(x: T) -> None:  # type: ignore
 
 If `global_var` is not also parameterized by `T` somehow, this use of `T` is misleading.
 The function `set_value` as written can accept any type, and the type of `global_var` cannot be described properly after
-calling it (it could be `int` if called with `int`, `str` if called with `str`, etc.).
+calling it (it can be `int` if called with `int`, `str` if called with `str`, etc.).
 This is probably a design mistake.
 In such cases, use a normal specific type (or `Any`) if the function isn't meant to be generic.
 Use `TypeVar` only for functions that really need to be generic.
@@ -1234,13 +1214,8 @@ For example:
 
 ```python
 # descriptive_typevars.py
-from typing import TypeVar, Generic
 
-KT = TypeVar("KT")  # Key type
-VT = TypeVar("VT")  # Value type
-
-
-class BiMap(Generic[KT, VT]): ...
+class BiMap[KT, VT]: ...
 ```
 
 This can make the code more self-documenting, especially if there are multiple type parameters that have roles (key vs.
