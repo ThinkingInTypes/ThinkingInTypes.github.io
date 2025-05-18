@@ -382,17 +382,9 @@ Here's a decorator that logs a function call without changing its type signature
 
 ```python
 # argument_preserving_decorator.py
-from typing import (
-    Callable,
-    ParamSpec,
-    TypeVar,
-)
+from typing import Callable
 
-P = ParamSpec("P")
-R = TypeVar("R")
-
-
-def log_call(fn: Callable[P, R]) -> Callable[P, R]:
+def log_call[**P, R](fn: Callable[P, R]) -> Callable[P, R]:
     def wrapper(*args: P.args, **kwargs: P.kwargs) -> R:
         print(f"Calling {fn.__name__} with {args=}, {kwargs=}")
         return fn(*args, **kwargs)
