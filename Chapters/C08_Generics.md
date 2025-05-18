@@ -230,39 +230,15 @@ However, Python's typing does not allow directly expressing complex relationship
 be the same subtype of some base).
 In such cases, it's common to use a single `TypeVar` in multiple places to indicate they must match, or use protocols (discussed later) for more complex constraints.
 
-## `TypeVarTuple`
+## Type Variable Tuples
 
-> Introduced in PEP 646, `TypeVarTuple` is available experimentally in Python 3.11+, and officially supported by PyRight
-> and (partially) by MyPy`.
+A _type variable tuple_ is like `*args`, but for types.
+It defines generic classes and functions that accept a variable number of types,
+creating more powerful and flexible type-safe abstractions.
+This is called _variadic generics_.
 
-`TypeVarTuple` is like `*args`, but for types.
-It defines generic classes and functions that accept a variable number of types, creating more powerful and
-flexible type-safe abstractions.
-It enables _variadic generics_, which let you define types that accept a variable number of type parameters,
-similar to how `*args` and `**kwargs` work at runtime.
-`TypeVarTuple` allows you to define a tuple of type variables--not just a fixed number like `T1, T2, T3`, but any number
-of them.
-While a `TypeVar` supports a single generic type, a `TypeVarTuple` produces an unpackable tuple of types.
-`Unpack` spreads a `TypeVarTuple` into a signature.
-
-```python
-# typevartuple.py
-from typing import TypeVarTuple
-
-Ts = TypeVarTuple("Ts")
-```
-
-You can then use `*Ts` to mean "a variable-length list of types."
-
-Previously, you could only define generics like:
-
-```python
-# previous_generics.py
-class Box[T]: ...
-```
-
-But what if you want a generic `TupleWrapper` that can handle any number of types?
-Without `TypeVarTuple`, you'd have to manually define each arity.
+Suppose you want a generic `TupleWrapper` that can handle any number of types.
+Without type variable tuple, you'd have to manually define each arity.
 With it, you can write:
 
 ```python
@@ -278,7 +254,7 @@ t2 = TupleWrapper("a", 2, 3.14)  # TupleWrapper[str, int, float]
 ```
 
 The type checker tracks the number and types of elements in `*Ts` individually.
-Let's explore `TypeVarTuple` by implementing a type-safe version of Python's built-in `zip()` function that works on
+Let's explore type variable tuple by implementing a type-safe version of Python's built-in `zip()` function that works on
 `tuple`s of different types:
 
 ```python
@@ -324,23 +300,22 @@ The `zip_variadic` signature says:
 ### Limitations (2025)
 
 - Requires Python 3.11+ and a type checker that supports it (PyRight does well, mypy still partial)
-- Can't yet mix `TypeVar` and `TypeVarTuple` freely in all places
+- Can't yet mix `TypeVar` and type variable tuple freely in all places
 - Still not supported in some older tools or linters
 
 ### Related Concepts
 
-| Feature        | Purpose                                  |
-|----------------|------------------------------------------|
-| `TypeVar`      | A single generic type                    |
-| `ParamSpec`    | A tuple of parameter types for callables |
-| `TypeVarTuple` | A tuple of arbitrary generic types       |
-| `Unpack`       | Used with `TypeVarTuple` to unpack them  |
+| Feature             | Purpose                                  |
+|---------------------|------------------------------------------|
+| `TypeVar`           | A single generic type                    |
+| `ParamSpec`         | A tuple of parameter types for callables |
+| type variable tuple | A tuple of arbitrary generic types       |
 
 ### Example: N-dimensional Tensor Shape
 
 Suppose you're building a generic `Tensor` type that carries its shape as part of its type.
 For example, `Tensor[float, 3, 3]` for a 3×3 matrix, or `Tensor[float, 2, 2, 2]` for a 3D cube.
-With `TypeVarTuple`, we can capture the variable number of dimension sizes.
+With type variable tuple, we can capture the variable number of dimension sizes.
 
 ```python
 # n_dimensional_tensor.py
@@ -415,45 +390,34 @@ print(add(2, 3))
 
 - Arguments are preserved exactly
 
-This isn't strictly `TypeVarTuple`, but it complements it:
+This isn't strictly a type variable tuple, but it complements it:
 
-- TypeVarTuple handles variadic type lists
+- type variable tuple handles variadic type lists
 - ParamSpec handles variadic function arguments
 
 ### Example: Record Type for Heterogeneous Tuples
 
-Let’s say you want a type-safe Record that stores a fixed tuple of fields,
+Let’s say you want a type-safe `Record` that stores a fixed tuple of fields,
 where each field can be a different type (like a database row or spreadsheet line):
 
 ```python
 # heterogeneous_record.py
-from typing import TypeVarTuple, Generic, Unpack
+from dataclasses import dataclass
 
-Fields = TypeVarTuple("Fields")
-
-
-class Record(Generic[*Fields]):
-    def __init__(self, *fields: *Fields):
-        self.fields = fields
+@dataclass
+class Record[*Fields]:
+    fields: tuple[*Fields]
 
     def __repr__(self) -> str:
-        return f"Record(fields={self.fields})"
+        return f"{self.__class__.__name__}(fields={self.fields})"
 
-    def to_tuple(self) -> tuple[*Fields]:
-        return self.fields
-
-
-r1 = Record(1, "Alice", 3.14)  # Record[int, str, float]
-r2 = Record(True, None)  # Record[bool, NoneType]
-
-print(r1.to_tuple())
-## (1, 'Alice', 3.14)
-print(r2.to_tuple())
-## (True, None)
+print(Record((1, "Alice", 3.14)))
+## Record(fields=(1, 'Alice', 3.14))
+print(Record((True, None)))
+## Record(fields=(True, None))
 ```
 
-- The type checker knows r1 has shape tuple[int, str, float]
-- Each Record preserves the exact type signature of its fields
+Each `Record` preserves the exact type signature of its fields.
 
 ## Variance
 
