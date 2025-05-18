@@ -18,7 +18,7 @@
       
       
       <link rel="icon" href="../img/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.8">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.9">
     
     
       
@@ -26,7 +26,7 @@
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/main.8608ea7d.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.4af4bdda.min.css">
       
       
 
@@ -1223,7 +1223,7 @@ This is a purely static indication; it's enforced by the type checker but not by
 <p>To use it, import <code>Final</code> from <code>typing</code> and annotate your constant definitions.
 For example:</p>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="c1"># example_2.py</span>
-</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Final</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Final</span>
 </span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>
 </span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="n">PI</span><span class="p">:</span> <span class="n">Final</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="mf">3.14159</span>
 </span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="n">MAX_CONNECTIONS</span><span class="p">:</span> <span class="n">Final</span> <span class="o">=</span> <span class="mi">100</span>  <span class="c1"># type inferred as int</span>
@@ -1246,16 +1246,16 @@ In other words, marking a variable as <code>Final</code> means:</p>
 </ul>
 <p>Let's illustrate this with a quick example:</p>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1"># example_3.py</span>
-</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Final</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Final</span>
 </span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>
 </span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="n">RATE</span><span class="p">:</span> <span class="n">Final</span> <span class="o">=</span> <span class="mi">3000</span>
 </span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>
 </span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>
-</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="k">class</span> <span class="nc">BaseConfig</span><span class="p">:</span>
+</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="k">class</span><span class="w"> </span><span class="nc">BaseConfig</span><span class="p">:</span>
 </span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>    <span class="n">TIMEOUT</span><span class="p">:</span> <span class="n">Final</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="mi">60</span>
 </span><span id="__span-2-9"><a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a>
 </span><span id="__span-2-10"><a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a>
-</span><span id="__span-2-11"><a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a><span class="k">class</span> <span class="nc">SubConfig</span><span class="p">(</span><span class="n">BaseConfig</span><span class="p">):</span>
+</span><span id="__span-2-11"><a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a><span class="k">class</span><span class="w"> </span><span class="nc">SubConfig</span><span class="p">(</span><span class="n">BaseConfig</span><span class="p">):</span>
 </span><span id="__span-2-12"><a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a>    <span class="c1"># Error: can&#39;t override a final attribute in BaseConfig</span>
 </span><span id="__span-2-13"><a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a>    <span class="n">TIMEOUT</span> <span class="o">=</span> <span class="mi">30</span>  <span class="c1"># type: ignore</span>
 </span></code></pre></div>
@@ -1269,16 +1269,16 @@ If you have an instance attribute that should only be set once (in the initializ
 it with <code>Final</code> in the class body and then assign it in the constructor.
 For example:</p>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="c1"># example_4.py</span>
-</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Final</span>
-</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span>
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Final</span>
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="kn">from</span><span class="w"> </span><span class="nn">dataclasses</span><span class="w"> </span><span class="kn">import</span> <span class="n">dataclass</span>
 </span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>
 </span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>
 </span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="nd">@dataclass</span>
-</span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="k">class</span> <span class="nc">User</span><span class="p">:</span>
+</span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="k">class</span><span class="w"> </span><span class="nc">User</span><span class="p">:</span>
 </span><span id="__span-3-8"><a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a>    <span class="n">name</span><span class="p">:</span> <span class="n">Final</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;Uninitialized&quot;</span>
 </span><span id="__span-3-9"><a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a>    <span class="nb">id</span><span class="p">:</span> <span class="n">Final</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
 </span><span id="__span-3-10"><a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a>
-</span><span id="__span-3-11"><a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="nb">id</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+</span><span id="__span-3-11"><a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a>    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="nb">id</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
 </span><span id="__span-3-12"><a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a>        <span class="nb">object</span><span class="o">.</span><span class="fm">__setattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;name&quot;</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
 </span><span id="__span-3-13"><a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a>        <span class="nb">object</span><span class="o">.</span><span class="fm">__setattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;id&quot;</span><span class="p">,</span> <span class="nb">id</span><span class="p">)</span>
 </span></code></pre></div>
@@ -1302,7 +1302,7 @@ If true immutability of the content is needed, combine <code>Final</code> with a
 immutable interface like <code>Sequence</code> instead of <code>list</code>).
 For example:</p>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="c1"># example_5.py</span>
-</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Final</span><span class="p">,</span> <span class="n">Sequence</span>
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Final</span><span class="p">,</span> <span class="n">Sequence</span>
 </span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>
 </span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="n">data1</span><span class="p">:</span> <span class="n">Final</span> <span class="o">=</span> <span class="p">[</span>
 </span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>    <span class="mi">1</span><span class="p">,</span>
@@ -1342,13 +1342,13 @@ However, <code>dataclasses</code> support an immutability feature: if you specif
 resulting class will prevent any assignment to its fields after object creation.
 In other words, a frozen dataclass instance is effectively immutable (or "frozen") once it's constructed.</p>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="c1"># example_6.py</span>
-</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span>
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">dataclasses</span><span class="w"> </span><span class="kn">import</span> <span class="n">dataclass</span>
 </span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>
-</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="kn">from</span> <span class="nn">book_utils</span> <span class="kn">import</span> <span class="n">Catch</span>
+</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="kn">from</span><span class="w"> </span><span class="nn">book_utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">Catch</span>
 </span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>
 </span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>
 </span><span id="__span-5-7"><a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a><span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-</span><span id="__span-5-8"><a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a><span class="k">class</span> <span class="nc">Point</span><span class="p">:</span>
+</span><span id="__span-5-8"><a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a><span class="k">class</span><span class="w"> </span><span class="nc">Point</span><span class="p">:</span>
 </span><span id="__span-5-9"><a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a>    <span class="n">x</span><span class="p">:</span> <span class="nb">int</span>
 </span><span id="__span-5-10"><a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a>    <span class="n">y</span><span class="p">:</span> <span class="nb">int</span>
 </span><span id="__span-5-11"><a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a>
@@ -1382,13 +1382,13 @@ their state doesn't change once created.</p>
 <h3 id="example-frozen-dataclass-in-action">Example: Frozen Dataclass in Action<a class="headerlink" href="#example-frozen-dataclass-in-action" title="Permanent link">#</a></h3>
 <p>Let's illustrate with a more detailed example and show what happens if we attempt to mutate a frozen <code>dataclass</code>:</p>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="c1"># frozen_person.py</span>
-</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span>
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">dataclasses</span><span class="w"> </span><span class="kn">import</span> <span class="n">dataclass</span>
 </span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>
-</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="kn">from</span> <span class="nn">book_utils</span> <span class="kn">import</span> <span class="n">Catch</span>
+</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="kn">from</span><span class="w"> </span><span class="nn">book_utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">Catch</span>
 </span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>
 </span><span id="__span-6-6"><a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a>
 </span><span id="__span-6-7"><a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a><span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-</span><span id="__span-6-8"><a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a><span class="k">class</span> <span class="nc">Person</span><span class="p">:</span>
+</span><span id="__span-6-8"><a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a><span class="k">class</span><span class="w"> </span><span class="nc">Person</span><span class="p">:</span>
 </span><span id="__span-6-9"><a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a>    <span class="n">name</span><span class="p">:</span> <span class="nb">str</span>
 </span><span id="__span-6-10"><a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a>    <span class="n">age</span><span class="p">:</span> <span class="nb">int</span>
 </span><span id="__span-6-11"><a id="__codelineno-6-11" name="__codelineno-6-11" href="#__codelineno-6-11"></a>
@@ -1420,12 +1420,12 @@ Conversely, a mutable dataclass (eq=True, frozen=False) gets a <code>__hash__ = 
 since its hash could change if fields changed).
 This is an example of how immutability (or lack thereof) interacts with Python's runtime behavior.</p>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="c1"># frozen_data_classes.py</span>
-</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span>
-</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="kn">from</span> <span class="nn">book_utils</span> <span class="kn">import</span> <span class="n">Catch</span>
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">dataclasses</span><span class="w"> </span><span class="kn">import</span> <span class="n">dataclass</span>
+</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="kn">from</span><span class="w"> </span><span class="nn">book_utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">Catch</span>
 </span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a>
 </span><span id="__span-7-5"><a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a>
 </span><span id="__span-7-6"><a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a><span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-</span><span id="__span-7-7"><a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a><span class="k">class</span> <span class="nc">Messenger</span><span class="p">:</span>
+</span><span id="__span-7-7"><a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a><span class="k">class</span><span class="w"> </span><span class="nc">Messenger</span><span class="p">:</span>
 </span><span id="__span-7-8"><a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a>    <span class="n">name</span><span class="p">:</span> <span class="nb">str</span>
 </span><span id="__span-7-9"><a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a>    <span class="n">number</span><span class="p">:</span> <span class="nb">int</span>
 </span><span id="__span-7-10"><a id="__codelineno-7-10" name="__codelineno-7-10" href="#__codelineno-7-10"></a>    <span class="n">depth</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span>  <span class="c1"># Default</span>
@@ -1444,26 +1444,26 @@ This is an example of how immutability (or lack thereof) interacts with Python's
 </span></code></pre></div>
 <p>We can apply this approach to the <code>Stars</code> example:</p>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="c1"># stars.py</span>
-</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span>
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">dataclasses</span><span class="w"> </span><span class="kn">import</span> <span class="n">dataclass</span>
 </span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>
 </span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a>
 </span><span id="__span-8-5"><a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a><span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-</span><span id="__span-8-6"><a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a><span class="k">class</span> <span class="nc">Stars</span><span class="p">:</span>
+</span><span id="__span-8-6"><a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a><span class="k">class</span><span class="w"> </span><span class="nc">Stars</span><span class="p">:</span>
 </span><span id="__span-8-7"><a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a>    <span class="n">number</span><span class="p">:</span> <span class="nb">int</span>
 </span><span id="__span-8-8"><a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a>
-</span><span id="__span-8-9"><a id="__codelineno-8-9" name="__codelineno-8-9" href="#__codelineno-8-9"></a>    <span class="k">def</span> <span class="nf">__post_init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="__span-8-9"><a id="__codelineno-8-9" name="__codelineno-8-9" href="#__codelineno-8-9"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">__post_init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 </span><span id="__span-8-10"><a id="__codelineno-8-10" name="__codelineno-8-10" href="#__codelineno-8-10"></a>        <span class="k">assert</span> <span class="mi">1</span> <span class="o">&lt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">number</span> <span class="o">&lt;=</span> <span class="mi">10</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="si">}</span><span class="s2">&quot;</span>
 </span></code></pre></div>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="c1"># star_demo.py</span>
-</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="kn">from</span> <span class="nn">stars</span> <span class="kn">import</span> <span class="n">Stars</span>
-</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="kn">from</span> <span class="nn">book_utils</span> <span class="kn">import</span> <span class="n">Catch</span>
+</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">stars</span><span class="w"> </span><span class="kn">import</span> <span class="n">Stars</span>
+</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="kn">from</span><span class="w"> </span><span class="nn">book_utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">Catch</span>
 </span><span id="__span-9-4"><a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a>
 </span><span id="__span-9-5"><a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a>
-</span><span id="__span-9-6"><a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a><span class="k">def</span> <span class="nf">f1</span><span class="p">(</span><span class="n">s</span><span class="p">:</span> <span class="n">Stars</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Stars</span><span class="p">:</span>
+</span><span id="__span-9-6"><a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a><span class="k">def</span><span class="w"> </span><span class="nf">f1</span><span class="p">(</span><span class="n">s</span><span class="p">:</span> <span class="n">Stars</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Stars</span><span class="p">:</span>
 </span><span id="__span-9-7"><a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a>    <span class="k">return</span> <span class="n">Stars</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">number</span> <span class="o">+</span> <span class="mi">5</span><span class="p">)</span>
 </span><span id="__span-9-8"><a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a>
 </span><span id="__span-9-9"><a id="__codelineno-9-9" name="__codelineno-9-9" href="#__codelineno-9-9"></a>
-</span><span id="__span-9-10"><a id="__codelineno-9-10" name="__codelineno-9-10" href="#__codelineno-9-10"></a><span class="k">def</span> <span class="nf">f2</span><span class="p">(</span><span class="n">s</span><span class="p">:</span> <span class="n">Stars</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Stars</span><span class="p">:</span>
+</span><span id="__span-9-10"><a id="__codelineno-9-10" name="__codelineno-9-10" href="#__codelineno-9-10"></a><span class="k">def</span><span class="w"> </span><span class="nf">f2</span><span class="p">(</span><span class="n">s</span><span class="p">:</span> <span class="n">Stars</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Stars</span><span class="p">:</span>
 </span><span id="__span-9-11"><a id="__codelineno-9-11" name="__codelineno-9-11" href="#__codelineno-9-11"></a>    <span class="k">return</span> <span class="n">Stars</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">number</span> <span class="o">*</span> <span class="mi">5</span><span class="p">)</span>
 </span><span id="__span-9-12"><a id="__codelineno-9-12" name="__codelineno-9-12" href="#__codelineno-9-12"></a>
 </span><span id="__span-9-13"><a id="__codelineno-9-13" name="__codelineno-9-13" href="#__codelineno-9-13"></a>
@@ -1486,10 +1486,10 @@ This is an example of how immutability (or lack thereof) interacts with Python's
 <p>Subsequent functions operating on <code>Stars</code> no longer require redundant checks.
 Modifying a <code>Stars</code> instance after creation raises an error, further safeguarding the data integrity:</p>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="c1"># modify_stars.py</span>
-</span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="kn">from</span> <span class="nn">stars</span> <span class="kn">import</span> <span class="n">Stars</span>
+</span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">stars</span><span class="w"> </span><span class="kn">import</span> <span class="n">Stars</span>
 </span><span id="__span-10-3"><a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>
 </span><span id="__span-10-4"><a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a>
-</span><span id="__span-10-5"><a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a><span class="k">def</span> <span class="nf">increase_stars</span><span class="p">(</span><span class="n">rating</span><span class="p">:</span> <span class="n">Stars</span><span class="p">,</span> <span class="n">increment</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Stars</span><span class="p">:</span>
+</span><span id="__span-10-5"><a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a><span class="k">def</span><span class="w"> </span><span class="nf">increase_stars</span><span class="p">(</span><span class="n">rating</span><span class="p">:</span> <span class="n">Stars</span><span class="p">,</span> <span class="n">increment</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Stars</span><span class="p">:</span>
 </span><span id="__span-10-6"><a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a>    <span class="k">return</span> <span class="n">Stars</span><span class="p">(</span><span class="n">rating</span><span class="o">.</span><span class="n">number</span> <span class="o">+</span> <span class="n">increment</span><span class="p">)</span>
 </span></code></pre></div>
 <p>If this function tries to create an invalid rating, the data class validation immediately raises an error.
@@ -1568,18 +1568,18 @@ We want the class to be frozen (immutable).
 We can declare <code>area</code> as a field with <code>init=False</code> (so it's not passed to the constructor), and then compute it in
 <code>__post_init__</code> as follows:</p>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="c1"># example_8.py</span>
-</span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span><span class="p">,</span> <span class="n">field</span>
+</span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">dataclasses</span><span class="w"> </span><span class="kn">import</span> <span class="n">dataclass</span><span class="p">,</span> <span class="n">field</span>
 </span><span id="__span-11-3"><a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a>
 </span><span id="__span-11-4"><a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a>
 </span><span id="__span-11-5"><a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a><span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-</span><span id="__span-11-6"><a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a><span class="k">class</span> <span class="nc">Rectangle</span><span class="p">:</span>
+</span><span id="__span-11-6"><a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a><span class="k">class</span><span class="w"> </span><span class="nc">Rectangle</span><span class="p">:</span>
 </span><span id="__span-11-7"><a id="__codelineno-11-7" name="__codelineno-11-7" href="#__codelineno-11-7"></a>    <span class="n">width</span><span class="p">:</span> <span class="nb">float</span>
 </span><span id="__span-11-8"><a id="__codelineno-11-8" name="__codelineno-11-8" href="#__codelineno-11-8"></a>    <span class="n">height</span><span class="p">:</span> <span class="nb">float</span>
 </span><span id="__span-11-9"><a id="__codelineno-11-9" name="__codelineno-11-9" href="#__codelineno-11-9"></a>    <span class="n">area</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span>
 </span><span id="__span-11-10"><a id="__codelineno-11-10" name="__codelineno-11-10" href="#__codelineno-11-10"></a>        <span class="n">init</span><span class="o">=</span><span class="kc">False</span>
 </span><span id="__span-11-11"><a id="__codelineno-11-11" name="__codelineno-11-11" href="#__codelineno-11-11"></a>    <span class="p">)</span>  <span class="c1"># area will be computed, not passed by caller</span>
 </span><span id="__span-11-12"><a id="__codelineno-11-12" name="__codelineno-11-12" href="#__codelineno-11-12"></a>
-</span><span id="__span-11-13"><a id="__codelineno-11-13" name="__codelineno-11-13" href="#__codelineno-11-13"></a>    <span class="k">def</span> <span class="nf">__post_init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span id="__span-11-13"><a id="__codelineno-11-13" name="__codelineno-11-13" href="#__codelineno-11-13"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">__post_init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 </span><span id="__span-11-14"><a id="__codelineno-11-14" name="__codelineno-11-14" href="#__codelineno-11-14"></a>        <span class="c1"># Bypass immutability to set the derived field</span>
 </span><span id="__span-11-15"><a id="__codelineno-11-15" name="__codelineno-11-15" href="#__codelineno-11-15"></a>        <span class="nb">object</span><span class="o">.</span><span class="fm">__setattr__</span><span class="p">(</span>
 </span><span id="__span-11-16"><a id="__codelineno-11-16" name="__codelineno-11-16" href="#__codelineno-11-16"></a>            <span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;area&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">width</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">height</span>
@@ -1594,8 +1594,8 @@ the same effect.
 After <code>__post_init__</code> the <code>Rectangle</code>instance will a correct <code>area</code> but be frozen for further modifications.</p>
 <p>Let's test this behavior:</p>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="c1"># example_9.py</span>
-</span><span id="__span-12-2"><a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="kn">from</span> <span class="nn">book_utils</span> <span class="kn">import</span> <span class="n">Catch</span>
-</span><span id="__span-12-3"><a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a><span class="kn">from</span> <span class="nn">example_8</span> <span class="kn">import</span> <span class="n">Rectangle</span>
+</span><span id="__span-12-2"><a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">book_utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">Catch</span>
+</span><span id="__span-12-3"><a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a><span class="kn">from</span><span class="w"> </span><span class="nn">example_8</span><span class="w"> </span><span class="kn">import</span> <span class="n">Rectangle</span>
 </span><span id="__span-12-4"><a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a>
 </span><span id="__span-12-5"><a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a><span class="n">r</span> <span class="o">=</span> <span class="n">Rectangle</span><span class="p">(</span><span class="mf">3.0</span><span class="p">,</span> <span class="mf">4.0</span><span class="p">)</span>
 </span><span id="__span-12-6"><a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a><span class="nb">print</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">area</span><span class="p">)</span>  <span class="c1"># Outputs: 12.0</span>
@@ -1621,10 +1621,10 @@ Generally, use this technique only to set up derived fields or cached values at 
 <p>In many cases, a <code>NamedTuple</code> can be used in lieu of a frozen <code>dataclass</code>.
 A <code>NamedTuple</code> combines <code>tuple</code> immutability with type annotations and named fields:</p>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="c1"># named_tuple.py</span>
-</span><span id="__span-13-2"><a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">NamedTuple</span>
+</span><span id="__span-13-2"><a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">NamedTuple</span>
 </span><span id="__span-13-3"><a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a>
 </span><span id="__span-13-4"><a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a>
-</span><span id="__span-13-5"><a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a><span class="k">class</span> <span class="nc">Coordinates</span><span class="p">(</span><span class="n">NamedTuple</span><span class="p">):</span>
+</span><span id="__span-13-5"><a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a><span class="k">class</span><span class="w"> </span><span class="nc">Coordinates</span><span class="p">(</span><span class="n">NamedTuple</span><span class="p">):</span>
 </span><span id="__span-13-6"><a id="__codelineno-13-6" name="__codelineno-13-6" href="#__codelineno-13-6"></a>    <span class="n">latitude</span><span class="p">:</span> <span class="nb">float</span>
 </span><span id="__span-13-7"><a id="__codelineno-13-7" name="__codelineno-13-7" href="#__codelineno-13-7"></a>    <span class="n">longitude</span><span class="p">:</span> <span class="nb">float</span>
 </span><span id="__span-13-8"><a id="__codelineno-13-8" name="__codelineno-13-8" href="#__codelineno-13-8"></a>
@@ -1682,8 +1682,8 @@ that allows fine-tuning of instances behavior.</p>
 <h3 id="namedtuple-capabilities">NamedTuple Capabilities<a class="headerlink" href="#namedtuple-capabilities" title="Permanent link">#</a></h3>
 <p>Here's an example showing everything you can do with <code>NamedTuple</code>s:</p>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="c1"># namedtuple_capabilities.py</span>
-</span><span id="__span-14-2"><a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a><span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">namedtuple</span>
-</span><span id="__span-14-3"><a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">NamedTuple</span><span class="p">,</span> <span class="n">Optional</span>
+</span><span id="__span-14-2"><a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">collections</span><span class="w"> </span><span class="kn">import</span> <span class="n">namedtuple</span>
+</span><span id="__span-14-3"><a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a><span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">NamedTuple</span><span class="p">,</span> <span class="n">Optional</span>
 </span><span id="__span-14-4"><a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a>
 </span><span id="__span-14-5"><a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a><span class="c1"># 1. Dynamically generating a NamedTuple:</span>
 </span><span id="__span-14-6"><a id="__codelineno-14-6" name="__codelineno-14-6" href="#__codelineno-14-6"></a><span class="n">Point1</span> <span class="o">=</span> <span class="n">namedtuple</span><span class="p">(</span><span class="s2">&quot;Point1&quot;</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;x&quot;</span><span class="p">,</span> <span class="s2">&quot;y&quot;</span><span class="p">])</span>
@@ -1694,7 +1694,7 @@ that allows fine-tuning of instances behavior.</p>
 </span><span id="__span-14-11"><a id="__codelineno-14-11" name="__codelineno-14-11" href="#__codelineno-14-11"></a>
 </span><span id="__span-14-12"><a id="__codelineno-14-12" name="__codelineno-14-12" href="#__codelineno-14-12"></a>
 </span><span id="__span-14-13"><a id="__codelineno-14-13" name="__codelineno-14-13" href="#__codelineno-14-13"></a><span class="c1"># 2. A simple immutable type:</span>
-</span><span id="__span-14-14"><a id="__codelineno-14-14" name="__codelineno-14-14" href="#__codelineno-14-14"></a><span class="k">class</span> <span class="nc">Point2</span><span class="p">(</span><span class="n">NamedTuple</span><span class="p">):</span>
+</span><span id="__span-14-14"><a id="__codelineno-14-14" name="__codelineno-14-14" href="#__codelineno-14-14"></a><span class="k">class</span><span class="w"> </span><span class="nc">Point2</span><span class="p">(</span><span class="n">NamedTuple</span><span class="p">):</span>
 </span><span id="__span-14-15"><a id="__codelineno-14-15" name="__codelineno-14-15" href="#__codelineno-14-15"></a>    <span class="n">x</span><span class="p">:</span> <span class="nb">int</span>
 </span><span id="__span-14-16"><a id="__codelineno-14-16" name="__codelineno-14-16" href="#__codelineno-14-16"></a>    <span class="n">y</span><span class="p">:</span> <span class="nb">int</span>
 </span><span id="__span-14-17"><a id="__codelineno-14-17" name="__codelineno-14-17" href="#__codelineno-14-17"></a>
@@ -1704,7 +1704,7 @@ that allows fine-tuning of instances behavior.</p>
 </span><span id="__span-14-21"><a id="__codelineno-14-21" name="__codelineno-14-21" href="#__codelineno-14-21"></a>
 </span><span id="__span-14-22"><a id="__codelineno-14-22" name="__codelineno-14-22" href="#__codelineno-14-22"></a>
 </span><span id="__span-14-23"><a id="__codelineno-14-23" name="__codelineno-14-23" href="#__codelineno-14-23"></a><span class="c1"># 3. Default values:</span>
-</span><span id="__span-14-24"><a id="__codelineno-14-24" name="__codelineno-14-24" href="#__codelineno-14-24"></a><span class="k">class</span> <span class="nc">Employee</span><span class="p">(</span><span class="n">NamedTuple</span><span class="p">):</span>
+</span><span id="__span-14-24"><a id="__codelineno-14-24" name="__codelineno-14-24" href="#__codelineno-14-24"></a><span class="k">class</span><span class="w"> </span><span class="nc">Employee</span><span class="p">(</span><span class="n">NamedTuple</span><span class="p">):</span>
 </span><span id="__span-14-25"><a id="__codelineno-14-25" name="__codelineno-14-25" href="#__codelineno-14-25"></a>    <span class="n">name</span><span class="p">:</span> <span class="nb">str</span>
 </span><span id="__span-14-26"><a id="__codelineno-14-26" name="__codelineno-14-26" href="#__codelineno-14-26"></a>    <span class="nb">id</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span>
 </span><span id="__span-14-27"><a id="__codelineno-14-27" name="__codelineno-14-27" href="#__codelineno-14-27"></a>    <span class="n">department</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
@@ -1719,11 +1719,11 @@ that allows fine-tuning of instances behavior.</p>
 </span><span id="__span-14-36"><a id="__codelineno-14-36" name="__codelineno-14-36" href="#__codelineno-14-36"></a>
 </span><span id="__span-14-37"><a id="__codelineno-14-37" name="__codelineno-14-37" href="#__codelineno-14-37"></a>
 </span><span id="__span-14-38"><a id="__codelineno-14-38" name="__codelineno-14-38" href="#__codelineno-14-38"></a><span class="c1"># 4. Methods:</span>
-</span><span id="__span-14-39"><a id="__codelineno-14-39" name="__codelineno-14-39" href="#__codelineno-14-39"></a><span class="k">class</span> <span class="nc">Circle</span><span class="p">(</span><span class="n">NamedTuple</span><span class="p">):</span>
+</span><span id="__span-14-39"><a id="__codelineno-14-39" name="__codelineno-14-39" href="#__codelineno-14-39"></a><span class="k">class</span><span class="w"> </span><span class="nc">Circle</span><span class="p">(</span><span class="n">NamedTuple</span><span class="p">):</span>
 </span><span id="__span-14-40"><a id="__codelineno-14-40" name="__codelineno-14-40" href="#__codelineno-14-40"></a>    <span class="n">radius</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="nb">int</span>
 </span><span id="__span-14-41"><a id="__codelineno-14-41" name="__codelineno-14-41" href="#__codelineno-14-41"></a>
-</span><span id="__span-14-42"><a id="__codelineno-14-42" name="__codelineno-14-42" href="#__codelineno-14-42"></a>    <span class="k">def</span> <span class="nf">area</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-</span><span id="__span-14-43"><a id="__codelineno-14-43" name="__codelineno-14-43" href="#__codelineno-14-43"></a>        <span class="kn">from</span> <span class="nn">math</span> <span class="kn">import</span> <span class="n">pi</span>
+</span><span id="__span-14-42"><a id="__codelineno-14-42" name="__codelineno-14-42" href="#__codelineno-14-42"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">area</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+</span><span id="__span-14-43"><a id="__codelineno-14-43" name="__codelineno-14-43" href="#__codelineno-14-43"></a>        <span class="kn">from</span><span class="w"> </span><span class="nn">math</span><span class="w"> </span><span class="kn">import</span> <span class="n">pi</span>
 </span><span id="__span-14-44"><a id="__codelineno-14-44" name="__codelineno-14-44" href="#__codelineno-14-44"></a>
 </span><span id="__span-14-45"><a id="__codelineno-14-45" name="__codelineno-14-45" href="#__codelineno-14-45"></a>        <span class="k">return</span> <span class="n">pi</span> <span class="o">*</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">radius</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
 </span><span id="__span-14-46"><a id="__codelineno-14-46" name="__codelineno-14-46" href="#__codelineno-14-46"></a>
@@ -1749,7 +1749,7 @@ that allows fine-tuning of instances behavior.</p>
 </span><span id="__span-14-66"><a id="__codelineno-14-66" name="__codelineno-14-66" href="#__codelineno-14-66"></a>
 </span><span id="__span-14-67"><a id="__codelineno-14-67" name="__codelineno-14-67" href="#__codelineno-14-67"></a>
 </span><span id="__span-14-68"><a id="__codelineno-14-68" name="__codelineno-14-68" href="#__codelineno-14-68"></a><span class="c1"># 7. Pattern matching</span>
-</span><span id="__span-14-69"><a id="__codelineno-14-69" name="__codelineno-14-69" href="#__codelineno-14-69"></a><span class="k">def</span> <span class="nf">describe_point</span><span class="p">(</span><span class="n">pt</span><span class="p">:</span> <span class="n">Point2</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+</span><span id="__span-14-69"><a id="__codelineno-14-69" name="__codelineno-14-69" href="#__codelineno-14-69"></a><span class="k">def</span><span class="w"> </span><span class="nf">describe_point</span><span class="p">(</span><span class="n">pt</span><span class="p">:</span> <span class="n">Point2</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 </span><span id="__span-14-70"><a id="__codelineno-14-70" name="__codelineno-14-70" href="#__codelineno-14-70"></a>    <span class="k">match</span> <span class="n">pt</span><span class="p">:</span>
 </span><span id="__span-14-71"><a id="__codelineno-14-71" name="__codelineno-14-71" href="#__codelineno-14-71"></a>        <span class="k">case</span> <span class="n">Point2</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span> <span class="k">if</span> <span class="n">x</span> <span class="o">==</span> <span class="n">y</span><span class="p">:</span>
 </span><span id="__span-14-72"><a id="__codelineno-14-72" name="__codelineno-14-72" href="#__codelineno-14-72"></a>            <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;Diagonal point at (</span><span class="si">{</span><span class="n">x</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">y</span><span class="si">}</span><span class="s2">)&quot;</span>
@@ -1766,12 +1766,12 @@ that allows fine-tuning of instances behavior.</p>
 </span><span id="__span-14-83"><a id="__codelineno-14-83" name="__codelineno-14-83" href="#__codelineno-14-83"></a>
 </span><span id="__span-14-84"><a id="__codelineno-14-84" name="__codelineno-14-84" href="#__codelineno-14-84"></a>
 </span><span id="__span-14-85"><a id="__codelineno-14-85" name="__codelineno-14-85" href="#__codelineno-14-85"></a><span class="c1"># 8. Nested NamedTuples:</span>
-</span><span id="__span-14-86"><a id="__codelineno-14-86" name="__codelineno-14-86" href="#__codelineno-14-86"></a><span class="k">class</span> <span class="nc">Address</span><span class="p">(</span><span class="n">NamedTuple</span><span class="p">):</span>
+</span><span id="__span-14-86"><a id="__codelineno-14-86" name="__codelineno-14-86" href="#__codelineno-14-86"></a><span class="k">class</span><span class="w"> </span><span class="nc">Address</span><span class="p">(</span><span class="n">NamedTuple</span><span class="p">):</span>
 </span><span id="__span-14-87"><a id="__codelineno-14-87" name="__codelineno-14-87" href="#__codelineno-14-87"></a>    <span class="n">street</span><span class="p">:</span> <span class="nb">str</span>
 </span><span id="__span-14-88"><a id="__codelineno-14-88" name="__codelineno-14-88" href="#__codelineno-14-88"></a>    <span class="n">city</span><span class="p">:</span> <span class="nb">str</span>
 </span><span id="__span-14-89"><a id="__codelineno-14-89" name="__codelineno-14-89" href="#__codelineno-14-89"></a>
 </span><span id="__span-14-90"><a id="__codelineno-14-90" name="__codelineno-14-90" href="#__codelineno-14-90"></a>
-</span><span id="__span-14-91"><a id="__codelineno-14-91" name="__codelineno-14-91" href="#__codelineno-14-91"></a><span class="k">class</span> <span class="nc">Person</span><span class="p">(</span><span class="n">NamedTuple</span><span class="p">):</span>
+</span><span id="__span-14-91"><a id="__codelineno-14-91" name="__codelineno-14-91" href="#__codelineno-14-91"></a><span class="k">class</span><span class="w"> </span><span class="nc">Person</span><span class="p">(</span><span class="n">NamedTuple</span><span class="p">):</span>
 </span><span id="__span-14-92"><a id="__codelineno-14-92" name="__codelineno-14-92" href="#__codelineno-14-92"></a>    <span class="n">name</span><span class="p">:</span> <span class="nb">str</span>
 </span><span id="__span-14-93"><a id="__codelineno-14-93" name="__codelineno-14-93" href="#__codelineno-14-93"></a>    <span class="n">age</span><span class="p">:</span> <span class="nb">int</span>
 </span><span id="__span-14-94"><a id="__codelineno-14-94" name="__codelineno-14-94" href="#__codelineno-14-94"></a>    <span class="n">address</span><span class="p">:</span> <span class="n">Address</span>
@@ -1787,7 +1787,7 @@ that allows fine-tuning of instances behavior.</p>
 </span><span id="__span-14-104"><a id="__codelineno-14-104" name="__codelineno-14-104" href="#__codelineno-14-104"></a>
 </span><span id="__span-14-105"><a id="__codelineno-14-105" name="__codelineno-14-105" href="#__codelineno-14-105"></a>
 </span><span id="__span-14-106"><a id="__codelineno-14-106" name="__codelineno-14-106" href="#__codelineno-14-106"></a><span class="c1"># Nested pattern match:</span>
-</span><span id="__span-14-107"><a id="__codelineno-14-107" name="__codelineno-14-107" href="#__codelineno-14-107"></a><span class="k">def</span> <span class="nf">location_info</span><span class="p">(</span><span class="n">p</span><span class="p">:</span> <span class="n">Person</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+</span><span id="__span-14-107"><a id="__codelineno-14-107" name="__codelineno-14-107" href="#__codelineno-14-107"></a><span class="k">def</span><span class="w"> </span><span class="nf">location_info</span><span class="p">(</span><span class="n">p</span><span class="p">:</span> <span class="n">Person</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 </span><span id="__span-14-108"><a id="__codelineno-14-108" name="__codelineno-14-108" href="#__codelineno-14-108"></a>    <span class="k">match</span> <span class="n">p</span><span class="p">:</span>
 </span><span id="__span-14-109"><a id="__codelineno-14-109" name="__codelineno-14-109" href="#__codelineno-14-109"></a>        <span class="k">case</span><span class="w"> </span><span class="n">Person</span><span class="p">(</span><span class="k">_</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">Address</span><span class="p">(</span><span class="n">_</span><span class="p">,</span> <span class="n">city</span><span class="o">=</span><span class="s2">&quot;Springfield&quot;</span><span class="p">)):</span>
 </span><span id="__span-14-110"><a id="__codelineno-14-110" name="__codelineno-14-110" href="#__codelineno-14-110"></a>            <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;Resident of Springfield&quot;</span>
@@ -1802,13 +1802,13 @@ that allows fine-tuning of instances behavior.</p>
 </span></code></pre></div>
 <h3 id="what-frozen-dataclasses-can-do-that-namedtuple-cannot">What Frozen Dataclasses can do that NamedTuple Cannot<a class="headerlink" href="#what-frozen-dataclasses-can-do-that-namedtuple-cannot" title="Permanent link">#</a></h3>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="c1"># frozen_dataclass_vs_namedtuple.py</span>
-</span><span id="__span-15-2"><a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a><span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span><span class="p">,</span> <span class="n">field</span>
-</span><span id="__span-15-3"><a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">NamedTuple</span><span class="p">,</span> <span class="n">Any</span>
+</span><span id="__span-15-2"><a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">dataclasses</span><span class="w"> </span><span class="kn">import</span> <span class="n">dataclass</span><span class="p">,</span> <span class="n">field</span>
+</span><span id="__span-15-3"><a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a><span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">NamedTuple</span><span class="p">,</span> <span class="n">Any</span>
 </span><span id="__span-15-4"><a id="__codelineno-15-4" name="__codelineno-15-4" href="#__codelineno-15-4"></a>
 </span><span id="__span-15-5"><a id="__codelineno-15-5" name="__codelineno-15-5" href="#__codelineno-15-5"></a>
 </span><span id="__span-15-6"><a id="__codelineno-15-6" name="__codelineno-15-6" href="#__codelineno-15-6"></a><span class="c1"># 1. Per-instance mutable default values via default_factory</span>
 </span><span id="__span-15-7"><a id="__codelineno-15-7" name="__codelineno-15-7" href="#__codelineno-15-7"></a><span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-</span><span id="__span-15-8"><a id="__codelineno-15-8" name="__codelineno-15-8" href="#__codelineno-15-8"></a><span class="k">class</span> <span class="nc">Config</span><span class="p">:</span>
+</span><span id="__span-15-8"><a id="__codelineno-15-8" name="__codelineno-15-8" href="#__codelineno-15-8"></a><span class="k">class</span><span class="w"> </span><span class="nc">Config</span><span class="p">:</span>
 </span><span id="__span-15-9"><a id="__codelineno-15-9" name="__codelineno-15-9" href="#__codelineno-15-9"></a>    <span class="n">options</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="nb">list</span><span class="p">)</span>
 </span><span id="__span-15-10"><a id="__codelineno-15-10" name="__codelineno-15-10" href="#__codelineno-15-10"></a>
 </span><span id="__span-15-11"><a id="__codelineno-15-11" name="__codelineno-15-11" href="#__codelineno-15-11"></a>
@@ -1827,11 +1827,11 @@ that allows fine-tuning of instances behavior.</p>
 </span><span id="__span-15-24"><a id="__codelineno-15-24" name="__codelineno-15-24" href="#__codelineno-15-24"></a>
 </span><span id="__span-15-25"><a id="__codelineno-15-25" name="__codelineno-15-25" href="#__codelineno-15-25"></a><span class="c1"># 2. Validation and invariants via __post_init__</span>
 </span><span id="__span-15-26"><a id="__codelineno-15-26" name="__codelineno-15-26" href="#__codelineno-15-26"></a><span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-</span><span id="__span-15-27"><a id="__codelineno-15-27" name="__codelineno-15-27" href="#__codelineno-15-27"></a><span class="k">class</span> <span class="nc">Person</span><span class="p">:</span>
+</span><span id="__span-15-27"><a id="__codelineno-15-27" name="__codelineno-15-27" href="#__codelineno-15-27"></a><span class="k">class</span><span class="w"> </span><span class="nc">Person</span><span class="p">:</span>
 </span><span id="__span-15-28"><a id="__codelineno-15-28" name="__codelineno-15-28" href="#__codelineno-15-28"></a>    <span class="n">name</span><span class="p">:</span> <span class="nb">str</span>
 </span><span id="__span-15-29"><a id="__codelineno-15-29" name="__codelineno-15-29" href="#__codelineno-15-29"></a>    <span class="n">age</span><span class="p">:</span> <span class="nb">int</span>
 </span><span id="__span-15-30"><a id="__codelineno-15-30" name="__codelineno-15-30" href="#__codelineno-15-30"></a>
-</span><span id="__span-15-31"><a id="__codelineno-15-31" name="__codelineno-15-31" href="#__codelineno-15-31"></a>    <span class="k">def</span> <span class="nf">__post_init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="__span-15-31"><a id="__codelineno-15-31" name="__codelineno-15-31" href="#__codelineno-15-31"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">__post_init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 </span><span id="__span-15-32"><a id="__codelineno-15-32" name="__codelineno-15-32" href="#__codelineno-15-32"></a>        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">age</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
 </span><span id="__span-15-33"><a id="__codelineno-15-33" name="__codelineno-15-33" href="#__codelineno-15-33"></a>            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
 </span><span id="__span-15-34"><a id="__codelineno-15-34" name="__codelineno-15-34" href="#__codelineno-15-34"></a>                <span class="sa">f</span><span class="s2">&quot;Age must be non-negative: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">age</span><span class="si">}</span><span class="s2">&quot;</span>
@@ -1847,12 +1847,12 @@ that allows fine-tuning of instances behavior.</p>
 </span><span id="__span-15-44"><a id="__codelineno-15-44" name="__codelineno-15-44" href="#__codelineno-15-44"></a>
 </span><span id="__span-15-45"><a id="__codelineno-15-45" name="__codelineno-15-45" href="#__codelineno-15-45"></a><span class="c1"># 3. Computed/derived fields with init=False</span>
 </span><span id="__span-15-46"><a id="__codelineno-15-46" name="__codelineno-15-46" href="#__codelineno-15-46"></a><span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-</span><span id="__span-15-47"><a id="__codelineno-15-47" name="__codelineno-15-47" href="#__codelineno-15-47"></a><span class="k">class</span> <span class="nc">Rectangle</span><span class="p">:</span>
+</span><span id="__span-15-47"><a id="__codelineno-15-47" name="__codelineno-15-47" href="#__codelineno-15-47"></a><span class="k">class</span><span class="w"> </span><span class="nc">Rectangle</span><span class="p">:</span>
 </span><span id="__span-15-48"><a id="__codelineno-15-48" name="__codelineno-15-48" href="#__codelineno-15-48"></a>    <span class="n">width</span><span class="p">:</span> <span class="nb">float</span>
 </span><span id="__span-15-49"><a id="__codelineno-15-49" name="__codelineno-15-49" href="#__codelineno-15-49"></a>    <span class="n">height</span><span class="p">:</span> <span class="nb">float</span>
 </span><span id="__span-15-50"><a id="__codelineno-15-50" name="__codelineno-15-50" href="#__codelineno-15-50"></a>    <span class="n">area</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">init</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 </span><span id="__span-15-51"><a id="__codelineno-15-51" name="__codelineno-15-51" href="#__codelineno-15-51"></a>
-</span><span id="__span-15-52"><a id="__codelineno-15-52" name="__codelineno-15-52" href="#__codelineno-15-52"></a>    <span class="k">def</span> <span class="nf">__post_init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="__span-15-52"><a id="__codelineno-15-52" name="__codelineno-15-52" href="#__codelineno-15-52"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">__post_init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 </span><span id="__span-15-53"><a id="__codelineno-15-53" name="__codelineno-15-53" href="#__codelineno-15-53"></a>        <span class="nb">object</span><span class="o">.</span><span class="fm">__setattr__</span><span class="p">(</span>
 </span><span id="__span-15-54"><a id="__codelineno-15-54" name="__codelineno-15-54" href="#__codelineno-15-54"></a>            <span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;area&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">width</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">height</span>
 </span><span id="__span-15-55"><a id="__codelineno-15-55" name="__codelineno-15-55" href="#__codelineno-15-55"></a>        <span class="p">)</span>
@@ -1865,7 +1865,7 @@ that allows fine-tuning of instances behavior.</p>
 </span><span id="__span-15-62"><a id="__codelineno-15-62" name="__codelineno-15-62" href="#__codelineno-15-62"></a>
 </span><span id="__span-15-63"><a id="__codelineno-15-63" name="__codelineno-15-63" href="#__codelineno-15-63"></a><span class="c1"># 4. Hiding sensitive fields via repr</span>
 </span><span id="__span-15-64"><a id="__codelineno-15-64" name="__codelineno-15-64" href="#__codelineno-15-64"></a><span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-</span><span id="__span-15-65"><a id="__codelineno-15-65" name="__codelineno-15-65" href="#__codelineno-15-65"></a><span class="k">class</span> <span class="nc">Credentials</span><span class="p">:</span>
+</span><span id="__span-15-65"><a id="__codelineno-15-65" name="__codelineno-15-65" href="#__codelineno-15-65"></a><span class="k">class</span><span class="w"> </span><span class="nc">Credentials</span><span class="p">:</span>
 </span><span id="__span-15-66"><a id="__codelineno-15-66" name="__codelineno-15-66" href="#__codelineno-15-66"></a>    <span class="n">username</span><span class="p">:</span> <span class="nb">str</span>
 </span><span id="__span-15-67"><a id="__codelineno-15-67" name="__codelineno-15-67" href="#__codelineno-15-67"></a>    <span class="n">password</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="nb">repr</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 </span><span id="__span-15-68"><a id="__codelineno-15-68" name="__codelineno-15-68" href="#__codelineno-15-68"></a>
@@ -1877,12 +1877,12 @@ that allows fine-tuning of instances behavior.</p>
 </span><span id="__span-15-74"><a id="__codelineno-15-74" name="__codelineno-15-74" href="#__codelineno-15-74"></a>
 </span><span id="__span-15-75"><a id="__codelineno-15-75" name="__codelineno-15-75" href="#__codelineno-15-75"></a><span class="c1"># 5. Keyword-only fields enforcement:</span>
 </span><span id="__span-15-76"><a id="__codelineno-15-76" name="__codelineno-15-76" href="#__codelineno-15-76"></a><span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-</span><span id="__span-15-77"><a id="__codelineno-15-77" name="__codelineno-15-77" href="#__codelineno-15-77"></a><span class="k">class</span> <span class="nc">Point</span><span class="p">:</span>
+</span><span id="__span-15-77"><a id="__codelineno-15-77" name="__codelineno-15-77" href="#__codelineno-15-77"></a><span class="k">class</span><span class="w"> </span><span class="nc">Point</span><span class="p">:</span>
 </span><span id="__span-15-78"><a id="__codelineno-15-78" name="__codelineno-15-78" href="#__codelineno-15-78"></a>    <span class="n">x</span><span class="p">:</span> <span class="nb">int</span>
 </span><span id="__span-15-79"><a id="__codelineno-15-79" name="__codelineno-15-79" href="#__codelineno-15-79"></a>    <span class="n">y</span><span class="p">:</span> <span class="nb">int</span>
 </span><span id="__span-15-80"><a id="__codelineno-15-80" name="__codelineno-15-80" href="#__codelineno-15-80"></a>    <span class="n">z</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">init</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 </span><span id="__span-15-81"><a id="__codelineno-15-81" name="__codelineno-15-81" href="#__codelineno-15-81"></a>
-</span><span id="__span-15-82"><a id="__codelineno-15-82" name="__codelineno-15-82" href="#__codelineno-15-82"></a>    <span class="k">def</span> <span class="nf">__post_init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="__span-15-82"><a id="__codelineno-15-82" name="__codelineno-15-82" href="#__codelineno-15-82"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">__post_init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 </span><span id="__span-15-83"><a id="__codelineno-15-83" name="__codelineno-15-83" href="#__codelineno-15-83"></a>        <span class="nb">object</span><span class="o">.</span><span class="fm">__setattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;z&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="p">)</span>
 </span><span id="__span-15-84"><a id="__codelineno-15-84" name="__codelineno-15-84" href="#__codelineno-15-84"></a>
 </span><span id="__span-15-85"><a id="__codelineno-15-85" name="__codelineno-15-85" href="#__codelineno-15-85"></a>
@@ -1894,7 +1894,7 @@ that allows fine-tuning of instances behavior.</p>
 </span><span id="__span-15-91"><a id="__codelineno-15-91" name="__codelineno-15-91" href="#__codelineno-15-91"></a>
 </span><span id="__span-15-92"><a id="__codelineno-15-92" name="__codelineno-15-92" href="#__codelineno-15-92"></a><span class="c1"># 6. Automatic ordering methods</span>
 </span><span id="__span-15-93"><a id="__codelineno-15-93" name="__codelineno-15-93" href="#__codelineno-15-93"></a><span class="nd">@dataclass</span><span class="p">(</span><span class="n">order</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-</span><span id="__span-15-94"><a id="__codelineno-15-94" name="__codelineno-15-94" href="#__codelineno-15-94"></a><span class="k">class</span> <span class="nc">Version</span><span class="p">:</span>
+</span><span id="__span-15-94"><a id="__codelineno-15-94" name="__codelineno-15-94" href="#__codelineno-15-94"></a><span class="k">class</span><span class="w"> </span><span class="nc">Version</span><span class="p">:</span>
 </span><span id="__span-15-95"><a id="__codelineno-15-95" name="__codelineno-15-95" href="#__codelineno-15-95"></a>    <span class="n">major</span><span class="p">:</span> <span class="nb">int</span>
 </span><span id="__span-15-96"><a id="__codelineno-15-96" name="__codelineno-15-96" href="#__codelineno-15-96"></a>    <span class="n">minor</span><span class="p">:</span> <span class="nb">int</span>
 </span><span id="__span-15-97"><a id="__codelineno-15-97" name="__codelineno-15-97" href="#__codelineno-15-97"></a>    <span class="n">patch</span><span class="p">:</span> <span class="nb">int</span>
@@ -1908,10 +1908,10 @@ that allows fine-tuning of instances behavior.</p>
 </span><span id="__span-15-105"><a id="__codelineno-15-105" name="__codelineno-15-105" href="#__codelineno-15-105"></a>
 </span><span id="__span-15-106"><a id="__codelineno-15-106" name="__codelineno-15-106" href="#__codelineno-15-106"></a><span class="c1"># 7. Customizing equality/hash behavior</span>
 </span><span id="__span-15-107"><a id="__codelineno-15-107" name="__codelineno-15-107" href="#__codelineno-15-107"></a><span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">eq</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">unsafe_hash</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-</span><span id="__span-15-108"><a id="__codelineno-15-108" name="__codelineno-15-108" href="#__codelineno-15-108"></a><span class="k">class</span> <span class="nc">IDWrapper</span><span class="p">:</span>
+</span><span id="__span-15-108"><a id="__codelineno-15-108" name="__codelineno-15-108" href="#__codelineno-15-108"></a><span class="k">class</span><span class="w"> </span><span class="nc">IDWrapper</span><span class="p">:</span>
 </span><span id="__span-15-109"><a id="__codelineno-15-109" name="__codelineno-15-109" href="#__codelineno-15-109"></a>    <span class="n">id_value</span><span class="p">:</span> <span class="n">Any</span>
 </span><span id="__span-15-110"><a id="__codelineno-15-110" name="__codelineno-15-110" href="#__codelineno-15-110"></a>
-</span><span id="__span-15-111"><a id="__codelineno-15-111" name="__codelineno-15-111" href="#__codelineno-15-111"></a>    <span class="k">def</span> <span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="nb">object</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+</span><span id="__span-15-111"><a id="__codelineno-15-111" name="__codelineno-15-111" href="#__codelineno-15-111"></a>    <span class="k">def</span><span class="w"> </span><span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="nb">object</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 </span><span id="__span-15-112"><a id="__codelineno-15-112" name="__codelineno-15-112" href="#__codelineno-15-112"></a>        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">IDWrapper</span><span class="p">):</span>
 </span><span id="__span-15-113"><a id="__codelineno-15-113" name="__codelineno-15-113" href="#__codelineno-15-113"></a>            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">id_value</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">id_value</span>
 </span><span id="__span-15-114"><a id="__codelineno-15-114" name="__codelineno-15-114" href="#__codelineno-15-114"></a>        <span class="k">return</span> <span class="bp">NotImplemented</span>
@@ -1928,7 +1928,7 @@ that allows fine-tuning of instances behavior.</p>
 </span><span id="__span-15-125"><a id="__codelineno-15-125" name="__codelineno-15-125" href="#__codelineno-15-125"></a>
 </span><span id="__span-15-126"><a id="__codelineno-15-126" name="__codelineno-15-126" href="#__codelineno-15-126"></a><span class="c1"># 8. Using slots for memory optimization:</span>
 </span><span id="__span-15-127"><a id="__codelineno-15-127" name="__codelineno-15-127" href="#__codelineno-15-127"></a><span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">slots</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-</span><span id="__span-15-128"><a id="__codelineno-15-128" name="__codelineno-15-128" href="#__codelineno-15-128"></a><span class="k">class</span> <span class="nc">Point3D</span><span class="p">:</span>
+</span><span id="__span-15-128"><a id="__codelineno-15-128" name="__codelineno-15-128" href="#__codelineno-15-128"></a><span class="k">class</span><span class="w"> </span><span class="nc">Point3D</span><span class="p">:</span>
 </span><span id="__span-15-129"><a id="__codelineno-15-129" name="__codelineno-15-129" href="#__codelineno-15-129"></a>    <span class="n">x</span><span class="p">:</span> <span class="nb">int</span>
 </span><span id="__span-15-130"><a id="__codelineno-15-130" name="__codelineno-15-130" href="#__codelineno-15-130"></a>    <span class="n">y</span><span class="p">:</span> <span class="nb">int</span>
 </span><span id="__span-15-131"><a id="__codelineno-15-131" name="__codelineno-15-131" href="#__codelineno-15-131"></a>    <span class="n">z</span><span class="p">:</span> <span class="nb">int</span>
