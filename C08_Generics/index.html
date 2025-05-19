@@ -455,6 +455,24 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#constraints" class="md-nav__link">
+    <span class="md-ellipsis">
+      Constraints
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bounds" class="md-nav__link">
+    <span class="md-ellipsis">
+      Bounds
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#multiple-type-variables-and-relationships" class="md-nav__link">
     <span class="md-ellipsis">
       Multiple Type Variables and Relationships
@@ -539,9 +557,9 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#invariant-default" class="md-nav__link">
+  <a href="#invariant" class="md-nav__link">
     <span class="md-ellipsis">
-      Invariant (default)
+      Invariant
     </span>
   </a>
   
@@ -701,9 +719,9 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#pitfall-ignoring-typevar-scope" class="md-nav__link">
+  <a href="#pitfall-ignoring-type-variable-scope" class="md-nav__link">
     <span class="md-ellipsis">
-      Pitfall: Ignoring TypeVar Scope
+      Pitfall: Ignoring type variable Scope
     </span>
   </a>
   
@@ -1164,6 +1182,24 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#constraints" class="md-nav__link">
+    <span class="md-ellipsis">
+      Constraints
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bounds" class="md-nav__link">
+    <span class="md-ellipsis">
+      Bounds
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#multiple-type-variables-and-relationships" class="md-nav__link">
     <span class="md-ellipsis">
       Multiple Type Variables and Relationships
@@ -1248,9 +1284,9 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#invariant-default" class="md-nav__link">
+  <a href="#invariant" class="md-nav__link">
     <span class="md-ellipsis">
-      Invariant (default)
+      Invariant
     </span>
   </a>
   
@@ -1410,9 +1446,9 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#pitfall-ignoring-typevar-scope" class="md-nav__link">
+  <a href="#pitfall-ignoring-type-variable-scope" class="md-nav__link">
     <span class="md-ellipsis">
-      Pitfall: Ignoring TypeVar Scope
+      Pitfall: Ignoring type variable Scope
     </span>
   </a>
   
@@ -1541,7 +1577,7 @@ Here's a generic class <code>Box</code> that can hold a value of any type:</p>
 </span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>    <span class="n">content</span><span class="p">:</span> <span class="n">U</span>
 </span><span id="__span-2-9"><a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a>
 </span><span id="__span-2-10"><a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">get_content</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">U</span><span class="p">:</span>
-</span><span id="__span-2-11"><a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a>        <span class="n">reveal_type</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">content</span><span class="p">)</span>
+</span><span id="__span-2-11"><a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a>        <span class="c1"># reveal_type(self.content)</span>
 </span><span id="__span-2-12"><a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">content</span>
 </span><span id="__span-2-13"><a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a>
 </span><span id="__span-2-14"><a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a>
@@ -1565,49 +1601,33 @@ The type checker infers <code>U</code> from the constructor argument.
 We can also annotate variables or parameters with explicit instantiations like <code>Box[int]</code> if needed.</p>
 <h2 id="constraints-and-bounds-on-type-variables">Constraints and Bounds on Type Variables<a class="headerlink" href="#constraints-and-bounds-on-type-variables" title="Permanent link">#</a></h2>
 <p>Sometimes you want a type variable to be limited to certain types, rather than truly any type.
-Python's typing provides two mechanisms for this: <em>constraints</em> and <em>bounds</em> for <code>TypeVar</code>.</p>
-<ul>
-<li><strong>TypeVar with Constraints:</strong> You can specify an explicit finite set of allowable types for a TypeVar.
-  This is useful when a function or class should only work with specific types that aren't in an inheritance
-  relationship.
-  For example:</li>
-</ul>
+Python's typing provides two mechanisms for this: <em>constraints</em> and <em>bounds</em> for type variable.</p>
+<h3 id="constraints">Constraints<a class="headerlink" href="#constraints" title="Permanent link">#</a></h3>
+<p>You can specify an explicit finite set of allowable types for a type variable.
+This is useful when a function or class should only work with specific types that aren't in an inheritance relationship.
+In <code>add</code>, we constrain <code>Number</code> to be either an <code>int</code> or a <code>float</code>:</p>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="c1"># constrained_typevar.py</span>
-</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">TypeVar</span>
-</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>
-</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="c1"># Define a TypeVar that can only be int or float</span>
-</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="n">Number</span> <span class="o">=</span> <span class="n">TypeVar</span><span class="p">(</span><span class="s2">&quot;Number&quot;</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">)</span>
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="k">def</span><span class="w"> </span><span class="nf">add</span><span class="p">[</span><span class="n">Number</span><span class="p">:(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">)](</span><span class="n">a</span><span class="p">:</span> <span class="n">Number</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="n">Number</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Number</span><span class="p">:</span>
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>    <span class="k">return</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span>
+</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>
 </span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>
-</span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a>
-</span><span id="__span-3-8"><a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a><span class="k">def</span><span class="w"> </span><span class="nf">add</span><span class="p">(</span><span class="n">a</span><span class="p">:</span> <span class="n">Number</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="n">Number</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Number</span><span class="p">:</span>
-</span><span id="__span-3-9"><a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a>    <span class="nb">print</span><span class="p">(</span><span class="n">a</span> <span class="o">+</span> <span class="n">b</span><span class="p">)</span>
-</span><span id="__span-3-10"><a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a>    <span class="k">return</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span>
-</span><span id="__span-3-11"><a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a>
-</span><span id="__span-3-12"><a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a>
-</span><span id="__span-3-13"><a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a><span class="n">add</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>  <span class="c1"># valid, both int</span>
-</span><span id="__span-3-14"><a id="__codelineno-3-14" name="__codelineno-3-14" href="#__codelineno-3-14"></a><span class="c1">## 15</span>
-</span><span id="__span-3-15"><a id="__codelineno-3-15" name="__codelineno-3-15" href="#__codelineno-3-15"></a><span class="n">add</span><span class="p">(</span><span class="mf">3.5</span><span class="p">,</span> <span class="mf">2.5</span><span class="p">)</span>  <span class="c1"># valid, both float</span>
-</span><span id="__span-3-16"><a id="__codelineno-3-16" name="__codelineno-3-16" href="#__codelineno-3-16"></a><span class="c1">## 6.0</span>
-</span><span id="__span-3-17"><a id="__codelineno-3-17" name="__codelineno-3-17" href="#__codelineno-3-17"></a><span class="c1"># valid, int and float are both allowed types:</span>
-</span><span id="__span-3-18"><a id="__codelineno-3-18" name="__codelineno-3-18" href="#__codelineno-3-18"></a><span class="n">add</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mf">2.5</span><span class="p">)</span>
-</span><span id="__span-3-19"><a id="__codelineno-3-19" name="__codelineno-3-19" href="#__codelineno-3-19"></a><span class="c1">## 7.5</span>
-</span><span id="__span-3-20"><a id="__codelineno-3-20" name="__codelineno-3-20" href="#__codelineno-3-20"></a><span class="c1"># ERROR: str not allowed for Number:</span>
-</span><span id="__span-3-21"><a id="__codelineno-3-21" name="__codelineno-3-21" href="#__codelineno-3-21"></a><span class="n">add</span><span class="p">(</span><span class="s2">&quot;A&quot;</span><span class="p">,</span> <span class="s2">&quot;Z&quot;</span><span class="p">)</span>  <span class="c1"># type: ignore</span>
-</span><span id="__span-3-22"><a id="__codelineno-3-22" name="__codelineno-3-22" href="#__codelineno-3-22"></a><span class="c1">## AZ</span>
+</span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="n">add</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>  <span class="c1"># valid, both int</span>
+</span><span id="__span-3-8"><a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a><span class="n">add</span><span class="p">(</span><span class="mf">3.5</span><span class="p">,</span> <span class="mf">2.5</span><span class="p">)</span>  <span class="c1"># valid, both float</span>
+</span><span id="__span-3-9"><a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a><span class="c1"># ERROR: cannot mix types:</span>
+</span><span id="__span-3-10"><a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a><span class="n">add</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mf">2.5</span><span class="p">)</span> <span class="c1"># type: ignore</span>
+</span><span id="__span-3-11"><a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a><span class="c1"># ERROR: str not allowed for Number:</span>
+</span><span id="__span-3-12"><a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a><span class="n">add</span><span class="p">(</span><span class="s2">&quot;A&quot;</span><span class="p">,</span> <span class="s2">&quot;Z&quot;</span><span class="p">)</span>  <span class="c1"># type: ignore</span>
 </span></code></pre></div>
-<p>Here, <code>Number</code> is a <code>TypeVar</code> constrained to <code>int</code> or <code>float</code>.
-The <code>add</code> function will only accept those types for its arguments and will return the same type.
-Passing a <code>str</code> (or any type other than int/float) will be caught by the type checker as an error.
-Constraints are useful for functions that operate on a few specific types that don't share a common base class.</p>
-<ul>
-<li><strong>TypeVar with Bound:</strong> A bound restricts a <code>TypeVar</code> to subtypes of a given class (or to classes implementing a given
-  protocol).
-  This is known as an <em>upper bound</em>.
-  For example, if we have a base class <code>Animal</code>, we might want a generic function to only accept subclasses of <code>Animal</code>:</li>
-</ul>
+<p>The <code>add</code> function will only accept <em>one</em> of those types for both its arguments--you cannot mix types.
+Passing any type other than <code>int</code> or <code>float</code> produces a type checking error.</p>
+<h3 id="bounds">Bounds<a class="headerlink" href="#bounds" title="Permanent link">#</a></h3>
+<p>A bound restricts a type variable to subtypes of a given class (or to classes implementing a given protocol).
+This is known as an <em>upper bound</em>.
+For example, if we have a base class <code>Animal</code>, we might want a generic function to only accept subclasses of <code>Animal</code>:</p>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="c1"># animals.py</span>
 </span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">dataclasses</span><span class="w"> </span><span class="kn">import</span> <span class="n">dataclass</span>
-</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">TypeVar</span><span class="p">,</span> <span class="n">Optional</span>
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Optional</span>
 </span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>
 </span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>
 </span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="nd">@dataclass</span>
@@ -1623,12 +1643,9 @@ Constraints are useful for functions that operate on a few specific types that d
 </span><span id="__span-4-16"><a id="__codelineno-4-16" name="__codelineno-4-16" href="#__codelineno-4-16"></a>        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">: Woof&quot;</span><span class="p">)</span>
 </span><span id="__span-4-17"><a id="__codelineno-4-17" name="__codelineno-4-17" href="#__codelineno-4-17"></a>
 </span><span id="__span-4-18"><a id="__codelineno-4-18" name="__codelineno-4-18" href="#__codelineno-4-18"></a>
-</span><span id="__span-4-19"><a id="__codelineno-4-19" name="__codelineno-4-19" href="#__codelineno-4-19"></a><span class="n">TAnimal</span> <span class="o">=</span> <span class="n">TypeVar</span><span class="p">(</span><span class="s2">&quot;TAnimal&quot;</span><span class="p">,</span> <span class="n">bound</span><span class="o">=</span><span class="n">Animal</span><span class="p">)</span>
-</span><span id="__span-4-20"><a id="__codelineno-4-20" name="__codelineno-4-20" href="#__codelineno-4-20"></a>
-</span><span id="__span-4-21"><a id="__codelineno-4-21" name="__codelineno-4-21" href="#__codelineno-4-21"></a>
-</span><span id="__span-4-22"><a id="__codelineno-4-22" name="__codelineno-4-22" href="#__codelineno-4-22"></a><span class="k">def</span><span class="w"> </span><span class="nf">speak</span><span class="p">(</span><span class="n">creatures</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">TAnimal</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-</span><span id="__span-4-23"><a id="__codelineno-4-23" name="__codelineno-4-23" href="#__codelineno-4-23"></a>    <span class="k">for</span> <span class="n">creature</span> <span class="ow">in</span> <span class="n">creatures</span><span class="p">:</span>
-</span><span id="__span-4-24"><a id="__codelineno-4-24" name="__codelineno-4-24" href="#__codelineno-4-24"></a>        <span class="n">creature</span><span class="o">.</span><span class="n">say</span><span class="p">()</span>
+</span><span id="__span-4-19"><a id="__codelineno-4-19" name="__codelineno-4-19" href="#__codelineno-4-19"></a><span class="k">def</span><span class="w"> </span><span class="nf">speak</span><span class="p">[</span><span class="n">TAnimal</span><span class="p">:</span><span class="n">Animal</span><span class="p">](</span><span class="n">creatures</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">TAnimal</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="__span-4-20"><a id="__codelineno-4-20" name="__codelineno-4-20" href="#__codelineno-4-20"></a>    <span class="k">for</span> <span class="n">creature</span> <span class="ow">in</span> <span class="n">creatures</span><span class="p">:</span>
+</span><span id="__span-4-21"><a id="__codelineno-4-21" name="__codelineno-4-21" href="#__codelineno-4-21"></a>        <span class="n">creature</span><span class="o">.</span><span class="n">say</span><span class="p">()</span>
 </span></code></pre></div>
 <p><code>TAnimal</code> is bounded by <code>Animal</code>, meaning any substitution for <code>TAnimal</code> must be <code>Animal</code> or a subclass of <code>Animal</code>.
 The <code>speak</code> function can then accept a list of <code>Animal</code> or any subtype (like <code>Dog</code>).
@@ -1636,106 +1653,96 @@ Inside the function, we know that each item has the <code>speak()</code> method 
 If we tried to call <code>speak</code> with a list of something else (say <code>str</code> or <code>int</code>), the type checker rejects it.</p>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="c1"># animal_demo.py</span>
 </span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">animals</span><span class="w"> </span><span class="kn">import</span> <span class="n">Animal</span><span class="p">,</span> <span class="n">Dog</span><span class="p">,</span> <span class="n">speak</span>
-</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>
-</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="n">pets</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">Dog</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">Dog</span><span class="p">(),</span> <span class="n">Dog</span><span class="p">()]</span>
-</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="n">speak</span><span class="p">(</span><span class="n">pets</span><span class="p">)</span>  <span class="c1"># OK, Dog is a subclass of Animal</span>
-</span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="c1">## None: Woof</span>
-</span><span id="__span-5-7"><a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a><span class="c1">## None: Woof</span>
-</span><span id="__span-5-8"><a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a><span class="n">speak</span><span class="p">([</span><span class="n">Animal</span><span class="p">()])</span>  <span class="c1"># OK, Animal is the bound</span>
-</span><span id="__span-5-9"><a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a><span class="c1">## None: Animal sound</span>
-</span><span id="__span-5-10"><a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a><span class="c1"># make_them_speak([&quot;not an animal&quot;])  # type checker error</span>
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="kn">from</span><span class="w"> </span><span class="nn">book_utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">Catch</span>
+</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>
+</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="n">pets</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">Dog</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">Dog</span><span class="p">(</span><span class="s2">&quot;Rags&quot;</span><span class="p">),</span> <span class="n">Dog</span><span class="p">(</span><span class="s2">&quot;Spot&quot;</span><span class="p">)]</span>
+</span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="n">speak</span><span class="p">(</span><span class="n">pets</span><span class="p">)</span>  <span class="c1"># OK, Dog is a subclass of Animal</span>
+</span><span id="__span-5-7"><a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a><span class="c1">## Rags: Woof</span>
+</span><span id="__span-5-8"><a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a><span class="c1">## Spot: Woof</span>
+</span><span id="__span-5-9"><a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a><span class="n">speak</span><span class="p">([</span><span class="n">Animal</span><span class="p">(</span><span class="s2">&quot;Mittens&quot;</span><span class="p">)])</span>  <span class="c1"># OK, Animal is the bound</span>
+</span><span id="__span-5-10"><a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a><span class="c1">## Mittens: Animal sound</span>
+</span><span id="__span-5-11"><a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a><span class="k">with</span> <span class="n">Catch</span><span class="p">():</span>
+</span><span id="__span-5-12"><a id="__codelineno-5-12" name="__codelineno-5-12" href="#__codelineno-5-12"></a>    <span class="n">speak</span><span class="p">([</span><span class="s2">&quot;bob&quot;</span><span class="p">])</span>  <span class="c1"># type: ignore</span>
 </span></code></pre></div>
 <p>Use constraints when the valid types are a specific set of unrelated types.
 Use a bound when the valid types share a common base class or trait that you want to enforce.
-Bounds are often more flexible, as new subclasses automatically fit the bound without changing the <code>TypeVar</code> definition.
+Bounds are often more flexible, as new subclasses automatically fit the bound without changing the type variable definition.
 Constraints are stricter and must be explicitly extended if a new type should be allowed.</p>
 <h3 id="multiple-type-variables-and-relationships">Multiple Type Variables and Relationships<a class="headerlink" href="#multiple-type-variables-and-relationships" title="Permanent link">#</a></h3>
-<p>You can use more than one <code>TypeVar</code> in a generic function or class.
+<p>You can use more than one type variable in a generic function or class.
 For instance, consider a function that takes two parameters of possibly different types and returns a tuple containing
 them:</p>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="c1"># multiple_typevars.py</span>
-</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">TypeVar</span>
-</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>
-</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="n">A</span> <span class="o">=</span> <span class="n">TypeVar</span><span class="p">(</span><span class="s2">&quot;A&quot;</span><span class="p">)</span>
-</span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="n">B</span> <span class="o">=</span> <span class="n">TypeVar</span><span class="p">(</span><span class="s2">&quot;B&quot;</span><span class="p">)</span>
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>
+</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="k">def</span><span class="w"> </span><span class="nf">pairify</span><span class="p">[</span><span class="n">A</span><span class="p">,</span><span class="n">B</span><span class="p">](</span><span class="n">x</span><span class="p">:</span> <span class="n">A</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">B</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">]:</span>
+</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>    <span class="k">return</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span>
+</span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>
 </span><span id="__span-6-6"><a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a>
-</span><span id="__span-6-7"><a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a>
-</span><span id="__span-6-8"><a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a><span class="k">def</span><span class="w"> </span><span class="nf">pairify</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="n">A</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">B</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">]:</span>
-</span><span id="__span-6-9"><a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a>    <span class="k">return</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
-</span><span id="__span-6-10"><a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a>
-</span><span id="__span-6-11"><a id="__codelineno-6-11" name="__codelineno-6-11" href="#__codelineno-6-11"></a>
-</span><span id="__span-6-12"><a id="__codelineno-6-12" name="__codelineno-6-12" href="#__codelineno-6-12"></a><span class="n">result</span> <span class="o">=</span> <span class="n">pairify</span><span class="p">(</span><span class="s2">&quot;Alice&quot;</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
-</span><span id="__span-6-13"><a id="__codelineno-6-13" name="__codelineno-6-13" href="#__codelineno-6-13"></a><span class="c1"># result has type tuple[str, int]</span>
+</span><span id="__span-6-7"><a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a><span class="n">result</span> <span class="o">=</span> <span class="n">pairify</span><span class="p">(</span><span class="s2">&quot;Alice&quot;</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>  <span class="c1"># tuple[str, int]</span>
 </span></code></pre></div>
 <p>Here <code>A</code> and <code>B</code> are independent type variables.
-The type of <code>result</code> is a tuple whose first element is a <code>str</code> and second is an <code>int</code>, as inferred from the arguments.</p>
+The type of <code>result</code> is a <code>tuple</code> whose first element is a <code>str</code> and second is an <code>int</code>, as inferred from the arguments.</p>
 <p>Type variables can also depend on each other through constraints or bounds.
 However, Python's typing does not allow directly expressing complex relationships (like saying two type variables must
 be the same subtype of some base).
-In such cases, it's common to use a single <code>TypeVar</code> in multiple places to indicate they must match, or use protocols (discussed later) for more complex constraints.</p>
+In such cases, it's common to use a single type variable in multiple places to indicate they must match, or use protocols (discussed later) for more complex constraints.</p>
 <h2 id="type-variable-tuples">Type Variable Tuples<a class="headerlink" href="#type-variable-tuples" title="Permanent link">#</a></h2>
 <p>A <em>type variable tuple</em> is like <code>*args</code>, but for types.
 It defines generic classes and functions that accept a variable number of types,
 creating more powerful and flexible type-safe abstractions.
 This is called <em>variadic generics</em>.</p>
 <p>Suppose you want a generic <code>TupleWrapper</code> that can handle any number of types.
-Without type variable tuple, you'd have to manually define each arity.
+Without type variable tuples, you'd have to manually define each arity.
 With it, you can write:</p>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="c1"># tuple_wrapper.py</span>
 </span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>
-</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="k">class</span><span class="w"> </span><span class="nc">TupleWrapper</span><span class="p">[</span><span class="o">*</span><span class="n">Ts</span><span class="p">]:</span>
-</span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a>    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">values</span><span class="p">:</span> <span class="o">*</span><span class="n">Ts</span><span class="p">):</span>
+</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="k">class</span><span class="w"> </span><span class="nc">TupleWrapper</span><span class="p">[</span><span class="o">*</span><span class="n">T</span><span class="p">]:</span>
+</span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a>    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">values</span><span class="p">:</span> <span class="o">*</span><span class="n">T</span><span class="p">):</span>
 </span><span id="__span-7-5"><a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">values</span> <span class="o">=</span> <span class="n">values</span>
 </span><span id="__span-7-6"><a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a>
 </span><span id="__span-7-7"><a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a>
 </span><span id="__span-7-8"><a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a><span class="n">t1</span> <span class="o">=</span> <span class="n">TupleWrapper</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># TupleWrapper[int]</span>
 </span><span id="__span-7-9"><a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a><span class="n">t2</span> <span class="o">=</span> <span class="n">TupleWrapper</span><span class="p">(</span><span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mf">3.14</span><span class="p">)</span>  <span class="c1"># TupleWrapper[str, int, float]</span>
 </span></code></pre></div>
-<p>The type checker tracks the number and types of elements in <code>*Ts</code> individually.
-Let's explore type variable tuple by implementing a type-safe version of Python's built-in <code>zip()</code> function that works on
+<p>The type checker tracks the number and types of elements in <code>*T</code> individually.
+Let's explore the type variable tuple by implementing a type-safe version of Python's built-in <code>zip()</code> function that works on
 <code>tuple</code>s of different types:</p>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="c1"># variadic_zip.py</span>
-</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">TypeVarTuple</span><span class="p">,</span> <span class="n">Unpack</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Any</span>
-</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>
-</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="n">Ts</span> <span class="o">=</span> <span class="n">TypeVarTuple</span><span class="p">(</span><span class="s2">&quot;Ts&quot;</span><span class="p">)</span>
-</span><span id="__span-8-5"><a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a>
-</span><span id="__span-8-6"><a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a>
-</span><span id="__span-8-7"><a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a><span class="k">def</span><span class="w"> </span><span class="nf">zip_variadic</span><span class="p">(</span>
-</span><span id="__span-8-8"><a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a>    <span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">Unpack</span><span class="p">[</span><span class="n">Ts</span><span class="p">]],</span>
-</span><span id="__span-8-9"><a id="__codelineno-8-9" name="__codelineno-8-9" href="#__codelineno-8-9"></a><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="o">*</span><span class="n">Ts</span><span class="p">],</span> <span class="o">...</span><span class="p">]:</span>
-</span><span id="__span-8-10"><a id="__codelineno-8-10" name="__codelineno-8-10" href="#__codelineno-8-10"></a>    <span class="k">return</span> <span class="nb">tuple</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">))</span>
-</span><span id="__span-8-11"><a id="__codelineno-8-11" name="__codelineno-8-11" href="#__codelineno-8-11"></a>
-</span><span id="__span-8-12"><a id="__codelineno-8-12" name="__codelineno-8-12" href="#__codelineno-8-12"></a>
-</span><span id="__span-8-13"><a id="__codelineno-8-13" name="__codelineno-8-13" href="#__codelineno-8-13"></a><span class="k">def</span><span class="w"> </span><span class="nf">unzip_variadic</span><span class="p">(</span>
-</span><span id="__span-8-14"><a id="__codelineno-8-14" name="__codelineno-8-14" href="#__codelineno-8-14"></a>    <span class="n">packed</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="n">Any</span><span class="p">,</span> <span class="o">...</span><span class="p">],</span> <span class="o">...</span><span class="p">],</span>
-</span><span id="__span-8-15"><a id="__codelineno-8-15" name="__codelineno-8-15" href="#__codelineno-8-15"></a><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="n">Any</span><span class="p">,</span> <span class="o">...</span><span class="p">],</span> <span class="o">...</span><span class="p">]:</span>
-</span><span id="__span-8-16"><a id="__codelineno-8-16" name="__codelineno-8-16" href="#__codelineno-8-16"></a>    <span class="k">return</span> <span class="nb">tuple</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="o">*</span><span class="n">packed</span><span class="p">))</span>
-</span><span id="__span-8-17"><a id="__codelineno-8-17" name="__codelineno-8-17" href="#__codelineno-8-17"></a>
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>
+</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="k">def</span><span class="w"> </span><span class="nf">zip_variadic</span><span class="p">[</span><span class="o">*</span><span class="n">T</span><span class="p">](</span>
+</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a>    <span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="o">*</span><span class="n">T</span><span class="p">],</span>
+</span><span id="__span-8-5"><a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="o">*</span><span class="n">T</span><span class="p">],</span> <span class="o">...</span><span class="p">]:</span>
+</span><span id="__span-8-6"><a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a>    <span class="k">return</span> <span class="nb">tuple</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">))</span>
+</span><span id="__span-8-7"><a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a>
+</span><span id="__span-8-8"><a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a>
+</span><span id="__span-8-9"><a id="__codelineno-8-9" name="__codelineno-8-9" href="#__codelineno-8-9"></a><span class="k">def</span><span class="w"> </span><span class="nf">unzip_variadic</span><span class="p">[</span><span class="o">*</span><span class="n">T</span><span class="p">](</span>
+</span><span id="__span-8-10"><a id="__codelineno-8-10" name="__codelineno-8-10" href="#__codelineno-8-10"></a>    <span class="n">packed</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="o">*</span><span class="n">T</span><span class="p">],</span> <span class="o">...</span><span class="p">],</span>
+</span><span id="__span-8-11"><a id="__codelineno-8-11" name="__codelineno-8-11" href="#__codelineno-8-11"></a><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="o">*</span><span class="n">T</span><span class="p">],</span> <span class="o">...</span><span class="p">]:</span>
+</span><span id="__span-8-12"><a id="__codelineno-8-12" name="__codelineno-8-12" href="#__codelineno-8-12"></a>    <span class="k">return</span> <span class="nb">tuple</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="o">*</span><span class="n">packed</span><span class="p">))</span>
+</span><span id="__span-8-13"><a id="__codelineno-8-13" name="__codelineno-8-13" href="#__codelineno-8-13"></a>
+</span><span id="__span-8-14"><a id="__codelineno-8-14" name="__codelineno-8-14" href="#__codelineno-8-14"></a>
+</span><span id="__span-8-15"><a id="__codelineno-8-15" name="__codelineno-8-15" href="#__codelineno-8-15"></a><span class="n">a</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="mf">3.14</span><span class="p">)</span>
+</span><span id="__span-8-16"><a id="__codelineno-8-16" name="__codelineno-8-16" href="#__codelineno-8-16"></a><span class="n">b</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">,</span> <span class="mf">2.71</span><span class="p">)</span>
+</span><span id="__span-8-17"><a id="__codelineno-8-17" name="__codelineno-8-17" href="#__codelineno-8-17"></a><span class="n">c</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="s2">&quot;c&quot;</span><span class="p">,</span> <span class="mf">1.41</span><span class="p">)</span>
 </span><span id="__span-8-18"><a id="__codelineno-8-18" name="__codelineno-8-18" href="#__codelineno-8-18"></a>
-</span><span id="__span-8-19"><a id="__codelineno-8-19" name="__codelineno-8-19" href="#__codelineno-8-19"></a><span class="n">a</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="mf">3.14</span><span class="p">)</span>
-</span><span id="__span-8-20"><a id="__codelineno-8-20" name="__codelineno-8-20" href="#__codelineno-8-20"></a><span class="n">b</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">,</span> <span class="mf">2.71</span><span class="p">)</span>
-</span><span id="__span-8-21"><a id="__codelineno-8-21" name="__codelineno-8-21" href="#__codelineno-8-21"></a><span class="n">c</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="s2">&quot;c&quot;</span><span class="p">,</span> <span class="mf">1.41</span><span class="p">)</span>
-</span><span id="__span-8-22"><a id="__codelineno-8-22" name="__codelineno-8-22" href="#__codelineno-8-22"></a>
-</span><span id="__span-8-23"><a id="__codelineno-8-23" name="__codelineno-8-23" href="#__codelineno-8-23"></a><span class="n">zipped</span> <span class="o">=</span> <span class="n">zip_variadic</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">)</span>
-</span><span id="__span-8-24"><a id="__codelineno-8-24" name="__codelineno-8-24" href="#__codelineno-8-24"></a><span class="n">unzipped</span> <span class="o">=</span> <span class="n">unzip_variadic</span><span class="p">(</span><span class="n">zipped</span><span class="p">)</span>
-</span><span id="__span-8-25"><a id="__codelineno-8-25" name="__codelineno-8-25" href="#__codelineno-8-25"></a>
-</span><span id="__span-8-26"><a id="__codelineno-8-26" name="__codelineno-8-26" href="#__codelineno-8-26"></a><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Zipped:&quot;</span><span class="p">,</span> <span class="n">zipped</span><span class="p">)</span>
-</span><span id="__span-8-27"><a id="__codelineno-8-27" name="__codelineno-8-27" href="#__codelineno-8-27"></a><span class="c1">## Zipped: ((1, 2, 3), (&#39;a&#39;, &#39;b&#39;, &#39;c&#39;), (3.14,</span>
-</span><span id="__span-8-28"><a id="__codelineno-8-28" name="__codelineno-8-28" href="#__codelineno-8-28"></a><span class="c1">## 2.71, 1.41))</span>
-</span><span id="__span-8-29"><a id="__codelineno-8-29" name="__codelineno-8-29" href="#__codelineno-8-29"></a><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Unzipped:&quot;</span><span class="p">,</span> <span class="n">unzipped</span><span class="p">)</span>
-</span><span id="__span-8-30"><a id="__codelineno-8-30" name="__codelineno-8-30" href="#__codelineno-8-30"></a><span class="c1">## Unzipped: ((1, &#39;a&#39;, 3.14), (2, &#39;b&#39;, 2.71), (3,</span>
-</span><span id="__span-8-31"><a id="__codelineno-8-31" name="__codelineno-8-31" href="#__codelineno-8-31"></a><span class="c1">## &#39;c&#39;, 1.41))</span>
+</span><span id="__span-8-19"><a id="__codelineno-8-19" name="__codelineno-8-19" href="#__codelineno-8-19"></a><span class="n">zipped</span> <span class="o">=</span> <span class="n">zip_variadic</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">)</span>
+</span><span id="__span-8-20"><a id="__codelineno-8-20" name="__codelineno-8-20" href="#__codelineno-8-20"></a><span class="n">unzipped</span> <span class="o">=</span> <span class="n">unzip_variadic</span><span class="p">(</span><span class="n">zipped</span><span class="p">)</span>
+</span><span id="__span-8-21"><a id="__codelineno-8-21" name="__codelineno-8-21" href="#__codelineno-8-21"></a>
+</span><span id="__span-8-22"><a id="__codelineno-8-22" name="__codelineno-8-22" href="#__codelineno-8-22"></a><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Zipped: </span><span class="si">{</span><span class="n">zipped</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</span><span id="__span-8-23"><a id="__codelineno-8-23" name="__codelineno-8-23" href="#__codelineno-8-23"></a><span class="c1"># Zipped: ((1, 2, 3), (&#39;a&#39;, &#39;b&#39;, &#39;c&#39;), (3.14, 2.71, 1.41))</span>
+</span><span id="__span-8-24"><a id="__codelineno-8-24" name="__codelineno-8-24" href="#__codelineno-8-24"></a><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unzipped: </span><span class="si">{</span><span class="n">unzipped</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</span><span id="__span-8-25"><a id="__codelineno-8-25" name="__codelineno-8-25" href="#__codelineno-8-25"></a><span class="c1"># Unzipped: ((1, &#39;a&#39;, 3.14), (2, &#39;b&#39;, 2.71), (3, &#39;c&#39;, 1.41))</span>
 </span></code></pre></div>
 <p>The <code>zip_variadic</code> signature says:</p>
 <ul>
-<li><code>args</code> is a variadic list of tuples, each shaped like tuple[Unpack[Ts]]</li>
-<li>The return value is a tuple of rows, where each row is tuple[*Ts] (e.g., one <code>int</code> row, one <code>str</code> row, one <code>float</code>
+<li><code>args</code> is a variadic list of tuples, each shaped like <code>tuple[*T]</code>.</li>
+<li>The return value is a tuple of rows, where each row is <code>tuple[*T]</code> (e.g., one <code>int</code> row, one <code>str</code> row, one <code>float</code>
   row).</li>
 </ul>
 <h3 id="limitations-2025">Limitations (2025)<a class="headerlink" href="#limitations-2025" title="Permanent link">#</a></h3>
 <ul>
 <li>Requires Python 3.11+ and a type checker that supports it (PyRight does well, mypy still partial)</li>
-<li>Can't yet mix <code>TypeVar</code> and type variable tuple freely in all places</li>
+<li>Can't yet mix type variable and type variable tuple freely in all places</li>
 <li>Still not supported in some older tools or linters</li>
 </ul>
 <h3 id="related-concepts">Related Concepts<a class="headerlink" href="#related-concepts" title="Permanent link">#</a></h3>
@@ -1748,15 +1755,15 @@ Let's explore type variable tuple by implementing a type-safe version of Python'
 </thead>
 <tbody>
 <tr>
-<td><code>TypeVar</code></td>
+<td>Type variable</td>
 <td>A single generic type</td>
 </tr>
 <tr>
-<td><code>ParamSpec</code></td>
+<td>Parameter spec</td>
 <td>A tuple of parameter types for callables</td>
 </tr>
 <tr>
-<td>type variable tuple</td>
+<td>Type variable tuple</td>
 <td>A tuple of arbitrary generic types</td>
 </tr>
 </tbody>
@@ -1868,92 +1875,74 @@ In Python, all generics are invariant by default, meaning <code>Container[SubTyp
 even if <code>SubType</code> is a subtype of <code>BaseType</code>.
 This is a common source of confusion for those coming from languages like Java or C#, but it's an important aspect of
 type safety.</p>
-<h3 id="invariant-default">Invariant (default)<a class="headerlink" href="#invariant-default" title="Permanent link">#</a></h3>
-<p>A generic class is invariant in its type parameters unless explicitly declared otherwise.
+<p>Python 3.12 introduced variance inference, so you do not have to specify variance.
+This is a great benefit, as people often find variance confusing.</p>
+<h3 id="invariant">Invariant<a class="headerlink" href="#invariant" title="Permanent link">#</a></h3>
+<p>A generic class is invariant by default.
 For example, given <code>Dog</code> is a subclass of <code>Animal</code>, <code>Box[Dog]</code> is not considered a subtype of <code>Box[Animal]</code>.
 This is unsafe because you can then put a <code>Cat</code> (another <code>Animal</code>) into a <code>Box[Animal]</code> which is a <code>Box[Dog]</code>
 internally.
 The type checker forbids treating <code>Box[Dog]</code> as a <code>Box[Animal]</code>.</p>
 <h3 id="covariance">Covariance<a class="headerlink" href="#covariance" title="Permanent link">#</a></h3>
-<p>A generic type is covariant in a type parameter if <code>Generic[Sub]</code> is a subtype of <code>Generic[Base]</code> whenever <code>Sub</code> is a
-subtype of <code>Base</code>.
-This usually makes sense for read-only or producer containers.
-Python allows declaring a <code>TypeVar</code> as covariant when defining a class or interface.
+<p>Covariance usually makes sense for read-only or producer containers.
 For example:</p>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="c1"># covariance.py</span>
-</span><span id="__span-12-2"><a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Generic</span><span class="p">,</span> <span class="n">TypeVar</span>
-</span><span id="__span-12-3"><a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a><span class="kn">from</span><span class="w"> </span><span class="nn">animals</span><span class="w"> </span><span class="kn">import</span> <span class="n">Animal</span><span class="p">,</span> <span class="n">Dog</span>
-</span><span id="__span-12-4"><a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a>
-</span><span id="__span-12-5"><a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a><span class="n">T_co</span> <span class="o">=</span> <span class="n">TypeVar</span><span class="p">(</span><span class="s2">&quot;T_co&quot;</span><span class="p">,</span> <span class="n">covariant</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-</span><span id="__span-12-6"><a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a>
+</span><span id="__span-12-2"><a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">animals</span><span class="w"> </span><span class="kn">import</span> <span class="n">Animal</span><span class="p">,</span> <span class="n">Dog</span>
+</span><span id="__span-12-3"><a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a>
+</span><span id="__span-12-4"><a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a><span class="k">class</span><span class="w"> </span><span class="nc">ReadOnlyBox</span><span class="p">[</span><span class="n">T</span><span class="p">]:</span>
+</span><span id="__span-12-5"><a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a>    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">content</span><span class="p">:</span> <span class="n">T</span><span class="p">):</span>
+</span><span id="__span-12-6"><a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">_content</span> <span class="o">=</span> <span class="n">content</span>
 </span><span id="__span-12-7"><a id="__codelineno-12-7" name="__codelineno-12-7" href="#__codelineno-12-7"></a>
-</span><span id="__span-12-8"><a id="__codelineno-12-8" name="__codelineno-12-8" href="#__codelineno-12-8"></a><span class="k">class</span><span class="w"> </span><span class="nc">ReadOnlyBox</span><span class="p">(</span><span class="n">Generic</span><span class="p">[</span><span class="n">T_co</span><span class="p">]):</span>
-</span><span id="__span-12-9"><a id="__codelineno-12-9" name="__codelineno-12-9" href="#__codelineno-12-9"></a>    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">content</span><span class="p">:</span> <span class="n">T_co</span><span class="p">):</span>
-</span><span id="__span-12-10"><a id="__codelineno-12-10" name="__codelineno-12-10" href="#__codelineno-12-10"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">_content</span> <span class="o">=</span> <span class="n">content</span>
+</span><span id="__span-12-8"><a id="__codelineno-12-8" name="__codelineno-12-8" href="#__codelineno-12-8"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">get_content</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="p">:</span>
+</span><span id="__span-12-9"><a id="__codelineno-12-9" name="__codelineno-12-9" href="#__codelineno-12-9"></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_content</span>
+</span><span id="__span-12-10"><a id="__codelineno-12-10" name="__codelineno-12-10" href="#__codelineno-12-10"></a>
 </span><span id="__span-12-11"><a id="__codelineno-12-11" name="__codelineno-12-11" href="#__codelineno-12-11"></a>
-</span><span id="__span-12-12"><a id="__codelineno-12-12" name="__codelineno-12-12" href="#__codelineno-12-12"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">get_content</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T_co</span><span class="p">:</span>
-</span><span id="__span-12-13"><a id="__codelineno-12-13" name="__codelineno-12-13" href="#__codelineno-12-13"></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_content</span>
-</span><span id="__span-12-14"><a id="__codelineno-12-14" name="__codelineno-12-14" href="#__codelineno-12-14"></a>
-</span><span id="__span-12-15"><a id="__codelineno-12-15" name="__codelineno-12-15" href="#__codelineno-12-15"></a>
-</span><span id="__span-12-16"><a id="__codelineno-12-16" name="__codelineno-12-16" href="#__codelineno-12-16"></a><span class="n">dog_box</span><span class="p">:</span> <span class="n">ReadOnlyBox</span><span class="p">[</span><span class="n">Dog</span><span class="p">]</span> <span class="o">=</span> <span class="n">ReadOnlyBox</span><span class="p">(</span><span class="n">Dog</span><span class="p">())</span>
-</span><span id="__span-12-17"><a id="__codelineno-12-17" name="__codelineno-12-17" href="#__codelineno-12-17"></a><span class="c1"># Covariance in action:</span>
-</span><span id="__span-12-18"><a id="__codelineno-12-18" name="__codelineno-12-18" href="#__codelineno-12-18"></a><span class="n">animal_box</span><span class="p">:</span> <span class="n">ReadOnlyBox</span><span class="p">[</span><span class="n">Animal</span><span class="p">]</span> <span class="o">=</span> <span class="n">dog_box</span>
-</span><span id="__span-12-19"><a id="__codelineno-12-19" name="__codelineno-12-19" href="#__codelineno-12-19"></a><span class="c1"># pet is an Animal, a Dog:</span>
-</span><span id="__span-12-20"><a id="__codelineno-12-20" name="__codelineno-12-20" href="#__codelineno-12-20"></a><span class="n">pet</span><span class="p">:</span> <span class="n">Animal</span> <span class="o">=</span> <span class="n">animal_box</span><span class="o">.</span><span class="n">get_content</span><span class="p">()</span>
+</span><span id="__span-12-12"><a id="__codelineno-12-12" name="__codelineno-12-12" href="#__codelineno-12-12"></a><span class="n">dog_box</span><span class="p">:</span> <span class="n">ReadOnlyBox</span><span class="p">[</span><span class="n">Dog</span><span class="p">]</span> <span class="o">=</span> <span class="n">ReadOnlyBox</span><span class="p">(</span><span class="n">Dog</span><span class="p">())</span>
+</span><span id="__span-12-13"><a id="__codelineno-12-13" name="__codelineno-12-13" href="#__codelineno-12-13"></a><span class="c1"># Covariance in action:</span>
+</span><span id="__span-12-14"><a id="__codelineno-12-14" name="__codelineno-12-14" href="#__codelineno-12-14"></a><span class="n">animal_box</span><span class="p">:</span> <span class="n">ReadOnlyBox</span><span class="p">[</span><span class="n">Animal</span><span class="p">]</span> <span class="o">=</span> <span class="n">dog_box</span>
+</span><span id="__span-12-15"><a id="__codelineno-12-15" name="__codelineno-12-15" href="#__codelineno-12-15"></a><span class="c1"># pet is an Animal, a Dog:</span>
+</span><span id="__span-12-16"><a id="__codelineno-12-16" name="__codelineno-12-16" href="#__codelineno-12-16"></a><span class="n">pet</span><span class="p">:</span> <span class="n">Animal</span> <span class="o">=</span> <span class="n">animal_box</span><span class="o">.</span><span class="n">get_content</span><span class="p">()</span>
 </span></code></pre></div>
-<p>Here, <code>ReadOnlyBox[T_co]</code> is defined with a covariant type parameter <code>T_co</code>.
-That signals to the type checker that it is safe to treat <code>ReadOnlyBox[Dog]</code> as a <code>ReadOnlyBox[Animal]</code>, because
-<code>ReadOnlyBox</code> only produces <code>T_co</code> (via <code>get_content</code>) and never consumes it in a type-specific way.
-Covariance is appropriate when the generic class is basically a container of T that only returns T (and doesn't accept T
+<p>Here, <code>ReadOnlyBox[T]</code> is covariant with the type parameter <code>T</code>.
+That signals to the type checker that it is safe to treat <code>ReadOnlyBox[Dog]</code> as a <code>ReadOnlyBox[Animal]</code>,
+because <code>ReadOnlyBox</code> only produces <code>T</code> (via <code>get_content</code>) and never consumes it in a type-specific way.
+Covariance is appropriate when the generic class is basically a container of <code>T</code> that only returns <code>T</code> (and doesn't accept <code>T</code>
 instances that can violate assumptions).</p>
 <h3 id="contravariance">Contravariance<a class="headerlink" href="#contravariance" title="Permanent link">#</a></h3>
-<p>A generic type is contravariant in a type parameter if <code>Generic[Base]</code> is a subtype of <code>Generic[Sub]</code> whenever <code>Sub</code> is
-a subtype of <code>Base</code>.
-This is suitable for consumer objects that only take in data of type T and do not produce it.
-Python allows declaring a <code>TypeVar</code> as contravariant.
+<p>Contravariance is suitable for consumer objects that only take in data of type <code>T</code> and do not produce it.
 For example:</p>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="c1"># contravariance.py</span>
-</span><span id="__span-13-2"><a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Generic</span><span class="p">,</span> <span class="n">TypeVar</span>
+</span><span id="__span-13-2"><a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">animals</span><span class="w"> </span><span class="kn">import</span> <span class="n">Animal</span><span class="p">,</span> <span class="n">Dog</span>
 </span><span id="__span-13-3"><a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a>
-</span><span id="__span-13-4"><a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a><span class="kn">from</span><span class="w"> </span><span class="nn">animals</span><span class="w"> </span><span class="kn">import</span> <span class="n">Animal</span><span class="p">,</span> <span class="n">Dog</span>
-</span><span id="__span-13-5"><a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a>
-</span><span id="__span-13-6"><a id="__codelineno-13-6" name="__codelineno-13-6" href="#__codelineno-13-6"></a><span class="n">T_contra</span> <span class="o">=</span> <span class="n">TypeVar</span><span class="p">(</span><span class="s2">&quot;T_contra&quot;</span><span class="p">,</span> <span class="n">contravariant</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</span><span id="__span-13-4"><a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a><span class="k">class</span><span class="w"> </span><span class="nc">Sink</span><span class="p">[</span><span class="n">T</span><span class="p">]:</span>
+</span><span id="__span-13-5"><a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">send</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">T</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="__span-13-6"><a id="__codelineno-13-6" name="__codelineno-13-6" href="#__codelineno-13-6"></a>        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Processing </span><span class="si">{</span><span class="n">value</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 </span><span id="__span-13-7"><a id="__codelineno-13-7" name="__codelineno-13-7" href="#__codelineno-13-7"></a>
 </span><span id="__span-13-8"><a id="__codelineno-13-8" name="__codelineno-13-8" href="#__codelineno-13-8"></a>
-</span><span id="__span-13-9"><a id="__codelineno-13-9" name="__codelineno-13-9" href="#__codelineno-13-9"></a><span class="k">class</span><span class="w"> </span><span class="nc">Sink</span><span class="p">(</span><span class="n">Generic</span><span class="p">[</span><span class="n">T_contra</span><span class="p">]):</span>
-</span><span id="__span-13-10"><a id="__codelineno-13-10" name="__codelineno-13-10" href="#__codelineno-13-10"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">send</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">T_contra</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-</span><span id="__span-13-11"><a id="__codelineno-13-11" name="__codelineno-13-11" href="#__codelineno-13-11"></a>        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Processing </span><span class="si">{</span><span class="n">value</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-</span><span id="__span-13-12"><a id="__codelineno-13-12" name="__codelineno-13-12" href="#__codelineno-13-12"></a>
-</span><span id="__span-13-13"><a id="__codelineno-13-13" name="__codelineno-13-13" href="#__codelineno-13-13"></a>
-</span><span id="__span-13-14"><a id="__codelineno-13-14" name="__codelineno-13-14" href="#__codelineno-13-14"></a><span class="n">animal_sink</span><span class="p">:</span> <span class="n">Sink</span><span class="p">[</span><span class="n">Animal</span><span class="p">]</span> <span class="o">=</span> <span class="n">Sink</span><span class="p">()</span>
-</span><span id="__span-13-15"><a id="__codelineno-13-15" name="__codelineno-13-15" href="#__codelineno-13-15"></a><span class="c1"># Contravariance in action:</span>
-</span><span id="__span-13-16"><a id="__codelineno-13-16" name="__codelineno-13-16" href="#__codelineno-13-16"></a><span class="n">dog_sink</span><span class="p">:</span> <span class="n">Sink</span><span class="p">[</span><span class="n">Dog</span><span class="p">]</span> <span class="o">=</span> <span class="n">animal_sink</span>  <span class="c1"># type: ignore # Pycharm</span>
-</span><span id="__span-13-17"><a id="__codelineno-13-17" name="__codelineno-13-17" href="#__codelineno-13-17"></a><span class="c1"># dog_sink expects at least Dog, and Animal is broader:</span>
-</span><span id="__span-13-18"><a id="__codelineno-13-18" name="__codelineno-13-18" href="#__codelineno-13-18"></a><span class="n">dog_sink</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">Dog</span><span class="p">())</span>
-</span><span id="__span-13-19"><a id="__codelineno-13-19" name="__codelineno-13-19" href="#__codelineno-13-19"></a><span class="c1">## Processing Dog(name=None)</span>
+</span><span id="__span-13-9"><a id="__codelineno-13-9" name="__codelineno-13-9" href="#__codelineno-13-9"></a><span class="n">animal_sink</span><span class="p">:</span> <span class="n">Sink</span><span class="p">[</span><span class="n">Animal</span><span class="p">]</span> <span class="o">=</span> <span class="n">Sink</span><span class="p">()</span>
+</span><span id="__span-13-10"><a id="__codelineno-13-10" name="__codelineno-13-10" href="#__codelineno-13-10"></a><span class="c1"># Contravariance in action:</span>
+</span><span id="__span-13-11"><a id="__codelineno-13-11" name="__codelineno-13-11" href="#__codelineno-13-11"></a><span class="n">dog_sink</span><span class="p">:</span> <span class="n">Sink</span><span class="p">[</span><span class="n">Dog</span><span class="p">]</span> <span class="o">=</span> <span class="n">animal_sink</span>  <span class="c1"># type: ignore # Pycharm</span>
+</span><span id="__span-13-12"><a id="__codelineno-13-12" name="__codelineno-13-12" href="#__codelineno-13-12"></a><span class="c1"># dog_sink expects at least Dog, and Animal is broader:</span>
+</span><span id="__span-13-13"><a id="__codelineno-13-13" name="__codelineno-13-13" href="#__codelineno-13-13"></a><span class="n">dog_sink</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">Dog</span><span class="p">())</span>
+</span><span id="__span-13-14"><a id="__codelineno-13-14" name="__codelineno-13-14" href="#__codelineno-13-14"></a><span class="c1">## Processing Dog(name=None)</span>
 </span></code></pre></div>
-<p>In this example, <code>Sink[T_contra]</code> is contravariant, indicating it only consumes values of type <code>T_contra</code> (here via the
-<code>send</code> method).
-Because a <code>Sink[Animal]</code> can accept a <code>Dog</code> (since Dog is an Animal), it is safe to assign <code>animal_sink</code> to a <code>dog_sink</code>
-reference.
+<p>In this example, <code>Sink[T]</code> is contravariant, indicating it only consumes values of type <code>T</code> (here, via <code>send</code>).
+Because a <code>Sink[Animal]</code> can accept a <code>Dog</code> (since <code>Dog</code> is an <code>Animal</code>),
+it is safe to assign <code>animal_sink</code> to a <code>dog_sink</code> reference.
 In general, contravariance allows broadening the accepted types when substituting; a <code>Sink[Animal]</code> can stand in for a
-<code>Sink[Dog]</code> because anything that expects to only handle Dogs can also handle Animals (but not vice versa).</p>
+<code>Sink[Dog]</code> because anything that expects to only handle <code>Dog</code>s can also handle <code>Animal</code>s (but not vice versa).</p>
 <h3 id="using-variance">Using Variance<a class="headerlink" href="#using-variance" title="Permanent link">#</a></h3>
-<p>To declare a covariant or contravariant type variable, you set <code>covariant=True</code> or <code>contravariant=True</code> in the <code>TypeVar</code>
-definition.
-Note that variance can only be declared on class or interface type parameters (like for use in <code>Generic[...]</code> or
-<code>Protocol[...]</code>).
-Function type variables are always invariant.
+<p>Function type variables are always invariant.
 Most built-in collections in Python are invariant (e.g., <code>list</code> is invariant, which is why <code>list[Dog]</code> is not assignable
 to <code>list[Animal]</code>).
-Some abstract collection types or protocols are covariant (for instance, <code>collections.abc.Sequence</code> is covariant in its
-element type,
-because sequences are read-only containers as far as the typing system is concerned).</p>
+Some abstract collection types or protocols are covariant.
+For instance, <code>collections.abc.Sequence</code> is covariant in its element type,
+because sequences are read-only containers as far as the typing system is concerned.</p>
 <p>Understanding variance is an advanced topic--many developers use generics effectively without explicitly declaring
 covariant/contravariant type variables.
-If you design your own generic classes, think about whether they only produce values of type T (covariant),
-only consume values of type T (contravariant), or both (invariant).
-By default, if you do nothing special, your generics are invariant.</p>
+If you design your own generic classes, think about whether they only produce values of type <code>T</code> (covariant),
+only consume values of type <code>T</code> (contravariant), or both (invariant).
+Fortunately, since Python 3.12 invariance is inferred.</p>
 <h2 id="function-currying-with-generics">Function Currying with Generics<a class="headerlink" href="#function-currying-with-generics" title="Permanent link">#</a></h2>
 <p>Function currying is the technique of transforming a function that takes multiple arguments into a chain of functions,
 each taking a single argument (or fewer arguments).
@@ -1962,34 +1951,29 @@ In Python, we can leverage generics to curry functions while preserving type inf
 fixed (a partial application).
 We can write a generic higher-order function to do this:</p>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="c1"># curry_two_arg.py</span>
-</span><span id="__span-14-2"><a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">TypeVar</span>
+</span><span id="__span-14-2"><a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Callable</span>
 </span><span id="__span-14-3"><a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a>
-</span><span id="__span-14-4"><a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a><span class="n">X</span> <span class="o">=</span> <span class="n">TypeVar</span><span class="p">(</span><span class="s2">&quot;X&quot;</span><span class="p">)</span>
-</span><span id="__span-14-5"><a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a><span class="n">Y</span> <span class="o">=</span> <span class="n">TypeVar</span><span class="p">(</span><span class="s2">&quot;Y&quot;</span><span class="p">)</span>
-</span><span id="__span-14-6"><a id="__codelineno-14-6" name="__codelineno-14-6" href="#__codelineno-14-6"></a><span class="n">Z</span> <span class="o">=</span> <span class="n">TypeVar</span><span class="p">(</span><span class="s2">&quot;Z&quot;</span><span class="p">)</span>
-</span><span id="__span-14-7"><a id="__codelineno-14-7" name="__codelineno-14-7" href="#__codelineno-14-7"></a>
-</span><span id="__span-14-8"><a id="__codelineno-14-8" name="__codelineno-14-8" href="#__codelineno-14-8"></a>
-</span><span id="__span-14-9"><a id="__codelineno-14-9" name="__codelineno-14-9" href="#__codelineno-14-9"></a><span class="k">def</span><span class="w"> </span><span class="nf">curry_two_arg</span><span class="p">(</span>
-</span><span id="__span-14-10"><a id="__codelineno-14-10" name="__codelineno-14-10" href="#__codelineno-14-10"></a>    <span class="n">func</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">],</span> <span class="n">Z</span><span class="p">],</span>
-</span><span id="__span-14-11"><a id="__codelineno-14-11" name="__codelineno-14-11" href="#__codelineno-14-11"></a><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">X</span><span class="p">],</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">Y</span><span class="p">],</span> <span class="n">Z</span><span class="p">]]:</span>
-</span><span id="__span-14-12"><a id="__codelineno-14-12" name="__codelineno-14-12" href="#__codelineno-14-12"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">curried</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="n">X</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">Y</span><span class="p">],</span> <span class="n">Z</span><span class="p">]:</span>
-</span><span id="__span-14-13"><a id="__codelineno-14-13" name="__codelineno-14-13" href="#__codelineno-14-13"></a>        <span class="k">def</span><span class="w"> </span><span class="nf">inner</span><span class="p">(</span><span class="n">y</span><span class="p">:</span> <span class="n">Y</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Z</span><span class="p">:</span>
-</span><span id="__span-14-14"><a id="__codelineno-14-14" name="__codelineno-14-14" href="#__codelineno-14-14"></a>            <span class="k">return</span> <span class="n">func</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+</span><span id="__span-14-4"><a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a>
+</span><span id="__span-14-5"><a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a><span class="k">def</span><span class="w"> </span><span class="nf">curry_two_arg</span><span class="p">[</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">Z</span><span class="p">](</span>
+</span><span id="__span-14-6"><a id="__codelineno-14-6" name="__codelineno-14-6" href="#__codelineno-14-6"></a>    <span class="n">func</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">],</span> <span class="n">Z</span><span class="p">],</span>
+</span><span id="__span-14-7"><a id="__codelineno-14-7" name="__codelineno-14-7" href="#__codelineno-14-7"></a><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">X</span><span class="p">],</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">Y</span><span class="p">],</span> <span class="n">Z</span><span class="p">]]:</span>
+</span><span id="__span-14-8"><a id="__codelineno-14-8" name="__codelineno-14-8" href="#__codelineno-14-8"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">curried</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="n">X</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">Y</span><span class="p">],</span> <span class="n">Z</span><span class="p">]:</span>
+</span><span id="__span-14-9"><a id="__codelineno-14-9" name="__codelineno-14-9" href="#__codelineno-14-9"></a>        <span class="k">def</span><span class="w"> </span><span class="nf">inner</span><span class="p">(</span><span class="n">y</span><span class="p">:</span> <span class="n">Y</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Z</span><span class="p">:</span>
+</span><span id="__span-14-10"><a id="__codelineno-14-10" name="__codelineno-14-10" href="#__codelineno-14-10"></a>            <span class="k">return</span> <span class="n">func</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+</span><span id="__span-14-11"><a id="__codelineno-14-11" name="__codelineno-14-11" href="#__codelineno-14-11"></a>
+</span><span id="__span-14-12"><a id="__codelineno-14-12" name="__codelineno-14-12" href="#__codelineno-14-12"></a>        <span class="k">return</span> <span class="n">inner</span>
+</span><span id="__span-14-13"><a id="__codelineno-14-13" name="__codelineno-14-13" href="#__codelineno-14-13"></a>
+</span><span id="__span-14-14"><a id="__codelineno-14-14" name="__codelineno-14-14" href="#__codelineno-14-14"></a>    <span class="k">return</span> <span class="n">curried</span>
 </span><span id="__span-14-15"><a id="__codelineno-14-15" name="__codelineno-14-15" href="#__codelineno-14-15"></a>
-</span><span id="__span-14-16"><a id="__codelineno-14-16" name="__codelineno-14-16" href="#__codelineno-14-16"></a>        <span class="k">return</span> <span class="n">inner</span>
-</span><span id="__span-14-17"><a id="__codelineno-14-17" name="__codelineno-14-17" href="#__codelineno-14-17"></a>
-</span><span id="__span-14-18"><a id="__codelineno-14-18" name="__codelineno-14-18" href="#__codelineno-14-18"></a>    <span class="k">return</span> <span class="n">curried</span>
+</span><span id="__span-14-16"><a id="__codelineno-14-16" name="__codelineno-14-16" href="#__codelineno-14-16"></a>
+</span><span id="__span-14-17"><a id="__codelineno-14-17" name="__codelineno-14-17" href="#__codelineno-14-17"></a><span class="k">def</span><span class="w"> </span><span class="nf">multiply</span><span class="p">(</span><span class="n">a</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+</span><span id="__span-14-18"><a id="__codelineno-14-18" name="__codelineno-14-18" href="#__codelineno-14-18"></a>    <span class="k">return</span> <span class="n">a</span> <span class="o">*</span> <span class="n">b</span>
 </span><span id="__span-14-19"><a id="__codelineno-14-19" name="__codelineno-14-19" href="#__codelineno-14-19"></a>
 </span><span id="__span-14-20"><a id="__codelineno-14-20" name="__codelineno-14-20" href="#__codelineno-14-20"></a>
-</span><span id="__span-14-21"><a id="__codelineno-14-21" name="__codelineno-14-21" href="#__codelineno-14-21"></a><span class="k">def</span><span class="w"> </span><span class="nf">multiply</span><span class="p">(</span><span class="n">a</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-</span><span id="__span-14-22"><a id="__codelineno-14-22" name="__codelineno-14-22" href="#__codelineno-14-22"></a>    <span class="k">return</span> <span class="n">a</span> <span class="o">*</span> <span class="n">b</span>
-</span><span id="__span-14-23"><a id="__codelineno-14-23" name="__codelineno-14-23" href="#__codelineno-14-23"></a>
-</span><span id="__span-14-24"><a id="__codelineno-14-24" name="__codelineno-14-24" href="#__codelineno-14-24"></a>
-</span><span id="__span-14-25"><a id="__codelineno-14-25" name="__codelineno-14-25" href="#__codelineno-14-25"></a><span class="n">curried_mul</span> <span class="o">=</span> <span class="n">curry_two_arg</span><span class="p">(</span><span class="n">multiply</span><span class="p">)</span>
-</span><span id="__span-14-26"><a id="__codelineno-14-26" name="__codelineno-14-26" href="#__codelineno-14-26"></a><span class="n">get_double</span> <span class="o">=</span> <span class="n">curried_mul</span><span class="p">(</span>
-</span><span id="__span-14-27"><a id="__codelineno-14-27" name="__codelineno-14-27" href="#__codelineno-14-27"></a>    <span class="mi">2</span>
-</span><span id="__span-14-28"><a id="__codelineno-14-28" name="__codelineno-14-28" href="#__codelineno-14-28"></a><span class="p">)</span>  <span class="c1"># get_double is now Callable[[float], float]</span>
-</span><span id="__span-14-29"><a id="__codelineno-14-29" name="__codelineno-14-29" href="#__codelineno-14-29"></a><span class="n">result</span> <span class="o">=</span> <span class="n">get_double</span><span class="p">(</span><span class="mf">3.5</span><span class="p">)</span>  <span class="c1"># result = 7.0</span>
+</span><span id="__span-14-21"><a id="__codelineno-14-21" name="__codelineno-14-21" href="#__codelineno-14-21"></a><span class="n">curried_mul</span> <span class="o">=</span> <span class="n">curry_two_arg</span><span class="p">(</span><span class="n">multiply</span><span class="p">)</span>
+</span><span id="__span-14-22"><a id="__codelineno-14-22" name="__codelineno-14-22" href="#__codelineno-14-22"></a><span class="c1"># get_double is now Callable[[float], float]:</span>
+</span><span id="__span-14-23"><a id="__codelineno-14-23" name="__codelineno-14-23" href="#__codelineno-14-23"></a><span class="n">get_double</span> <span class="o">=</span> <span class="n">curried_mul</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+</span><span id="__span-14-24"><a id="__codelineno-14-24" name="__codelineno-14-24" href="#__codelineno-14-24"></a><span class="nb">print</span><span class="p">(</span><span class="n">get_double</span><span class="p">(</span><span class="mf">3.5</span><span class="p">))</span>
 </span></code></pre></div>
 <p>Here, <code>curry_two_arg</code> is a generic function that works with any two-argument function.
 The type variables <code>X</code>, <code>Y</code>, <code>Z</code> ensure that if <code>func</code> takes an <code>X</code> and a <code>Y</code> and returns <code>Z</code>,
@@ -2021,25 +2005,21 @@ Here's how we can do it:</p>
 </span><span id="__span-15-2"><a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a><span class="c1"># For forward-referenced types:</span>
 </span><span id="__span-15-3"><a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a><span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
 </span><span id="__span-15-4"><a id="__codelineno-15-4" name="__codelineno-15-4" href="#__codelineno-15-4"></a><span class="kn">from</span><span class="w"> </span><span class="nn">dataclasses</span><span class="w"> </span><span class="kn">import</span> <span class="n">dataclass</span><span class="p">,</span> <span class="n">field</span>
-</span><span id="__span-15-5"><a id="__codelineno-15-5" name="__codelineno-15-5" href="#__codelineno-15-5"></a><span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Generic</span><span class="p">,</span> <span class="n">TypeVar</span>
-</span><span id="__span-15-6"><a id="__codelineno-15-6" name="__codelineno-15-6" href="#__codelineno-15-6"></a>
-</span><span id="__span-15-7"><a id="__codelineno-15-7" name="__codelineno-15-7" href="#__codelineno-15-7"></a><span class="n">T</span> <span class="o">=</span> <span class="n">TypeVar</span><span class="p">(</span><span class="s2">&quot;T&quot;</span><span class="p">)</span>
-</span><span id="__span-15-8"><a id="__codelineno-15-8" name="__codelineno-15-8" href="#__codelineno-15-8"></a>
-</span><span id="__span-15-9"><a id="__codelineno-15-9" name="__codelineno-15-9" href="#__codelineno-15-9"></a>
-</span><span id="__span-15-10"><a id="__codelineno-15-10" name="__codelineno-15-10" href="#__codelineno-15-10"></a><span class="nd">@dataclass</span>
-</span><span id="__span-15-11"><a id="__codelineno-15-11" name="__codelineno-15-11" href="#__codelineno-15-11"></a><span class="k">class</span><span class="w"> </span><span class="nc">Tree</span><span class="p">(</span><span class="n">Generic</span><span class="p">[</span><span class="n">T</span><span class="p">]):</span>
-</span><span id="__span-15-12"><a id="__codelineno-15-12" name="__codelineno-15-12" href="#__codelineno-15-12"></a>    <span class="n">value</span><span class="p">:</span> <span class="n">T</span>
-</span><span id="__span-15-13"><a id="__codelineno-15-13" name="__codelineno-15-13" href="#__codelineno-15-13"></a>    <span class="n">children</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">Tree</span><span class="p">[</span><span class="n">T</span><span class="p">]]</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="nb">list</span><span class="p">)</span>
-</span><span id="__span-15-14"><a id="__codelineno-15-14" name="__codelineno-15-14" href="#__codelineno-15-14"></a>
-</span><span id="__span-15-15"><a id="__codelineno-15-15" name="__codelineno-15-15" href="#__codelineno-15-15"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">add_child</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">child_value</span><span class="p">:</span> <span class="n">T</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tree</span><span class="p">[</span><span class="n">T</span><span class="p">]:</span>
-</span><span id="__span-15-16"><a id="__codelineno-15-16" name="__codelineno-15-16" href="#__codelineno-15-16"></a>        <span class="n">child</span> <span class="o">=</span> <span class="n">Tree</span><span class="p">(</span><span class="n">child_value</span><span class="p">)</span>
-</span><span id="__span-15-17"><a id="__codelineno-15-17" name="__codelineno-15-17" href="#__codelineno-15-17"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">children</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">child</span><span class="p">)</span>
-</span><span id="__span-15-18"><a id="__codelineno-15-18" name="__codelineno-15-18" href="#__codelineno-15-18"></a>        <span class="k">return</span> <span class="n">child</span>
-</span><span id="__span-15-19"><a id="__codelineno-15-19" name="__codelineno-15-19" href="#__codelineno-15-19"></a>
-</span><span id="__span-15-20"><a id="__codelineno-15-20" name="__codelineno-15-20" href="#__codelineno-15-20"></a>
-</span><span id="__span-15-21"><a id="__codelineno-15-21" name="__codelineno-15-21" href="#__codelineno-15-21"></a><span class="n">root</span><span class="p">:</span> <span class="n">Tree</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">Tree</span><span class="p">(</span><span class="s2">&quot;root&quot;</span><span class="p">)</span>
-</span><span id="__span-15-22"><a id="__codelineno-15-22" name="__codelineno-15-22" href="#__codelineno-15-22"></a><span class="n">child_node</span> <span class="o">=</span> <span class="n">root</span><span class="o">.</span><span class="n">add_child</span><span class="p">(</span><span class="s2">&quot;child1&quot;</span><span class="p">)</span>
-</span><span id="__span-15-23"><a id="__codelineno-15-23" name="__codelineno-15-23" href="#__codelineno-15-23"></a><span class="n">grandchild</span> <span class="o">=</span> <span class="n">child_node</span><span class="o">.</span><span class="n">add_child</span><span class="p">(</span><span class="s2">&quot;grandchild1&quot;</span><span class="p">)</span>
+</span><span id="__span-15-5"><a id="__codelineno-15-5" name="__codelineno-15-5" href="#__codelineno-15-5"></a>
+</span><span id="__span-15-6"><a id="__codelineno-15-6" name="__codelineno-15-6" href="#__codelineno-15-6"></a><span class="nd">@dataclass</span>
+</span><span id="__span-15-7"><a id="__codelineno-15-7" name="__codelineno-15-7" href="#__codelineno-15-7"></a><span class="k">class</span><span class="w"> </span><span class="nc">Tree</span><span class="p">[</span><span class="n">T</span><span class="p">]:</span>
+</span><span id="__span-15-8"><a id="__codelineno-15-8" name="__codelineno-15-8" href="#__codelineno-15-8"></a>    <span class="n">value</span><span class="p">:</span> <span class="n">T</span>
+</span><span id="__span-15-9"><a id="__codelineno-15-9" name="__codelineno-15-9" href="#__codelineno-15-9"></a>    <span class="n">children</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">Tree</span><span class="p">[</span><span class="n">T</span><span class="p">]]</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="nb">list</span><span class="p">)</span>
+</span><span id="__span-15-10"><a id="__codelineno-15-10" name="__codelineno-15-10" href="#__codelineno-15-10"></a>
+</span><span id="__span-15-11"><a id="__codelineno-15-11" name="__codelineno-15-11" href="#__codelineno-15-11"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">add_child</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">child_value</span><span class="p">:</span> <span class="n">T</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tree</span><span class="p">[</span><span class="n">T</span><span class="p">]:</span>
+</span><span id="__span-15-12"><a id="__codelineno-15-12" name="__codelineno-15-12" href="#__codelineno-15-12"></a>        <span class="n">child</span> <span class="o">=</span> <span class="n">Tree</span><span class="p">(</span><span class="n">child_value</span><span class="p">)</span>
+</span><span id="__span-15-13"><a id="__codelineno-15-13" name="__codelineno-15-13" href="#__codelineno-15-13"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">children</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">child</span><span class="p">)</span>
+</span><span id="__span-15-14"><a id="__codelineno-15-14" name="__codelineno-15-14" href="#__codelineno-15-14"></a>        <span class="k">return</span> <span class="n">child</span>
+</span><span id="__span-15-15"><a id="__codelineno-15-15" name="__codelineno-15-15" href="#__codelineno-15-15"></a>
+</span><span id="__span-15-16"><a id="__codelineno-15-16" name="__codelineno-15-16" href="#__codelineno-15-16"></a>
+</span><span id="__span-15-17"><a id="__codelineno-15-17" name="__codelineno-15-17" href="#__codelineno-15-17"></a><span class="n">root</span><span class="p">:</span> <span class="n">Tree</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">Tree</span><span class="p">(</span><span class="s2">&quot;root&quot;</span><span class="p">)</span>
+</span><span id="__span-15-18"><a id="__codelineno-15-18" name="__codelineno-15-18" href="#__codelineno-15-18"></a><span class="n">child_node</span> <span class="o">=</span> <span class="n">root</span><span class="o">.</span><span class="n">add_child</span><span class="p">(</span><span class="s2">&quot;child1&quot;</span><span class="p">)</span>
+</span><span id="__span-15-19"><a id="__codelineno-15-19" name="__codelineno-15-19" href="#__codelineno-15-19"></a><span class="n">grandchild</span> <span class="o">=</span> <span class="n">child_node</span><span class="o">.</span><span class="n">add_child</span><span class="p">(</span><span class="s2">&quot;grandchild1&quot;</span><span class="p">)</span>
 </span></code></pre></div>
 <p>In <code>Tree[T]</code>:</p>
 <ul>
@@ -2060,48 +2040,44 @@ At runtime, this is just a normal class; Python doesn't prevent mixing types in 
 you avoid those mistakes in your code.</p>
 <h3 id="f-bounded-polymorphism-self-types">F-Bounded Polymorphism (Self types)<a class="headerlink" href="#f-bounded-polymorphism-self-types" title="Permanent link">#</a></h3>
 <p>TODO: Check that self types are introduced earlier, probably in "Using Types"</p>
-<p>Another scenario with recursive generics is when a class needs to use its own type as a <code>TypeVar</code>.
+<p>Another scenario with recursive generics is when a class needs to use its own type as a type variable.
 This is sometimes called <em>F-bounded polymorphism</em> or self-referential generics.
 A typical example is implementing a fluent interface or a cloning method that returns the same type as the subclass.
 Consider a base class that should return an instance of the subclass in a method:</p>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="c1"># f_bounded_polymorphism.py</span>
 </span><span id="__span-16-2"><a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
-</span><span id="__span-16-3"><a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a><span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">TypeVar</span><span class="p">,</span> <span class="n">Generic</span>
+</span><span id="__span-16-3"><a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a>
 </span><span id="__span-16-4"><a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a>
-</span><span id="__span-16-5"><a id="__codelineno-16-5" name="__codelineno-16-5" href="#__codelineno-16-5"></a><span class="n">TSelf</span> <span class="o">=</span> <span class="n">TypeVar</span><span class="p">(</span><span class="s2">&quot;TSelf&quot;</span><span class="p">,</span> <span class="n">bound</span><span class="o">=</span><span class="s2">&quot;Form&quot;</span><span class="p">)</span>
-</span><span id="__span-16-6"><a id="__codelineno-16-6" name="__codelineno-16-6" href="#__codelineno-16-6"></a>
-</span><span id="__span-16-7"><a id="__codelineno-16-7" name="__codelineno-16-7" href="#__codelineno-16-7"></a>
-</span><span id="__span-16-8"><a id="__codelineno-16-8" name="__codelineno-16-8" href="#__codelineno-16-8"></a><span class="k">class</span><span class="w"> </span><span class="nc">Form</span><span class="p">(</span><span class="n">Generic</span><span class="p">[</span><span class="n">TSelf</span><span class="p">]):</span>
-</span><span id="__span-16-9"><a id="__codelineno-16-9" name="__codelineno-16-9" href="#__codelineno-16-9"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">set_title</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">TSelf</span><span class="p">,</span> <span class="n">title</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">TSelf</span><span class="p">:</span>
-</span><span id="__span-16-10"><a id="__codelineno-16-10" name="__codelineno-16-10" href="#__codelineno-16-10"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">title</span> <span class="o">=</span> <span class="n">title</span>
-</span><span id="__span-16-11"><a id="__codelineno-16-11" name="__codelineno-16-11" href="#__codelineno-16-11"></a>        <span class="k">return</span> <span class="bp">self</span>
-</span><span id="__span-16-12"><a id="__codelineno-16-12" name="__codelineno-16-12" href="#__codelineno-16-12"></a>
-</span><span id="__span-16-13"><a id="__codelineno-16-13" name="__codelineno-16-13" href="#__codelineno-16-13"></a>
-</span><span id="__span-16-14"><a id="__codelineno-16-14" name="__codelineno-16-14" href="#__codelineno-16-14"></a><span class="k">class</span><span class="w"> </span><span class="nc">ContactForm</span><span class="p">(</span><span class="n">Form</span><span class="p">[</span><span class="s2">&quot;ContactForm&quot;</span><span class="p">]):</span>
-</span><span id="__span-16-15"><a id="__codelineno-16-15" name="__codelineno-16-15" href="#__codelineno-16-15"></a>    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-</span><span id="__span-16-16"><a id="__codelineno-16-16" name="__codelineno-16-16" href="#__codelineno-16-16"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">title</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
-</span><span id="__span-16-17"><a id="__codelineno-16-17" name="__codelineno-16-17" href="#__codelineno-16-17"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">fields</span> <span class="o">=</span> <span class="p">[]</span>
-</span><span id="__span-16-18"><a id="__codelineno-16-18" name="__codelineno-16-18" href="#__codelineno-16-18"></a>
-</span><span id="__span-16-19"><a id="__codelineno-16-19" name="__codelineno-16-19" href="#__codelineno-16-19"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">add_field</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ContactForm</span><span class="p">:</span>
-</span><span id="__span-16-20"><a id="__codelineno-16-20" name="__codelineno-16-20" href="#__codelineno-16-20"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">fields</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
-</span><span id="__span-16-21"><a id="__codelineno-16-21" name="__codelineno-16-21" href="#__codelineno-16-21"></a>        <span class="k">return</span> <span class="bp">self</span>
-</span><span id="__span-16-22"><a id="__codelineno-16-22" name="__codelineno-16-22" href="#__codelineno-16-22"></a>
-</span><span id="__span-16-23"><a id="__codelineno-16-23" name="__codelineno-16-23" href="#__codelineno-16-23"></a>
-</span><span id="__span-16-24"><a id="__codelineno-16-24" name="__codelineno-16-24" href="#__codelineno-16-24"></a><span class="n">form</span> <span class="o">=</span> <span class="n">ContactForm</span><span class="p">()</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Feedback&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">add_field</span><span class="p">(</span><span class="s2">&quot;email&quot;</span><span class="p">)</span>
+</span><span id="__span-16-5"><a id="__codelineno-16-5" name="__codelineno-16-5" href="#__codelineno-16-5"></a><span class="k">class</span><span class="w"> </span><span class="nc">Form</span><span class="p">[</span><span class="n">T</span><span class="p">]:</span>
+</span><span id="__span-16-6"><a id="__codelineno-16-6" name="__codelineno-16-6" href="#__codelineno-16-6"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">set_title</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">T</span><span class="p">,</span> <span class="n">title</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="p">:</span>
+</span><span id="__span-16-7"><a id="__codelineno-16-7" name="__codelineno-16-7" href="#__codelineno-16-7"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">title</span> <span class="o">=</span> <span class="n">title</span>
+</span><span id="__span-16-8"><a id="__codelineno-16-8" name="__codelineno-16-8" href="#__codelineno-16-8"></a>        <span class="k">return</span> <span class="bp">self</span>
+</span><span id="__span-16-9"><a id="__codelineno-16-9" name="__codelineno-16-9" href="#__codelineno-16-9"></a>
+</span><span id="__span-16-10"><a id="__codelineno-16-10" name="__codelineno-16-10" href="#__codelineno-16-10"></a>
+</span><span id="__span-16-11"><a id="__codelineno-16-11" name="__codelineno-16-11" href="#__codelineno-16-11"></a><span class="k">class</span><span class="w"> </span><span class="nc">ContactForm</span><span class="p">(</span><span class="n">Form</span><span class="p">[</span><span class="s2">&quot;ContactForm&quot;</span><span class="p">]):</span>
+</span><span id="__span-16-12"><a id="__codelineno-16-12" name="__codelineno-16-12" href="#__codelineno-16-12"></a>    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span id="__span-16-13"><a id="__codelineno-16-13" name="__codelineno-16-13" href="#__codelineno-16-13"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">title</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+</span><span id="__span-16-14"><a id="__codelineno-16-14" name="__codelineno-16-14" href="#__codelineno-16-14"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">fields</span> <span class="o">=</span> <span class="p">[]</span>
+</span><span id="__span-16-15"><a id="__codelineno-16-15" name="__codelineno-16-15" href="#__codelineno-16-15"></a>
+</span><span id="__span-16-16"><a id="__codelineno-16-16" name="__codelineno-16-16" href="#__codelineno-16-16"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">add_field</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ContactForm</span><span class="p">:</span>
+</span><span id="__span-16-17"><a id="__codelineno-16-17" name="__codelineno-16-17" href="#__codelineno-16-17"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">fields</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+</span><span id="__span-16-18"><a id="__codelineno-16-18" name="__codelineno-16-18" href="#__codelineno-16-18"></a>        <span class="k">return</span> <span class="bp">self</span>
+</span><span id="__span-16-19"><a id="__codelineno-16-19" name="__codelineno-16-19" href="#__codelineno-16-19"></a>
+</span><span id="__span-16-20"><a id="__codelineno-16-20" name="__codelineno-16-20" href="#__codelineno-16-20"></a>
+</span><span id="__span-16-21"><a id="__codelineno-16-21" name="__codelineno-16-21" href="#__codelineno-16-21"></a><span class="n">form</span> <span class="o">=</span> <span class="n">ContactForm</span><span class="p">()</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Feedback&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">add_field</span><span class="p">(</span><span class="s2">&quot;email&quot;</span><span class="p">)</span>
 </span></code></pre></div>
-<p><code>TSelf</code> is a <code>TypeVar</code> bounded to <code>'Form'</code> (the base class).
-The base class <code>Form</code> itself is generic in <code>TSelf</code>.
-The <code>set_title</code> method is annotated to return <code>TSelf</code>.</p>
+<p><code>T</code> is a type variable bounded to <code>Form</code> (the base class).
+The base class <code>Form</code> itself is generic in <code>T</code>.
+The <code>set_title</code> method is annotated to return <code>T</code>.</p>
 <p><code>ContactForm</code> inherits <code>Form['ContactForm']</code>.
-By binding <code>TSelf</code> to the subclass type, <code>set_title</code> will return <code>ContactForm</code> when called on a <code>ContactForm</code> instance.</p>
+By binding <code>T</code> to the subclass type, <code>set_title</code> will return <code>ContactForm</code> when called on a <code>ContactForm</code> instance.</p>
 <p>The method <code>add_field</code> in <code>ContactForm</code> returns <code>ContactForm</code> explicitly.
 Now, the fluent interface works: <code>ContactForm().set_title(...).add_field(...)</code> is correctly understood by the type
 checker as returning a <code>ContactForm</code> with the methods of <code>ContactForm</code> available after chaining.</p>
-<p>This pattern ensures that each subclass of <code>Form</code> will have <code>set_title</code> (inherited) returning the subclass type, not the
-base type.
+<p>This pattern ensures that each subclass of <code>Form</code> will have <code>set_title</code> (inherited) returning the subclass type,
+not the base type.
 It's a bit complex to set up, but it provides more precise typing for chaining methods.
-Python 3.11+ provides a <code>typing.Self</code> type (PEP 673) that simplifies this pattern by allowing methods to return <code>Self</code> (
-the type of the actual class).
+Python 3.11+ provides <code>typing.Self</code> (PEP 673) that simplifies this pattern by allowing methods to return <code>Self</code> (the type of the actual class).
 For example:</p>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-17-1"><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a><span class="c1"># return_self.py</span>
 </span><span id="__span-17-2"><a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Self</span>
@@ -2112,9 +2088,9 @@ For example:</p>
 </span><span id="__span-17-7"><a id="__codelineno-17-7" name="__codelineno-17-7" href="#__codelineno-17-7"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">title</span> <span class="o">=</span> <span class="n">title</span>
 </span><span id="__span-17-8"><a id="__codelineno-17-8" name="__codelineno-17-8" href="#__codelineno-17-8"></a>        <span class="k">return</span> <span class="bp">self</span>
 </span></code></pre></div>
-<p>Using <code>Self</code> removes the need for the <code>TypeVar</code> and generic base class altogether in this case.
+<p>Using <code>Self</code> removes the need for the type variable and generic base class altogether in this case.
 However, <code>Self</code> is limited to describing that a method returns the same type as the class it was called on, whereas the
-<code>TypeVar</code> approach can express more complex relationships if needed.</p>
+type variable approach can express more complex relationships if needed.</p>
 <h3 id="recursive-type-aliases">Recursive Type Aliases<a class="headerlink" href="#recursive-type-aliases" title="Permanent link">#</a></h3>
 <p>Sometimes, you might want to define a type alias that refers to itself.
 This is common when describing recursive data structures in a type alias form rather than a class.
@@ -2151,7 +2127,7 @@ For example:</p>
 </span><span id="__span-19-8"><a id="__codelineno-19-8" name="__codelineno-19-8" href="#__codelineno-19-8"></a><span class="p">}</span>
 </span></code></pre></div>
 <p>Overly deep recursion can sometimes confuse type checkers or lead to performance issues in type checking.
-Recursive aliases cannot be directly made generic with <code>TypeVar</code> in the current typing system
+Recursive aliases cannot be directly made generic with type variable in the current typing system
 (you can wrap recursive structures inside generic classes if needed).</p>
 <h2 id="structural-subtyping-with-protocols">Structural Subtyping with Protocols<a class="headerlink" href="#structural-subtyping-with-protocols" title="Permanent link">#</a></h2>
 <p>Python's static typing supports two forms of subtype compatibility: <em>nominal</em> and <em>structural</em>.
@@ -2303,7 +2279,7 @@ or attribute.</p>
 <p>Type aliases in Python let you create alternative names for types, which can improve code clarity.
 For example, you might write <code>Coordinate = tuple[float, float]</code> to give a semantic name to a tuple of two floats.
 <em>Generic type aliases</em> extend this idea by allowing aliases to be parameterized with type variables.</p>
-<p>Creating a generic type alias is straightforward: use a <code>TypeVar</code> in the definition of the alias.
+<p>Creating a generic type alias is straightforward: use a type variable in the definition of the alias.
 For instance:</p>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-25-1"><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a><span class="c1"># generic_alias.py</span>
 </span><span id="__span-25-2"><a id="__codelineno-25-2" name="__codelineno-25-2" href="#__codelineno-25-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">TypeVar</span>
@@ -2405,7 +2381,7 @@ interfaces (<code>Sequence[BaseType]</code> which is covariant for reading, or <
 Alternatively, copy the list to a new covariant container if needed for output only.
 Understand when to use covariant or contravariant TypeVars (or just avoid the situation).</p>
 <h3 id="pitfall-too-general-typevars-or-overuse-of-any">Pitfall: Too General TypeVars (or Overuse of Any)<a class="headerlink" href="#pitfall-too-general-typevars-or-overuse-of-any" title="Permanent link">#</a></h3>
-<p>Using a <code>TypeVar</code> when your function expects a more specific capability can lead to confusing errors or overly
+<p>Using a type variable when your function expects a more specific capability can lead to confusing errors or overly
 permissive acceptance.
 For example:</p>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-32-1"><a id="__codelineno-32-1" name="__codelineno-32-1" href="#__codelineno-32-1"></a><span class="c1"># too_general.py</span>
@@ -2440,17 +2416,17 @@ A better approach is to constrain <code>T</code> to types that support ordering:
 <p>Now <code>sort_items</code> explicitly requires that the item type implements <code>&lt;</code> (as per the <code>Comparable</code> protocol).
 Alternatively, we could use <code>TypeVar('U', int, float, str, ...)</code> to enumerate types that are known to be comparable, but
 a protocol is more extensible.</p>
-<p>Don't use a totally unconstrained <code>TypeVar</code> if the function or class really needs the type to have some capability.
+<p>Don't use a totally unconstrained type variable if the function or class really needs the type to have some capability.
 Either use a <code>bound=</code> or a protocol to encode that requirement.
 Conversely, if you truly intend a function to accept anything (like a generic passthrough that just returns what it was
-given), then using <code>Any</code> might be appropriate, or a <code>TypeVar</code> with no constraints if you need to preserve the type
+given), then using <code>Any</code> might be appropriate, or a type variable with no constraints if you need to preserve the type
 identity.
 A function using <code>Any</code> will accept and return anything without errors--it turns off type checking for that element.</p>
-<h3 id="pitfall-ignoring-typevar-scope">Pitfall: Ignoring <code>TypeVar</code> Scope<a class="headerlink" href="#pitfall-ignoring-typevar-scope" title="Permanent link">#</a></h3>
+<h3 id="pitfall-ignoring-type-variable-scope">Pitfall: Ignoring type variable Scope<a class="headerlink" href="#pitfall-ignoring-type-variable-scope" title="Permanent link">#</a></h3>
 <p>It’s easy to reach for a TypeVar when defining a function--but unless the function is truly generic, this can cause more
 confusion than clarity.
-Remember that a <code>TypeVar</code> is specific to the generic function or class where it's used.
-If you define a <code>TypeVar</code> at the top of a module and use it in a function signature, that function is generic.
+Remember that a type variable is specific to the generic function or class where it's used.
+If you define a type variable at the top of a module and use it in a function signature, that function is generic.
 If you intended the function to only work with one specific type, you might accidentally make it generic by using a
 TypeVar.</p>
 <p>If a TypeVar appears only once in a function signature, that function is technically generic, but there's no way to
@@ -2476,7 +2452,7 @@ The function <code>set_value</code> as written can accept any type, and the type
 calling it (it can be <code>int</code> if called with <code>int</code>, <code>str</code> if called with <code>str</code>, etc.).
 This is probably a design mistake.
 In such cases, use a normal specific type (or <code>Any</code>) if the function isn't meant to be generic.
-Use <code>TypeVar</code> only for functions that really need to be generic.</p>
+Use type variable only for functions that really need to be generic.</p>
 <h3 id="practice-use-descriptive-type-variable-names-for-clarity">Practice: Use Descriptive Type Variable Names for Clarity<a class="headerlink" href="#practice-use-descriptive-type-variable-names-for-clarity" title="Permanent link">#</a></h3>
 <p>While the convention is to use single-letter TypeVars like <code>T</code>, <code>U</code>, <code>V</code> for simple cases, in more complex generics
 consider using more descriptive names.
