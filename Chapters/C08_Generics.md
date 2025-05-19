@@ -564,13 +564,9 @@ Here's how we can do it:
 # For forward-referenced types:
 from __future__ import annotations
 from dataclasses import dataclass, field
-from typing import Generic, TypeVar
-
-T = TypeVar("T")
-
 
 @dataclass
-class Tree(Generic[T]):
+class Tree[T]:
     value: T
     children: list[Tree[T]] = field(default_factory=list)
 
@@ -615,13 +611,10 @@ Consider a base class that should return an instance of the subclass in a method
 ```python
 # f_bounded_polymorphism.py
 from __future__ import annotations
-from typing import TypeVar, Generic
-
-TSelf = TypeVar("TSelf", bound="Form")
 
 
-class Form(Generic[TSelf]):
-    def set_title(self: TSelf, title: str) -> TSelf:
+class Form[T]:
+    def set_title(self: T, title: str) -> T:
         self.title = title
         return self
 
@@ -639,22 +632,21 @@ class ContactForm(Form["ContactForm"]):
 form = ContactForm().set_title("Feedback").add_field("email")
 ```
 
-`TSelf` is a type variable bounded to `'Form'` (the base class).
-The base class `Form` itself is generic in `TSelf`.
-The `set_title` method is annotated to return `TSelf`.
+`T` is a type variable bounded to `Form` (the base class).
+The base class `Form` itself is generic in `T`.
+The `set_title` method is annotated to return `T`.
 
 `ContactForm` inherits `Form['ContactForm']`.
-By binding `TSelf` to the subclass type, `set_title` will return `ContactForm` when called on a `ContactForm` instance.
+By binding `T` to the subclass type, `set_title` will return `ContactForm` when called on a `ContactForm` instance.
 
 The method `add_field` in `ContactForm` returns `ContactForm` explicitly.
 Now, the fluent interface works: `ContactForm().set_title(...).add_field(...)` is correctly understood by the type
 checker as returning a `ContactForm` with the methods of `ContactForm` available after chaining.
 
-This pattern ensures that each subclass of `Form` will have `set_title` (inherited) returning the subclass type, not the
-base type.
+This pattern ensures that each subclass of `Form` will have `set_title` (inherited) returning the subclass type,
+not the base type.
 It's a bit complex to set up, but it provides more precise typing for chaining methods.
-Python 3.11+ provides a `typing.Self` type (PEP 673) that simplifies this pattern by allowing methods to return `Self` (
-the type of the actual class).
+Python 3.11+ provides `typing.Self` (PEP 673) that simplifies this pattern by allowing methods to return `Self` (the type of the actual class).
 For example:
 
 ```python
