@@ -79,7 +79,7 @@ class Box[U]:
     content: U
 
     def get_content(self) -> U:
-        reveal_type(self.content)
+        # reveal_type(self.content)
         return self.content
 
 
@@ -108,52 +108,42 @@ We can also annotate variables or parameters with explicit instantiations like `
 ## Constraints and Bounds on Type Variables
 
 Sometimes you want a type variable to be limited to certain types, rather than truly any type.
-Python's typing provides two mechanisms for this: *constraints* and *bounds* for `TypeVar`.
+Python's typing provides two mechanisms for this: *constraints* and *bounds* for type variable.
 
-- **TypeVar with Constraints:** You can specify an explicit finite set of allowable types for a TypeVar.
-  This is useful when a function or class should only work with specific types that aren't in an inheritance
-  relationship.
-  For example:
+### Constraints
+
+You can specify an explicit finite set of allowable types for a type variable.
+This is useful when a function or class should only work with specific types that aren't in an inheritance relationship.
+In `add`, we constrain `Number` to be either an `int` or a `float`:
 
 ```python
 # constrained_typevar.py
-from typing import TypeVar
 
-# Define a TypeVar that can only be int or float
-Number = TypeVar("Number", int, float)
-
-
-def add(a: Number, b: Number) -> Number:
-    print(a + b)
+def add[Number:(int, float)](a: Number, b: Number) -> Number:
     return a + b
 
 
 add(5, 10)  # valid, both int
-## 15
 add(3.5, 2.5)  # valid, both float
-## 6.0
-# valid, int and float are both allowed types:
-add(5, 2.5)
-## 7.5
+# ERROR: cannot mix types:
+add(5, 2.5) # type: ignore
 # ERROR: str not allowed for Number:
 add("A", "Z")  # type: ignore
-## AZ
 ```
 
-Here, `Number` is a `TypeVar` constrained to `int` or `float`.
-The `add` function will only accept those types for its arguments and will return the same type.
-Passing a `str` (or any type other than int/float) will be caught by the type checker as an error.
-Constraints are useful for functions that operate on a few specific types that don't share a common base class.
+The `add` function will only accept *one* of those types for both its arguments--you cannot mix types.
+Passing any type other than `int` or `float` produces a type checking error.
 
-- **TypeVar with Bound:** A bound restricts a `TypeVar` to subtypes of a given class (or to classes implementing a given
-  protocol).
-  This is known as an *upper bound*.
-  For example, if we have a base class `Animal`, we might want a generic function to only accept subclasses of `Animal`:
+### Bounds
+
+A bound restricts a type variable to subtypes of a given class (or to classes implementing a given protocol).
+This is known as an *upper bound*.
+For example, if we have a base class `Animal`, we might want a generic function to only accept subclasses of `Animal`:
 
 ```python
 # animals.py
 from dataclasses import dataclass
-from typing import TypeVar, Optional
+from typing import Optional
 
 
 @dataclass
@@ -169,10 +159,7 @@ class Dog(Animal):
         print(f"{self.name}: Woof")
 
 
-TAnimal = TypeVar("TAnimal", bound=Animal)
-
-
-def speak(creatures: list[TAnimal]) -> None:
+def speak[TAnimal:Animal](creatures: list[TAnimal]) -> None:
     for creature in creatures:
         creature.say()
 ```
@@ -185,50 +172,46 @@ If we tried to call `speak` with a list of something else (say `str` or `int`), 
 ```python
 # animal_demo.py
 from animals import Animal, Dog, speak
+from book_utils import Catch
 
-pets: list[Dog] = [Dog(), Dog()]
+pets: list[Dog] = [Dog("Rags"), Dog("Spot")]
 speak(pets)  # OK, Dog is a subclass of Animal
-## None: Woof
-## None: Woof
-speak([Animal()])  # OK, Animal is the bound
-## None: Animal sound
-# make_them_speak(["not an animal"])  # type checker error
+## Rags: Woof
+## Spot: Woof
+speak([Animal("Mittens")])  # OK, Animal is the bound
+## Mittens: Animal sound
+with Catch():
+    speak(["bob"])  # type: ignore
 ```
 
 Use constraints when the valid types are a specific set of unrelated types.
 Use a bound when the valid types share a common base class or trait that you want to enforce.
-Bounds are often more flexible, as new subclasses automatically fit the bound without changing the `TypeVar` definition.
+Bounds are often more flexible, as new subclasses automatically fit the bound without changing the type variable definition.
 Constraints are stricter and must be explicitly extended if a new type should be allowed.
 
 ### Multiple Type Variables and Relationships
 
-You can use more than one `TypeVar` in a generic function or class.
+You can use more than one type variable in a generic function or class.
 For instance, consider a function that takes two parameters of possibly different types and returns a tuple containing
 them:
 
 ```python
 # multiple_typevars.py
-from typing import TypeVar
 
-A = TypeVar("A")
-B = TypeVar("B")
-
-
-def pairify(x: A, y: B) -> tuple[A, B]:
-    return (x, y)
+def pairify[A,B](x: A, y: B) -> tuple[A, B]:
+    return x, y
 
 
-result = pairify("Alice", 5)
-# result has type tuple[str, int]
+result = pairify("Alice", 5)  # tuple[str, int]
 ```
 
 Here `A` and `B` are independent type variables.
-The type of `result` is a tuple whose first element is a `str` and second is an `int`, as inferred from the arguments.
+The type of `result` is a `tuple` whose first element is a `str` and second is an `int`, as inferred from the arguments.
 
 Type variables can also depend on each other through constraints or bounds.
 However, Python's typing does not allow directly expressing complex relationships (like saying two type variables must
 be the same subtype of some base).
-In such cases, it's common to use a single `TypeVar` in multiple places to indicate they must match, or use protocols (discussed later) for more complex constraints.
+In such cases, it's common to use a single type variable in multiple places to indicate they must match, or use protocols (discussed later) for more complex constraints.
 
 ## Type Variable Tuples
 
@@ -238,14 +221,14 @@ creating more powerful and flexible type-safe abstractions.
 This is called _variadic generics_.
 
 Suppose you want a generic `TupleWrapper` that can handle any number of types.
-Without type variable tuple, you'd have to manually define each arity.
+Without type variable tuples, you'd have to manually define each arity.
 With it, you can write:
 
 ```python
 # tuple_wrapper.py
 
-class TupleWrapper[*Ts]:
-    def __init__(self, *values: *Ts):
+class TupleWrapper[*T]:
+    def __init__(self, *values: *T):
         self.values = values
 
 
@@ -253,26 +236,22 @@ t1 = TupleWrapper(1)  # TupleWrapper[int]
 t2 = TupleWrapper("a", 2, 3.14)  # TupleWrapper[str, int, float]
 ```
 
-The type checker tracks the number and types of elements in `*Ts` individually.
-Let's explore type variable tuple by implementing a type-safe version of Python's built-in `zip()` function that works on
+The type checker tracks the number and types of elements in `*T` individually.
+Let's explore the type variable tuple by implementing a type-safe version of Python's built-in `zip()` function that works on
 `tuple`s of different types:
 
 ```python
 # variadic_zip.py
-from typing import TypeVarTuple, Unpack, Tuple, Any
 
-Ts = TypeVarTuple("Ts")
-
-
-def zip_variadic(
-    *args: tuple[Unpack[Ts]],
-) -> tuple[Tuple[*Ts], ...]:
+def zip_variadic[*T](
+    *args: tuple[*T],
+) -> tuple[tuple[*T], ...]:
     return tuple(zip(*args))
 
 
-def unzip_variadic(
-    packed: tuple[tuple[Any, ...], ...],
-) -> tuple[tuple[Any, ...], ...]:
+def unzip_variadic[*T](
+    packed: tuple[tuple[*T], ...],
+) -> tuple[tuple[*T], ...]:
     return tuple(zip(*packed))
 
 
@@ -283,33 +262,31 @@ c: tuple[int, str, float] = (3, "c", 1.41)
 zipped = zip_variadic(a, b, c)
 unzipped = unzip_variadic(zipped)
 
-print("Zipped:", zipped)
-## Zipped: ((1, 2, 3), ('a', 'b', 'c'), (3.14,
-## 2.71, 1.41))
-print("Unzipped:", unzipped)
-## Unzipped: ((1, 'a', 3.14), (2, 'b', 2.71), (3,
-## 'c', 1.41))
+print(f"Zipped: {zipped}")
+# Zipped: ((1, 2, 3), ('a', 'b', 'c'), (3.14, 2.71, 1.41))
+print(f"Unzipped: {unzipped}")
+# Unzipped: ((1, 'a', 3.14), (2, 'b', 2.71), (3, 'c', 1.41))
 ```
 
 The `zip_variadic` signature says:
 
-- `args` is a variadic list of tuples, each shaped like tuple[Unpack[Ts]]
-- The return value is a tuple of rows, where each row is tuple[*Ts] (e.g., one `int` row, one `str` row, one `float`
+- `args` is a variadic list of tuples, each shaped like `tuple[*T]`.
+- The return value is a tuple of rows, where each row is `tuple[*T]` (e.g., one `int` row, one `str` row, one `float`
   row).
 
 ### Limitations (2025)
 
 - Requires Python 3.11+ and a type checker that supports it (PyRight does well, mypy still partial)
-- Can't yet mix `TypeVar` and type variable tuple freely in all places
+- Can't yet mix type variable and type variable tuple freely in all places
 - Still not supported in some older tools or linters
 
 ### Related Concepts
 
 | Feature             | Purpose                                  |
 |---------------------|------------------------------------------|
-| `TypeVar`           | A single generic type                    |
-| `ParamSpec`         | A tuple of parameter types for callables |
-| type variable tuple | A tuple of arbitrary generic types       |
+| Type variable       | A single generic type                    |
+| Parameter spec      | A tuple of parameter types for callables |
+| Type variable tuple | A tuple of arbitrary generic types       |
 
 ### Example: N-dimensional Tensor Shape
 
@@ -428,9 +405,12 @@ even if `SubType` is a subtype of `BaseType`.
 This is a common source of confusion for those coming from languages like Java or C#, but it's an important aspect of
 type safety.
 
-### Invariant (default)
+Python 3.12 introduced variance inference, so you do not have to specify variance.
+This is a great benefit, as people often find variance confusing.
 
-A generic class is invariant in its type parameters unless explicitly declared otherwise.
+### Invariant
+
+A generic class is invariant by default.
 For example, given `Dog` is a subclass of `Animal`, `Box[Dog]` is not considered a subtype of `Box[Animal]`.
 This is unsafe because you can then put a `Cat` (another `Animal`) into a `Box[Animal]` which is a `Box[Dog]`
 internally.
@@ -438,25 +418,18 @@ The type checker forbids treating `Box[Dog]` as a `Box[Animal]`.
 
 ### Covariance
 
-A generic type is covariant in a type parameter if `Generic[Sub]` is a subtype of `Generic[Base]` whenever `Sub` is a
-subtype of `Base`.
-This usually makes sense for read-only or producer containers.
-Python allows declaring a `TypeVar` as covariant when defining a class or interface.
+Covariance usually makes sense for read-only or producer containers.
 For example:
 
 ```python
 # covariance.py
-from typing import Generic, TypeVar
 from animals import Animal, Dog
 
-T_co = TypeVar("T_co", covariant=True)
-
-
-class ReadOnlyBox(Generic[T_co]):
-    def __init__(self, content: T_co):
+class ReadOnlyBox[T]:
+    def __init__(self, content: T):
         self._content = content
 
-    def get_content(self) -> T_co:
+    def get_content(self) -> T:
         return self._content
 
 
@@ -467,31 +440,23 @@ animal_box: ReadOnlyBox[Animal] = dog_box
 pet: Animal = animal_box.get_content()
 ```
 
-Here, `ReadOnlyBox[T_co]` is defined with a covariant type parameter `T_co`.
-That signals to the type checker that it is safe to treat `ReadOnlyBox[Dog]` as a `ReadOnlyBox[Animal]`, because
-`ReadOnlyBox` only produces `T_co` (via `get_content`) and never consumes it in a type-specific way.
-Covariance is appropriate when the generic class is basically a container of T that only returns T (and doesn't accept T
+Here, `ReadOnlyBox[T]` is covariant with the type parameter `T`.
+That signals to the type checker that it is safe to treat `ReadOnlyBox[Dog]` as a `ReadOnlyBox[Animal]`,
+because `ReadOnlyBox` only produces `T` (via `get_content`) and never consumes it in a type-specific way.
+Covariance is appropriate when the generic class is basically a container of `T` that only returns `T` (and doesn't accept `T`
 instances that can violate assumptions).
 
 ### Contravariance
 
-A generic type is contravariant in a type parameter if `Generic[Base]` is a subtype of `Generic[Sub]` whenever `Sub` is
-a subtype of `Base`.
-This is suitable for consumer objects that only take in data of type T and do not produce it.
-Python allows declaring a `TypeVar` as contravariant.
+Contravariance is suitable for consumer objects that only take in data of type `T` and do not produce it.
 For example:
 
 ```python
 # contravariance.py
-from typing import Generic, TypeVar
-
 from animals import Animal, Dog
 
-T_contra = TypeVar("T_contra", contravariant=True)
-
-
-class Sink(Generic[T_contra]):
-    def send(self, value: T_contra) -> None:
+class Sink[T]:
+    def send(self, value: T) -> None:
         print(f"Processing {value}")
 
 
@@ -503,31 +468,26 @@ dog_sink.send(Dog())
 ## Processing Dog(name=None)
 ```
 
-In this example, `Sink[T_contra]` is contravariant, indicating it only consumes values of type `T_contra` (here via the
-`send` method).
-Because a `Sink[Animal]` can accept a `Dog` (since Dog is an Animal), it is safe to assign `animal_sink` to a `dog_sink`
-reference.
+In this example, `Sink[T]` is contravariant, indicating it only consumes values of type `T` (here, via `send`).
+Because a `Sink[Animal]` can accept a `Dog` (since `Dog` is an `Animal`),
+it is safe to assign `animal_sink` to a `dog_sink` reference.
 In general, contravariance allows broadening the accepted types when substituting; a `Sink[Animal]` can stand in for a
-`Sink[Dog]` because anything that expects to only handle Dogs can also handle Animals (but not vice versa).
+`Sink[Dog]` because anything that expects to only handle `Dog`s can also handle `Animal`s (but not vice versa).
 
 ### Using Variance
 
-To declare a covariant or contravariant type variable, you set `covariant=True` or `contravariant=True` in the `TypeVar`
-definition.
-Note that variance can only be declared on class or interface type parameters (like for use in `Generic[...]` or
-`Protocol[...]`).
 Function type variables are always invariant.
 Most built-in collections in Python are invariant (e.g., `list` is invariant, which is why `list[Dog]` is not assignable
 to `list[Animal]`).
-Some abstract collection types or protocols are covariant (for instance, `collections.abc.Sequence` is covariant in its
-element type,
-because sequences are read-only containers as far as the typing system is concerned).
+Some abstract collection types or protocols are covariant.
+For instance, `collections.abc.Sequence` is covariant in its element type,
+because sequences are read-only containers as far as the typing system is concerned.
 
 Understanding variance is an advanced topic--many developers use generics effectively without explicitly declaring
 covariant/contravariant type variables.
-If you design your own generic classes, think about whether they only produce values of type T (covariant),
-only consume values of type T (contravariant), or both (invariant).
-By default, if you do nothing special, your generics are invariant.
+If you design your own generic classes, think about whether they only produce values of type `T` (covariant),
+only consume values of type `T` (contravariant), or both (invariant).
+Fortunately, since Python 3.12 invariance is inferred.
 
 ## Function Currying with Generics
 
@@ -541,14 +501,10 @@ We can write a generic higher-order function to do this:
 
 ```python
 # curry_two_arg.py
-from typing import Callable, TypeVar
-
-X = TypeVar("X")
-Y = TypeVar("Y")
-Z = TypeVar("Z")
+from typing import Callable
 
 
-def curry_two_arg(
+def curry_two_arg[X, Y, Z](
     func: Callable[[X, Y], Z],
 ) -> Callable[[X], Callable[[Y], Z]]:
     def curried(x: X) -> Callable[[Y], Z]:
@@ -565,10 +521,9 @@ def multiply(a: int, b: float) -> float:
 
 
 curried_mul = curry_two_arg(multiply)
-get_double = curried_mul(
-    2
-)  # get_double is now Callable[[float], float]
-result = get_double(3.5)  # result = 7.0
+# get_double is now Callable[[float], float]:
+get_double = curried_mul(2)
+print(get_double(3.5))
 ```
 
 Here, `curry_two_arg` is a generic function that works with any two-argument function.
@@ -652,7 +607,7 @@ you avoid those mistakes in your code.
 
 TODO: Check that self types are introduced earlier, probably in "Using Types"
 
-Another scenario with recursive generics is when a class needs to use its own type as a `TypeVar`.
+Another scenario with recursive generics is when a class needs to use its own type as a type variable.
 This is sometimes called *F-bounded polymorphism* or self-referential generics.
 A typical example is implementing a fluent interface or a cloning method that returns the same type as the subclass.
 Consider a base class that should return an instance of the subclass in a method:
@@ -684,7 +639,7 @@ class ContactForm(Form["ContactForm"]):
 form = ContactForm().set_title("Feedback").add_field("email")
 ```
 
-`TSelf` is a `TypeVar` bounded to `'Form'` (the base class).
+`TSelf` is a type variable bounded to `'Form'` (the base class).
 The base class `Form` itself is generic in `TSelf`.
 The `set_title` method is annotated to return `TSelf`.
 
@@ -713,9 +668,9 @@ class Form:
         return self
 ```
 
-Using `Self` removes the need for the `TypeVar` and generic base class altogether in this case.
+Using `Self` removes the need for the type variable and generic base class altogether in this case.
 However, `Self` is limited to describing that a method returns the same type as the class it was called on, whereas the
-`TypeVar` approach can express more complex relationships if needed.
+type variable approach can express more complex relationships if needed.
 
 ### Recursive Type Aliases
 
@@ -761,7 +716,7 @@ config: JSON = {
 ```
 
 Overly deep recursion can sometimes confuse type checkers or lead to performance issues in type checking.
-Recursive aliases cannot be directly made generic with `TypeVar` in the current typing system
+Recursive aliases cannot be directly made generic with type variable in the current typing system
 (you can wrap recursive structures inside generic classes if needed).
 
 ## Structural Subtyping with Protocols
@@ -943,7 +898,7 @@ Type aliases in Python let you create alternative names for types, which can imp
 For example, you might write `Coordinate = tuple[float, float]` to give a semantic name to a tuple of two floats.
 *Generic type aliases* extend this idea by allowing aliases to be parameterized with type variables.
 
-Creating a generic type alias is straightforward: use a `TypeVar` in the definition of the alias.
+Creating a generic type alias is straightforward: use a type variable in the definition of the alias.
 For instance:
 
 ```python
@@ -1076,7 +1031,7 @@ Understand when to use covariant or contravariant TypeVars (or just avoid the si
 
 ### Pitfall: Too General TypeVars (or Overuse of Any)
 
-Using a `TypeVar` when your function expects a more specific capability can lead to confusing errors or overly
+Using a type variable when your function expects a more specific capability can lead to confusing errors or overly
 permissive acceptance.
 For example:
 
@@ -1118,19 +1073,19 @@ Now `sort_items` explicitly requires that the item type implements `<` (as per t
 Alternatively, we could use `TypeVar('U', int, float, str, ...)` to enumerate types that are known to be comparable, but
 a protocol is more extensible.
 
-Don't use a totally unconstrained `TypeVar` if the function or class really needs the type to have some capability.
+Don't use a totally unconstrained type variable if the function or class really needs the type to have some capability.
 Either use a `bound=` or a protocol to encode that requirement.
 Conversely, if you truly intend a function to accept anything (like a generic passthrough that just returns what it was
-given), then using `Any` might be appropriate, or a `TypeVar` with no constraints if you need to preserve the type
+given), then using `Any` might be appropriate, or a type variable with no constraints if you need to preserve the type
 identity.
 A function using `Any` will accept and return anything without errors--it turns off type checking for that element.
 
-### Pitfall: Ignoring `TypeVar` Scope
+### Pitfall: Ignoring type variable Scope
 
 It’s easy to reach for a TypeVar when defining a function--but unless the function is truly generic, this can cause more
 confusion than clarity.
-Remember that a `TypeVar` is specific to the generic function or class where it's used.
-If you define a `TypeVar` at the top of a module and use it in a function signature, that function is generic.
+Remember that a type variable is specific to the generic function or class where it's used.
+If you define a type variable at the top of a module and use it in a function signature, that function is generic.
 If you intended the function to only work with one specific type, you might accidentally make it generic by using a
 TypeVar.
 
@@ -1160,7 +1115,7 @@ The function `set_value` as written can accept any type, and the type of `global
 calling it (it can be `int` if called with `int`, `str` if called with `str`, etc.).
 This is probably a design mistake.
 In such cases, use a normal specific type (or `Any`) if the function isn't meant to be generic.
-Use `TypeVar` only for functions that really need to be generic.
+Use type variable only for functions that really need to be generic.
 
 ### Practice: Use Descriptive Type Variable Names for Clarity
 
