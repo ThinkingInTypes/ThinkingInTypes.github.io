@@ -2,9 +2,6 @@ version = 1
 revision = 2
 requires-python = ">=3.14"
 
-[options]
-prerelease-mode = "allow"
-
 [[package]]
 name = "asttokens"
 version = "3.0.0"
@@ -70,11 +67,11 @@ wheels = [
 
 [[package]]
 name = "docutils"
-version = "0.22rc1"
+version = "0.21.2"
 source = { registry = "https://pypi.org/simple" }
-sdist = { url = "https://files.pythonhosted.org/packages/c5/7f/99d31dbb3cd20cbe5d3fb728f699ec82b3bb7e15dc8287da1b8b3c485216/docutils-0.22rc1.tar.gz", hash = "sha256:a179809afe81ee8af64f4e4f46216780b72736397620d1842ec3b682d14f68bd", size = 2274058, upload-time = "2025-05-06T17:15:37.256Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/ae/ed/aefcc8cd0ba62a0560c3c18c33925362d46c6075480bfa4df87b28e169a9/docutils-0.21.2.tar.gz", hash = "sha256:3a6b18732edf182daa3cd12775bbb338cf5691468f91eeeb109deff6ebfa986f", size = 2204444, upload-time = "2024-04-23T18:57:18.24Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/b8/61/4e8e9f9b481193ff54fec580078c0b4cb927b2685967abf1fa510d00553c/docutils-0.22rc1-py3-none-any.whl", hash = "sha256:5c43c5302ca46c65edfb18a726de6f6c73b6a40b7836663ba77d40d61409d39f", size = 628200, upload-time = "2025-05-06T17:15:34.375Z" },
+    { url = "https://files.pythonhosted.org/packages/8f/d7/9322c609343d929e75e7e5e6255e614fcc67572cfd083959cdef3b7aad79/docutils-0.21.2-py3-none-any.whl", hash = "sha256:dafca5b9e384f0e419294eb4d2ff9fa826435bf15f15b7bd45723e8ad76811b2", size = 587408, upload-time = "2024-04-23T18:57:14.835Z" },
 ]
 
 [[package]]
