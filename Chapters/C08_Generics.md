@@ -41,6 +41,8 @@ Generic functions are useful for algorithms that work uniformly on multiple type
 Common examples include utility functions like `identity`, data retrieval functions that return the type of whatever
 they fetch, or factory functions that construct objects of a type.
 
+### Old Syntax
+
 Originally, type variables had to be explicitly declared using `TypeVar`:
 
 ```python
@@ -108,7 +110,7 @@ We can also annotate variables or parameters with explicit instantiations like `
 ## Constraints and Bounds on Type Variables
 
 Sometimes you want a type variable to be limited to certain types, rather than truly any type.
-Python's typing provides two mechanisms for this: *constraints* and *bounds* for type variable.
+Python's typing provides two mechanisms for this: *constraints* and *bounds*.
 
 ### Constraints
 
@@ -159,12 +161,12 @@ class Dog(Animal):
         print(f"{self.name}: Woof")
 
 
-def speak[TAnimal:Animal](creatures: list[TAnimal]) -> None:
+def speak[T:Animal](creatures: list[T]) -> None:
     for creature in creatures:
         creature.say()
 ```
 
-`TAnimal` is bounded by `Animal`, meaning any substitution for `TAnimal` must be `Animal` or a subclass of `Animal`.
+`T` is bounded by `Animal`, meaning any substitution for `T` must be `Animal` or a subclass of `Animal`.
 The `speak` function can then accept a list of `Animal` or any subtype (like `Dog`).
 Inside the function, we know that each item has the `speak()` method (since everything is at least `Animal`).
 If we tried to call `speak` with a list of something else (say `str` or `int`), the type checker rejects it.
