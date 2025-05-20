@@ -117,7 +117,7 @@ This is useful when a function or class should only work with specific types tha
 In `add`, we constrain `Number` to be either an `int` or a `float`:
 
 ```python
-# constrained_typevar.py
+# constrained_type_variable.py
 
 def add[Number:(int, float)](a: Number, b: Number) -> Number:
     return a + b
@@ -126,7 +126,7 @@ def add[Number:(int, float)](a: Number, b: Number) -> Number:
 add(5, 10)  # valid, both int
 add(3.5, 2.5)  # valid, both float
 # ERROR: cannot mix types:
-add(5, 2.5) # type: ignore
+add(5, 2.5)  # type: ignore
 # ERROR: str not allowed for Number:
 add("A", "Z")  # type: ignore
 ```
@@ -196,9 +196,9 @@ For instance, consider a function that takes two parameters of possibly differen
 them:
 
 ```python
-# multiple_typevars.py
+# multiple_type_variables.py
 
-def pairify[A,B](x: A, y: B) -> tuple[A, B]:
+def pairify[A, B](x: A, y: B) -> tuple[A, B]:
     return x, y
 
 
@@ -244,13 +244,13 @@ Let's explore the type variable tuple by implementing a type-safe version of Pyt
 # variadic_zip.py
 
 def zip_variadic[*T](
-    *args: tuple[*T],
+        *args: tuple[*T],
 ) -> tuple[tuple[*T], ...]:
     return tuple(zip(*args))
 
 
 def unzip_variadic[*T](
-    packed: tuple[tuple[*T], ...],
+        packed: tuple[tuple[*T], ...],
 ) -> tuple[tuple[*T], ...]:
     return tuple(zip(*packed))
 
@@ -298,9 +298,10 @@ With type variable tuple, we can capture the variable number of dimension sizes.
 # n_dimensional_tensor.py
 from typing import Literal, TypeAlias
 
+
 class Tensor[T, *Shape]:
     def __init__(
-        self, data: list, *, shape: tuple[*Shape]
+            self, data: list, *, shape: tuple[*Shape]
     ):
         self.data = data
         self.shape = shape
@@ -335,6 +336,7 @@ Here's a decorator that logs a function call without changing its type signature
 ```python
 # argument_preserving_decorator.py
 from typing import Callable
+
 
 def log_call[**P, R](fn: Callable[P, R]) -> Callable[P, R]:
     def wrapper(*args: P.args, **kwargs: P.kwargs) -> R:
@@ -381,12 +383,14 @@ where each field can be a different type (like a database row or spreadsheet lin
 # heterogeneous_record.py
 from dataclasses import dataclass
 
+
 @dataclass
 class Record[*Fields]:
     fields: tuple[*Fields]
 
     def __repr__(self) -> str:
         return f"{self.__class__.__name__}(fields={self.fields})"
+
 
 print(Record((1, "Alice", 3.14)))
 ## Record(fields=(1, 'Alice', 3.14))
@@ -425,6 +429,7 @@ For example:
 # covariance.py
 from animals import Animal, Dog
 
+
 class ReadOnlyBox[T]:
     def __init__(self, content: T):
         self._content = content
@@ -454,6 +459,7 @@ For example:
 ```python
 # contravariance.py
 from animals import Animal, Dog
+
 
 class Sink[T]:
     def send(self, value: T) -> None:
@@ -505,7 +511,7 @@ from typing import Callable
 
 
 def curry_two_arg[X, Y, Z](
-    func: Callable[[X, Y], Z],
+        func: Callable[[X, Y], Z],
 ) -> Callable[[X], Callable[[Y], Z]]:
     def curried(x: X) -> Callable[[Y], Z]:
         def inner(y: Y) -> Z:
@@ -564,6 +570,7 @@ Here's how we can do it:
 # For forward-referenced types:
 from __future__ import annotations
 from dataclasses import dataclass, field
+
 
 @dataclass
 class Tree[T]:
@@ -675,13 +682,13 @@ We can express this as:
 ```python
 # recursive_alias.py
 JSON = (
-    dict[str, "JSON"]
-    | list["JSON"]
-    | str
-    | int
-    | float
-    | bool
-    | None
+        dict[str, "JSON"]
+        | list["JSON"]
+        | str
+        | int
+        | float
+        | bool
+        | None
 )
 ```
 
@@ -895,20 +902,16 @@ For instance:
 
 ```python
 # generic_alias.py
-from typing import TypeVar
 
-T = TypeVar("T")
-Pair = tuple[T, T]  # A pair of two items of the same type
-StrDict = dict[
-    str, T
-]  # A dictionary with string keys and values of type T
+type Pair[T] = tuple[T, T]
+type StrDict[T] = dict[str, T]
 ```
 
 Here, `Pair` and `StrDict` are generic type aliases.
 `Pair[int]` is equivalent to `tuple[int, int]`, `Pair[str]` to `tuple[str, str]`, etc.
 `StrDict[float]` means `dict[str, float]`.
 
-**Using generic aliases:**
+Using generic aliases is straightforward:
 
 ```python
 # generic_alias_applied.py
@@ -920,7 +923,7 @@ data: StrDict[int] = {"age": 30, "year": 2025}
 ```
 
 These annotations make the intent clearer: `p` is a pair of ints, `q` a pair of strs, and `data` is a string-to-int map.
-Under the hood, the type checker treats `Pair[int]` as `tuple[int, int]`.
+The type checker treats `Pair[int]` as `tuple[int, int]`.
 If you do not subscript the alias (e.g., just use `Pair` by itself), the type variables are typically treated as `Any`.
 For example:
 
@@ -939,8 +942,9 @@ This will not raise an immediate error, because `Pair` unqualified is basically 
 but it defeats the purpose of the alias since it's not enforcing that both elements share the same type.
 Always supply type parameters for a generic alias to avoid inadvertently falling back to `Any`.
 
-**Alias vs direct use:** Type aliases don't create new types at runtime; they are solely for type checking and
-readability.
+### Alias vs. Direct Use
+
+Type aliases don't create new types at runtime; they are solely for type checking and readability.
 In code, `Pair[int]` does not exist as a real class; it's just an alias for `tuple[int, int]`.
 If you inspect `Pair[int]` at runtime, you'll get the underlying type.
 For example:
@@ -959,29 +963,27 @@ print(get_args(Pair[int]))
 This shows that `Pair[int]` is recognized by the typing introspection as a tuple with two int arguments.
 Type aliases are resolved during type checking and are essentially transparent at runtime.
 
-**Parameterized aliases in functions and classes:** You can use generic aliases to simplify annotations inside other
-generics.
+### Parameterized Aliases in Functions and Classes
+
+You can use generic aliases to simplify annotations inside other generics.
 For example:
 
 ```python
 # vector.py
-from typing import TypeVar
 
-T = TypeVar("T")
-Vector = list[tuple[T, T]]
+type Vector[T] = list[tuple[T, T]]
 
 
-def scale_points(
-    points: Vector[int], factor: int
-) -> Vector[int]:
+def scale_points(points: Vector[int], factor: int) -> Vector[int]:
     return [(x * factor, y * factor) for (x, y) in points]
 ```
 
 Here `Vector[int]` is easier to read than `list[tuple[int, int]]`.
 The type checker ensures consistency just as if we wrote the full type.
 
-**Declaring aliases explicitly:** Python 3.10 introduced the `TypeAlias` annotation to explicitly declare that an
-assignment is a type alias (especially when the right-hand side might be ambiguous).
+### Declaring Aliases Explicitly
+
+Python 3.10 introduced `TypeAlias` to explicitly declare that an assignment is a type alias (especially when the right-hand side might be ambiguous).
 For example:
 
 ```python
@@ -1021,7 +1023,7 @@ interfaces (`Sequence[BaseType]` which is covariant for reading, or `Collection[
 Alternatively, copy the list to a new covariant container if needed for output only.
 Understand when to use covariant or contravariant TypeVars (or just avoid the situation).
 
-### Pitfall: Too General TypeVars (or Overuse of Any)
+### Pitfall: Too General (or Overuse of Any)
 
 Using a type variable when your function expects a more specific capability can lead to confusing errors or overly
 permissive acceptance.
@@ -1029,35 +1031,27 @@ For example:
 
 ```python
 # too_general.py
-from typing import TypeVar, Iterable
 
-T = TypeVar("T")
-
-
-def sort_items(items: list[T]) -> list[T]:
+def sort_items[T](items: list[T]) -> list[T]:
     # PyRight issue:
     return sorted(items)  # type: ignore
 ```
 
-This function will type-check, but it's not truly safe for all `T`--it assumes that the items are comparable (have an
-ordering defined).
+This function will type-check, but it's not truly safe for all `T`--it assumes that the items are comparable (have an ordering defined).
 If you call `sort_items` on a list of objects that can't be ordered, you'll get a runtime error.
 The type checker wouldn't catch it because `T` was unconstrained (it can be anything).
 A better approach is to constrain `T` to types that support ordering:
 
 ```python
 # bound_typevar.py
-from typing import Protocol, Any, TypeVar
+from typing import Protocol, Any
 
 
 class Comparable(Protocol):
     def __lt__(self, other: Any) -> bool: ...
 
 
-U = TypeVar("U", bound=Comparable)
-
-
-def sort_items(items: list[U]) -> list[U]:
+def sort_items[U](items: list[U]) -> list[U]:
     return sorted(items)
 ```
 
@@ -1088,18 +1082,14 @@ Type checkers will flag this as suspicious:
 
 ```python
 # accidental_genericity.py
-from typing import TypeVar
-
-T = TypeVar("T")
-
-global_var = None  # Mypy requires to avoid NameError
+global_var = None
 
 
-# warning: TypeVar "T" appears only once
-# in generic function signature:
-def set_value(x: T) -> None:  # type: ignore
+# warning: TypeVar "T" appears only     │
+# once in generic function signature
+def set_value[T](x: T) -> None:  # type: ignore
     global global_var
-    global_var = x
+    global_var = x  
 ```
 
 If `global_var` is not also parameterized by `T` somehow, this use of `T` is misleading.

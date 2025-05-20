@@ -161,8 +161,8 @@ This creates a new type `UserId` that behaves like an `int` at runtime (it's ess
 This is useful when you want to prevent mix-ups of semantically different values that share an underlying type (e.g.
 `UserId` vs `ProductId` both as ints).
 Using `NewType`, you can catch such mix-ups in static analysis.
-(Under the hood, calling `UserId(5)` just returns 5 at runtime, so there's no extra performance cost beyond a function call.
-In Python 3.10+ `NewType` is implemented as a class for better performance.)
+Calling `UserId(5)` just returns 5 at runtime, so there's no extra performance cost beyond a function call.
+In Python 3.10+ `NewType` is implemented as a class for better performance.
 
 ## Generics and Type Variables
 

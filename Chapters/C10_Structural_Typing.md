@@ -97,8 +97,7 @@ For example, in the code above, if we call `announce(Dog())` and `Dog.speak` is 
 The protocol helps catch such issues before runtime by using tools like Mypy.
 The protocols defined in `typing` are optional and have no runtime effect on their own.
 This means you can use them freely for type hints without incurring runtime overhead or restrictions.
-Protocols do inherit from `abc.ABC` under the hood,
-but by default `isinstance()` and `issubclass()` checks against a protocol will not work without an explicit opt-in.
+Protocols do inherit from `abc.ABC`, but by default `isinstance()` and `issubclass()` checks against a protocol will not work without an explicit opt-in.
 
 **Using a protocol in type hints:** Once you have a protocol class, you use it as a type in annotations just like you would use an ABC or a concrete class.
 In the above example, the function `announce` was annotated to accept a `Speaker`.
@@ -452,7 +451,7 @@ This is the benefit of generic protocols:
 they let you write flexible code that is still type-safe and retains specific type information.
 In other words, one protocol can work for many types without losing the ability to distinguish those types when it matters.
 The syntax we used (`Container[C]` inside the function annotation) leverages Python's ability to support generics in type hints.
-Under the hood, `Container[int]` is a _parameterized protocol_ instance, but conceptually you can think of it like an interface template.
+`Container[int]` is a _parameterized protocol_ instance, but conceptually you can think of it like an interface template.
 
 Keep in mind that user-defined generic protocols follow the same rules as normal generic classes for type checking.
 You can declare variance for type variables if needed (covariant, contravariant) using `typing.Final` or by special syntax in `TypeVar`, although if you don't declare, the type checker will assume invariance (meaning `Container[SubClass]` is not a subtype of
@@ -491,7 +490,7 @@ class Container(Protocol):
 ```
 
 This defines a generic method `get_item` in a protocol.
-However, under the hood this still creates a generic protocol with a type variable `T`.
+However, this still creates a generic protocol with a type variable `T`.
 Most code at the time of writing still uses the earlier syntax with explicit `TypeVar` declarations, which is what we've shown above.
 
 In summary, combining protocols with generics expresses flexible and reusable type relationships.

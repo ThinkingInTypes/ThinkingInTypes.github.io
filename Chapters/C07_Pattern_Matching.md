@@ -164,7 +164,7 @@ from typing import Any
 
 
 def wildcard_ignore(
-    point: tuple[float, Any, Any],
+        point: tuple[float, Any, Any],
 ) -> None:
     match point:
         case (x, _, _):
@@ -197,7 +197,7 @@ This matches a `Player` object of any name, capturing only the `score` attribute
 The name attribute is ignored.
 
 You can use multiple wildcards in a single pattern if needed (each `_` is independent and just means "ignore this part").
-Under the hood, all `_` in a pattern are effectively the same anonymous throwaway--none of them create variables.
+All `_` in a pattern are effectively the same anonymous throwaway--none of them create variables.
 This makes `_` safe to use in any number of places in the pattern.
 
 In summary, wildcard patterns are a convenient way to say "match anything here, and I don't intend to use it."
@@ -486,7 +486,7 @@ What happens here:
 
 So effectively, `User(name=X, age=Y)` in a pattern means "is the subject a `User`?
 If yes, let `X = subject.name` and `Y = subject.age`, and proceed; otherwise this pattern fails."
-The class pattern is doing an `isinstance(subject, User)` check and attribute lookups under the hood.
+The class pattern is doing an `isinstance(subject, User)` check and attribute lookups.
 
 ### Details
 
@@ -544,10 +544,10 @@ def shape_area(shape: Circle | Square) -> float:
     match shape:
         case Circle(radius=r):
             # Here shape is type Circle:
-            return 3.14 * r**2
+            return 3.14 * r ** 2
         case Square(side=s):
             # Here shape is type Square:
-            return s**2
+            return s ** 2
         case _:
             raise ValueError("Unsupported shape")
 ```
@@ -769,7 +769,7 @@ request = {"method": "POST", "payload": {"id": 42}}
 
 match request:
     case {"method": m, "payload": data} if (
-        m == "POST" and "id" in data
+            m == "POST" and "id" in data
     ):
         data = cast(dict[str, Any], data)
         print(f"POST request with id {data['id']}")
