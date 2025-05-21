@@ -621,17 +621,23 @@ Consider a base class that should return an instance of the subclass in a method
 # f_bounded_polymorphism.py
 from __future__ import annotations
 
+from dataclasses import dataclass, field
+from typing import cast
 
+
+@dataclass
 class Form[T]:
-    def set_title(self: T, title: str) -> T:
+    title: str = ""
+
+    def set_title(self, title: str) -> T:
         self.title = title
-        return self
+        # Returns self as type T for fluent chaining:
+        return cast(T, self)
 
 
+@dataclass
 class ContactForm(Form["ContactForm"]):
-    def __init__(self):
-        self.title = ""
-        self.fields = []
+    fields: list[str] = field(default_factory=list)
 
     def add_field(self, name: str) -> ContactForm:
         self.fields.append(name)
@@ -641,6 +647,7 @@ class ContactForm(Form["ContactForm"]):
 form = ContactForm().set_title("Feedback").add_field("email")
 ```
 
+The generic base class `Form[T]` provides a method that returns `self` as type `T` for type-safe, fluent chaining in subclasses.
 `T` is a type variable bounded to `Form` (the base class).
 The base class `Form` itself is generic in `T`.
 The `set_title` method is annotated to return `T`.
@@ -660,18 +667,38 @@ For example:
 
 ```python
 # return_self.py
+"""
+Return `Self` enables type-safe method chaining in subclasses 
+without the complexity of F-bounded generics.
+"""
+from dataclasses import dataclass, field
 from typing import Self
 
 
+@dataclass
 class Form:
+    title: str = ""
+
     def set_title(self, title: str) -> Self:
         self.title = title
         return self
+
+
+@dataclass
+class ContactForm(Form):
+    fields: list[str] = field(default_factory=list)
+
+    def add_field(self, name: str) -> Self:
+        self.fields.append(name)
+        return self
+
+
+form = ContactForm().set_title("Feedback").add_field("email")
 ```
 
-Using `Self` removes the need for the type variable and generic base class altogether in this case.
+Using `Self` removes the need for the type variable and generic base class.
 However, `Self` is limited to describing that a method returns the same type as the class it was called on, whereas the
-type variable approach can express more complex relationships if needed.
+type variable approach can express more complex relationships.
 
 ### Recursive Type Aliases
 
@@ -816,12 +843,10 @@ You can define your own:
 
 ```python
 # iterable_protocol.py
-from typing import Iterator, TypeVar, Protocol
-
-T = TypeVar("T", covariant=True)
+from typing import Iterator, Protocol
 
 
-class IterableLike(Protocol[T]):
+class IterableLike[T](Protocol):
     def __iter__(self) -> Iterator[T]: ...
 ```
 
@@ -1053,7 +1078,7 @@ class Comparable(Protocol):
     def __lt__(self, other: Any) -> bool: ...
 
 
-def sort_items[U](items: list[U]) -> list[U]:
+def sort_items[U: Comparable](items: list[U]) -> list[U]:
     return sorted(items)
 ```
 
