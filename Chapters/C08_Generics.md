@@ -213,7 +213,8 @@ The type of `result` is a `tuple` whose first element is a `str` and second is a
 Type variables can also depend on each other through constraints or bounds.
 However, Python's typing does not allow directly expressing complex relationships (like saying two type variables must
 be the same subtype of some base).
-In such cases, it's common to use a single type variable in multiple places to indicate they must match, or use protocols (discussed later) for more complex constraints.
+In such cases, it's common to use a single type variable in multiple places to indicate they must match.
+You can also use protocols (discussed later) for more complex constraints.
 
 ## Type Variable Tuples
 
@@ -495,7 +496,7 @@ Understanding variance is an advanced topic--many developers use generics effect
 covariant/contravariant type variables.
 If you design your own generic classes, think about whether they only produce values of type `T` (covariant),
 only consume values of type `T` (contravariant), or both (invariant).
-Fortunately, since Python 3.12 invariance is inferred.
+Fortunately, since Python 3.12, invariance is inferred.
 
 ## Function Currying with Generics
 
@@ -1048,7 +1049,6 @@ The pitfall is not realizing that mutation of the list can break type assumption
 If you find yourself needing to treat a `list[SubType]` as a `list[BaseType]`, reconsider your design or use abstract
 interfaces (`Sequence[BaseType]` which is covariant for reading, or `Collection[BaseType]`).
 Alternatively, copy the list to a new covariant container if needed for output only.
-Understand when to use covariant or contravariant TypeVars (or just avoid the situation).
 
 ### Pitfall: Too General (or Overuse of Any)
 
@@ -1070,7 +1070,7 @@ The type checker wouldn't catch it because `T` was unconstrained (it can be anyt
 A better approach is to constrain `T` to types that support ordering:
 
 ```python
-# bound_typevar.py
+# bound_type_variable.py
 from typing import Protocol, Any
 
 
@@ -1083,11 +1083,9 @@ def sort_items[U: Comparable](items: list[U]) -> list[U]:
 ```
 
 Now `sort_items` explicitly requires that the item type implements `<` (as per the `Comparable` protocol).
-Alternatively, we could use `TypeVar('U', int, float, str, ...)` to enumerate types that are known to be comparable, but
-a protocol is more extensible.
 
 Don't use a totally unconstrained type variable if the function or class really needs the type to have some capability.
-Either use a `bound=` or a protocol to encode that requirement.
+Either use a type bound or a protocol to encode that requirement.
 Conversely, if you truly intend a function to accept anything (like a generic passthrough that just returns what it was
 given), then using `Any` might be appropriate, or a type variable with no constraints if you need to preserve the type
 identity.
@@ -1095,14 +1093,12 @@ A function using `Any` will accept and return anything without errors--it turns 
 
 ### Pitfall: Ignoring type variable Scope
 
-It’s easy to reach for a TypeVar when defining a function--but unless the function is truly generic, this can cause more
-confusion than clarity.
+Unless the function is truly generic, generics can cause more confusion than clarity.
 Remember that a type variable is specific to the generic function or class where it's used.
 If you define a type variable at the top of a module and use it in a function signature, that function is generic.
-If you intended the function to only work with one specific type, you might accidentally make it generic by using a
-TypeVar.
+If you intended the function to only work with one specific type, you might accidentally make it generic.
 
-If a TypeVar appears only once in a function signature, that function is technically generic, but there's no way to
+If a type variable appears only once in a function signature, that function is technically generic, but there's no way to
 connect the type to anything else
 (e.g., a return value or another parameter).
 Type checkers will flag this as suspicious:
@@ -1112,7 +1108,7 @@ Type checkers will flag this as suspicious:
 global_var = None
 
 
-# warning: TypeVar "T" appears only     │
+# warning: type variable "T" appears only     │
 # once in generic function signature
 def set_value[T](x: T) -> None:  # type: ignore
     global global_var
@@ -1128,22 +1124,18 @@ Use type variable only for functions that really need to be generic.
 
 ### Practice: Use Descriptive Type Variable Names for Clarity
 
-While the convention is to use single-letter TypeVars like `T`, `U`, `V` for simple cases, in more complex generics
+While the convention is to use single-letter type variables like `T`, `U`, `V` for simple cases, in more complex generics
 consider using more descriptive names.
 For example:
 
 ```python
-# descriptive_typevars.py
+# descriptive_type_variables.py
 
 class BiMap[KT, VT]: ...
 ```
 
 This can make the code more self-documenting, especially if there are multiple type parameters that have roles (key vs.
 value, input vs. output, etc.).
-Python 3.12+ will even allow using these names in the syntax (like `def func[KeyType, ValueType](...) -> ...:`), which
-encourages descriptive names.
-In current Python, you can still achieve clarity by the variable name itself (e.g., `KeyType = TypeVar('KeyType')`)
-though the external name in the code is what you use.
 
 ### Practice: Leverage Protocols for Flexibility
 
