@@ -143,10 +143,11 @@ We normally name type aliases with CamelCase to indicate they are types:
 
 ```python
 # simple_type_aliasing.py
-from typing import get_type_hints
+from typing import get_type_hints, NewType
 
-Number = int | float | str
-Measurements = list[Number]
+type Number = int | float | str
+# Runtime-safe distinct type for measurement lists
+Measurements = NewType("Measurements", list[Number])
 
 
 def process_measurements(data: Measurements) -> None:
@@ -156,21 +157,6 @@ def process_measurements(data: Measurements) -> None:
 
 
 process_measurements(Measurements([11, 3.14, "1.618"]))
-## {'data': list[int | float | str], 'return':
-## <class 'NoneType'>}
-## n = 11, type(n) = <class 'int'>
-## n = 3.14, type(n) = <class 'float'>
-## n = '1.618', type(n) = <class 'str'>
-process_measurements([11, 3.14, "1.618"])
-## {'data': list[int | float | str], 'return':
-## <class 'NoneType'>}
-## n = 11, type(n) = <class 'int'>
-## n = 3.14, type(n) = <class 'float'>
-## n = '1.618', type(n) = <class 'str'>
-# Not allowed:
-# process_measurements(Measurements(
-#     [Number(11), Number(3.14), Number("1.618")])
-# )
 ```
 
 Using `Number` and `Measurements` is functionally identical to writing the annotation as `int | float` or
@@ -197,8 +183,9 @@ You'll often want to use `NewType` instead of type aliasing:
 # new_type.py
 from typing import NewType, get_type_hints
 
-# Correct, but not all type checkers have caught up:
-Number = NewType("Number", int | float | str)  # type: ignore
+type Number = int | float | str  # Static union alias
+
+# Runtime-safe distinct type:
 Measurements = NewType("Measurements", list[Number])
 
 
@@ -208,22 +195,7 @@ def process(data: Measurements) -> None:
         print(f"{n = }, {type(n) = }")
 
 
-process(
-    Measurements([Number(11), Number(3.14), Number("1.618")])
-)
-## {'data': __main__.Measurements, 'return':
-## <class 'NoneType'>}
-## n = 11, type(n) = <class 'int'>
-## n = 3.14, type(n) = <class 'float'>
-## n = '1.618', type(n) = <class 'str'>
-process(Measurements([11, 3.14, "1.618"]))  # type: ignore
-## {'data': __main__.Measurements, 'return':
-## <class 'NoneType'>}
-## n = 11, type(n) = <class 'int'>
-## n = 3.14, type(n) = <class 'float'>
-## n = '1.618', type(n) = <class 'str'>
-# Not allowed:
-# process_measurements([11, 3.14, "1.618"])
+process(Measurements([11, 3.14, "1.618"]))
 ```
 
 `get_type_hints` produces information about the function.
@@ -1509,7 +1481,7 @@ using `Literal`s in type annotations and a `set` for quick runtime membership ch
 
 ## TypedDicts for Structured Data
 
-`TypedDict` is useful when defining dictionary structures with known keys and typed values:
+`TypedDict` is useful when defining dictionary structures with known keys and typed values.
 
 ```python
 # typed_dict.py
@@ -1545,7 +1517,8 @@ class UserSettings(TypedDict):
     notifications_enabled: NotRequired[bool]
 
 
-settings: UserSettings = {"theme": "dark"}
+# Only the required field is provided:
+tettings: UserSettings = {"theme": "dark"}
 ```
 
 This flexibility allows clear definitions for complex, partially optional data structures.
