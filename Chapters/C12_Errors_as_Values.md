@@ -467,14 +467,14 @@ def func_c(i: int) -> Result[int, ZeroDivisionError]:
 
 @safe  # Convert existing function
 def func_d(
-        i: int,
+    i: int,
 ) -> str:  # Result[str, ZeroDivisionError]
     j = int(1 / i)
     return f"func_d({i}): {j}"
 
 
 def composed(
-        i: int,
+    i: int,
 ) -> Result[str, str | ValueError | ZeroDivisionError]:
     result_a = func_a(i)
     if isinstance(result_a, Failure):
@@ -546,7 +546,7 @@ ERROR = TypeVar("ERROR")
 @dataclass(frozen=True)
 class Result(Generic[ANSWER, ERROR]):
     def bind(
-            self, func: Callable[[ANSWER], "Result"]
+        self, func: Callable[[ANSWER], "Result"]
     ) -> Result[ANSWER, ERROR]:
         if isinstance(self, Success):
             return func(self.unwrap())
@@ -582,7 +582,7 @@ from composing_functions import (
 
 
 def composed(
-        i: int,
+    i: int,
 ) -> Result[str, str | ZeroDivisionError | ValueError]:
     # fmt: off
     return (
@@ -641,7 +641,7 @@ def add(first: int, second: int, third: int) -> str:
 
 
 def composed(
-        i: int, j: int
+    i: int, j: int
 ) -> Result[str, str | ZeroDivisionError | ValueError]:
     # fmt: off
     return Result.do(

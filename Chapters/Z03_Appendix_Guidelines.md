@@ -27,7 +27,7 @@ Simplify repetitive or complex annotations:
 
 ```python
 # example_2.py
-UserData = dict[str, list[int]]
+type UserData = dict[str, list[int]]
 
 
 def process_data(data: UserData) -> None:
@@ -88,11 +88,10 @@ Avoid overly complex union types:
 
 ```python
 # example_5.py
-from typing import Union
 
 
 def handle(
-    value: Union[int, str, None, float],
+    value: int | str | None | float,
 ) -> None:
     pass
 ```

@@ -164,7 +164,7 @@ from typing import Any
 
 
 def wildcard_ignore(
-        point: tuple[float, Any, Any],
+    point: tuple[float, Any, Any],
 ) -> None:
     match point:
         case (x, _, _):
@@ -544,10 +544,10 @@ def shape_area(shape: Circle | Square) -> float:
     match shape:
         case Circle(radius=r):
             # Here shape is type Circle:
-            return 3.14 * r ** 2
+            return 3.14 * r**2
         case Square(side=s):
             # Here shape is type Square:
-            return s ** 2
+            return s**2
         case _:
             raise ValueError("Unsupported shape")
 ```
@@ -769,7 +769,7 @@ request = {"method": "POST", "payload": {"id": 42}}
 
 match request:
     case {"method": m, "payload": data} if (
-            m == "POST" and "id" in data
+        m == "POST" and "id" in data
     ):
         data = cast(dict[str, Any], data)
         print(f"POST request with id {data['id']}")

@@ -688,7 +688,7 @@ class Circle(NamedTuple):
     def area(self) -> float:
         from math import pi
 
-        return pi * (self.radius ** 2)
+        return pi * (self.radius**2)
 
 
 print(f"{(c := Circle(5))} {c.area():.2f}")

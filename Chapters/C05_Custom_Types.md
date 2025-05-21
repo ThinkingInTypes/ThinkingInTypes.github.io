@@ -360,7 +360,7 @@ class Circle:
     area: float = 0.0
 
     def __post_init__(self):
-        self.area = pi * self.radius ** 2
+        self.area = pi * self.radius**2
 
 
 print(Circle(radius=5))
@@ -1076,9 +1076,9 @@ class Status(Enum):
     CLOSED = ("closed", closed_next)
 
     def __init__(
-            self,
-            label: str,
-            next_handler: Callable[[Status], Status],
+        self,
+        label: str,
+        next_handler: Callable[[Status], Status],
     ) -> None:
         self._label = label
         self._next_handler = next_handler

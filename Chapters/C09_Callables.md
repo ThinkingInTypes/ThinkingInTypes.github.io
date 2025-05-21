@@ -39,7 +39,7 @@ from typing import Callable
 
 
 def operate(
-        a: int, b: int, func: Callable[[int, int], int]
+    a: int, b: int, func: Callable[[int, int], int]
 ) -> int:
     return func(a, b)
 
@@ -59,7 +59,7 @@ from typing import Callable
 
 
 def logging_decorator[**P, R](
-        func: Callable[P, R],
+    func: Callable[P, R],
 ) -> Callable[P, R]:
     def wrapper(*args: P.args, **kwargs: P.kwargs) -> R:
         print(

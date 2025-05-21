@@ -21,6 +21,7 @@ Here is a generic function expressing identity:
 ```python
 # generic_function.py
 
+
 def identity[T](value: T) -> T:
     return value
 
@@ -121,7 +122,8 @@ In `add`, we constrain `Number` to be either an `int` or a `float`:
 ```python
 # constrained_type_variable.py
 
-def add[Number:(int, float)](a: Number, b: Number) -> Number:
+
+def add[Number: (int, float)](a: Number, b: Number) -> Number:
     return a + b
 
 
@@ -161,7 +163,7 @@ class Dog(Animal):
         print(f"{self.name}: Woof")
 
 
-def speak[T:Animal](creatures: list[T]) -> None:
+def speak[T: Animal](creatures: list[T]) -> None:
     for creature in creatures:
         creature.say()
 ```
@@ -200,6 +202,7 @@ them:
 ```python
 # multiple_type_variables.py
 
+
 def pairify[A, B](x: A, y: B) -> tuple[A, B]:
     return x, y
 
@@ -230,6 +233,7 @@ With it, you can write:
 ```python
 # tuple_wrapper.py
 
+
 class TupleWrapper[*T]:
     def __init__(self, *values: *T):
         self.values = values
@@ -246,14 +250,15 @@ Let's explore the type variable tuple by implementing a type-safe version of Pyt
 ```python
 # variadic_zip.py
 
+
 def zip_variadic[*T](
-        *args: tuple[*T],
+    *args: tuple[*T],
 ) -> tuple[tuple[*T], ...]:
     return tuple(zip(*args))
 
 
 def unzip_variadic[*T](
-        packed: tuple[tuple[*T], ...],
+    packed: tuple[tuple[*T], ...],
 ) -> tuple[tuple[*T], ...]:
     return tuple(zip(*packed))
 
@@ -303,9 +308,7 @@ from typing import Literal, TypeAlias
 
 
 class Tensor[T, *Shape]:
-    def __init__(
-            self, data: list, *, shape: tuple[*Shape]
-    ):
+    def __init__(self, data: list, *, shape: tuple[*Shape]):
         self.data = data
         self.shape = shape
 
@@ -514,7 +517,7 @@ from typing import Callable
 
 
 def curry_two_arg[X, Y, Z](
-        func: Callable[[X, Y], Z],
+    func: Callable[[X, Y], Z],
 ) -> Callable[[X], Callable[[Y], Z]]:
     def curried(x: X) -> Callable[[Y], Z]:
         def inner(y: Y) -> Z:
@@ -669,9 +672,10 @@ For example:
 ```python
 # return_self.py
 """
-Return `Self` enables type-safe method chaining in subclasses 
+Return `Self` enables type-safe method chaining in subclasses
 without the complexity of F-bounded generics.
 """
+
 from dataclasses import dataclass, field
 from typing import Self
 
@@ -712,13 +716,13 @@ We can express this as:
 ```python
 # recursive_alias.py
 JSON = (
-        dict[str, "JSON"]
-        | list["JSON"]
-        | str
-        | int
-        | float
-        | bool
-        | None
+    dict[str, "JSON"]
+    | list["JSON"]
+    | str
+    | int
+    | float
+    | bool
+    | None
 )
 ```
 
@@ -1002,7 +1006,9 @@ For example:
 type Vector[T] = list[tuple[T, T]]
 
 
-def scale_points(points: Vector[int], factor: int) -> Vector[int]:
+def scale_points(
+    points: Vector[int], factor: int
+) -> Vector[int]:
     return [(x * factor, y * factor) for (x, y) in points]
 ```
 
@@ -1059,6 +1065,7 @@ For example:
 ```python
 # too_general.py
 
+
 def sort_items[T](items: list[T]) -> list[T]:
     # PyRight issue:
     return sorted(items)  # type: ignore
@@ -1112,7 +1119,7 @@ global_var = None
 # once in generic function signature
 def set_value[T](x: T) -> None:  # type: ignore
     global global_var
-    global_var = x  
+    global_var = x
 ```
 
 If `global_var` is not also parameterized by `T` somehow, this use of `T` is misleading.
@@ -1130,6 +1137,7 @@ For example:
 
 ```python
 # descriptive_type_variables.py
+
 
 class BiMap[KT, VT]: ...
 ```
