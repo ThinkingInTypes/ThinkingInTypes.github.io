@@ -103,7 +103,7 @@ A value of type `Any` is allowed to be passed or assigned to any type, and vice 
 Every type is compatible with `Any`, and `Any` is compatible with every type.
 You might use `Any` when you genuinely cannot predict the type (e.g., a function that can return any type depending on usage).
 However, overusing `Any` undermines the benefits of static typing, so it's best used sparingly when other typing features can't express the concept.
-(If a function can accept literally any object, a best practice is to annotate it as `object` rather than `Any` to signal that no specific behavior is assumed.)
+(If a function can accept literally any object, a practice is to annotate it as `object` rather than `Any` to signal that no specific behavior is assumed.)
 
 ### NoReturn / Never
 
@@ -196,7 +196,7 @@ This is equivalent to the earlier definition.
 Type variables can be given _bounds_ or _constraints_ to restrict what types they can represent.
 For instance, `U = TypeVar('U', bound=Number)` means U can be any subclass of `Number` (upper-bounded) while `V = TypeVar('V', int, str)` means V can only be `int` or `str` (union constraint).
 You can also mark a TypeVar as covariant or contravariant for class inheritance scenarios (useful when defining generic container classes that subclass built-in collections), though this is an advanced topic.
-In summary, type variables allow generic code to be checked for type consistency--a key feature of PEP 484's static typing.
+Type variables allow generic code to be checked for type consistency--a key feature of PEP 484's static typing.
 
 ### Generic Classes
 
@@ -551,7 +551,7 @@ Static type checkers themselves resolve forward references even if you leave the
 The takeaway:
 forward references are supported via quoting or future imports, and the language is evolving to make annotation evaluation lazy by default in a robust way.
 
-## Tools, Stubs, and Best Practices
+## Tools, Stubs, and Practices
 
 ### Type Checkers and IDE Support
 

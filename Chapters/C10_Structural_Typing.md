@@ -28,7 +28,7 @@ Python 3.8 remedied this by introducing _protocols_ in the `typing` module.
 A protocol defines a _structural interface_ that other classes can fulfill just by having the right methods/attributes, without inheritance.
 This brings the flexibility of duck typing into the realm of static type checking--essentially formalizing "If it quacks like a duck, it can be treated as a duck" in the type system.
 
-In summary, nominal typing ties compatibility to declared relationships (e.g., subclassing an interface or abstract class), whereas structural typing ties compatibility to an object's actual shape (the presence of specific methods/attributes).
+Nominal typing ties compatibility to declared relationships (e.g., subclassing an interface or abstract class), whereas structural typing ties compatibility to an object's actual shape (the presence of specific methods/attributes).
 Python's type system now supports both:
 use nominal typing for clarity and runtime consistency with class relationships, and use structural typing (via protocols) for flexibility and to more directly model Python's duck-typed nature.
 
@@ -376,28 +376,26 @@ print_id(Product(101, 19.99))
 
 ## Combining Protocols with Generics
 
-Just like classes and functions can be generic (using `TypeVar` to operate over a range of types), protocol classes can be generic as well.
+Just like classes and functions can be generic (using a type variable to operate over a range of types), protocol classes can be generic as well.
 A _generic protocol_ allows you to define a protocol parameterized by a type (or multiple types), enabling more precise typing of method arguments and return values.
 Many built-in protocols are generic--for example, `Iterable[T]` is a protocol that can be `Iterable[int]`, `Iterable[str]`, etc., depending on what type it yields.
 We can do the same with our own protocols.
 
-To define a generic protocol, we use `TypeVar` and put the type variable in brackets after `Protocol` when defining the class.
+To define a generic protocol, we put the type variable in brackets after `Protocol` when defining the class.
 Let's say we want to define a container protocol that yields items of some type.
 We can make it generic so that a `Container[int]` is a protocol for "container of ints" and `Container[str]` for "container of strings," but both are based on the same generic interface.
 For example:
 
 ```python
 # container.py
-from typing import Protocol, TypeVar
-
-T = TypeVar("T", covariant=True)
+from typing import Protocol
 
 
-class Container(Protocol[T]):
+class Container[T](Protocol):
     def get_item(self) -> T: ...
 ```
 
-Here, `Container[T]` is a generic protocol with a single type variable `T`.
+Here, `Container[T]` is a generic `Protocol` with a single type variable `T`.
 It specifies one method `get_item` that returns an object of type `T`.
 Now we can implement this protocol for different types by providing concrete type parameters.
 For instance, a container of strings and a container of integers:
@@ -421,20 +419,19 @@ class IntContainer:
 ```
 
 `StringContainer` and `IntContainer` each implement `get_item` returning the appropriate type.
-They don't subclass `Container`, but structurally they match `Container[str]` and `Container[int]` respectively.
+They don't subclass `Container`, but they structurally match `Container[str]` and `Container[int]`.
 We can write functions that use the generic protocol to accept any kind of container and preserve the type information of the contained item:
 
 ```python
 # generic_function.py
-from typing import TypeVar
-from container import Container, T
+from container import Container
 from container_types import StringContainer, IntContainer
 
 
-def print_item_and_return(container: Container[T]) -> T:
+def print_item_and_return[T](container: Container[T]) -> T:
     item = container.get_item()
     print(f"{item = }, {type(item) = }")
-    return item  # Type inferred as C
+    return item
 
 
 # Use generic function with different container types:
@@ -454,46 +451,51 @@ The syntax we used (`Container[C]` inside the function annotation) leverages Pyt
 `Container[int]` is a _parameterized protocol_ instance, but conceptually you can think of it like an interface template.
 
 Keep in mind that user-defined generic protocols follow the same rules as normal generic classes for type checking.
-You can declare variance for type variables if needed (covariant, contravariant) using `typing.Final` or by special syntax in `TypeVar`, although if you don't declare, the type checker will assume invariance (meaning `Container[SubClass]` is not a subtype of
+You can declare variance for type variables if needed (covariant, contravariant) using `typing.Final` or by special syntax in a type variable, although if you don't declare, the type checker will assume invariance (meaning `Container[SubClass]` is not a subtype of
 `Container[BaseClass]` unless you marked variance).
 In our container example, this is not an issue because we're primarily using it to carry the exact type.
 
-Another scenario for combining protocols with generics is when you want to put protocols as bounds on `TypeVar`s.
-For instance, you can declare `T = TypeVar('T', bound=SomeProtocol)` to indicate that a type variable must satisfy a certain protocol.
-This is analogous to saying, "T must be a subtype of this Protocol," except since protocols aren't part of the class hierarchy, it really means any type used for T must structurally implement the protocol.
+Another scenario for combining protocols with generics is when you want to put protocols as bounds on type variables.
+For instance, you can declare `[T: SomeProtocol]` to indicate that a type variable must satisfy a certain protocol.
+With classes, a bound indicates that `T` must subclass the bound.
+However, protocols aren't part of the class hierarchy, so this is analogous to saying, "`T` must structurally implement the protocol."
 For example, if we have:
 
 ```python
-# example_9.py
-from typing import TypeVar
+# protocols_as_bounds.py
 from logger_protocol import Logger
 
-T = TypeVar("T", bound=Logger)
+
+def f[T: Logger](x: T) -> T:
+    x.log(f"In f({x})")
+    return x
+
+
+class C[T: Logger]:
+    def f(self, x: T) -> T:
+        x.log(f"In C.f({x})")
+        return x
 ```
 
-This means any type filling in for T must have a `.log(str) -> None` method.
-You could use such a bound in a generic function or class to ensure the operations you perform on T (like calling `log`) are valid.
+This means any type filling in for `T` must have a `.log(str) -> None` method.
+You could use such a bound in a generic function or class to ensure the operations you perform on `T` are valid.
 This is a powerful way to write generic algorithms that operate on any objects meeting a certain interface, without tying them to a base class.
 
-It's also worth noting that Python 3.12 introduced an even more concise way to define generic protocols (and generic classes in general) by allowing type variables in the definition of methods directly (PEP 695--Type Parameter Syntax).
-For instance, one could write something like:
+Python 3.12 introduced an even more concise way to define generic protocols (and generic classes in general) by allowing type variables in the definition of methods directly (PEP 695--Type Parameter Syntax):
 
 ```python
 # generic_method_in_protocol.py
-from typing import Protocol, TypeVar
-
-T = TypeVar("T")
+from typing import Protocol
 
 
 class Container(Protocol):
-    def get_item(self, type_: type[T]) -> T: ...
+    def get_item[T](self, type_: type[T]) -> T: ...
 ```
 
 This defines a generic method `get_item` in a protocol.
 However, this still creates a generic protocol with a type variable `T`.
-Most code at the time of writing still uses the earlier syntax with explicit `TypeVar` declarations, which is what we've shown above.
 
-In summary, combining protocols with generics expresses flexible and reusable type relationships.
+Combining protocols with generics expresses flexible and reusable type relationships.
 You can create protocols that work over a family of types while still preserving type information.
 Many of Python's built-in protocols are generic (for example, an iterator protocol `Iterator[T]` yields items of type T), and you can do the same in your own designs.
 This enables things like container types, numeric operations, or callback interfaces to be both generic and structural.
@@ -502,10 +504,10 @@ The result is a powerful abstraction that remains easy to use.
 
 ## When to Choose Structural Typing Over Nominal Typing
 
-Now that we've explored what structural typing (via protocols) and nominal typing (via concrete classes or ABCs) offer, a natural question arises:
-When should you use one over the other? The answer often depends on the context and goals.
+When should you use one over the other?
+The answer often depends on the context and goals.
 Both approaches have their strengths, and in Python they complement each other rather than one completely replacing the other.
-Here are some guidelines, pros and cons, and best practices to help decide:
+Here are some guidelines, pros and cons, and practices:
 
 **Use nominal typing (classes/ABCs) when:**
 
@@ -564,7 +566,7 @@ That said, in a team or project using type checks as part of CI, protocols can p
 Another minor con is that protocols, if overused, could make it less obvious which classes implement which interface; with nominal typing you can always search for subclasses of an ABC.
 A mix is often best: use protocols for the broad "this is what we expect" contracts, especially for external boundaries and flexible APIs, and use concrete classes or ABCs internally when you want more structure or reuse.
 
-**Best practices:** It's not an either/or choice--you can use both in the same codebase.
+**Practices:** It's not an either/or choice--you can use both in the same codebase.
 For example, you might define an ABC with some default methods for a complex interface but also define a protocol for a subset of that interface for use in a more generic function.
 Choose structural typing when you want minimal coupling and maximum flexibility, especially at boundaries of your system or for "pluggable" functionality.
 Choose nominal typing when you want an explicit, enforced contract and possibly to leverage inheritance of code.

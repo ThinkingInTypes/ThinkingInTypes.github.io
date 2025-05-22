@@ -542,7 +542,7 @@ But they are also free to pass in any other object that honors the same messages
 `OrderedCollection` subclass) to code that was written with `OrderedCollection` in mind.
 The flexibility is higher, though the guarantee is only verified when the code runs.
 
-In summary, programmers in statically typed languages often view types as static contracts or enforcement mechanisms, whereas Smalltalk programmers view types more as emergent properties of objects.
+Programmers in statically typed languages often view types as static contracts or enforcement mechanisms, whereas Smalltalk programmers view types as emergent properties of objects.
 The Smalltalker's mindset is shaped by a live, message-oriented world where you gain understanding by sending messages and watching objects behave.
 It's a very experience-driven understanding of type: an object "proves" its type by working correctly in response to your messages,
 not by satisfying a compiler check ahead of time.

@@ -164,7 +164,7 @@ from typing import Any
 
 
 def wildcard_ignore(
-    point: tuple[float, Any, Any],
+        point: tuple[float, Any, Any],
 ) -> None:
     match point:
         case (x, _, _):
@@ -200,7 +200,7 @@ You can use multiple wildcards in a single pattern if needed (each `_` is indepe
 All `_` in a pattern are effectively the same anonymous throwaway--none of them create variables.
 This makes `_` safe to use in any number of places in the pattern.
 
-In summary, wildcard patterns are a convenient way to say "match anything here, and I don't intend to use it."
+Wildcard patterns are a convenient way to say "match anything here, and I don't intend to use it."
 They improve readability by explicitly marking unneeded parts of the structure and are essential for default cases.
 Every `match` statement should usually end with either a wildcard case or otherwise guarantee that all possibilities are handled (to avoid falling through with no match).
 
@@ -517,7 +517,7 @@ If `User` were a dataclass with a `__post_init__` that prints when an object is 
 a subject expression of `match User("Alice"):` creates a `User("Alice")` instance as an expression to match.
 But `case User("Bob"):` does not create a new user; it just means "match a User with some attribute equal to Bob."
 This distinction is important.
-In summary: class patterns let you destructure objects, not create them.
+Class patterns let you destructure objects, not create them.
 
 **Customizing class matching:** If you are designing your own classes to be matched frequently, you might consider adding a `__match_args__` for convenience, or even defining a special `__match_repr__` (in Python 3.11+, some classes can control matching via `__match_args__` and
 `__match_self__`, but that's beyond the scope of this chapter).
@@ -544,10 +544,10 @@ def shape_area(shape: Circle | Square) -> float:
     match shape:
         case Circle(radius=r):
             # Here shape is type Circle:
-            return 3.14 * r**2
+            return 3.14 * r ** 2
         case Square(side=s):
             # Here shape is type Square:
-            return s**2
+            return s ** 2
         case _:
             raise ValueError("Unsupported shape")
 ```
@@ -769,7 +769,7 @@ request = {"method": "POST", "payload": {"id": 42}}
 
 match request:
     case {"method": m, "payload": data} if (
-        m == "POST" and "id" in data
+            m == "POST" and "id" in data
     ):
         data = cast(dict[str, Any], data)
         print(f"POST request with id {data['id']}")

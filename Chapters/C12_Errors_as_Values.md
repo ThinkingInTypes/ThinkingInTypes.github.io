@@ -343,28 +343,22 @@ This means you won’t lose error type information during composition, so compos
 
 ## Creating a New Return Type
 
-We now have the unfortunate situation that `outputs` contains multiple types:
-both `int` and `str`.
+We now have the unfortunate situation that `outputs` contains multiple types: both `int` and `str`.
 The solution is to create a new type that unifies the "answer" and "error" types.
 We’ll call this `Result` and define it using generics to make it universally applicable:
 
 ```python
 # result.py
 # Generic Result with Success & Failure subtypes
-
 from dataclasses import dataclass
-from typing import Generic, TypeVar
-
-ANSWER = TypeVar("ANSWER")
-ERROR = TypeVar("ERROR")
 
 
-class Result(Generic[ANSWER, ERROR]):
+class Result[ANSWER, ERROR]:
     pass
 
 
 @dataclass(frozen=True)
-class Success(Result[ANSWER, ERROR]):
+class Success[ANSWER, ERROR](Result[ANSWER, ERROR]):
     answer: ANSWER  # Usage: return Success(answer)
 
     def unwrap(self) -> ANSWER:
@@ -372,23 +366,16 @@ class Success(Result[ANSWER, ERROR]):
 
 
 @dataclass(frozen=True)
-class Failure(Result[ANSWER, ERROR]):
+class Failure[ANSWER, ERROR](Result[ANSWER, ERROR]):
     error: ERROR  # Usage: return Failure(error)
 ```
 
-A `TypeVar` defines a generic parameter.
-We want `Result` to contain a type for an `ANSWER` when the function call is successful, and an `ERROR` to indicate how
-the function call failed.
-Each subtype of `Result` only holds one field:
-`answer` for a successful `Success` calculation, and `error` for a `Failure`.
-Thus, if a `Failure` is returned, the client programmer cannot reach in and grab the `answer` field because it doesn’t
-exist.
+Each subtype of `Result` only holds one field: `answer` for a successful `Success` calculation, and `error` for a `Failure`.
+If a `Failure` is returned, the client programmer cannot reach in and grab the `answer` because that field doesn’t exist.
 The client programmer is forced to properly analyze the `Result`.
 
-We could use a frozen `dataclass` instead of a `NamedTuple` here, but the latter is more concise.
-
-To use `Result`, you `return Success(answer)` when you’ve successfully created an answer, and `return Failure(error)` to
-indicate a failure.
+To use `Result`, you `return Success(answer)` when you’ve successfully created an answer,
+and `return Failure(error)` to indicate a failure.
 `unwrap` is a convenience method which is only available for a `Success`.
 
 The modified version of the example using `Result` is now:
@@ -467,14 +454,14 @@ def func_c(i: int) -> Result[int, ZeroDivisionError]:
 
 @safe  # Convert existing function
 def func_d(
-    i: int,
+        i: int,
 ) -> str:  # Result[str, ZeroDivisionError]
     j = int(1 / i)
     return f"func_d({i}): {j}"
 
 
 def composed(
-    i: int,
+        i: int,
 ) -> Result[str, str | ValueError | ZeroDivisionError]:
     result_a = func_a(i)
     if isinstance(result_a, Failure):
@@ -505,11 +492,11 @@ pprint([(i, composed(i)) for i in range(5)])
 ##  (4, <Success: func_d(1): 1>)]
 ```
 
-The `a`, `b` and `c` functions each have argument values that are unacceptable.
-Notice that `b` and `c` both use built-in exception types as arguments to `Failure`, but those exceptions are never
-raised—they are used to convey information, just like the `str` in `a`.
+The `fa`, `fb` and `fc` functions each have argument values that are unacceptable.
+Notice that `fb` and `fc` both use built-in exception types as arguments to `Failure`, but those exceptions are never
+raised—they are used to convey information, just like the `str` in `fa`.
 
-In `composed`, we call `a`, `b` and `c` in sequence.
+In `composed`, we call `fa`, `fb` and `fc` in sequence.
 After each call, we check to see if the result type is `Failure`.
 If so, the calculation has failed, and we can’t continue, so we return the current result,
 which is a `Failure` object containing the reason for the failure.
@@ -546,7 +533,7 @@ ERROR = TypeVar("ERROR")
 @dataclass(frozen=True)
 class Result(Generic[ANSWER, ERROR]):
     def bind(
-        self, func: Callable[[ANSWER], "Result"]
+            self, func: Callable[[ANSWER], "Result"]
     ) -> Result[ANSWER, ERROR]:
         if isinstance(self, Success):
             return func(self.unwrap())
@@ -582,7 +569,7 @@ from composing_functions import (
 
 
 def composed(
-    i: int,
+        i: int,
 ) -> Result[str, str | ZeroDivisionError | ValueError]:
     # fmt: off
     return (
@@ -641,7 +628,7 @@ def add(first: int, second: int, third: int) -> str:
 
 
 def composed(
-    i: int, j: int
+        i: int, j: int
 ) -> Result[str, str | ZeroDivisionError | ValueError]:
     # fmt: off
     return Result.do(

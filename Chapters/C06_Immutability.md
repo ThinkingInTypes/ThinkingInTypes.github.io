@@ -76,7 +76,7 @@ This isn't enforced by syntax, but the type's lack of mutating methods provides 
 Trying to call a mutating method on an immutable type will result in an `AttributeError` or a runtime error (for
 example, attempting to append to a tuple will fail since tuples have no `append` method).
 
-In summary, before formal language support for immutability, Python developers used naming conventions and choice of
+Before formal language support for immutability, Python developers used naming conventions and choice of
 immutable types to signal immutability.
 This approach relies on discipline: the interpreter won't stop someone from breaking the rules, but clear conventions
 help maintain correctness.
@@ -688,7 +688,7 @@ class Circle(NamedTuple):
     def area(self) -> float:
         from math import pi
 
-        return pi * (self.radius**2)
+        return pi * (self.radius ** 2)
 
 
 print(f"{(c := Circle(5))} {c.area():.2f}")

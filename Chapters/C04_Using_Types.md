@@ -25,7 +25,7 @@ They also enable static type checkers and IDEs to detect errors (for instance, i
 
 Annotating with `None` as a type (as shown for `no_value`) indicates that the variable should hold no value.
 It's equivalent to saying the variable's type is `NoneType`.
-In summary, using built-in type names in annotations is straightforward and is the foundation for more complex types.
+Using built-in type names in annotations is straightforward and is the foundation for more complex types.
 
 ## Variables and Functions
 

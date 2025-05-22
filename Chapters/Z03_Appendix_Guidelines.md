@@ -135,7 +135,7 @@ Managing large-scale typed codebases requires strategic approaches:
 
 ### Comprehensive Documentation
 
-- Document type annotation standards and best practices.
+- Document type annotation standards and practices.
 - Ensure all team members follow consistent annotation strategies.
 
 Implementing these strategies helps sustain clarity, maintainability, and robustness in large, typed Python projects.

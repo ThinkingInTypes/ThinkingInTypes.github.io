@@ -57,7 +57,7 @@ class User:
 def fetch_user(user_id: int) -> User: ...
 ```
 
-### Best Practices
+### Practices
 
 - Clearly annotate arguments and return types.
 - Use ellipsis (`...`) to indicate stub implementation.

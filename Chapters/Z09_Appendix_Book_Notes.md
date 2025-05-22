@@ -60,7 +60,7 @@ Created by ChatGPT 4o.
 
 ### Generic Types
 
-- Understanding `TypeVar` and generic functions
+- Understanding type variable and generic functions
 - Creating generic classes
 
 ### Callable and Lambdas

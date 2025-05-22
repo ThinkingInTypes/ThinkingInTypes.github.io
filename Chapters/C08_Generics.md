@@ -179,10 +179,10 @@ from animals import Animal, Dog, speak
 from book_utils import Catch
 
 pets: list[Dog] = [Dog("Rags"), Dog("Spot")]
-speak(pets)  # OK, Dog is a subclass of Animal
+speak(pets)  # Dog is a subclass of Animal
 ## Rags: Woof
 ## Spot: Woof
-speak([Animal("Mittens")])  # OK, Animal is the bound
+speak([Animal("Mittens")])  # Animal is the bound
 ## Mittens: Animal sound
 with Catch():
     speak(["bob"])  # type: ignore
@@ -252,13 +252,13 @@ Let's explore the type variable tuple by implementing a type-safe version of Pyt
 
 
 def zip_variadic[*T](
-    *args: tuple[*T],
+        *args: tuple[*T],
 ) -> tuple[tuple[*T], ...]:
     return tuple(zip(*args))
 
 
 def unzip_variadic[*T](
-    packed: tuple[tuple[*T], ...],
+        packed: tuple[tuple[*T], ...],
 ) -> tuple[tuple[*T], ...]:
     return tuple(zip(*packed))
 
@@ -517,7 +517,7 @@ from typing import Callable
 
 
 def curry_two_arg[X, Y, Z](
-    func: Callable[[X, Y], Z],
+        func: Callable[[X, Y], Z],
 ) -> Callable[[X], Callable[[Y], Z]]:
     def curried(x: X) -> Callable[[Y], Z]:
         def inner(y: Y) -> Z:
@@ -716,13 +716,13 @@ We can express this as:
 ```python
 # recursive_alias.py
 JSON = (
-    dict[str, "JSON"]
-    | list["JSON"]
-    | str
-    | int
-    | float
-    | bool
-    | None
+        dict[str, "JSON"]
+        | list["JSON"]
+        | str
+        | int
+        | float
+        | bool
+        | None
 )
 ```
 
@@ -756,7 +756,7 @@ Recursive aliases cannot be directly made generic with type variable in the curr
 
 Python's static typing supports two forms of subtype compatibility: *nominal* and *structural*.
 Nominal subtyping is the traditional style; an object of class `C` is a subtype of class `B` if `C` subclasses `B`.
-Structural subtyping, on the other hand, is about the shape or structure of the type--often summarized as "duck typing"
+Structural subtyping, on the other hand, is about the shape or structure of the type--often called "duck typing"
 for types.
 If an object has the required methods/attributes, it can be used as that type, regardless of its class in the
 inheritance hierarchy.
@@ -1007,7 +1007,7 @@ type Vector[T] = list[tuple[T, T]]
 
 
 def scale_points(
-    points: Vector[int], factor: int
+        points: Vector[int], factor: int
 ) -> Vector[int]:
     return [(x * factor, y * factor) for (x, y) in points]
 ```
