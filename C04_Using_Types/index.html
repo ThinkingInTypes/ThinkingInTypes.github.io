@@ -1241,7 +1241,7 @@ followed by the type, and then the assignment:</p>
 </span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="n">level</span><span class="p">:</span> <span class="nb">float</span>
 </span></code></pre></div>
 <p>Even if we don't immediately assign a value, as in <code>level</code>,
-we can still provide a type hint to indicate the intended usage of that variable.</p>
+we can still provide a type annotation to indicate the intended usage of that variable.</p>
 <h3 id="functions">Functions<a class="headerlink" href="#functions" title="Permanent link">#</a></h3>
 <p>Using annotations for functions makes code self-explanatory.
 We annotate each function parameter as well as the return type of the function, after an <code>-&gt;</code> arrow:</p>
@@ -1258,7 +1258,7 @@ A type checker flags calls like <code>greet_user(123)</code> as errors because <
 For instance, <code>def log_message(msg: str) -&gt; None:</code> tells you the function is only called to perform <em>side effects</em>.</p>
 <h2 id="optional-types-and-default-values">Optional Types and Default Values<a class="headerlink" href="#optional-types-and-default-values" title="Permanent link">#</a></h2>
 <p>If a variable or a function argument is optional, it can either hold a value of a certain type <em>or</em> be <code>None</code> to indicate the absence of a value.
-To represent this in type hints, Python provides <code>Optional</code> in the <code>typing</code> module.
+To represent this in type annotations, Python provides <code>Optional</code> in the <code>typing</code> module.
 <code>Optional[T]</code> is shorthand for "either type <code>T</code> or <code>None</code>".</p>
 <p>For example, consider a function that tries to find a user by ID and returns the user's name if found, or <code>None</code> if not found:</p>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="c1"># example_4.py</span>
@@ -1339,7 +1339,7 @@ This rewritten <code>process_value</code> definition is equivalent to the previo
 <p>If you must support older Python versions, use <code>Union</code>.</p>
 <h2 id="lists-tuples-sets-and-dicts"><code>List</code>s, <code>Tuple</code>s, <code>Set</code>s, and <code>Dict</code>s<a class="headerlink" href="#lists-tuples-sets-and-dicts" title="Permanent link">#</a></h2>
 <p>Python's built-in collection types are generic, meaning they can hold items of any type.
-With type hints, we can specify what type of items a particular collection is supposed to contain.
+With type annotations, we can specify what type of items a particular collection is supposed to contain.
 This makes our intentions clear (e.g., a list of integers vs. a list of strings) and helps catch errors such as accidentally putting the wrong type of item in a collection.</p>
 <p>The <code>typing</code> module provides specialized generic classes for common collections: <code>List</code>, <code>Tuple</code>, <code>Set</code>, and <code>Dict</code> (note: in Python 3.9+, you can use the built-in class names with brackets, which we will discuss in the next section).
 We use these to annotate collections with their element types.</p>
@@ -1388,7 +1388,7 @@ It also helps readers understand what kind of data <code>unique_ids</code> holds
 </span><span id="__span-11-4"><a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a><span class="n">user_data</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;Alice&quot;</span><span class="p">:</span> <span class="mi">30</span><span class="p">,</span> <span class="s2">&quot;Bob&quot;</span><span class="p">:</span> <span class="mi">25</span><span class="p">}</span>
 </span></code></pre></div>
 <p>The annotation tells us that <code>user_data</code> maps names (<code>str</code>) to ages (<code>int</code>).
-The type hint ensures that someone doesn't accidentally pass in, say, a dict mapping names to something else like phone numbers (unless it matches the specified types).</p>
+The type annotation ensures that someone doesn't accidentally pass in, say, a dict mapping names to something else like phone numbers (unless it matches the specified types).</p>
 <p>Using these collection type annotations (<code>List</code>, <code>Tuple</code>, <code>Set</code>, <code>Dict</code>) greatly enhances code documentation.
 They specify not just that a variable is a list or dict, but what's inside it.
 This is crucial for writing correct code--many bugs come from misunderstanding data types.

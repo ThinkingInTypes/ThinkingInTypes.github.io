@@ -1211,7 +1211,7 @@ Python's philosophy has long been <em>"we are all consenting adults here"</em>--
 something, the language lets them, but by following conventions like all-caps constants and using immutable data types,
 you can largely avoid accidental mutations.</p>
 <p>Modern Python, however, has introduced better ways to enforce immutability or at least catch mutations early.
-The two main tools we'll discuss are the <code>Final</code> type hint (for variables and attributes that shouldn't be reassigned)
+The two main tools we'll discuss are the <code>Final</code> type annotation (for variables and attributes that shouldn't be reassigned)
 and frozen dataclasses (for creating immutable data objects).
 These provide a more formal way to achieve immutability beyond just convention.</p>
 <h2 id="using-final-for-constants-and-immutable-references">Using <code>Final</code> for Constants and Immutable References<a class="headerlink" href="#using-final-for-constants-and-immutable-references" title="Permanent link">#</a></h2>
@@ -1374,7 +1374,7 @@ This effectively locks down the instance after <code>__init__</code> finishes.
 The exception <code>FrozenInstanceError</code> is a subclass of <code>AttributeError</code>, which is consistent with what Python normally
 throws if you try to assign to a read-only attribute.</p>
 <p>Because of this, frozen dataclasses give you actual runtime enforcement of immutability.
-Unlike the <code>Final</code> type hint, which is only checked by static analyzers, a frozen dataclass will actively prevent
+Unlike the <code>Final</code> type annotation, which is only checked by static analyzers, a frozen dataclass will actively prevent
 mutation in a running program.
 This can be a powerful tool for ensuring certain objects remain constant.
 It's especially handy for value objects (like points, coordinates, config objects, etc.) where you want to make sure
@@ -1529,7 +1529,7 @@ In the vast majority of cases this overhead is negligible (a few extra function 
 It's rare to create so many objects that this becomes a bottleneck, but it's something to be aware of.
 Accessing attributes and all other operations on a frozen dataclass are just as fast as on a regular class; it's only
 the initialization that's marginally slower.
-For <code>Final</code> type hints, there is virtually no runtime cost at all, since it doesn't inject any checking--it's purely a
+For <code>Final</code> type annotations, there is virtually no runtime cost at all, since it doesn't inject any checking--it's purely a
 compile-time concept.</p>
 <h3 id="combining-final-and-frozen-dataclasses">Combining <code>Final</code> and frozen dataclasses<a class="headerlink" href="#combining-final-and-frozen-dataclasses" title="Permanent link">#</a></h3>
 <p>You generally don't need <code>Final</code> annotations inside a frozen dataclass.

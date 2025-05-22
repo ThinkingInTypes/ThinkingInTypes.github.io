@@ -334,9 +334,9 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#from-duck-typing-to-type-hints" class="md-nav__link">
+  <a href="#from-duck-typing-to-type-annotations" class="md-nav__link">
     <span class="md-ellipsis">
-      From Duck Typing to Type Hints
+      From Duck Typing to Type annotations
     </span>
   </a>
   
@@ -899,9 +899,9 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#from-duck-typing-to-type-hints" class="md-nav__link">
+  <a href="#from-duck-typing-to-type-annotations" class="md-nav__link">
     <span class="md-ellipsis">
-      From Duck Typing to Type Hints
+      From Duck Typing to Type annotations
     </span>
   </a>
   
@@ -1147,35 +1147,35 @@ As long as the object passed in has those methods, the function will work.</p>
 <p>However, duck typing can sometimes make it harder to reason about code in large projects--because any object with a <code>quack</code> method will do, you might accidentally pass the wrong object to a function
 and only find out at runtime.
 This is where the balance between flexibility and safety comes into play, which leads us to the evolution of Python's type system in recent years.</p>
-<h2 id="from-duck-typing-to-type-hints">From Duck Typing to Type Hints<a class="headerlink" href="#from-duck-typing-to-type-hints" title="Permanent link">#</a></h2>
+<h2 id="from-duck-typing-to-type-annotations">From Duck Typing to Type annotations<a class="headerlink" href="#from-duck-typing-to-type-annotations" title="Permanent link">#</a></h2>
 <p>Historically, Python has been a dynamically typed language.
 The language didn't have a way to explicitly declare the type of variable or function parameter in code.
 Developers used documentation or naming conventions to indicate expected types (for example, a comment like <code># param x is an int</code>), but these were not enforced.
 As codebases grew, this lack of explicit type information started to become a pain point for some projects.
 It's easy to lose track of what types are flowing through the code, which can lead to bugs or make the code harder to maintain.</p>
-<p>Python 3.5 introduced optional syntax for adding type hints to your code.
+<p>Python 3.5 introduced optional syntax for adding type annotations to your code.
 These are optional annotations that you can add to function definitions, variables, and class attributes to declare what type they are supposed to be.
-Crucially, these type hints do not change how the code runs; Python remains dynamically typed at runtime.
-The hints are mainly for the benefit of the developers and tooling.</p>
-<p>For example, here's a function without type hints, and then with type hints:</p>
+Crucially, these type annotations do not change how the code runs; Python remains dynamically typed at runtime.
+The annotations are mainly for the benefit of the developers and tooling.</p>
+<p>For example, here's a function without type annotations, and then with type annotations:</p>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="c1"># example_6.py</span>
-</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="c1"># Without type hints:</span>
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="c1"># Without type annotations:</span>
 </span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="k">def</span> <span class="nf">greet1</span><span class="p">(</span><span class="n">name</span><span class="p">):</span>
 </span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>    <span class="k">return</span> <span class="s2">&quot;Hello, &quot;</span> <span class="o">+</span> <span class="n">name</span>
 </span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>
 </span><span id="__span-6-6"><a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a>
-</span><span id="__span-6-7"><a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a><span class="c1"># With type hints:</span>
+</span><span id="__span-6-7"><a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a><span class="c1"># With type annotations:</span>
 </span><span id="__span-6-8"><a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a><span class="k">def</span> <span class="nf">greet2</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 </span><span id="__span-6-9"><a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a>    <span class="k">return</span> <span class="s2">&quot;Hello, &quot;</span> <span class="o">+</span> <span class="n">name</span>
 </span></code></pre></div>
 <p>In the second version, the <code>str</code> in <code>name: str</code> and <code>-&gt; str</code> is a type annotation.
 It indicates that <code>name</code> should be a string, and that the function returns a string.
 If you run this code, Python will not enforce that <code>name</code> is a string--if you pass an integer, it will still run, and likely error out only when it tries to do <code>"Hello, " + 5</code>.
-In other words, type hints don't make Python statically typed.
+In other words, type annotations don't make Python statically typed.
 They are metadata attached to the functions and variables.
 The official Python documentation makes this clear: the Python runtime does not enforce function and variable type annotations; they are meant to be used by third-party tools (like type checkers,
 IDEs, linters).</p>
-<p>The benefits of type hints are seen during development: they serve as documentation and enable static analysis tools to catch errors before running the code.
+<p>The benefits of type annotations are seen during development: they serve as documentation and enable static analysis tools to catch errors before running the code.
 By reading the annotated <code>greet</code> function, a developer (or an IDE) immediately knows that <code>name</code> is expected to be a string, which improves readability.
 If somewhere else in the code we call <code>greet(123)</code>, a type-checking tool can warn us that we're calling <code>greet</code> with the wrong type of argument.</p>
 <p>A type checker will catch this:</p>
@@ -1197,14 +1197,14 @@ Running this code would produce a runtime error when trying to add an integer to
 A static type checker, however, would catch this before running the program.
 For instance, Mypy (one of the most popular Python type checkers) would emit an error like: <code>error: Argument 2 to "add" has incompatible type "str"; expected "int"</code>.
 This early detection of the bug can save you from having to debug a runtime crash.</p>
-<p>Python's adoption of type hints has been gradual and very much optional.
+<p>Python's adoption of type annotations has been gradual and very much optional.
 You can start adding types to a few functions, or even one variable at a time.
 This approach is sometimes called gradual typing or optional static typing.
 The designers of Mypy describe it as an attempt to "combine the benefits of dynamic (or 'duck') typing and static typing."
 You don't have to choose one or the other for the whole program; you can get the flexibility of dynamic typing where needed, and the safety/net of static typing where it helps.
 Python will happily run code with or without type annotations, and you can mix annotated and unannotated code freely.
-This means you can adopt type hints in a legacy codebase incrementally or use them only for the trickiest parts of a new project.</p>
-<p>Over the past several Python releases (3.5 through 3.13), the type hinting syntax and capabilities have expanded significantly.
+This means you can adopt type annotations in a legacy codebase incrementally or use them only for the trickiest parts of a new project.</p>
+<p>Over the past several Python releases (3.5 through 3.13), the type annotation syntax and capabilities have expanded significantly.
 For instance, you can annotate variables (since Python 3.6) in addition to function params and returns:</p>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="c1"># example_8.py</span>
 </span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="n">count</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span>
@@ -1249,7 +1249,7 @@ Waiting until runtime produces errors that take time and effort to untangle.</p>
 <li><em>protocols</em> (PEP 544) which are basically static duck typing (you can define an interface that says "this type must have methods X, Y, Z" without caring about inheritance).</li>
 </ul>
 <h2 id="typing-is-optional">Typing is Optional<a class="headerlink" href="#typing-is-optional" title="Permanent link">#</a></h2>
-<p>Python's type hints are optional and ignored at runtime.
+<p>Python's type annotations are optional and ignored at runtime.
 They are a developer tool.
 The interpreter will not refuse to run your program if the types don't match:</p>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="c1"># example_10.py</span>
@@ -1262,13 +1262,13 @@ The interpreter will not refuse to run your program if the types don't match:</p
 <p>We annotated <code>value</code> as a float, but then assigned a string to it.
 Python does not enforce the annotation--the code runs and <code>value</code> ends up as <code>"Pi"</code>.
 A type checker warns about that reassignment, but Python itself doesn't mind.
-Adding type hints doesn't change Python's runtime behavior unless you use additional frameworks or decorators to enforce types at runtime.</p>
+Adding type annotations doesn't change Python's runtime behavior unless you use additional frameworks or decorators to enforce types at runtime.</p>
 <h2 id="why-use-type-annotations">Why Use Type Annotations?<a class="headerlink" href="#why-use-type-annotations" title="Permanent link">#</a></h2>
-<p>If type hints are optional, why bother with them?
+<p>If type annotations are optional, why bother with them?
 They produce significant benefits, especially for larger projects:</p>
 <ul>
 <li>
-<p><strong>Clarity and Readability</strong>: Type hints serve as documentation.
+<p><strong>Clarity and Readability</strong>: Type annotations serve as documentation.
   When you see a function signature <code>def process(data: list[str]) -&gt; bool</code>, it's immediately clear what is expected: a list of strings goes in, and a boolean comes out.
   You don't have to read through the function body or comments to guess the types.
   This makes it easier for others (and yourself, in the future) to understand the code's intent.
@@ -1289,7 +1289,7 @@ They produce significant benefits, especially for larger projects:</p>
   Type information makes tooling smarter and developer experience better.</p>
 </li>
 <li>
-<p><strong>Refactoring and Maintenance:</strong> When you or someone else needs to modify code, type hints act as a safety net.
+<p><strong>Refactoring and Maintenance:</strong> When you or someone else needs to modify code, type annotations act as a safety net.
   They make it harder to misuse a function or variable inadvertently.
   If you change a function's expected types, all the callers that pass the wrong type will light up in your type checker.
   This makes large-scale refactoring more manageable--you can confidently change the internals of a function or module and rely on the type system to tell you if something incompatible is being done
@@ -1308,7 +1308,7 @@ They produce significant benefits, especially for larger projects:</p>
 <li>
 <p><strong>Initial Overhead:</strong> Writing annotations means more typing (pun intended).
   It can slow down the speed of writing code, especially for quick scripts or one-off tasks where the overhead might not be worth it.
-  However, many find that for anything beyond small scripts, the time spent adding type hints is paid back in time saved debugging.</p>
+  However, many find that for anything beyond small scripts, the time spent adding type annotations is paid back in time saved debugging.</p>
 </li>
 <li>
 <p><strong>Learning Curve:</strong> Python's typing system has grown quite rich, with generics, protocols, type variables, etc.
@@ -1322,26 +1322,26 @@ They produce significant benefits, especially for larger projects:</p>
   Also, importing the <code>typing</code> module historically had some minor import-time cost (which has been reduced in recent Python versions), but generally this is not a big issue.</p>
 </li>
 <li>
-<p><strong>False Sense of Security:</strong> It's worth remembering that type hints are not a cure-all.
+<p><strong>False Sense of Security:</strong> It's worth remembering that type annotations are not a cure-all.
   You can annotate everything and have a clean bill of health from the type checker, and your program can still have bugs (logic errors, runtime issues unrelated to types, etc.).
   Also, if you're interfacing with dynamic parts of Python (like using <code>hasattr</code> or doing dynamic attribute setting, or dealing with JSON data), the type checker might not catch misuse because you
   might be using <code>Any</code> or ignoring types in those spots.
-  So, use type hints as a helpful tool but still test and validate your code.</p>
+  So, use type annotations as a helpful tool but still test and validate your code.</p>
 </li>
 </ul>
-<p>Overall, the Python community has increasingly embraced type hints because the benefits (especially for larger projects) have proven valuable: fewer bugs, easier collaboration, improved code quality.
+<p>Overall, the Python community has increasingly embraced type annotations because the benefits (especially for larger projects) have proven valuable: fewer bugs, easier collaboration, improved code quality.
 It's a way to get some advantages of statically typed languages without giving up Python's dynamic flexibility entirely.</p>
 <h2 id="static-type-checkers-mypy-pyright-and-friends">Static Type Checkers: <code>mypy</code>, <code>PyRight</code>, and Friends<a class="headerlink" href="#static-type-checkers-mypy-pyright-and-friends" title="Permanent link">#</a></h2>
-<p>Type hints by themselves do nothing unless you use a tool to check those hints against your code.
+<p>Type annotations by themselves do nothing unless you use a tool to check those annotations against your code.
 While you might visually inspect code and spot a type mismatch, it's much more reliable to use automated tools.
 Two of the most popular type checking tools for Python are MyPy and PyRight.</p>
 <ul>
 <li>
 <p><strong>Mypy:</strong> Mypy has been around since the early days of Python's gradual typing experiment (it was developed alongside PEP 484).
   It's a command-line tool (and a library) that you run on your Python code (or integrate into your editor/IDE) to static-check the types.
-  Mypy reads your <code>.py</code> files, interprets the type hints, and reports any inconsistencies or errors.
+  Mypy reads your <code>.py</code> files, interprets the type annotations, and reports any inconsistencies or errors.
   For example, if you have <code>def func(x: int) -&gt; None:</code> and somewhere you call <code>func("hello")</code>, mypy will catch that and report an error.
-  Mypy aims to be strict and thorough, catching subtle issues (it even tries to infer types of variables where possible and can warn if you, say, add a string and int without any hints given, etc.).
+  Mypy aims to be strict and thorough, catching subtle issues (it even tries to infer types of variables where possible and can warn if you, say, add a string and int without any annotations given, etc.).
   The philosophy of mypy is to let you start with little to no annotations and gradually add them--it will treat unannotated code as basically <code>Any</code> types by default (which don't produce errors), and
   as you add annotations, it will enforce them.
   As the official mypy documentation states, it "is an optional static type checker for Python that aims to combine the benefits of dynamic (or 'duck') typing and static typing."
@@ -1367,7 +1367,7 @@ Some teams use one, some use the other, and some even use both (one as an editor
 The good news is you don't need to lock yourself in--you can try them out and see which fits your workflow.</p>
 <p>Aside from mypy and PyRight, there are other tools worth mentioning:</p>
 <ul>
-<li><strong>PyCharm and Other IDEs:</strong> PyCharm has its own built-in type checker that uses the same type hint information to warn about issues.
+<li><strong>PyCharm and Other IDEs:</strong> PyCharm has its own built-in type checker that uses the same type annotation information to warn about issues.
   It's not as configurable as mypy/PyRight, but it often catches many of the same things in real-time.</li>
 <li><strong>Pylint and Flake8:</strong> These are linters that primarily focus on code style issues, but they have basic type checking rules or plugins (e.g., Pylint can catch some obvious type errors, though it's
   not as comprehensive as a dedicated type checker).</li>
@@ -1375,7 +1375,7 @@ The good news is you don't need to lock yourself in--you can try them out and se
   It's also fast and aimed at large applications.
   Its usage is less widespread in the community compared to mypy/PyRight, but it's an alternative.</li>
 <li><strong>TypeGuard, Enforce, etc.:</strong> These are runtime type checking helpers.
-  For example, TypeGuard is a library that can be used to enforce type hints at runtime by wrapping functions (so if someone calls <code>func("hello")</code> when it expects an int, it will raise an error at
+  For example, TypeGuard is a library that can be used to enforce type annotations at runtime by wrapping functions (so if someone calls <code>func("hello")</code> when it expects an int, it will raise an error at
   call time).
   These can be useful in specific scenarios, but generally static checkers are more common in Python since runtime checks negate some of the performance benefits of dynamic typing.</li>
 </ul>
@@ -1426,7 +1426,7 @@ By acting as an automated guardrail, they produce overall code quality improveme
 </li>
 <li>
 <p><strong>Static Type Checking:</strong> This does not happen by default in Python--it's something you opt into by writing type annotations and using external tools.
-  Static checking means examining the code without running it and ensuring that, according to the type hints and language rules, the operations make sense.
+  Static checking means examining the code without running it and ensuring that, according to the type annotations and language rules, the operations make sense.
   It's like a dry run of the program in terms of types.
   If you say a function returns an <code>int</code> but you return a <code>str</code> somewhere, a static checker can catch that.
   If you pass the wrong type to a function, it's caught before running.
@@ -1440,7 +1440,7 @@ By acting as an automated guardrail, they produce overall code quality improveme
 <p>One consequence of this design is that you can have a program that passes all static type checks but still crashes or behaves incorrectly at runtime if you made an assumption that wasn't guaranteed by
 the language.
 Conversely, you might have a program that does something tricky that the static checker flags as a possible type issue, but at runtime it never fails because of the particular way you use it.
-In those cases, you can often adjust your type hints or use casts/<code># type: ignore</code> comments to tell the checker "trust me, I know what I'm doing here."
+In those cases, you can often adjust your type annotations or use casts/<code># type: ignore</code> comments to tell the checker "trust me, I know what I'm doing here."
 This disconnect between static analysis and actual running code is something to be aware of--it's the price of keeping the type system optional.
 A quote from Python's documentation highlights this separation: _"The Python runtime does not enforce function and variable type annotations.
 They can be used by third party tools such as type checkers, IDEs, linters, etc."
@@ -1472,7 +1472,7 @@ Python's is dynamically typed, meaning you don't have to declare types and can f
 This provides a lot of power and agility at the cost of potential runtime type errors.
 Python emphasizes duck typing, relying on the actual capabilities of objects rather than explicit type declarations, which makes code very flexible and reusable.</p>
 <p>Type annotations provide the best of both worlds: dynamic behavior plus tools to catch mistakes early.
-Type hints improve code clarity and maintainability and act as a safety net, catching errors while coding.
+Type annotations improve code clarity and maintainability and act as a safety net, catching errors while coding.
 This can dramatically increase confidence in code, especially as codebases grow.</p>
 <p>The type system is there to help developers, not to make the language strict or verbose by force.
 You can adopt it gradually and use it to the degree that it adds value for your projects.</p>

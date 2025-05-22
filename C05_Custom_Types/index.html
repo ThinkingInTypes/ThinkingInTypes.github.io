@@ -2685,7 +2685,7 @@ Perhaps an example that mixes <code>Literal</code>s and <code>Enum</code>s</p>
 <li>
 <p>Type Checking vs. Runtime Behavior:</p>
 <ul>
-<li><code>Literal</code>: <code>Literal</code>s are a static type hint introduced in PEP 586.
+<li><code>Literal</code>: <code>Literal</code>s are a static type annotation introduced in PEP 586.
   They exist solely for type checking and do not create a distinct runtime type.
   The type checker (and your IDE) knows that only those exact values are allowed, but at runtime,
   they are ordinary values (e.g., ordinary strings).</li>
@@ -2795,7 +2795,7 @@ The best choice depends on your requirements for type safety, runtime behavior, 
 <p>Pros:</p>
 <ul>
 <li>Static Type Safety: Type checkers can enforce that only the allowed constant values appear in your code.</li>
-<li>Minimal Overhead: <code>Literal</code>s have no runtime cost; they serve solely as hints at the type level.</li>
+<li>Minimal Overhead: <code>Literal</code>s have no runtime cost; they serve solely as type annotations.</li>
 <li>Simplicity: Using literals is straightforward and requires no extra boilerplate code.</li>
 </ul>
 <p>Cons:</p>

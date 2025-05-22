@@ -1139,7 +1139,7 @@ For example, to match an <code>Enum</code> member:</p>
 are dotted names, so the pattern treats them as specific constant values rather than capturing new variables named <code>RED</code>, <code>GREEN</code>, <code>BLUE</code>.
 This will correctly match the enum value in <code>color</code>.
 (If you had written just <code>RED</code> as a pattern, it would be a capture pattern instead, which is likely not what you want.)</p>
-<p><strong>Static analysis angle:</strong> Literal patterns work great with type hints for <code>Literal</code> types and Enums.
+<p><strong>Static analysis angle:</strong> Literal patterns work great with type annotations for <code>Literal</code> types and Enums.
 If a variable is annotated with a union of literal values or an <code>Enum</code> type, a series of literal <code>case</code> clauses can cover all possibilities.
 Modern static type checkers (like mypy or PyRight) can perform <em>exhaustiveness checking</em> on <code>match</code> statements.
 This means if you forget to handle one of the specified values, the type checker can warn you.
@@ -1324,7 +1324,7 @@ If <code>values</code> is <code>[10, 20]</code>, then <code>rest</code> would be
 Using <code>*rest</code> makes the length flexible.
 You can only use one starred subpattern in a sequence pattern.
 Also note that <code>*rest</code> will always be a list, even if the original sequence is a tuple (Python creates a new list for the remaining elements when matching).</p>
-<p>The pattern matching syntax (the structure you write after <code>case</code>) is not designed to include inline type hints.
+<p>The pattern matching syntax (the structure you write after <code>case</code>) is not designed to include inline type annotations.
 Thus, you cannot write something like:
 <code>case [first: int, second: int, *rest: list[int]]:</code>
 However, we can put an annotation on the argument passed to the <code>match</code> expression, which is <code>values</code>:</p>
@@ -1379,7 +1379,7 @@ This destructures a complex list-of-tuples or tuple-of-tuples structures in a si
 They make the code for handling sequences declarative.
 Instead of writing length checks and index accesses, you describe the shape of the data you expect.
 This can be both clearer and less error-prone.</p>
-<p><strong>Type hints and static analysis:</strong> If a variable is annotated with a sequence type with a fixed length (e.g.
+<p><strong>Type annotations and static analysis:</strong> If a variable is annotated with a sequence type with a fixed length (e.g.
 <code>tuple[int, int, int]</code> for a triple), a corresponding sequence pattern (like <code>[x, y, z]</code>) naturally fits that structure.
 Static type checkers can verify that your patterns make sense given the declared types.
 For example, if a function parameter is <code>coords: tuple[int, int]</code>, then a pattern with two elements will always match, whereas a pattern with three would be flagged as possibly unreachable (since a tuple[int,int] can't have length 3).
@@ -1461,7 +1461,7 @@ The <code>**rest</code> in the pattern captures any remaining key-value pairs in
 So for the given <code>user_info</code>, it would print something like: "Name is Alice, other info: {'age': 30, 'country': 'US'}".
 If <code>user_info</code> had only a <code>"name"</code> key, then <code>rest</code> would be an empty dict.
 If it had no <code>"name"</code> key, the pattern would not match at all.</p>
-<p><strong>Static analysis and mappings:</strong> For dicts, static type checking is less precise than with sequences because the set of keys is not always known through type hints (unless using <code>TypedDict</code> or specific <code>Literal</code> keys).
+<p><strong>Static analysis and mappings:</strong> For dicts, static type checking is less precise than with sequences because the set of keys is not always known through type annotations (unless using <code>TypedDict</code> or specific <code>Literal</code> keys).
 However, if you use something like <code>TypedDict</code> or <code>Mapping[str, X]</code>, a type checker can ensure the values you capture are of the expected type <code>X</code>.
 Pattern matching shines in expressiveness rather than static type rigor for mappings.
 If you have a fixed schema for a dict, pattern matching can clearly express the shape, and a tool like mypy can check that you at least treat captured values consistently with their annotated types.
@@ -1541,7 +1541,7 @@ Class patterns let you destructure objects, not create them.</p>
 <p><strong>Customizing class matching:</strong> If you are designing your own classes to be matched frequently, you might consider adding a <code>__match_args__</code> for convenience, or even defining a special <code>__match_repr__</code> (in Python 3.11+, some classes can control matching via <code>__match_args__</code> and
 <code>__match_self__</code>, but that's beyond the scope of this chapter).
 For most uses, using keyword patterns as shown is sufficient.</p>
-<p><strong>Static analysis benefits:</strong> Class patterns go hand-in-hand with type hints.
+<p><strong>Static analysis benefits:</strong> Class patterns go hand-in-hand with type annotations.
 If a variable is annotated as a base class or a union of classes, a match statement with class patterns can effectively act as a type-safe downcast.
 For example, if a function parameter <code>shape: Shape</code> where <code>Shape</code> is a union of <code>Circle | Square</code>, you might do:</p>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="c1"># example_11.py</span>

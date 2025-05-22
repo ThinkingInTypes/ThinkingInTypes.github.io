@@ -1938,7 +1938,7 @@ With type variable tuple, we can capture the variable number of dimension sizes.
 <p>This isn't strictly a type variable tuple, but it complements it:</p>
 <ul>
 <li>type variable tuple handles variadic type lists</li>
-<li>ParamSpec handles variadic function arguments</li>
+<li>Parameter specifications handle variadic function arguments</li>
 </ul>
 <h3 id="example-record-type-for-heterogeneous-tuples">Example: Record Type for Heterogeneous Tuples<a class="headerlink" href="#example-record-type-for-heterogeneous-tuples" title="Permanent link">#</a></h3>
 <p>Let’s say you want a type-safe <code>Record</code> that stores a fixed tuple of fields,
@@ -2079,9 +2079,8 @@ In the example, <code>multiply</code> takes an <code>int</code> and a <code>floa
 The types are correctly maintained.</p>
 <p>This kind of generic currying function uses higher-order generics (a function that returns another function).
 Python's <code>Callable</code> type is used to annotate callables.
-We can also achieve a similar result using <code>ParamSpec</code> from <code>typing</code> (which allows capturing an arbitrary list of
-parameters),
-but using explicit type variables for a fixed small number of parameters is straightforward for illustration.</p>
+We can also achieve a similar result using parameter specifications, which allow capturing an arbitrary list of parameters.
+However, using explicit type variables for a fixed small number of parameters is straightforward for illustration.</p>
 <p>Currying is not common in idiomatic Python but can be useful for creating specialized functions from generic ones.
 The benefit of adding generics in currying (as opposed to writing a lambda or using <code>functools.partial</code>)
 is that the intermediate and final functions retain precise type information.
