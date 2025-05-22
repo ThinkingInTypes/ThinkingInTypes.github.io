@@ -925,13 +925,13 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#tools-stubs-and-best-practices" class="md-nav__link">
+  <a href="#tools-stubs-and-practices" class="md-nav__link">
     <span class="md-ellipsis">
-      Tools, Stubs, and Best Practices
+      Tools, Stubs, and Practices
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Tools, Stubs, and Best Practices">
+    <nav class="md-nav" aria-label="Tools, Stubs, and Practices">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -1607,13 +1607,13 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#tools-stubs-and-best-practices" class="md-nav__link">
+  <a href="#tools-stubs-and-practices" class="md-nav__link">
     <span class="md-ellipsis">
-      Tools, Stubs, and Best Practices
+      Tools, Stubs, and Practices
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Tools, Stubs, and Best Practices">
+    <nav class="md-nav" aria-label="Tools, Stubs, and Practices">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -1755,7 +1755,7 @@ A value of type <code>Any</code> is allowed to be passed or assigned to any type
 Every type is compatible with <code>Any</code>, and <code>Any</code> is compatible with every type.
 You might use <code>Any</code> when you genuinely cannot predict the type (e.g., a function that can return any type depending on usage).
 However, overusing <code>Any</code> undermines the benefits of static typing, so it's best used sparingly when other typing features can't express the concept.
-(If a function can accept literally any object, a best practice is to annotate it as <code>object</code> rather than <code>Any</code> to signal that no specific behavior is assumed.)</p>
+(If a function can accept literally any object, a practice is to annotate it as <code>object</code> rather than <code>Any</code> to signal that no specific behavior is assumed.)</p>
 <h3 id="noreturn-never">NoReturn / Never<a class="headerlink" href="#noreturn-never" title="Permanent link">#</a></h3>
 <p>If a function never returns normally (for example, it always raises an exception or calls <code>sys.exit()</code>), you can annotate its return type as <code>NoReturn</code> (or <code>Never</code>, a synonymous alias introduced in Python 3.11).
 This signals to type checkers that the function doesn't produce a value at all.
@@ -1823,7 +1823,7 @@ As of Python 3.12, you can declare type parameters directly in the function sign
 Type variables can be given <em>bounds</em> or <em>constraints</em> to restrict what types they can represent.
 For instance, <code>U = TypeVar('U', bound=Number)</code> means U can be any subclass of <code>Number</code> (upper-bounded) while <code>V = TypeVar('V', int, str)</code> means V can only be <code>int</code> or <code>str</code> (union constraint).
 You can also mark a TypeVar as covariant or contravariant for class inheritance scenarios (useful when defining generic container classes that subclass built-in collections), though this is an advanced topic.
-In summary, type variables allow generic code to be checked for type consistency--a key feature of PEP 484's static typing.</p>
+Type variables allow generic code to be checked for type consistency--a key feature of PEP 484's static typing.</p>
 <h3 id="generic-classes">Generic Classes<a class="headerlink" href="#generic-classes" title="Permanent link">#</a></h3>
 <p>You can parameterize classes with types as well.
 For example:</p>
@@ -2107,7 +2107,7 @@ When writing modern code, you can rely on <code>from __future__ import annotatio
 Static type checkers themselves resolve forward references even if you leave them as raw names, so this is mostly a runtime concern for introspection via <code>inspect.get_annotations</code> or similar.
 The takeaway:
 forward references are supported via quoting or future imports, and the language is evolving to make annotation evaluation lazy by default in a robust way.</p>
-<h2 id="tools-stubs-and-best-practices">Tools, Stubs, and Best Practices<a class="headerlink" href="#tools-stubs-and-best-practices" title="Permanent link">#</a></h2>
+<h2 id="tools-stubs-and-practices">Tools, Stubs, and Practices<a class="headerlink" href="#tools-stubs-and-practices" title="Permanent link">#</a></h2>
 <h3 id="type-checkers-and-ide-support">Type Checkers and IDE Support<a class="headerlink" href="#type-checkers-and-ide-support" title="Permanent link">#</a></h3>
 <p>To make the most of type annotations, use a static type checker (like <em>mypy</em>, <em>pyright</em>, <em>Pyre</em>) or an IDE with built-in checking (PyCharm, VS Code, etc.).
 These tools will read your annotations and warn you of type mismatches, missing return statements for functions declared to return non-<code>None</code>, improper overrides, etc.
