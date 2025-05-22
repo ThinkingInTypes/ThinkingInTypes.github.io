@@ -85,7 +85,7 @@ something, the language lets them, but by following conventions like all-caps co
 you can largely avoid accidental mutations.
 
 Modern Python, however, has introduced better ways to enforce immutability or at least catch mutations early.
-The two main tools we'll discuss are the `Final` type hint (for variables and attributes that shouldn't be reassigned)
+The two main tools we'll discuss are the `Final` type annotation (for variables and attributes that shouldn't be reassigned)
 and frozen dataclasses (for creating immutable data objects).
 These provide a more formal way to achieve immutability beyond just convention.
 
@@ -276,7 +276,7 @@ The exception `FrozenInstanceError` is a subclass of `AttributeError`, which is 
 throws if you try to assign to a read-only attribute.
 
 Because of this, frozen dataclasses give you actual runtime enforcement of immutability.
-Unlike the `Final` type hint, which is only checked by static analyzers, a frozen dataclass will actively prevent
+Unlike the `Final` type annotation, which is only checked by static analyzers, a frozen dataclass will actively prevent
 mutation in a running program.
 This can be a powerful tool for ensuring certain objects remain constant.
 It's especially handy for value objects (like points, coordinates, config objects, etc.) where you want to make sure
@@ -458,7 +458,7 @@ In the vast majority of cases this overhead is negligible (a few extra function 
 It's rare to create so many objects that this becomes a bottleneck, but it's something to be aware of.
 Accessing attributes and all other operations on a frozen dataclass are just as fast as on a regular class; it's only
 the initialization that's marginally slower.
-For `Final` type hints, there is virtually no runtime cost at all, since it doesn't inject any checking--it's purely a
+For `Final` type annotations, there is virtually no runtime cost at all, since it doesn't inject any checking--it's purely a
 compile-time concept.
 
 ### Combining `Final` and frozen dataclasses

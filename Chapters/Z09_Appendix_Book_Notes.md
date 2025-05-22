@@ -157,7 +157,7 @@ Created by ChatGPT 4o.
 
 ### Types in Documentation
 
-- Sphinx and autodoc with type hints
+- Sphinx and autodoc with type annotations
 - Docstrings vs annotations
 
 ## 📘 Part VI: Real-World Applications

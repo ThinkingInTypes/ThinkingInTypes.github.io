@@ -76,7 +76,7 @@ are dotted names, so the pattern treats them as specific constant values rather 
 This will correctly match the enum value in `color`.
 (If you had written just `RED` as a pattern, it would be a capture pattern instead, which is likely not what you want.)
 
-**Static analysis angle:** Literal patterns work great with type hints for `Literal` types and Enums.
+**Static analysis angle:** Literal patterns work great with type annotations for `Literal` types and Enums.
 If a variable is annotated with a union of literal values or an `Enum` type, a series of literal `case` clauses can cover all possibilities.
 Modern static type checkers (like mypy or PyRight) can perform _exhaustiveness checking_ on `match` statements.
 This means if you forget to handle one of the specified values, the type checker can warn you.
@@ -286,7 +286,7 @@ Using `*rest` makes the length flexible.
 You can only use one starred subpattern in a sequence pattern.
 Also note that `*rest` will always be a list, even if the original sequence is a tuple (Python creates a new list for the remaining elements when matching).
 
-The pattern matching syntax (the structure you write after `case`) is not designed to include inline type hints.
+The pattern matching syntax (the structure you write after `case`) is not designed to include inline type annotations.
 Thus, you cannot write something like:
 `case [first: int, second: int, *rest: list[int]]:`
 However, we can put an annotation on the argument passed to the `match` expression, which is `values`:
@@ -349,7 +349,7 @@ They make the code for handling sequences declarative.
 Instead of writing length checks and index accesses, you describe the shape of the data you expect.
 This can be both clearer and less error-prone.
 
-**Type hints and static analysis:** If a variable is annotated with a sequence type with a fixed length (e.g.
+**Type annotations and static analysis:** If a variable is annotated with a sequence type with a fixed length (e.g.
 `tuple[int, int, int]` for a triple), a corresponding sequence pattern (like `[x, y, z]`) naturally fits that structure.
 Static type checkers can verify that your patterns make sense given the declared types.
 For example, if a function parameter is `coords: tuple[int, int]`, then a pattern with two elements will always match, whereas a pattern with three would be flagged as possibly unreachable (since a tuple[int,int] can't have length 3).
@@ -434,7 +434,7 @@ So for the given `user_info`, it would print something like: "Name is Alice, oth
 If `user_info` had only a `"name"` key, then `rest` would be an empty dict.
 If it had no `"name"` key, the pattern would not match at all.
 
-**Static analysis and mappings:** For dicts, static type checking is less precise than with sequences because the set of keys is not always known through type hints (unless using `TypedDict` or specific `Literal` keys).
+**Static analysis and mappings:** For dicts, static type checking is less precise than with sequences because the set of keys is not always known through type annotations (unless using `TypedDict` or specific `Literal` keys).
 However, if you use something like `TypedDict` or `Mapping[str, X]`, a type checker can ensure the values you capture are of the expected type `X`.
 Pattern matching shines in expressiveness rather than static type rigor for mappings.
 If you have a fixed schema for a dict, pattern matching can clearly express the shape, and a tool like mypy can check that you at least treat captured values consistently with their annotated types.
@@ -523,7 +523,7 @@ Class patterns let you destructure objects, not create them.
 `__match_self__`, but that's beyond the scope of this chapter).
 For most uses, using keyword patterns as shown is sufficient.
 
-**Static analysis benefits:** Class patterns go hand-in-hand with type hints.
+**Static analysis benefits:** Class patterns go hand-in-hand with type annotations.
 If a variable is annotated as a base class or a union of classes, a match statement with class patterns can effectively act as a type-safe downcast.
 For example, if a function parameter `shape: Shape` where `Shape` is a union of `Circle | Square`, you might do:
 

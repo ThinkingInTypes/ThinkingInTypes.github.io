@@ -1286,7 +1286,7 @@ Perhaps an example that mixes `Literal`s and `Enum`s
 ### Differences
 
 - Type Checking vs. Runtime Behavior:
-    - `Literal`: `Literal`s are a static type hint introduced in PEP 586.
+    - `Literal`: `Literal`s are a static type annotation introduced in PEP 586.
       They exist solely for type checking and do not create a distinct runtime type.
       The type checker (and your IDE) knows that only those exact values are allowed, but at runtime,
       they are ordinary values (e.g., ordinary strings).
@@ -1398,7 +1398,7 @@ The best choice depends on your requirements for type safety, runtime behavior, 
 Pros:
 
 - Static Type Safety: Type checkers can enforce that only the allowed constant values appear in your code.
-- Minimal Overhead: `Literal`s have no runtime cost; they serve solely as hints at the type level.
+- Minimal Overhead: `Literal`s have no runtime cost; they serve solely as type annotations.
 - Simplicity: Using literals is straightforward and requires no extra boilerplate code.
 
 Cons:

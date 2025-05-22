@@ -19,7 +19,7 @@ def fetch_user(user_id: UserID) -> dict:
     return {"id": user_id, "name": "Alice"}
 ```
 
-Metadata within `Annotated` helps convey additional context beyond type hints.
+Metadata within `Annotated` helps convey additional context beyond type annotations.
 
 ## Type Narrowing
 

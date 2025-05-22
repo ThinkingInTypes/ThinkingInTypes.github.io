@@ -45,7 +45,7 @@ level: float
 ```
 
 Even if we don't immediately assign a value, as in `level`,
-we can still provide a type hint to indicate the intended usage of that variable.
+we can still provide a type annotation to indicate the intended usage of that variable.
 
 ### Functions
 
@@ -71,7 +71,7 @@ For instance, `def log_message(msg: str) -> None:` tells you the function is onl
 ## Optional Types and Default Values
 
 If a variable or a function argument is optional, it can either hold a value of a certain type _or_ be `None` to indicate the absence of a value.
-To represent this in type hints, Python provides `Optional` in the `typing` module.
+To represent this in type annotations, Python provides `Optional` in the `typing` module.
 `Optional[T]` is shorthand for "either type `T` or `None`".
 
 For example, consider a function that tries to find a user by ID and returns the user's name if found, or `None` if not found:
@@ -180,7 +180,7 @@ If you must support older Python versions, use `Union`.
 ## `List`s, `Tuple`s, `Set`s, and `Dict`s
 
 Python's built-in collection types are generic, meaning they can hold items of any type.
-With type hints, we can specify what type of items a particular collection is supposed to contain.
+With type annotations, we can specify what type of items a particular collection is supposed to contain.
 This makes our intentions clear (e.g., a list of integers vs. a list of strings) and helps catch errors such as accidentally putting the wrong type of item in a collection.
 
 The `typing` module provides specialized generic classes for common collections: `List`, `Tuple`, `Set`, and `Dict` (note: in Python 3.9+, you can use the built-in class names with brackets, which we will discuss in the next section).
@@ -251,7 +251,7 @@ user_data: Dict[str, int] = {"Alice": 30, "Bob": 25}
 ```
 
 The annotation tells us that `user_data` maps names (`str`) to ages (`int`).
-The type hint ensures that someone doesn't accidentally pass in, say, a dict mapping names to something else like phone numbers (unless it matches the specified types).
+The type annotation ensures that someone doesn't accidentally pass in, say, a dict mapping names to something else like phone numbers (unless it matches the specified types).
 
 Using these collection type annotations (`List`, `Tuple`, `Set`, `Dict`) greatly enhances code documentation.
 They specify not just that a variable is a list or dict, but what's inside it.

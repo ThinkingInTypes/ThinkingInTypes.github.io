@@ -1,14 +1,14 @@
 # Appendix: Reference
 
 Type annotations (or "type hints") declare the expected data types of variables, function parameters, and return values.
-Python remains _dynamically typed_ at runtime--these hints are not enforced by the interpreter and are mainly for static analysis and documentation.
-Tools like type checkers (e.g., mypy, PyRight) and IDEs use the hints to catch errors or suggest code completions.
-Python's core team has no plan to make type hints mandatory; they are optional aids to improve code quality.
+Python remains _dynamically typed_ at runtime--these annotations are not enforced by the interpreter and are mainly for static analysis and documentation.
+Tools like type checkers (e.g., mypy, PyRight) and IDEs use the annotations to catch errors or suggest code completions.
+Python's core team has no plan to make type annotations mandatory; they are optional aids to improve code quality.
 
 ## Introduction via PEPs
 
 Function annotation syntax was first introduced by PEP 3107 (Python 3.0) with no fixed semantics.
-PEP 484 (Python 3.5) later defined a standard for using these annotations as _type hints_, establishing a formal type hinting system.
+PEP 484 (Python 3.5) later defined a standard for using these annotations as _type hints_, establishing a formal type annotation system.
 The `typing` module provides a standardized vocabulary of types.
 This enables _gradual typing_--code can be partially or fully annotated, and type checkers will treat unannotated parts as dynamically typed (effectively type `Any`).
 
@@ -55,7 +55,7 @@ ClassVar helps type checkers distinguish the two.
 
 ### Type Comments (Legacy)
 
-In older code or for compatibility, type hints can be given in comments (e.g.
+In older code or for compatibility, type annotations can be given in comments (e.g.
 `# type: int`) as described in PEP 484.
 This was mainly used for Python 2 or situations where inline annotation syntax was not available.
 Modern Python prefers explicit annotation syntax, but you might encounter type comments or stub files in some codebases.
@@ -93,7 +93,7 @@ If one of the types is `None`, you can use shorthand:
 `Optional[T]` is equivalent to `T | None`.
 For example, `Optional[int]` (or `int | None`) means the value can be an int or None.\*\*Important
 
-"Optional" in type hinting refers to "may be None"; it does not mean an argument is optional in the sense of having a default.
+The `Optional` annotation refers to "may be `None`"; it does not mean an argument is optional in the sense of having a default.
 An argument with a default value isn't automatically `Optional` unless you explicitly want to allow `None` as a value.
 
 ### The `Any` Type
@@ -142,7 +142,7 @@ type Point = tuple[float, float]
 This creates a type alias `Point` that static checkers will treat exactly as `tuple[float, float]`.
 Type aliases can also be generic, e.g.
 `type Response[T] = tuple[T, int]` to parameterize the alias.
-In older versions, you might see `TypeAlias` from `typing` used as an annotation to mark an assignment as a type alias, especially when forward references are involved (to hint to the checker that a string is meant to be a type name).
+In older versions, you might see `TypeAlias` from `typing` used as an annotation to mark an assignment as a type alias, especially when forward references are involved (to indicate to the checker that a string is meant to be a type name).
 PEP 695 deprecates the need for `TypeAlias` by introducing the explicit alias syntax.
 
 ### NewType--Distinct Types Based on Existing Ones
@@ -169,8 +169,10 @@ In Python 3.10+ `NewType` is implemented as a class for better performance.
 ### Generic Functions and TypeVar
 
 Python supports _parametric polymorphism_ (generics) in functions and classes.
-A _Type Variable_ (created with `typing.TypeVar`) represents an unknown type that can vary between calls or instances.
-For example, to write a function that returns the same type as it receives, you can do:
+A _type variable_ represents an unknown type that can vary between calls or instances.
+Type variables allow generic code to be checked for type consistency--a key feature of static typing.
+
+Before Python 3.12, to write a function that returns the same type as it receives, you had to use `TypeVar`:
 
 ```python
 # example_6.py
@@ -184,7 +186,7 @@ def identity(item: T) -> T:
 ```
 
 Here `T` is a type variable that can stand for any type, and the function `identity` is generic--if you pass an `int`, it returns an `int`, if you pass a `str`, it returns a `str`, etc.
-As of Python 3.12, you can declare type parameters directly in the function signature (PEP 695) for brevity:
+As of Python 3.12, you can declare type parameters directly in the function signature (PEP 695):
 
 ```python
 # example_7.py
@@ -194,18 +196,14 @@ def identity[T](item: T) -> T:
 
 This is equivalent to the earlier definition.
 Type variables can be given _bounds_ or _constraints_ to restrict what types they can represent.
-For instance, `U = TypeVar('U', bound=Number)` means U can be any subclass of `Number` (upper-bounded) while `V = TypeVar('V', int, str)` means V can only be `int` or `str` (union constraint).
-You can also mark a TypeVar as covariant or contravariant for class inheritance scenarios (useful when defining generic container classes that subclass built-in collections), though this is an advanced topic.
-Type variables allow generic code to be checked for type consistency--a key feature of PEP 484's static typing.
+For instance, `[U: Number]` means `U` can be any subclass of `Number` (upper-bounded) while `[V: (int, str)]` means V can only be `int` or `str` (union constraint).
 
 ### Generic Classes
 
-You can parameterize classes with types as well.
-For example:
+You can parameterize classes with type variables:
 
 ```python
 # example_8.py
-
 
 class Box[T]:
     def __init__(self, content: T):
@@ -217,13 +215,12 @@ class Box[T]:
 
 `Box[T]` is a generic class that can hold a value of type T.
 One can create `Box[int]`, `Box[str]`, etc., and the methods will be type-safe.
-In Python 3.12+, class definitions also support the simplified generic syntax:
-`class Box[T]:...` (without needing to inherit `Generic[T]`).
+
 When subclassing generics or creating more complex hierarchies, you might need to be mindful of type variance, but for most user-defined generics, the default invariance (type must match exactly) is fine.
 
 ### `typing.Type` for Class Objects
 
-When you want to hint that a function parameter or return is not an instance of a class but rather a class itself, use `Type[T]` (or `type[T]` in Python 3.9+) where T is a class.
+When you want to indicate that a function parameter or return is not an instance of a class but rather a class itself, use `Type[T]` (or `type[T]` in Python 3.9+) where T is a class.
 For example, `def factory(cls: type[T]) -> T:` indicates that `factory` expects a class (subclass) of T and will return an instance of that class.
 If you want to accept specific subclasses, you can use a union; for example, `user_class: type[BasicUser]` means a class object inheriting from `BasicUser`.
 In documentation, you may see `Type[Base]` to mean "any subclass of Base."
@@ -231,9 +228,10 @@ This is helpful for functions that need to work with class constructors or class
 
 ## Structural Subtyping with Protocols
 
+Python's static typing supports _structural typing_ via `Protocol` classes.
+
 ### Protocols (PEP 544)
 
-Python's static typing supports _structural typing_ via `Protocol` classes.
 A `Protocol` defines a set of methods and properties that a type must have to satisfy the protocol, without requiring inheritance.
 For example:
 
@@ -258,9 +256,10 @@ PEP 544 formalized this in Python 3.8; it's an extension of abstract base classe
 
 ## Callable Types and Function Overloading
 
+Functions are first-class in Python, so you may want to annotate variables or parameters that are themselves functions (callables).
+
 ### Callable
 
-Functions are first-class in Python, so you may want to annotate variables or parameters that are themselves functions (callables).
 The `typing.Callable` type is used to describe the signature of a callable.
 For example, `Callable[[int, str], bool]` means "a callable that takes an `int` and a `str` and returns a `bool`."
 If you don't want to specify the parameters (so you can accept any callable returning a specific type), use an ellipsis:
@@ -273,7 +272,7 @@ from typing import Callable
 
 
 def apply_to_ints(
-    func: Callable[[int, int], int], a: int, b: int
+        func: Callable[[int, int], int], a: int, b: int
 ) -> int:
     return func(a, b)
 ```
@@ -312,46 +311,48 @@ Overloading is for the benefit of static analysis; at runtime only the final imp
 
 ### Override decorator (PEP 698)
 
-In Python 3.12 a new `typing.override` decorator was added to improve correctness in class hierarchies.
+In Python 3.12 the `typing.override` decorator was added to improve correctness in class hierarchies.
 You place `@override` on a method to override a method of the same name in the base class.
-This doesn't change runtime behavior, but a type checker will verify that you are overriding a base class method and that your method's signature is compatible with the base class version.
+This doesn't change runtime behavior,
+but a type checker will verify that you are overriding a base class method and that your method's signature is compatible with the base class version.
 This helps catch errors where you intended to override a method but misspelled its name or got the signature wrong.
 Using `@override` can make code maintenance safer in large class hierarchies.
 
-## Parameter Specifications for Higher-Order Functions (PEP 612)
+## Parameter Specification Variables for Higher-Order Functions (PEP 612)
 
-### ParamSpec and Concatenate
-
-PEP 612 introduced `ParamSpec` (Parameter Specification Variables) to support typing of _higher-order functions_--functions that accept or return other functions with arbitrary signatures.
-A ParamSpec, denoted typically as `P = ParamSpec("P")`, captures a list of parameters (types and kinds) of a callable.
+PEP 612 introduced _parameter specification variables_ to support typing of _higher-order functions_--functions that accept or return other functions with arbitrary signatures.
+A parameter specification variable, typically denoted `**P`, captures a list of parameters (types and kinds) of a `Callable`.
 For example, you might write:
 
 ```python
 # example_12.py
-from typing import ParamSpec, Callable, Concatenate
-
-P = ParamSpec("P")
+from typing import Callable
 
 
-def make_logged(
-    func: Callable[P, int],
-) -> Callable[Concatenate[str, P], int]:
-    def wrapper(
-        prefix: str, *args: P.args, **kwargs: P.kwargs
-    ) -> int:
-        print(prefix, "Calling:", func.__name__)
+def make_logged[**P](
+        func: Callable[P, int],
+) -> Callable[..., int]:
+    def wrapper(prefix: str, *args: P.args, **kwargs: P.kwargs) -> int:
+        print(f"{prefix} Calling: {func.__name__}")
         result = func(*args, **kwargs)
-        print(prefix, "Result:", result)
+        print(f"{prefix} Result: {result}")
         return result
 
     return wrapper
+
+
+@make_logged
+def add(x: int, y: int) -> int:
+    return x + y
+
+
+add("[LOG]", 3, 4)
 ```
 
-`make_logged` takes a function `func` that returns an int and has some parameters P.
+`make_logged` takes a function `func` that returns an `int` and has some parameters `**P`.
 It returns a new function that adds a `prefix: str` in front of `func`'s parameters.
-We use `Callable[P, int]` to represent the input function's signature and `Callable[Concatenate[str, P], int]` for the wrapper's signature.
-`Concatenate[str, P]` means we're prepending a `str` argument in front of the parameter list P.
-ParamSpec allows the wrapper to perfectly forward the original function's parameters while adding new ones, preserving full type information.
+We use `Callable[P, int]` to represent the input function's signature and `Callable[..., int]` for the wrapper's signature.
+`**P` allows the wrapper to forward the original function's parameters while adding new ones, preserving full type information.
 This technique is useful for decorators and wrapper functions that modify call signatures.
 Without ParamSpec, one might resort to `Callable[..., int]` which loses specific parameter types.
 ParamSpecs enable writing precise types for decorators like `@property`, context managers, function adapters, etc., making the static typing of these patterns much more powerful.
@@ -393,22 +394,21 @@ Literal types thus allow more precise typing for functions expecting fixed value
 
 To indicate that a name should not be reassigned (treated as a constant in type-checking), use the `Final` qualifier.
 For example, `MAX_SIZE: Final[int] = 100` tells the type checker that `MAX_SIZE` should never be re-bound to a different value or type.
-Attempting to assign to it elsewhere would be a static error.
+Attempting to assign to it elsewhere produces a type error.
 You can also mark classes as `final` using `@typing.final` decorator, which means the class is not intended to be subclassed.
 Similarly, marking a method with `@final` means it should not be overridden in subclasses.
-This is purely for the type checker/linters; Python won't prevent subclassing or overriding at runtime, but it helps catch design violations in large projects.
-Using Final is useful for constants or to explicitly close off class hierarchies when appropriate.
+This is purely for type checker and linters; Python won't prevent subclassing or overriding at runtime, but it helps catch design violations in large projects.
+Using `Final` is useful for constants or to explicitly close off class hierarchies when appropriate.
 
 ### Annotated Types (PEP 593)
 
-The `typing.Annotated` type was introduced to enrich type hints with additional metadata.
-Its syntax is `Annotated[T, X]` where T is a normal type and X is metadata (which can be any value, often a class or string).
+`Annotated` was added in Python 3.9 to enrich type annotations with additional metadata that third-party consumers can use.
+It supports use-cases like data validation, ORM field specifications, or units attached to values, all while keeping the primary type information.
+
+Its syntax is `Annotated[T, X]` where `T` is a normal type and `X` is metadata (which can be any value, often a class or string).
 This metadata can be used by frameworks or tools at runtime or by linters for additional validation.
-For instance, one could annotate a type with a range:
-`Annotated[int, Between(0, 100)]` to indicate an int that should lie between 0 and 100.
-The Python interpreter and core type checkers mostly ignore the second argument of Annotated (they treat the variable as just type T), but specific libraries can inspect it.
-This was added in Python 3.9 to support use-cases like data validation, ORM field specifications, or units attached to values, all while keeping the primary type information.
-In short, `Annotated` wraps a base type with extra info that third-party consumers can use.
+For instance, one can annotate a type with a range, as in `Annotated[int, Between(0, 100)]` to indicate an `int` that should lie between 0 and 100.
+The Python interpreter and core type checkers mostly ignore the second argument of `Annotated` (they treat the variable as just type `T`), but specific libraries can inspect it.
 
 ### Type Guards (PEP 647)
 
@@ -422,7 +422,7 @@ from typing import TypeGuard
 
 
 def is_str_list(
-    vals: list[object],
+        vals: list[object],
 ) -> TypeGuard[list[str]]:
     return all(isinstance(x, str) for x in vals)
 ```
@@ -513,7 +513,7 @@ This feature helps in writing functions that explicitly accept a set of keyword 
 ### Data Class Transform (PEP 681)
 
 Python's `dataclasses` module and third-party libraries like _Pydantic_ or _attrs_ generate methods (like `__init__`, `__repr__`) automatically based on class attributes.
-PEP 681 introduced the `typing.dataclass_transform` decorator (Python 3.11) which library authors can apply to their decorator or metaclass to hint to static type checkers that the decorator will produce certain dunder methods or behaviors similar to `dataclasses`.
+PEP 681 introduced the `typing.dataclass_transform` decorator (Python 3.11) which library authors can apply to their decorator or metaclass to tell static type checkers that the decorator will produce certain dunder methods or behaviors similar to `dataclasses`.
 For example, Pydantic's `BaseModel` or attr's `@define` can use this so that type checkers know that after applying the decorator, the class has an `__init__` with parameters corresponding to the annotated fields.
 This is a more advanced feature primarily for library developers to improve user experience of static typing when using those libraries.
 
@@ -564,7 +564,7 @@ Run these checkers as part of your development or CI process to catch bugs early
 ### Stub Files (PEP 484 & PEP 561)
 
 If you are using a library that isn't annotated, or you cannot modify source code to add annotations (e.g., C extension modules or third-party code), you can use _stub files_ (`.pyi` files) to provide type information.
-A stub file is a skeletal version of a module with only `pass` statements and type hints.
+A stub file is a skeletal version of a module with only `pass` statements and type annotations.
 PEP 561 describes how libraries can distribute these stubs so that your type checker picks them up.
 For instance, popular libraries often ship a `py.typed` marker and include inline types or separate stub packages (e.g.
 `types-requests`).
@@ -597,7 +597,7 @@ But it's good to know that the ecosystem supports them, enabling gradual adoptio
   Many checkers can infer that after `if isinstance(obj, str):...
 else:...`, in the else branch `obj` is not a str.
   This makes your code safer and your type checker happier.
-- Keep Types Up to Date: Treat type hints as part of the code documentation.
+- Keep Types Up to Date: Treat type annotations as part of the code documentation.
   If the code changes, update the annotations to match.
   Inconsistencies between code and annotations can be more confusing than no annotations.
   Running a type checker will catch these mismatches.

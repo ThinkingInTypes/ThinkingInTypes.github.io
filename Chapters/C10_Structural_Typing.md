@@ -21,9 +21,9 @@ It is also more explicit and safe than unguarded duck typing because the structu
 Python historically embraced duck typing at runtime--you call methods on objects and trust they exist.
 Prior to Python 3.8, static type checking in Python (via tools like MyPy, PyRight, etc.)
 was largely nominal:
-you would use abstract base classes or concrete classes to hint the types, and an object's class had to match the annotation or inherit from a matching class.
-This could make it awkward to type-hint code written in a duck-typed style.
-For instance, if you had a function that worked with any object that had a `.read()` method, there wasn't a straightforward way to express that in a type hint without making all such objects share a common base class or using `typing.Any`.
+you would use abstract base classes or concrete classes to annotation the types, and an object's class had to match the annotation or inherit from a matching class.
+This could make it awkward to type-annotation code written in a duck-typed style.
+For instance, if you had a function that worked with any object that had a `.read()` method, there wasn't a straightforward way to express that in a type annotation without making all such objects share a common base class or using `typing.Any`.
 Python 3.8 remedied this by introducing _protocols_ in the `typing` module.
 A protocol defines a _structural interface_ that other classes can fulfill just by having the right methods/attributes, without inheritance.
 This brings the flexibility of duck typing into the realm of static type checking--essentially formalizing "If it quacks like a duck, it can be treated as a duck" in the type system.
@@ -34,7 +34,7 @@ use nominal typing for clarity and runtime consistency with class relationships,
 
 ## Defining and Using Protocols
 
-To leverage structural typing in Python's type hints, you define _protocols_.
+To leverage structural typing in Python's type annotations, you define _protocols_.
 A protocol in Python is essentially an interface or template for a set of methods and attributes.
 It's defined by inheriting from `typing.Protocol` (available in the standard library `typing` module as of Python 3.8, or in `typing_extensions` for earlier versions).
 By creating a class that subclasses
@@ -96,10 +96,10 @@ Unlike an abstract base class (ABC), a protocol doesn't require classes to forma
 For example, in the code above, if we call `announce(Dog())` and `Dog.speak` is missing or misnamed, we would only find out at runtime via an `AttributeError`.
 The protocol helps catch such issues before runtime by using tools like Mypy.
 The protocols defined in `typing` are optional and have no runtime effect on their own.
-This means you can use them freely for type hints without incurring runtime overhead or restrictions.
+This means you can use them freely for type annotations without incurring runtime overhead or restrictions.
 Protocols do inherit from `abc.ABC`, but by default `isinstance()` and `issubclass()` checks against a protocol will not work without an explicit opt-in.
 
-**Using a protocol in type hints:** Once you have a protocol class, you use it as a type in annotations just like you would use an ABC or a concrete class.
+**Using a protocol in type annotations:** Once you have a protocol class, you use it as a type in annotations just like you would use an ABC or a concrete class.
 In the above example, the function `announce` was annotated to accept a `Speaker`.
 That tells readers and type checkers that any argument should "speak."
 This is more expressive than using a base class like `Animal` or a union of types--we directly specify the capability we need.
@@ -447,7 +447,7 @@ Similarly, with `IntContainer`, `C` becomes `int`.
 This is the benefit of generic protocols:
 they let you write flexible code that is still type-safe and retains specific type information.
 In other words, one protocol can work for many types without losing the ability to distinguish those types when it matters.
-The syntax we used (`Container[C]` inside the function annotation) leverages Python's ability to support generics in type hints.
+The syntax we used (`Container[C]` inside the function annotation) leverages Python's ability to support generics in type annotations.
 `Container[int]` is a _parameterized protocol_ instance, but conceptually you can think of it like an interface template.
 
 Keep in mind that user-defined generic protocols follow the same rules as normal generic classes for type checking.
@@ -537,16 +537,16 @@ Here are some guidelines, pros and cons, and practices:
   Structural typing shines here because you can define a protocol that matches the external class's abilities.
   For example, if a third-party library gives you objects that have a `.to_json()` method,
   and you want to treat those objects uniformly in your code,
-  you can create a `ToJsonable` protocol with `to_json(self) -> str` and use that in your type hints.
+  you can create a `ToJsonable` protocol with `to_json(self) -> str` and use that in your type annotations.
   Any object from the library will satisfy the protocol if it has the method,
   without you needing to make it inherit from anything.
   This decoupling is very powerful in a language as dynamic as Python,
-  where often we "duck type" through frameworks--now you can put an actual type hint on it.
+  where often we "duck type" through frameworks--now you can put an actual type annotation on it.
 
 - You need generic interfaces or extension of existing ones.
   Protocols are useful for creating ad-hoc interfaces that might not have been foreseen initially.
   For instance, you might realize that two classes in different parts of your system happen to have similar methods for, say, resetting their state.
-  You could retroactively define a `Resettable` protocol and update type hints to use it, without touching the classes themselves.
+  You could retroactively define a `Resettable` protocol and update type annotations to use it, without touching the classes themselves.
   If you later make those classes formally implement an ABC, fine--but the protocol gave you an immediate way to express the concept in types and check it.
   Additionally, if you're designing a library and want to allow users to plug in their own objects (as long as they have certain methods), providing a protocol in your public API documentation is a nice way to communicate that.
   Users can either implement that Protocol (statically) or just ensure their classes match the signature.
