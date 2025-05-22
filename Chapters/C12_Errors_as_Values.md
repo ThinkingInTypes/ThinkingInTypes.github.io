@@ -45,9 +45,8 @@ the size and complexity of programs grew beyond what the assembly programmer was
 
 ## Modules
 
-Tim Peters’ observation of the value of namespaces (see [The Zen of Python](https://peps.python.org/pep-0020/)) is the
-core of the idea of modules, which more modern languages incorporate (unfortunately C++ had to inherit C’s messy system,
-for backwards compatibility).
+Tim Peters celebrated namespaces in [The Zen of Python](https://peps.python.org/pep-0020/).
+This is the foundation for _modules_, found in more modern languages (for backwards compatibility, C++ was forced to use C’s messy system).
 In Python, files are automatically modules, which is certainly one of the easiest solutions.
 
 It wasn’t always this way.
@@ -68,17 +67,17 @@ END Hello.
 
 This allowed complete granularity independent of file organization; perhaps this was because programmers were used to
 thinking in terms of one big file-per-program.
-Python’s merging of modules with files makes more sense in hindsight and has the benefit of eliminating
+Merging modules with files in Python makes more sense in hindsight and has the benefit of eliminating
 the [(significant) extra verbiage](https://en.wikipedia.org/wiki/Modula-2), only a portion of which is shown here.
 
-The main benefit of modules is name control—each module creates a scope for names (a namespace) which allows programmers
-the freedom to choose any name at will within a module.
+The main benefit of modules is name control.
+Each module creates a scope for names (a namespace) which allows programmers the freedom to choose any name at will within a module.
 This prevents name collisions across a project and reduces the cognitive load on the programmer.
 Prior to this, programs reached scaling limits as they grew larger.
 Program size in assembly language programs was limited by many different factors, so the need for modules was not seen
 until systems were able to grow larger because higher-level languages solved enough of these other factors.
 
-In modern languages, modularity is part of the background of a language, and we don’t think much about it.
+In modern languages, modularity is part of the background of a language, and we can ignore it except when it reports errors.
 At one time, however, the lack of modularity was a significant roadblock to code composability.
 
 ## Inheritance
@@ -95,12 +94,11 @@ Error reporting and handling have been a significant impediment to composability
 
 ### History
 
-Original programs were small (by present-day standards), written in assembly language (machine code quickly became too
-unwieldy), and tightly coupled to the underlying hardware.
+Original programs were small by present-day standards.
+They were written in assembly language (machine code quickly became too unwieldy), and tightly coupled to the underlying hardware.
 If something went wrong, the only way to report it was to change the output on a wire, to turn on a light or a buzzer.
-If you had one, you put a message on the console—this might be a dot-matrix display.
-Such an error message probably wasn’t friendly to the end-user of the system and usually required a tech support call to
-the manufacturer.
+If you had one, you put a message on the console, which might be a dot-matrix display.
+Such an error message probably wasn’t friendly to the end-user of the system and usually required a tech support call to the manufacturer.
 
 Two of my first jobs were building embedded systems that controlled hardware.
 These systems had to work right.
@@ -127,15 +125,15 @@ Programmers produced a scattered collection of solutions to the reporting proble
 - Indicate failure by [setting a global flag](https://en.wikipedia.org/wiki/Errno.h).
   This is a single flag shared by all functions in the program.
   The client programmer must know to watch that flag.
-  If the flag isn't checked right away, it might get overwritten by a different function call in which case the error is
-  lost.
+  If the flag isn't checked right away, it might get overwritten by a different function call,
+  in which case the error is lost.
 
 - Use [signals](https://en.wikipedia.org/wiki/C_signal_handling) if the operating system supports it.
 
 The operating system needed to be discovered.
-As programmers found themselves rewriting the same basic code over and over again,
-and much of that repeated code involved manipulating hardware and the attendant specialized knowledge required,
-it became clear that we needed a layer to eliminate this extra work--work that to some degree every program required.
+Programmers found themselves rewriting the same basic code over and over again.
+Much of that repeated code involved manipulating hardware.
+It became clear that we needed a layer to eliminate this extra work--work that virtually all programs required.
 
 A fundamental question that designers were trying to understand during this evolution was:
 
@@ -150,7 +148,7 @@ Notably, these systems did not find success and resumption was removed.
 
 Further experiments eventually made it clear that the language needed primary responsibility for error reporting and
 handling (there are a few special cases, such as out-of-memory errors, which must still be handled by the OS).
-This is because an OS is designed to be general-purpose, and thus cannot know the specific situation that caused an
+This is because an OS is designed to be general purpose and thus cannot know the specific situation that caused an
 error, whereas language code can be close to the problem.
 Customization is normally the domain of the language.
 You could imagine calling the OS to install custom error-handling routines, and you can also imagine how quickly that
@@ -179,7 +177,7 @@ Exceptions seemed like a great idea:
 1. A standardized way to correct problems so that an operation can recover and retry.
 2. There's only one way to report errors.
 3. Errors cannot be ignored—they flow upward until caught or displayed on the console with program termination.
-4. Errors can be handled close to the origin, or generalized by catching them "further out" so that multiple error
+4. Errors can be handled close to the origin or generalized by catching them "further out" so that multiple error
    sources can be managed with a single handler.
 5. Exception hierarchies allow more general exception handlers to handle multiple exception subtypes.
 
@@ -223,11 +221,9 @@ Exception hierarchies allow the library programmer to use an exception base type
 This obscures important details; if the exception specification just uses a base type, there’s no way for the compiler
 to enforce coverage of specific exceptions.
 
-When errors are included in the type system, you can know all the errors that can occur just by looking at the type
-information.
-If a library component adds a new error, then that must be reflected in that component’s type signature, which means
-that the code using it immediately knows that it is no longer covering all the error conditions, and will produce type
-errors until it is fixed.
+When errors are included in the type system, you can know all the errors that can occur just by looking at the type information.
+If a library component adds a new error, then that must be reflected in that component’s type signature.
+This means it no longer covers all error conditions and produces type errors until it is fixed.
 
 ### 3. Exception Specifications Create a "Shadow Type System"
 
@@ -239,21 +235,20 @@ To make the shadow type system work, its rules were warped to the point where it
 that has taken years to realize).
 
 C++ exception specifications were originally optional and not statically type-checked.
-After many years these were deprecated in favor of the statically-typed [
-`expected` specification](https://en.cppreference.com/w/cpp/utility/expected) (which takes the functional approached
-described in this paper).
+After many years these were deprecated in favor of the statically-typed [`expected` specification](https://en.cppreference.com/w/cpp/utility/expected) (which takes the functional approached
+described in this chapter).
 
 Java created checked exceptions, which must be explicitly dealt with in your code, and runtime exceptions, which could
 be ignored.
 Eventually, they added a feature that allows checked exceptions to be easily converted into runtime exceptions.
 Java functions can always return `null` without any warning.
 
-Both systems (the original C++ dynamic exception specifications, and Java exception specifications) had too many holes,
+Both systems (the original C++ dynamic exception specifications and Java exception specifications) had too many holes,
 and it was too difficult to effectively support both the main and shadow type systems.
 
 ### 4. Exceptions Destroy Partial Calculations
 
-Let’s start with an example where we populate a `List` with the results of a sequence of calls to the function `func_a`:
+Let’s start with an example where we populate a `List` with the results from a sequence of calls to the function `fa`:
 
 ```python
 # discarded_state.py
@@ -261,19 +256,19 @@ Let’s start with an example where we populate a `List` with the results of a s
 from book_utils import Catch
 
 
-def func_a(i: int) -> int:
+def fa(i: int) -> int:
     if i == 1:
-        raise ValueError(f"func_a({i})")
+        raise ValueError(f"fa({i})")
     return i
 
 
 with Catch():
-    result = [func_a(i) for i in range(3)]
+    result = [fa(i) for i in range(3)]
     print(result)
-## Error: func_a(1)
+## Error: fa(1)
 ```
 
-`func_a` throws a `ValueError` if its argument is `1`.
+`fa` throws a `ValueError` if its argument is `1`.
 The `range(3)` is 0, 1, and 2; only one of these values causes the exception.
 So `result` contains only one problem; the other two values are fine.
 However, we lose everything that we were calculating when the exception is thrown.
@@ -300,14 +295,14 @@ A first attempt uses _type unions_ to create a nameless return package:
 # Success vs error is not clear
 
 
-def func_a(i: int) -> int | str:  # Sum type
+def fa(i: int) -> int | str:  # Sum type
     if i == 1:
-        return f"func_a({i})"
+        return f"fa({i})"
     return i
 
 
-print(outputs := [(i, func_a(i)) for i in range(5)])
-## [(0, 0), (1, 'func_a(1)'), (2, 2), (3, 3), (4,
+print(outputs := [(i, fa(i)) for i in range(5)])
+## [(0, 0), (1, 'fa(1)'), (2, 2), (3, 3), (4,
 ## 4)]
 
 for i, r in outputs:
@@ -317,13 +312,13 @@ for i, r in outputs:
         case str(error):
             print(f"{i}: {error = }")
 ## 0: answer = 0
-## 1: error = 'func_a(1)'
+## 1: error = 'fa(1)'
 ## 2: answer = 2
 ## 3: answer = 3
 ## 4: answer = 4
 ```
 
-`func_a` returns a `str` to indicate an error, and an `int` answer if there is no error.
+`fa` returns a `str` to indicate an error, and an `int` answer if there is no error.
 In the pattern match, we are forced to check the result type to determine whether an error occurs; we cannot just assume
 it is an `int`.
 
@@ -336,7 +331,7 @@ returning extra bytes seemed unacceptable (I don’t know of any comparisons bet
 exception-handling mechanisms, but I do know that the goal of C++ exception handling is to have zero execution overhead
 if no exceptions occur).
 
-Note that in the definition of `composed`, the type checker requires that you return `int | str` because `func_a`
+Note that in the definition of `composed`, the type checker requires that you return `int | str` because `fa`
 returns those types.
 Thus, when composing, type-safety is preserved.
 This means you won’t lose error type information during composition, so composability automatically scales.
@@ -387,26 +382,26 @@ The modified version of the example using `Result` is now:
 from returns.result import Failure, Result, Success
 
 
-def func_a(i: int) -> Result[int, str]:
+def fa(i: int) -> Result[int, str]:
     if i == 1:
-        return Failure(f"func_a({i})")
+        return Failure(f"fa({i})")
     return Success(i)
 ```
 
 ```python
 # return_result_demo.py
 from pprint import pprint
-from return_result import func_a
+from return_result import fa
 
-pprint([(i, func_a(i)) for i in range(5)])
+pprint([(i, fa(i)) for i in range(5)])
 ## [(0, <Success: 0>),
-##  (1, <Failure: func_a(1)>),
+##  (1, <Failure: fa(1)>),
 ##  (2, <Success: 2>),
 ##  (3, <Success: 3>),
 ##  (4, <Success: 4>)]
 ```
 
-Now `func_a` returns a single type, `Result`.
+Now `fa` returns a single type, `Result`.
 The first type parameter to `Result` is the type returned by `Success` and the second type parameter is the type
 returned by `Failure`.
 The `outputs` from the comprehension are all of type `Result`, and we have preserved the successful calculations even
@@ -427,7 +422,7 @@ different errors that can occur:
 # composing_functions.py
 from pprint import pprint
 
-from return_result import func_a
+from return_result import fa
 from returns.result import (
     Failure,
     Result,
@@ -437,46 +432,46 @@ from returns.result import (
 
 
 # Use an exception as info (but don't raise it):
-def func_b(i: int) -> Result[int, ValueError]:
+def fb(i: int) -> Result[int, ValueError]:
     if i == 2:
-        return Failure(ValueError(f"func_b({i})"))
+        return Failure(ValueError(f"fb({i})"))
     return Success(i)
 
 
 # Convert exception to Failure:
-def func_c(i: int) -> Result[int, ZeroDivisionError]:
+def fc(i: int) -> Result[int, ZeroDivisionError]:
     try:
         j = int(1 / (i - 3))
     except ZeroDivisionError as e:
-        return Failure(ZeroDivisionError(f"func_c({i}): {e}"))
+        return Failure(ZeroDivisionError(f"fc({i}): {e}"))
     return Success(j)
 
 
 @safe  # Convert existing function
-def func_d(
+def fd(
         i: int,
 ) -> str:  # Result[str, ZeroDivisionError]
     j = int(1 / i)
-    return f"func_d({i}): {j}"
+    return f"fd({i}): {j}"
 
 
 def composed(
         i: int,
 ) -> Result[str, str | ValueError | ZeroDivisionError]:
-    result_a = func_a(i)
+    result_a = fa(i)
     if isinstance(result_a, Failure):
         return result_a  # type: ignore
 
     # unwrap() gets the answer from Success:
-    result_b = func_b(result_a.unwrap())
+    result_b = fb(result_a.unwrap())
     if isinstance(result_b, Failure):
         return result_b  # type: ignore
 
-    result_c = func_c(result_b.unwrap())
+    result_c = fc(result_b.unwrap())
     if isinstance(result_c, Failure):
         return result_c  # type: ignore
 
-    return func_d(result_c.unwrap())  # type: ignore
+    return fd(result_c.unwrap())  # type: ignore
 ```
 
 ```python
@@ -486,10 +481,10 @@ from composing_functions import composed
 
 pprint([(i, composed(i)) for i in range(5)])
 ## [(0, <Failure: division by zero>),
-##  (1, <Failure: func_a(1)>),
-##  (2, <Failure: func_b(2)>),
-##  (3, <Failure: func_c(3): division by zero>),
-##  (4, <Success: func_d(1): 1>)]
+##  (1, <Failure: fa(1)>),
+##  (2, <Failure: fb(2)>),
+##  (3, <Failure: fc(3): division by zero>),
+##  (4, <Success: fd(1): 1>)]
 ```
 
 The `fa`, `fb` and `fc` functions each have argument values that are unacceptable.
@@ -523,17 +518,14 @@ Let's modify `Result` to add a new member function, `bind`:
 ```python
 # result_with_bind.py
 from __future__ import annotations
+
 from dataclasses import dataclass
-from typing import Callable, Generic, TypeVar
-
-ANSWER = TypeVar("ANSWER")
-ERROR = TypeVar("ERROR")
+from typing import Callable
 
 
-@dataclass(frozen=True)
-class Result(Generic[ANSWER, ERROR]):
+class Result[ANSWER, ERROR]:
     def bind(
-            self, func: Callable[[ANSWER], "Result"]
+            self, func: Callable[[ANSWER], Result]
     ) -> Result[ANSWER, ERROR]:
         if isinstance(self, Success):
             return func(self.unwrap())
@@ -541,7 +533,7 @@ class Result(Generic[ANSWER, ERROR]):
 
 
 @dataclass(frozen=True)
-class Success(Result[ANSWER, ERROR]):
+class Success[ANSWER, ERROR]:
     answer: ANSWER
 
     def unwrap(self) -> ANSWER:
@@ -549,7 +541,7 @@ class Success(Result[ANSWER, ERROR]):
 
 
 @dataclass(frozen=True)
-class Failure(Result[ANSWER, ERROR]):
+class Failure[ANSWER, ERROR]:
     error: ERROR
 ```
 
@@ -560,12 +552,7 @@ class Failure(Result[ANSWER, ERROR]):
 from pprint import pprint
 from returns.result import Result
 
-from composing_functions import (
-    func_a,
-    func_b,
-    func_c,
-    func_d,
-)
+from composing_functions import fa, fb, fc, fd
 
 
 def composed(
@@ -573,28 +560,28 @@ def composed(
 ) -> Result[str, str | ZeroDivisionError | ValueError]:
     # fmt: off
     return (
-        # TODO: this is incorrect & needs fixing
-        func_a(i)
-        .bind(func_b)  # type: ignore
-        .bind(func_c)  # type: ignore
-        .bind(func_d)  # type: ignore
+        # TODO: typing is incorrect & needs fixing
+        fa(i)
+        .bind(fb)  # type: ignore
+        .bind(fc)  # type: ignore
+        .bind(fd)  # type: ignore
     )
 
 
 pprint([(i, composed(i)) for i in range(5)])
 ## [(0, <Failure: division by zero>),
-##  (1, <Failure: func_a(1)>),
-##  (2, <Failure: func_b(2)>),
-##  (3, <Failure: func_c(3): division by zero>),
-##  (4, <Success: func_d(1): 1>)]
+##  (1, <Failure: fa(1)>),
+##  (2, <Failure: fb(2)>),
+##  (3, <Failure: fc(3): division by zero>),
+##  (4, <Success: fd(1): 1>)]
 ```
 
-In `composed`, we call `func_a(i)` which returns a `Result`.
-The `bind` method is called on that `Result`, passing it the next function we want to call (`func_b`) as an argument.
+In `composed`, we call `fa(i)` which returns a `Result`.
+The `bind` method is called on that `Result`, passing it the next function we want to call (`fb`) as an argument.
 The return value of `bind` is _also_ a `Result`, so we can call `bind` again upon that `Result`, passing it the third
-function we want to call (`func_c`), and so on.
+function we want to call (`fc`), and so on.
 
-At each "chaining point" in `func_a(i).bind(func_b).bind(func_c).bind(func_d)`, `bind` checks the `Result` type to see
+At each "chaining point" in `fa(i).bind(fb).bind(fc).bind(fd)`, `bind` checks the `Result` type to see
 if it `Success`.
 If so, it passes the result `answer` from that call as the argument to the next function in the chain.
 If not, that means `self` is a `Failure` object (containing specific error information), so all it needs to do is
@@ -619,7 +606,7 @@ For this, we use something called "do notation," which you access using `Result.
 # multiple_arguments.py
 from pprint import pprint
 
-from composing_functions import func_a, func_b, func_c
+from composing_functions import fa, fb, fc
 from returns.result import Result
 
 
@@ -633,39 +620,39 @@ def composed(
     # fmt: off
     return Result.do(
         add(first, second, third)
-        for first in func_a(i)
-        for second in func_b(j)
-        for third in func_c(i + j)
+        for first in fa(i)
+        for second in fb(j)
+        for third in fc(i + j)
     )
 
 
 inputs = [(1, 5), (7, 2), (2, 1), (7, 5)]
 pprint([(args, composed(*args)) for args in inputs])
-## [((1, 5), <Failure: func_a(1)>),
-##  ((7, 2), <Failure: func_b(2)>),
-##  ((2, 1), <Failure: func_c(3): division by
+## [((1, 5), <Failure: fa(1)>),
+##  ((7, 2), <Failure: fb(2)>),
+##  ((2, 1), <Failure: fc(3): division by
 ## zero>),
 ##  ((7, 5), <Success: add(7 + 5 + 0): 12>)]
 ```
 
-`Returns` provides a `@safe` decorator that you see applied to the "plain" function `func_b`.
+`Returns` provides a `@safe` decorator that you see applied to the "plain" function `fb`.
 This changes the normal `int` return type into a `Result` that includes `int` for the `Success` type but is also somehow
 able to recognize that the division might produce a `ZeroDivisionError` and include that in the `Failure` type.
 In addition, `@safe` is apparently catching the exception and converting it to the `ZeroDivisionError` returned as the
 information object in the `Failure` object.
 `@safe` is a helpful tool when converting exception-throwing code into error-returning code.
 
-`func_c` adds some variety by rejecting `-1` and producing a `str` result.
+`fc` adds some variety by rejecting `-1` and producing a `str` result.
 We can now produce `composed` using a `pipe` and `bind`.
 All the previous error-checking and short-circuiting behaviors happen as before, but the syntax is now more
 straightforward and readable.
 
 Notice that when the `outputs` list is created, the output from `reject0` only happens for the values `-1` and `2`,
 because the other values cause errors in the `composed` chain of operations.
-The value `1` never gets to `func_b` because it is intercepted by the prior `composed` call to `func_a`.
-The value `0` causes `func_b` to produce a `ZeroDivisionError` when it tries to perform the division inside the `print`.
+The value `1` never gets to `fb` because it is intercepted by the prior `composed` call to `fa`.
+The value `0` causes `fb` to produce a `ZeroDivisionError` when it tries to perform the division inside the `print`.
 
-\[Explain rest of example]
+[Explain the rest of the example]
 
 Note that there may be an issue with the `Returns` library, which is that for proper type checking it requires using a
 MyPy extension.
@@ -675,8 +662,7 @@ So far I have been unable to get that extension to work (however, I have no expe
 
 Functional error handling has already appeared in languages like Rust, Kotlin, and recent versions of C++ support these
 combined answer-error result types, with associated unpacking operations.
-In these languages, errors become part of the type system, and it is far more difficult for an error to "slip through
-the cracks."
+In these languages, errors become part of the type system, and it becomes difficult for an error to be lost.
 
 Python has only been able to support functional error handling since the advent of typing and type checkers, and it
 doesn’t provide any direct language or library constructs for this.
