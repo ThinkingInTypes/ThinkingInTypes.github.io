@@ -39,7 +39,7 @@ from typing import Callable
 
 
 def operate(
-    a: int, b: int, func: Callable[[int, int], int]
+        a: int, b: int, func: Callable[[int, int], int]
 ) -> int:
     return func(a, b)
 
@@ -49,9 +49,9 @@ result = operate(5, 3, lambda x, y: x * y)  # returns 15
 
 Using `Callable` clearly defines expected function signatures, enhancing maintainability and correctness.
 
-## Advanced Function Annotations with `ParamSpec`
+## Advanced Function Annotations with Parameter Specifications
 
-Introduced in Python 3.10, `ParamSpec` allows annotating decorators and generic functions while preserving original function signatures:
+Introduced in Python 3.10, parameter specifications allow annotating decorators and generic functions while preserving original function signatures:
 
 ```python
 # example_4.py
@@ -59,7 +59,7 @@ from typing import Callable
 
 
 def logging_decorator[**P, R](
-    func: Callable[P, R],
+        func: Callable[P, R],
 ) -> Callable[P, R]:
     def wrapper(*args: P.args, **kwargs: P.kwargs) -> R:
         print(
@@ -79,7 +79,7 @@ multiply(2, 3)
 ## Calling multiply with (2, 3) and {}
 ```
 
-`ParamSpec` helps decorators maintain accurate type information for wrapped functions.
+Parameter specifications help decorators maintain accurate type information for wrapped functions.
 
 ## Implementing Function Overloading with `@overload`
 

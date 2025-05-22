@@ -354,8 +354,6 @@ It returns a new function that adds a `prefix: str` in front of `func`'s paramet
 We use `Callable[P, int]` to represent the input function's signature and `Callable[..., int]` for the wrapper's signature.
 `**P` allows the wrapper to forward the original function's parameters while adding new ones, preserving full type information.
 This technique is useful for decorators and wrapper functions that modify call signatures.
-Without ParamSpec, one might resort to `Callable[..., int]` which loses specific parameter types.
-ParamSpecs enable writing precise types for decorators like `@property`, context managers, function adapters, etc., making the static typing of these patterns much more powerful.
 
 ## Advanced and New Type Constructs
 

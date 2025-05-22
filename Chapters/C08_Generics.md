@@ -378,7 +378,7 @@ print(add(2, 3))
 This isn't strictly a type variable tuple, but it complements it:
 
 - type variable tuple handles variadic type lists
-- ParamSpec handles variadic function arguments
+- Parameter specifications handle variadic function arguments
 
 ### Example: Record Type for Heterogeneous Tuples
 
@@ -548,9 +548,8 @@ The types are correctly maintained.
 
 This kind of generic currying function uses higher-order generics (a function that returns another function).
 Python's `Callable` type is used to annotate callables.
-We can also achieve a similar result using `ParamSpec` from `typing` (which allows capturing an arbitrary list of
-parameters),
-but using explicit type variables for a fixed small number of parameters is straightforward for illustration.
+We can also achieve a similar result using parameter specifications, which allow capturing an arbitrary list of parameters.
+However, using explicit type variables for a fixed small number of parameters is straightforward for illustration.
 
 Currying is not common in idiomatic Python but can be useful for creating specialized functions from generic ones.
 The benefit of adding generics in currying (as opposed to writing a lambda or using `functools.partial`)

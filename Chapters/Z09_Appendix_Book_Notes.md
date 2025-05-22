@@ -89,7 +89,6 @@ Created by ChatGPT 4o.
 
 - `|` syntax for unions
 - `match` statement and typing with pattern matching
-- `ParamSpec` and `Concatenate`
 
 ### Annotated and Metadata Types
 
