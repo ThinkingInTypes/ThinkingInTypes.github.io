@@ -2,12 +2,11 @@
 
 Python 3.10 added _structural pattern matching_ via the `match...case` statement.
 Pattern matching compares a value (the _subject_) against a series of _patterns_, and executes code based on the pattern that fits.
-Unlike a simple switch on a single value, structural pattern matching destructures complex data and tests for conditions in one expressive syntax.
+Unlike a basic switch on a single value, structural pattern matching destructures complex data and tests for conditions in one expressive syntax.
 
 A `match` statement looks similar to a **switch**/**case** from other languages, but Python's patterns can match structure (like the shape of a sequence or the attributes of an object) and bind variables.
 Python tries each `case` in order and executes the first one that matches, with a wildcard `_` as a catch-all default.
 Patterns can include literals, names, and even nested sub-patterns to unpack data.
-We will cover each pattern type in detail, with examples and tips on how they interact with Python's type system and static analysis.
 
 ## Literal Patterns
 
@@ -18,7 +17,7 @@ The pattern matches if the subject is equal to that value (using `==` comparison
 For example, consider matching an HTTP status code to a message:
 
 ```python
-# example_1.py
+# literal_patterns.py
 status = 404
 match status:
     case 200:
@@ -32,17 +31,17 @@ match status:
 The cases `200` and `404` are literal patterns.
 The `match` compares `status` against each literal in turn.
 Because `status == 404`, the second case matches and `result` becomes `"Not Found"`.
-If `status` had been something else, the wildcard `_` (covered later) would catch it as a default.
+If `status` had been something else, the wildcard `_` would catch it as a default.
 
-**How literal matching works:** Most literal constants match by equality.
+Most literal constants match by equality.
 However, Python's three singletons--`True`, `False`, and `None`--are matched by identity (i.e., the subject _is_ that object).
 This distinction rarely matters in practice (since there's only one `True` etc.), but it's a defined part of the rules.
-You can also combine multiple literals in one pattern using the OR operator `|` (described in the OR Patterns section) to match any of several constants (e.g., `case 401 | 403 | 404:` to handle multiple error codes in one branch).
+You can also combine multiple literals in one pattern using the OR operator `|` to match any of several constants (e.g., `case 401 | 403 | 404:` to handle multiple error codes in one branch).
 
-**Named constants in patterns:** A common desire is to match against a constant defined elsewhere (like an enumeration member or a module-level constant).
-In pattern matching, a bare name is treated as a capture variable (see _Capture Patterns_ below), not a constant.
+You'll often want to match against a constant defined elsewhere, such as an enumeration member or a module-level constant.
+In pattern matching, a bare name is treated as a _capture variable_, not a constant.
 To use a named value as a literal pattern, you must qualify it so that it's not seen as a new variable.
-The rule is that named constants must appear as dotted names (or attributes) in patterns.
+Named constants must appear as dotted names (or attributes) in patterns.
 For example, to match an `Enum` member:
 
 ```python
@@ -57,50 +56,49 @@ class Color(Enum):
 ```
 
 ```python
-# color_demo.py
+# color_match.py
 from colors import Color
 
 color = Color.GREEN
 match color:
     case Color.RED:
-        print("It's red!")
+        print("color is red!")
     case Color.GREEN:
-        print("It's green!")
+        print("color is green!")
     case Color.BLUE:
-        print("It's blue!")
-## It's green!
+        print("color is blue!")
+## color is green!
 ```
 
-Here `Color.RED` etc.
-are dotted names, so the pattern treats them as specific constant values rather than capturing new variables named `RED`, `GREEN`, `BLUE`.
+Here `Color.RED` etc. are dotted names, so the pattern treats them as specific constant values rather than capturing new variables named `RED`, `GREEN`, `BLUE`.
 This will correctly match the enum value in `color`.
-(If you had written just `RED` as a pattern, it would be a capture pattern instead, which is likely not what you want.)
+Using the un-dotted `RED` instead of `Color.RED` makes it a capture pattern.
 
-**Static analysis angle:** Literal patterns work great with type annotations for `Literal` types and Enums.
+Literal patterns work well with type annotations for `Literal` types and `Enum`s.
 If a variable is annotated with a union of literal values or an `Enum` type, a series of literal `case` clauses can cover all possibilities.
-Modern static type checkers (like mypy or PyRight) can perform _exhaustiveness checking_ on `match` statements.
+
+Static type checkers can perform _exhaustiveness checking_ on `match` statements.
 This means if you forget to handle one of the specified values, the type checker can warn you.
 For instance, if `status` was of type `Literal[200, 404]`, the checker would expect all those values to be matched.
-Similarly, with the `Color` enum above, a checker knows there are three members; if you omit a case for one of them, it could flag it.
-This benefit ensures your pattern matching stays in sync with your data definitions, making your code more robust.
+With the `Color` enum, checkers know there are three members and can report an error if you omit a case.
 
 ## Capture Patterns
 
-A _capture pattern_ is simply a name (identifier) used in a pattern, which will "capture" the value from the subject if that pattern position matches.
-Instead of testing for a specific value, a capture pattern matches anything and binds a variable to the subject (or subcomponent of the subject).
 Capture patterns let you extract pieces of data for use in the body of the case.
+A _capture pattern_ is an identifier used in a pattern to "capture" the value from the subject if that pattern position matches.
+Instead of testing for a specific value, a capture pattern matches anything and binds a variable to the subject (or subcomponent of the subject).
 
-**Syntax:** Writing a bare name in a pattern creates a capture.
+Writing a bare name in a pattern creates a capture.
 For example, `case x:` will match any subject value and assign it to the variable `x`.
 Capture patterns can also appear inside compound patterns (like inside a sequence or mapping), where they bind a part of the structure.
 
-**Important:** `_` (underscore) is not a capture; it's a special wildcard pattern that discards the value.
+The `_` (underscore) is not a capture; it's a special wildcard pattern that discards the value.
 Any other name will be treated as a capture.
 If the name wasn't already defined in the surrounding scope, it will be a new variable set in that case.
 (If it was defined outside, pattern matching will not automatically compare against it--it still creates a new binding shadowing the outer variable.
 As mentioned, to match an existing variable's value, use a literal or value pattern with a dotted name.)
 
-Consider this simple use of capture patterns:
+In this example, the second case uses `other` as a capture pattern:
 
 ```python
 # example_3.py
@@ -113,7 +111,6 @@ match command:
 ## Received unknown command: 'hello'
 ```
 
-Here the second case uses `other` as a capture pattern.
 If the first case (`"quit"`) doesn't match, the second case will match anything.
 The subject `"hello"` is not `"quit"`, so it falls to `case other:`.
 This pattern matches unconditionally and binds the name `other` to the value of `command` (which is `"hello"`).
@@ -130,7 +127,7 @@ We will show more of these in Sequence and Mapping patterns.
 Patterns that always succeed are called _irrefutable_.
 If an irrefutable pattern is used as a top-level case (like `case x:` at the same indent as case), it matches everything and typically must be the last case (otherwise it would prevent any subsequent cases from ever running).
 Using a capture as the last case is one way to handle "default" scenarios while still naming the value.
-Often, though, a simple wildcard `_` is used for a default case when the value itself doesn't need to be referenced.
+A wildcard `_` provides a default case when the value itself doesn't need to be referenced.
 
 ## Wildcard Patterns (`_`)
 
@@ -448,7 +445,7 @@ This is a form of _structured binding_ or deconstruction for user-defined types.
 
 The basic form is `ClassName(attr1=subpattern1, attr2=subpattern2, ...)`.
 You list the class to match and the attributes you want to check or capture.
-For example, suppose we have a simple data class representing a user:
+For example, suppose we have a basic data class representing a user:
 
 ```python
 # example_10.py
@@ -564,7 +561,7 @@ The whole pattern matches if any one of the subpatterns matches.
 OR patterns are quite flexible--the subpatterns can be of completely different shapes or types.
 This is useful to avoid repetition when the action for multiple cases would be the same.
 
-A simple example of OR patterns is handling multiple literals in one go.
+An example of OR patterns is handling multiple literals in one go.
 For instance, if you want to check if some input is an affirmative "yes" in various forms:
 
 ```python
@@ -638,7 +635,7 @@ An _AS pattern_ allows you to capture a matched value under a name while still e
 It uses the syntax `<pattern> as <variable>`.
 This is extremely handy when you want to both check a complex pattern and keep a reference to the whole thing (or a large part of it) for use in the code.
 
-A simple scenario: matching a sequence but also retaining it:
+A basic scenario is matching a sequence but also retaining it:
 
 ```python
 # example_14.py

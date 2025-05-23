@@ -247,8 +247,8 @@ class SupportsClose(Protocol):
 Any object with a `.close()` method returning None will be considered a `SupportsClose` for static typing purposes, even if it doesn't inherit from `SupportsClose`.
 This is akin to an interface or "duck typing" check.
 Protocols enable static type checking of duck-typed code.
-If you mark a protocol with `@typing.runtime_checkable`, you can even use `isinstance(obj, ProtocolName)` at runtime (which will just check for the presence of required attributes).
-Protocols can themselves be generic (e.g., an `Iterable[T]` protocol defines an `__iter__` that yields T).
+If you mark a protocol with `@typing.runtime_checkable`, you can even use `isinstance(obj, ProtocolName)` at runtime; this checks for the presence of required attributes.
+Protocols can themselves be generic (e.g., an `Iterable[T]` protocol defines an `__iter__` that yields `T`).
 The standard library defines many protocols (e.g.
 `typing.Iterable`, `typing.Sized`) that correspond to common Python protocols.
 Using Protocols allows one to write functions that accept any object that "has the right methods," enabling flexible, decoupled code with static checks.

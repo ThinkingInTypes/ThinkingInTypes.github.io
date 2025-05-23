@@ -215,7 +215,7 @@ Calling `obj.dance()` now runs `handler(...)`, which calls `self.not_found("danc
 
 ### A blank chatbot
 
-Here's a simple `Chatbot` class that doesn't yet respond to anything:
+Here's a basic `Chatbot` class that doesn't yet respond to anything:
 
 ```python
 # chatbot.py
@@ -327,6 +327,7 @@ import override_not_found
 ## Don't know 'weather'; remembering it.
 ## Don't know 'joke'; remembering it.
 import learn_joke
+
 ## Why did the duck cross the road?
 ## It was the chicken's day off.
 

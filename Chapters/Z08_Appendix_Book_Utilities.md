@@ -109,7 +109,7 @@ The `Catch` class implements this using:
 Example usage as a context manager:
 
 ```python
-# simple_form.py
+# basic_form.py
 from book_utils import Catch
 
 with Catch():
@@ -132,7 +132,7 @@ It executes this callable within a try-except block:
 Here's an example showing callables within a context manager:
 
 ```python
-# simple_lambda_form.py
+# basic_lambda_form.py
 from book_utils import Catch
 
 with Catch() as catch:

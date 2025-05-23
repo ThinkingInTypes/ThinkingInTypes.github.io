@@ -564,7 +564,7 @@ themselves (like a JSON structure type that can contain nested instances of itse
 
 ### Self-referencing Generic Classes
 
-Consider a simple tree data structure where each node contains a value and a list of children which are themselves
+Consider a tree data structure where each node contains a value and a list of children which are themselves
 nodes.
 We want to parameterize the tree by the type of its values (e.g., `Tree[int]` or `Tree[str]`).
 The class needs to refer to itself for the children.
@@ -1026,7 +1026,7 @@ from typing import TypeAlias
 Coordinates: TypeAlias = tuple[float, float]
 ```
 
-However, for simple cases, just using a capitalized variable name for the alias as above is usually clear enough to type
+However, for basic cases, just using a capitalized variable name for the alias as above is usually clear enough to type
 checkers.
 (By convention, user-defined type aliases often start with a capital letter.) Python 3.12 is expected to bring a new
 syntax for generic aliases using the `type` keyword (PEP 695), but that's beyond the scope of this chapter.
@@ -1130,7 +1130,7 @@ Use type variable only for functions that really need to be generic.
 
 ### Practice: Use Descriptive Type Variable Names for Clarity
 
-While the convention is to use single-letter type variables like `T`, `U`, `V` for simple cases, in more complex generics
+While the convention is to use single-letter type variables like `T`, `U`, `V` for common cases, in more complex generics
 consider using more descriptive names.
 For example:
 
