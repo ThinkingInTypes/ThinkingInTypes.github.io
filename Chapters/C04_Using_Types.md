@@ -109,6 +109,7 @@ The use of `Optional[str]` clearly communicates that you can call `greet()` with
 The function returns a string either way--if a name is given, it includes the name in the greeting; if not, it returns a generic greeting.
 
 You can also write the above annotation as `Union[str, None]` or `str | None`; `Optional` is preferred because it is more and descriptive.
+# TODO: sort out whether to prefer Optional or T | None
 
 ## Union Types
 

@@ -313,10 +313,10 @@ Waiting until runtime produces errors that take time and effort to untangle.
 The standard library `typing` module provides many advanced types and constructs, which we cover in later chapters:
 
 - Generics (like `list[int]` or `dict[str, int]`)
-- `Optional[X]` (which is just shorthand for `X | None` in newer Python versions)
+- `Optional[X]` (shorthand for `X | None` in newer Python versions)
 - `Literal` types (specific allowed values)
 - `TypedDict` (dicts with specific shape)
-- _protocols_ (PEP 544) which are basically static duck typing (you can define an interface that says "this type must have methods X, Y, Z" without caring about inheritance).
+- _protocols_ (PEP 544) static duck typing (you can define an interface that says "this type must have methods X, Y, Z" without caring about inheritance).
 
 ## Typing is Optional
 
