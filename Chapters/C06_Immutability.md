@@ -272,12 +272,11 @@ When you use `@dataclass(frozen=True)`, Python generates an `__setattr__` method
 method) for your class that intercepts all attempts to set or delete attributes and immediately throws a
 `FrozenInstanceError`.
 This effectively locks down the instance after `__init__` finishes.
-The exception `FrozenInstanceError` is a subclass of `AttributeError`, which is consistent with what Python normally
-throws if you try to assign to a read-only attribute.
+The exception `FrozenInstanceError` is a subclass of `AttributeError`,
+consistent with what Python throws for assignment to a read-only attribute.
 
 Because of this, frozen dataclasses give you actual runtime enforcement of immutability.
-Unlike the `Final` type annotation, which is only checked by static analyzers, a frozen dataclass will actively prevent
-mutation in a running program.
+A `Final` type annotation is only checked by static analyzers, but a frozen dataclass will actively prevent mutation in a running program.
 This can be a powerful tool for ensuring certain objects remain constant.
 It's especially handy for value objects (like points, coordinates, config objects, etc.) where you want to make sure
 their state doesn't change once created.
@@ -790,7 +789,7 @@ print(f"c2.options={c2.options}")  # []
 ## c2.options=[]
 
 # NamedTuple cannot use default_factory; defaults share same object
-# This is forced to use a single default list if provided, and no factory.
+# This must use a single default list if provided, and no factory.
 PointNT = NamedTuple("PointNT", [("tags", list[str])])
 
 

@@ -554,8 +554,8 @@ As the Smalltalk ethos would suggest, "Look at what the object does, not what it
 ### Conclusion: The Philosophical Takeaway
 
 From a practical and philosophical perspective, "type" in Smalltalk is less a label and more a dynamic quality of an object's behavior.
-It's defined by the messages an object understands and how it responds, which is ultimately determined by its class's methods (and any clever
-`doesNotUnderstand:` tricks).
+It's defined by the messages an object understands and how it respond--this is ultimately determined the class methods along with any clever
+`doesNotUnderstand:` tricks.
 An object can certainly be said to "have a type" in Smalltalk--but that type isn't a static tag; it's the set of messages it can handle,
 i.e., its protocol.
 Smalltalk's class system provides the structure for those protocols (acting as a template for behavior),

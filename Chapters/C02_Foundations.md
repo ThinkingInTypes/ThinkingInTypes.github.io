@@ -13,7 +13,7 @@ They carry helmets and install three-point seat belts.
 They add bumpers and turn signals and even radios to communicate with each other.
 Their carts become cars, filled with devices that make it look like they don't plan to crash,
 but to finish the course without a scratch.
-The occasional crash does happen. 
+The occasional crash does happen.
 They add even more devices to their cars.
 
 They start driving in teams, and those teams get bigger as they use their mechanisms to cooperate.
@@ -108,7 +108,7 @@ Assumptions I make about your Python & programming knowledge.
 
 ### Examples
 
-- Each example has a "slug line" which is the name of the file in a single-line comment as line one of the example.
+- Each example has a _slug line_: the name of the file in a single-line comment as line one of the example.
 - That example is in the GitHub repository in a subdirectory named for the chapter.
 - The examples do not have `__main__`s; everything is at the top level.
 - If a top-level-statement (TLS) produces output, that output will appear on the following line(s), commented with `##`.

@@ -47,7 +47,7 @@ the size and complexity of programs grew beyond what the assembly programmer was
 
 Tim Peters celebrated namespaces in [The Zen of Python](https://peps.python.org/pep-0020/).
 This is the foundation for _modules_, found in more modern languages (for backwards compatibility, C++ was forced to use C’s messy system).
-In Python, files are automatically modules, which is certainly one of the easiest solutions.
+In Python, modules map nicely onto files.
 
 It wasn’t always this way.
 Breaking assembly-language programs into pieces was not easy, and early higher-level languages tended to be single-file
@@ -68,7 +68,7 @@ END Hello.
 This allowed complete granularity independent of file organization; perhaps this was because programmers were used to
 thinking in terms of one big file-per-program.
 Merging modules with files in Python makes more sense in hindsight and has the benefit of eliminating
-the [(significant) extra verbiage](https://en.wikipedia.org/wiki/Modula-2), only a portion of which is shown here.
+the [(significant) extra verbiage](https://en.wikipedia.org/wiki/Modula-2), of which you only see a portion here.
 
 The main benefit of modules is name control.
 Each module creates a scope for names (a namespace) which allows programmers the freedom to choose any name at will within a module.
@@ -319,8 +319,7 @@ for i, r in outputs:
 ```
 
 `fa` returns a `str` to indicate an error, and an `int` answer if there is no error.
-In the pattern match, we are forced to check the result type to determine whether an error occurs; we cannot just assume
-it is an `int`.
+In the pattern match, we must check the result type to determine whether an error occurs; we cannot just assume it is an `int`.
 
 An important problem with this approach is that it is not clear which type is the success value and which type
 represents the error condition—because we are trying to repurpose existing built-in types to represent new meanings.
@@ -367,11 +366,11 @@ class Failure[ANSWER, ERROR](Result[ANSWER, ERROR]):
 
 Each subtype of `Result` only holds one field: `answer` for a successful `Success` calculation, and `error` for a `Failure`.
 If a `Failure` is returned, the client programmer cannot reach in and grab the `answer` because that field doesn’t exist.
-The client programmer is forced to properly analyze the `Result`.
+The client programmer must properly analyze the `Result`.
 
 To use `Result`, you `return Success(answer)` when you’ve successfully created an answer,
 and `return Failure(error)` to indicate a failure.
-`unwrap` is a convenience method which is only available for a `Success`.
+`unwrap` is a convenience method that is only available for a `Success`.
 
 The modified version of the example using `Result` is now:
 
@@ -406,8 +405,7 @@ The first type parameter to `Result` is the type returned by `Success` and the s
 returned by `Failure`.
 The `outputs` from the comprehension are all of type `Result`, and we have preserved the successful calculations even
 though there is a failing call.
-We can also pattern-match on the outputs, and it is crystal-clear which match is for the success and which is for the
-failure.
+We can also pattern-match on outputs; it is clear which is for success and failure.
 
 The `returns` library has been slipped in here, but its basic form is that of `result.py`.
 
@@ -493,17 +491,15 @@ raised—they are used to convey information, just like the `str` in `fa`.
 
 In `composed`, we call `fa`, `fb` and `fc` in sequence.
 After each call, we check to see if the result type is `Failure`.
-If so, the calculation has failed, and we can’t continue, so we return the current result,
-which is a `Failure` object containing the reason for the failure.
-If it succeeds,
-it is a `Success`
-which contains an `unwrap` method that is used to extract the answer from that calculation—if you look back at `Result`,
-you’ll see that it returns the `ANSWER` type so its use can be properly type-checked.
+If so, the calculation has failed.
+We can’t continue, so we return a `Failure` object containing the reason for the failure.
+Succeeding produces a `Success` containing an `unwrap` method used to extract the answer from that calculation.
+It returns the `ANSWER` type so its use can be properly type-checked.
 
-This means that any failure during a sequence of composed function calls will short-circuit out of `composed`, returning
-a `Failure` that tells you exactly what happened, and that you must decide what to do with.
-You can’t just ignore it and assume that it will "bubble up" until it finds an appropriate handler.
-You are forced to deal with it at the point of origin, which is typically when you know the most about an error.
+This means that any failure during a sequence of composed function calls will short-circuit out of `composed`,
+returning a `Failure` that tells you exactly what happened.
+You can’t ignore it and assume that it will "bubble up" until it finds an appropriate handler.
+You must deal with it at the point of origin, the place where you typically know the most about an error.
 
 ## Simplifying Composition with `bind`
 
@@ -654,8 +650,7 @@ The value `0` causes `fb` to produce a `ZeroDivisionError` when it tries to perf
 
 [Explain the rest of the example]
 
-Note that there may be an issue with the `Returns` library, which is that for proper type checking it requires using a
-MyPy extension.
+Note that there may be an issue with the `Returns` library: for proper type checking it requires using a MyPy extension.
 So far I have been unable to get that extension to work (however, I have no experience with MyPy extensions).
 
 ## Functional Error Handling is Happening

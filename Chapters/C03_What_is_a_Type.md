@@ -32,8 +32,8 @@ print(isinstance("Hello", int))
 ```
 
 The calls to `isinstance` confirm that 42 is indeed an `int` and that the string `"Hello"` is not an `int`.
-Types determine what operations are allowed; for instance, you can multiply integers, but multiplying two strings is not defined (except by repeating the string, which is a different operation in
-Python).
+Types determine what operations are allowed; for instance, you can multiply integers, but multiplying two strings is not defined
+(except to repeat the string).
 
 Types act as a contract or promise about data.
 If a function expects a certain type, providing data of the wrong type can lead to errors.
@@ -93,7 +93,7 @@ with Catch():
     result = x + "world"  # type: ignore
 ```
 
-We attempted to "add" a string `"world"` to `x`, which is an integer.
+We attempted to "add" `"world"`, a `str`, to `x`, an `int`.
 Python only discovers the problem while running the line: realizing it can't add an `int` and `str`, it throws a `TypeError` exception.
 In a statically typed language, such an error would be caught before running the program (the code wouldn't compile).
 
@@ -110,10 +110,8 @@ To summarize the difference:
 It's important to note that dynamic vs.
 static is about when type checking happens (at runtime vs.
 compile time).
-It's independent of another concept often mentioned: strong vs.
-weak typing, which is about how strictly types are treated.
-Python, for example, is strongly typed--it won't implicitly convert types for you in unchecked ways.
-Trying to add a number to a string, as we saw, is not allowed (Python won't guess that maybe you meant `"10" + "world"` or something--it errors out).
+It's independent of strong vs. weak typing; Python is strongly typed--it won't implicitly convert types for you in unchecked ways (except for truthiness, which can be disallowed).
+Trying to add a number to a string is not permitted, as Python won't guess that maybe you meant `"10" + "world"`.
 In Python, values have a definite type, and you can't treat a value as a different type without an explicit conversion.
 Many static languages are also strongly typed, but some languages are _weakly typed_ (they might, for instance, automatically convert strings to numbers in certain contexts, which can lead to subtle
 bugs).

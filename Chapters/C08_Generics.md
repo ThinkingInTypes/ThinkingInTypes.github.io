@@ -11,7 +11,7 @@ TODO: Probably divide this into "Generics" here and "Advanced Generics" at the e
 ## Defining Custom Generics
 
 Python directly supports *parameterized types*.
-This allows you to declare a *type variable*, which is a placeholder for an arbitrary type.
+This allows you to declare a *type variable* as a placeholder for an arbitrary type.
 
 ### Generic Functions
 
@@ -422,8 +422,7 @@ This is a great benefit, as people often find variance confusing.
 
 A generic class is invariant by default.
 For example, given `Dog` is a subclass of `Animal`, `Box[Dog]` is not considered a subtype of `Box[Animal]`.
-This is unsafe because you can then put a `Cat` (another `Animal`) into a `Box[Animal]` which is a `Box[Dog]`
-internally.
+This is unsafe because you can then put a `Cat` (another `Animal`) into a `Box[Animal]` which is a `Box[Dog]` internally.
 The type checker forbids treating `Box[Dog]` as a `Box[Animal]`.
 
 ### Covariance
@@ -489,7 +488,7 @@ In general, contravariance allows broadening the accepted types when substitutin
 ### Using Variance
 
 Function type variables are always invariant.
-Most built-in collections in Python are invariant (e.g., `list` is invariant, which is why `list[Dog]` is not assignable
+Most built-in collections in Python are invariant (e.g., `list` is invariant, so `list[Dog]` is not assignable
 to `list[Animal]`).
 Some abstract collection types or protocols are covariant.
 For instance, `collections.abc.Sequence` is covariant in its element type,

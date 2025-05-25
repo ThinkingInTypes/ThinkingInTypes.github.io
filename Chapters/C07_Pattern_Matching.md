@@ -113,7 +113,7 @@ match command:
 
 If the first case (`"quit"`) doesn't match, the second case will match anything.
 The subject `"hello"` is not `"quit"`, so it falls to `case other:`.
-This pattern matches unconditionally and binds the name `other` to the value of `command` (which is `"hello"`).
+This pattern matches unconditionally and binds the name `other` to the value of `command` (`"hello"`, in this case).
 The result is that it prints: `Received unknown command: 'hello'`.
 Essentially, `other` serves as a catch-all variable for "anything else."
 In this role, a capture is similar to the wildcard `_` (which also matches anything) except that we can use the captured value in the code.
@@ -286,7 +286,7 @@ Also note that `*rest` will always be a list, even if the original sequence is a
 The pattern matching syntax (the structure you write after `case`) is not designed to include inline type annotations.
 Thus, you cannot write something like:
 `case [first: int, second: int, *rest: list[int]]:`
-However, we can put an annotation on the argument passed to the `match` expression, which is `values`:
+However, we can put an annotation on the argument (`values`) passed to the `match` expression:
 
 ```python
 # subject_annotations.py
