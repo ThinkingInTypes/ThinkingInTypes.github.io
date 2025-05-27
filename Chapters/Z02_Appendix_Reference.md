@@ -205,6 +205,7 @@ You can parameterize classes with type variables:
 ```python
 # example_8.py
 
+
 class Box[T]:
     def __init__(self, content: T):
         self.content = content
@@ -272,7 +273,7 @@ from typing import Callable
 
 
 def apply_to_ints(
-        func: Callable[[int, int], int], a: int, b: int
+    func: Callable[[int, int], int], a: int, b: int
 ) -> int:
     return func(a, b)
 ```
@@ -330,9 +331,11 @@ from typing import Callable
 
 
 def make_logged[**P](
-        func: Callable[P, int],
+    func: Callable[P, int],
 ) -> Callable[..., int]:
-    def wrapper(prefix: str, *args: P.args, **kwargs: P.kwargs) -> int:
+    def wrapper(
+        prefix: str, *args: P.args, **kwargs: P.kwargs
+    ) -> int:
         print(f"{prefix} Calling: {func.__name__}")
         result = func(*args, **kwargs)
         print(f"{prefix} Result: {result}")
@@ -347,6 +350,8 @@ def add(x: int, y: int) -> int:
 
 
 add("[LOG]", 3, 4)
+## [LOG] Calling: add
+## [LOG] Result: 7
 ```
 
 `make_logged` takes a function `func` that returns an `int` and has some parameters `**P`.
@@ -420,7 +425,7 @@ from typing import TypeGuard
 
 
 def is_str_list(
-        vals: list[object],
+    vals: list[object],
 ) -> TypeGuard[list[str]]:
     return all(isinstance(x, str) for x in vals)
 ```

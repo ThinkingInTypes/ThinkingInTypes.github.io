@@ -157,6 +157,11 @@ def process_measurements(data: Measurements) -> None:
 
 
 process_measurements(Measurements([11, 3.14, "1.618"]))
+## {'data': __main__.Measurements, 'return':
+## <class 'NoneType'>}
+## n = 11, type(n) = <class 'int'>
+## n = 3.14, type(n) = <class 'float'>
+## n = '1.618', type(n) = <class 'str'>
 ```
 
 Using `Number` and `Measurements` is functionally identical to writing the annotation as `int | float` or
@@ -196,6 +201,11 @@ def process(data: Measurements) -> None:
 
 
 process(Measurements([11, 3.14, "1.618"]))
+## {'data': __main__.Measurements, 'return':
+## <class 'NoneType'>}
+## n = 11, type(n) = <class 'int'>
+## n = 3.14, type(n) = <class 'float'>
+## n = '1.618', type(n) = <class 'str'>
 ```
 
 `get_type_hints` produces information about the function.
@@ -226,8 +236,6 @@ def increment(uid: UserID) -> UserID:
 
 # Access underlying list operation:
 print(increment(users[-1]))
-
-
 ## 43
 
 
@@ -360,7 +368,7 @@ class Circle:
     area: float = 0.0
 
     def __post_init__(self):
-        self.area = pi * self.radius ** 2
+        self.area = pi * self.radius**2
 
 
 print(Circle(radius=5))
@@ -553,7 +561,7 @@ class A:
 
 a = A()
 print(f"{a.x = }, {a.y = }")
-## a.x = 1
+## a.x = 1, a.y = 2
 ```
 
 Creating an instance of `A` _appears_ to automatically produce instance attributes `x` and `y`.
@@ -567,11 +575,16 @@ Both are stored in dictionaries, so we'll create a function that compares the at
 ```python
 # class_and_instance.py
 
+
 def show_dicts(obj: object, obj_name: str, info: str = ""):
     cls = obj.__class__
     cls_name = cls.__name__
 
-    cls_dict = {k: v for k, v in cls.__dict__.items() if not k.startswith("__")}
+    cls_dict = {
+        k: v
+        for k, v in cls.__dict__.items()
+        if not k.startswith("__")
+    }
     obj_dict = obj.__dict__
 
     print(f" {info} ".center(30, "-"))
@@ -609,10 +622,40 @@ class A:
 
 a = A()
 show_dicts(a, "a", "Initialization")
+## ------- Initialization -------
+## A.__dict__ (class attributes):
+##   x: 1
+##   y: 2
+## a.__dict__ (instance attributes):
+##   x: <not present>
+##   y: <not present>
+## direct access:
+## a.x is 1
+## a.y is 2
 a.x = 99
 show_dicts(a, "a", "a.x = 99")
+## ---------- a.x = 99 ----------
+## A.__dict__ (class attributes):
+##   x: 1  # overridden by instance
+##   y: 2
+## a.__dict__ (instance attributes):
+##   x: 99
+##   y: <not present>
+## direct access:
+## a.x is 99
+## a.y is 2
 a.y = 111
 show_dicts(a, "a", "a.y = 111")
+## --------- a.y = 111 ----------
+## A.__dict__ (class attributes):
+##   x: 1  # overridden by instance
+##   y: 2  # overridden by instance
+## a.__dict__ (instance attributes):
+##   x: 99
+##   y: 111
+## direct access:
+## a.x is 99
+## a.y is 111
 ```
 
 After the initialization of `a`, we see class attribute of `x` and `y` with values `1` and `2`, respectively.
@@ -638,10 +681,15 @@ class D:
 
 d = D()
 print(f"{D.x = }, {D.y = }, {d.__dict__ = }")
+## D.x = 1, D.y = 2, d.__dict__ = {'x': 1, 'y': 2}
 d.x = 99
 print(f"{D.x = }, {D.y = }, {d.__dict__ = }")
+## D.x = 1, D.y = 2, d.__dict__ = {'x': 99, 'y':
+## 2}
 d.y = 111
 print(f"{D.x = }, {D.y = }, {d.__dict__ = }")
+## D.x = 1, D.y = 2, d.__dict__ = {'x': 99, 'y':
+## 111}
 ```
 
 After initialization, there is now both a class attribute `x` _and_ an instance attribute `x`.
@@ -666,10 +714,14 @@ class D:
 
 d = D()
 print(f"{D.x = }, {D.y = }, {d.__dict__ = }")
+## D.x = 1, D.y = 2, d.__dict__ = {}
 d.x = 99
 print(f"{D.x = }, {D.y = }, {d.__dict__ = }")
+## D.x = 1, D.y = 2, d.__dict__ = {'x': 99}
 d.y = 111
 print(f"{D.x = }, {D.y = }, {d.__dict__ = }")
+## D.x = 1, D.y = 2, d.__dict__ = {'x': 99, 'y':
+## 111}
 ```
 
 // Describe
@@ -956,8 +1008,6 @@ class Color(Enum):
 print(Color.RED)
 ## Color.RED
 print(Color.RED.name, Color.RED.value)
-
-
 ## RED 1
 
 
@@ -969,8 +1019,6 @@ class Status(Enum):
 
 
 print(list(Status))
-
-
 ## [<Status.PENDING: 1>, <Status.RUNNING: 2>,
 ## <Status.DONE: 3>]
 
@@ -1005,8 +1053,6 @@ print(Color.RED == Color.GREEN)
 print(Color["BLUE"])
 ## Color.BLUE
 print(Color(2))  # GREEN
-
-
 ## Color.GREEN
 
 
@@ -1029,8 +1075,6 @@ class Fruit(StrEnum):
 print(Fruit.APPLE.upper())
 ## APPLE
 print(f"JSON-ready: {Fruit.BANANA!r}")
-
-
 ## JSON-ready: <Fruit.BANANA: 'banana'>
 
 
@@ -1047,8 +1091,6 @@ class Shape(Enum):
 
 
 print(f"Shape.CIRCLE has {Shape.CIRCLE.sides()} sides")
-
-
 ## Shape.CIRCLE has 0 sides
 
 
@@ -1064,8 +1106,6 @@ print(
 )  # Only one member per value
 ## Members: [<Mood.HAPPY: 1>, <Mood.SAD: 2>]
 print(f"Alias: {Mood.JOYFUL is Mood.HAPPY}")
-
-
 ## Alias: True
 
 
@@ -1080,8 +1120,6 @@ user_perm = Permission.READ | Permission.WRITE  # type: ignore
 print(f"User permissions: {user_perm}")
 ## User permissions: Permission.READ|WRITE
 print(f"Can execute? {Permission.EXECUTE in user_perm}")
-
-
 ## Can execute? False
 
 
@@ -1213,9 +1251,9 @@ class Status(Enum):
     CLOSED = ("closed", closed_next)
 
     def __init__(
-            self,
-            label: str,
-            next_handler: Callable[[Status], Status],
+        self,
+        label: str,
+        next_handler: Callable[[Status], Status],
     ) -> None:
         self._label = label
         self._next_handler = next_handler
@@ -1478,8 +1516,6 @@ def paint1(color: Color) -> str:
 
 
 print(paint1(Color.BLUE))
-
-
 ## Something else
 
 
@@ -1516,7 +1552,7 @@ print("NOPE" in ParamVal)  # type: ignore
 # Convert literal values to a set:
 allowed_set = set(ParamVal.__args__)  # type: ignore
 print(allowed_set)
-## {'MAX', 'MIN', 'DEF'}
+## {'MIN', 'DEF', 'MAX'}
 print("MIN" in allowed_set)
 ## True
 print("NOPE" in allowed_set)

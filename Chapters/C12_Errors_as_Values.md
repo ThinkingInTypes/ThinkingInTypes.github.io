@@ -302,8 +302,7 @@ def fa(i: int) -> int | str:  # Sum type
 
 
 print(outputs := [(i, fa(i)) for i in range(5)])
-## [(0, 0), (1, 'fa(1)'), (2, 2), (3, 3), (4,
-## 4)]
+## [(0, 0), (1, 'fa(1)'), (2, 2), (3, 3), (4, 4)]
 
 for i, r in outputs:
     match r:
@@ -447,14 +446,14 @@ def fc(i: int) -> Result[int, ZeroDivisionError]:
 
 @safe  # Convert existing function
 def fd(
-        i: int,
+    i: int,
 ) -> str:  # Result[str, ZeroDivisionError]
     j = int(1 / i)
     return f"fd({i}): {j}"
 
 
 def composed(
-        i: int,
+    i: int,
 ) -> Result[str, str | ValueError | ZeroDivisionError]:
     result_a = fa(i)
     if isinstance(result_a, Failure):
@@ -521,7 +520,7 @@ from typing import Callable
 
 class Result[ANSWER, ERROR]:
     def bind(
-            self, func: Callable[[ANSWER], Result]
+        self, func: Callable[[ANSWER], Result]
     ) -> Result[ANSWER, ERROR]:
         if isinstance(self, Success):
             return func(self.unwrap())
@@ -552,7 +551,7 @@ from composing_functions import fa, fb, fc, fd
 
 
 def composed(
-        i: int,
+    i: int,
 ) -> Result[str, str | ZeroDivisionError | ValueError]:
     # fmt: off
     return (
@@ -611,7 +610,7 @@ def add(first: int, second: int, third: int) -> str:
 
 
 def composed(
-        i: int, j: int
+    i: int, j: int
 ) -> Result[str, str | ZeroDivisionError | ValueError]:
     # fmt: off
     return Result.do(
@@ -626,8 +625,7 @@ inputs = [(1, 5), (7, 2), (2, 1), (7, 5)]
 pprint([(args, composed(*args)) for args in inputs])
 ## [((1, 5), <Failure: fa(1)>),
 ##  ((7, 2), <Failure: fb(2)>),
-##  ((2, 1), <Failure: fc(3): division by
-## zero>),
+##  ((2, 1), <Failure: fc(3): division by zero>),
 ##  ((7, 5), <Success: add(7 + 5 + 0): 12>)]
 ```
 

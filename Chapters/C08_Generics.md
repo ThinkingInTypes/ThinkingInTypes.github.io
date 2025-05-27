@@ -252,13 +252,13 @@ Let's explore the type variable tuple by implementing a type-safe version of Pyt
 
 
 def zip_variadic[*T](
-        *args: tuple[*T],
+    *args: tuple[*T],
 ) -> tuple[tuple[*T], ...]:
     return tuple(zip(*args))
 
 
 def unzip_variadic[*T](
-        packed: tuple[tuple[*T], ...],
+    packed: tuple[tuple[*T], ...],
 ) -> tuple[tuple[*T], ...]:
     return tuple(zip(*packed))
 
@@ -271,8 +271,12 @@ zipped = zip_variadic(a, b, c)
 unzipped = unzip_variadic(zipped)
 
 print(f"Zipped: {zipped}")
+## Zipped: ((1, 2, 3), ('a', 'b', 'c'), (3.14,
+## 2.71, 1.41))
 # Zipped: ((1, 2, 3), ('a', 'b', 'c'), (3.14, 2.71, 1.41))
 print(f"Unzipped: {unzipped}")
+## Unzipped: ((1, 'a', 3.14), (2, 'b', 2.71), (3,
+## 'c', 1.41))
 # Unzipped: ((1, 'a', 3.14), (2, 'b', 2.71), (3, 'c', 1.41))
 ```
 
@@ -516,7 +520,7 @@ from typing import Callable
 
 
 def curry_two_arg[X, Y, Z](
-        func: Callable[[X, Y], Z],
+    func: Callable[[X, Y], Z],
 ) -> Callable[[X], Callable[[Y], Z]]:
     def curried(x: X) -> Callable[[Y], Z]:
         def inner(y: Y) -> Z:
@@ -535,6 +539,7 @@ curried_mul = curry_two_arg(multiply)
 # get_double is now Callable[[float], float]:
 get_double = curried_mul(2)
 print(get_double(3.5))
+## 7.0
 ```
 
 Here, `curry_two_arg` is a generic function that works with any two-argument function.
@@ -714,13 +719,13 @@ We can express this as:
 ```python
 # recursive_alias.py
 JSON = (
-        dict[str, "JSON"]
-        | list["JSON"]
-        | str
-        | int
-        | float
-        | bool
-        | None
+    dict[str, "JSON"]
+    | list["JSON"]
+    | str
+    | int
+    | float
+    | bool
+    | None
 )
 ```
 
@@ -985,9 +990,9 @@ from generic_alias import Pair
 from typing import get_origin, get_args
 
 print(get_origin(Pair[int]))
-## <class 'tuple'>
+## Pair
 print(get_args(Pair[int]))
-## (<class 'int'>, <class 'int'>)
+## (<class 'int'>,)
 ```
 
 This shows that `Pair[int]` is recognized by the typing introspection as a tuple with two int arguments.
@@ -1005,7 +1010,7 @@ type Vector[T] = list[tuple[T, T]]
 
 
 def scale_points(
-        points: Vector[int], factor: int
+    points: Vector[int], factor: int
 ) -> Vector[int]:
     return [(x * factor, y * factor) for (x, y) in points]
 ```
