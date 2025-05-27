@@ -236,6 +236,8 @@ def increment(uid: UserID) -> UserID:
 
 # Access underlying list operation:
 print(increment(users[-1]))
+
+
 ## 43
 
 
@@ -368,7 +370,7 @@ class Circle:
     area: float = 0.0
 
     def __post_init__(self):
-        self.area = pi * self.radius**2
+        self.area = pi * self.radius ** 2
 
 
 print(Circle(radius=5))
@@ -576,7 +578,7 @@ Both are stored in dictionaries, so we'll create a function that compares the at
 # class_and_instance.py
 
 
-def show_dicts(obj: object, obj_name: str, info: str = ""):
+def show_dicts(obj: object, obj_name: str):
     cls = obj.__class__
     cls_name = cls.__name__
 
@@ -587,7 +589,6 @@ def show_dicts(obj: object, obj_name: str, info: str = ""):
     }
     obj_dict = obj.__dict__
 
-    print(f" {info} ".center(30, "-"))
     print(f"{cls_name}.__dict__ (class attributes):")
     for attr in cls_dict.keys():
         value = cls_dict[attr]
@@ -596,19 +597,18 @@ def show_dicts(obj: object, obj_name: str, info: str = ""):
             note = "  # overridden by instance"
         print(f"  {attr}: {value}{note}")
 
-    print(f"\n{obj_name}.__dict__ (instance attributes):")
+    print(f"{obj_name}.__dict__ (instance attributes):")
     for attr in cls_dict.keys():
         if attr in obj_dict:
             print(f"  {attr}: {obj_dict[attr]}")
         else:
             print(f"  {attr}: <not present>")
 
-    print("\ndirect access:")
     for attr in cls_dict.keys():
         print(f"{obj_name}.{attr} is {getattr(obj, attr)}")
 ```
 
-Here's an example proving that class attributes do not define instance attributes:
+Here's an example proving that class attributes do not create instance attributes:
 
 ```python
 # proof_of_class_attribute.py
@@ -621,56 +621,50 @@ class A:
 
 
 a = A()
-show_dicts(a, "a", "Initialization")
-## ------- Initialization -------
+show_dicts(a, "a")
 ## A.__dict__ (class attributes):
 ##   x: 1
 ##   y: 2
 ## a.__dict__ (instance attributes):
 ##   x: <not present>
 ##   y: <not present>
-## direct access:
 ## a.x is 1
 ## a.y is 2
 a.x = 99
-show_dicts(a, "a", "a.x = 99")
-## ---------- a.x = 99 ----------
+show_dicts(a, "a")
 ## A.__dict__ (class attributes):
 ##   x: 1  # overridden by instance
 ##   y: 2
 ## a.__dict__ (instance attributes):
 ##   x: 99
 ##   y: <not present>
-## direct access:
 ## a.x is 99
 ## a.y is 2
 a.y = 111
-show_dicts(a, "a", "a.y = 111")
-## --------- a.y = 111 ----------
+show_dicts(a, "a")
 ## A.__dict__ (class attributes):
 ##   x: 1  # overridden by instance
 ##   y: 2  # overridden by instance
 ## a.__dict__ (instance attributes):
 ##   x: 99
 ##   y: 111
-## direct access:
 ## a.x is 99
 ## a.y is 111
 ```
 
 After the initialization of `a`, we see class attribute of `x` and `y` with values `1` and `2`, respectively.
 However, the instance dictionary is empty--there are no instance attributes.
+Thus, when we access `a.x` and `b.x`, Python doesn't find those instance attributes and continues to search, finding and displaying the class attributes instead.
 
-The act of setting `a.x = 99` _creates_ a new instance attribute `x`.
-We can see this has happened because the instance dictionary has changed: `a.__dict__ = {'x': 99}`.
-Note that the class attribute `A.x` is still `1`.
-Similar behavior happens
+The act of assigning `a.x = 99` and `a.y = 111` _creates_ new instance attributes `x` and `y`.
+Note that the class attributes `A.x` and `A.y` remain unchanged.
 
 Let's perform the same experiment with a `dataclass`:
 
 ```python
 # dataclass_attribute.py
 from dataclasses import dataclass
+from class_and_instance import show_dicts
 
 
 @dataclass
@@ -680,31 +674,27 @@ class D:
 
 
 d = D()
-print(f"{D.x = }, {D.y = }, {d.__dict__ = }")
-## D.x = 1, D.y = 2, d.__dict__ = {'x': 1, 'y': 2}
+show_dicts(d, "d")
 d.x = 99
-print(f"{D.x = }, {D.y = }, {d.__dict__ = }")
-## D.x = 1, D.y = 2, d.__dict__ = {'x': 99, 'y':
-## 2}
+show_dicts(d, "d")
 d.y = 111
-print(f"{D.x = }, {D.y = }, {d.__dict__ = }")
-## D.x = 1, D.y = 2, d.__dict__ = {'x': 99, 'y':
-## 111}
+show_dicts(d, "d")
 ```
 
-After initialization, there is now both a class attribute `x` _and_ an instance attribute `x`.
+After initialization, there are class attributes `x` and `y`, _and_ instance attributes `x` and `y`.
 The `dataclass` decorator generates an `__init__` that looks at the class attributes and makes corresponding instance attributes.
-But note that after setting the instance attribute `a.x = 2`, we still see `A.x = 1` as before.
+Note that after assigning to the instance attributes with `d.x = 99` and `d.y = 111`, the class attributes are unchanged.
 
 What happens if you define your own `__init__` for a `dataclass`?
 
 ```python
 # dataclass_with_init.py
 from dataclasses import dataclass
+from class_and_instance import show_dicts
 
 
 @dataclass
-class D:
+class DI:
     x: int = 1
     y: int = 2
 
@@ -712,16 +702,12 @@ class D:
         pass
 
 
-d = D()
-print(f"{D.x = }, {D.y = }, {d.__dict__ = }")
-## D.x = 1, D.y = 2, d.__dict__ = {}
+di = DI()
+show_dicts(di, "di")
 d.x = 99
-print(f"{D.x = }, {D.y = }, {d.__dict__ = }")
-## D.x = 1, D.y = 2, d.__dict__ = {'x': 99}
+show_dicts(di, "di")
 d.y = 111
-print(f"{D.x = }, {D.y = }, {d.__dict__ = }")
-## D.x = 1, D.y = 2, d.__dict__ = {'x': 99, 'y':
-## 111}
+show_dicts(di, "di")
 ```
 
 // Describe
@@ -1008,6 +994,8 @@ class Color(Enum):
 print(Color.RED)
 ## Color.RED
 print(Color.RED.name, Color.RED.value)
+
+
 ## RED 1
 
 
@@ -1019,6 +1007,8 @@ class Status(Enum):
 
 
 print(list(Status))
+
+
 ## [<Status.PENDING: 1>, <Status.RUNNING: 2>,
 ## <Status.DONE: 3>]
 
@@ -1053,6 +1043,8 @@ print(Color.RED == Color.GREEN)
 print(Color["BLUE"])
 ## Color.BLUE
 print(Color(2))  # GREEN
+
+
 ## Color.GREEN
 
 
@@ -1075,6 +1067,8 @@ class Fruit(StrEnum):
 print(Fruit.APPLE.upper())
 ## APPLE
 print(f"JSON-ready: {Fruit.BANANA!r}")
+
+
 ## JSON-ready: <Fruit.BANANA: 'banana'>
 
 
@@ -1091,6 +1085,8 @@ class Shape(Enum):
 
 
 print(f"Shape.CIRCLE has {Shape.CIRCLE.sides()} sides")
+
+
 ## Shape.CIRCLE has 0 sides
 
 
@@ -1106,6 +1102,8 @@ print(
 )  # Only one member per value
 ## Members: [<Mood.HAPPY: 1>, <Mood.SAD: 2>]
 print(f"Alias: {Mood.JOYFUL is Mood.HAPPY}")
+
+
 ## Alias: True
 
 
@@ -1120,6 +1118,8 @@ user_perm = Permission.READ | Permission.WRITE  # type: ignore
 print(f"User permissions: {user_perm}")
 ## User permissions: Permission.READ|WRITE
 print(f"Can execute? {Permission.EXECUTE in user_perm}")
+
+
 ## Can execute? False
 
 
@@ -1251,9 +1251,9 @@ class Status(Enum):
     CLOSED = ("closed", closed_next)
 
     def __init__(
-        self,
-        label: str,
-        next_handler: Callable[[Status], Status],
+            self,
+            label: str,
+            next_handler: Callable[[Status], Status],
     ) -> None:
         self._label = label
         self._next_handler = next_handler
@@ -1516,6 +1516,8 @@ def paint1(color: Color) -> str:
 
 
 print(paint1(Color.BLUE))
+
+
 ## Something else
 
 
@@ -1552,7 +1554,7 @@ print("NOPE" in ParamVal)  # type: ignore
 # Convert literal values to a set:
 allowed_set = set(ParamVal.__args__)  # type: ignore
 print(allowed_set)
-## {'MIN', 'DEF', 'MAX'}
+## {'MIN', 'MAX', 'DEF'}
 print("MIN" in allowed_set)
 ## True
 print("NOPE" in allowed_set)
