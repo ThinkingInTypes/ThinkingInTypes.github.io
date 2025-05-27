@@ -403,7 +403,7 @@ files) and then assigning to fields.
 For example, consider parsing two pieces of `float` data from a single `str` argument:
 
 ```python
-# custom_init.py
+# point.py
 from dataclasses import dataclass
 
 
@@ -416,7 +416,11 @@ class Point:
         x_str, y_str = coord.split(",")
         self.x = float(x_str.strip())
         self.y = float(y_str.strip())
+```
 
+```python
+# point_demo.py
+from point import Point
 
 print(Point(" 10.5 , 20.3 "))
 ## Point(x=10.5, y=20.3)
@@ -537,32 +541,30 @@ instance.
 
 ## Class Attributes
 
-Sometimes people get confused about how class attributes work and mistakenly come to believe that a class attribute defines an object field:
+Sometimes people get confused about how class attributes work and mistakenly believe that a class attribute defines an instance attribute:
 
 ```python
 # a_with_x.py
 class A:
-    x: int = 1  # Appears to create an object field
-```
+    x: int = 1  # Does it create an instance attribute?
 
-Creating an instance of `A` seems to automatically produce a field `x`:
-
-```python
-# appearance_of_instance_field.py
-from a_with_x import A
 
 a = A()
 print(f"{a.x = }")
+## a.x = 1
 ```
 
-This happens because of the lookup rules; if `a.x` can't find an instance field, it looks for a class field with the same name.
+Creating an instance of `A` seems to automatically produce a field `x`.
+This happens because of the lookup rules; if `a.x` can't find an instance attribute, it looks for a class attribute with the same name.
 
-The confusion is understandable because in languages like C++ and Java, similar class definitions _do_ produce instance fields.
-However, we can create an example to prove this is not true in Python:
+The confusion is understandable because in languages like C++ and Java, similar class definitions _do_ produce instance attributes.
+Here's an example that proves this is not true in Python:
 
 ```python
 # proof_of_class_attribute.py
-from a_with_x import A
+class A:
+    x: int = 1
+
 
 a = A()
 print(f"{A.x = }, {a.__dict__ = }, {a.x = }")
@@ -572,9 +574,15 @@ print(f"{A.x = }, {a.__dict__ = }, {a.x = }")
 ## A.x = 1, a.__dict__ = {'x': 2}, a.x = 2
 ```
 
-// Description...
+After the initialization of `a`, we see a class attribute of `x` with the value `1`.
+However, the instance dictionary is empty--there are no instance attributes.
+When we look up the value of `x` on the instance, Python tries to find it and when it cannot, it falls back to the class attribute and produces `1`.
 
-Now let's perform the same experiment with a `dataclass`:
+The act of setting `a.x = 2` _creates_ a new instance attribute `x`.
+We can see this has happened because the instance dictionary has changed: `a.__dict__ = {'x': 2}`.
+Note that the class attribute `A.x` is still `1`.
+
+Let's perform the same experiment with a `dataclass`:
 
 ```python
 # dataclass_attribute.py
@@ -594,7 +602,22 @@ print(f"{A.x = }, {a.__dict__ = }, {a.x = }")
 ## A.x = 1, a.__dict__ = {'x': 2}, a.x = 2
 ```
 
-// Description...
+After initialization, there is now both a class attribute `x` _and_ an instance attribute `x`.
+The `dataclass` decorator generates an `__init__` that looks at the class attributes and makes corresponding instance attributes.
+But note that after setting the instance attribute `a.x = 2`, we still see `A.x = 1` as before.
+
+What happens if you define your own `__init__` for a `dataclass` as we did in `point.py`?
+
+```python
+# point_attributes.py
+from point import Point
+
+p = Point(" 10.5 , 20.3 ")
+print(f"{P.x = }, {P.y = }, {p.__dict__ = }, {p.x = }, {p.y = }")
+p.x = 99
+p.y = 111
+print(f"{P.x = }, {P.y = }, {p.__dict__ = }, {p.x = }, {p.y = }")
+```
 
 ## Enumerations
 
