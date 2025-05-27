@@ -535,6 +535,67 @@ In this example, `condition` is an `InitVar`.
 It is used to conditionally set the `shelf_id` in `__post_init__` but is not stored as an attribute of the `Book`
 instance.
 
+## Class Attributes
+
+Sometimes people get confused about how class attributes work and mistakenly come to believe that a class attribute defines an object field:
+
+```python
+# a_with_x.py
+class A:
+    x: int = 1  # Appears to create an object field
+```
+
+Creating an instance of `A` seems to automatically produce a field `x`:
+
+```python
+# appearance_of_instance_field.py
+from a_with_x import A
+
+a = A()
+print(f"{a.x = }")
+```
+
+This happens because of the lookup rules; if `a.x` can't find an instance field, it looks for a class field with the same name.
+
+The confusion is understandable because in languages like C++ and Java, similar class definitions _do_ produce instance fields.
+However, we can create an example to prove this is not true in Python:
+
+```python
+# proof_of_class_attribute.py
+from a_with_x import A
+
+a = A()
+print(f"{A.x = }, {a.__dict__ = }, {a.x = }")
+## A.x = 1, a.__dict__ = {}, a.x = 1
+a.x = 2
+print(f"{A.x = }, {a.__dict__ = }, {a.x = }")
+## A.x = 1, a.__dict__ = {'x': 2}, a.x = 2
+```
+
+// Description...
+
+Now let's perform the same experiment with a `dataclass`:
+
+```python
+# dataclass_attribute.py
+from dataclasses import dataclass
+
+
+@dataclass
+class A:
+    x: int = 1
+
+
+a = A()
+print(f"{A.x = }, {a.__dict__ = }, {a.x = }")
+## A.x = 1, a.__dict__ = {'x': 1}, a.x = 1
+a.x = 2
+print(f"{A.x = }, {a.__dict__ = }, {a.x = }")
+## A.x = 1, a.__dict__ = {'x': 2}, a.x = 2
+```
+
+// Description...
+
 ## Enumerations
 
 An `Enum` is also a type and is preferable when you have a smaller set of values.
