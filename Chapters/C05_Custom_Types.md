@@ -546,41 +546,82 @@ Sometimes people get confused about how class attributes work and mistakenly bel
 ```python
 # a_with_x.py
 class A:
-    x: int = 1  # Does it create an instance attribute?
+    # Does this create instance attributes?
+    x: int = 1
+    y: int = 2
 
 
 a = A()
-print(f"{a.x = }")
+print(f"{a.x = }, {a.y = }")
 ## a.x = 1
 ```
 
-Creating an instance of `A` seems to automatically produce a field `x`.
-This happens because of the lookup rules; if `a.x` can't find an instance attribute, it looks for a class attribute with the same name.
+Creating an instance of `A` _appears_ to automatically produce instance attributes `x` and `y`.
+This happens because of the lookup rules: when `a.x` or `a.y` can't find an instance attribute, it looks for a class attribute with the same name.
 
 The confusion is understandable because in languages like C++ and Java, similar class definitions _do_ produce instance attributes.
-Here's an example that proves this is not true in Python:
+
+The key to understanding this is to see the difference between class attributes and instance attributes.
+Both are stored in dictionaries, so we'll create a function that compares the attributes in both dictionaries:
+
+```python
+# class_and_instance.py
+
+def show_dicts(obj: object, obj_name: str, info: str = ""):
+    cls = obj.__class__
+    cls_name = cls.__name__
+
+    cls_dict = {k: v for k, v in cls.__dict__.items() if not k.startswith("__")}
+    obj_dict = obj.__dict__
+
+    print(f" {info} ".center(30, "-"))
+    print(f"{cls_name}.__dict__ (class attributes):")
+    for attr in cls_dict.keys():
+        value = cls_dict[attr]
+        note = ""
+        if attr in obj_dict and obj_dict[attr] != value:
+            note = "  # overridden by instance"
+        print(f"  {attr}: {value}{note}")
+
+    print(f"\n{obj_name}.__dict__ (instance attributes):")
+    for attr in cls_dict.keys():
+        if attr in obj_dict:
+            print(f"  {attr}: {obj_dict[attr]}")
+        else:
+            print(f"  {attr}: <not present>")
+
+    print("\ndirect access:")
+    for attr in cls_dict.keys():
+        print(f"{obj_name}.{attr} is {getattr(obj, attr)}")
+```
+
+Here's an example proving that class attributes do not define instance attributes:
 
 ```python
 # proof_of_class_attribute.py
+from class_and_instance import show_dicts
+
+
 class A:
     x: int = 1
+    y: int = 2
 
 
 a = A()
-print(f"{A.x = }, {a.__dict__ = }, {a.x = }")
-## A.x = 1, a.__dict__ = {}, a.x = 1
-a.x = 2
-print(f"{A.x = }, {a.__dict__ = }, {a.x = }")
-## A.x = 1, a.__dict__ = {'x': 2}, a.x = 2
+show_dicts(a, "a", "Initialization")
+a.x = 99
+show_dicts(a, "a", "a.x = 99")
+a.y = 111
+show_dicts(a, "a", "a.y = 111")
 ```
 
-After the initialization of `a`, we see a class attribute of `x` with the value `1`.
+After the initialization of `a`, we see class attribute of `x` and `y` with values `1` and `2`, respectively.
 However, the instance dictionary is empty--there are no instance attributes.
-When we look up the value of `x` on the instance, Python tries to find it and when it cannot, it falls back to the class attribute and produces `1`.
 
-The act of setting `a.x = 2` _creates_ a new instance attribute `x`.
-We can see this has happened because the instance dictionary has changed: `a.__dict__ = {'x': 2}`.
+The act of setting `a.x = 99` _creates_ a new instance attribute `x`.
+We can see this has happened because the instance dictionary has changed: `a.__dict__ = {'x': 99}`.
 Note that the class attribute `A.x` is still `1`.
+Similar behavior happens
 
 Let's perform the same experiment with a `dataclass`:
 
@@ -590,34 +631,48 @@ from dataclasses import dataclass
 
 
 @dataclass
-class A:
+class D:
     x: int = 1
+    y: int = 2
 
 
-a = A()
-print(f"{A.x = }, {a.__dict__ = }, {a.x = }")
-## A.x = 1, a.__dict__ = {'x': 1}, a.x = 1
-a.x = 2
-print(f"{A.x = }, {a.__dict__ = }, {a.x = }")
-## A.x = 1, a.__dict__ = {'x': 2}, a.x = 2
+d = D()
+print(f"{D.x = }, {D.y = }, {d.__dict__ = }")
+d.x = 99
+print(f"{D.x = }, {D.y = }, {d.__dict__ = }")
+d.y = 111
+print(f"{D.x = }, {D.y = }, {d.__dict__ = }")
 ```
 
 After initialization, there is now both a class attribute `x` _and_ an instance attribute `x`.
 The `dataclass` decorator generates an `__init__` that looks at the class attributes and makes corresponding instance attributes.
 But note that after setting the instance attribute `a.x = 2`, we still see `A.x = 1` as before.
 
-What happens if you define your own `__init__` for a `dataclass` as we did in `point.py`?
+What happens if you define your own `__init__` for a `dataclass`?
 
 ```python
-# point_attributes.py
-from point import Point
+# dataclass_with_init.py
+from dataclasses import dataclass
 
-p = Point(" 10.5 , 20.3 ")
-print(f"{P.x = }, {P.y = }, {p.__dict__ = }, {p.x = }, {p.y = }")
-p.x = 99
-p.y = 111
-print(f"{P.x = }, {P.y = }, {p.__dict__ = }, {p.x = }, {p.y = }")
+
+@dataclass
+class D:
+    x: int = 1
+    y: int = 2
+
+    def __init__(self):
+        pass
+
+
+d = D()
+print(f"{D.x = }, {D.y = }, {d.__dict__ = }")
+d.x = 99
+print(f"{D.x = }, {D.y = }, {d.__dict__ = }")
+d.y = 111
+print(f"{D.x = }, {D.y = }, {d.__dict__ = }")
 ```
+
+// Describe
 
 ## Enumerations
 
