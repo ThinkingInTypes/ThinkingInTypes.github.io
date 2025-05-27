@@ -1321,7 +1321,7 @@ If that fails with <code>AttributeError</code>, <em>and</em> you've defined <str
 <p>Python can't find the method <code>dance</code>, so it calls <code>obj.__getattr__("dance")</code> which returns a function <code>handler(...)</code>.
 Calling <code>obj.dance()</code> now runs <code>handler(...)</code>, which calls <code>self.not_found("dance", ...)</code></p>
 <h3 id="a-blank-chatbot">A blank chatbot<a class="headerlink" href="#a-blank-chatbot" title="Permanent link">#</a></h3>
-<p>Here's a simple <code>Chatbot</code> class that doesn't yet respond to anything:</p>
+<p>Here's a basic <code>Chatbot</code> class that doesn't yet respond to anything:</p>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="c1"># chatbot.py</span>
 </span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="kn">from</span> <span class="nn">smalltalk_object</span> <span class="kn">import</span> <span class="n">SmalltalkObject</span>
 </span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>
@@ -1407,13 +1407,14 @@ No compilation step--just live system growth.</p>
 </span><span id="__span-13-7"><a id="__codelineno-13-7" name="__codelineno-13-7" href="#__codelineno-13-7"></a><span class="c1">## Don&#39;t know &#39;weather&#39;; remembering it.</span>
 </span><span id="__span-13-8"><a id="__codelineno-13-8" name="__codelineno-13-8" href="#__codelineno-13-8"></a><span class="c1">## Don&#39;t know &#39;joke&#39;; remembering it.</span>
 </span><span id="__span-13-9"><a id="__codelineno-13-9" name="__codelineno-13-9" href="#__codelineno-13-9"></a><span class="kn">import</span> <span class="nn">learn_joke</span>
-</span><span id="__span-13-10"><a id="__codelineno-13-10" name="__codelineno-13-10" href="#__codelineno-13-10"></a><span class="c1">## Why did the duck cross the road?</span>
-</span><span id="__span-13-11"><a id="__codelineno-13-11" name="__codelineno-13-11" href="#__codelineno-13-11"></a><span class="c1">## It was the chicken&#39;s day off.</span>
-</span><span id="__span-13-12"><a id="__codelineno-13-12" name="__codelineno-13-12" href="#__codelineno-13-12"></a>
-</span><span id="__span-13-13"><a id="__codelineno-13-13" name="__codelineno-13-13" href="#__codelineno-13-13"></a><span class="nb">print</span><span class="p">([</span><span class="n">m</span> <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="nb">dir</span><span class="p">(</span><span class="n">bot</span><span class="p">)</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">m</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;_&quot;</span><span class="p">)])</span>
-</span><span id="__span-13-14"><a id="__codelineno-13-14" name="__codelineno-13-14" href="#__codelineno-13-14"></a><span class="c1">## [&#39;hello&#39;, &#39;history&#39;, &#39;joke&#39;, &#39;not_found&#39;]</span>
-</span><span id="__span-13-15"><a id="__codelineno-13-15" name="__codelineno-13-15" href="#__codelineno-13-15"></a><span class="nb">print</span><span class="p">(</span><span class="n">bot</span><span class="o">.</span><span class="n">history</span><span class="p">)</span>
-</span><span id="__span-13-16"><a id="__codelineno-13-16" name="__codelineno-13-16" href="#__codelineno-13-16"></a><span class="c1">## {&#39;hello&#39;}</span>
+</span><span id="__span-13-10"><a id="__codelineno-13-10" name="__codelineno-13-10" href="#__codelineno-13-10"></a>
+</span><span id="__span-13-11"><a id="__codelineno-13-11" name="__codelineno-13-11" href="#__codelineno-13-11"></a><span class="c1">## Why did the duck cross the road?</span>
+</span><span id="__span-13-12"><a id="__codelineno-13-12" name="__codelineno-13-12" href="#__codelineno-13-12"></a><span class="c1">## It was the chicken&#39;s day off.</span>
+</span><span id="__span-13-13"><a id="__codelineno-13-13" name="__codelineno-13-13" href="#__codelineno-13-13"></a>
+</span><span id="__span-13-14"><a id="__codelineno-13-14" name="__codelineno-13-14" href="#__codelineno-13-14"></a><span class="nb">print</span><span class="p">([</span><span class="n">m</span> <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="nb">dir</span><span class="p">(</span><span class="n">bot</span><span class="p">)</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">m</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;_&quot;</span><span class="p">)])</span>
+</span><span id="__span-13-15"><a id="__codelineno-13-15" name="__codelineno-13-15" href="#__codelineno-13-15"></a><span class="c1">## [&#39;hello&#39;, &#39;history&#39;, &#39;joke&#39;, &#39;not_found&#39;]</span>
+</span><span id="__span-13-16"><a id="__codelineno-13-16" name="__codelineno-13-16" href="#__codelineno-13-16"></a><span class="nb">print</span><span class="p">(</span><span class="n">bot</span><span class="o">.</span><span class="n">history</span><span class="p">)</span>
+</span><span id="__span-13-17"><a id="__codelineno-13-17" name="__codelineno-13-17" href="#__codelineno-13-17"></a><span class="c1">## {&#39;hello&#39;}</span>
 </span></code></pre></div>
 <p>Just like a Smalltalk browser, we inspect our object's current interface and state.</p>
 <h2 id="why-smalltalk-oop-didnt-become-statically-compiled-oop">Why Smalltalk OOP Didn't Become Statically Compiled OOP<a class="headerlink" href="#why-smalltalk-oop-didnt-become-statically-compiled-oop" title="Permanent link">#</a></h2>
@@ -1599,8 +1600,8 @@ letting different kinds of objects participate as long as they behave appropriat
 As the Smalltalk ethos would suggest, "Look at what the object does, not what it says it is."</p>
 <h3 id="conclusion-the-philosophical-takeaway">Conclusion: The Philosophical Takeaway<a class="headerlink" href="#conclusion-the-philosophical-takeaway" title="Permanent link">#</a></h3>
 <p>From a practical and philosophical perspective, "type" in Smalltalk is less a label and more a dynamic quality of an object's behavior.
-It's defined by the messages an object understands and how it responds, which is ultimately determined by its class's methods (and any clever
-<code>doesNotUnderstand:</code> tricks).
+It's defined by the messages an object understands and how it respond--this is ultimately determined the class methods along with any clever
+<code>doesNotUnderstand:</code> tricks.
 An object can certainly be said to "have a type" in Smalltalk--but that type isn't a static tag; it's the set of messages it can handle,
 i.e., its protocol.
 Smalltalk's class system provides the structure for those protocols (acting as a template for behavior),

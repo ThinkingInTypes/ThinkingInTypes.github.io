@@ -1170,7 +1170,7 @@ the size and complexity of programs grew beyond what the assembly programmer was
 <h2 id="modules">Modules<a class="headerlink" href="#modules" title="Permanent link">#</a></h2>
 <p>Tim Peters celebrated namespaces in <a href="https://peps.python.org/pep-0020/">The Zen of Python</a>.
 This is the foundation for <em>modules</em>, found in more modern languages (for backwards compatibility, C++ was forced to use C’s messy system).
-In Python, files are automatically modules, which is certainly one of the easiest solutions.</p>
+In Python, modules map nicely onto files.</p>
 <p>It wasn’t always this way.
 Breaking assembly-language programs into pieces was not easy, and early higher-level languages tended to be single-file
 programs and did not consider modularity.
@@ -1186,7 +1186,7 @@ The name tells you what a significant shift it was considered at the time.</p>
 <p>This allowed complete granularity independent of file organization; perhaps this was because programmers were used to
 thinking in terms of one big file-per-program.
 Merging modules with files in Python makes more sense in hindsight and has the benefit of eliminating
-the <a href="https://en.wikipedia.org/wiki/Modula-2">(significant) extra verbiage</a>, only a portion of which is shown here.</p>
+the <a href="https://en.wikipedia.org/wiki/Modula-2">(significant) extra verbiage</a>, of which you only see a portion here.</p>
 <p>The main benefit of modules is name control.
 Each module creates a scope for names (a namespace) which allows programmers the freedom to choose any name at will within a module.
 This prevents name collisions across a project and reduces the cognitive load on the programmer.
@@ -1397,8 +1397,7 @@ without dealing with error conditions (a failing of the Go language approach).</
 </span><span id="__span-2-26"><a id="__codelineno-2-26" name="__codelineno-2-26" href="#__codelineno-2-26"></a><span class="c1">## 4: answer = 4</span>
 </span></code></pre></div>
 <p><code>fa</code> returns a <code>str</code> to indicate an error, and an <code>int</code> answer if there is no error.
-In the pattern match, we are forced to check the result type to determine whether an error occurs; we cannot just assume
-it is an <code>int</code>.</p>
+In the pattern match, we must check the result type to determine whether an error occurs; we cannot just assume it is an <code>int</code>.</p>
 <p>An important problem with this approach is that it is not clear which type is the success value and which type
 represents the error condition—because we are trying to repurpose existing built-in types to represent new meanings.</p>
 <p>In hindsight, it might seem like this "return package" approach is much more obvious than the elaborate
@@ -1437,10 +1436,10 @@ We’ll call this <code>Result</code> and define it using generics to make it un
 </span></code></pre></div>
 <p>Each subtype of <code>Result</code> only holds one field: <code>answer</code> for a successful <code>Success</code> calculation, and <code>error</code> for a <code>Failure</code>.
 If a <code>Failure</code> is returned, the client programmer cannot reach in and grab the <code>answer</code> because that field doesn’t exist.
-The client programmer is forced to properly analyze the <code>Result</code>.</p>
+The client programmer must properly analyze the <code>Result</code>.</p>
 <p>To use <code>Result</code>, you <code>return Success(answer)</code> when you’ve successfully created an answer,
 and <code>return Failure(error)</code> to indicate a failure.
-<code>unwrap</code> is a convenience method which is only available for a <code>Success</code>.</p>
+<code>unwrap</code> is a convenience method that is only available for a <code>Success</code>.</p>
 <p>The modified version of the example using <code>Result</code> is now:</p>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="c1"># return_result.py</span>
 </span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="c1"># Result type returns Success/Failure</span>
@@ -1469,8 +1468,7 @@ The first type parameter to <code>Result</code> is the type returned by <code>Su
 returned by <code>Failure</code>.
 The <code>outputs</code> from the comprehension are all of type <code>Result</code>, and we have preserved the successful calculations even
 though there is a failing call.
-We can also pattern-match on the outputs, and it is crystal-clear which match is for the success and which is for the
-failure.</p>
+We can also pattern-match on outputs; it is clear which is for success and failure.</p>
 <p>The <code>returns</code> library has been slipped in here, but its basic form is that of <code>result.py</code>.</p>
 <h2 id="composing-with-result">Composing with <code>Result</code><a class="headerlink" href="#composing-with-result" title="Permanent link">#</a></h2>
 <p>The previous examples included composition in the <code>composed</code> functions which just called a single other function.
@@ -1547,16 +1545,14 @@ Notice that <code>fb</code> and <code>fc</code> both use built-in exception type
 raised—they are used to convey information, just like the <code>str</code> in <code>fa</code>.</p>
 <p>In <code>composed</code>, we call <code>fa</code>, <code>fb</code> and <code>fc</code> in sequence.
 After each call, we check to see if the result type is <code>Failure</code>.
-If so, the calculation has failed, and we can’t continue, so we return the current result,
-which is a <code>Failure</code> object containing the reason for the failure.
-If it succeeds,
-it is a <code>Success</code>
-which contains an <code>unwrap</code> method that is used to extract the answer from that calculation—if you look back at <code>Result</code>,
-you’ll see that it returns the <code>ANSWER</code> type so its use can be properly type-checked.</p>
-<p>This means that any failure during a sequence of composed function calls will short-circuit out of <code>composed</code>, returning
-a <code>Failure</code> that tells you exactly what happened, and that you must decide what to do with.
-You can’t just ignore it and assume that it will "bubble up" until it finds an appropriate handler.
-You are forced to deal with it at the point of origin, which is typically when you know the most about an error.</p>
+If so, the calculation has failed.
+We can’t continue, so we return a <code>Failure</code> object containing the reason for the failure.
+Succeeding produces a <code>Success</code> containing an <code>unwrap</code> method used to extract the answer from that calculation.
+It returns the <code>ANSWER</code> type so its use can be properly type-checked.</p>
+<p>This means that any failure during a sequence of composed function calls will short-circuit out of <code>composed</code>,
+returning a <code>Failure</code> that tells you exactly what happened.
+You can’t ignore it and assume that it will "bubble up" until it finds an appropriate handler.
+You must deal with it at the point of origin, the place where you typically know the most about an error.</p>
 <h2 id="simplifying-composition-with-bind">Simplifying Composition with <code>bind</code><a class="headerlink" href="#simplifying-composition-with-bind" title="Permanent link">#</a></h2>
 <p>There’s still a problem that impedes our ultimate goal of composability:
 every time you call a function within a composed function, you must write code to check the <code>Result</code> type and extract
@@ -1687,8 +1683,7 @@ because the other values cause errors in the <code>composed</code> chain of oper
 The value <code>1</code> never gets to <code>fb</code> because it is intercepted by the prior <code>composed</code> call to <code>fa</code>.
 The value <code>0</code> causes <code>fb</code> to produce a <code>ZeroDivisionError</code> when it tries to perform the division inside the <code>print</code>.</p>
 <p>[Explain the rest of the example]</p>
-<p>Note that there may be an issue with the <code>Returns</code> library, which is that for proper type checking it requires using a
-MyPy extension.
+<p>Note that there may be an issue with the <code>Returns</code> library: for proper type checking it requires using a MyPy extension.
 So far I have been unable to get that extension to work (however, I have no experience with MyPy extensions).</p>
 <h2 id="functional-error-handling-is-happening">Functional Error Handling is Happening<a class="headerlink" href="#functional-error-handling-is-happening" title="Permanent link">#</a></h2>
 <p>Functional error handling has already appeared in languages like Rust, Kotlin, and recent versions of C++ support these

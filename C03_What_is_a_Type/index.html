@@ -1005,8 +1005,8 @@ You can always check that type at runtime using the built-in <code>type()</code>
 </span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="c1">## False</span>
 </span></code></pre></div>
 <p>The calls to <code>isinstance</code> confirm that 42 is indeed an <code>int</code> and that the string <code>"Hello"</code> is not an <code>int</code>.
-Types determine what operations are allowed; for instance, you can multiply integers, but multiplying two strings is not defined (except by repeating the string, which is a different operation in
-Python).</p>
+Types determine what operations are allowed; for instance, you can multiply integers, but multiplying two strings is not defined
+(except to repeat the string).</p>
 <p>Types act as a contract or promise about data.
 If a function expects a certain type, providing data of the wrong type can lead to errors.
 For example, giving a text string to a mathematical formula that expects a number will cause problems.
@@ -1059,7 +1059,7 @@ For instance:</p>
 </span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>    <span class="c1"># Can&#39;t add a str to an int:</span>
 </span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>    <span class="n">result</span> <span class="o">=</span> <span class="n">x</span> <span class="o">+</span> <span class="s2">&quot;world&quot;</span>  <span class="c1"># type: ignore</span>
 </span></code></pre></div>
-<p>We attempted to "add" a string <code>"world"</code> to <code>x</code>, which is an integer.
+<p>We attempted to "add" <code>"world"</code>, a <code>str</code>, to <code>x</code>, an <code>int</code>.
 Python only discovers the problem while running the line: realizing it can't add an <code>int</code> and <code>str</code>, it throws a <code>TypeError</code> exception.
 In a statically typed language, such an error would be caught before running the program (the code wouldn't compile).</p>
 <p>To summarize the difference:</p>
@@ -1075,10 +1075,8 @@ In a statically typed language, such an error would be caught before running the
 <p>It's important to note that dynamic vs.
 static is about when type checking happens (at runtime vs.
 compile time).
-It's independent of another concept often mentioned: strong vs.
-weak typing, which is about how strictly types are treated.
-Python, for example, is strongly typed--it won't implicitly convert types for you in unchecked ways.
-Trying to add a number to a string, as we saw, is not allowed (Python won't guess that maybe you meant <code>"10" + "world"</code> or something--it errors out).
+It's independent of strong vs. weak typing; Python is strongly typed--it won't implicitly convert types for you in unchecked ways (except for truthiness, which can be disallowed).
+Trying to add a number to a string is not permitted, as Python won't guess that maybe you meant <code>"10" + "world"</code>.
 In Python, values have a definite type, and you can't treat a value as a different type without an explicit conversion.
 Many static languages are also strongly typed, but some languages are <em>weakly typed</em> (they might, for instance, automatically convert strings to numbers in certain contexts, which can lead to subtle
 bugs).
@@ -1243,10 +1241,10 @@ Waiting until runtime produces errors that take time and effort to untangle.</p>
 <p>The standard library <code>typing</code> module provides many advanced types and constructs, which we cover in later chapters:</p>
 <ul>
 <li>Generics (like <code>list[int]</code> or <code>dict[str, int]</code>)</li>
-<li><code>Optional[X]</code> (which is just shorthand for <code>X | None</code> in newer Python versions)</li>
+<li><code>Optional[X]</code> (shorthand for <code>X | None</code> in newer Python versions)</li>
 <li><code>Literal</code> types (specific allowed values)</li>
 <li><code>TypedDict</code> (dicts with specific shape)</li>
-<li><em>protocols</em> (PEP 544) which are basically static duck typing (you can define an interface that says "this type must have methods X, Y, Z" without caring about inheritance).</li>
+<li><em>protocols</em> (PEP 544) static duck typing (you can define an interface that says "this type must have methods X, Y, Z" without caring about inheritance).</li>
 </ul>
 <h2 id="typing-is-optional">Typing is Optional<a class="headerlink" href="#typing-is-optional" title="Permanent link">#</a></h2>
 <p>Python's type annotations are optional and ignored at runtime.

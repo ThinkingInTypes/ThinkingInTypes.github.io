@@ -1607,7 +1607,7 @@ early during development.</p>
 <p>TODO: Probably divide this into "Generics" here and "Advanced Generics" at the end of the book.</p>
 <h2 id="defining-custom-generics">Defining Custom Generics<a class="headerlink" href="#defining-custom-generics" title="Permanent link">#</a></h2>
 <p>Python directly supports <em>parameterized types</em>.
-This allows you to declare a <em>type variable</em>, which is a placeholder for an arbitrary type.</p>
+This allows you to declare a <em>type variable</em> as a placeholder for an arbitrary type.</p>
 <h3 id="generic-functions">Generic Functions<a class="headerlink" href="#generic-functions" title="Permanent link">#</a></h3>
 <p>For functions, a type variable enables the function to accept and return values of the same arbitrary type.
 Here is a generic function expressing identity:</p>
@@ -1973,8 +1973,7 @@ This is a great benefit, as people often find variance confusing.</p>
 <h3 id="invariant">Invariant<a class="headerlink" href="#invariant" title="Permanent link">#</a></h3>
 <p>A generic class is invariant by default.
 For example, given <code>Dog</code> is a subclass of <code>Animal</code>, <code>Box[Dog]</code> is not considered a subtype of <code>Box[Animal]</code>.
-This is unsafe because you can then put a <code>Cat</code> (another <code>Animal</code>) into a <code>Box[Animal]</code> which is a <code>Box[Dog]</code>
-internally.
+This is unsafe because you can then put a <code>Cat</code> (another <code>Animal</code>) into a <code>Box[Animal]</code> which is a <code>Box[Dog]</code> internally.
 The type checker forbids treating <code>Box[Dog]</code> as a <code>Box[Animal]</code>.</p>
 <h3 id="covariance">Covariance<a class="headerlink" href="#covariance" title="Permanent link">#</a></h3>
 <p>Covariance usually makes sense for read-only or producer containers.
@@ -2028,7 +2027,7 @@ In general, contravariance allows broadening the accepted types when substitutin
 <code>Sink[Dog]</code> because anything that expects to only handle <code>Dog</code>s can also handle <code>Animal</code>s (but not vice versa).</p>
 <h3 id="using-variance">Using Variance<a class="headerlink" href="#using-variance" title="Permanent link">#</a></h3>
 <p>Function type variables are always invariant.
-Most built-in collections in Python are invariant (e.g., <code>list</code> is invariant, which is why <code>list[Dog]</code> is not assignable
+Most built-in collections in Python are invariant (e.g., <code>list</code> is invariant, so <code>list[Dog]</code> is not assignable
 to <code>list[Animal]</code>).
 Some abstract collection types or protocols are covariant.
 For instance, <code>collections.abc.Sequence</code> is covariant in its element type,
@@ -2090,7 +2089,7 @@ This helps catch errors if you pass wrong types to the curried functions and pro
 This is often needed for recursive data structures (like trees or linked lists) or for type definitions that refer to
 themselves (like a JSON structure type that can contain nested instances of itself).</p>
 <h3 id="self-referencing-generic-classes">Self-referencing Generic Classes<a class="headerlink" href="#self-referencing-generic-classes" title="Permanent link">#</a></h3>
-<p>Consider a simple tree data structure where each node contains a value and a list of children which are themselves
+<p>Consider a tree data structure where each node contains a value and a list of children which are themselves
 nodes.
 We want to parameterize the tree by the type of its values (e.g., <code>Tree[int]</code> or <code>Tree[str]</code>).
 The class needs to refer to itself for the children.
@@ -2473,7 +2472,7 @@ For example:</p>
 </span><span id="__span-30-3"><a id="__codelineno-30-3" name="__codelineno-30-3" href="#__codelineno-30-3"></a>
 </span><span id="__span-30-4"><a id="__codelineno-30-4" name="__codelineno-30-4" href="#__codelineno-30-4"></a><span class="n">Coordinates</span><span class="p">:</span> <span class="n">TypeAlias</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span>
 </span></code></pre></div>
-<p>However, for simple cases, just using a capitalized variable name for the alias as above is usually clear enough to type
+<p>However, for basic cases, just using a capitalized variable name for the alias as above is usually clear enough to type
 checkers.
 (By convention, user-defined type aliases often start with a capital letter.) Python 3.12 is expected to bring a new
 syntax for generic aliases using the <code>type</code> keyword (PEP 695), but that's beyond the scope of this chapter.</p>
@@ -2553,7 +2552,7 @@ This is probably a design mistake.
 In such cases, use a normal specific type (or <code>Any</code>) if the function isn't meant to be generic.
 Use type variable only for functions that really need to be generic.</p>
 <h3 id="practice-use-descriptive-type-variable-names-for-clarity">Practice: Use Descriptive Type Variable Names for Clarity<a class="headerlink" href="#practice-use-descriptive-type-variable-names-for-clarity" title="Permanent link">#</a></h3>
-<p>While the convention is to use single-letter type variables like <code>T</code>, <code>U</code>, <code>V</code> for simple cases, in more complex generics
+<p>While the convention is to use single-letter type variables like <code>T</code>, <code>U</code>, <code>V</code> for common cases, in more complex generics
 consider using more descriptive names.
 For example:</p>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-35-1"><a id="__codelineno-35-1" name="__codelineno-35-1" href="#__codelineno-35-1"></a><span class="c1"># descriptive_type_variables.py</span>

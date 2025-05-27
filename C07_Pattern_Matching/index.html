@@ -1079,18 +1079,17 @@
 <h1 id="pattern-matching">Pattern Matching<a class="headerlink" href="#pattern-matching" title="Permanent link">#</a></h1>
 <p>Python 3.10 added <em>structural pattern matching</em> via the <code>match...case</code> statement.
 Pattern matching compares a value (the <em>subject</em>) against a series of <em>patterns</em>, and executes code based on the pattern that fits.
-Unlike a simple switch on a single value, structural pattern matching destructures complex data and tests for conditions in one expressive syntax.</p>
+Unlike a basic switch on a single value, structural pattern matching destructures complex data and tests for conditions in one expressive syntax.</p>
 <p>A <code>match</code> statement looks similar to a <strong>switch</strong>/<strong>case</strong> from other languages, but Python's patterns can match structure (like the shape of a sequence or the attributes of an object) and bind variables.
 Python tries each <code>case</code> in order and executes the first one that matches, with a wildcard <code>_</code> as a catch-all default.
-Patterns can include literals, names, and even nested sub-patterns to unpack data.
-We will cover each pattern type in detail, with examples and tips on how they interact with Python's type system and static analysis.</p>
+Patterns can include literals, names, and even nested sub-patterns to unpack data.</p>
 <h2 id="literal-patterns">Literal Patterns<a class="headerlink" href="#literal-patterns" title="Permanent link">#</a></h2>
 <p>A <em>literal pattern</em> specifies a concrete value that the subject must equal.
 These are most akin to classic switch-case constants.
 Literal patterns can be numbers, strings, booleans, <code>None</code>, or even singleton objects.
 The pattern matches if the subject is equal to that value (using <code>==</code> comparison for most types).
 For example, consider matching an HTTP status code to a message:</p>
-<div class="language-python highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1"># example_1.py</span>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1"># literal_patterns.py</span>
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="n">status</span> <span class="o">=</span> <span class="mi">404</span>
 </span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="k">match</span> <span class="n">status</span><span class="p">:</span>
 </span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>    <span class="k">case</span> <span class="mi">200</span><span class="p">:</span>
@@ -1103,15 +1102,15 @@ For example, consider matching an HTTP status code to a message:</p>
 <p>The cases <code>200</code> and <code>404</code> are literal patterns.
 The <code>match</code> compares <code>status</code> against each literal in turn.
 Because <code>status == 404</code>, the second case matches and <code>result</code> becomes <code>"Not Found"</code>.
-If <code>status</code> had been something else, the wildcard <code>_</code> (covered later) would catch it as a default.</p>
-<p><strong>How literal matching works:</strong> Most literal constants match by equality.
+If <code>status</code> had been something else, the wildcard <code>_</code> would catch it as a default.</p>
+<p>Most literal constants match by equality.
 However, Python's three singletons--<code>True</code>, <code>False</code>, and <code>None</code>--are matched by identity (i.e., the subject <em>is</em> that object).
 This distinction rarely matters in practice (since there's only one <code>True</code> etc.), but it's a defined part of the rules.
-You can also combine multiple literals in one pattern using the OR operator <code>|</code> (described in the OR Patterns section) to match any of several constants (e.g., <code>case 401 | 403 | 404:</code> to handle multiple error codes in one branch).</p>
-<p><strong>Named constants in patterns:</strong> A common desire is to match against a constant defined elsewhere (like an enumeration member or a module-level constant).
-In pattern matching, a bare name is treated as a capture variable (see <em>Capture Patterns</em> below), not a constant.
+You can also combine multiple literals in one pattern using the OR operator <code>|</code> to match any of several constants (e.g., <code>case 401 | 403 | 404:</code> to handle multiple error codes in one branch).</p>
+<p>You'll often want to match against a constant defined elsewhere, such as an enumeration member or a module-level constant.
+In pattern matching, a bare name is treated as a <em>capture variable</em>, not a constant.
 To use a named value as a literal pattern, you must qualify it so that it's not seen as a new variable.
-The rule is that named constants must appear as dotted names (or attributes) in patterns.
+Named constants must appear as dotted names (or attributes) in patterns.
 For example, to match an <code>Enum</code> member:</p>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="c1"># colors.py</span>
 </span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="kn">from</span> <span class="nn">enum</span> <span class="kn">import</span> <span class="n">Enum</span>
@@ -1122,43 +1121,41 @@ For example, to match an <code>Enum</code> member:</p>
 </span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>    <span class="n">GREEN</span> <span class="o">=</span> <span class="mi">2</span>
 </span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>    <span class="n">BLUE</span> <span class="o">=</span> <span class="mi">3</span>
 </span></code></pre></div>
-<div class="language-python highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1"># color_demo.py</span>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1"># color_match.py</span>
 </span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="kn">from</span> <span class="nn">colors</span> <span class="kn">import</span> <span class="n">Color</span>
 </span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>
 </span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="n">color</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">GREEN</span>
 </span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="k">match</span> <span class="n">color</span><span class="p">:</span>
 </span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>    <span class="k">case</span> <span class="n">Color</span><span class="o">.</span><span class="n">RED</span><span class="p">:</span>
-</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;It&#39;s red!&quot;</span><span class="p">)</span>
+</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;color is red!&quot;</span><span class="p">)</span>
 </span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>    <span class="k">case</span> <span class="n">Color</span><span class="o">.</span><span class="n">GREEN</span><span class="p">:</span>
-</span><span id="__span-2-9"><a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a>        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;It&#39;s green!&quot;</span><span class="p">)</span>
+</span><span id="__span-2-9"><a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a>        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;color is green!&quot;</span><span class="p">)</span>
 </span><span id="__span-2-10"><a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a>    <span class="k">case</span> <span class="n">Color</span><span class="o">.</span><span class="n">BLUE</span><span class="p">:</span>
-</span><span id="__span-2-11"><a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a>        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;It&#39;s blue!&quot;</span><span class="p">)</span>
-</span><span id="__span-2-12"><a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a><span class="c1">## It&#39;s green!</span>
+</span><span id="__span-2-11"><a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a>        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;color is blue!&quot;</span><span class="p">)</span>
+</span><span id="__span-2-12"><a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a><span class="c1">## color is green!</span>
 </span></code></pre></div>
-<p>Here <code>Color.RED</code> etc.
-are dotted names, so the pattern treats them as specific constant values rather than capturing new variables named <code>RED</code>, <code>GREEN</code>, <code>BLUE</code>.
+<p>Here <code>Color.RED</code> etc. are dotted names, so the pattern treats them as specific constant values rather than capturing new variables named <code>RED</code>, <code>GREEN</code>, <code>BLUE</code>.
 This will correctly match the enum value in <code>color</code>.
-(If you had written just <code>RED</code> as a pattern, it would be a capture pattern instead, which is likely not what you want.)</p>
-<p><strong>Static analysis angle:</strong> Literal patterns work great with type annotations for <code>Literal</code> types and Enums.
-If a variable is annotated with a union of literal values or an <code>Enum</code> type, a series of literal <code>case</code> clauses can cover all possibilities.
-Modern static type checkers (like mypy or PyRight) can perform <em>exhaustiveness checking</em> on <code>match</code> statements.
+Using the un-dotted <code>RED</code> instead of <code>Color.RED</code> makes it a capture pattern.</p>
+<p>Literal patterns work well with type annotations for <code>Literal</code> types and <code>Enum</code>s.
+If a variable is annotated with a union of literal values or an <code>Enum</code> type, a series of literal <code>case</code> clauses can cover all possibilities.</p>
+<p>Static type checkers can perform <em>exhaustiveness checking</em> on <code>match</code> statements.
 This means if you forget to handle one of the specified values, the type checker can warn you.
 For instance, if <code>status</code> was of type <code>Literal[200, 404]</code>, the checker would expect all those values to be matched.
-Similarly, with the <code>Color</code> enum above, a checker knows there are three members; if you omit a case for one of them, it could flag it.
-This benefit ensures your pattern matching stays in sync with your data definitions, making your code more robust.</p>
+With the <code>Color</code> enum, checkers know there are three members and can report an error if you omit a case.</p>
 <h2 id="capture-patterns">Capture Patterns<a class="headerlink" href="#capture-patterns" title="Permanent link">#</a></h2>
-<p>A <em>capture pattern</em> is simply a name (identifier) used in a pattern, which will "capture" the value from the subject if that pattern position matches.
-Instead of testing for a specific value, a capture pattern matches anything and binds a variable to the subject (or subcomponent of the subject).
-Capture patterns let you extract pieces of data for use in the body of the case.</p>
-<p><strong>Syntax:</strong> Writing a bare name in a pattern creates a capture.
+<p>Capture patterns let you extract pieces of data for use in the body of the case.
+A <em>capture pattern</em> is an identifier used in a pattern to "capture" the value from the subject if that pattern position matches.
+Instead of testing for a specific value, a capture pattern matches anything and binds a variable to the subject (or subcomponent of the subject).</p>
+<p>Writing a bare name in a pattern creates a capture.
 For example, <code>case x:</code> will match any subject value and assign it to the variable <code>x</code>.
 Capture patterns can also appear inside compound patterns (like inside a sequence or mapping), where they bind a part of the structure.</p>
-<p><strong>Important:</strong> <code>_</code> (underscore) is not a capture; it's a special wildcard pattern that discards the value.
+<p>The <code>_</code> (underscore) is not a capture; it's a special wildcard pattern that discards the value.
 Any other name will be treated as a capture.
 If the name wasn't already defined in the surrounding scope, it will be a new variable set in that case.
 (If it was defined outside, pattern matching will not automatically compare against it--it still creates a new binding shadowing the outer variable.
 As mentioned, to match an existing variable's value, use a literal or value pattern with a dotted name.)</p>
-<p>Consider this simple use of capture patterns:</p>
+<p>In this example, the second case uses <code>other</code> as a capture pattern:</p>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="c1"># example_3.py</span>
 </span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="n">command</span> <span class="o">=</span> <span class="s2">&quot;hello&quot;</span>
 </span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="k">match</span> <span class="n">command</span><span class="p">:</span>
@@ -1168,10 +1165,9 @@ As mentioned, to match an existing variable's value, use a literal or value patt
 </span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a>        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Received unknown command: </span><span class="si">{</span><span class="n">other</span><span class="si">!r}</span><span class="s2">&quot;</span><span class="p">)</span>
 </span><span id="__span-3-8"><a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a><span class="c1">## Received unknown command: &#39;hello&#39;</span>
 </span></code></pre></div>
-<p>Here the second case uses <code>other</code> as a capture pattern.
-If the first case (<code>"quit"</code>) doesn't match, the second case will match anything.
+<p>If the first case (<code>"quit"</code>) doesn't match, the second case will match anything.
 The subject <code>"hello"</code> is not <code>"quit"</code>, so it falls to <code>case other:</code>.
-This pattern matches unconditionally and binds the name <code>other</code> to the value of <code>command</code> (which is <code>"hello"</code>).
+This pattern matches unconditionally and binds the name <code>other</code> to the value of <code>command</code> (<code>"hello"</code>, in this case).
 The result is that it prints: <code>Received unknown command: 'hello'</code>.
 Essentially, <code>other</code> serves as a catch-all variable for "anything else."
 In this role, a capture is similar to the wildcard <code>_</code> (which also matches anything) except that we can use the captured value in the code.</p>
@@ -1183,7 +1179,7 @@ We will show more of these in Sequence and Mapping patterns.</p>
 Patterns that always succeed are called <em>irrefutable</em>.
 If an irrefutable pattern is used as a top-level case (like <code>case x:</code> at the same indent as case), it matches everything and typically must be the last case (otherwise it would prevent any subsequent cases from ever running).
 Using a capture as the last case is one way to handle "default" scenarios while still naming the value.
-Often, though, a simple wildcard <code>_</code> is used for a default case when the value itself doesn't need to be referenced.</p>
+A wildcard <code>_</code> provides a default case when the value itself doesn't need to be referenced.</p>
 <h2 id="wildcard-patterns-_">Wildcard Patterns (<code>_</code>)<a class="headerlink" href="#wildcard-patterns-_" title="Permanent link">#</a></h2>
 <p>The <em>wildcard pattern</em> is written as a single underscore <code>_</code>.
 It matches anything, just like a capture pattern does, but it does not bind any variable.
@@ -1327,7 +1323,7 @@ Also note that <code>*rest</code> will always be a list, even if the original se
 <p>The pattern matching syntax (the structure you write after <code>case</code>) is not designed to include inline type annotations.
 Thus, you cannot write something like:
 <code>case [first: int, second: int, *rest: list[int]]:</code>
-However, we can put an annotation on the argument passed to the <code>match</code> expression, which is <code>values</code>:</p>
+However, we can put an annotation on the argument (<code>values</code>) passed to the <code>match</code> expression:</p>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="c1"># subject_annotations.py</span>
 </span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Tuple</span>
 </span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>
@@ -1472,7 +1468,7 @@ They use a syntax reminiscent of calling a constructor, but no object is created
 This is a form of <em>structured binding</em> or deconstruction for user-defined types.</p>
 <p>The basic form is <code>ClassName(attr1=subpattern1, attr2=subpattern2, ...)</code>.
 You list the class to match and the attributes you want to check or capture.
-For example, suppose we have a simple data class representing a user:</p>
+For example, suppose we have a basic data class representing a user:</p>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="c1"># example_10.py</span>
 </span><span id="__span-13-2"><a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a><span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span>
 </span><span id="__span-13-3"><a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a>
@@ -1576,7 +1572,7 @@ You use the vertical bar <code>|</code> to separate two or more subpatterns.
 The whole pattern matches if any one of the subpatterns matches.
 OR patterns are quite flexible--the subpatterns can be of completely different shapes or types.
 This is useful to avoid repetition when the action for multiple cases would be the same.</p>
-<p>A simple example of OR patterns is handling multiple literals in one go.
+<p>An example of OR patterns is handling multiple literals in one go.
 For instance, if you want to check if some input is an affirmative "yes" in various forms:</p>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="c1"># example_12.py</span>
 </span><span id="__span-15-2"><a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a><span class="n">user_input</span> <span class="o">=</span> <span class="s2">&quot;y&quot;</span>
@@ -1637,7 +1633,7 @@ Remember that the action block sees the union of the possibilities.</p>
 <p>An <em>AS pattern</em> allows you to capture a matched value under a name while still enforcing a subpattern on it.
 It uses the syntax <code>&lt;pattern&gt; as &lt;variable&gt;</code>.
 This is extremely handy when you want to both check a complex pattern and keep a reference to the whole thing (or a large part of it) for use in the code.</p>
-<p>A simple scenario: matching a sequence but also retaining it:</p>
+<p>A basic scenario is matching a sequence but also retaining it:</p>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-17-1"><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a><span class="c1"># example_14.py</span>
 </span><span id="__span-17-2"><a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a><span class="n">pair</span> <span class="o">=</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">]</span>
 </span><span id="__span-17-3"><a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a><span class="k">match</span> <span class="n">pair</span><span class="p">:</span>

@@ -1828,8 +1828,8 @@ For example:</p>
 <p>Any object with a <code>.close()</code> method returning None will be considered a <code>SupportsClose</code> for static typing purposes, even if it doesn't inherit from <code>SupportsClose</code>.
 This is akin to an interface or "duck typing" check.
 Protocols enable static type checking of duck-typed code.
-If you mark a protocol with <code>@typing.runtime_checkable</code>, you can even use <code>isinstance(obj, ProtocolName)</code> at runtime (which will just check for the presence of required attributes).
-Protocols can themselves be generic (e.g., an <code>Iterable[T]</code> protocol defines an <code>__iter__</code> that yields T).
+If you mark a protocol with <code>@typing.runtime_checkable</code>, you can even use <code>isinstance(obj, ProtocolName)</code> at runtime; this checks for the presence of required attributes.
+Protocols can themselves be generic (e.g., an <code>Iterable[T]</code> protocol defines an <code>__iter__</code> that yields <code>T</code>).
 The standard library defines many protocols (e.g.
 <code>typing.Iterable</code>, <code>typing.Sized</code>) that correspond to common Python protocols.
 Using Protocols allows one to write functions that accept any object that "has the right methods," enabling flexible, decoupled code with static checks.
