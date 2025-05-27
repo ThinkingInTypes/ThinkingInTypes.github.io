@@ -406,10 +406,9 @@ print(Team("alice", ["bob", "carol", "ted"]))
 Normally you'll define a `__post_init__` to perform _validation_.
 Sometimes, you'll need to define an `__init__` to perform _initialization_.
 
-A custom `__init__` makes sense primarily when you need fundamentally different initialization logic than the
-field-based constructor allows.
-You need a completely alternative interface, such as parsing inputs from a different format (e.g., strings, dicts,
-files) and then assigning to fields.
+A custom `__init__` makes sense primarily when you need fundamentally different initialization logic than the field-based constructor allows.
+You need a completely alternative interface, such as parsing inputs from a different format
+(e.g., strings, dicts, files) and then assigning to fields.
 For example, consider parsing two pieces of `float` data from a single `str` argument:
 
 ```python
@@ -436,9 +435,9 @@ print(Point(" 10.5 , 20.3 "))
 ## Point(x=10.5, y=20.3)
 ```
 
-A defined `__init__` allows you to customize how fields are initialized.
-In this scenario, the custom `__init__` clearly has value, providing a simpler API.
-You retain dataclass features like `__repr__`, `__eq__`, and automatic field handling.
+Defining `__init__` customizes the way fields are initialized.
+Here, the custom `__init__` provides a simpler API.
+You retain `dataclass` features like `__repr__`, `__eq__`, and automatic field handling.
 
 Dataclasses auto-generate an `__init__` unless you explicitly define one.
 If you provide a custom `__init__`, the automatic one is replaced.
@@ -449,7 +448,7 @@ Use a custom `__init__` if you require fundamentally different or more complex i
 
 ### Composing Data Classes
 
-Composition, another functional programming cornerstone, creates complex data types from simpler ones.
+Composition creates complex data types from simpler ones.
 Consider a `Person` object composed of `FullName`, `BirthDate`, and `Email` data classes:
 
 ```python
@@ -566,7 +565,7 @@ print(f"{a.x = }, {a.y = }")
 ## a.x = 1, a.y = 2
 ```
 
-Creating an instance of `A` _appears_ to automatically produce instance attributes `x` and `y`.
+Creating `A()` _appears_ to automatically produce instance attributes `x` and `y`.
 This happens because of the lookup rules: when `a.x` or `a.y` can't find an instance attribute, it looks for a class attribute with the same name.
 
 The confusion is understandable because in languages like C++ and Java, similar class definitions _do_ produce instance attributes.
@@ -607,6 +606,8 @@ def show_dicts(obj: object, obj_name: str):
     for attr in cls_dict.keys():
         print(f"{obj_name}.{attr} is {getattr(obj, attr)}")
 ```
+
+// Describe
 
 Here's an example proving that class attributes do not create instance attributes:
 
@@ -652,9 +653,9 @@ show_dicts(a, "a")
 ## a.y is 111
 ```
 
-After the initialization of `a`, we see class attribute of `x` and `y` with values `1` and `2`, respectively.
+After creating `a`, we see class attribute of `x` and `y` with values `1` and `2`, respectively.
 However, the instance dictionary is empty--there are no instance attributes.
-Thus, when we access `a.x` and `b.x`, Python doesn't find those instance attributes and continues to search, finding and displaying the class attributes instead.
+Thus, when we access `a.x` and `b.x`, Python doesn't find those instance attributes and continues to search, displaying the class attributes instead.
 
 The act of assigning `a.x = 99` and `a.y = 111` _creates_ new instance attributes `x` and `y`.
 Note that the class attributes `A.x` and `A.y` remain unchanged.
@@ -675,15 +676,72 @@ class D:
 
 d = D()
 show_dicts(d, "d")
+## D.__dict__ (class attributes):
+##   x: 1
+##   y: 2
+## d.__dict__ (instance attributes):
+##   x: 1
+##   y: 2
+## d.x is 1
+## d.y is 2
 d.x = 99
 show_dicts(d, "d")
+## D.__dict__ (class attributes):
+##   x: 1  # overridden by instance
+##   y: 2
+## d.__dict__ (instance attributes):
+##   x: 99
+##   y: 2
+## d.x is 99
+## d.y is 2
 d.y = 111
 show_dicts(d, "d")
+## D.__dict__ (class attributes):
+##   x: 1  # overridden by instance
+##   y: 2  # overridden by instance
+## d.__dict__ (instance attributes):
+##   x: 99
+##   y: 111
+## d.x is 99
+## d.y is 111
 ```
 
 After initialization, there are class attributes `x` and `y`, _and_ instance attributes `x` and `y`.
 The `dataclass` decorator generates an `__init__` that looks at the class attributes and makes corresponding instance attributes.
 Note that after assigning to the instance attributes with `d.x = 99` and `d.y = 111`, the class attributes are unchanged.
+
+You can imagine what happens when you decorate a class with `dataclass`:
+the decorator creates an `__init__` that performs an instance initialization for each name found in the class attributes.
+We can see this with a simplified example:
+
+```python
+# generated_dataclass_init.py
+from dataclasses import dataclass, fields
+
+
+@dataclass
+class Point:
+    x: int = 1
+    y: int = 2
+
+    @classmethod
+    def show_generated_init(cls) -> None:
+        params = [
+            f"{f.name}: {getattr(f.type, '__name__', repr(f.type))} = {repr(f.default)}"
+            for f in fields(cls)
+        ]
+        print(f"def __init__(self, {', '.join(params)}):")
+        for f in fields(cls):
+            print(f"    self.{f.name} = {f.name}")
+
+
+Point.show_generated_init()
+## def __init__(self, x: int = 1, y: int = 2):
+##     self.x = x
+##     self.y = y
+```
+
+// Describe
 
 What happens if you define your own `__init__` for a `dataclass`?
 
@@ -704,10 +762,34 @@ class DI:
 
 di = DI()
 show_dicts(di, "di")
-d.x = 99
+## DI.__dict__ (class attributes):
+##   x: 1
+##   y: 2
+## di.__dict__ (instance attributes):
+##   x: <not present>
+##   y: <not present>
+## di.x is 1
+## di.y is 2
+di.x = 99
 show_dicts(di, "di")
-d.y = 111
+## DI.__dict__ (class attributes):
+##   x: 1  # overridden by instance
+##   y: 2
+## di.__dict__ (instance attributes):
+##   x: 99
+##   y: <not present>
+## di.x is 99
+## di.y is 2
+di.y = 111
 show_dicts(di, "di")
+## DI.__dict__ (class attributes):
+##   x: 1  # overridden by instance
+##   y: 2  # overridden by instance
+## di.__dict__ (instance attributes):
+##   x: 99
+##   y: 111
+## di.x is 99
+## di.y is 111
 ```
 
 // Describe
@@ -1554,7 +1636,7 @@ print("NOPE" in ParamVal)  # type: ignore
 # Convert literal values to a set:
 allowed_set = set(ParamVal.__args__)  # type: ignore
 print(allowed_set)
-## {'MIN', 'MAX', 'DEF'}
+## {'MAX', 'MIN', 'DEF'}
 print("MIN" in allowed_set)
 ## True
 print("NOPE" in allowed_set)
