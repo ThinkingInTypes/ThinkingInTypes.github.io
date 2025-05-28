@@ -161,7 +161,7 @@ from typing import Any
 
 
 def wildcard_ignore(
-        point: tuple[float, Any, Any],
+    point: tuple[float, Any, Any],
 ) -> None:
     match point:
         case (x, _, _):
@@ -227,7 +227,7 @@ match point:
 
 This match has four sequence patterns, each a tuple of two elements:
 
-- `(0, 0)` is a sequence pattern of two literals, matching only the point `(0, 0)` exactly.
+- `(0, 0)` is a sequence pattern of two literals, matching only the point `(0, 0)`.
 - `(0, y)` matches any 2-tuple whose first element is 0 and captures the second element as `y`.
   So `(0, 5)` fits here, and `y` would be 5, resulting in `On the Y-axis at y=5`.
 - `(x, 0)` matches any 2-tuple with second element 0, capturing the first element as `x`.
@@ -276,7 +276,7 @@ rest_pattern("a", "b", "c", "d")
 ```
 
 This pattern matches any sequence of length `>= 2`.
-The first element is bound to `first`, second to `second`, and the rest of the sequence (which could be zero-length if there were exactly two) is bound as a list to `rest`.
+The first element is bound to `first`, second to `second`, and the rest of the sequence (which could be zero-length if there were only two arguments) is bound as a list to `rest`.
 If `values` is `[10, 20, 30, 40]`, the output would be "First=10, second=20, rest=[30, 40]".
 If `values` is `[10, 20]`, then `rest` would be an empty list `[]`.
 Using `*rest` makes the length flexible.
@@ -541,10 +541,10 @@ def shape_area(shape: Circle | Square) -> float:
     match shape:
         case Circle(radius=r):
             # Here shape is type Circle:
-            return 3.14 * r ** 2
+            return 3.14 * r**2
         case Square(side=s):
             # Here shape is type Square:
-            return s ** 2
+            return s**2
         case _:
             raise ValueError("Unsupported shape")
 ```
@@ -766,7 +766,7 @@ request = {"method": "POST", "payload": {"id": 42}}
 
 match request:
     case {"method": m, "payload": data} if (
-            m == "POST" and "id" in data
+        m == "POST" and "id" in data
     ):
         data = cast(dict[str, Any], data)
         print(f"POST request with id {data['id']}")

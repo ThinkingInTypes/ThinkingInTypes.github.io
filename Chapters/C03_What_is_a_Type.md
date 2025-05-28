@@ -179,8 +179,7 @@ try:
     quacks(42)
 except AttributeError as e:
     print(f"Oops: {e = }")
-## Oops: e = AttributeError("'int' object has no
-## attribute 'quack'")
+## Oops: e = AttributeError("'int' object has no attribute 'quack'")
 ```
 
 In Python, it's idiomatic to write code that assumes objects have the right methods (duck typing) and deal with exceptions if they don't, rather than explicitly checking types upfront.
@@ -467,7 +466,7 @@ error: Argument 2 to "add" has incompatible type "str"; expected "int"
 Found 1 error in 1 file (checked 1 source file)
 ```
 
-This tells us exactly what and where the problem is.
+This tells us what and where the problem is.
 We can then fix the code (e.g., by converting `"5"` to an integer, or by correcting the input).
 
 The use of these tools ties back to the earlier benefits.

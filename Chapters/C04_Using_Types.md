@@ -203,7 +203,7 @@ scores: List[int] = [95, 85, 75]
 Here, `scores` is declared to be a list of integers.
 The annotation `List[int]` tells us and the type checker that every element of `scores` should be an `int`.
 If somewhere else in the code we mistakenly append a string to `scores`, a type checker would complain.
-The benefit is clear: by reading the annotation, we know exactly what `scores` contains, and we get early warnings if we misuse it.
+The benefit is clear: by reading the annotation, we know what `scores` contains, and we get early warnings if we misuse it.
 
 ### `Tuple`s
 
@@ -218,7 +218,7 @@ from typing import Tuple
 coordinates: Tuple[float, float] = (23.5, 45.8)
 ```
 
-The annotation `Tuple[float, float]` means: a `Tuple` with exactly two elements, the first a `float` and the second a `float`.
+The annotation `Tuple[float, float]` means: a `Tuple` with two elements, the first a `float` and the second a `float`.
 If we tried to assign `coordinates = (23.5, "north")`, a static checker would flag it, because the second element isn't a `float` as expected.
 
 For `Tuple`s of variable length where all elements are the same type, you can use an ellipsis in the annotation (e.g., `Tuple[int, ...]` for "a `Tuple` of `int` of any length").

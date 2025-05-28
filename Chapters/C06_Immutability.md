@@ -487,7 +487,7 @@ assignment would (because internally it uses the same attribute-setting mechanis
 So how can we set up derived fields or perform adjustments in `__post_init__` for a frozen class?
 The answer is to bypass the frozen `__setattr__` using the base class (`object`) method.
 Python lets us call the underlying `object.__setattr__` method directly, which sets the attribute.
-This is exactly how dataclasses themselves initialize fields for frozen instances.
+This is how dataclasses themselves initialize fields for frozen instances.
 The dataclass documentation notes: _"There is a tiny performance penalty when using `frozen=True`: `__init__` cannot use
 assignment to initialize fields, and must use `object.__setattr__`."_.
 The dataclass-generated `__init__` knows to do this for the fields that are set in the constructor.
@@ -579,8 +579,7 @@ class Coordinates(NamedTuple):
 
 coords = Coordinates(51.5074, -0.1278)
 print(coords)
-## Coordinates(latitude=51.5074,
-## longitude=-0.1278)
+## Coordinates(latitude=51.5074, longitude=-0.1278)
 print(coords.latitude)
 ## 51.5074
 # coords.latitude = 123.4567 # Runtime error
@@ -642,10 +641,7 @@ from typing import NamedTuple, Optional
 Point1 = namedtuple("Point1", ["x", "y"])
 p1 = Point1(10, 20)
 print(f"{p1 = }, {type(p1) = }")
-
-
-## p1 = Point1(x=10, y=20), type(p1) = <class
-## '__main__.Point1'>
+## p1 = Point1(x=10, y=20), type(p1) = <class '__main__.Point1'>
 
 
 # 2. A basic immutable type:
@@ -655,8 +651,6 @@ class Point2(NamedTuple):
 
 
 print(p2 := Point2(30, 40))
-
-
 ## Point2(x=30, y=40)
 
 
@@ -668,13 +662,9 @@ class Employee(NamedTuple):
 
 
 print(f"Defaulted: {Employee('Alice')}")
-## Defaulted: Employee(name='Alice', id=0,
-## department=None)
+## Defaulted: Employee(name='Alice', id=0, department=None)
 print(f"Full: {Employee('Bob', 123, 'Engineering')}")
-
-
-## Full: Employee(name='Bob', id=123,
-## department='Engineering')
+## Full: Employee(name='Bob', id=123, department='Engineering')
 
 
 # 4. Methods:
@@ -684,7 +674,7 @@ class Circle(NamedTuple):
     def area(self) -> float:
         from math import pi
 
-        return pi * (self.radius ** 2)
+        return pi * (self.radius**2)
 
 
 print(f"{(c := Circle(5))} {c.area():.2f}")
@@ -704,8 +694,6 @@ print(f"As dict: {c2._asdict()}")
 # 6. Sequence unpacking:
 x_val, y_val = p2
 print(f"{x_val = }, {y_val = }")
-
-
 ## x_val = 30, y_val = 40
 
 
@@ -723,8 +711,6 @@ def describe_point(pt: Point2) -> str:
 print(describe_point(Point2(1, 1)))
 ## Diagonal point at (1, 1)
 print(describe_point(Point2(2, 3)))
-
-
 ## Point at x=2, y=3
 
 
@@ -745,10 +731,8 @@ person = Person("Carol", 29, addr)
 print(
     f"{person.name = }, {person.age = }, {person.address.city = }"
 )
-
-
-## person.name = 'Carol', person.age = 29,
-## person.address.city = 'Springfield'
+## person.name = 'Carol', person.age = 29, person.address.city =
+## 'Springfield'
 
 
 # Nested pattern match:
@@ -810,8 +794,6 @@ try:
     Person("Eve", -5)
 except ValueError as e:
     print(f"Validation: {e}")
-
-
 ## Validation: Age must be non-negative: -5
 
 
@@ -830,8 +812,6 @@ class Rectangle:
 
 rect = Rectangle(3.0, 4.0)
 print(f"Rectangle area={rect.area}")  # 12.0
-
-
 ## Rectangle area=12.0
 
 
@@ -844,8 +824,6 @@ class Credentials:
 
 cred = Credentials("user1", "s3cr3t")
 print(f"Credentials repr: {cred}")
-
-
 ## Credentials repr: Credentials(username='user1')
 
 
@@ -863,8 +841,6 @@ class Point:
 # Positional-only: x, y; z computed
 p = Point(1, 2)
 print(f"Point(z computed): {p}")
-
-
 ## Point(z computed): Point(x=1, y=2, z=3)
 
 
@@ -879,8 +855,6 @@ class Version:
 v1 = Version(1, 0, 0)
 v2 = Version(1, 1, 0)
 print(f"v1 < v2: {v1 < v2}")
-
-
 ## v1 < v2: True
 
 
@@ -900,10 +874,7 @@ w2 = IDWrapper(10)
 print(
     f"Custom eq w1 == w2: {w1 == w2}, hash(w1)==hash(w2): {hash(w1) == hash(w2)}"
 )
-
-
-## Custom eq w1 == w2: True, hash(w1)==hash(w2):
-## True
+## Custom eq w1 == w2: True, hash(w1)==hash(w2): True
 
 
 # 8. Using slots for memory optimization:

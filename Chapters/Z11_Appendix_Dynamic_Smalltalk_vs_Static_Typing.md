@@ -325,7 +325,6 @@ import override_not_found
 ## Don't know 'weather'; remembering it.
 ## Don't know 'joke'; remembering it.
 import learn_joke
-
 ## Why did the duck cross the road?
 ## It was the chicken's day off.
 
@@ -446,7 +445,7 @@ the compiler guarantees it can only ever hold objects that implement the `draw()
 (and will refuse to compile code that tries to call a non-existent method or assign an incompatible type).
 Types in statically typed languages act
 like promises enforced by the compiler--they delineate what you can and cannot do at compile time.
-They also function as explicit documentation: you read a function signature and see exactly what types it accepts/returns, shaping your expectations.
+They also function as explicit documentation: you read a function signature and see what types it accepts/returns, shaping your expectations.
 Many developers in static systems conceptualize a type as a contractual
 specification of an object's interface (sometimes even enriched with static checks for invariants, generics, etc., as the "shape" of data).
 
@@ -509,7 +508,7 @@ For instance, an interface in Java might guarantee that anything of that interfa
 The programmer leans on the compiler to enforce that contract--calling a non-existent method or violating type expectations is caught at compile time.
 This often leads to designing software by starting with type definitions (classes/interfaces) that model the problem domain and using those as
 constraints* to prevent incorrect usage.
-Types also serve as documentation: you know a function `foo(Vector v)` requires a `Vector` and you know exactly what a `Vector` can do (from its class/interface definition).
+Types also serve as documentation: you know a function `foo(Vector v)` requires a `Vector` and you know what a `Vector` can do (from its class/interface definition).
 There's comfort (and some rigidity) in this; you can't accidentally call
 `v.turnPurple()` on a `Vector` if that method isn't in its type.
 But you also can't pass a `Matrix` to `foo` unless `Matrix` is declared to be a subclass or implementer of `Vector`--even if
@@ -565,7 +564,7 @@ The lived Smalltalk experience is one of constant discovery and feedback: you se
 This leads to a very concrete understanding of an object's capabilities--you gain knowledge of its "type" by observing it in action.
 Philosophically, this shifts the notion of type from an abstract compile-time idea to a tangible runtime reality.
 Rather than trust a compiler's assurances, you come to trust the objects themselves (and your tests of them).
-Smalltalk's message-driven worldview teaches that an object is exactly what it does.
+Smalltalk's message-driven worldview teaches that an object is defined only by what it does.
 By emphasizing messaging and late binding, it reminds us that software is ultimately about dynamic interactions.
 In statically typed systems, type is often treated as essence; in Smalltalk, type is experience.
 The result is a programming model that is highly flexible, deeply object-oriented,

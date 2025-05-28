@@ -289,8 +289,7 @@ with FileLogger() as file_logger:
 test_logger = ListLogger()
 run_process("DataCleanup", test_logger)
 print("Captured logs:", test_logger.messages)
-## Captured logs: ['Starting DataCleanup',
-## 'Finished DataCleanup']
+## Captured logs: ['Starting DataCleanup', 'Finished DataCleanup']
 ```
 
 The static type checker ensures that any object we pass as a`logger`to`run_process`has a`log(str)`method.
@@ -309,7 +308,7 @@ The protocol assures the fake has the same method signature as the real client.
 This avoids type checker warnings and makes tests cleaner.
 It's essentially the static typing analog of using an interface in other languages for dependency injection in tests.
 Many testing libraries (like `unittest.mock`) create dynamic mocks that can be configured with attributes on the fly; to type-annotate those, you can either cast them to a Protocol or use a Protocol as a base for a fake implementation.
-Using protocols in this way documents exactly what methods a mock is expected to provide.
+Using protocols in this way documents what methods a mock is expected to provide.
 This can prevent situations where your test double is missing a method or has a typo that wouldn't be caught until runtime.
 In short, whenever you say "I need an object that can do X in my code, and I might swap different implementations of it," that's a cue to define a protocol for X.
 

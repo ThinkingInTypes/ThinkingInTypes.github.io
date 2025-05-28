@@ -139,7 +139,7 @@ In Python 3.12+, you can declare aliases more explicitly with the `type` keyword
 type Point = tuple[float, float]
 ```
 
-This creates a type alias `Point` that static checkers will treat exactly as `tuple[float, float]`.
+This creates a type alias `Point` that static checkers will treat as `tuple[float, float]`.
 Type aliases can also be generic, e.g.
 `type Response[T] = tuple[T, int]` to parameterize the alias.
 In older versions, you might see `TypeAlias` from `typing` used as an annotation to mark an assignment as a type alias, especially when forward references are involved (to indicate to the checker that a string is meant to be a type name).
@@ -217,7 +217,9 @@ class Box[T]:
 `Box[T]` is a generic class that can hold a value of type T.
 One can create `Box[int]`, `Box[str]`, etc., and the methods will be type-safe.
 
-When subclassing generics or creating more complex hierarchies, you might need to be mindful of type variance, but for most user-defined generics, the default invariance (type must match exactly) is fine.
+When subclassing generics or creating more complex hierarchies,
+you might need to be mindful of type variance, but for most user-defined generics,
+the default invariance (type must match exactly) is fine.
 
 ### `typing.Type` for Class Objects
 
@@ -273,7 +275,7 @@ from typing import Callable
 
 
 def apply_to_ints(
-        func: Callable[[int, int], int], a: int, b: int
+    func: Callable[[int, int], int], a: int, b: int
 ) -> int:
     return func(a, b)
 ```
@@ -331,10 +333,10 @@ from typing import Callable
 
 
 def make_logged[**P](
-        func: Callable[P, int],
+    func: Callable[P, int],
 ) -> Callable[..., int]:
     def wrapper(
-            prefix: str, *args: P.args, **kwargs: P.kwargs
+        prefix: str, *args: P.args, **kwargs: P.kwargs
     ) -> int:
         print(f"{prefix} Calling: {func.__name__}")
         result = func(*args, **kwargs)
@@ -425,7 +427,7 @@ from typing import TypeGuard
 
 
 def is_str_list(
-        vals: list[object],
+    vals: list[object],
 ) -> TypeGuard[list[str]]:
     return all(isinstance(x, str) for x in vals)
 ```

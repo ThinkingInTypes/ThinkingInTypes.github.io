@@ -138,7 +138,7 @@ class Server:
 
 Here we disable the "attribute-error" warning that `socket` might not have `recv` yet.
 You can disable warnings per-line or even for the rest of the file by writing a `disable` comment on its own.
-The Pytype guide notes that this is preferred over a generic `# type: ignore`, since it documents exactly which error is expected.
+The Pytype guide notes that this is preferred over a generic `# type: ignore`, since it documents which error is expected.
 
 ### Pylint
 

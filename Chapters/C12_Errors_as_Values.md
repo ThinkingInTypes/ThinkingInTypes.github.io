@@ -496,7 +496,7 @@ Succeeding produces a `Success` containing an `unwrap` method used to extract th
 It returns the `ANSWER` type so its use can be properly type-checked.
 
 This means that any failure during a sequence of composed function calls will short-circuit out of `composed`,
-returning a `Failure` that tells you exactly what happened.
+returning a `Failure` that tells you what happened.
 You can’t ignore it and assume that it will "bubble up" until it finds an appropriate handler.
 You must deal with it at the point of origin, the place where you typically know the most about an error.
 
