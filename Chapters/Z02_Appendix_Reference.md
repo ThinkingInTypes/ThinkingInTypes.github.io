@@ -273,7 +273,7 @@ from typing import Callable
 
 
 def apply_to_ints(
-    func: Callable[[int, int], int], a: int, b: int
+        func: Callable[[int, int], int], a: int, b: int
 ) -> int:
     return func(a, b)
 ```
@@ -331,10 +331,10 @@ from typing import Callable
 
 
 def make_logged[**P](
-    func: Callable[P, int],
+        func: Callable[P, int],
 ) -> Callable[..., int]:
     def wrapper(
-        prefix: str, *args: P.args, **kwargs: P.kwargs
+            prefix: str, *args: P.args, **kwargs: P.kwargs
     ) -> int:
         print(f"{prefix} Calling: {func.__name__}")
         result = func(*args, **kwargs)
@@ -425,7 +425,7 @@ from typing import TypeGuard
 
 
 def is_str_list(
-    vals: list[object],
+        vals: list[object],
 ) -> TypeGuard[list[str]]:
     return all(isinstance(x, str) for x in vals)
 ```
@@ -547,7 +547,7 @@ The Python steering council decided not to turn on the automatic stringification
 PEP 649, accepted for Python's future (targeted for 3.13+), proposes a new mechanism where annotations are neither evaluated at function definition time nor stored as strings.
 Instead, annotations would be stored as code in a special function (`__annotate__`) that computes them on demand.
 This aims to solve forward references and performance issues more elegantly:
-the evaluation of annotations is deferred until needed, without losing the actual object references or incurring the issues of stringified annotations.
+the evaluation of annotations is deferred until needed, without losing the object references or incurring the issues of stringified annotations.
 As of the latest Python (3.12), this is still in progress--by default, Python 3.12 still evaluates annotations normally (unless you use the future import).
 When writing modern code, you can rely on `from __future__ import annotations` to handle most forward references conveniently (or just use quotes for specific cases).
 Static type checkers themselves resolve forward references even if you leave them as raw names, so this is mostly a runtime concern for introspection via `inspect.get_annotations` or similar.

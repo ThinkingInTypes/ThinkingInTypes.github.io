@@ -6,7 +6,7 @@ Nominal typing (name-based typing) means type compatibility is determined by exp
 For example, if class `Dog` inherits from class `Animal`, then `Dog` _is-a_ subtype of `Animal` by definition, and a `Dog` instance can be used wherever an `Animal` is expected.
 This is how traditional object-oriented languages like Java or C++ work, and it's also the primary mode in Python's type system by default.
 
-On the other hand, structural typing determines type compatibility by the actual structure or capabilities of the object, not its explicit inheritance.
+On the other hand, structural typing determines type compatibility by the structure or capabilities of the object, not its explicit inheritance.
 In a structural type system, if an object has all the required methods and attributes of a type, then it qualifies as that type, regardless of its class name or parent classes.
 In other words, if it "walks like a duck and quacks like a duck, then it's treated as a duck."
 This is the essence of the famous _duck typing_ principle.
@@ -28,7 +28,7 @@ Python 3.8 remedied this by introducing _protocols_ in the `typing` module.
 A protocol defines a _structural interface_ that other classes can fulfill just by having the right methods/attributes, without inheritance.
 This brings the flexibility of duck typing into the realm of static type checking--essentially formalizing "If it quacks like a duck, it can be treated as a duck" in the type system.
 
-Nominal typing ties compatibility to declared relationships (e.g., subclassing an interface or abstract class), whereas structural typing ties compatibility to an object's actual shape (the presence of specific methods/attributes).
+Nominal typing ties compatibility to declared relationships (e.g., subclassing an interface or abstract class), whereas structural typing ties compatibility to an object's shape (the presence of specific methods/attributes).
 Python's type system now supports both:
 use nominal typing for clarity and runtime consistency with class relationships, and use structural typing (via protocols) for flexibility and to more directly model Python's duck-typed nature.
 
@@ -321,7 +321,7 @@ Today you only have a database implementation, but tomorrow you might add an in-
 Moreover, if you want to accept objects from a third-party library with the necessary methods, protocols let you do so without subclassing or modifying those classes.
 Suppose you're writing a function that can output data to any "file-like" object (something with a `.write()` method).
 The `io.TextIOBase` abstract class in Python is nominal, but not every file-like object will inherit it.
-By defining your own protocol with a `write(str)` method, your function can accept a wide range of objects (actual file handles, `io.StringIO` instances, custom writer objects) as long as they implement `write`.
+By defining your own protocol with a `write(str)` method, your function can accept a wide range of objects (file handles, `io.StringIO` instances, custom writer objects) as long as they implement `write`.
 This is especially useful when working with libraries that weren't built with your interfaces; you can adapt them via protocols instead of being forced into their class hierarchy.
 Protocols thus increase the reusability and extensibility of your code by focusing on what an object can do rather than what it is.
 
@@ -517,7 +517,7 @@ Here are some guidelines, pros and cons, and practices:
   (e.g., a base class providing common functionality), nominal typing naturally goes along with it because subclasses inherit from the base.
 
 - You need a strict class hierarchy or runtime type information.
-  If it's important in your design to maintain actual subclass relationships (perhaps for identity checks, `isinstance` checks, or because you rely on Python's method resolution order and `super()` calls), then using nominal types is appropriate.
+  If it's important in your design to maintain subclass relationships (perhaps for identity checks, `isinstance` checks, or because you rely on Python's method resolution order and `super()` calls), then using nominal types is appropriate.
   For example, if you have a plugin system where all plugins must register as subclasses of `BasePlugin` to be discovered, that's a nominal approach.
 
 - The interface is large or complex, with many methods, and tightly coupled to an implementation.
@@ -541,7 +541,7 @@ Here are some guidelines, pros and cons, and practices:
   Any object from the library will satisfy the protocol if it has the method,
   without you needing to make it inherit from anything.
   This decoupling is very powerful in a language as dynamic as Python,
-  where often we "duck type" through frameworks--now you can put an actual type annotation on it.
+  where often we "duck type" through frameworks--now you can put an type annotation on it.
 
 - You need generic interfaces or extension of existing ones.
   Protocols are useful for creating ad-hoc interfaces that might not have been foreseen initially.

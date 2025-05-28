@@ -252,13 +252,13 @@ Let's explore the type variable tuple by implementing a type-safe version of Pyt
 
 
 def zip_variadic[*T](
-    *args: tuple[*T],
+        *args: tuple[*T],
 ) -> tuple[tuple[*T], ...]:
     return tuple(zip(*args))
 
 
 def unzip_variadic[*T](
-    packed: tuple[tuple[*T], ...],
+        packed: tuple[tuple[*T], ...],
 ) -> tuple[tuple[*T], ...]:
     return tuple(zip(*packed))
 
@@ -520,7 +520,7 @@ from typing import Callable
 
 
 def curry_two_arg[X, Y, Z](
-    func: Callable[[X, Y], Z],
+        func: Callable[[X, Y], Z],
 ) -> Callable[[X], Callable[[Y], Z]]:
     def curried(x: X) -> Callable[[Y], Z]:
         def inner(y: Y) -> Z:
@@ -669,7 +669,7 @@ checker as returning a `ContactForm` with the methods of `ContactForm` available
 This pattern ensures that each subclass of `Form` will have `set_title` (inherited) returning the subclass type,
 not the base type.
 It's a bit complex to set up, but it provides more precise typing for chaining methods.
-Python 3.11+ provides `typing.Self` (PEP 673) that simplifies this pattern by allowing methods to return `Self` (the type of the actual class).
+Python 3.11+ provides `typing.Self` (PEP 673) that simplifies this pattern by allowing methods to return `Self` (the type of the class).
 For example:
 
 ```python
@@ -719,13 +719,13 @@ We can express this as:
 ```python
 # recursive_alias.py
 JSON = (
-    dict[str, "JSON"]
-    | list["JSON"]
-    | str
-    | int
-    | float
-    | bool
-    | None
+        dict[str, "JSON"]
+        | list["JSON"]
+        | str
+        | int
+        | float
+        | bool
+        | None
 )
 ```
 
@@ -1010,7 +1010,7 @@ type Vector[T] = list[tuple[T, T]]
 
 
 def scale_points(
-    points: Vector[int], factor: int
+        points: Vector[int], factor: int
 ) -> Vector[int]:
     return [(x * factor, y * factor) for (x, y) in points]
 ```

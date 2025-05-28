@@ -325,6 +325,7 @@ import override_not_found
 ## Don't know 'weather'; remembering it.
 ## Don't know 'joke'; remembering it.
 import learn_joke
+
 ## Why did the duck cross the road?
 ## It was the chicken's day off.
 
@@ -480,7 +481,7 @@ You can query the running program directly, rather than rely solely on static ty
 When you make a mistake--say you send a message an object doesn't understand--it's not usually a silent failure.
 In a typical Smalltalk IDE, a debugger pops up at the point of error (the MessageNotUnderstood).
 This is not just an error message; it's an opportunity.
-You can inspect the actual object that failed (seeing its class and state), figure out why it didn't have the method, and often even
+You can inspect the object that failed (seeing its class and state), figure out why it didn't have the method, and often even
 define the missing method right there in the debugger and continue execution.
 This exemplifies the "lived" experience: the program is malleable and can be fixed or extended on the fly.
 The boundary of what an object's "type" is can literally be extended during runtime by adding a new method to its class (or by implementing

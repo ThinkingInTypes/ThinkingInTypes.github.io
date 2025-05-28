@@ -571,7 +571,7 @@ This happens because of the lookup rules: when `a.x` or `a.y` can't find an inst
 The confusion is understandable because in languages like C++ and Java, similar class definitions _do_ produce instance attributes.
 
 The key to understanding this is to see the difference between class attributes and instance attributes.
-Both are stored in dictionaries, so we'll create a function that compares the attributes in both dictionaries:
+Both are stored in dictionaries; this function compares the attributes in both dictionaries:
 
 ```python
 # class_and_instance.py
@@ -593,7 +593,7 @@ def show_dicts(obj: object, obj_name: str):
         value = cls_dict[attr]
         note = ""
         if attr in obj_dict and obj_dict[attr] != value:
-            note = "  # overridden by instance"
+            note = "  # Hidden by instance attribute"
         print(f"  {attr}: {value}{note}")
 
     print(f"{obj_name}.__dict__ (instance attributes):")
@@ -613,7 +613,7 @@ If the name isn't found there, it continues the search in `A.__dict__`.
 This fallback behavior is what makes class attributes appear to be instance attributes--but they aren't.
 
 `show_dicts` clarifies this by listing the class attributes, instance attributes,
-and the result of accessing the attribute (`getattr(obj, attr)`), which follows Python's actual lookup rules.
+and the result of accessing the attribute (`getattr(obj, attr)`), which follows Python's lookup rules.
 
 Here's an example proving that class attributes do not create instance attributes:
 
@@ -713,7 +713,7 @@ show_dicts(d, "d")
 ```
 
 After initialization, there are class attributes `x` and `y`, _and_ instance attributes `x` and `y`.
-The `dataclass` decorator generates an `__init__` that looks at the class attributes and makes corresponding instance attributes.
+The `dataclass` decorator looks at the class attributes and generates an `__init__` that makes corresponding instance attributes.
 Note that after assigning to the instance attributes with `d.x = 99` and `d.y = 111`, the class attributes are unchanged.
 
 You can imagine what happens when you decorate a class with `dataclass`:
@@ -733,7 +733,9 @@ class Point:
     @classmethod
     def show_generated_init(cls) -> None:
         params = [
-            f"{f.name}: {getattr(f.type, '__name__', repr(f.type))} = {repr(f.default)}"
+            f"{f.name}: "
+            f"{getattr(f.type, '__name__', repr(f.type))} = "
+            f"{repr(f.default)}"
             for f in fields(cls)
         ]
         print(f"def __init__(self, {', '.join(params)}):")
@@ -800,9 +802,9 @@ show_dicts(di, "di")
 ## di.y is 111
 ```
 
-If you define your own __init__ method in a `@dataclass`, the automatic `__init__` is suppressed.
+If you define your own __init__ method in a `dataclass`, the automatic `__init__` is suppressed.
 That means your version is responsible for setting up the instance attributes; if you don't, they won't be created.
-As a result, even though `x` and `y` are still listed as class attributes, the instance starts out with no `x` or `y` in its `__dict__`.
+As a result, even though `x` and `y` are still listed as `dataclass` attributes, the instance starts out with no `x` or `y` in its `__dict__`.
 Accessing `di.x` and `di.y` falls back to the class attributes, just like in a regular class.
 Only when you assign new values to `di.x` and `di.y` do they become instance attributes and override the class-level defaults.
 
@@ -929,7 +931,7 @@ for date in [
 ## ------------------------------
 ```
 
-`Month` can be created using `dataclass`es, but it's more complicated than using `Enum`, with questionable benefits:
+`Month` can be a `dataclass`, but it's more complicated than using `Enum`, and with questionable benefits:
 
 ```python
 # month_data_class.py
@@ -1246,12 +1248,13 @@ match status:
 `Enum`s improve robustness by making code both readable and safely constrained.
 For simplicity and IDE interactivity, choose `Enum`s over data classes for fixed-value sets.
 
+TODO: Can enum names be brought into scope?
+
 ### Enum Mixins
 
-You cannot subclass a concrete `Enum` class to make a new `Enum`.
-Python forbids this by design.
 An `Enum` defines a closed set of named values.
 Allowing inheritance conflicts with the meaning of "the set of valid members."
+Thus, Python forbids subclassing a concrete `Enum` class to make a new `Enum`.
 
 The only thing you can inherit when dealing with `Enum`s is mixins, like adding methods:
 
@@ -1312,7 +1315,7 @@ Because `Enum`s are closed, you know all possible `Status` members: `OPEN`, `CLO
 The type checker warns you if you forget to handle a case.
 No "unknown" cases can sneak in later because `Enum`s can't be subclassed.
 
-### Attach Functionality to Enum Members
+### Attaching Functionality to Enum Members
 
 ```python
 # state_machine.py
@@ -1485,11 +1488,8 @@ set_mode("auto")  # valid
 # set_mode('automatic')  # invalid, detected by type checker
 ```
 
-`Literal`s can serve as a lightweight substitute for `Enum`s when you only need to restrict values at the type level
-and do not require the additional runtime features of `Enum`s.
-This makes `Literal`s attractive for scenarios
-like defining a parameter that only accepts
-a small set of constant values without adding extra code complexity.
+`Literal`s can serve as a lightweight substitute for `Enum`s when you only need to restrict values at the type level and do not require the additional runtime features of `Enum`s.
+This makes `Literal`s attractive for scenarios like defining a parameter that only accepts a small set of constant values without adding extra code complexity.
 
 ### Pattern Matching on Literals
 
@@ -1700,7 +1700,7 @@ Pros:
 Cons:
 
 - Additional Overhead: `Enum`s require a bit more code and syntax compared to `Literal`s.
-- Slightly Heavier: While typically negligible, there is a bit more runtime overhead as `Enum`s are actual objects.
+- Slightly Heavier: While typically negligible, there is a bit more runtime overhead as `Enum`s are objects.
 
 When to Use:
 

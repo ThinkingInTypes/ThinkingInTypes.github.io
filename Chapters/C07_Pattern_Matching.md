@@ -161,7 +161,7 @@ from typing import Any
 
 
 def wildcard_ignore(
-    point: tuple[float, Any, Any],
+        point: tuple[float, Any, Any],
 ) -> None:
     match point:
         case (x, _, _):
@@ -408,7 +408,7 @@ Key rules and features of mapping patterns:
 
 - **Mapping type:** By default, the mapping pattern works on `dict` and other `Mapping` implementations (it checks for the presence of a mapping interface).
   If the subject is not a mapping, the pattern will fail.
-  If you specifically want to narrow the type (say you only want to match actual `dict` objects), you could combine a class pattern with a mapping pattern using the syntax `case dict({...})` similarly to how we did `list([...])` for sequences.
+  If you specifically want to narrow the type (say you only want to match `dict` objects), you could combine a class pattern with a mapping pattern using the syntax `case dict({...})` similarly to how we did `list([...])` for sequences.
   This would first check `isinstance(subject, dict)` then apply the mapping subpattern.
 
 ```python
@@ -541,10 +541,10 @@ def shape_area(shape: Circle | Square) -> float:
     match shape:
         case Circle(radius=r):
             # Here shape is type Circle:
-            return 3.14 * r**2
+            return 3.14 * r ** 2
         case Square(side=s):
             # Here shape is type Square:
-            return s**2
+            return s ** 2
         case _:
             raise ValueError("Unsupported shape")
 ```
@@ -766,7 +766,7 @@ request = {"method": "POST", "payload": {"id": 42}}
 
 match request:
     case {"method": m, "payload": data} if (
-        m == "POST" and "id" in data
+            m == "POST" and "id" in data
     ):
         data = cast(dict[str, Any], data)
         print(f"POST request with id {data['id']}")

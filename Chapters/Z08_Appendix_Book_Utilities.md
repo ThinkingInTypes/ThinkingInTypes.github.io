@@ -100,7 +100,7 @@ The `Catch` class implements this using:
   It receives details about any exception raised inside the block:
 
     - `exc_type`: the type of exception raised (e.g., `ValueError`)
-    - `exc_value`: the actual exception object containing the message
+    - `exc_value`: the exception object containing the message
     - `traceback`: the traceback object detailing where the exception occurred
 
   If an exception occurs (`exc_type is not None`), the `Catch` class prints the error message and returns `True` to

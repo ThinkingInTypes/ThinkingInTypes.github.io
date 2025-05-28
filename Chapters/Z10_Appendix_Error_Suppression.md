@@ -162,7 +162,7 @@ Similarly, specify Flake8 codes after `# noqa:` (e.g. `# noqa: E731`) instead of
 Treat these comments as a last resort when you truly cannot fix the error (e.g.
 missing stubs, dynamic patterns, legacy code).
 Overuse can mask bugs.
-Some linters can flag "unused" ignores or warn when an ignore comment covers no actual error
+Some linters can flag "unused" ignores or warn when an ignore comment doesn't cover an error
 (e.g., Pyright's `reportUnnecessaryTypeIgnoreComment`).
 It's good practice to document why you're ignoring: a short trailing comment can explain the rationale.
 

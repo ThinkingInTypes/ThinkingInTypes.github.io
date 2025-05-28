@@ -158,7 +158,7 @@ A `Condition` combines each `check` with a description of the failure condition.
 
 `requires` is a _decorator factory_; it returns a decorator that can be applied to any function.
 It accepts any number of `Condition` instances.
-The inner function `decorator` is the actual decorator; it wraps the target function `func`.
+The inner function `decorator` is the decorator that wraps the target function `func`.
 `wrapper` is the new function that will replace `func`.
 `@wraps(func)` preserves metadata like the function name and docstring.
 

@@ -109,6 +109,7 @@ The use of `Optional[str]` clearly communicates that you can call `greet()` with
 The function returns a string either way--if a name is given, it includes the name in the greeting; if not, it returns a generic greeting.
 
 You can also write the above annotation as `Union[str, None]` or `str | None`; `Optional` is preferred because it is more and descriptive.
+
 # TODO: sort out whether to prefer Optional or T | None
 
 ## Union Types
@@ -341,7 +342,7 @@ An `Iterable` describes any object that you can loop over (using a `for` loop or
 If the object has an `__iter__()` method, it implements the `Iterable` protocol.
 Examples include `list`s, `set`s, `tuple`s, `dict`s (iterating over keys), file objects (iterating over lines), and more.
 
-An `Iterator` is a subtype of `Iterable` that represents the actual `Iterator` object returned by calling `iter()` on an `Iterable`.
+An `Iterator` is a subtype of `Iterable` that represents the `Iterator` object returned by calling `iter()` on an `Iterable`.
 It implements a `__next__()` method that returns the next item or raises `StopIteration` when there are no more items.
 _Generator functions_ (functions using the `yield` keyword) produce iterators.
 

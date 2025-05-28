@@ -121,9 +121,9 @@ The key takeaway is that Python is dynamically and strongly typed: type checks h
 
 Python's dynamic typing is closely related to the idea of duck typing.
 The name comes from the phrase "If it looks like a duck and quacks like a duck, it must be a duck."
-In programming, duck typing means that an object's suitability for an operation is determined by the presence of certain methods or properties, rather than the actual type of the object itself.
+In programming, duck typing means that an object's suitability for an operation is determined by the presence of certain methods or properties, rather than the type of the object itself.
 In other words, "an object is considered compatible with a given type if it has all the methods and attributes that the type requires."
-The actual class or inheritance of the object is less important than whether it implements the interface.
+The class or inheritance of the object is less important than whether it implements the interface.
 This is a very Pythonic idea: "don't check an object's type to determine if it has the right interface; just try to use it, and it will either work or fail."
 
 Duck typing means you often write functions that work on any object that supports the operations you need, rather than only working on specific classes.
@@ -509,7 +509,7 @@ One consequence of this design is that you can have a program that passes all st
 the language.
 Conversely, you might have a program that does something tricky that the static checker flags as a possible type issue, but at runtime it never fails because of the particular way you use it.
 In those cases, you can often adjust your type annotations or use casts/`# type: ignore` comments to tell the checker "trust me, I know what I'm doing here."
-This disconnect between static analysis and actual running code is something to be aware of--it's the price of keeping the type system optional.
+This disconnect between static analysis and running code is something to be aware of--it's the price of keeping the type system optional.
 A quote from Python's documentation highlights this separation: \_"The Python runtime does not enforce function and variable type annotations.
 They can be used by third party tools such as type checkers, IDEs, linters, etc."
 In other words, if you want enforcement of those annotations, you need to use a tool (or implement your own checks).
@@ -545,7 +545,7 @@ Static typing tools help find mistakes without having to run every possible code
 A type is a fundamental attribute of data that constrains what you can do with that data.
 Python's is dynamically typed, meaning you don't have to declare types and can freely mix and change them at runtime.
 This provides a lot of power and agility at the cost of potential runtime type errors.
-Python emphasizes duck typing, relying on the actual capabilities of objects rather than explicit type declarations, which makes code very flexible and reusable.
+Python emphasizes duck typing, relying on the capabilities of objects rather than explicit type declarations, which makes code very flexible and reusable.
 
 Type annotations provide the best of both worlds: dynamic behavior plus tools to catch mistakes early.
 Type annotations improve code clarity and maintainability and act as a safety net, catching errors while coding.

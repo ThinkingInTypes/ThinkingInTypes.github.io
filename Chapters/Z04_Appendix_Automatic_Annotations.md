@@ -9,7 +9,7 @@
 
 `.pyi` stub files provide type annotations for Python modules, especially useful when source code lacks annotations or is unavailable:
 
-- Contains type definitions without actual implementations.
+- Contains type definitions without implementations.
 - Enables static type checking for third-party libraries.
 
 Example:
