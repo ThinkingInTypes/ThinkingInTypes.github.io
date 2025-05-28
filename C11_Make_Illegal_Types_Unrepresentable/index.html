@@ -1068,7 +1068,7 @@ For preconditions in Python, we can create a <code>requires</code> decorator to 
 <code>bool</code> indicating whether the condition is satisfied.</p>
 <p><code>requires</code> is a <em>decorator factory</em>; it returns a decorator that can be applied to any function.
 It accepts any number of <code>Condition</code> instances.
-The inner function <code>decorator</code> is the actual decorator; it wraps the target function <code>func</code>.
+The inner function <code>decorator</code> is the decorator that wraps the target function <code>func</code>.
 <code>wrapper</code> is the new function that will replace <code>func</code>.
 <code>@wraps(func)</code> preserves metadata like the function name and docstring.</p>
 <p>To use it, create one or more <code>Condition</code> objects, then use those to decorate functions with <code>requires</code>:</p>

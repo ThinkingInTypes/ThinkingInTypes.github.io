@@ -1147,7 +1147,7 @@ This gives the function flexibility; for example, it could work with an <code>os
 <p>An <code>Iterable</code> describes any object that you can loop over (using a <code>for</code> loop or other iteration contexts).
 If the object has an <code>__iter__()</code> method, it implements the <code>Iterable</code> protocol.
 Examples include <code>list</code>s, <code>set</code>s, <code>tuple</code>s, <code>dict</code>s (iterating over keys), file objects (iterating over lines), and more.</p>
-<p>An <code>Iterator</code> is a subtype of <code>Iterable</code> that represents the actual <code>Iterator</code> object returned by calling <code>iter()</code> on an <code>Iterable</code>.
+<p>An <code>Iterator</code> is a subtype of <code>Iterable</code> that represents the <code>Iterator</code> object returned by calling <code>iter()</code> on an <code>Iterable</code>.
 It implements a <code>__next__()</code> method that returns the next item or raises <code>StopIteration</code> when there are no more items.
 <em>Generator functions</em> (functions using the <code>yield</code> keyword) produce iterators.</p>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="c1"># example_16.py</span>

@@ -497,9 +497,9 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#attach-functionality-to-enum-members" class="md-nav__link">
+  <a href="#attaching-functionality-to-enum-members" class="md-nav__link">
     <span class="md-ellipsis">
-      Attach Functionality to Enum Members
+      Attaching Functionality to Enum Members
     </span>
   </a>
   
@@ -1290,9 +1290,9 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#attach-functionality-to-enum-members" class="md-nav__link">
+  <a href="#attaching-functionality-to-enum-members" class="md-nav__link">
     <span class="md-ellipsis">
-      Attach Functionality to Enum Members
+      Attaching Functionality to Enum Members
     </span>
   </a>
   
@@ -2021,7 +2021,7 @@ instance.</p>
 This happens because of the lookup rules: when <code>a.x</code> or <code>a.y</code> can't find an instance attribute, it looks for a class attribute with the same name.</p>
 <p>The confusion is understandable because in languages like C++ and Java, similar class definitions <em>do</em> produce instance attributes.</p>
 <p>The key to understanding this is to see the difference between class attributes and instance attributes.
-Both are stored in dictionaries, so we'll create a function that compares the attributes in both dictionaries:</p>
+Both are stored in dictionaries; this function compares the attributes in both dictionaries:</p>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="c1"># class_and_instance.py</span>
 </span><span id="__span-14-2"><a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a>
 </span><span id="__span-14-3"><a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a>
@@ -2041,7 +2041,7 @@ Both are stored in dictionaries, so we'll create a function that compares the at
 </span><span id="__span-14-17"><a id="__codelineno-14-17" name="__codelineno-14-17" href="#__codelineno-14-17"></a>        <span class="n">value</span> <span class="o">=</span> <span class="n">cls_dict</span><span class="p">[</span><span class="n">attr</span><span class="p">]</span>
 </span><span id="__span-14-18"><a id="__codelineno-14-18" name="__codelineno-14-18" href="#__codelineno-14-18"></a>        <span class="n">note</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
 </span><span id="__span-14-19"><a id="__codelineno-14-19" name="__codelineno-14-19" href="#__codelineno-14-19"></a>        <span class="k">if</span> <span class="n">attr</span> <span class="ow">in</span> <span class="n">obj_dict</span> <span class="ow">and</span> <span class="n">obj_dict</span><span class="p">[</span><span class="n">attr</span><span class="p">]</span> <span class="o">!=</span> <span class="n">value</span><span class="p">:</span>
-</span><span id="__span-14-20"><a id="__codelineno-14-20" name="__codelineno-14-20" href="#__codelineno-14-20"></a>            <span class="n">note</span> <span class="o">=</span> <span class="s2">&quot;  # overridden by instance&quot;</span>
+</span><span id="__span-14-20"><a id="__codelineno-14-20" name="__codelineno-14-20" href="#__codelineno-14-20"></a>            <span class="n">note</span> <span class="o">=</span> <span class="s2">&quot;  # Hidden by instance attribute&quot;</span>
 </span><span id="__span-14-21"><a id="__codelineno-14-21" name="__codelineno-14-21" href="#__codelineno-14-21"></a>        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  </span><span class="si">{</span><span class="n">attr</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">value</span><span class="si">}{</span><span class="n">note</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 </span><span id="__span-14-22"><a id="__codelineno-14-22" name="__codelineno-14-22" href="#__codelineno-14-22"></a>
 </span><span id="__span-14-23"><a id="__codelineno-14-23" name="__codelineno-14-23" href="#__codelineno-14-23"></a>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">obj_name</span><span class="si">}</span><span class="s2">.__dict__ (instance attributes):&quot;</span><span class="p">)</span>
@@ -2059,7 +2059,7 @@ When you access <code>a.x</code>, Python first looks in <code>a.__dict__</code>.
 If the name isn't found there, it continues the search in <code>A.__dict__</code>.
 This fallback behavior is what makes class attributes appear to be instance attributes--but they aren't.</p>
 <p><code>show_dicts</code> clarifies this by listing the class attributes, instance attributes,
-and the result of accessing the attribute (<code>getattr(obj, attr)</code>), which follows Python's actual lookup rules.</p>
+and the result of accessing the attribute (<code>getattr(obj, attr)</code>), which follows Python's lookup rules.</p>
 <p>Here's an example proving that class attributes do not create instance attributes:</p>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="c1"># proof_of_class_attribute.py</span>
 </span><span id="__span-15-2"><a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a><span class="kn">from</span> <span class="nn">class_and_instance</span> <span class="kn">import</span> <span class="n">show_dicts</span>
@@ -2150,7 +2150,7 @@ Note that the class attributes <code>A.x</code> and <code>A.y</code> remain unch
 </span><span id="__span-16-41"><a id="__codelineno-16-41" name="__codelineno-16-41" href="#__codelineno-16-41"></a><span class="c1">## d.y is 111</span>
 </span></code></pre></div>
 <p>After initialization, there are class attributes <code>x</code> and <code>y</code>, <em>and</em> instance attributes <code>x</code> and <code>y</code>.
-The <code>dataclass</code> decorator generates an <code>__init__</code> that looks at the class attributes and makes corresponding instance attributes.
+The <code>dataclass</code> decorator looks at the class attributes and generates an <code>__init__</code> that makes corresponding instance attributes.
 Note that after assigning to the instance attributes with <code>d.x = 99</code> and <code>d.y = 111</code>, the class attributes are unchanged.</p>
 <p>You can imagine what happens when you decorate a class with <code>dataclass</code>:
 the decorator creates an <code>__init__</code> that performs an instance initialization for each name found in the class attributes.
@@ -2167,18 +2167,20 @@ We can see this with a simplified example:</p>
 </span><span id="__span-17-10"><a id="__codelineno-17-10" name="__codelineno-17-10" href="#__codelineno-17-10"></a>    <span class="nd">@classmethod</span>
 </span><span id="__span-17-11"><a id="__codelineno-17-11" name="__codelineno-17-11" href="#__codelineno-17-11"></a>    <span class="k">def</span> <span class="nf">show_generated_init</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 </span><span id="__span-17-12"><a id="__codelineno-17-12" name="__codelineno-17-12" href="#__codelineno-17-12"></a>        <span class="n">params</span> <span class="o">=</span> <span class="p">[</span>
-</span><span id="__span-17-13"><a id="__codelineno-17-13" name="__codelineno-17-13" href="#__codelineno-17-13"></a>            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">f</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="nb">getattr</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">type</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;__name__&#39;</span><span class="p">,</span><span class="w"> </span><span class="nb">repr</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">type</span><span class="p">))</span><span class="si">}</span><span class="s2"> = </span><span class="si">{</span><span class="nb">repr</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">default</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
-</span><span id="__span-17-14"><a id="__codelineno-17-14" name="__codelineno-17-14" href="#__codelineno-17-14"></a>            <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">fields</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span>
-</span><span id="__span-17-15"><a id="__codelineno-17-15" name="__codelineno-17-15" href="#__codelineno-17-15"></a>        <span class="p">]</span>
-</span><span id="__span-17-16"><a id="__codelineno-17-16" name="__codelineno-17-16" href="#__codelineno-17-16"></a>        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;def __init__(self, </span><span class="si">{</span><span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">params</span><span class="p">)</span><span class="si">}</span><span class="s2">):&quot;</span><span class="p">)</span>
-</span><span id="__span-17-17"><a id="__codelineno-17-17" name="__codelineno-17-17" href="#__codelineno-17-17"></a>        <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">fields</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
-</span><span id="__span-17-18"><a id="__codelineno-17-18" name="__codelineno-17-18" href="#__codelineno-17-18"></a>            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;    self.</span><span class="si">{</span><span class="n">f</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2"> = </span><span class="si">{</span><span class="n">f</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-</span><span id="__span-17-19"><a id="__codelineno-17-19" name="__codelineno-17-19" href="#__codelineno-17-19"></a>
-</span><span id="__span-17-20"><a id="__codelineno-17-20" name="__codelineno-17-20" href="#__codelineno-17-20"></a>
-</span><span id="__span-17-21"><a id="__codelineno-17-21" name="__codelineno-17-21" href="#__codelineno-17-21"></a><span class="n">Point</span><span class="o">.</span><span class="n">show_generated_init</span><span class="p">()</span>
-</span><span id="__span-17-22"><a id="__codelineno-17-22" name="__codelineno-17-22" href="#__codelineno-17-22"></a><span class="c1">## def __init__(self, x: int = 1, y: int = 2):</span>
-</span><span id="__span-17-23"><a id="__codelineno-17-23" name="__codelineno-17-23" href="#__codelineno-17-23"></a><span class="c1">##     self.x = x</span>
-</span><span id="__span-17-24"><a id="__codelineno-17-24" name="__codelineno-17-24" href="#__codelineno-17-24"></a><span class="c1">##     self.y = y</span>
+</span><span id="__span-17-13"><a id="__codelineno-17-13" name="__codelineno-17-13" href="#__codelineno-17-13"></a>            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">f</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">: &quot;</span>
+</span><span id="__span-17-14"><a id="__codelineno-17-14" name="__codelineno-17-14" href="#__codelineno-17-14"></a>            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">getattr</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">type</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;__name__&#39;</span><span class="p">,</span><span class="w"> </span><span class="nb">repr</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">type</span><span class="p">))</span><span class="si">}</span><span class="s2"> = &quot;</span>
+</span><span id="__span-17-15"><a id="__codelineno-17-15" name="__codelineno-17-15" href="#__codelineno-17-15"></a>            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">repr</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">default</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+</span><span id="__span-17-16"><a id="__codelineno-17-16" name="__codelineno-17-16" href="#__codelineno-17-16"></a>            <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">fields</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span>
+</span><span id="__span-17-17"><a id="__codelineno-17-17" name="__codelineno-17-17" href="#__codelineno-17-17"></a>        <span class="p">]</span>
+</span><span id="__span-17-18"><a id="__codelineno-17-18" name="__codelineno-17-18" href="#__codelineno-17-18"></a>        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;def __init__(self, </span><span class="si">{</span><span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">params</span><span class="p">)</span><span class="si">}</span><span class="s2">):&quot;</span><span class="p">)</span>
+</span><span id="__span-17-19"><a id="__codelineno-17-19" name="__codelineno-17-19" href="#__codelineno-17-19"></a>        <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">fields</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
+</span><span id="__span-17-20"><a id="__codelineno-17-20" name="__codelineno-17-20" href="#__codelineno-17-20"></a>            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;    self.</span><span class="si">{</span><span class="n">f</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2"> = </span><span class="si">{</span><span class="n">f</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</span><span id="__span-17-21"><a id="__codelineno-17-21" name="__codelineno-17-21" href="#__codelineno-17-21"></a>
+</span><span id="__span-17-22"><a id="__codelineno-17-22" name="__codelineno-17-22" href="#__codelineno-17-22"></a>
+</span><span id="__span-17-23"><a id="__codelineno-17-23" name="__codelineno-17-23" href="#__codelineno-17-23"></a><span class="n">Point</span><span class="o">.</span><span class="n">show_generated_init</span><span class="p">()</span>
+</span><span id="__span-17-24"><a id="__codelineno-17-24" name="__codelineno-17-24" href="#__codelineno-17-24"></a><span class="c1">## def __init__(self, x: int = 1, y: int = 2):</span>
+</span><span id="__span-17-25"><a id="__codelineno-17-25" name="__codelineno-17-25" href="#__codelineno-17-25"></a><span class="c1">##     self.x = x</span>
+</span><span id="__span-17-26"><a id="__codelineno-17-26" name="__codelineno-17-26" href="#__codelineno-17-26"></a><span class="c1">##     self.y = y</span>
 </span></code></pre></div>
 <p>The <code>show_generated_init()</code> method walks through the field definitions and reconstructs a simplified version of the <code>__init__</code> method that would be generated by the decorator.
 For each field, it includes a type annotation and default value, and it emits code that assigns constructor parameters to instance attributes.
@@ -2229,9 +2231,9 @@ This generated initializer is what causes instance attributes to appear when we 
 </span><span id="__span-18-43"><a id="__codelineno-18-43" name="__codelineno-18-43" href="#__codelineno-18-43"></a><span class="c1">## di.x is 99</span>
 </span><span id="__span-18-44"><a id="__codelineno-18-44" name="__codelineno-18-44" href="#__codelineno-18-44"></a><span class="c1">## di.y is 111</span>
 </span></code></pre></div>
-<p>If you define your own <strong>init</strong> method in a <code>@dataclass</code>, the automatic <code>__init__</code> is suppressed.
+<p>If you define your own <strong>init</strong> method in a <code>dataclass</code>, the automatic <code>__init__</code> is suppressed.
 That means your version is responsible for setting up the instance attributes; if you don't, they won't be created.
-As a result, even though <code>x</code> and <code>y</code> are still listed as class attributes, the instance starts out with no <code>x</code> or <code>y</code> in its <code>__dict__</code>.
+As a result, even though <code>x</code> and <code>y</code> are still listed as <code>dataclass</code> attributes, the instance starts out with no <code>x</code> or <code>y</code> in its <code>__dict__</code>.
 Accessing <code>di.x</code> and <code>di.y</code> falls back to the class attributes, just like in a regular class.
 Only when you assign new values to <code>di.x</code> and <code>di.y</code> do they become instance attributes and override the class-level defaults.</p>
 <h2 id="enumerations">Enumerations<a class="headerlink" href="#enumerations" title="Permanent link">#</a></h2>
@@ -2350,7 +2352,7 @@ Only when you assign new values to <code>di.x</code> and <code>di.y</code> do th
 </span><span id="__span-20-98"><a id="__codelineno-20-98" name="__codelineno-20-98" href="#__codelineno-20-98"></a><span class="c1">## y=Year(n=2022))</span>
 </span><span id="__span-20-99"><a id="__codelineno-20-99" name="__codelineno-20-99" href="#__codelineno-20-99"></a><span class="c1">## ------------------------------</span>
 </span></code></pre></div>
-<p><code>Month</code> can be created using <code>dataclass</code>es, but it's more complicated than using <code>Enum</code>, with questionable benefits:</p>
+<p><code>Month</code> can be a <code>dataclass</code>, but it's more complicated than using <code>Enum</code>, and with questionable benefits:</p>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-21-1"><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a><span class="c1"># month_data_class.py</span>
 </span><span id="__span-21-2"><a id="__codelineno-21-2" name="__codelineno-21-2" href="#__codelineno-21-2"></a><span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span><span class="p">,</span> <span class="n">field</span>
 </span><span id="__span-21-3"><a id="__codelineno-21-3" name="__codelineno-21-3" href="#__codelineno-21-3"></a>
@@ -2660,11 +2662,11 @@ Only when you assign new values to <code>di.x</code> and <code>di.y</code> do th
 </span></code></pre></div>
 <p><code>Enum</code>s improve robustness by making code both readable and safely constrained.
 For simplicity and IDE interactivity, choose <code>Enum</code>s over data classes for fixed-value sets.</p>
+<p>TODO: Can enum names be brought into scope?</p>
 <h3 id="enum-mixins">Enum Mixins<a class="headerlink" href="#enum-mixins" title="Permanent link">#</a></h3>
-<p>You cannot subclass a concrete <code>Enum</code> class to make a new <code>Enum</code>.
-Python forbids this by design.
-An <code>Enum</code> defines a closed set of named values.
-Allowing inheritance conflicts with the meaning of "the set of valid members."</p>
+<p>An <code>Enum</code> defines a closed set of named values.
+Allowing inheritance conflicts with the meaning of "the set of valid members."
+Thus, Python forbids subclassing a concrete <code>Enum</code> class to make a new <code>Enum</code>.</p>
 <p>The only thing you can inherit when dealing with <code>Enum</code>s is mixins, like adding methods:</p>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-23-1"><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a><span class="c1"># enum_mixins.py</span>
 </span><span id="__span-23-2"><a id="__codelineno-23-2" name="__codelineno-23-2" href="#__codelineno-23-2"></a><span class="kn">from</span> <span class="nn">enum</span> <span class="kn">import</span> <span class="n">Enum</span>
@@ -2715,7 +2717,7 @@ Because it's an <code>Enum</code>, you can't inherit from <code>Color</code>.</p
 <p>Because <code>Enum</code>s are closed, you know all possible <code>Status</code> members: <code>OPEN</code>, <code>CLOSED</code>, <code>PENDING</code>.
 The type checker warns you if you forget to handle a case.
 No "unknown" cases can sneak in later because <code>Enum</code>s can't be subclassed.</p>
-<h3 id="attach-functionality-to-enum-members">Attach Functionality to Enum Members<a class="headerlink" href="#attach-functionality-to-enum-members" title="Permanent link">#</a></h3>
+<h3 id="attaching-functionality-to-enum-members">Attaching Functionality to Enum Members<a class="headerlink" href="#attaching-functionality-to-enum-members" title="Permanent link">#</a></h3>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-25-1"><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a><span class="c1"># state_machine.py</span>
 </span><span id="__span-25-2"><a id="__codelineno-25-2" name="__codelineno-25-2" href="#__codelineno-25-2"></a><span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">annotations</span>
 </span><span id="__span-25-3"><a id="__codelineno-25-3" name="__codelineno-25-3" href="#__codelineno-25-3"></a><span class="kn">from</span> <span class="nn">enum</span> <span class="kn">import</span> <span class="n">Enum</span>
@@ -2879,11 +2881,8 @@ fully typed and as clean as possible. Here's a way to do that:</p>
 </span><span id="__span-27-10"><a id="__codelineno-27-10" name="__codelineno-27-10" href="#__codelineno-27-10"></a><span class="c1">## Mode set to auto</span>
 </span><span id="__span-27-11"><a id="__codelineno-27-11" name="__codelineno-27-11" href="#__codelineno-27-11"></a><span class="c1"># set_mode(&#39;automatic&#39;)  # invalid, detected by type checker</span>
 </span></code></pre></div>
-<p><code>Literal</code>s can serve as a lightweight substitute for <code>Enum</code>s when you only need to restrict values at the type level
-and do not require the additional runtime features of <code>Enum</code>s.
-This makes <code>Literal</code>s attractive for scenarios
-like defining a parameter that only accepts
-a small set of constant values without adding extra code complexity.</p>
+<p><code>Literal</code>s can serve as a lightweight substitute for <code>Enum</code>s when you only need to restrict values at the type level and do not require the additional runtime features of <code>Enum</code>s.
+This makes <code>Literal</code>s attractive for scenarios like defining a parameter that only accepts a small set of constant values without adding extra code complexity.</p>
 <h3 id="pattern-matching-on-literals">Pattern Matching on Literals<a class="headerlink" href="#pattern-matching-on-literals" title="Permanent link">#</a></h3>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-28-1"><a id="__codelineno-28-1" name="__codelineno-28-1" href="#__codelineno-28-1"></a><span class="c1"># literal_pattern_matching.py</span>
 </span><span id="__span-28-2"><a id="__codelineno-28-2" name="__codelineno-28-2" href="#__codelineno-28-2"></a><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Literal</span>
@@ -3083,7 +3082,7 @@ example:</p>
 <p>Cons:</p>
 <ul>
 <li>Additional Overhead: <code>Enum</code>s require a bit more code and syntax compared to <code>Literal</code>s.</li>
-<li>Slightly Heavier: While typically negligible, there is a bit more runtime overhead as <code>Enum</code>s are actual objects.</li>
+<li>Slightly Heavier: While typically negligible, there is a bit more runtime overhead as <code>Enum</code>s are objects.</li>
 </ul>
 <p>When to Use:</p>
 <ul>
