@@ -10,12 +10,6 @@ data classes effectively.
 This chapter aims to share those insights and illustrate the practical benefits of Python data classes, guiding you
 towards clearer, more reliable code.
 
-## Misunderstanding Class Attributes
-
-This chapter describes Python tools that modify the normal behavior of class attributes.
-It's important to understand that this behavior is created by the tool and that ordinary classes do not behave this way.
-Read the [Class Attributes](Z06_Appendix_Class_Attributes.md) appendix for a deeper understanding.
-
 ## Ensuring Correctness
 
 Imagine building a customer feedback system using a rating from one to ten stars.
@@ -234,6 +228,8 @@ def increment(uid: UserID) -> UserID:
 
 # Access underlying list operation:
 print(increment(users[-1]))
+
+
 ## 43
 
 
@@ -458,7 +454,7 @@ class Circle:
     area: float = 0.0
 
     def __post_init__(self):
-        self.area = pi * self.radius**2
+        self.area = pi * self.radius ** 2
 
 
 print(Circle(radius=5))
@@ -1125,6 +1121,8 @@ class Color(Enum):
 print(Color.RED)
 ## Color.RED
 print(Color.RED.name, Color.RED.value)
+
+
 ## RED 1
 
 
@@ -1136,6 +1134,8 @@ class Status(Enum):
 
 
 print(list(Status))
+
+
 ## [<Status.PENDING: 1>, <Status.RUNNING: 2>, <Status.DONE: 3>]
 
 
@@ -1169,6 +1169,8 @@ print(Color.RED == Color.GREEN)
 print(Color["BLUE"])
 ## Color.BLUE
 print(Color(2))  # GREEN
+
+
 ## Color.GREEN
 
 
@@ -1191,6 +1193,8 @@ class Fruit(StrEnum):
 print(Fruit.APPLE.upper())
 ## APPLE
 print(f"JSON-ready: {Fruit.BANANA!r}")
+
+
 ## JSON-ready: <Fruit.BANANA: 'banana'>
 
 
@@ -1207,6 +1211,8 @@ class Shape(Enum):
 
 
 print(f"Shape.CIRCLE has {Shape.CIRCLE.sides()} sides")
+
+
 ## Shape.CIRCLE has 0 sides
 
 
@@ -1222,6 +1228,8 @@ print(
 )  # Only one member per value
 ## Members: [<Mood.HAPPY: 1>, <Mood.SAD: 2>]
 print(f"Alias: {Mood.JOYFUL is Mood.HAPPY}")
+
+
 ## Alias: True
 
 
@@ -1236,6 +1244,8 @@ user_perm = Permission.READ | Permission.WRITE  # type: ignore
 print(f"User permissions: {user_perm}")
 ## User permissions: Permission.READ|WRITE
 print(f"Can execute? {Permission.EXECUTE in user_perm}")
+
+
 ## Can execute? False
 
 
@@ -1368,9 +1378,9 @@ class Status(Enum):
     CLOSED = ("closed", closed_next)
 
     def __init__(
-        self,
-        label: str,
-        next_handler: Callable[[Status], Status],
+            self,
+            label: str,
+            next_handler: Callable[[Status], Status],
     ) -> None:
         self._label = label
         self._next_handler = next_handler
@@ -1630,6 +1640,8 @@ def paint1(color: Color) -> str:
 
 
 print(paint1(Color.BLUE))
+
+
 ## Something else
 
 
