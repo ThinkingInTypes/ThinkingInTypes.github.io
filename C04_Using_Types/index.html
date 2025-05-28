@@ -1049,7 +1049,7 @@ When annotating a list, we specify the type of its elements inside square bracke
 <p>Here, <code>scores</code> is declared to be a list of integers.
 The annotation <code>List[int]</code> tells us and the type checker that every element of <code>scores</code> should be an <code>int</code>.
 If somewhere else in the code we mistakenly append a string to <code>scores</code>, a type checker would complain.
-The benefit is clear: by reading the annotation, we know exactly what <code>scores</code> contains, and we get early warnings if we misuse it.</p>
+The benefit is clear: by reading the annotation, we know what <code>scores</code> contains, and we get early warnings if we misuse it.</p>
 <h3 id="tuples"><code>Tuple</code>s<a class="headerlink" href="#tuples" title="Permanent link">#</a></h3>
 <p><code>Tuple</code>s are fixed-size sequences, often used for grouping heterogeneous data.
 Unlike lists, where all elements are usually of one type, <code>Tuple</code>s often have a fixed structure (e.g., a pair of a <code>float</code> and a <code>float</code> for coordinates).
@@ -1059,7 +1059,7 @@ We can annotate <code>Tuple</code>s by listing the types of each position:</p>
 </span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>
 </span><span id="__span-9-4"><a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="n">coordinates</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mf">23.5</span><span class="p">,</span> <span class="mf">45.8</span><span class="p">)</span>
 </span></code></pre></div>
-<p>The annotation <code>Tuple[float, float]</code> means: a <code>Tuple</code> with exactly two elements, the first a <code>float</code> and the second a <code>float</code>.
+<p>The annotation <code>Tuple[float, float]</code> means: a <code>Tuple</code> with two elements, the first a <code>float</code> and the second a <code>float</code>.
 If we tried to assign <code>coordinates = (23.5, "north")</code>, a static checker would flag it, because the second element isn't a <code>float</code> as expected.</p>
 <p>For <code>Tuple</code>s of variable length where all elements are the same type, you can use an ellipsis in the annotation (e.g., <code>Tuple[int, ...]</code> for "a <code>Tuple</code> of <code>int</code> of any length").
 However, in many cases where you have a sequence of varying length, a list might be more appropriate.

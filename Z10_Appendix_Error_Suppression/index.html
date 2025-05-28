@@ -1214,7 +1214,7 @@ For instance:</p>
 </span></code></pre></div>
 <p>Here we disable the "attribute-error" warning that <code>socket</code> might not have <code>recv</code> yet.
 You can disable warnings per-line or even for the rest of the file by writing a <code>disable</code> comment on its own.
-The Pytype guide notes that this is preferred over a generic <code># type: ignore</code>, since it documents exactly which error is expected.</p>
+The Pytype guide notes that this is preferred over a generic <code># type: ignore</code>, since it documents which error is expected.</p>
 <h3 id="pylint">Pylint<a class="headerlink" href="#pylint" title="Permanent link">#</a></h3>
 <p>Although not a type checker, Pylint is a common static analyzer that uses comments like <code># pylint: disable=no-member</code> to suppress its own messages.
 (This is analogous to <code>noqa</code> for Pylint-specific checks.)<br />

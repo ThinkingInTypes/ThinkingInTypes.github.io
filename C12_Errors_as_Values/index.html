@@ -1549,7 +1549,7 @@ We can’t continue, so we return a <code>Failure</code> object containing the r
 Succeeding produces a <code>Success</code> containing an <code>unwrap</code> method used to extract the answer from that calculation.
 It returns the <code>ANSWER</code> type so its use can be properly type-checked.</p>
 <p>This means that any failure during a sequence of composed function calls will short-circuit out of <code>composed</code>,
-returning a <code>Failure</code> that tells you exactly what happened.
+returning a <code>Failure</code> that tells you what happened.
 You can’t ignore it and assume that it will "bubble up" until it finds an appropriate handler.
 You must deal with it at the point of origin, the place where you typically know the most about an error.</p>
 <h2 id="simplifying-composition-with-bind">Simplifying Composition with <code>bind</code><a class="headerlink" href="#simplifying-composition-with-bind" title="Permanent link">#</a></h2>

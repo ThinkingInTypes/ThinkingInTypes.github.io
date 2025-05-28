@@ -1164,8 +1164,7 @@ This design is very flexible: you can add new logger classes later (say, a<code>
 </span><span id="__span-6-17"><a id="__codelineno-6-17" name="__codelineno-6-17" href="#__codelineno-6-17"></a><span class="n">test_logger</span> <span class="o">=</span> <span class="n">ListLogger</span><span class="p">()</span>
 </span><span id="__span-6-18"><a id="__codelineno-6-18" name="__codelineno-6-18" href="#__codelineno-6-18"></a><span class="n">run_process</span><span class="p">(</span><span class="s2">&quot;DataCleanup&quot;</span><span class="p">,</span> <span class="n">test_logger</span><span class="p">)</span>
 </span><span id="__span-6-19"><a id="__codelineno-6-19" name="__codelineno-6-19" href="#__codelineno-6-19"></a><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Captured logs:&quot;</span><span class="p">,</span> <span class="n">test_logger</span><span class="o">.</span><span class="n">messages</span><span class="p">)</span>
-</span><span id="__span-6-20"><a id="__codelineno-6-20" name="__codelineno-6-20" href="#__codelineno-6-20"></a><span class="c1">## Captured logs: [&#39;Starting DataCleanup&#39;,</span>
-</span><span id="__span-6-21"><a id="__codelineno-6-21" name="__codelineno-6-21" href="#__codelineno-6-21"></a><span class="c1">## &#39;Finished DataCleanup&#39;]</span>
+</span><span id="__span-6-20"><a id="__codelineno-6-20" name="__codelineno-6-20" href="#__codelineno-6-20"></a><span class="c1">## Captured logs: [&#39;Starting DataCleanup&#39;, &#39;Finished DataCleanup&#39;]</span>
 </span></code></pre></div>
 <p>The static type checker ensures that any object we pass as a<code>logger</code>to<code>run_process</code>has a<code>log(str)</code>method.
 In a nominal type system, you might have to define an abstract base class<code>Logger</code> and make every logger inherit it.
@@ -1182,7 +1181,7 @@ The protocol assures the fake has the same method signature as the real client.
 This avoids type checker warnings and makes tests cleaner.
 It's essentially the static typing analog of using an interface in other languages for dependency injection in tests.
 Many testing libraries (like <code>unittest.mock</code>) create dynamic mocks that can be configured with attributes on the fly; to type-annotate those, you can either cast them to a Protocol or use a Protocol as a base for a fake implementation.
-Using protocols in this way documents exactly what methods a mock is expected to provide.
+Using protocols in this way documents what methods a mock is expected to provide.
 This can prevent situations where your test double is missing a method or has a typo that wouldn't be caught until runtime.
 In short, whenever you say "I need an object that can do X in my code, and I might swap different implementations of it," that's a cue to define a protocol for X.</p>
 <p><strong>3.Interface design and third-party integration:</strong>
