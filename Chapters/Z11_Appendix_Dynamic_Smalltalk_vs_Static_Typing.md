@@ -159,7 +159,7 @@ coco.squawk()
 
 # After learning:
 print(polly.known_phrases, coco.known_phrases)
-## {'hello'} {'squawk', 'hello'}
+## {'hello'} {'hello', 'squawk'}
 ```
 
 Although `polly` and `coco` share each created method, each instance maintains its own `known_phrases` history.

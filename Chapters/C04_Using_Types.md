@@ -1,16 +1,15 @@
 # Using Types
 
-Type annotations improve clarity and enable static type checkers to catch errors early.
-We'll look at Python's `typing` module and apply type annotations to variables, functions, and data structures.
+This chapter looks at Python's `typing` module and applies type annotations to variables, functions, and data structures.
 
 ## Built-in Types (`int`, `str`, `float`, `bool`, `None`)
 
-Annotating variables with `int`, `str`, `float`, `bool`, or `None` explicitly communicates the expected type of data.
-This makes code more readable and helps tools catch mismatches.
+Annotating variables with `int`, `str`, `float`, `bool`, or `None` communicates the expected data types,
+makes code more readable, and catches mistakes via type checkers.
 For example:
 
 ```python
-# example_1.py
+# basic_types.py
 age: int = 25
 name: str = "Alice"
 salary: float = 45000.50
@@ -20,8 +19,9 @@ no_value: None = None
 
 Each variable's type is clearly stated.
 A reader can immediately see that `age` should be an integer, `name` a string, and so on.
-Type annotations do not change the runtime behavior of the code--Python will not enforce them at runtime--but they serve as important documentation.
-They also enable static type checkers and IDEs to detect errors (for instance, if you later try to treat `age` as a string, a type checker would warn you).
+Type annotations do not change the runtime behavior of the code--Python will not enforce them at runtime.
+They provide documentation and enable static type checkers and IDEs to detect errors
+(for instance, if you later try to treat `age` as a string, a type checker warns you).
 
 Annotating with `None` as a type (as shown for `no_value`) indicates that the variable should hold no value.
 It's equivalent to saying the variable's type is `NoneType`.
