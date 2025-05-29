@@ -903,13 +903,12 @@
 
 
 <h1 id="using-types">Using Types<a class="headerlink" href="#using-types" title="Permanent link">#</a></h1>
-<p>Type annotations improve clarity and enable static type checkers to catch errors early.
-We'll look at Python's <code>typing</code> module and apply type annotations to variables, functions, and data structures.</p>
+<p>This chapter looks at Python's <code>typing</code> module and applies type annotations to variables, functions, and data structures.</p>
 <h2 id="built-in-types-int-str-float-bool-none">Built-in Types (<code>int</code>, <code>str</code>, <code>float</code>, <code>bool</code>, <code>None</code>)<a class="headerlink" href="#built-in-types-int-str-float-bool-none" title="Permanent link">#</a></h2>
-<p>Annotating variables with <code>int</code>, <code>str</code>, <code>float</code>, <code>bool</code>, or <code>None</code> explicitly communicates the expected type of data.
-This makes code more readable and helps tools catch mismatches.
+<p>Annotating variables with <code>int</code>, <code>str</code>, <code>float</code>, <code>bool</code>, or <code>None</code> communicates the expected data types,
+makes code more readable, and catches mistakes via type checkers.
 For example:</p>
-<div class="language-python highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1"># example_1.py</span>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1"># basic_types.py</span>
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="n">age</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">25</span>
 </span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;Alice&quot;</span>
 </span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="n">salary</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">45000.50</span>
@@ -918,8 +917,9 @@ For example:</p>
 </span></code></pre></div>
 <p>Each variable's type is clearly stated.
 A reader can immediately see that <code>age</code> should be an integer, <code>name</code> a string, and so on.
-Type annotations do not change the runtime behavior of the code--Python will not enforce them at runtime--but they serve as important documentation.
-They also enable static type checkers and IDEs to detect errors (for instance, if you later try to treat <code>age</code> as a string, a type checker would warn you).</p>
+Type annotations do not change the runtime behavior of the code--Python will not enforce them at runtime.
+They provide documentation and enable static type checkers and IDEs to detect errors
+(for instance, if you later try to treat <code>age</code> as a string, a type checker warns you).</p>
 <p>Annotating with <code>None</code> as a type (as shown for <code>no_value</code>) indicates that the variable should hold no value.
 It's equivalent to saying the variable's type is <code>NoneType</code>.
 Using built-in type names in annotations is straightforward and is the foundation for more complex types.</p>
