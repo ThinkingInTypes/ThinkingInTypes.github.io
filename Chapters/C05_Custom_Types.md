@@ -738,9 +738,9 @@ Note that you can still take a `Stars` and modify it so it becomes invalid; we s
 ### Initializers
 
 Normally you'll define a `__post_init__` to perform _validation_.
-Sometimes, you'll need to define an `__init__` to perform _initialization_.
+Sometimes, you'll need an `__init__` to customize the way fields are initialized.
 
-A custom `__init__` makes sense primarily when you need fundamentally different initialization logic than the field-based constructor allows.
+A custom `__init__` makes sense primarily for different initialization logic than the field-based constructor allows.
 You need a completely alternative interface, such as parsing inputs from a different format
 (e.g., strings, dictionaries, files) and then assigning to fields.
 For example, consider parsing two pieces of `float` data from a single `str` argument:
@@ -761,6 +761,8 @@ class Point:
         self.y = float(y_str.strip())
 ```
 
+Notice the extra space in the string argument to `Point`:
+
 ```python
 # point_demo.py
 from point import Point
@@ -769,11 +771,10 @@ print(Point(" 10.5 , 20.3 "))
 ## Point(x=10.5, y=20.3)
 ```
 
-Defining `__init__` customizes the way fields are initialized.
 Here, the custom `__init__` provides a simpler API.
 You retain data class features like `__repr__`, `__eq__`, and automatic field handling.
 
-Dataclasses auto-generate an `__init__` unless you explicitly define one.
+Data classes auto-generate an `__init__` unless you explicitly define one.
 If you provide a custom `__init__`, the automatic one is replaced.
 You can still use `__post_init__`, but must call it explicitly from your custom `__init__`.
 
@@ -1106,7 +1107,7 @@ Only when you assign new values to `di.x` and `di.y` do they become instance att
 
 ## Enumerations
 
-An `Enum` is also a type and is preferable when you have a smaller set of values.
+An `Enum` type is preferable when you have a smaller set of values.
 `Enum`s provide additional type safety for fixed-value sets such as months:
 
 ```python
@@ -1418,7 +1419,7 @@ class Direction(Enum):
     SOUTH = 2
     EAST = 3
     WEST = 4
-    # UP = 1  # Uncommenting this would raise ValueError for duplicate
+    # UP = 1  # Uncommenting this raises ValueError
 
 
 # 7. Subclassing str or int for JSON-friendliness
@@ -1536,7 +1537,7 @@ Because it's an `Enum`, you can't inherit from `Color`.
 
 ### Enums and Exhaustivity
 
-Because you can't inherit from an `Enum`, your `Enum` can be included in exhaustivity analysis during pattern matching:
+Because you can't inherit from an `Enum`, an `Enum` can be included in exhaustivity analysis during pattern matching:
 
 ```python
 # enum_exhaustivity.py
@@ -1573,6 +1574,9 @@ print(Status.PENDING.handle())
 Because `Enum`s are closed, you know all possible `Status` members: `OPEN`, `CLOSED`, `PENDING`.
 The type checker warns you if you forget to handle a case.
 No "unknown" cases can sneak in later because `Enum`s can't be subclassed.
+
+// What different types can Enum members be? Can you mix types within a single Enum?
+// Can you provide type annotations to Enum members?
 
 ### Attaching Functionality to Enum Members
 
@@ -1750,6 +1754,9 @@ set_mode("auto")  # valid
 `Literal`s can serve as a lightweight substitute for `Enum`s when you only need to restrict values at the type level and do not require the additional runtime features of `Enum`s.
 This makes `Literal`s attractive for scenarios like defining a parameter that only accepts a small set of constant values without adding extra code complexity.
 
+// What types can a Literal contain?
+// Sequence of small examples showing everything you can do with Literals
+
 ### Pattern Matching on Literals
 
 ```python
@@ -1799,7 +1806,7 @@ not possible.
 Can literals be created dynamically?
 Probably not.
 Example of Country with states, states with counties, counties with towns and cities,
-how far can `Literal` go?
+How far can `Literal` go? Is there a limit to the number of Literals in a single element?
 Compare that with the same example using Enums.
 Perhaps an example that mixes `Literal`s and `Enum`s
 
@@ -2107,47 +2114,5 @@ reduces repetitive checks, and centralizes validation.
 Combined with functional programming principles like immutability and type composition,
 custom types significantly enhance the clarity, maintainability, and robustness of your code.
 Once you adopt this approach, you'll find your development process smoother, more reliable, and far more enjoyable.
-
-## (Generated) Dataclass Intro Notes
-
-Dataclasses simplify class definitions by automatically generating methods like `__init__`, `__repr__`, and `__eq__`:
-
-```python
-# generated_methods.py
-from dataclasses import dataclass
-
-
-@dataclass
-class Product:
-    name: str
-    price: float
-    in_stock: bool = True
-
-
-product = Product("Laptop", 999.99)
-print(product)
-## Product(name='Laptop', price=999.99, in_stock=True)
-```
-
-Dataclasses reduce boilerplate, ensuring concise and readable class definitions.
-
-Dataclasses support default factories, immutability, and more:
-
-```python
-# example_9.py
-from dataclasses import dataclass, field
-from book_utils import Catch
-
-
-@dataclass
-class Order:
-    order_id: int
-    items: list[str] = field(default_factory=list)
-
-
-order = Order(order_id=123)
-with Catch():
-    order.order_id = 456  # type: ignore
-```
 
 - Incorporate examples from https://github.com/BruceEckel/DataClassesAsTypes
