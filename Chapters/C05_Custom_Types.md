@@ -1,19 +1,16 @@
 # Custom Types
 
-- Incorporate examples from https://github.com/BruceEckel/DataClassesAsTypes
+Built-in types are extremely useful (I'm including all the types in the standard Python library),
+but the real programming power comes by creating user-defined types, which we shall call _custom types_.
+The remainder of this book will primarily focus on various ways to create and use custom types.
 
-This chapter began as a presentation at a Python conference, inspired by conversations with fellow programmers exploring
-functional programming techniques.
-Specifically, the idea arose from a podcast discussion about Scala's smart types.
-After extensive study of functional programming, several concepts coalesced into an approach that leverages Python’s
-data classes effectively.
-This chapter aims to share those insights and illustrate the practical benefits of Python data classes, guiding you
-towards clearer, more reliable code.
+One of the biggest benefits of custom types is that they allow you to create types that reflect entities in your problem domain.
+The book _Domain-Driven Design_ by Eric Evans explores problem-domain modeling to discover the types in your system.
 
 ## Ensuring Correctness
 
 Imagine building a customer feedback system using a rating from one to ten stars.
-Traditionally, Python programmers use an integer type, checking its validity whenever it's used:
+Traditionally, Python programmers use an `int` to represent `stars`, checking arguments to ensure validity:
 
 ```python
 # int_stars.py
@@ -44,14 +41,13 @@ stars2 = 11
 with Catch():
     print(f1(stars2))
 ## Error: f1: 11
-stars1 = 99
+stars3 = 99
 with Catch():
-    print(f2(stars1))
+    print(f2(stars3))
 ## Error: f2: 99
 ```
 
-However, each time the integer is used, its validity must be rechecked, leading to duplicated logic, scattered
-validation, and potential mistakes.
+Each function that takes a `stars` must validate that argument, leading to duplicated logic, scattered validation, and potential mistakes.
 
 ## Traditional Object-Oriented Encapsulation
 
@@ -67,9 +63,9 @@ from book_utils import Catch
 class Stars:
     def __init__(self, n_stars: int):
         self._number = n_stars  # Private by convention
-        self.condition()
+        self.validate()
 
-    def condition(self, s: Optional[int] = None):
+    def validate(self, s: Optional[int] = None):
         if s:
             assert 1 <= s <= 10, f"{self}: {s}"
         else:
@@ -80,21 +76,20 @@ class Stars:
     def number(self):
         return self._number
 
-    # Create readable output:
     def __str__(self) -> str:
         return f"Stars({self._number})"
 
-    # Every member function must guard the private variable:
+    # Every member function must validate the private variable:
     def f1(self, n_stars: int) -> int:
-        self.condition(n_stars)  # Precondition
+        self.validate(n_stars)  # Precondition
         self._number = n_stars + 5
-        self.condition()  # Postcondition
+        self.validate()  # Postcondition
         return self._number
 
     def f2(self, n_stars: int) -> int:
-        self.condition(n_stars)  # Precondition
+        self.validate(n_stars)  # Precondition
         self._number = n_stars * 5
-        self.condition()  # Postcondition
+        self.validate()  # Postcondition
         return self._number
 
 
@@ -126,14 +121,12 @@ cluttering the code and potentially introducing errors if a developer neglects t
 
 ## Type Aliases & `NewType`
 
-TODO: Apply to "stars"
-
 Suppose you have a `dict` with nested structures or a `tuple` with many elements.
 Writing out these types every time is unwieldy.
 Type aliases assign a name to a type to make annotations cleaner and more maintainable.
 
 A type alias is a name assignment at the top level of your code.
-We normally name type aliases with CamelCase to indicate they are types:
+We normally name type aliases with _CamelCase_ to indicate they are types:
 
 ```python
 # simple_type_aliasing.py
@@ -144,29 +137,28 @@ type Number = int | float | str
 Measurements = NewType("Measurements", list[Number])
 
 
-def process_measurements(data: Measurements) -> None:
-    print(get_type_hints(process_measurements))
+def process(data: Measurements) -> None:
+    print(get_type_hints(process))
     for n in data:
         print(f"{n = }, {type(n) = }")
 
 
-process_measurements(Measurements([11, 3.14, "1.618"]))
+process(Measurements([11, 3.14, "1.618"]))
 ## {'data': __main__.Measurements, 'return': <class 'NoneType'>}
 ## n = 11, type(n) = <class 'int'>
 ## n = 3.14, type(n) = <class 'float'>
 ## n = '1.618', type(n) = <class 'str'>
 ```
 
-Using `Number` and `Measurements` is functionally identical to writing the annotation as `int | float` or
-`list[Number]`.
+Using `Number` and `Measurements` is functionally identical to writing the annotation as `int | float` or `list[Number]`.
 The aliases:
 
-- Gives a meaningful name to the type, indicating what the `list` of `Number`s represents--in this case, a collection
-  called `Measurements`.
+- Gives a meaningful name to the type, indicating what the `list` of `Number`s represents--in this case,
+  a collection called `Measurements`.
 - Avoids repeating a complex type annotation in multiple places.
 - Improves readability by abstracting away the details of the type structure.
-- If the definition of `Measurements` changes (if we use a different type to represent `Number`), we can update the
-  alias in one place.
+- If the definition of `Measurements` changes (if we use a different type to represent `Number`),
+  we can update the alias in one place.
 
 You can see from the output that type aliases do not create new types at runtime;
 they are purely for the benefit of the type system and the developer.
@@ -174,7 +166,7 @@ they are purely for the benefit of the type system and the developer.
 ### `NewType`
 
 A type alias is a notational convenience, but it doesn't create a new type recognized by the type checker.
-`NewType` does create a new, distinct type, preventing accidental misuse of similar underlying types.
+`NewType` creates a new, distinct type, preventing accidental misuse of similar underlying types.
 You'll often want to use `NewType` instead of type aliasing:
 
 ```python
@@ -202,10 +194,8 @@ process(Measurements([11, 3.14, "1.618"]))
 
 `get_type_hints` produces information about the function.
 
-`NewType` is intended to create a distinct type at the type-checking level that is based on some other
-(usually simpler) type.
-Its primary goal is
-to help prevent the mixing of semantically different values that are represented by the same underlying type;
+`NewType` is intended to create a distinct type at the type-checking level that is based on some other (usually simpler) type.
+Its primary goal is to help prevent the mixing of semantically different values that are represented by the same underlying type;
 for example, differentiating `UserID` from `ProductID`, even though both are `int`s:
 
 ```python
@@ -228,8 +218,6 @@ def increment(uid: UserID) -> UserID:
 
 # Access underlying list operation:
 print(increment(users[-1]))
-
-
 ## 43
 
 
@@ -245,12 +233,65 @@ Notice that `Users` uses `UserID` in its definition.
 The type checker requires `UserID` for `increment` and `Users` for `increment_users`,
 even though we can transparently access the underlying elements of each type (`int` and `list[UserID]`).
 
+### Creating a `NewType` from a `NewType`
+
+You cannot subclass a `NewType`:
+
+```python
+# newtype_subtype.py
+from typing import NewType
+
+Stars = NewType('Stars', int)
+
+# Fails type check and at runtime:
+# class GasGiants(Stars): pass
+```
+
+However, it is possible to create a `NewType` _based_ on a `NewType`:
+
+```python
+# newtype_based_type.py
+from typing import NewType
+
+Stars = NewType('Stars', int)
+
+GasGiants = NewType('GasGiants', Stars)
+```
+
+Typechecking for `GasGiants` works as expected.
+
+### `NewType` Stars
+
+`NewType` will provide some benefit to the `Stars` problem by going from an `int` to a specific type:
+
+```python
+# newtype_stars.py
+from typing import NewType
+
+Stars = NewType("Stars", int)
+
+
+def f1(stars: Stars) -> Stars:
+    assert 1 <= stars <= 10, f"f1: {stars}"
+    return Stars(stars + 5)
+
+
+def f2(stars: Stars) -> Stars:
+    assert 1 <= stars <= 10, f"f2: {stars}"
+    return Stars(stars * 5)
+```
+
+Now `f1` and `f2` will produce an error if you try to pass them an `int`; they only accept `Stars`.
+Note that `NewType` generates a constructor for `Stars`, which we need to return `Stars` objects.
+The validation code remains the same, because `Stars` _is_ an `int`.
+However, we still need the validation code.
+To improve the design, we require a more powerful technique.
+
 ## Data Classes
 
-TODO: It seems like I have a lot of PyCon presentation material that can go here.
-
-Data classes were introduced in Python 3.7 to provide a structured, concise way to define data-holding types.
-They streamline the process of creating types by generating essential methods automatically.
+_Data classes_ provide a structured, concise way to define data-holding types.
+Many languages have similar constructs under different names: Scala has `case class`, Kotlin has `data class`, Java has `record`, Rust has `struct`, etc.
+Data classes streamline the process of creating types by generating essential methods automatically.
 
 ```python
 # messenger.py
@@ -271,7 +312,7 @@ print(m)
 print(m.name, m.number, m.depth)
 ## foo 12 3.14
 mm = Messenger("xx", 1)  # Uses default argument
-print(mm == Messenger("xx", 1))  # Generates __eq__()
+print(mm == Messenger("xx", 1))  # Generated __eq__()
 ## True
 print(mm == Messenger("xx", 2))
 ## False
@@ -290,7 +331,13 @@ print(m)
 # TypeError: unhashable type: 'Messenger'
 ```
 
-TODO: Describe example
+`Messenger` is defined with three fields: `name` and `number`, which are required, and `depth`, which has a default value of `0.0`.
+The `@dataclass` decorator automatically generates an `__init__`, `__repr__`, `__eq__`, among others.
+We see several ways to instantiate `Messenger` objects, demonstrating that the default for `depth` is used when not provided.
+It also shows that two instances with the same field values are equal, and how to create a modified copy of an instance using `replace()`.
+It highlights mutability: `Messenger` instances can be modified unless marked as `frozen=True` (a feature covered in [C06_Immutability]).
+Finally, it demonstrates that `Messenger` instances cannot be used as dictionary keys by default because they are not hashable,
+a feature that can be enabled via `@dataclass(unsafe_hash=True)` or by making the class immutable with `frozen=True`.
 
 ### Generated Methods
 
@@ -298,7 +345,7 @@ By default, `@dataclass` generates three methods: `__init__`, `__repr__`, and `_
 If you pass `order=True`, it also generates `__lt__`, `__le__`, `__gt__`, and `__ge__`.
 If you pass `frozen=True` or `unsafe_hash=True` it generates `__hash__`.
 
-We can use the standard library `inspect` module to display the type signatures of the methods in a class:
+Using the standard library `inspect` module, we can display the type signatures of the methods in a class:
 
 ```python
 # class_methods.py
@@ -313,7 +360,7 @@ def show_methods(cls: type) -> None:
             print(f"  {name}{sig}")
 ```
 
-We can apply this to an ordinary class:
+Here is `show_methods` applied to an ordinary class:
 
 ```python
 # point_methods.py
@@ -386,6 +433,8 @@ show_methods(FrozenPoint)
 ##   __delattr__(self, name)
 ```
 
+// Add description
+
 ### Default Factories
 
 A default factory is a function that creates a default value for a field.
@@ -438,7 +487,7 @@ print(f"{user2 = }")
 
 ### Post-Initialization
 
-In a typical `dataclass`, any validation logic resides in the `__post_init__` method.
+In a typical `dataclass`, validation logic resides in the `__post_init__` method.
 This is executed automatically after initialization.
 With `__post_init__`, you can guarantee that only valid instances of your type exist.
 
@@ -484,6 +533,45 @@ print(Team("alice", ["bob", "carol", "ted"]))
 ## Team(leader='Alice', members=['Alice', 'bob', 'carol', 'ted'])
 ```
 
+We can use `__post_init__` to solve the `Stars` validation problem:
+
+```python
+# stars_dataclass.py
+from dataclasses import dataclass
+
+from book_utils import Catch
+
+
+@dataclass
+class Stars:
+    number: int
+
+    def __post_init__(self) -> None:
+        assert 1 <= self.number <= 10, f"{self}"
+
+
+def f1(stars: Stars) -> Stars:
+    return Stars(stars.number + 5)
+
+
+def f2(stars: Stars) -> Stars:
+    return Stars(stars.number * 5)
+
+
+stars1 = Stars(6)
+print(stars1)
+with Catch():
+    print(f1(stars1))
+with Catch():
+    print(f2(stars1))
+with Catch():
+    print(f1(Stars(22)))
+with Catch():
+    print(f2(Stars(99)))
+```
+
+Now `f1` and `f2` no longer need to do any validation testing on `Stars`, because it is impossible to create an invalid `Stars` object.
+
 ### Initializers
 
 Normally you'll define a `__post_init__` to perform _validation_.
@@ -491,7 +579,7 @@ Sometimes, you'll need to define an `__init__` to perform _initialization_.
 
 A custom `__init__` makes sense primarily when you need fundamentally different initialization logic than the field-based constructor allows.
 You need a completely alternative interface, such as parsing inputs from a different format
-(e.g., strings, dicts, files) and then assigning to fields.
+(e.g., strings, dictionaries, files) and then assigning to fields.
 For example, consider parsing two pieces of `float` data from a single `str` argument:
 
 ```python
@@ -1922,3 +2010,5 @@ order = Order(order_id=123)
 with Catch():
     order.order_id = 456  # type: ignore
 ```
+
+- Incorporate examples from https://github.com/BruceEckel/DataClassesAsTypes
