@@ -478,6 +478,8 @@ Adding `order=True` together with `frozen=True` produces the sum of all generate
 
 ### Dataclass as Dictionary
 
+// Move to end of section
+
 The `dataclasses.asdict` function can seem confusing at first:
 
 ```python
@@ -546,7 +548,7 @@ print(asdict(image))
 ## {'p1': {'x': 10, 'y': 4}, 'p2': {'x': 16, 'y': 8}}]}]}
 ```
 
-Notice how quickly we produce a complicated type like `Image`.
+Notice how easily we produce a sophisticated type like `Image`.
 Now you can see the difference: `__dict__` recursively produces the `repr()`s of all the components,
 while `asdict()` creates `dict`s and `list`s as you would need for a JSON representation.
 
@@ -610,6 +612,7 @@ class UserProfile:
     username: str
     # Built-in factory: each instance gets a new empty list
     strlist: List[str] = field(default_factory=list)
+    # Custom default factories:
     n1: int = field(default_factory=next_ten)
     data: Dict[str, str] = field(
         default_factory=lambda: {"A": "B"}
@@ -636,11 +639,14 @@ print(f"{user2 = }")
 ## n1=30, data={'A': 'B', 'C': 'D'}, n2=40)
 ```
 
+// Describe
+
 ### Post-Initialization
 
 In a typical data class, validation logic resides in the `__post_init__` method.
 This is executed automatically after initialization.
-With `__post_init__`, you can guarantee that only valid instances of your type exist.
+With `__post_init__`, you can guarantee that only valid instances of your type can be created.
+Here, `__post_init__` initializes the `area` attribute:
 
 ```python
 # post_init.py
@@ -727,6 +733,7 @@ with Catch():
 ```
 
 Now `f1` and `f2` no longer need to do any validation testing on `Stars`, because it is impossible to create an invalid `Stars` object.
+Note that you can still take a `Stars` and modify it so it becomes invalid; we shall address this in the next chapter.
 
 ### Initializers
 
