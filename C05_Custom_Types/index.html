@@ -2073,7 +2073,8 @@ To see the effect of <code>asdict()</code> we need a more complicated example:</
 </span></code></pre></div>
 <p>Notice how quickly we produce a complicated type like <code>Image</code>.
 Now you can see the difference: <code>__dict__</code> recursively produces the <code>repr()</code>s of all the components,
-while <code>asdict()</code> creates <code>dict</code>s and <code>list</code>s as you would need for a JSON representation.</p>
+while <code>asdict()</code> creates <code>dict</code>s and <code>list</code>s as you would need for a JSON representation. 
+In addition, <code>__dict__</code> shows you the dictionary for the object, while <code>asdict()</code> creates a new object. </p>
 <h3 id="sorting-and-hashing">Sorting and Hashing<a class="headerlink" href="#sorting-and-hashing" title="Permanent link">#</a></h3>
 <p>// Describe</p>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="c1"># sortable_points.py</span>
