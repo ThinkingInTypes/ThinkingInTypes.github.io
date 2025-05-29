@@ -1764,7 +1764,7 @@ You'll often want to use <code>NewType</code> instead of type aliasing:</p>
 </span><span id="__span-3-20"><a id="__codelineno-3-20" name="__codelineno-3-20" href="#__codelineno-3-20"></a><span class="c1">## n = &#39;1.618&#39;, type(n) = &lt;class &#39;str&#39;&gt;</span>
 </span></code></pre></div>
 <p><code>get_type_hints</code> produces information about the function.</p>
-<p><code>NewType</code> is intended to create a distinct type at the type-checking level that is based on some other (usually simpler) type.
+<p><code>NewType</code> is intended to create a distinct type based on another type.
 Its primary goal is to help prevent the mixing of semantically different values that are represented by the same underlying type;
 for example, differentiating <code>UserID</code> from <code>ProductID</code>, even though both are <code>int</code>s:</p>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="c1"># new_type_users.py</span>
@@ -2151,7 +2151,7 @@ Here, <code>next_ten</code> is a custom default factory; it's a function that pr
 </span><span id="__span-17-42"><a id="__codelineno-17-42" name="__codelineno-17-42" href="#__codelineno-17-42"></a><span class="c1">## n1=30, data={&#39;A&#39;: &#39;B&#39;, &#39;C&#39;: &#39;D&#39;}, n2=40)</span>
 </span></code></pre></div>
 <h3 id="post-initialization">Post-Initialization<a class="headerlink" href="#post-initialization" title="Permanent link">#</a></h3>
-<p>In a typical <code>dataclass</code>, validation logic resides in the <code>__post_init__</code> method.
+<p>In a typical data class, validation logic resides in the <code>__post_init__</code> method.
 This is executed automatically after initialization.
 With <code>__post_init__</code>, you can guarantee that only valid instances of your type exist.</p>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-18-1"><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a><span class="c1"># post_init.py</span>
@@ -2260,7 +2260,7 @@ For example, consider parsing two pieces of <code>float</code> data from a singl
 </span></code></pre></div>
 <p>Defining <code>__init__</code> customizes the way fields are initialized.
 Here, the custom <code>__init__</code> provides a simpler API.
-You retain <code>dataclass</code> features like <code>__repr__</code>, <code>__eq__</code>, and automatic field handling.</p>
+You retain data class features like <code>__repr__</code>, <code>__eq__</code>, and automatic field handling.</p>
 <p>Dataclasses auto-generate an <code>__init__</code> unless you explicitly define one.
 If you provide a custom <code>__init__</code>, the automatic one is replaced.
 You can still use <code>__post_init__</code>, but must call it explicitly from your custom <code>__init__</code>.</p>
@@ -2323,9 +2323,9 @@ Consider a <code>Person</code> object composed of <code>FullName</code>, <code>B
 <p>This hierarchical validation structure ensures correctness and clarity at every composition level.
 Invalid data never propagates, vastly simplifying subsequent interactions.</p>
 <h3 id="initvar"><code>InitVar</code><a class="headerlink" href="#initvar" title="Permanent link">#</a></h3>
-<p><code>dataclasses.InitVar</code> allows you to define fields that are only used during initialization but are not stored as attributes of the <code>dataclass</code> object.
+<p><code>dataclasses.InitVar</code> allows you to define fields that are only used during initialization but are not stored as attributes of the data class object.
 <code>InitVar</code> fields are passed as parameters to the <code>__init__</code> method and can be used within the <code>__post_init__</code> method for additional initialization logic.
-They are not considered regular fields of the <code>dataclass</code> and are not included in the output of functions like <code>fields()</code>.</p>
+They are not considered regular fields of the data class and are not included in the output of functions like <code>fields()</code>.</p>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-24-1"><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a><span class="c1"># dataclass_initvar.py</span>
 </span><span id="__span-24-2"><a id="__codelineno-24-2" name="__codelineno-24-2" href="#__codelineno-24-2"></a><span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span><span class="p">,</span> <span class="n">InitVar</span>
 </span><span id="__span-24-3"><a id="__codelineno-24-3" name="__codelineno-24-3" href="#__codelineno-24-3"></a>
@@ -2451,7 +2451,7 @@ However, the instance dictionary is empty--there are no instance attributes.
 Thus, when we access <code>a.x</code> and <code>b.x</code>, Python doesn't find those instance attributes and continues to search, displaying the class attributes instead.</p>
 <p>The act of assigning <code>a.x = 99</code> and <code>a.y = 111</code> <em>creates</em> new instance attributes <code>x</code> and <code>y</code>.
 Note that the class attributes <code>A.x</code> and <code>A.y</code> remain unchanged.</p>
-<p>Let's perform the same experiment with a <code>dataclass</code>:</p>
+<p>Let's perform the same experiment with a data class:</p>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-28-1"><a id="__codelineno-28-1" name="__codelineno-28-1" href="#__codelineno-28-1"></a><span class="c1"># dataclass_attribute.py</span>
 </span><span id="__span-28-2"><a id="__codelineno-28-2" name="__codelineno-28-2" href="#__codelineno-28-2"></a><span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span>
 </span><span id="__span-28-3"><a id="__codelineno-28-3" name="__codelineno-28-3" href="#__codelineno-28-3"></a><span class="kn">from</span> <span class="nn">class_and_instance</span> <span class="kn">import</span> <span class="n">show_dicts</span>
@@ -2495,9 +2495,9 @@ Note that the class attributes <code>A.x</code> and <code>A.y</code> remain unch
 </span><span id="__span-28-41"><a id="__codelineno-28-41" name="__codelineno-28-41" href="#__codelineno-28-41"></a><span class="c1">## d.y is 111</span>
 </span></code></pre></div>
 <p>After initialization, there are <strong>class</strong> attributes <code>x</code> and <code>y</code>, <em>and</em> <strong>instance</strong> attributes <code>x</code> and <code>y</code>.
-The <code>dataclass</code> decorator looks at the class attributes and generates an <code>__init__</code> that creates the corresponding instance attributes.
+The <code>@dataclass</code> decorator looks at the class attributes and generates an <code>__init__</code> that creates the corresponding instance attributes.
 Note that after assigning to the instance attributes with <code>d.x = 99</code> and <code>d.y = 111</code>, the class attributes are unchanged.</p>
-<p>What happens if you define your own <code>__init__</code> for a <code>dataclass</code>?</p>
+<p>What happens if you define your own <code>__init__</code> for a data class?</p>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-29-1"><a id="__codelineno-29-1" name="__codelineno-29-1" href="#__codelineno-29-1"></a><span class="c1"># dataclass_with_init.py</span>
 </span><span id="__span-29-2"><a id="__codelineno-29-2" name="__codelineno-29-2" href="#__codelineno-29-2"></a><span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span>
 </span><span id="__span-29-3"><a id="__codelineno-29-3" name="__codelineno-29-3" href="#__codelineno-29-3"></a><span class="kn">from</span> <span class="nn">class_and_instance</span> <span class="kn">import</span> <span class="n">show_dicts</span>
@@ -2553,7 +2553,7 @@ Note that after assigning to the instance attributes with <code>d.x = 99</code> 
 </span></code></pre></div>
 <p>The generated <code>__init__</code> is suppressed.
 That means your <code>__init__</code> is responsible for setting up the instance attributes; if you don't, they won't be created.
-As a result, even though <code>x</code> and <code>y</code> are still listed as <code>dataclass</code> attributes, the instance starts out with no <code>x</code> or <code>y</code> in its <code>__dict__</code>.
+As a result, even though <code>x</code> and <code>y</code> are still listed as data class attributes, the instance starts out with no <code>x</code> or <code>y</code> in its <code>__dict__</code>.
 Accessing <code>di.x</code> and <code>di.y</code> falls back to the class attributes, just like in a regular class.
 Only when you assign new values to <code>di.x</code> and <code>di.y</code> do they become instance attributes and override the class-level defaults.</p>
 <h2 id="enumerations">Enumerations<a class="headerlink" href="#enumerations" title="Permanent link">#</a></h2>
@@ -2658,7 +2658,7 @@ Only when you assign new values to <code>di.x</code> and <code>di.y</code> do th
 </span><span id="__span-30-97"><a id="__codelineno-30-97" name="__codelineno-30-97" href="#__codelineno-30-97"></a><span class="c1">## BirthDate(m=DECEMBER, d=Day(n=31), y=Year(n=2022))</span>
 </span><span id="__span-30-98"><a id="__codelineno-30-98" name="__codelineno-30-98" href="#__codelineno-30-98"></a><span class="c1">## ------------------------------</span>
 </span></code></pre></div>
-<p><code>Month</code> can be a <code>dataclass</code>, but it's more complicated than using <code>Enum</code>, and with questionable benefits:</p>
+<p><code>Month</code> can be a data class, but it's more complicated than using <code>Enum</code>, and with questionable benefits:</p>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-31-1"><a id="__codelineno-31-1" name="__codelineno-31-1" href="#__codelineno-31-1"></a><span class="c1"># month_data_class.py</span>
 </span><span id="__span-31-2"><a id="__codelineno-31-2" name="__codelineno-31-2" href="#__codelineno-31-2"></a><span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span><span class="p">,</span> <span class="n">field</span>
 </span><span id="__span-31-3"><a id="__codelineno-31-3" name="__codelineno-31-3" href="#__codelineno-31-3"></a>
