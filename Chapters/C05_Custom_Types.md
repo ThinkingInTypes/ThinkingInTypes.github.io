@@ -194,7 +194,7 @@ process(Measurements([11, 3.14, "1.618"]))
 
 `get_type_hints` produces information about the function.
 
-`NewType` is intended to create a distinct type at the type-checking level that is based on some other (usually simpler) type.
+`NewType` is intended to create a distinct type based on another type.
 Its primary goal is to help prevent the mixing of semantically different values that are represented by the same underlying type;
 for example, differentiating `UserID` from `ProductID`, even though both are `int`s:
 
@@ -638,7 +638,7 @@ print(f"{user2 = }")
 
 ### Post-Initialization
 
-In a typical `dataclass`, validation logic resides in the `__post_init__` method.
+In a typical data class, validation logic resides in the `__post_init__` method.
 This is executed automatically after initialization.
 With `__post_init__`, you can guarantee that only valid instances of your type exist.
 
@@ -764,7 +764,7 @@ print(Point(" 10.5 , 20.3 "))
 
 Defining `__init__` customizes the way fields are initialized.
 Here, the custom `__init__` provides a simpler API.
-You retain `dataclass` features like `__repr__`, `__eq__`, and automatic field handling.
+You retain data class features like `__repr__`, `__eq__`, and automatic field handling.
 
 Dataclasses auto-generate an `__init__` unless you explicitly define one.
 If you provide a custom `__init__`, the automatic one is replaced.
@@ -836,9 +836,9 @@ Invalid data never propagates, vastly simplifying subsequent interactions.
 
 ### `InitVar`
 
-`dataclasses.InitVar` allows you to define fields that are only used during initialization but are not stored as attributes of the `dataclass` object.
+`dataclasses.InitVar` allows you to define fields that are only used during initialization but are not stored as attributes of the data class object.
 `InitVar` fields are passed as parameters to the `__init__` method and can be used within the `__post_init__` method for additional initialization logic.
-They are not considered regular fields of the `dataclass` and are not included in the output of functions like `fields()`.
+They are not considered regular fields of the data class and are not included in the output of functions like `fields()`.
 
 ```python
 # dataclass_initvar.py
@@ -984,7 +984,7 @@ Thus, when we access `a.x` and `b.x`, Python doesn't find those instance attribu
 The act of assigning `a.x = 99` and `a.y = 111` _creates_ new instance attributes `x` and `y`.
 Note that the class attributes `A.x` and `A.y` remain unchanged.
 
-Let's perform the same experiment with a `dataclass`:
+Let's perform the same experiment with a data class:
 
 ```python
 # dataclass_attribute.py
@@ -1031,10 +1031,10 @@ show_dicts(d, "d")
 ```
 
 After initialization, there are **class** attributes `x` and `y`, _and_ **instance** attributes `x` and `y`.
-The `dataclass` decorator looks at the class attributes and generates an `__init__` that creates the corresponding instance attributes.
+The `@dataclass` decorator looks at the class attributes and generates an `__init__` that creates the corresponding instance attributes.
 Note that after assigning to the instance attributes with `d.x = 99` and `d.y = 111`, the class attributes are unchanged.
 
-What happens if you define your own `__init__` for a `dataclass`?
+What happens if you define your own `__init__` for a data class?
 
 ```python
 # dataclass_with_init.py
@@ -1093,7 +1093,7 @@ show_dicts(di, "di")
 
 The generated `__init__` is suppressed.
 That means your `__init__` is responsible for setting up the instance attributes; if you don't, they won't be created.
-As a result, even though `x` and `y` are still listed as `dataclass` attributes, the instance starts out with no `x` or `y` in its `__dict__`.
+As a result, even though `x` and `y` are still listed as data class attributes, the instance starts out with no `x` or `y` in its `__dict__`.
 Accessing `di.x` and `di.y` falls back to the class attributes, just like in a regular class.
 Only when you assign new values to `di.x` and `di.y` do they become instance attributes and override the class-level defaults.
 
@@ -1203,7 +1203,7 @@ for date in [
 ## ------------------------------
 ```
 
-`Month` can be a `dataclass`, but it's more complicated than using `Enum`, and with questionable benefits:
+`Month` can be a data class, but it's more complicated than using `Enum`, and with questionable benefits:
 
 ```python
 # month_data_class.py

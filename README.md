@@ -16,15 +16,19 @@
 
 ## Tools
 
-- `uvx mdformat`  Formats fenced code blocks in Markdown files
 - `docker run -v ${PWD}:/data ghcr.io/bobheadxi/readable fmt *`  Formats Markdown files including [Semantic Line Breaks](https://sembr.org/)
 - [sembr](https://github.com/admk/sembr) Just does semantic line breaks using AI, but it also breaks at clauses rather than just sentences.
+- `uvx mdformat`  Formats fenced code blocks in Markdown files (don't use this, use Ruff instead)
 
 ## Type Checker
 
-- https://pyre-check.org/ Pyre, only works on Linux/Unix
+- https://pyre-check.org/ Pyre (this is discontinued; use Pyrefly instead)
 
 [![Built with Material for MkDocs](https://img.shields.io/badge/Material_for_MkDocs-526CFE?style=for-the-badge&logo=MaterialForMkDocs&logoColor=white)](https://squidfunk.github.io/mkdocs-material/).
+
+## Notes
+
+- Add an appendix on hashing?
 
 ## TODO
 
