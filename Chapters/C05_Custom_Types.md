@@ -241,7 +241,7 @@ You cannot subclass a `NewType`:
 # newtype_subtype.py
 from typing import NewType
 
-Stars = NewType('Stars', int)
+Stars = NewType("Stars", int)
 
 # Fails type check and at runtime:
 # class GasGiants(Stars): pass
@@ -253,9 +253,9 @@ However, it is possible to create a `NewType` _based_ on a `NewType`:
 # newtype_based_type.py
 from typing import NewType
 
-Stars = NewType('Stars', int)
+Stars = NewType("Stars", int)
 
-GasGiants = NewType('GasGiants', Stars)
+GasGiants = NewType("GasGiants", Stars)
 ```
 
 Typechecking for `GasGiants` works as expected.
@@ -397,7 +397,7 @@ class OrderedPoint:
     y: int = 2
 
 
-@dataclass(frozen=True)
+@dataclass
 class FrozenPoint:
     x: int = 1
     y: int = 2
@@ -425,12 +425,9 @@ show_methods(FrozenPoint)
 ## class FrozenPoint:
 ##   __annotate_func__(format, /)
 ##   __replace__(self, /, **changes)
-##   __hash__(self)
 ##   __init__(self, x: int = 1, y: int = 2) -> None
 ##   __repr__(self)
 ##   __eq__(self, other)
-##   __setattr__(self, name, value)
-##   __delattr__(self, name)
 ```
 
 // Add description
@@ -503,7 +500,7 @@ class Circle:
     area: float = 0.0
 
     def __post_init__(self):
-        self.area = pi * self.radius ** 2
+        self.area = pi * self.radius**2
 
 
 print(Circle(radius=5))
@@ -560,14 +557,19 @@ def f2(stars: Stars) -> Stars:
 
 stars1 = Stars(6)
 print(stars1)
+## Stars(number=6)
 with Catch():
     print(f1(stars1))
+## Error: Stars(number=11)
 with Catch():
     print(f2(stars1))
+## Error: Stars(number=30)
 with Catch():
     print(f1(Stars(22)))
+## Error: Stars(number=22)
 with Catch():
     print(f2(Stars(99)))
+## Error: Stars(number=99)
 ```
 
 Now `f1` and `f2` no longer need to do any validation testing on `Stars`, because it is impossible to create an invalid `Stars` object.
@@ -627,7 +629,7 @@ Consider a `Person` object composed of `FullName`, `BirthDate`, and `Email` data
 from dataclasses import dataclass
 
 
-@dataclass(frozen=True)
+@dataclass
 class FullName:
     name: str
 
@@ -638,7 +640,7 @@ class FullName:
         )
 
 
-@dataclass(frozen=True)
+@dataclass
 class BirthDate:
     dob: str
 
@@ -646,7 +648,7 @@ class BirthDate:
         print(f"BirthDate checking {self.dob}")
 
 
-@dataclass(frozen=True)
+@dataclass
 class EmailAddress:
     address: str
 
@@ -654,7 +656,7 @@ class EmailAddress:
         print(f"EmailAddress checking {self.address}")
 
 
-@dataclass(frozen=True)
+@dataclass
 class Person:
     name: FullName
     date_of_birth: BirthDate
@@ -680,19 +682,13 @@ Invalid data never propagates, vastly simplifying subsequent interactions.
 
 ### `InitVar`
 
-`InitVar` is part of the `dataclasses` module.
-It allows you to define fields that are only used during initialization but are not stored as attributes of the
-dataclass object.
-`InitVar` fields are passed as parameters to the `__init__` method and can be used within the `__post_init__` method for
-additional initialization logic.
-They are not considered regular fields of the dataclass and are not included in the output of functions like `fields()`.
+`dataclasses.InitVar` allows you to define fields that are only used during initialization but are not stored as attributes of the `dataclass` object.
+`InitVar` fields are passed as parameters to the `__init__` method and can be used within the `__post_init__` method for additional initialization logic.
+They are not considered regular fields of the `dataclass` and are not included in the output of functions like `fields()`.
 
 ```python
 # dataclass_initvar.py
-# pyright: reportAttributeAccessIssue=false
-# mypy: disable-error-code="attr-defined"
 from dataclasses import dataclass, InitVar
-from book_utils import Catch
 
 
 @dataclass
@@ -707,20 +703,18 @@ class Book:
             self.shelf_id = None
 
 
-print(b := Book("Emma", "Jane Austen", "Good", 11))
-## Book(title='Emma', author='Jane Austen', shelf_id=11)
-# "condition" doesn't exist outside __init__ or __post_init__:
-with Catch():
-    print(b.condition)  # noqa
+b = Book("Emma", "Austen", "Good", 11)
+print(b.__dict__)
+## {'title': 'Emma', 'author': 'Austen', 'shelf_id': 11}
 ```
 
 In this example, `condition` is an `InitVar`.
-It is used to conditionally set the `shelf_id` in `__post_init__` but is not stored as an attribute of the `Book`
-instance.
+It is used to conditionally set the `shelf_id` in `__post_init__`,
+but we can see from displaying the `__dict__` that it is not stored as an attribute of the `Book` instance.
 
 ## Class Attributes
 
-Sometimes people get confused about how class attributes work and mistakenly believe that a class attribute defines an instance attribute:
+Sometimes people get confused and mistakenly believe that a class attribute defines an instance attribute:
 
 ```python
 # a_with_x.py
@@ -882,8 +876,8 @@ show_dicts(d, "d")
 ## d.y is 111
 ```
 
-After initialization, there are class attributes `x` and `y`, _and_ instance attributes `x` and `y`.
-The `dataclass` decorator looks at the class attributes and generates an `__init__` that makes corresponding instance attributes.
+After initialization, there are **class** attributes `x` and `y`, _and_ **instance** attributes `x` and `y`.
+The `dataclass` decorator looks at the class attributes and generates an `__init__` that creates the corresponding instance attributes.
 Note that after assigning to the instance attributes with `d.x = 99` and `d.y = 111`, the class attributes are unchanged.
 
 What happens if you define your own `__init__` for a `dataclass`?
@@ -943,8 +937,8 @@ show_dicts(di, "di")
 ## di.y is 111
 ```
 
-If you define your own __init__ method in a `dataclass`, the automatic `__init__` is suppressed.
-That means your version is responsible for setting up the instance attributes; if you don't, they won't be created.
+The generated `__init__` is suppressed.
+That means your `__init__` is responsible for setting up the instance attributes; if you don't, they won't be created.
 As a result, even though `x` and `y` are still listed as `dataclass` attributes, the instance starts out with no `x` or `y` in its `__dict__`.
 Accessing `di.x` and `di.y` falls back to the class attributes, just like in a regular class.
 Only when you assign new values to `di.x` and `di.y` do they become instance attributes and override the class-level defaults.
@@ -963,7 +957,7 @@ from enum import Enum
 from book_utils import Catch
 
 
-@dataclass(frozen=True)
+@dataclass
 class Day:
     n: int
 
@@ -971,7 +965,7 @@ class Day:
         assert 1 <= self.n <= 31, f"{self}"
 
 
-@dataclass(frozen=True)
+@dataclass
 class Year:
     n: int
 
@@ -1005,7 +999,7 @@ class Month(Enum):
         return self.name
 
 
-@dataclass(frozen=True)
+@dataclass
 class BirthDate:
     m: Month
     d: Day
@@ -1064,7 +1058,7 @@ from dataclasses import dataclass, field
 from book_utils import Catch
 
 
-@dataclass(frozen=True)
+@dataclass
 class Day:
     n: int
 
@@ -1072,7 +1066,7 @@ class Day:
         assert 1 <= self.n <= 31, f"Day({self.n})"
 
 
-@dataclass(frozen=True)
+@dataclass
 class Year:
     n: int
 
@@ -1080,7 +1074,7 @@ class Year:
         assert 1900 < self.n <= 2022, f"Year({self.n})"
 
 
-@dataclass(frozen=True)
+@dataclass
 class Month:
     name: str
     n: int
@@ -1116,7 +1110,7 @@ class Month:
         ]
 
 
-@dataclass(frozen=True)
+@dataclass
 class Months:
     months: list[Month] = field(
         default_factory=Month.make_months
@@ -1127,7 +1121,7 @@ class Months:
         return self.months[month_number - 1]
 
 
-@dataclass(frozen=True)
+@dataclass
 class BirthDate:
     m: Month
     d: Day
@@ -1209,8 +1203,6 @@ class Color(Enum):
 print(Color.RED)
 ## Color.RED
 print(Color.RED.name, Color.RED.value)
-
-
 ## RED 1
 
 
@@ -1222,8 +1214,6 @@ class Status(Enum):
 
 
 print(list(Status))
-
-
 ## [<Status.PENDING: 1>, <Status.RUNNING: 2>, <Status.DONE: 3>]
 
 
@@ -1257,8 +1247,6 @@ print(Color.RED == Color.GREEN)
 print(Color["BLUE"])
 ## Color.BLUE
 print(Color(2))  # GREEN
-
-
 ## Color.GREEN
 
 
@@ -1281,8 +1269,6 @@ class Fruit(StrEnum):
 print(Fruit.APPLE.upper())
 ## APPLE
 print(f"JSON-ready: {Fruit.BANANA!r}")
-
-
 ## JSON-ready: <Fruit.BANANA: 'banana'>
 
 
@@ -1299,8 +1285,6 @@ class Shape(Enum):
 
 
 print(f"Shape.CIRCLE has {Shape.CIRCLE.sides()} sides")
-
-
 ## Shape.CIRCLE has 0 sides
 
 
@@ -1316,8 +1300,6 @@ print(
 )  # Only one member per value
 ## Members: [<Mood.HAPPY: 1>, <Mood.SAD: 2>]
 print(f"Alias: {Mood.JOYFUL is Mood.HAPPY}")
-
-
 ## Alias: True
 
 
@@ -1332,8 +1314,6 @@ user_perm = Permission.READ | Permission.WRITE  # type: ignore
 print(f"User permissions: {user_perm}")
 ## User permissions: Permission.READ|WRITE
 print(f"Can execute? {Permission.EXECUTE in user_perm}")
-
-
 ## Can execute? False
 
 
@@ -1466,9 +1446,9 @@ class Status(Enum):
     CLOSED = ("closed", closed_next)
 
     def __init__(
-            self,
-            label: str,
-            next_handler: Callable[[Status], Status],
+        self,
+        label: str,
+        next_handler: Callable[[Status], Status],
     ) -> None:
         self._label = label
         self._next_handler = next_handler
@@ -1728,8 +1708,6 @@ def paint1(color: Color) -> str:
 
 
 print(paint1(Color.BLUE))
-
-
 ## Something else
 
 
@@ -1766,7 +1744,7 @@ print("NOPE" in ParamVal)  # type: ignore
 # Convert literal values to a set:
 allowed_set = set(ParamVal.__args__)  # type: ignore
 print(allowed_set)
-## {'MAX', 'MIN', 'DEF'}
+## {'DEF', 'MIN', 'MAX'}
 print("MIN" in allowed_set)
 ## True
 print("NOPE" in allowed_set)
@@ -2000,7 +1978,7 @@ from dataclasses import dataclass, field
 from book_utils import Catch
 
 
-@dataclass(frozen=True)
+@dataclass
 class Order:
     order_id: int
     items: list[str] = field(default_factory=list)
