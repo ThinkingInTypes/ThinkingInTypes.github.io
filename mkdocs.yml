@@ -31,13 +31,15 @@ nav:
   - '3: What is a Type': C03_What_is_a_Type.md
   - '4: Using Types': C04_Using_Types.md
   - '5: Custom Types Data Classes': C05_Custom_Types_Data_Classes.md
-  - '6: Immutability': C06_Immutability.md
-  - '7: Pattern Matching': C07_Pattern_Matching.md
-  - '8: Generics': C08_Generics.md
-  - '9: Callables': C09_Callables.md
-  - '10: Structural Typing': C10_Structural_Typing.md
-  - '11: Make Illegal Types Unrepresentable': C11_Make_Illegal_Types_Unrepresentable.md
-  - '12: Errors as Values': C12_Errors_as_Values.md
+  - '6: Custom Types Enums': C06_Custom_Types_Enums.md
+  - '7: Immutability': C07_Immutability.md
+  - '8: Pattern Matching': C08_Pattern_Matching.md
+  - '9: Generics': C09_Generics.md
+  - '10: Callables': C10_Callables.md
+  - '11: Structural Typing': C11_Structural_Typing.md
+  - '12: Make Illegal Types Unrepresentable': C12_Make_Illegal_Types_Unrepresentable.md
+  - '13: Errors as Values': C13_Errors_as_Values.md
+  - '14: Advanced Generics': C14_Advanced_Generics.md
   - 'A1: Quick Reference': Z01_Appendix_Quick_Reference.md
   - 'A2: Reference': Z02_Appendix_Reference.md
   - 'A3: Guidelines': Z03_Appendix_Guidelines.md

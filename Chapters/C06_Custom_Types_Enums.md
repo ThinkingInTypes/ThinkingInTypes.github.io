@@ -1,4 +1,4 @@
-## Custom Types: Enums
+# Custom Types: Enums
 
 An `Enum` type is preferable when you have a smaller set of values.
 `Enum`s provide additional type safety for fixed-value sets such as months:
@@ -403,7 +403,7 @@ For simplicity and IDE interactivity, choose `Enum`s over data classes for fixed
 
 TODO: Can enum names be brought into scope?
 
-### Enum Mixins
+## Enum Mixins
 
 An `Enum` defines a closed set of named values.
 Allowing inheritance conflicts with the meaning of "the set of valid members."
@@ -428,7 +428,7 @@ class Color(StrMixin, Enum):
 Here, Color mixes in `str` behavior.
 Because it's an `Enum`, you can't inherit from `Color`.
 
-### Enums and Exhaustivity
+## Enums and Exhaustivity
 
 Because you can't inherit from an `Enum`, an `Enum` can be included in exhaustivity analysis during pattern matching:
 
@@ -471,7 +471,7 @@ No "unknown" cases can sneak in later because `Enum`s can't be subclassed.
 // What different types can Enum members be? Can you mix types within a single Enum?
 // Can you provide type annotations to Enum members?
 
-### Attaching Functionality to Enum Members
+## Attaching Functionality to Enum Members
 
 ```python
 # state_machine.py
@@ -538,7 +538,7 @@ Each `Enum` member (`Status.OPEN`, etc.) carries two pieces of information:
 In the `__init__`, we capture these and assign to instance attributes (`_label`, `_next_handler`).
 The `next()` method calls the stored function.
 
-### A Finite State Machine
+## A Finite State Machine
 
 A _Finite State Machine_ (FSM) chooses its next state based on the current state and one or more inputs.
 All the information of an FSM is initialized in the state transition table, so we want that to be
@@ -650,7 +650,7 @@ This makes `Literal`s attractive for scenarios like defining a parameter that on
 // What types can a Literal contain?
 // Sequence of small examples showing everything you can do with Literals
 
-### Pattern Matching on Literals
+## Pattern Matching on Literals
 
 ```python
 # literal_pattern_matching.py
@@ -694,7 +694,7 @@ not possible.
 
 [Example of exhaustiveness checking with subclasses]
 
-### Examples
+## Examples
 
 Can literals be created dynamically?
 Probably not.
@@ -703,7 +703,7 @@ How far can `Literal` go? Is there a limit to the number of Literals in a single
 Compare that with the same example using Enums.
 Perhaps an example that mixes `Literal`s and `Enum`s
 
-### Similarities
+## Similarities
 
 - Value Restriction:  
   Both `Literal`s and `Enum`s let you restrict a variable to a fixed set of values.
@@ -711,7 +711,7 @@ Perhaps an example that mixes `Literal`s and `Enum`s
   tells a type checker that only these string values are allowed (aside from floats),
   similar to how an `Enum` restricts possible members.
 
-### Differences
+## Differences
 
 - Type Checking vs. Runtime Behavior:
     - `Literal`: `Literal`s are a static type annotation introduced in PEP 586.
@@ -728,7 +728,7 @@ Perhaps an example that mixes `Literal`s and `Enum`s
     - `Enum`: `Enum`s come with more structure and can encapsulate behavior. However, they require defining a class and
       are slightly heavier in terms of syntax and runtime footprint.
 
-### Choosing between `Literal` and `Enum`
+## Choosing between `Literal` and `Enum`
 
 - Use `Literal`s if:
     - You need a simple, compile-time constraint on allowed values without extra runtime behavior.
@@ -742,7 +742,7 @@ Perhaps an example that mixes `Literal`s and `Enum`s
 Both approaches improve type safety,
 but if you need more robust functionality or runtime introspection, an `Enum` might be the better choice.
 
-### Literal Support for Enums
+## Literal Support for Enums
 
 The type checker knows the exact value of an `Enum` member and can narrow types accordingly.
 Because of this, type checkers can treat `Enum` values as `Literal`s.
@@ -786,7 +786,7 @@ def paint2(color: Color) -> str:
 The type checker warns you if a branch is missing.
 This is essentially `Literal`-style exhaustiveness for `Enum`s.
 
-### Converting a `Literal` to a `Set`
+## Converting a `Literal` to a `Set`
 
 You can write an expression that looks like it's checking for membership in a `Literal` but it won't work:
 
@@ -819,7 +819,7 @@ To check for membership, you must convert it to a `set` using the `__args__` pro
 Each approach has its strengths and trade-offs.
 The best choice depends on your requirements for type safety, runtime behavior, and code clarity.
 
-### `Literal`
+## `Literal`
 
 Pros:
 
@@ -840,7 +840,7 @@ When to Use:
 - They are ideal for simple cases where you want to ensure that only a few specific string values (alongside other
   types, like numbers) are accepted.
 
-### `Enum`
+## `Enum`
 
 `Enum`s create a distinct type at runtime and define a collection of symbolic names bound to constant values. For
 example:
@@ -866,7 +866,7 @@ When to Use:
 - `Enum`s are excellent for cases where the set of allowed values is fixed, and you might want to use them throughout
   your codebase in a uniform, well-documented manner.
 
-### `Set`
+## `Set`
 
 A set is a built-in Python data structure that holds unique elements.
 In the context of allowed values, you might define
@@ -891,7 +891,7 @@ When to Use:
   checks if a value is valid).
 - They are ideal when the allowed values are defined once and only used for dynamic checks, not for type annotations.
 
-### Choosing
+## Choosing
 
 Each approach has its specific use cases:
 
@@ -929,7 +929,7 @@ user: UserProfile = {
 
 `TypedDict` clarifies expected keys and types, providing type safety for dictionary data.
 
-### Optional Fields
+## Optional Fields
 
 You can specify optional fields using `NotRequired` (Python 3.11+) or `total=False`:
 
