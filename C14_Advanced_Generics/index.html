@@ -1,0 +1,2053 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://ThinkingInTypes.github.io/C14_Advanced_Generics/">
+      
+      
+        <link rel="prev" href="../C13_Errors_as_Values/">
+      
+      
+        <link rel="next" href="../Z01_Appendix_Quick_Reference/">
+      
+      
+      <link rel="icon" href="../img/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.8">
+    
+    
+      
+        <title>14: Advanced Generics - Thinking in Types</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.8608ea7d.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#advanced-generics" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Thinking in Types" class="md-header__button md-logo" aria-label="Thinking in Types" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Thinking in Types
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              14: Advanced Generics
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/ThinkingInTypes/ThinkingInTypes.github.io" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Thinking in Types" class="md-nav__button md-logo" aria-label="Thinking in Types" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Thinking in Types
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/ThinkingInTypes/ThinkingInTypes.github.io" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../C01_Preface/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    1: Preface
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../C02_Foundations/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    2: Foundations
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../C03_What_is_a_Type/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    3: What is a Type
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../C04_Using_Types/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    4: Using Types
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../C05_Custom_Types_Data_Classes/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    5: Custom Types Data Classes
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../C06_Custom_Types_Enums/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    6: Custom Types Enums
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../C07_Immutability/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    7: Immutability
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../C08_Pattern_Matching/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    8: Pattern Matching
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../C09_Generics/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    9: Generics
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../C10_Callables/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    10: Callables
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../C11_Structural_Typing/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    11: Structural Typing
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../C12_Make_Illegal_Types_Unrepresentable/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    12: Make Illegal Types Unrepresentable
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../C13_Errors_as_Values/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    13: Errors as Values
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    14: Advanced Generics
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    14: Advanced Generics
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#variance" class="md-nav__link">
+    <span class="md-ellipsis">
+      Variance
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Variance">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#invariant" class="md-nav__link">
+    <span class="md-ellipsis">
+      Invariant
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#covariance" class="md-nav__link">
+    <span class="md-ellipsis">
+      Covariance
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#contravariance" class="md-nav__link">
+    <span class="md-ellipsis">
+      Contravariance
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#using-variance" class="md-nav__link">
+    <span class="md-ellipsis">
+      Using Variance
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#function-currying-with-generics" class="md-nav__link">
+    <span class="md-ellipsis">
+      Function Currying with Generics
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#recursive-generics" class="md-nav__link">
+    <span class="md-ellipsis">
+      Recursive Generics
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Recursive Generics">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#self-referencing-generic-classes" class="md-nav__link">
+    <span class="md-ellipsis">
+      Self-referencing Generic Classes
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#f-bounded-polymorphism-self-types" class="md-nav__link">
+    <span class="md-ellipsis">
+      F-Bounded Polymorphism (Self types)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#recursive-type-aliases" class="md-nav__link">
+    <span class="md-ellipsis">
+      Recursive Type Aliases
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#structural-subtyping-with-protocols" class="md-nav__link">
+    <span class="md-ellipsis">
+      Structural Subtyping with Protocols
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Structural Subtyping with Protocols">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#a-drawable-protocol" class="md-nav__link">
+    <span class="md-ellipsis">
+      A Drawable Protocol
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#a-file-like-protocol" class="md-nav__link">
+    <span class="md-ellipsis">
+      A File-like Protocol
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#generic-type-aliases" class="md-nav__link">
+    <span class="md-ellipsis">
+      Generic Type Aliases
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Generic Type Aliases">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#alias-vs-direct-use" class="md-nav__link">
+    <span class="md-ellipsis">
+      Alias vs. Direct Use
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#parameterized-aliases-in-functions-and-classes" class="md-nav__link">
+    <span class="md-ellipsis">
+      Parameterized Aliases in Functions and Classes
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#declaring-aliases-explicitly" class="md-nav__link">
+    <span class="md-ellipsis">
+      Declaring Aliases Explicitly
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#guidelines" class="md-nav__link">
+    <span class="md-ellipsis">
+      Guidelines
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Guidelines">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pitfall-invariance-confusion" class="md-nav__link">
+    <span class="md-ellipsis">
+      Pitfall: Invariance Confusion
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pitfall-too-general-or-overuse-of-any" class="md-nav__link">
+    <span class="md-ellipsis">
+      Pitfall: Too General (or Overuse of Any)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pitfall-ignoring-type-variable-scope" class="md-nav__link">
+    <span class="md-ellipsis">
+      Pitfall: Ignoring type variable Scope
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#practice-use-descriptive-type-variable-names-for-clarity" class="md-nav__link">
+    <span class="md-ellipsis">
+      Practice: Use Descriptive Type Variable Names for Clarity
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#practice-leverage-protocols-for-flexibility" class="md-nav__link">
+    <span class="md-ellipsis">
+      Practice: Leverage Protocols for Flexibility
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#practice-version-compatibility" class="md-nav__link">
+    <span class="md-ellipsis">
+      Practice: Version Compatibility
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#references" class="md-nav__link">
+    <span class="md-ellipsis">
+      References
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Z01_Appendix_Quick_Reference/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    A1: Quick Reference
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Z02_Appendix_Reference/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    A2: Reference
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Z03_Appendix_Guidelines/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    A3: Guidelines
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Z04_Appendix_Automatic_Annotations/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    A4: Automatic Annotations
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Z05_Appendix_Type_Checkers/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    A5: Type Checkers
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Z06_Appendix_Class_Attributes/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    A6: Class Attributes
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Z07_Appendix_Tools/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    A7: Tools
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Z08_Appendix_Book_Utilities/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    A8: Book Utilities
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Z09_Appendix_Book_Notes/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    A9: Book Notes
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Z10_Appendix_Error_Suppression/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    A10: Error Suppression
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Z11_Appendix_Dynamic_Smalltalk_vs_Static_Typing/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    A11: Dynamic Smalltalk vs Static Typing
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Z12_Appendix_Uncategorized_Topics/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    A12: Uncategorized Topics
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#variance" class="md-nav__link">
+    <span class="md-ellipsis">
+      Variance
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Variance">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#invariant" class="md-nav__link">
+    <span class="md-ellipsis">
+      Invariant
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#covariance" class="md-nav__link">
+    <span class="md-ellipsis">
+      Covariance
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#contravariance" class="md-nav__link">
+    <span class="md-ellipsis">
+      Contravariance
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#using-variance" class="md-nav__link">
+    <span class="md-ellipsis">
+      Using Variance
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#function-currying-with-generics" class="md-nav__link">
+    <span class="md-ellipsis">
+      Function Currying with Generics
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#recursive-generics" class="md-nav__link">
+    <span class="md-ellipsis">
+      Recursive Generics
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Recursive Generics">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#self-referencing-generic-classes" class="md-nav__link">
+    <span class="md-ellipsis">
+      Self-referencing Generic Classes
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#f-bounded-polymorphism-self-types" class="md-nav__link">
+    <span class="md-ellipsis">
+      F-Bounded Polymorphism (Self types)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#recursive-type-aliases" class="md-nav__link">
+    <span class="md-ellipsis">
+      Recursive Type Aliases
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#structural-subtyping-with-protocols" class="md-nav__link">
+    <span class="md-ellipsis">
+      Structural Subtyping with Protocols
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Structural Subtyping with Protocols">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#a-drawable-protocol" class="md-nav__link">
+    <span class="md-ellipsis">
+      A Drawable Protocol
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#a-file-like-protocol" class="md-nav__link">
+    <span class="md-ellipsis">
+      A File-like Protocol
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#generic-type-aliases" class="md-nav__link">
+    <span class="md-ellipsis">
+      Generic Type Aliases
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Generic Type Aliases">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#alias-vs-direct-use" class="md-nav__link">
+    <span class="md-ellipsis">
+      Alias vs. Direct Use
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#parameterized-aliases-in-functions-and-classes" class="md-nav__link">
+    <span class="md-ellipsis">
+      Parameterized Aliases in Functions and Classes
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#declaring-aliases-explicitly" class="md-nav__link">
+    <span class="md-ellipsis">
+      Declaring Aliases Explicitly
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#guidelines" class="md-nav__link">
+    <span class="md-ellipsis">
+      Guidelines
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Guidelines">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pitfall-invariance-confusion" class="md-nav__link">
+    <span class="md-ellipsis">
+      Pitfall: Invariance Confusion
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pitfall-too-general-or-overuse-of-any" class="md-nav__link">
+    <span class="md-ellipsis">
+      Pitfall: Too General (or Overuse of Any)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pitfall-ignoring-type-variable-scope" class="md-nav__link">
+    <span class="md-ellipsis">
+      Pitfall: Ignoring type variable Scope
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#practice-use-descriptive-type-variable-names-for-clarity" class="md-nav__link">
+    <span class="md-ellipsis">
+      Practice: Use Descriptive Type Variable Names for Clarity
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#practice-leverage-protocols-for-flexibility" class="md-nav__link">
+    <span class="md-ellipsis">
+      Practice: Leverage Protocols for Flexibility
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#practice-version-compatibility" class="md-nav__link">
+    <span class="md-ellipsis">
+      Practice: Version Compatibility
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#references" class="md-nav__link">
+    <span class="md-ellipsis">
+      References
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="advanced-generics">Advanced Generics<a class="headerlink" href="#advanced-generics" title="Permanent link">#</a></h1>
+<p>Most of the time you will be a consumer of generic code rather than a producer.
+It is useful to understand the introductory generic material in [C09_Generics].
+Occasionally you will need to know the material in this chapter.</p>
+<h2 id="variance">Variance<a class="headerlink" href="#variance" title="Permanent link">#</a></h2>
+<p>In the context of generics, <em>variance</em> describes how subtyping between complex types relates to subtyping between their
+component types.
+In Python, all generics are invariant by default, meaning <code>Container[SubType]</code> is not a subtype of <code>Container[BaseType]</code>
+even if <code>SubType</code> is a subtype of <code>BaseType</code>.
+This is a common source of confusion for those coming from languages like Java or C#, but it's an important aspect of
+type safety.</p>
+<p>Python 3.12 introduced variance inference, so you do not have to specify variance.
+This is a great benefit, as people often find variance confusing.</p>
+<h3 id="invariant">Invariant<a class="headerlink" href="#invariant" title="Permanent link">#</a></h3>
+<p>A generic class is invariant by default.
+For example, given <code>Dog</code> is a subclass of <code>Animal</code>, <code>Box[Dog]</code> is not considered a subtype of <code>Box[Animal]</code>.
+This is unsafe because you can then put a <code>Cat</code> (another <code>Animal</code>) into a <code>Box[Animal]</code> which is a <code>Box[Dog]</code> internally.
+The type checker forbids treating <code>Box[Dog]</code> as a <code>Box[Animal]</code>.</p>
+<h3 id="covariance">Covariance<a class="headerlink" href="#covariance" title="Permanent link">#</a></h3>
+<p>Covariance usually makes sense for read-only or producer containers.
+For example:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1"># covariance.py</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="kn">from</span> <span class="nn">animals</span> <span class="kn">import</span> <span class="n">Animal</span><span class="p">,</span> <span class="n">Dog</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="k">class</span> <span class="nc">ReadOnlyBox</span><span class="p">[</span><span class="n">T</span><span class="p">]:</span>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">content</span><span class="p">:</span> <span class="n">T</span><span class="p">):</span>
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">_content</span> <span class="o">=</span> <span class="n">content</span>
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>    <span class="k">def</span> <span class="nf">get_content</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="p">:</span>
+</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_content</span>
+</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>
+</span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>
+</span><span id="__span-0-13"><a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a><span class="n">dog_box</span><span class="p">:</span> <span class="n">ReadOnlyBox</span><span class="p">[</span><span class="n">Dog</span><span class="p">]</span> <span class="o">=</span> <span class="n">ReadOnlyBox</span><span class="p">(</span><span class="n">Dog</span><span class="p">())</span>
+</span><span id="__span-0-14"><a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a><span class="c1"># Covariance in action:</span>
+</span><span id="__span-0-15"><a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a><span class="n">animal_box</span><span class="p">:</span> <span class="n">ReadOnlyBox</span><span class="p">[</span><span class="n">Animal</span><span class="p">]</span> <span class="o">=</span> <span class="n">dog_box</span>
+</span><span id="__span-0-16"><a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a><span class="c1"># pet is an Animal, a Dog:</span>
+</span><span id="__span-0-17"><a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a><span class="n">pet</span><span class="p">:</span> <span class="n">Animal</span> <span class="o">=</span> <span class="n">animal_box</span><span class="o">.</span><span class="n">get_content</span><span class="p">()</span>
+</span></code></pre></div>
+<p>Here, <code>ReadOnlyBox[T]</code> is covariant with the type parameter <code>T</code>.
+That signals to the type checker that it is safe to treat <code>ReadOnlyBox[Dog]</code> as a <code>ReadOnlyBox[Animal]</code>,
+because <code>ReadOnlyBox</code> only produces <code>T</code> (via <code>get_content</code>) and never consumes it in a type-specific way.
+Covariance is appropriate when the generic class is basically a container of <code>T</code> that only returns <code>T</code> (and doesn't accept <code>T</code>
+instances that can violate assumptions).</p>
+<h3 id="contravariance">Contravariance<a class="headerlink" href="#contravariance" title="Permanent link">#</a></h3>
+<p>Contravariance is suitable for consumer objects that only take in data of type <code>T</code> and do not produce it.
+For example:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="c1"># contravariance.py</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="kn">from</span> <span class="nn">animals</span> <span class="kn">import</span> <span class="n">Animal</span><span class="p">,</span> <span class="n">Dog</span>
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="k">class</span> <span class="nc">Sink</span><span class="p">[</span><span class="n">T</span><span class="p">]:</span>
+</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>    <span class="k">def</span> <span class="nf">send</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">T</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Processing </span><span class="si">{</span><span class="n">value</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>
+</span><span id="__span-1-9"><a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>
+</span><span id="__span-1-10"><a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="n">animal_sink</span><span class="p">:</span> <span class="n">Sink</span><span class="p">[</span><span class="n">Animal</span><span class="p">]</span> <span class="o">=</span> <span class="n">Sink</span><span class="p">()</span>
+</span><span id="__span-1-11"><a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a><span class="c1"># Contravariance in action:</span>
+</span><span id="__span-1-12"><a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a><span class="n">dog_sink</span><span class="p">:</span> <span class="n">Sink</span><span class="p">[</span><span class="n">Dog</span><span class="p">]</span> <span class="o">=</span> <span class="n">animal_sink</span>  <span class="c1"># type: ignore # Pycharm</span>
+</span><span id="__span-1-13"><a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a><span class="c1"># dog_sink expects at least Dog, and Animal is broader:</span>
+</span><span id="__span-1-14"><a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a><span class="n">dog_sink</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">Dog</span><span class="p">())</span>
+</span><span id="__span-1-15"><a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a><span class="c1">## Processing Dog(name=None)</span>
+</span></code></pre></div>
+<p>In this example, <code>Sink[T]</code> is contravariant, indicating it only consumes values of type <code>T</code> (here, via <code>send</code>).
+Because a <code>Sink[Animal]</code> can accept a <code>Dog</code> (since <code>Dog</code> is an <code>Animal</code>),
+it is safe to assign <code>animal_sink</code> to a <code>dog_sink</code> reference.
+In general, contravariance allows broadening the accepted types when substituting; a <code>Sink[Animal]</code> can stand in for a
+<code>Sink[Dog]</code> because anything that expects to only handle <code>Dog</code>s can also handle <code>Animal</code>s (but not vice versa).</p>
+<h3 id="using-variance">Using Variance<a class="headerlink" href="#using-variance" title="Permanent link">#</a></h3>
+<p>Function type variables are always invariant.
+Most built-in collections in Python are invariant (e.g., <code>list</code> is invariant, so <code>list[Dog]</code> is not assignable
+to <code>list[Animal]</code>).
+Some abstract collection types or protocols are covariant.
+For instance, <code>collections.abc.Sequence</code> is covariant in its element type,
+because sequences are read-only containers as far as the typing system is concerned.</p>
+<p>Understanding variance is an advanced topic--many developers use generics effectively without explicitly declaring
+covariant/contravariant type variables.
+If you design your own generic classes, think about whether they only produce values of type <code>T</code> (covariant),
+only consume values of type <code>T</code> (contravariant), or both (invariant).
+Fortunately, since Python 3.12, invariance is inferred.</p>
+<h2 id="function-currying-with-generics">Function Currying with Generics<a class="headerlink" href="#function-currying-with-generics" title="Permanent link">#</a></h2>
+<p>Function currying is the technique of transforming a function that takes multiple arguments into a chain of functions,
+each taking a single argument (or fewer arguments).
+In Python, we can leverage generics to curry functions while preserving type information.</p>
+<p>For example, imagine a function that takes two arguments, and we want to get a new function that has the first argument
+fixed (a partial application).
+We can write a generic higher-order function to do this:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1"># curry_two_arg.py</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Callable</span>
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="k">def</span> <span class="nf">curry_two_arg</span><span class="p">[</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">Z</span><span class="p">](</span>
+</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>    <span class="n">func</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">],</span> <span class="n">Z</span><span class="p">],</span>
+</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">X</span><span class="p">],</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">Y</span><span class="p">],</span> <span class="n">Z</span><span class="p">]]:</span>
+</span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>    <span class="k">def</span> <span class="nf">curried</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="n">X</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">Y</span><span class="p">],</span> <span class="n">Z</span><span class="p">]:</span>
+</span><span id="__span-2-9"><a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a>        <span class="k">def</span> <span class="nf">inner</span><span class="p">(</span><span class="n">y</span><span class="p">:</span> <span class="n">Y</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Z</span><span class="p">:</span>
+</span><span id="__span-2-10"><a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a>            <span class="k">return</span> <span class="n">func</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+</span><span id="__span-2-11"><a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a>
+</span><span id="__span-2-12"><a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a>        <span class="k">return</span> <span class="n">inner</span>
+</span><span id="__span-2-13"><a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a>
+</span><span id="__span-2-14"><a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a>    <span class="k">return</span> <span class="n">curried</span>
+</span><span id="__span-2-15"><a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a>
+</span><span id="__span-2-16"><a id="__codelineno-2-16" name="__codelineno-2-16" href="#__codelineno-2-16"></a>
+</span><span id="__span-2-17"><a id="__codelineno-2-17" name="__codelineno-2-17" href="#__codelineno-2-17"></a><span class="k">def</span> <span class="nf">multiply</span><span class="p">(</span><span class="n">a</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+</span><span id="__span-2-18"><a id="__codelineno-2-18" name="__codelineno-2-18" href="#__codelineno-2-18"></a>    <span class="k">return</span> <span class="n">a</span> <span class="o">*</span> <span class="n">b</span>
+</span><span id="__span-2-19"><a id="__codelineno-2-19" name="__codelineno-2-19" href="#__codelineno-2-19"></a>
+</span><span id="__span-2-20"><a id="__codelineno-2-20" name="__codelineno-2-20" href="#__codelineno-2-20"></a>
+</span><span id="__span-2-21"><a id="__codelineno-2-21" name="__codelineno-2-21" href="#__codelineno-2-21"></a><span class="n">curried_mul</span> <span class="o">=</span> <span class="n">curry_two_arg</span><span class="p">(</span><span class="n">multiply</span><span class="p">)</span>
+</span><span id="__span-2-22"><a id="__codelineno-2-22" name="__codelineno-2-22" href="#__codelineno-2-22"></a><span class="c1"># get_double is now Callable[[float], float]:</span>
+</span><span id="__span-2-23"><a id="__codelineno-2-23" name="__codelineno-2-23" href="#__codelineno-2-23"></a><span class="n">get_double</span> <span class="o">=</span> <span class="n">curried_mul</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+</span><span id="__span-2-24"><a id="__codelineno-2-24" name="__codelineno-2-24" href="#__codelineno-2-24"></a><span class="nb">print</span><span class="p">(</span><span class="n">get_double</span><span class="p">(</span><span class="mf">3.5</span><span class="p">))</span>
+</span><span id="__span-2-25"><a id="__codelineno-2-25" name="__codelineno-2-25" href="#__codelineno-2-25"></a><span class="c1">## 7.0</span>
+</span></code></pre></div>
+<p>Here, <code>curry_two_arg</code> is a generic function that works with any two-argument function.
+The type variables <code>X</code>, <code>Y</code>, <code>Z</code> ensure that if <code>func</code> takes an <code>X</code> and a <code>Y</code> and returns <code>Z</code>,
+then <code>curry_two_arg(func)</code> returns a function that takes <code>X</code> and returns another function which takes <code>Y</code> and returns
+<code>Z</code>.
+In the example, <code>multiply</code> takes an <code>int</code> and a <code>float</code> and returns a <code>float</code>, so after currying,
+<code>curried_mul</code> is a function that takes an <code>int</code> and returns a function <code>Callable[[float], float]</code>.
+The types are correctly maintained.</p>
+<p>This kind of generic currying function uses higher-order generics (a function that returns another function).
+Python's <code>Callable</code> type is used to annotate callables.
+We can also achieve a similar result using parameter specifications, which allow capturing an arbitrary list of parameters.
+However, using explicit type variables for a fixed small number of parameters is straightforward for illustration.</p>
+<p>Currying is not common in idiomatic Python but can be useful for creating specialized functions from generic ones.
+The benefit of adding generics in currying (as opposed to writing a lambda or using <code>functools.partial</code>)
+is that the intermediate and final functions retain precise type information.
+This helps catch errors if you pass wrong types to the curried functions and provides better auto-completion in editors.</p>
+<h2 id="recursive-generics">Recursive Generics<a class="headerlink" href="#recursive-generics" title="Permanent link">#</a></h2>
+<p><em>Recursive generics</em> refer to types that are defined in terms of themselves.
+This is often needed for recursive data structures (like trees or linked lists) or for type definitions that refer to
+themselves (like a JSON structure type that can contain nested instances of itself).</p>
+<h3 id="self-referencing-generic-classes">Self-referencing Generic Classes<a class="headerlink" href="#self-referencing-generic-classes" title="Permanent link">#</a></h3>
+<p>Consider a tree data structure where each node contains a value and a list of children which are themselves
+nodes.
+We want to parameterize the tree by the type of its values (e.g., <code>Tree[int]</code> or <code>Tree[str]</code>).
+The class needs to refer to itself for the children.
+Here's how we can do it:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="c1"># self_referencing.py</span>
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="c1"># For forward-referenced types:</span>
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">annotations</span>
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span><span class="p">,</span> <span class="n">field</span>
+</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>
+</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>
+</span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="nd">@dataclass</span>
+</span><span id="__span-3-8"><a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a><span class="k">class</span> <span class="nc">Tree</span><span class="p">[</span><span class="n">T</span><span class="p">]:</span>
+</span><span id="__span-3-9"><a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a>    <span class="n">value</span><span class="p">:</span> <span class="n">T</span>
+</span><span id="__span-3-10"><a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a>    <span class="n">children</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">Tree</span><span class="p">[</span><span class="n">T</span><span class="p">]]</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="nb">list</span><span class="p">)</span>
+</span><span id="__span-3-11"><a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a>
+</span><span id="__span-3-12"><a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a>    <span class="k">def</span> <span class="nf">add_child</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">child_value</span><span class="p">:</span> <span class="n">T</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tree</span><span class="p">[</span><span class="n">T</span><span class="p">]:</span>
+</span><span id="__span-3-13"><a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a>        <span class="n">child</span> <span class="o">=</span> <span class="n">Tree</span><span class="p">(</span><span class="n">child_value</span><span class="p">)</span>
+</span><span id="__span-3-14"><a id="__codelineno-3-14" name="__codelineno-3-14" href="#__codelineno-3-14"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">children</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">child</span><span class="p">)</span>
+</span><span id="__span-3-15"><a id="__codelineno-3-15" name="__codelineno-3-15" href="#__codelineno-3-15"></a>        <span class="k">return</span> <span class="n">child</span>
+</span><span id="__span-3-16"><a id="__codelineno-3-16" name="__codelineno-3-16" href="#__codelineno-3-16"></a>
+</span><span id="__span-3-17"><a id="__codelineno-3-17" name="__codelineno-3-17" href="#__codelineno-3-17"></a>
+</span><span id="__span-3-18"><a id="__codelineno-3-18" name="__codelineno-3-18" href="#__codelineno-3-18"></a><span class="n">root</span><span class="p">:</span> <span class="n">Tree</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">Tree</span><span class="p">(</span><span class="s2">&quot;root&quot;</span><span class="p">)</span>
+</span><span id="__span-3-19"><a id="__codelineno-3-19" name="__codelineno-3-19" href="#__codelineno-3-19"></a><span class="n">child_node</span> <span class="o">=</span> <span class="n">root</span><span class="o">.</span><span class="n">add_child</span><span class="p">(</span><span class="s2">&quot;child1&quot;</span><span class="p">)</span>
+</span><span id="__span-3-20"><a id="__codelineno-3-20" name="__codelineno-3-20" href="#__codelineno-3-20"></a><span class="n">grandchild</span> <span class="o">=</span> <span class="n">child_node</span><span class="o">.</span><span class="n">add_child</span><span class="p">(</span><span class="s2">&quot;grandchild1&quot;</span><span class="p">)</span>
+</span></code></pre></div>
+<p>In <code>Tree[T]</code>:</p>
+<ul>
+<li>We use <code>list[Tree[T]]</code> to type the <code>children</code> as a list of <code>Tree</code> nodes with the same value type <code>T</code>.</li>
+<li>We needed to use a forward reference for <code>Tree[T]</code> inside the class definition.
+  In Python 3.11+, the <code>annotations</code> feature is on by default, but for earlier versions, we import <code>annotations</code> from
+  <code>__future__</code> to allow the string form of the annotation (<code>'Tree[T]'</code>) to be resolved later.
+  Alternatively, we could have written <code>children: list["Tree[T]"] = ...</code> with quotes around <code>Tree</code> as a string literal
+  in Python &lt; 3.11 to achieve the same effect.</li>
+<li>The <code>add_child</code> method creates a new <code>Tree[T]</code> with the given value and appends it to the children.
+  It returns the new child node.
+  Notice the return type is also <code>Tree[T]</code>, not <code>Tree[Any]</code> or something unspecified.
+  This means if <code>root</code> is a <code>Tree[str]</code>, <code>add_child</code> returns a <code>Tree[str]</code> as well.</li>
+</ul>
+<p>Such a recursive generic class allows building complex nested structures while keeping type information consistent.
+If you try to, say, add a <code>Tree[int]</code> as a child of a <code>Tree[str]</code>, the type checker will flag an error.
+At runtime, this is just a normal class; Python doesn't prevent mixing types in the list, but the static typing helps
+you avoid those mistakes in your code.</p>
+<h3 id="f-bounded-polymorphism-self-types">F-Bounded Polymorphism (Self types)<a class="headerlink" href="#f-bounded-polymorphism-self-types" title="Permanent link">#</a></h3>
+<p>TODO: Check that self types are introduced earlier, probably in "Using Types"</p>
+<p>Another scenario with recursive generics is when a class needs to use its own type as a type variable.
+This is sometimes called <em>F-bounded polymorphism</em> or self-referential generics.
+A typical example is implementing a fluent interface or a cloning method that returns the same type as the subclass.
+Consider a base class that should return an instance of the subclass in a method:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="c1"># f_bounded_polymorphism.py</span>
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">annotations</span>
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span><span class="p">,</span> <span class="n">field</span>
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">cast</span>
+</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>
+</span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a>
+</span><span id="__span-4-8"><a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a><span class="nd">@dataclass</span>
+</span><span id="__span-4-9"><a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a><span class="k">class</span> <span class="nc">Form</span><span class="p">[</span><span class="n">T</span><span class="p">]:</span>
+</span><span id="__span-4-10"><a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a>    <span class="n">title</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+</span><span id="__span-4-11"><a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a>
+</span><span id="__span-4-12"><a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a>    <span class="k">def</span> <span class="nf">set_title</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">title</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="p">:</span>
+</span><span id="__span-4-13"><a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">title</span> <span class="o">=</span> <span class="n">title</span>
+</span><span id="__span-4-14"><a id="__codelineno-4-14" name="__codelineno-4-14" href="#__codelineno-4-14"></a>        <span class="c1"># Returns self as type T for fluent chaining:</span>
+</span><span id="__span-4-15"><a id="__codelineno-4-15" name="__codelineno-4-15" href="#__codelineno-4-15"></a>        <span class="k">return</span> <span class="n">cast</span><span class="p">(</span><span class="n">T</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span>
+</span><span id="__span-4-16"><a id="__codelineno-4-16" name="__codelineno-4-16" href="#__codelineno-4-16"></a>
+</span><span id="__span-4-17"><a id="__codelineno-4-17" name="__codelineno-4-17" href="#__codelineno-4-17"></a>
+</span><span id="__span-4-18"><a id="__codelineno-4-18" name="__codelineno-4-18" href="#__codelineno-4-18"></a><span class="nd">@dataclass</span>
+</span><span id="__span-4-19"><a id="__codelineno-4-19" name="__codelineno-4-19" href="#__codelineno-4-19"></a><span class="k">class</span> <span class="nc">ContactForm</span><span class="p">(</span><span class="n">Form</span><span class="p">[</span><span class="s2">&quot;ContactForm&quot;</span><span class="p">]):</span>
+</span><span id="__span-4-20"><a id="__codelineno-4-20" name="__codelineno-4-20" href="#__codelineno-4-20"></a>    <span class="n">fields</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="nb">list</span><span class="p">)</span>
+</span><span id="__span-4-21"><a id="__codelineno-4-21" name="__codelineno-4-21" href="#__codelineno-4-21"></a>
+</span><span id="__span-4-22"><a id="__codelineno-4-22" name="__codelineno-4-22" href="#__codelineno-4-22"></a>    <span class="k">def</span> <span class="nf">add_field</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ContactForm</span><span class="p">:</span>
+</span><span id="__span-4-23"><a id="__codelineno-4-23" name="__codelineno-4-23" href="#__codelineno-4-23"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">fields</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+</span><span id="__span-4-24"><a id="__codelineno-4-24" name="__codelineno-4-24" href="#__codelineno-4-24"></a>        <span class="k">return</span> <span class="bp">self</span>
+</span><span id="__span-4-25"><a id="__codelineno-4-25" name="__codelineno-4-25" href="#__codelineno-4-25"></a>
+</span><span id="__span-4-26"><a id="__codelineno-4-26" name="__codelineno-4-26" href="#__codelineno-4-26"></a>
+</span><span id="__span-4-27"><a id="__codelineno-4-27" name="__codelineno-4-27" href="#__codelineno-4-27"></a><span class="n">form</span> <span class="o">=</span> <span class="n">ContactForm</span><span class="p">()</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Feedback&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">add_field</span><span class="p">(</span><span class="s2">&quot;email&quot;</span><span class="p">)</span>
+</span></code></pre></div>
+<p>The generic base class <code>Form[T]</code> provides a method that returns <code>self</code> as type <code>T</code> for type-safe, fluent chaining in subclasses.
+<code>T</code> is a type variable bounded to <code>Form</code> (the base class).
+The base class <code>Form</code> itself is generic in <code>T</code>.
+The <code>set_title</code> method is annotated to return <code>T</code>.</p>
+<p><code>ContactForm</code> inherits <code>Form['ContactForm']</code>.
+By binding <code>T</code> to the subclass type, <code>set_title</code> will return <code>ContactForm</code> when called on a <code>ContactForm</code> instance.</p>
+<p>The method <code>add_field</code> in <code>ContactForm</code> returns <code>ContactForm</code> explicitly.
+Now, the fluent interface works: <code>ContactForm().set_title(...).add_field(...)</code> is correctly understood by the type
+checker as returning a <code>ContactForm</code> with the methods of <code>ContactForm</code> available after chaining.</p>
+<p>This pattern ensures that each subclass of <code>Form</code> will have <code>set_title</code> (inherited) returning the subclass type,
+not the base type.
+It's a bit complex to set up, but it provides more precise typing for chaining methods.
+Python 3.11+ provides <code>typing.Self</code> (PEP 673) that simplifies this pattern by allowing methods to return <code>Self</code> (the type of the class).
+For example:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="c1"># return_self.py</span>
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="sd">Return `Self` enables type-safe method chaining in subclasses</span>
+</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="sd">without the complexity of F-bounded generics.</span>
+</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>
+</span><span id="__span-5-7"><a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a><span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span><span class="p">,</span> <span class="n">field</span>
+</span><span id="__span-5-8"><a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Self</span>
+</span><span id="__span-5-9"><a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a>
+</span><span id="__span-5-10"><a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a>
+</span><span id="__span-5-11"><a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a><span class="nd">@dataclass</span>
+</span><span id="__span-5-12"><a id="__codelineno-5-12" name="__codelineno-5-12" href="#__codelineno-5-12"></a><span class="k">class</span> <span class="nc">Form</span><span class="p">:</span>
+</span><span id="__span-5-13"><a id="__codelineno-5-13" name="__codelineno-5-13" href="#__codelineno-5-13"></a>    <span class="n">title</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+</span><span id="__span-5-14"><a id="__codelineno-5-14" name="__codelineno-5-14" href="#__codelineno-5-14"></a>
+</span><span id="__span-5-15"><a id="__codelineno-5-15" name="__codelineno-5-15" href="#__codelineno-5-15"></a>    <span class="k">def</span> <span class="nf">set_title</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">title</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Self</span><span class="p">:</span>
+</span><span id="__span-5-16"><a id="__codelineno-5-16" name="__codelineno-5-16" href="#__codelineno-5-16"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">title</span> <span class="o">=</span> <span class="n">title</span>
+</span><span id="__span-5-17"><a id="__codelineno-5-17" name="__codelineno-5-17" href="#__codelineno-5-17"></a>        <span class="k">return</span> <span class="bp">self</span>
+</span><span id="__span-5-18"><a id="__codelineno-5-18" name="__codelineno-5-18" href="#__codelineno-5-18"></a>
+</span><span id="__span-5-19"><a id="__codelineno-5-19" name="__codelineno-5-19" href="#__codelineno-5-19"></a>
+</span><span id="__span-5-20"><a id="__codelineno-5-20" name="__codelineno-5-20" href="#__codelineno-5-20"></a><span class="nd">@dataclass</span>
+</span><span id="__span-5-21"><a id="__codelineno-5-21" name="__codelineno-5-21" href="#__codelineno-5-21"></a><span class="k">class</span> <span class="nc">ContactForm</span><span class="p">(</span><span class="n">Form</span><span class="p">):</span>
+</span><span id="__span-5-22"><a id="__codelineno-5-22" name="__codelineno-5-22" href="#__codelineno-5-22"></a>    <span class="n">fields</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="nb">list</span><span class="p">)</span>
+</span><span id="__span-5-23"><a id="__codelineno-5-23" name="__codelineno-5-23" href="#__codelineno-5-23"></a>
+</span><span id="__span-5-24"><a id="__codelineno-5-24" name="__codelineno-5-24" href="#__codelineno-5-24"></a>    <span class="k">def</span> <span class="nf">add_field</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Self</span><span class="p">:</span>
+</span><span id="__span-5-25"><a id="__codelineno-5-25" name="__codelineno-5-25" href="#__codelineno-5-25"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">fields</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+</span><span id="__span-5-26"><a id="__codelineno-5-26" name="__codelineno-5-26" href="#__codelineno-5-26"></a>        <span class="k">return</span> <span class="bp">self</span>
+</span><span id="__span-5-27"><a id="__codelineno-5-27" name="__codelineno-5-27" href="#__codelineno-5-27"></a>
+</span><span id="__span-5-28"><a id="__codelineno-5-28" name="__codelineno-5-28" href="#__codelineno-5-28"></a>
+</span><span id="__span-5-29"><a id="__codelineno-5-29" name="__codelineno-5-29" href="#__codelineno-5-29"></a><span class="n">form</span> <span class="o">=</span> <span class="n">ContactForm</span><span class="p">()</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Feedback&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">add_field</span><span class="p">(</span><span class="s2">&quot;email&quot;</span><span class="p">)</span>
+</span></code></pre></div>
+<p>Using <code>Self</code> removes the need for the type variable and generic base class.
+However, <code>Self</code> is limited to describing that a method returns the same type as the class it was called on, whereas the
+type variable approach can express more complex relationships.</p>
+<h3 id="recursive-type-aliases">Recursive Type Aliases<a class="headerlink" href="#recursive-type-aliases" title="Permanent link">#</a></h3>
+<p>Sometimes, you might want to define a type alias that refers to itself.
+This is common when describing recursive data structures in a type alias form rather than a class.
+A classic example is a JSON-like data type, where a JSON value can be a <code>dict</code> of string keys to JSON (nested),
+or a list of JSON, or a primitive (<code>str</code>, <code>int</code>, <code>bool</code>, etc.).
+We can express this as:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="c1"># recursive_alias.py</span>
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="n">JSON</span> <span class="o">=</span> <span class="p">(</span>
+</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>    <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="s2">&quot;JSON&quot;</span><span class="p">]</span>
+</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>    <span class="o">|</span> <span class="nb">list</span><span class="p">[</span><span class="s2">&quot;JSON&quot;</span><span class="p">]</span>
+</span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>    <span class="o">|</span> <span class="nb">str</span>
+</span><span id="__span-6-6"><a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a>    <span class="o">|</span> <span class="nb">int</span>
+</span><span id="__span-6-7"><a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a>    <span class="o">|</span> <span class="nb">float</span>
+</span><span id="__span-6-8"><a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a>    <span class="o">|</span> <span class="nb">bool</span>
+</span><span id="__span-6-9"><a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a>    <span class="o">|</span> <span class="kc">None</span>
+</span><span id="__span-6-10"><a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a><span class="p">)</span>
+</span></code></pre></div>
+<p>This defines <code>JSON</code> as a recursive type alias: it can be a dictionary mapping strings to JSON values, or a list of JSON
+values, or a primitive type.
+We have to put <code>'JSON'</code> in quotes because we are referring to the name <code>JSON</code> before it's fully defined
+(again, Python 3.11+ with automatic postponed evaluation of annotations handles this without quotes if you use
+<code>from __future__ import annotations</code> or run in a module where that's the default).</p>
+<p>Most type checkers support such recursive type aliases.
+In use, if you annotate a variable as <code>JSON</code>, the type checker will understand nested structures of dicts and lists
+accordingly.
+For example:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="c1"># recursive_alias_applied.py</span>
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="kn">from</span> <span class="nn">recursive_alias</span> <span class="kn">import</span> <span class="n">JSON</span>
+</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>
+</span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="n">config</span><span class="p">:</span> <span class="n">JSON</span> <span class="o">=</span> <span class="p">{</span>
+</span><span id="__span-7-5"><a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a>    <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;App&quot;</span><span class="p">,</span>
+</span><span id="__span-7-6"><a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a>    <span class="s2">&quot;features&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;login&quot;</span><span class="p">,</span> <span class="s2">&quot;signup&quot;</span><span class="p">],</span>
+</span><span id="__span-7-7"><a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a>    <span class="s2">&quot;settings&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;theme&quot;</span><span class="p">:</span> <span class="s2">&quot;dark&quot;</span><span class="p">,</span> <span class="s2">&quot;volume&quot;</span><span class="p">:</span> <span class="mi">5</span><span class="p">},</span>
+</span><span id="__span-7-8"><a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a><span class="p">}</span>
+</span></code></pre></div>
+<p>Overly deep recursion can sometimes confuse type checkers or lead to performance issues in type checking.
+Recursive aliases cannot be directly made generic with type variable in the current typing system
+(you can wrap recursive structures inside generic classes if needed).</p>
+<h2 id="structural-subtyping-with-protocols">Structural Subtyping with Protocols<a class="headerlink" href="#structural-subtyping-with-protocols" title="Permanent link">#</a></h2>
+<p>Python's static typing supports two forms of subtype compatibility: <em>nominal</em> and <em>structural</em>.
+Nominal subtyping is the traditional style; an object of class <code>C</code> is a subtype of class <code>B</code> if <code>C</code> subclasses <code>B</code>.
+Structural subtyping, on the other hand, is about the shape or structure of the type--often called "duck typing"
+for types.
+If an object has the required methods/attributes, it can be used as that type, regardless of its class in the
+inheritance hierarchy.</p>
+<p>Python 3.8 introduced <em>protocols</em> to facilitate structural typing.
+A <code>Protocol</code> defines methods and attributes that a type must have, without specifying a particular base class.
+Any class that has those members with compatible types is considered a subtype of the protocol, even if it doesn't
+explicitly inherit from <code>Protocol</code>.
+Protocols create interfaces or contracts that can be satisfied by any class, matching Python's dynamic duck typing in a
+static type checking context.</p>
+<h3 id="a-drawable-protocol">A Drawable Protocol<a class="headerlink" href="#a-drawable-protocol" title="Permanent link">#</a></h3>
+<p>You define a protocol by subclassing <code>typing.Protocol</code> and declaring the methods and properties that must exist.
+For example, let's define a protocol for "drawable" objects that must have a <code>draw()</code> method:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="c1"># drawable.py</span>
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Protocol</span>
+</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>
+</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a>
+</span><span id="__span-8-5"><a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a><span class="k">class</span> <span class="nc">Drawable</span><span class="p">(</span><span class="n">Protocol</span><span class="p">):</span>
+</span><span id="__span-8-6"><a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a>    <span class="k">def</span> <span class="nf">draw</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span> <span class="o">...</span>
+</span></code></pre></div>
+<p>The <code>...</code> a.k.a. <code>pass</code> means we don't implement behavior in the <code>Protocol</code>, we only provide the signature.</p>
+<p>Now any object of any class that has a <code>draw()</code> method returning <code>None</code> is considered a <code>Drawable</code> by the type system.
+We can write functions that accept a <code>Drawable</code>:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="c1"># render_drawable.py</span>
+</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="kn">from</span> <span class="nn">drawable</span> <span class="kn">import</span> <span class="n">Drawable</span>
+</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>
+</span><span id="__span-9-4"><a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a>
+</span><span id="__span-9-5"><a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a><span class="k">def</span> <span class="nf">render</span><span class="p">(</span><span class="n">item</span><span class="p">:</span> <span class="n">Drawable</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="__span-9-6"><a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a>    <span class="n">item</span><span class="o">.</span><span class="n">draw</span><span class="p">()</span>
+</span><span id="__span-9-7"><a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a>
+</span><span id="__span-9-8"><a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a>
+</span><span id="__span-9-9"><a id="__codelineno-9-9" name="__codelineno-9-9" href="#__codelineno-9-9"></a><span class="c1"># Example classes that satisfy the protocol:</span>
+</span><span id="__span-9-10"><a id="__codelineno-9-10" name="__codelineno-9-10" href="#__codelineno-9-10"></a><span class="k">class</span> <span class="nc">Circle</span><span class="p">:</span>
+</span><span id="__span-9-11"><a id="__codelineno-9-11" name="__codelineno-9-11" href="#__codelineno-9-11"></a>    <span class="k">def</span> <span class="nf">draw</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="__span-9-12"><a id="__codelineno-9-12" name="__codelineno-9-12" href="#__codelineno-9-12"></a>        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Drawing a circle&quot;</span><span class="p">)</span>
+</span><span id="__span-9-13"><a id="__codelineno-9-13" name="__codelineno-9-13" href="#__codelineno-9-13"></a>
+</span><span id="__span-9-14"><a id="__codelineno-9-14" name="__codelineno-9-14" href="#__codelineno-9-14"></a>
+</span><span id="__span-9-15"><a id="__codelineno-9-15" name="__codelineno-9-15" href="#__codelineno-9-15"></a><span class="k">class</span> <span class="nc">Text</span><span class="p">:</span>
+</span><span id="__span-9-16"><a id="__codelineno-9-16" name="__codelineno-9-16" href="#__codelineno-9-16"></a>    <span class="k">def</span> <span class="nf">draw</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="__span-9-17"><a id="__codelineno-9-17" name="__codelineno-9-17" href="#__codelineno-9-17"></a>        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Rendering text&quot;</span><span class="p">)</span>
+</span><span id="__span-9-18"><a id="__codelineno-9-18" name="__codelineno-9-18" href="#__codelineno-9-18"></a>
+</span><span id="__span-9-19"><a id="__codelineno-9-19" name="__codelineno-9-19" href="#__codelineno-9-19"></a>
+</span><span id="__span-9-20"><a id="__codelineno-9-20" name="__codelineno-9-20" href="#__codelineno-9-20"></a><span class="n">circle</span> <span class="o">=</span> <span class="n">Circle</span><span class="p">()</span>
+</span><span id="__span-9-21"><a id="__codelineno-9-21" name="__codelineno-9-21" href="#__codelineno-9-21"></a><span class="n">text</span> <span class="o">=</span> <span class="n">Text</span><span class="p">()</span>
+</span><span id="__span-9-22"><a id="__codelineno-9-22" name="__codelineno-9-22" href="#__codelineno-9-22"></a><span class="n">render</span><span class="p">(</span><span class="n">circle</span><span class="p">)</span>  <span class="c1"># OK, Circle has draw()</span>
+</span><span id="__span-9-23"><a id="__codelineno-9-23" name="__codelineno-9-23" href="#__codelineno-9-23"></a><span class="c1">## Drawing a circle</span>
+</span><span id="__span-9-24"><a id="__codelineno-9-24" name="__codelineno-9-24" href="#__codelineno-9-24"></a><span class="n">render</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>  <span class="c1"># OK, Text has draw()</span>
+</span><span id="__span-9-25"><a id="__codelineno-9-25" name="__codelineno-9-25" href="#__codelineno-9-25"></a><span class="c1">## Rendering text</span>
+</span><span id="__span-9-26"><a id="__codelineno-9-26" name="__codelineno-9-26" href="#__codelineno-9-26"></a><span class="c1"># render(123)   # type checker error: int has no draw()</span>
+</span></code></pre></div>
+<p>In this snippet, neither <code>Circle</code> nor <code>Text</code> subclasses <code>Drawable</code>,
+but they are accepted by the <code>render</code> function because they fulfill the structural requirements of the <code>Drawable</code>
+protocol.
+This is static duck typing in action: if it quacks like a duck, treat it as a duck.</p>
+<p><strong>Protocols with Attributes:</strong> Protocols can also specify that an attribute exists (with a certain type).
+For example:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="c1"># protocols_with_attributes.py</span>
+</span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Protocol</span>
+</span><span id="__span-10-3"><a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>
+</span><span id="__span-10-4"><a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a>
+</span><span id="__span-10-5"><a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a><span class="k">class</span> <span class="nc">Named</span><span class="p">(</span><span class="n">Protocol</span><span class="p">):</span>
+</span><span id="__span-10-6"><a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a>    <span class="n">name</span><span class="p">:</span> <span class="nb">str</span>
+</span><span id="__span-10-7"><a id="__codelineno-10-7" name="__codelineno-10-7" href="#__codelineno-10-7"></a>
+</span><span id="__span-10-8"><a id="__codelineno-10-8" name="__codelineno-10-8" href="#__codelineno-10-8"></a>
+</span><span id="__span-10-9"><a id="__codelineno-10-9" name="__codelineno-10-9" href="#__codelineno-10-9"></a><span class="k">def</span> <span class="nf">greet</span><span class="p">(</span><span class="n">entity</span><span class="p">:</span> <span class="n">Named</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="__span-10-10"><a id="__codelineno-10-10" name="__codelineno-10-10" href="#__codelineno-10-10"></a>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Hello, </span><span class="si">{</span><span class="n">entity</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">!&quot;</span><span class="p">)</span>
+</span></code></pre></div>
+<p>Any object with a string attribute <code>name</code> qualifies as <code>Named</code>.
+If you pass an object to <code>greet</code> that has a <code>name</code> attribute (say an instance of a class that defines <code>name</code>), it will
+be accepted.</p>
+<p><strong>Generic Protocols:</strong> Protocols can be generic.
+For example, the built-in <code>Iterable[T]</code> protocol (from <code>collections.abc</code> or <code>typing</code>) is a generic protocol that
+requires an <code>__iter__</code> method yielding type <code>T</code>.
+You can define your own:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="c1"># iterable_protocol.py</span>
+</span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Iterator</span><span class="p">,</span> <span class="n">Protocol</span>
+</span><span id="__span-11-3"><a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a>
+</span><span id="__span-11-4"><a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a>
+</span><span id="__span-11-5"><a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a><span class="k">class</span> <span class="nc">IterableLike</span><span class="p">[</span><span class="n">T</span><span class="p">](</span><span class="n">Protocol</span><span class="p">):</span>
+</span><span id="__span-11-6"><a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a>    <span class="k">def</span> <span class="fm">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">T</span><span class="p">]:</span> <span class="o">...</span>
+</span></code></pre></div>
+<p>Now <code>IterableLike[T]</code> can be used to describe any iterable of <code>T</code> without forcing a specific inheritance.
+For a function that processes an iterable of <code>T</code>, you can annotate a parameter as <code>IterableLike[T]</code>.
+Any class that has an <code>__iter__</code> method returning an iterator of <code>T</code> will match.
+For example, built-in lists, sets, etc., already implement <code>__iter__</code>, so they satisfy <code>IterableLike</code>.</p>
+<h3 id="a-file-like-protocol">A File-like Protocol<a class="headerlink" href="#a-file-like-protocol" title="Permanent link">#</a></h3>
+<p>Suppose we want a function that can write to any file or file-like object (like an open file handle or an in-memory
+buffer), without tying it to a specific class.
+We can define a protocol for the methods we need (say, a <code>write</code> method) and use it as the parameter type:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="c1"># file_protocol.py</span>
+</span><span id="__span-12-2"><a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Protocol</span>
+</span><span id="__span-12-3"><a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a><span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+</span><span id="__span-12-4"><a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a><span class="kn">from</span> <span class="nn">io</span> <span class="kn">import</span> <span class="n">StringIO</span>
+</span><span id="__span-12-5"><a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a>
+</span><span id="__span-12-6"><a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a>
+</span><span id="__span-12-7"><a id="__codelineno-12-7" name="__codelineno-12-7" href="#__codelineno-12-7"></a><span class="k">class</span> <span class="nc">Writable</span><span class="p">(</span><span class="n">Protocol</span><span class="p">):</span>
+</span><span id="__span-12-8"><a id="__codelineno-12-8" name="__codelineno-12-8" href="#__codelineno-12-8"></a>    <span class="k">def</span> <span class="nf">write</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">__s</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span> <span class="o">...</span>
+</span><span id="__span-12-9"><a id="__codelineno-12-9" name="__codelineno-12-9" href="#__codelineno-12-9"></a>
+</span><span id="__span-12-10"><a id="__codelineno-12-10" name="__codelineno-12-10" href="#__codelineno-12-10"></a>
+</span><span id="__span-12-11"><a id="__codelineno-12-11" name="__codelineno-12-11" href="#__codelineno-12-11"></a><span class="k">def</span> <span class="nf">save_message</span><span class="p">(</span><span class="n">out</span><span class="p">:</span> <span class="n">Writable</span><span class="p">,</span> <span class="n">message</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="__span-12-12"><a id="__codelineno-12-12" name="__codelineno-12-12" href="#__codelineno-12-12"></a>    <span class="n">out</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">message</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+</span><span id="__span-12-13"><a id="__codelineno-12-13" name="__codelineno-12-13" href="#__codelineno-12-13"></a>
+</span><span id="__span-12-14"><a id="__codelineno-12-14" name="__codelineno-12-14" href="#__codelineno-12-14"></a>
+</span><span id="__span-12-15"><a id="__codelineno-12-15" name="__codelineno-12-15" href="#__codelineno-12-15"></a><span class="c1"># With a file:</span>
+</span><span id="__span-12-16"><a id="__codelineno-12-16" name="__codelineno-12-16" href="#__codelineno-12-16"></a><span class="n">file_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s2">&quot;message.txt&quot;</span><span class="p">)</span>
+</span><span id="__span-12-17"><a id="__codelineno-12-17" name="__codelineno-12-17" href="#__codelineno-12-17"></a><span class="k">with</span> <span class="n">file_path</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s2">&quot;w&quot;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+</span><span id="__span-12-18"><a id="__codelineno-12-18" name="__codelineno-12-18" href="#__codelineno-12-18"></a>    <span class="n">save_message</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="s2">&quot;Hello, World!&quot;</span><span class="p">)</span>
+</span><span id="__span-12-19"><a id="__codelineno-12-19" name="__codelineno-12-19" href="#__codelineno-12-19"></a>
+</span><span id="__span-12-20"><a id="__codelineno-12-20" name="__codelineno-12-20" href="#__codelineno-12-20"></a><span class="c1"># With an in-memory buffer:</span>
+</span><span id="__span-12-21"><a id="__codelineno-12-21" name="__codelineno-12-21" href="#__codelineno-12-21"></a><span class="n">buffer</span> <span class="o">=</span> <span class="n">StringIO</span><span class="p">()</span>
+</span><span id="__span-12-22"><a id="__codelineno-12-22" name="__codelineno-12-22" href="#__codelineno-12-22"></a><span class="n">save_message</span><span class="p">(</span><span class="n">buffer</span><span class="p">,</span> <span class="s2">&quot;Hello, Buffer!&quot;</span><span class="p">)</span>
+</span><span id="__span-12-23"><a id="__codelineno-12-23" name="__codelineno-12-23" href="#__codelineno-12-23"></a><span class="n">buffer</span><span class="o">.</span><span class="n">seek</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+</span><span id="__span-12-24"><a id="__codelineno-12-24" name="__codelineno-12-24" href="#__codelineno-12-24"></a><span class="nb">print</span><span class="p">(</span><span class="n">buffer</span><span class="o">.</span><span class="n">read</span><span class="p">())</span>
+</span><span id="__span-12-25"><a id="__codelineno-12-25" name="__codelineno-12-25" href="#__codelineno-12-25"></a><span class="c1">## Hello, Buffer!</span>
+</span></code></pre></div>
+<p>In this example, any object that implements <code>write(str)</code> can be passed to <code>save_message</code>.
+We demonstrated it with a real file (opened via <code>pathlib.Path</code>) and a <code>StringIO</code> buffer.
+Both work because both have a compatible <code>write</code> method.
+The protocol approach allows <code>save_message</code> to work with any current or future file-like object, without needing a
+common base class or inheritance.</p>
+<p>By default, Protocols are a static concept.
+You typically wouldn't use <code>isinstance(x, Drawable)</code> or <code>issubclass(C, Drawable)</code> with a protocol at runtime, because
+<code>Protocol</code> classes by themselves don't have special status as base classes.
+However, if you need to do runtime checks, the <code>typing.runtime_checkable</code> decorator can be applied to a Protocol class,
+which then allows using
+<code>isinstance(obj, ProtocolName)</code> to check if an object conforms (this requires that either the object's class explicitly
+inherits the Protocol or that the Protocol is annotated with <code>runtime_checkable</code>; a purely structural match at runtime
+without explicit registration isn't directly supported).
+In general, it's more common to rely on static checking for protocols and use normal duck typing at runtime, "asking
+forgiveness rather than permission."</p>
+<p><strong>Use cases:</strong> Protocols are useful when you want to accept "any object that has these methods."
+For example:</p>
+<ul>
+<li>A serialization utility that works with any object that has a <code>to_json()</code> method can define a protocol for that
+  method.</li>
+<li>Defining callback signatures via protocols (PEP 544 allows a special case of protocols with <code>__call__</code> to match
+  callables).</li>
+</ul>
+<p>Protocols bring the flexibility of dynamic typing (duck typing) to the static type world.
+They avoid over-constraining function arguments to specific classes when all you care about is the presence of a method
+or attribute.</p>
+<h2 id="generic-type-aliases">Generic Type Aliases<a class="headerlink" href="#generic-type-aliases" title="Permanent link">#</a></h2>
+<p>Type aliases in Python let you create alternative names for types, which can improve code clarity.
+For example, you might write <code>Coordinate = tuple[float, float]</code> to give a semantic name to a tuple of two floats.
+<em>Generic type aliases</em> extend this idea by allowing aliases to be parameterized with type variables.</p>
+<p>Creating a generic type alias is straightforward: use a type variable in the definition of the alias.
+For instance:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="c1"># generic_alias.py</span>
+</span><span id="__span-13-2"><a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a>
+</span><span id="__span-13-3"><a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a><span class="nb">type</span> <span class="n">Pair</span><span class="p">[</span><span class="n">T</span><span class="p">]</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">T</span><span class="p">,</span> <span class="n">T</span><span class="p">]</span>
+</span><span id="__span-13-4"><a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a><span class="nb">type</span> <span class="n">StrDict</span><span class="p">[</span><span class="n">T</span><span class="p">]</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">T</span><span class="p">]</span>
+</span></code></pre></div>
+<p>Here, <code>Pair</code> and <code>StrDict</code> are generic type aliases.
+<code>Pair[int]</code> is equivalent to <code>tuple[int, int]</code>, <code>Pair[str]</code> to <code>tuple[str, str]</code>, etc.
+<code>StrDict[float]</code> means <code>dict[str, float]</code>.</p>
+<p>Using generic aliases is straightforward:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="c1"># generic_alias_applied.py</span>
+</span><span id="__span-14-2"><a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a><span class="kn">from</span> <span class="nn">generic_alias</span> <span class="kn">import</span> <span class="n">Pair</span><span class="p">,</span> <span class="n">StrDict</span>
+</span><span id="__span-14-3"><a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a>
+</span><span id="__span-14-4"><a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a><span class="n">p</span><span class="p">:</span> <span class="n">Pair</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">)</span>
+</span><span id="__span-14-5"><a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a><span class="n">q</span><span class="p">:</span> <span class="n">Pair</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">)</span>
+</span><span id="__span-14-6"><a id="__codelineno-14-6" name="__codelineno-14-6" href="#__codelineno-14-6"></a><span class="n">data</span><span class="p">:</span> <span class="n">StrDict</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;age&quot;</span><span class="p">:</span> <span class="mi">30</span><span class="p">,</span> <span class="s2">&quot;year&quot;</span><span class="p">:</span> <span class="mi">2025</span><span class="p">}</span>
+</span></code></pre></div>
+<p>These annotations make the intent clearer: <code>p</code> is a pair of ints, <code>q</code> a pair of strs, and <code>data</code> is a string-to-int map.
+The type checker treats <code>Pair[int]</code> as <code>tuple[int, int]</code>.
+If you do not subscript the alias (e.g., just use <code>Pair</code> by itself), the type variables are typically treated as <code>Any</code>.
+For example:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="c1"># generic_alias_tuple.py</span>
+</span><span id="__span-15-2"><a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a><span class="kn">from</span> <span class="nn">generic_alias</span> <span class="kn">import</span> <span class="n">Pair</span>
+</span><span id="__span-15-3"><a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a>
+</span><span id="__span-15-4"><a id="__codelineno-15-4" name="__codelineno-15-4" href="#__codelineno-15-4"></a><span class="c1"># type checker treats this as tuple[Any, Any]:</span>
+</span><span id="__span-15-5"><a id="__codelineno-15-5" name="__codelineno-15-5" href="#__codelineno-15-5"></a><span class="n">r</span><span class="p">:</span> <span class="n">Pair</span> <span class="o">=</span> <span class="p">(</span>
+</span><span id="__span-15-6"><a id="__codelineno-15-6" name="__codelineno-15-6" href="#__codelineno-15-6"></a>    <span class="s2">&quot;x&quot;</span><span class="p">,</span>
+</span><span id="__span-15-7"><a id="__codelineno-15-7" name="__codelineno-15-7" href="#__codelineno-15-7"></a>    <span class="mi">5</span><span class="p">,</span>
+</span><span id="__span-15-8"><a id="__codelineno-15-8" name="__codelineno-15-8" href="#__codelineno-15-8"></a><span class="p">)</span>
+</span></code></pre></div>
+<p>This will not raise an immediate error, because <code>Pair</code> unqualified is basically <code>tuple[Any, Any]</code>,
+but it defeats the purpose of the alias since it's not enforcing that both elements share the same type.
+Always supply type parameters for a generic alias to avoid inadvertently falling back to <code>Any</code>.</p>
+<h3 id="alias-vs-direct-use">Alias vs. Direct Use<a class="headerlink" href="#alias-vs-direct-use" title="Permanent link">#</a></h3>
+<p>Type aliases don't create new types at runtime; they are solely for type checking and readability.
+In code, <code>Pair[int]</code> does not exist as a real class; it's just an alias for <code>tuple[int, int]</code>.
+If you inspect <code>Pair[int]</code> at runtime, you'll get the underlying type.
+For example:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="c1"># inspect_alias.py</span>
+</span><span id="__span-16-2"><a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a><span class="kn">from</span> <span class="nn">generic_alias</span> <span class="kn">import</span> <span class="n">Pair</span>
+</span><span id="__span-16-3"><a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">get_origin</span><span class="p">,</span> <span class="n">get_args</span>
+</span><span id="__span-16-4"><a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a>
+</span><span id="__span-16-5"><a id="__codelineno-16-5" name="__codelineno-16-5" href="#__codelineno-16-5"></a><span class="nb">print</span><span class="p">(</span><span class="n">get_origin</span><span class="p">(</span><span class="n">Pair</span><span class="p">[</span><span class="nb">int</span><span class="p">]))</span>
+</span><span id="__span-16-6"><a id="__codelineno-16-6" name="__codelineno-16-6" href="#__codelineno-16-6"></a><span class="c1">## Pair</span>
+</span><span id="__span-16-7"><a id="__codelineno-16-7" name="__codelineno-16-7" href="#__codelineno-16-7"></a><span class="nb">print</span><span class="p">(</span><span class="n">get_args</span><span class="p">(</span><span class="n">Pair</span><span class="p">[</span><span class="nb">int</span><span class="p">]))</span>
+</span><span id="__span-16-8"><a id="__codelineno-16-8" name="__codelineno-16-8" href="#__codelineno-16-8"></a><span class="c1">## (&lt;class &#39;int&#39;&gt;,)</span>
+</span></code></pre></div>
+<p>This shows that <code>Pair[int]</code> is recognized by the typing introspection as a tuple with two int arguments.
+Type aliases are resolved during type checking and are essentially transparent at runtime.</p>
+<h3 id="parameterized-aliases-in-functions-and-classes">Parameterized Aliases in Functions and Classes<a class="headerlink" href="#parameterized-aliases-in-functions-and-classes" title="Permanent link">#</a></h3>
+<p>You can use generic aliases to simplify annotations inside other generics.
+For example:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-17-1"><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a><span class="c1"># vector.py</span>
+</span><span id="__span-17-2"><a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a>
+</span><span id="__span-17-3"><a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a><span class="nb">type</span> <span class="n">Vector</span><span class="p">[</span><span class="n">T</span><span class="p">]</span> <span class="o">=</span> <span class="nb">list</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="n">T</span><span class="p">,</span> <span class="n">T</span><span class="p">]]</span>
+</span><span id="__span-17-4"><a id="__codelineno-17-4" name="__codelineno-17-4" href="#__codelineno-17-4"></a>
+</span><span id="__span-17-5"><a id="__codelineno-17-5" name="__codelineno-17-5" href="#__codelineno-17-5"></a>
+</span><span id="__span-17-6"><a id="__codelineno-17-6" name="__codelineno-17-6" href="#__codelineno-17-6"></a><span class="k">def</span> <span class="nf">scale_points</span><span class="p">(</span>
+</span><span id="__span-17-7"><a id="__codelineno-17-7" name="__codelineno-17-7" href="#__codelineno-17-7"></a>    <span class="n">points</span><span class="p">:</span> <span class="n">Vector</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span> <span class="n">factor</span><span class="p">:</span> <span class="nb">int</span>
+</span><span id="__span-17-8"><a id="__codelineno-17-8" name="__codelineno-17-8" href="#__codelineno-17-8"></a><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Vector</span><span class="p">[</span><span class="nb">int</span><span class="p">]:</span>
+</span><span id="__span-17-9"><a id="__codelineno-17-9" name="__codelineno-17-9" href="#__codelineno-17-9"></a>    <span class="k">return</span> <span class="p">[(</span><span class="n">x</span> <span class="o">*</span> <span class="n">factor</span><span class="p">,</span> <span class="n">y</span> <span class="o">*</span> <span class="n">factor</span><span class="p">)</span> <span class="k">for</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span> <span class="ow">in</span> <span class="n">points</span><span class="p">]</span>
+</span></code></pre></div>
+<p>Here <code>Vector[int]</code> is easier to read than <code>list[tuple[int, int]]</code>.
+The type checker ensures consistency just as if we wrote the full type.</p>
+<h3 id="declaring-aliases-explicitly">Declaring Aliases Explicitly<a class="headerlink" href="#declaring-aliases-explicitly" title="Permanent link">#</a></h3>
+<p>Python 3.10 introduced <code>TypeAlias</code> to explicitly declare that an assignment is a type alias (especially when the right-hand side might be ambiguous).
+For example:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-18-1"><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a><span class="c1"># typealias_annotation.py</span>
+</span><span id="__span-18-2"><a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">TypeAlias</span>
+</span><span id="__span-18-3"><a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a>
+</span><span id="__span-18-4"><a id="__codelineno-18-4" name="__codelineno-18-4" href="#__codelineno-18-4"></a><span class="n">Coordinates</span><span class="p">:</span> <span class="n">TypeAlias</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span>
+</span></code></pre></div>
+<p>However, for basic cases, just using a capitalized variable name for the alias as above is usually clear enough to type
+checkers.
+(By convention, user-defined type aliases often start with a capital letter.) Python 3.12 is expected to bring a new
+syntax for generic aliases using the <code>type</code> keyword (PEP 695), but that's beyond the scope of this chapter.</p>
+<h2 id="guidelines">Guidelines<a class="headerlink" href="#guidelines" title="Permanent link">#</a></h2>
+<p>Generics greatly enhance the expressiveness of Python's type system, but they can also introduce complexity.</p>
+<h3 id="pitfall-invariance-confusion">Pitfall: Invariance Confusion<a class="headerlink" href="#pitfall-invariance-confusion" title="Permanent link">#</a></h3>
+<p>As mentioned earlier, most types are invariant.
+A common mistake is expecting container types to be covariantly interchangeable:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-19-1"><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a><span class="c1"># invariance_confusion.py</span>
+</span><span id="__span-19-2"><a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a><span class="kn">from</span> <span class="nn">animals</span> <span class="kn">import</span> <span class="n">Animal</span><span class="p">,</span> <span class="n">Dog</span>
+</span><span id="__span-19-3"><a id="__codelineno-19-3" name="__codelineno-19-3" href="#__codelineno-19-3"></a>
+</span><span id="__span-19-4"><a id="__codelineno-19-4" name="__codelineno-19-4" href="#__codelineno-19-4"></a><span class="n">animals</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">Animal</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">Animal</span><span class="p">()]</span>
+</span><span id="__span-19-5"><a id="__codelineno-19-5" name="__codelineno-19-5" href="#__codelineno-19-5"></a><span class="n">dogs</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">Dog</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">Dog</span><span class="p">()]</span>
+</span><span id="__span-19-6"><a id="__codelineno-19-6" name="__codelineno-19-6" href="#__codelineno-19-6"></a><span class="n">animals</span> <span class="o">=</span> <span class="n">dogs</span>  <span class="c1"># type: ignore</span>
+</span></code></pre></div>
+<p>Here a newcomer might think "a list of Dogs is a list of Animals," but that's not allowed because of invariance.
+The pitfall is not realizing that mutation of the list can break type assumptions.
+If you find yourself needing to treat a <code>list[SubType]</code> as a <code>list[BaseType]</code>, reconsider your design or use abstract
+interfaces (<code>Sequence[BaseType]</code> which is covariant for reading, or <code>Collection[BaseType]</code>).
+Alternatively, copy the list to a new covariant container if needed for output only.</p>
+<h3 id="pitfall-too-general-or-overuse-of-any">Pitfall: Too General (or Overuse of Any)<a class="headerlink" href="#pitfall-too-general-or-overuse-of-any" title="Permanent link">#</a></h3>
+<p>Using a type variable when your function expects a more specific capability can lead to confusing errors or overly
+permissive acceptance.
+For example:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-20-1"><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a><span class="c1"># too_general.py</span>
+</span><span id="__span-20-2"><a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a>
+</span><span id="__span-20-3"><a id="__codelineno-20-3" name="__codelineno-20-3" href="#__codelineno-20-3"></a>
+</span><span id="__span-20-4"><a id="__codelineno-20-4" name="__codelineno-20-4" href="#__codelineno-20-4"></a><span class="k">def</span> <span class="nf">sort_items</span><span class="p">[</span><span class="n">T</span><span class="p">](</span><span class="n">items</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">T</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">T</span><span class="p">]:</span>
+</span><span id="__span-20-5"><a id="__codelineno-20-5" name="__codelineno-20-5" href="#__codelineno-20-5"></a>    <span class="c1"># PyRight issue:</span>
+</span><span id="__span-20-6"><a id="__codelineno-20-6" name="__codelineno-20-6" href="#__codelineno-20-6"></a>    <span class="k">return</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">items</span><span class="p">)</span>  <span class="c1"># type: ignore</span>
+</span></code></pre></div>
+<p>This function will type-check, but it's not truly safe for all <code>T</code>--it assumes that the items are comparable (have an ordering defined).
+If you call <code>sort_items</code> on a list of objects that can't be ordered, you'll get a runtime error.
+The type checker wouldn't catch it because <code>T</code> was unconstrained (it can be anything).
+A better approach is to constrain <code>T</code> to types that support ordering:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-21-1"><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a><span class="c1"># bound_type_variable.py</span>
+</span><span id="__span-21-2"><a id="__codelineno-21-2" name="__codelineno-21-2" href="#__codelineno-21-2"></a><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Protocol</span><span class="p">,</span> <span class="n">Any</span>
+</span><span id="__span-21-3"><a id="__codelineno-21-3" name="__codelineno-21-3" href="#__codelineno-21-3"></a>
+</span><span id="__span-21-4"><a id="__codelineno-21-4" name="__codelineno-21-4" href="#__codelineno-21-4"></a>
+</span><span id="__span-21-5"><a id="__codelineno-21-5" name="__codelineno-21-5" href="#__codelineno-21-5"></a><span class="k">class</span> <span class="nc">Comparable</span><span class="p">(</span><span class="n">Protocol</span><span class="p">):</span>
+</span><span id="__span-21-6"><a id="__codelineno-21-6" name="__codelineno-21-6" href="#__codelineno-21-6"></a>    <span class="k">def</span> <span class="fm">__lt__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span> <span class="o">...</span>
+</span><span id="__span-21-7"><a id="__codelineno-21-7" name="__codelineno-21-7" href="#__codelineno-21-7"></a>
+</span><span id="__span-21-8"><a id="__codelineno-21-8" name="__codelineno-21-8" href="#__codelineno-21-8"></a>
+</span><span id="__span-21-9"><a id="__codelineno-21-9" name="__codelineno-21-9" href="#__codelineno-21-9"></a><span class="k">def</span> <span class="nf">sort_items</span><span class="p">[</span><span class="n">U</span><span class="p">:</span> <span class="n">Comparable</span><span class="p">](</span><span class="n">items</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">U</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">U</span><span class="p">]:</span>
+</span><span id="__span-21-10"><a id="__codelineno-21-10" name="__codelineno-21-10" href="#__codelineno-21-10"></a>    <span class="k">return</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">items</span><span class="p">)</span>
+</span></code></pre></div>
+<p>Now <code>sort_items</code> explicitly requires that the item type implements <code>&lt;</code> (as per the <code>Comparable</code> protocol).</p>
+<p>Don't use a totally unconstrained type variable if the function or class really needs the type to have some capability.
+Either use a type bound or a protocol to encode that requirement.
+Conversely, if you truly intend a function to accept anything (like a generic passthrough that just returns what it was
+given), then using <code>Any</code> might be appropriate, or a type variable with no constraints if you need to preserve the type
+identity.
+A function using <code>Any</code> will accept and return anything without errors--it turns off type checking for that element.</p>
+<h3 id="pitfall-ignoring-type-variable-scope">Pitfall: Ignoring type variable Scope<a class="headerlink" href="#pitfall-ignoring-type-variable-scope" title="Permanent link">#</a></h3>
+<p>Unless the function is truly generic, generics can cause more confusion than clarity.
+Remember that a type variable is specific to the generic function or class where it's used.
+If you define a type variable at the top of a module and use it in a function signature, that function is generic.
+If you intended the function to only work with one specific type, you might accidentally make it generic.</p>
+<p>If a type variable appears only once in a function signature, that function is technically generic, but there's no way to
+connect the type to anything else
+(e.g., a return value or another parameter).
+Type checkers will flag this as suspicious:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-22-1"><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a><span class="c1"># accidental_genericity.py</span>
+</span><span id="__span-22-2"><a id="__codelineno-22-2" name="__codelineno-22-2" href="#__codelineno-22-2"></a><span class="n">global_var</span> <span class="o">=</span> <span class="kc">None</span>
+</span><span id="__span-22-3"><a id="__codelineno-22-3" name="__codelineno-22-3" href="#__codelineno-22-3"></a>
+</span><span id="__span-22-4"><a id="__codelineno-22-4" name="__codelineno-22-4" href="#__codelineno-22-4"></a>
+</span><span id="__span-22-5"><a id="__codelineno-22-5" name="__codelineno-22-5" href="#__codelineno-22-5"></a><span class="c1"># warning: type variable &quot;T&quot; appears only     │</span>
+</span><span id="__span-22-6"><a id="__codelineno-22-6" name="__codelineno-22-6" href="#__codelineno-22-6"></a><span class="c1"># once in generic function signature</span>
+</span><span id="__span-22-7"><a id="__codelineno-22-7" name="__codelineno-22-7" href="#__codelineno-22-7"></a><span class="k">def</span> <span class="nf">set_value</span><span class="p">[</span><span class="n">T</span><span class="p">](</span><span class="n">x</span><span class="p">:</span> <span class="n">T</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>  <span class="c1"># type: ignore</span>
+</span><span id="__span-22-8"><a id="__codelineno-22-8" name="__codelineno-22-8" href="#__codelineno-22-8"></a>    <span class="k">global</span> <span class="n">global_var</span>
+</span><span id="__span-22-9"><a id="__codelineno-22-9" name="__codelineno-22-9" href="#__codelineno-22-9"></a>    <span class="n">global_var</span> <span class="o">=</span> <span class="n">x</span>
+</span></code></pre></div>
+<p>If <code>global_var</code> is not also parameterized by <code>T</code> somehow, this use of <code>T</code> is misleading.
+The function <code>set_value</code> as written can accept any type, and the type of <code>global_var</code> cannot be described properly after
+calling it (it can be <code>int</code> if called with <code>int</code>, <code>str</code> if called with <code>str</code>, etc.).
+This is probably a design mistake.
+In such cases, use a normal specific type (or <code>Any</code>) if the function isn't meant to be generic.
+Use type variable only for functions that really need to be generic.</p>
+<h3 id="practice-use-descriptive-type-variable-names-for-clarity">Practice: Use Descriptive Type Variable Names for Clarity<a class="headerlink" href="#practice-use-descriptive-type-variable-names-for-clarity" title="Permanent link">#</a></h3>
+<p>While the convention is to use single-letter type variables like <code>T</code>, <code>U</code>, <code>V</code> for common cases, in more complex generics
+consider using more descriptive names.
+For example:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-23-1"><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a><span class="c1"># descriptive_type_variables.py</span>
+</span><span id="__span-23-2"><a id="__codelineno-23-2" name="__codelineno-23-2" href="#__codelineno-23-2"></a>
+</span><span id="__span-23-3"><a id="__codelineno-23-3" name="__codelineno-23-3" href="#__codelineno-23-3"></a>
+</span><span id="__span-23-4"><a id="__codelineno-23-4" name="__codelineno-23-4" href="#__codelineno-23-4"></a><span class="k">class</span> <span class="nc">BiMap</span><span class="p">[</span><span class="n">KT</span><span class="p">,</span> <span class="n">VT</span><span class="p">]:</span> <span class="o">...</span>
+</span></code></pre></div>
+<p>This can make the code more self-documenting, especially if there are multiple type parameters that have roles (key vs.
+value, input vs. output, etc.).</p>
+<h3 id="practice-leverage-protocols-for-flexibility">Practice: Leverage Protocols for Flexibility<a class="headerlink" href="#practice-leverage-protocols-for-flexibility" title="Permanent link">#</a></h3>
+<p>If you find yourself wanting to accept "any object that has method X," don't force a class hierarchy for typing
+purposes.
+Use a Protocol.
+This decouples your code's type requirements from specific implementations.
+It makes your functions more reusable.
+The standard library's <code>typing</code> module provides many ready-made protocols (like <code>Iterable</code>, <code>Iterator</code>, <code>Sequence</code>,
+<code>Mapping</code>, etc.) which you should use in type annotations instead of concrete types when possible.
+For instance, if a function just needs to read from a container, annotate it as accepting <code>Iterable[T]</code> rather than
+<code>list[T]</code>.
+This way, <code>tuple</code>s, <code>set</code>s, or any <code>Iterable</code> will also be accepted.</p>
+<h3 id="practice-version-compatibility">Practice: Version Compatibility<a class="headerlink" href="#practice-version-compatibility" title="Permanent link">#</a></h3>
+<p>The typing ecosystem has evolved quickly.
+Be aware of the Python version you are targeting:</p>
+<ul>
+<li>Python 3.7 and earlier: Use <code>from __future__ import annotations</code> to avoid forward reference issues.
+  The <code>typing_extensions</code> module provides <code>Protocol</code>, <code>Literal</code>, <code>Final</code>, etc., which were not yet in <code>typing</code>.
+  Also, generic built-in types like <code>list[int]</code> were not available; you had to use <code>typing.List[int]</code>.</li>
+<li>Python 3.8: <code>typing.Protocol</code> introduced via PEP 544.
+  Also <code>Literal</code> and <code>Final</code> were added.</li>
+<li>Python 3.9: Built-in generic types like <code>list[int]</code>, <code>dict[str, int]</code> are supported (PEP 585), so you no longer need
+  to import those from <code>typing</code>.
+  Also, <code>typing.Annotated</code> was introduced for adding metadata to types.</li>
+<li>Python 3.10: The <code>X | Y</code> union syntax (PEP 604) replaces <code>typing.Union[X, Y]</code> for brevity.
+  <code>typing.TypeAlias</code> was introduced for explicit alias declarations (PEP 613).</li>
+<li>Python 3.11: <code>typing.Self</code> was introduced (PEP 673) for easier self-referential return types.
+  Also, variance for certain standard collections might be adjusted in the background (for example, <code>str</code> and <code>bytes</code>
+  now share <code>AnyStr</code> logic differently, and <code>typing.AnyStr</code> is essentially <code>TypeVar('AnyStr', str, bytes)</code>).</li>
+<li>Python 3.12+ (future): PEP 695 (Type Parameter Syntax) will allow writing <code>class MyClass[T]: ...</code> and
+  <code>def func[X](arg: X) -&gt; X: ...</code> directly, and the <code>type</code> statement for aliases (e.g.,
+  <code>type ListOrSet[T] = list[T] | set[T]</code>).
+  These make generics more concise but require newer Python versions.</li>
+</ul>
+<h2 id="references">References<a class="headerlink" href="#references" title="Permanent link">#</a></h2>
+<ol>
+<li><a href="https://typing.python.org/en/latest/reference/generics.html">Generics--typing documentation</a></li>
+<li><a href="https://typing.python.org/en/latest/reference/protocols.html">Protocols and structural subtyping--typing documentation</a></li>
+<li><a href="https://typing.python.org/en/latest/reference/protocols.html#protocol-types#:~:text=Structural%20subtyping%20is%20based%20on,latter%2C%20and%20with%20compatible%20types">Protocols and structural subtyping--typing documentation</a></li>
+</ol>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "..", "features": ["content.code.copy", "content.code.select", "navigation.indexes"], "search": "../assets/javascripts/workers/search.f8cc74c7.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.c8b220af.min.js"></script>
+      
+    
+  </body>
+</html>
