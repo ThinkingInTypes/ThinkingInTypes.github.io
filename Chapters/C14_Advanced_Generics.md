@@ -30,7 +30,7 @@ For example:
 
 ```python
 # covariance.py
-from animals import Animal, Dog
+from c09_generics.animals import Animal, Dog
 
 
 class ReadOnlyBox[T]:
@@ -61,7 +61,7 @@ For example:
 
 ```python
 # contravariance.py
-from animals import Animal, Dog
+from c09_generics.animals import Animal, Dog
 
 
 class Sink[T]:
@@ -640,7 +640,7 @@ A common mistake is expecting container types to be covariantly interchangeable:
 
 ```python
 # invariance_confusion.py
-from animals import Animal, Dog
+from c09_generics.animals import Animal, Dog
 
 animals: list[Animal] = [Animal()]
 dogs: list[Dog] = [Dog()]
