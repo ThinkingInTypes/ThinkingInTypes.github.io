@@ -30,7 +30,7 @@ For example:
 
 ```python
 # covariance.py
-from c09_generics.animals import Animal, Dog
+from animals import Animal, Dog
 
 
 class ReadOnlyBox[T]:
@@ -61,7 +61,7 @@ For example:
 
 ```python
 # contravariance.py
-from c09_generics.animals import Animal, Dog
+from animals import Animal, Dog
 
 
 class Sink[T]:
@@ -640,7 +640,7 @@ A common mistake is expecting container types to be covariantly interchangeable:
 
 ```python
 # invariance_confusion.py
-from c09_generics.animals import Animal, Dog
+from animals import Animal, Dog
 
 animals: list[Animal] = [Animal()]
 dogs: list[Dog] = [Dog()]
@@ -783,3 +783,31 @@ Be aware of the Python version you are targeting:
 1. [Generics--typing documentation](https://typing.python.org/en/latest/reference/generics.html)
 2. [Protocols and structural subtyping--typing documentation](https://typing.python.org/en/latest/reference/protocols.html)
 3. [Protocols and structural subtyping--typing documentation](https://typing.python.org/en/latest/reference/protocols.html#protocol-types#:~:text=Structural%20subtyping%20is%20based%20on,latter%2C%20and%20with%20compatible%20types)
+
+## temporary
+
+To get examples building; need to fix to tool
+
+```python
+# animals.py
+from dataclasses import dataclass
+from typing import Optional
+
+
+@dataclass
+class Animal:
+    name: Optional[str] = None
+
+    def say(self) -> None:
+        print(f"{self.name}: Animal sound")
+
+
+class Dog(Animal):
+    def say(self) -> None:
+        print(f"{self.name}: Woof")
+
+
+def speak[T: Animal](creatures: list[T]) -> None:
+    for creature in creatures:
+        creature.say()
+```

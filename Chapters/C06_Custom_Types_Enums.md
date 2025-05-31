@@ -2,8 +2,6 @@
 
 > When you find yourself creating a lookup table, dictionary, or registry, consider whether an `Enum` provides a better, type-safe solution.
 
-// Can you import an Enum namespace so you don't have to qualify the names? (yes, but discouraged)
-
 Often, part of your domain consists of a fixed set of choices:
 
 - A product has a limited number of states: AVAILABLE, SOLD_OUT, DISCONTINUED.
@@ -50,16 +48,21 @@ The simplest Enum is a set of named constants:
 from enum import Enum
 from book_utils import Catch
 
+
 class Status(Enum):
     OK = 1
     ERROR = 2
     RETRY = 3
 
+
 # Accessing members:
 state = Status.OK
-print(state)           
-print(state.value)     
-print(state.name)      
+print(state)
+## Status.OK
+print(state.value)
+## 1
+print(state.name)
+## OK
 
 # Equality and identity:
 assert Status.OK == Status.OK
@@ -68,10 +71,14 @@ assert Status.OK is Status.OK
 # Iteration:
 for s in Status:
     print(s.name, s.value)
+## OK 1
+## ERROR 2
+## RETRY 3
 
 # Invalid member access:
 with Catch():
     Status(4)
+## Error: 4 is not a valid Status
 
 # Enum members are immutable:
 with Catch():
@@ -106,6 +113,7 @@ Enum values can be other types:
 # colors.py
 from enum import Enum
 
+
 class Color(Enum):
     RED = "red"
     GREEN = "green"
@@ -122,6 +130,7 @@ Many Python libraries (including modern web frameworks) use str-based Enums for 
 # enum_int.py
 from enum import IntEnum
 
+
 class Status(IntEnum):
     OK = 1
     ERROR = 2
@@ -131,6 +140,7 @@ class Status(IntEnum):
 ```python
 # enum_str.py
 from enum import StrEnum
+
 
 class Status(StrEnum):
     OK = "yes!"
@@ -172,20 +182,28 @@ Each month has a number (1–12) and the number of days it contains:
 from dataclasses import dataclass
 from enum import Enum
 
+
 @dataclass(frozen=True)
 class MonthValue:
     number: int
-    days: int    # Number of days in the month
+    days: int  # Number of days in the month
 
     def __post_init__(self) -> None:
         if not 1 <= self.number <= 12:
-            raise ValueError(f"Invalid month number: {self.number}")
+            raise ValueError(
+                f"Invalid month number: {self.number}"
+            )
         if not 1 <= self.days <= 31:
-            raise ValueError(f"Invalid days in month: {self.days}")
+            raise ValueError(
+                f"Invalid days in month: {self.days}"
+            )
 
     def valid_day(self, day: int) -> None:
         if not 1 <= day <= self.days:
-            raise ValueError(f"Invalid day {day} for month {self.number}")
+            raise ValueError(
+                f"Invalid day {day} for month {self.number}"
+            )
+
 
 class Month(Enum):  # Enum[MonthValue]
     JANUARY = MonthValue(1, 31)
@@ -210,6 +228,7 @@ class Month(Enum):  # Enum[MonthValue]
             if m.value.number == month_number:
                 return m
         raise ValueError(f"No such month: {month_number}")
+
 
 @dataclass(frozen=True)
 class Date:
@@ -239,25 +258,30 @@ from type_safe_date import Month, Date
 
 d1 = Date(2025, Month.JANUARY, 31)
 print(d1)  # 2025-01-31
+## 2025-01-31
 
 d2 = Date(2025, Month.FEBRUARY, 28)
 print(d2)  # 2025-02-28
+## 2025-02-28
 # Invalid day for February
 try:
     Date(2025, Month.FEBRUARY, 30)
 except ValueError as e:
     print(e)  # Invalid day 30 for month 2
+## Invalid day 30 for month 2
 
 # Invalid year
 try:
     Date(0, Month.JANUARY, 1)
 except ValueError as e:
     print(e)  # Invalid year: 0
+## Invalid year: 0
 
 # Lookup by month number
 month = Month.number(4)
 d3 = Date(2025, month, 30)
 print(d3)  # 2025-04-30
+## 2025-04-30
 ```
 
 All invariants live in one place: the data model.
@@ -277,9 +301,11 @@ It's possible to remove the qualification:
 # direct_value_names.py
 from enum import Enum
 
+
 class Status(Enum):
     OK = 1
     ERROR = 2
+
 
 OK = Status.OK
 ERROR = Status.ERROR

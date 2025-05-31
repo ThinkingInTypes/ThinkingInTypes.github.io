@@ -159,7 +159,7 @@ coco.squawk()
 
 # After learning:
 print(polly.known_phrases, coco.known_phrases)
-## {'hello'} {'hello', 'squawk'}
+## {'hello'} {'squawk', 'hello'}
 ```
 
 Although `polly` and `coco` share each created method, each instance maintains its own `known_phrases` history.
@@ -320,8 +320,10 @@ Again, we add behavior dynamically.
 ```python
 # introspection.py
 from add_hello import bot
+
 ## Hello! I'm your chatbot.
 import override_not_found
+
 ## Don't know 'weather'; remembering it.
 ## Don't know 'joke'; remembering it.
 import learn_joke
