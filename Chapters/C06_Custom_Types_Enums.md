@@ -168,7 +168,7 @@ For maximum compatibility, we recommend using IntEnum and StrEnum for type-safe 
 
 ## Type Safe Dates
 
-This example applies all the tools we've introduced so far: data classes, Enums, and type safety principles.
+This example uses data classes, Enums, and type safety principles.
 It models calendar dates in such a way that:
 
 - Every Date object is guaranteed valid at construction
@@ -181,6 +181,7 @@ Each month has a number (1–12) and the number of days it contains:
 # type_safe_date.py
 from dataclasses import dataclass
 from enum import Enum
+from typing import Self
 
 
 @dataclass(frozen=True)
@@ -223,7 +224,7 @@ class Month(Enum):  # Enum[MonthValue]
         return self.name
 
     @classmethod
-    def number(cls, month_number: int) -> Month:
+    def number(cls, month_number: int) -> Self:
         for m in cls:
             if m.value.number == month_number:
                 return m
@@ -231,18 +232,40 @@ class Month(Enum):  # Enum[MonthValue]
 
 
 @dataclass(frozen=True)
-class Date:
-    year: int
-    month: Month
-    day: int
+class Year:
+    value: int
 
     def __post_init__(self) -> None:
-        if self.year <= 0:
-            raise ValueError(f"Invalid year: {self.year}")
-        self.month.value.valid_day(self.day)
+        if self.value <= 0:
+            raise ValueError(f"Invalid year: {self.value}")
+
+
+@dataclass(frozen=True)
+class Day:
+    value: int
+
+    def __post_init__(self) -> None:
+        if self.value <= 0:
+            raise ValueError(f"Invalid day: {self.value}")
+
+    @classmethod
+    def of(cls, month: Month, day: int) -> Self:
+        month.value.valid_day(day)
+        return cls(day)
+
+
+@dataclass(frozen=True)
+class Date:
+    year: Year
+    month: Month
+    day: Day
+
+    def __post_init__(self) -> None:
+        # Validate day against month:
+        object.__setattr__(self, 'day', Day.of(self.month, self.day.value))
 
     def __str__(self) -> str:
-        return f"{self.year}-{self.month.value.number:02}-{self.day:02}"
+        return f"{self.year.value}-{self.month.value.number:02}-{self.day.value:02}"
 ```
 
 The `MonthValue` class enforces data validity by ensuring no invalid month definitions can exist.
@@ -254,40 +277,33 @@ You can only create legal dates--illegal states are unrepresentable:
 
 ```python
 # type_safe_date_demo.py
-from type_safe_date import Month, Date
+from book_utils import Catch
+from type_safe_date import Month, Day, Year, Date
 
-d1 = Date(2025, Month.JANUARY, 31)
-print(d1)  # 2025-01-31
-## 2025-01-31
+print(
+    Date(Year(2025), Month.FEBRUARY, Day(28))
+)
 
-d2 = Date(2025, Month.FEBRUARY, 28)
-print(d2)  # 2025-02-28
-## 2025-02-28
+# Look up by month number
+print(
+    Date(Year(2025), Month.number(4), Day(30))
+)
+
 # Invalid day for February
-try:
-    Date(2025, Month.FEBRUARY, 30)
-except ValueError as e:
-    print(e)  # Invalid day 30 for month 2
-## Invalid day 30 for month 2
+with Catch():
+    Day.of(Month.FEBRUARY, 30)
 
 # Invalid year
-try:
-    Date(0, Month.JANUARY, 1)
-except ValueError as e:
-    print(e)  # Invalid year: 0
-## Invalid year: 0
-
-# Lookup by month number
-month = Month.number(4)
-d3 = Date(2025, month, 30)
-print(d3)  # 2025-04-30
-## 2025-04-30
+with Catch():
+    Year(0)
 ```
 
 All invariants live in one place: the data model.
 Construction enforces correctness.
 The type checker ensures we cannot accidentally confuse months, days, or years.
 Errors are caught at the boundary when invalid data is provided.
+
+As an exercise, incorporate leap-year checking.
 
 ## Recommended practices
 
