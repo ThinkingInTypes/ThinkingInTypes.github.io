@@ -45,15 +45,6 @@ Domain-Driven Design was an early step away from inheritance and towards types, 
 Objects are useful as, to quote Stroustrup, "user-defined types," but as the GoF say in their introduction, "prefer composition to inheritance."
 In this book, Python's Objects will be used as types and not base classes.
 Anything that looks like inheritance will only be to create a type of something.
-For example, the syntax of creating an enumeration looks like inheritance:
-
-```python
-# enumeration_definition.py
-print("Can you inherit from an Enum?")
-## Can you inherit from an Enum?
-```
-
-A NamedTuple is also defined in a way that looks like inheritance (other examples).
 
 ## The Wall We Keep Hitting
 
