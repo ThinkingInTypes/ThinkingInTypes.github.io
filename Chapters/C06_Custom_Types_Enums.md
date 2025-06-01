@@ -175,10 +175,10 @@ It models calendar dates in such a way that:
 - Illegal states cannot be represented
 - All constraints are embedded directly into the type system
 
-Each month has a number (1–12) and the number of days it contains:
+The `Month(Enum)` will hold `MonthValue`s, each of which holds its month's number (1–12) and the number of days it contains:
 
 ```python
-# type_safe_date.py
+# month_value.py
 from dataclasses import dataclass
 from enum import Enum
 from typing import Self
@@ -204,6 +204,17 @@ class MonthValue:
             raise ValueError(
                 f"Invalid day {day} for month {self.number}"
             )
+```
+
+The `MonthValue` class enforces data validity by ensuring no invalid month definitions can exist.
+
+The `Month` `Enum` serves as a registry of legal months:
+
+```python
+# month.py
+from enum import Enum
+from typing import Self
+from month_value import MonthValue
 
 
 class Month(Enum):  # Enum[MonthValue]
@@ -229,6 +240,11 @@ class Month(Enum):  # Enum[MonthValue]
             if m.value.number == month_number:
                 return m
         raise ValueError(f"No such month: {month_number}")
+```
+
+```python
+# year.py
+from dataclasses import dataclass
 
 
 @dataclass(frozen=True)
@@ -238,6 +254,13 @@ class Year:
     def __post_init__(self) -> None:
         if self.value <= 0:
             raise ValueError(f"Invalid year: {self.value}")
+```
+
+```python
+# day.py
+from typing import Self
+from dataclasses import dataclass
+from month import Month
 
 
 @dataclass(frozen=True)
@@ -252,6 +275,14 @@ class Day:
     def of(cls, month: Month, day: int) -> Self:
         month.value.valid_day(day)
         return cls(day)
+```
+
+```python
+# type_safe_date.py
+from dataclasses import dataclass
+from year import Year
+from month import Month
+from day import Day
 
 
 @dataclass(frozen=True)
@@ -262,14 +293,13 @@ class Date:
 
     def __post_init__(self) -> None:
         # Validate day against month:
-        object.__setattr__(self, 'day', Day.of(self.month, self.day.value))
+        object.__setattr__(
+            self, "day", Day.of(self.month, self.day.value)
+        )
 
     def __str__(self) -> str:
         return f"{self.year.value}-{self.month.value.number:02}-{self.day.value:02}"
 ```
-
-The `MonthValue` class enforces data validity by ensuring no invalid month definitions can exist.
-The `Month` `Enum` serves as a registry of legal months.
 
 Years, months, and days are combined into a single type-safe structure, `Date`.
 Every `Date` object is validated at creation time.
@@ -280,22 +310,20 @@ You can only create legal dates--illegal states are unrepresentable:
 from book_utils import Catch
 from type_safe_date import Month, Day, Year, Date
 
-print(
-    Date(Year(2025), Month.FEBRUARY, Day(28))
-)
+print(Date(Year(2025), Month.FEBRUARY, Day(28)))
+## 2025-02-28
 
 # Look up by month number
-print(
-    Date(Year(2025), Month.number(4), Day(30))
-)
+print(Date(Year(2025), Month.number(4), Day(30)))
+## 2025-04-30
 
-# Invalid day for February
 with Catch():
     Day.of(Month.FEBRUARY, 30)
+## Error: Invalid day 30 for month 2
 
-# Invalid year
 with Catch():
     Year(0)
+## Error: Invalid year: 0
 ```
 
 All invariants live in one place: the data model.
