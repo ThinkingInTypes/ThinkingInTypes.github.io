@@ -168,7 +168,7 @@ For maximum compatibility, we recommend using IntEnum and StrEnum for type-safe 
 
 ## Type Safe Dates
 
-This example uses data classes, Enums, and type safety principles.
+This example uses data classes, `Enum`s, and type safety principles.
 It models calendar dates in such a way that:
 
 - Every Date object is guaranteed valid at construction
@@ -198,15 +198,10 @@ class MonthValue:
             raise ValueError(
                 f"Invalid days in month: {self.days}"
             )
-
-    def valid_day(self, day: int) -> None:
-        if not 1 <= day <= self.days:
-            raise ValueError(
-                f"Invalid day {day} for month {self.number}"
-            )
 ```
 
 The `MonthValue` class enforces data validity by ensuring no invalid month definitions can exist.
+Because it's a frozen data class, it cannot be made invalid after creation.
 
 The `Month` `Enum` serves as a registry of legal months:
 
@@ -214,6 +209,7 @@ The `Month` `Enum` serves as a registry of legal months:
 # month.py
 from enum import Enum
 from typing import Self
+
 from month_value import MonthValue
 
 
@@ -234,13 +230,27 @@ class Month(Enum):  # Enum[MonthValue]
     def __str__(self) -> str:
         return self.name
 
+    def __int__(self) -> int:
+        return self.value.number
+
+    def valid_day(self, day: int) -> None:
+        if not 1 <= day <= self.value.days:
+            raise ValueError(f"Invalid day {day} for {self}")
+
     @classmethod
-    def number(cls, month_number: int) -> Self:
+    def _missing_(cls, value: object) -> Self:
+        if not isinstance(value, int):
+            raise TypeError("Expected int")
         for m in cls:
-            if m.value.number == month_number:
+            if m.value.number == value:
                 return m
-        raise ValueError(f"No such month: {month_number}")
+        raise ValueError(f"No such month: {value}")
 ```
+
+When you try to access an `Enum` member using a value that doesn't exist, the `_missing_` method is invoked.
+By default, `_missing_` does nothing, resulting in a `ValueError` when an invalid value is used to create an enum member.
+By overriding `_missing_`, you can implement custom logic to handle cases where the provided value doesn't directly match an existing member.
+Now you can say `Month(3)` and it will produce `Month.MARCH`.
 
 ```python
 # year.py
@@ -273,7 +283,8 @@ class Day:
 
     @classmethod
     def of(cls, month: Month, day: int) -> Self:
-        month.value.valid_day(day)
+        # Ensure day is within Month's range:
+        month.valid_day(day)
         return cls(day)
 ```
 
@@ -303,7 +314,7 @@ class Date:
 
 Years, months, and days are combined into a single type-safe structure, `Date`.
 Every `Date` object is validated at creation time.
-You can only create legal dates--illegal states are unrepresentable:
+You can only create legal dates--illegal states are unrepresentable.
 
 ```python
 # type_safe_date_demo.py
@@ -314,12 +325,12 @@ print(Date(Year(2025), Month.FEBRUARY, Day(28)))
 ## 2025-02-28
 
 # Look up by month number
-print(Date(Year(2025), Month.number(4), Day(30)))
+print(Date(Year(2025), Month(4), Day(30)))
 ## 2025-04-30
 
 with Catch():
     Day.of(Month.FEBRUARY, 30)
-## Error: Invalid day 30 for month 2
+## Error: Invalid day 30 for FEBRUARY
 
 with Catch():
     Year(0)
