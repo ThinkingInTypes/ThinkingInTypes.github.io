@@ -55,14 +55,23 @@ class Status(Enum):
     RETRY = 3
 
 
+# Construction syntax returns corresponding value:
+print(Status(2))
+## Status.ERROR
+
+# Look up by name string:
+print(Status["RETRY"])
+## Status.RETRY
+
+
 # Accessing members:
 state = Status.OK
 print(state)
 ## Status.OK
-print(state.value)
-## 1
 print(state.name)
 ## OK
+print(state.value)
+## 1
 
 # Equality and identity:
 assert Status.OK == Status.OK
@@ -77,7 +86,7 @@ for s in Status:
 
 # Invalid member access:
 with Catch():
-    Status(4)
+    Status(4)  # Lookup syntax
 ## Error: 4 is not a valid Status
 
 # Enum members are immutable:
@@ -105,22 +114,67 @@ This helps clarify logs and debugging output.
 Once defined, Enum members cannot be altered.
 This immutability makes Enums reliable building blocks.
 
-### Members Can Have Custom Values
-
-Enum values can be other types:
+### Generated & Non-int Member Values
 
 ```python
-# colors.py
-from enum import Enum
+# custom_and_generated.py
+from enum import Enum, auto
 
 
+class N(Enum):
+    ONE = 1
+    TWO = 2
+    THREE = 3
+
+
+# Auto-Generate Sequential Values
+class N2(Enum):
+    ONE = auto()
+    TWO = auto()
+    THREE = auto()
+
+
+# Enum values can be types other than int:
 class Color(Enum):
     RED = "red"
     GREEN = "green"
     BLUE = "blue"
-```
 
-Many Python libraries (including modern web frameworks) use str-based Enums for dot-completion and clearer external representation.
+
+# Access all members
+print(f"{N.__members__ = }")
+## N.__members__ = mappingproxy({'ONE': <N.ONE: 1>, 'TWO': <N.TWO:
+## 2>, 'THREE': <N.THREE: 3>})
+print(f"{N2.__members__ = }")
+## N2.__members__ = mappingproxy({'ONE': <N2.ONE: 1>, 'TWO':
+## <N2.TWO: 2>, 'THREE': <N2.THREE: 3>})
+print(f"{Color.__members__ = }")
+## Color.__members__ = mappingproxy({'RED': <Color.RED: 'red'>,
+## 'GREEN': <Color.GREEN: 'green'>, 'BLUE': <Color.BLUE: 'blue'>})
+# All names:
+print([member.name for member in Color])
+## ['RED', 'GREEN', 'BLUE']
+# All values:
+print([member.value for member in Color])
+## ['red', 'green', 'blue']
+# Ordered by definition order, not value order:
+print(list(Color))
+## [<Color.RED: 'red'>, <Color.GREEN: 'green'>, <Color.BLUE:
+## 'blue'>]
+# Enum members are singletons:
+print(Color.RED is Color("red"))
+## True
+# Internal maps:
+print(N._member_map_)
+## {'ONE': <N.ONE: 1>, 'TWO': <N.TWO: 2>, 'THREE': <N.THREE: 3>}
+print(N._value2member_map_)
+## {1: <N.ONE: 1>, 2: <N.TWO: 2>, 3: <N.THREE: 3>}
+# Check if a value has a corresponding member:
+print(2 in N._value2member_map_)
+## True
+print("blue" in Color._value2member_map_)
+## True
+```
 
 ## ...
 
@@ -148,21 +202,77 @@ class Status(StrEnum):
     RETRY = "again!"
 ```
 
-### Parametric Enums
+Many Python libraries (including modern web frameworks) use str-based Enums for dot-completion and clearer external representation.
 
-Starting with Python 3.14, the language introduces support for parametric Enums using Enum[T]. This allows specifying the value type directly in the class header:
+## Flag Enums
 
-```text
-from enum import Enum
+```python
+# option_flags.py
+from enum import Flag, auto
 
-class Status(Enum[int]):
-    OK = 1
-    ERROR = 2
+
+class Option(Flag):
+    NONE = 0
+    TRACE = auto()
+    DEBUG = auto()
+    VERBOSE = auto()
+    SILENT = auto()
+    SAVE = auto()
+
+    @classmethod
+    def all(cls) -> "Option":
+        return (
+            cls.TRACE
+            | cls.DEBUG
+            | cls.VERBOSE
+            | cls.SILENT
+            | cls.SAVE
+        )
+
+
+print([(member, member.name, member.value) for member in Option])
+## [(<Option.TRACE: 1>, 'TRACE', 1), (<Option.DEBUG: 2>, 'DEBUG',
+## 2), (<Option.VERBOSE: 4>, 'VERBOSE', 4), (<Option.SILENT: 8>,
+## 'SILENT', 8), (<Option.SAVE: 16>, 'SAVE', 16)]
+
+for k, v in Option.__members__.items():
+    print(f"{k} = {v.value} ({v.value:08b})")
+## NONE = 0 (00000000)
+## TRACE = 1 (00000001)
+## DEBUG = 2 (00000010)
+## VERBOSE = 4 (00000100)
+## SILENT = 8 (00001000)
+## SAVE = 16 (00010000)
+
+# Compose options:
+opt1 = Option.TRACE | Option.VERBOSE
+# Combined flags produce symbolic names, not just numbers:
+print(f"{opt1 = } ({opt1.value:08b})")
+## opt1 = <Option.TRACE|VERBOSE: 5> (00000101)
+opt2 = opt1 | Option.SAVE
+print(f"{opt2 = } ({opt2.value:08b})")
+## opt2 = <Option.TRACE|VERBOSE|SAVE: 21> (00010101)
+
+# Membership:
+print(f"{Option.TRACE in opt2 = }")
+## Option.TRACE in opt2 = True
+print(f"{Option.VERBOSE not in opt2 = }")
+## Option.VERBOSE not in opt2 = False
+
+# Bitwise AND: what options are present in both:
+print(f"{opt2 & Option.VERBOSE = }")
+## opt2 & Option.VERBOSE = <Option.VERBOSE: 4>
+print(f"{opt2 & Option.DEBUG = }")
+## opt2 & Option.DEBUG = <Option.NONE: 0>
+
+# Equivalence:
+print(f"{(opt2 & Option.SAVE) != Option.NONE = }")
+## (opt2 & Option.SAVE) != Option.NONE = True
+
+# Bitwise XOR: what options are missing from opt2:
+print(f"Missing: {Option.all() ^ opt2}")
+## Missing: Option.DEBUG|SILENT
 ```
-
-At the time of writing, this feature is supported by type checkers such as Pyright and Mypy.
-However, full runtime support in CPython is still rolling out.
-For maximum compatibility, we recommend using IntEnum and StrEnum for type-safe enums until full support stabilizes.
 
 ## ...
 
@@ -213,7 +323,7 @@ from typing import Self
 from month_value import MonthValue
 
 
-class Month(Enum):  # Enum[MonthValue]
+class Month(Enum):
     JANUARY = MonthValue(1, 31)
     FEBRUARY = MonthValue(2, 28)
     MARCH = MonthValue(3, 31)
