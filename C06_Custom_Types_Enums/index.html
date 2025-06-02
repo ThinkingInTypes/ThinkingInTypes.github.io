@@ -380,9 +380,9 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#members-can-have-custom-values" class="md-nav__link">
+  <a href="#generated-non-int-member-values" class="md-nav__link">
     <span class="md-ellipsis">
-      Members Can Have Custom Values
+      Generated &amp; Non-int Member Values
     </span>
   </a>
   
@@ -409,20 +409,14 @@
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Constraining Value Types">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#parametric-enums" class="md-nav__link">
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#flag-enums" class="md-nav__link">
     <span class="md-ellipsis">
-      Parametric Enums
+      Flag Enums
     </span>
   </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
@@ -942,9 +936,9 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#members-can-have-custom-values" class="md-nav__link">
+  <a href="#generated-non-int-member-values" class="md-nav__link">
     <span class="md-ellipsis">
-      Members Can Have Custom Values
+      Generated &amp; Non-int Member Values
     </span>
   </a>
   
@@ -971,20 +965,14 @@
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Constraining Value Types">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#parametric-enums" class="md-nav__link">
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#flag-enums" class="md-nav__link">
     <span class="md-ellipsis">
-      Parametric Enums
+      Flag Enums
     </span>
   </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
@@ -1110,34 +1098,43 @@ While most programmers initially encounter Enums as collections of named integer
 </span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>    <span class="n">RETRY</span> <span class="o">=</span> <span class="mi">3</span>
 </span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>
 </span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>
-</span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a><span class="c1"># Accessing members:</span>
-</span><span id="__span-0-13"><a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a><span class="n">state</span> <span class="o">=</span> <span class="n">Status</span><span class="o">.</span><span class="n">OK</span>
-</span><span id="__span-0-14"><a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a><span class="nb">print</span><span class="p">(</span><span class="n">state</span><span class="p">)</span>
-</span><span id="__span-0-15"><a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a><span class="c1">## Status.OK</span>
-</span><span id="__span-0-16"><a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a><span class="nb">print</span><span class="p">(</span><span class="n">state</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
-</span><span id="__span-0-17"><a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a><span class="c1">## 1</span>
-</span><span id="__span-0-18"><a id="__codelineno-0-18" name="__codelineno-0-18" href="#__codelineno-0-18"></a><span class="nb">print</span><span class="p">(</span><span class="n">state</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
-</span><span id="__span-0-19"><a id="__codelineno-0-19" name="__codelineno-0-19" href="#__codelineno-0-19"></a><span class="c1">## OK</span>
+</span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a><span class="c1"># Construction syntax returns corresponding value:</span>
+</span><span id="__span-0-13"><a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a><span class="nb">print</span><span class="p">(</span><span class="n">Status</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>
+</span><span id="__span-0-14"><a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a><span class="c1">## Status.ERROR</span>
+</span><span id="__span-0-15"><a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a>
+</span><span id="__span-0-16"><a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a><span class="c1"># Look up by name string:</span>
+</span><span id="__span-0-17"><a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a><span class="nb">print</span><span class="p">(</span><span class="n">Status</span><span class="p">[</span><span class="s2">&quot;RETRY&quot;</span><span class="p">])</span>
+</span><span id="__span-0-18"><a id="__codelineno-0-18" name="__codelineno-0-18" href="#__codelineno-0-18"></a><span class="c1">## Status.RETRY</span>
+</span><span id="__span-0-19"><a id="__codelineno-0-19" name="__codelineno-0-19" href="#__codelineno-0-19"></a>
 </span><span id="__span-0-20"><a id="__codelineno-0-20" name="__codelineno-0-20" href="#__codelineno-0-20"></a>
-</span><span id="__span-0-21"><a id="__codelineno-0-21" name="__codelineno-0-21" href="#__codelineno-0-21"></a><span class="c1"># Equality and identity:</span>
-</span><span id="__span-0-22"><a id="__codelineno-0-22" name="__codelineno-0-22" href="#__codelineno-0-22"></a><span class="k">assert</span> <span class="n">Status</span><span class="o">.</span><span class="n">OK</span> <span class="o">==</span> <span class="n">Status</span><span class="o">.</span><span class="n">OK</span>
-</span><span id="__span-0-23"><a id="__codelineno-0-23" name="__codelineno-0-23" href="#__codelineno-0-23"></a><span class="k">assert</span> <span class="n">Status</span><span class="o">.</span><span class="n">OK</span> <span class="ow">is</span> <span class="n">Status</span><span class="o">.</span><span class="n">OK</span>
-</span><span id="__span-0-24"><a id="__codelineno-0-24" name="__codelineno-0-24" href="#__codelineno-0-24"></a>
-</span><span id="__span-0-25"><a id="__codelineno-0-25" name="__codelineno-0-25" href="#__codelineno-0-25"></a><span class="c1"># Iteration:</span>
-</span><span id="__span-0-26"><a id="__codelineno-0-26" name="__codelineno-0-26" href="#__codelineno-0-26"></a><span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">Status</span><span class="p">:</span>
-</span><span id="__span-0-27"><a id="__codelineno-0-27" name="__codelineno-0-27" href="#__codelineno-0-27"></a>    <span class="nb">print</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">s</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
-</span><span id="__span-0-28"><a id="__codelineno-0-28" name="__codelineno-0-28" href="#__codelineno-0-28"></a><span class="c1">## OK 1</span>
-</span><span id="__span-0-29"><a id="__codelineno-0-29" name="__codelineno-0-29" href="#__codelineno-0-29"></a><span class="c1">## ERROR 2</span>
-</span><span id="__span-0-30"><a id="__codelineno-0-30" name="__codelineno-0-30" href="#__codelineno-0-30"></a><span class="c1">## RETRY 3</span>
-</span><span id="__span-0-31"><a id="__codelineno-0-31" name="__codelineno-0-31" href="#__codelineno-0-31"></a>
-</span><span id="__span-0-32"><a id="__codelineno-0-32" name="__codelineno-0-32" href="#__codelineno-0-32"></a><span class="c1"># Invalid member access:</span>
-</span><span id="__span-0-33"><a id="__codelineno-0-33" name="__codelineno-0-33" href="#__codelineno-0-33"></a><span class="k">with</span> <span class="n">Catch</span><span class="p">():</span>
-</span><span id="__span-0-34"><a id="__codelineno-0-34" name="__codelineno-0-34" href="#__codelineno-0-34"></a>    <span class="n">Status</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
-</span><span id="__span-0-35"><a id="__codelineno-0-35" name="__codelineno-0-35" href="#__codelineno-0-35"></a><span class="c1">## Error: 4 is not a valid Status</span>
-</span><span id="__span-0-36"><a id="__codelineno-0-36" name="__codelineno-0-36" href="#__codelineno-0-36"></a>
-</span><span id="__span-0-37"><a id="__codelineno-0-37" name="__codelineno-0-37" href="#__codelineno-0-37"></a><span class="c1"># Enum members are immutable:</span>
-</span><span id="__span-0-38"><a id="__codelineno-0-38" name="__codelineno-0-38" href="#__codelineno-0-38"></a><span class="k">with</span> <span class="n">Catch</span><span class="p">():</span>
-</span><span id="__span-0-39"><a id="__codelineno-0-39" name="__codelineno-0-39" href="#__codelineno-0-39"></a>    <span class="n">Status</span><span class="o">.</span><span class="n">OK</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="mi">42</span>  <span class="c1"># type: ignore</span>
+</span><span id="__span-0-21"><a id="__codelineno-0-21" name="__codelineno-0-21" href="#__codelineno-0-21"></a><span class="c1"># Accessing members:</span>
+</span><span id="__span-0-22"><a id="__codelineno-0-22" name="__codelineno-0-22" href="#__codelineno-0-22"></a><span class="n">state</span> <span class="o">=</span> <span class="n">Status</span><span class="o">.</span><span class="n">OK</span>
+</span><span id="__span-0-23"><a id="__codelineno-0-23" name="__codelineno-0-23" href="#__codelineno-0-23"></a><span class="nb">print</span><span class="p">(</span><span class="n">state</span><span class="p">)</span>
+</span><span id="__span-0-24"><a id="__codelineno-0-24" name="__codelineno-0-24" href="#__codelineno-0-24"></a><span class="c1">## Status.OK</span>
+</span><span id="__span-0-25"><a id="__codelineno-0-25" name="__codelineno-0-25" href="#__codelineno-0-25"></a><span class="nb">print</span><span class="p">(</span><span class="n">state</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+</span><span id="__span-0-26"><a id="__codelineno-0-26" name="__codelineno-0-26" href="#__codelineno-0-26"></a><span class="c1">## OK</span>
+</span><span id="__span-0-27"><a id="__codelineno-0-27" name="__codelineno-0-27" href="#__codelineno-0-27"></a><span class="nb">print</span><span class="p">(</span><span class="n">state</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+</span><span id="__span-0-28"><a id="__codelineno-0-28" name="__codelineno-0-28" href="#__codelineno-0-28"></a><span class="c1">## 1</span>
+</span><span id="__span-0-29"><a id="__codelineno-0-29" name="__codelineno-0-29" href="#__codelineno-0-29"></a>
+</span><span id="__span-0-30"><a id="__codelineno-0-30" name="__codelineno-0-30" href="#__codelineno-0-30"></a><span class="c1"># Equality and identity:</span>
+</span><span id="__span-0-31"><a id="__codelineno-0-31" name="__codelineno-0-31" href="#__codelineno-0-31"></a><span class="k">assert</span> <span class="n">Status</span><span class="o">.</span><span class="n">OK</span> <span class="o">==</span> <span class="n">Status</span><span class="o">.</span><span class="n">OK</span>
+</span><span id="__span-0-32"><a id="__codelineno-0-32" name="__codelineno-0-32" href="#__codelineno-0-32"></a><span class="k">assert</span> <span class="n">Status</span><span class="o">.</span><span class="n">OK</span> <span class="ow">is</span> <span class="n">Status</span><span class="o">.</span><span class="n">OK</span>
+</span><span id="__span-0-33"><a id="__codelineno-0-33" name="__codelineno-0-33" href="#__codelineno-0-33"></a>
+</span><span id="__span-0-34"><a id="__codelineno-0-34" name="__codelineno-0-34" href="#__codelineno-0-34"></a><span class="c1"># Iteration:</span>
+</span><span id="__span-0-35"><a id="__codelineno-0-35" name="__codelineno-0-35" href="#__codelineno-0-35"></a><span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">Status</span><span class="p">:</span>
+</span><span id="__span-0-36"><a id="__codelineno-0-36" name="__codelineno-0-36" href="#__codelineno-0-36"></a>    <span class="nb">print</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">s</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+</span><span id="__span-0-37"><a id="__codelineno-0-37" name="__codelineno-0-37" href="#__codelineno-0-37"></a><span class="c1">## OK 1</span>
+</span><span id="__span-0-38"><a id="__codelineno-0-38" name="__codelineno-0-38" href="#__codelineno-0-38"></a><span class="c1">## ERROR 2</span>
+</span><span id="__span-0-39"><a id="__codelineno-0-39" name="__codelineno-0-39" href="#__codelineno-0-39"></a><span class="c1">## RETRY 3</span>
+</span><span id="__span-0-40"><a id="__codelineno-0-40" name="__codelineno-0-40" href="#__codelineno-0-40"></a>
+</span><span id="__span-0-41"><a id="__codelineno-0-41" name="__codelineno-0-41" href="#__codelineno-0-41"></a><span class="c1"># Invalid member access:</span>
+</span><span id="__span-0-42"><a id="__codelineno-0-42" name="__codelineno-0-42" href="#__codelineno-0-42"></a><span class="k">with</span> <span class="n">Catch</span><span class="p">():</span>
+</span><span id="__span-0-43"><a id="__codelineno-0-43" name="__codelineno-0-43" href="#__codelineno-0-43"></a>    <span class="n">Status</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>  <span class="c1"># Lookup syntax</span>
+</span><span id="__span-0-44"><a id="__codelineno-0-44" name="__codelineno-0-44" href="#__codelineno-0-44"></a><span class="c1">## Error: 4 is not a valid Status</span>
+</span><span id="__span-0-45"><a id="__codelineno-0-45" name="__codelineno-0-45" href="#__codelineno-0-45"></a>
+</span><span id="__span-0-46"><a id="__codelineno-0-46" name="__codelineno-0-46" href="#__codelineno-0-46"></a><span class="c1"># Enum members are immutable:</span>
+</span><span id="__span-0-47"><a id="__codelineno-0-47" name="__codelineno-0-47" href="#__codelineno-0-47"></a><span class="k">with</span> <span class="n">Catch</span><span class="p">():</span>
+</span><span id="__span-0-48"><a id="__codelineno-0-48" name="__codelineno-0-48" href="#__codelineno-0-48"></a>    <span class="n">Status</span><span class="o">.</span><span class="n">OK</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="mi">42</span>  <span class="c1"># type: ignore</span>
 </span></code></pre></div>
 <p>Instead of assigning raw integers or strings, we use the Enum members.
 Each member has both a name (OK) and a value (1).
@@ -1152,18 +1149,65 @@ This makes Enums naturally self-documenting, useful for logging, debugging, and 
 This helps clarify logs and debugging output.</p>
 <p>Once defined, Enum members cannot be altered.
 This immutability makes Enums reliable building blocks.</p>
-<h3 id="members-can-have-custom-values">Members Can Have Custom Values<a class="headerlink" href="#members-can-have-custom-values" title="Permanent link">#</a></h3>
-<p>Enum values can be other types:</p>
-<div class="language-python highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="c1"># colors.py</span>
-</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="kn">from</span> <span class="nn">enum</span> <span class="kn">import</span> <span class="n">Enum</span>
+<h3 id="generated-non-int-member-values">Generated &amp; Non-int Member Values<a class="headerlink" href="#generated-non-int-member-values" title="Permanent link">#</a></h3>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="c1"># custom_and_generated.py</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="kn">from</span> <span class="nn">enum</span> <span class="kn">import</span> <span class="n">Enum</span><span class="p">,</span> <span class="n">auto</span>
 </span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>
 </span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>
-</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="k">class</span> <span class="nc">Color</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
-</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>    <span class="n">RED</span> <span class="o">=</span> <span class="s2">&quot;red&quot;</span>
-</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>    <span class="n">GREEN</span> <span class="o">=</span> <span class="s2">&quot;green&quot;</span>
-</span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>    <span class="n">BLUE</span> <span class="o">=</span> <span class="s2">&quot;blue&quot;</span>
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="k">class</span> <span class="nc">N</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
+</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>    <span class="n">ONE</span> <span class="o">=</span> <span class="mi">1</span>
+</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>    <span class="n">TWO</span> <span class="o">=</span> <span class="mi">2</span>
+</span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>    <span class="n">THREE</span> <span class="o">=</span> <span class="mi">3</span>
+</span><span id="__span-1-9"><a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>
+</span><span id="__span-1-10"><a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a>
+</span><span id="__span-1-11"><a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a><span class="c1"># Auto-Generate Sequential Values</span>
+</span><span id="__span-1-12"><a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a><span class="k">class</span> <span class="nc">N2</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
+</span><span id="__span-1-13"><a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a>    <span class="n">ONE</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
+</span><span id="__span-1-14"><a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a>    <span class="n">TWO</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
+</span><span id="__span-1-15"><a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a>    <span class="n">THREE</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
+</span><span id="__span-1-16"><a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a>
+</span><span id="__span-1-17"><a id="__codelineno-1-17" name="__codelineno-1-17" href="#__codelineno-1-17"></a>
+</span><span id="__span-1-18"><a id="__codelineno-1-18" name="__codelineno-1-18" href="#__codelineno-1-18"></a><span class="c1"># Enum values can be types other than int:</span>
+</span><span id="__span-1-19"><a id="__codelineno-1-19" name="__codelineno-1-19" href="#__codelineno-1-19"></a><span class="k">class</span> <span class="nc">Color</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
+</span><span id="__span-1-20"><a id="__codelineno-1-20" name="__codelineno-1-20" href="#__codelineno-1-20"></a>    <span class="n">RED</span> <span class="o">=</span> <span class="s2">&quot;red&quot;</span>
+</span><span id="__span-1-21"><a id="__codelineno-1-21" name="__codelineno-1-21" href="#__codelineno-1-21"></a>    <span class="n">GREEN</span> <span class="o">=</span> <span class="s2">&quot;green&quot;</span>
+</span><span id="__span-1-22"><a id="__codelineno-1-22" name="__codelineno-1-22" href="#__codelineno-1-22"></a>    <span class="n">BLUE</span> <span class="o">=</span> <span class="s2">&quot;blue&quot;</span>
+</span><span id="__span-1-23"><a id="__codelineno-1-23" name="__codelineno-1-23" href="#__codelineno-1-23"></a>
+</span><span id="__span-1-24"><a id="__codelineno-1-24" name="__codelineno-1-24" href="#__codelineno-1-24"></a>
+</span><span id="__span-1-25"><a id="__codelineno-1-25" name="__codelineno-1-25" href="#__codelineno-1-25"></a><span class="c1"># Access all members</span>
+</span><span id="__span-1-26"><a id="__codelineno-1-26" name="__codelineno-1-26" href="#__codelineno-1-26"></a><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">N</span><span class="o">.</span><span class="n">__members__</span><span class="w"> </span><span class="si">= }</span><span class="s2">&quot;</span><span class="p">)</span>
+</span><span id="__span-1-27"><a id="__codelineno-1-27" name="__codelineno-1-27" href="#__codelineno-1-27"></a><span class="c1">## N.__members__ = mappingproxy({&#39;ONE&#39;: &lt;N.ONE: 1&gt;, &#39;TWO&#39;: &lt;N.TWO:</span>
+</span><span id="__span-1-28"><a id="__codelineno-1-28" name="__codelineno-1-28" href="#__codelineno-1-28"></a><span class="c1">## 2&gt;, &#39;THREE&#39;: &lt;N.THREE: 3&gt;})</span>
+</span><span id="__span-1-29"><a id="__codelineno-1-29" name="__codelineno-1-29" href="#__codelineno-1-29"></a><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">N2</span><span class="o">.</span><span class="n">__members__</span><span class="w"> </span><span class="si">= }</span><span class="s2">&quot;</span><span class="p">)</span>
+</span><span id="__span-1-30"><a id="__codelineno-1-30" name="__codelineno-1-30" href="#__codelineno-1-30"></a><span class="c1">## N2.__members__ = mappingproxy({&#39;ONE&#39;: &lt;N2.ONE: 1&gt;, &#39;TWO&#39;:</span>
+</span><span id="__span-1-31"><a id="__codelineno-1-31" name="__codelineno-1-31" href="#__codelineno-1-31"></a><span class="c1">## &lt;N2.TWO: 2&gt;, &#39;THREE&#39;: &lt;N2.THREE: 3&gt;})</span>
+</span><span id="__span-1-32"><a id="__codelineno-1-32" name="__codelineno-1-32" href="#__codelineno-1-32"></a><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">Color</span><span class="o">.</span><span class="n">__members__</span><span class="w"> </span><span class="si">= }</span><span class="s2">&quot;</span><span class="p">)</span>
+</span><span id="__span-1-33"><a id="__codelineno-1-33" name="__codelineno-1-33" href="#__codelineno-1-33"></a><span class="c1">## Color.__members__ = mappingproxy({&#39;RED&#39;: &lt;Color.RED: &#39;red&#39;&gt;,</span>
+</span><span id="__span-1-34"><a id="__codelineno-1-34" name="__codelineno-1-34" href="#__codelineno-1-34"></a><span class="c1">## &#39;GREEN&#39;: &lt;Color.GREEN: &#39;green&#39;&gt;, &#39;BLUE&#39;: &lt;Color.BLUE: &#39;blue&#39;&gt;})</span>
+</span><span id="__span-1-35"><a id="__codelineno-1-35" name="__codelineno-1-35" href="#__codelineno-1-35"></a><span class="c1"># All names:</span>
+</span><span id="__span-1-36"><a id="__codelineno-1-36" name="__codelineno-1-36" href="#__codelineno-1-36"></a><span class="nb">print</span><span class="p">([</span><span class="n">member</span><span class="o">.</span><span class="n">name</span> <span class="k">for</span> <span class="n">member</span> <span class="ow">in</span> <span class="n">Color</span><span class="p">])</span>
+</span><span id="__span-1-37"><a id="__codelineno-1-37" name="__codelineno-1-37" href="#__codelineno-1-37"></a><span class="c1">## [&#39;RED&#39;, &#39;GREEN&#39;, &#39;BLUE&#39;]</span>
+</span><span id="__span-1-38"><a id="__codelineno-1-38" name="__codelineno-1-38" href="#__codelineno-1-38"></a><span class="c1"># All values:</span>
+</span><span id="__span-1-39"><a id="__codelineno-1-39" name="__codelineno-1-39" href="#__codelineno-1-39"></a><span class="nb">print</span><span class="p">([</span><span class="n">member</span><span class="o">.</span><span class="n">value</span> <span class="k">for</span> <span class="n">member</span> <span class="ow">in</span> <span class="n">Color</span><span class="p">])</span>
+</span><span id="__span-1-40"><a id="__codelineno-1-40" name="__codelineno-1-40" href="#__codelineno-1-40"></a><span class="c1">## [&#39;red&#39;, &#39;green&#39;, &#39;blue&#39;]</span>
+</span><span id="__span-1-41"><a id="__codelineno-1-41" name="__codelineno-1-41" href="#__codelineno-1-41"></a><span class="c1"># Ordered by definition order, not value order:</span>
+</span><span id="__span-1-42"><a id="__codelineno-1-42" name="__codelineno-1-42" href="#__codelineno-1-42"></a><span class="nb">print</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">Color</span><span class="p">))</span>
+</span><span id="__span-1-43"><a id="__codelineno-1-43" name="__codelineno-1-43" href="#__codelineno-1-43"></a><span class="c1">## [&lt;Color.RED: &#39;red&#39;&gt;, &lt;Color.GREEN: &#39;green&#39;&gt;, &lt;Color.BLUE:</span>
+</span><span id="__span-1-44"><a id="__codelineno-1-44" name="__codelineno-1-44" href="#__codelineno-1-44"></a><span class="c1">## &#39;blue&#39;&gt;]</span>
+</span><span id="__span-1-45"><a id="__codelineno-1-45" name="__codelineno-1-45" href="#__codelineno-1-45"></a><span class="c1"># Enum members are singletons:</span>
+</span><span id="__span-1-46"><a id="__codelineno-1-46" name="__codelineno-1-46" href="#__codelineno-1-46"></a><span class="nb">print</span><span class="p">(</span><span class="n">Color</span><span class="o">.</span><span class="n">RED</span> <span class="ow">is</span> <span class="n">Color</span><span class="p">(</span><span class="s2">&quot;red&quot;</span><span class="p">))</span>
+</span><span id="__span-1-47"><a id="__codelineno-1-47" name="__codelineno-1-47" href="#__codelineno-1-47"></a><span class="c1">## True</span>
+</span><span id="__span-1-48"><a id="__codelineno-1-48" name="__codelineno-1-48" href="#__codelineno-1-48"></a><span class="c1"># Internal maps:</span>
+</span><span id="__span-1-49"><a id="__codelineno-1-49" name="__codelineno-1-49" href="#__codelineno-1-49"></a><span class="nb">print</span><span class="p">(</span><span class="n">N</span><span class="o">.</span><span class="n">_member_map_</span><span class="p">)</span>
+</span><span id="__span-1-50"><a id="__codelineno-1-50" name="__codelineno-1-50" href="#__codelineno-1-50"></a><span class="c1">## {&#39;ONE&#39;: &lt;N.ONE: 1&gt;, &#39;TWO&#39;: &lt;N.TWO: 2&gt;, &#39;THREE&#39;: &lt;N.THREE: 3&gt;}</span>
+</span><span id="__span-1-51"><a id="__codelineno-1-51" name="__codelineno-1-51" href="#__codelineno-1-51"></a><span class="nb">print</span><span class="p">(</span><span class="n">N</span><span class="o">.</span><span class="n">_value2member_map_</span><span class="p">)</span>
+</span><span id="__span-1-52"><a id="__codelineno-1-52" name="__codelineno-1-52" href="#__codelineno-1-52"></a><span class="c1">## {1: &lt;N.ONE: 1&gt;, 2: &lt;N.TWO: 2&gt;, 3: &lt;N.THREE: 3&gt;}</span>
+</span><span id="__span-1-53"><a id="__codelineno-1-53" name="__codelineno-1-53" href="#__codelineno-1-53"></a><span class="c1"># Check if a value has a corresponding member:</span>
+</span><span id="__span-1-54"><a id="__codelineno-1-54" name="__codelineno-1-54" href="#__codelineno-1-54"></a><span class="nb">print</span><span class="p">(</span><span class="mi">2</span> <span class="ow">in</span> <span class="n">N</span><span class="o">.</span><span class="n">_value2member_map_</span><span class="p">)</span>
+</span><span id="__span-1-55"><a id="__codelineno-1-55" name="__codelineno-1-55" href="#__codelineno-1-55"></a><span class="c1">## True</span>
+</span><span id="__span-1-56"><a id="__codelineno-1-56" name="__codelineno-1-56" href="#__codelineno-1-56"></a><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;blue&quot;</span> <span class="ow">in</span> <span class="n">Color</span><span class="o">.</span><span class="n">_value2member_map_</span><span class="p">)</span>
+</span><span id="__span-1-57"><a id="__codelineno-1-57" name="__codelineno-1-57" href="#__codelineno-1-57"></a><span class="c1">## True</span>
 </span></code></pre></div>
-<p>Many Python libraries (including modern web frameworks) use str-based Enums for dot-completion and clearer external representation.</p>
 <h2 id="_1">...<a class="headerlink" href="#_1" title="Permanent link">#</a></h2>
 <h2 id="constraining-value-types">Constraining Value Types<a class="headerlink" href="#constraining-value-types" title="Permanent link">#</a></h2>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1"># enum_int.py</span>
@@ -1184,17 +1228,74 @@ This immutability makes Enums reliable building blocks.</p>
 </span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a>    <span class="n">ERROR</span> <span class="o">=</span> <span class="s2">&quot;no.&quot;</span>
 </span><span id="__span-3-8"><a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a>    <span class="n">RETRY</span> <span class="o">=</span> <span class="s2">&quot;again!&quot;</span>
 </span></code></pre></div>
-<h3 id="parametric-enums">Parametric Enums<a class="headerlink" href="#parametric-enums" title="Permanent link">#</a></h3>
-<p>Starting with Python 3.14, the language introduces support for parametric Enums using Enum[T]. This allows specifying the value type directly in the class header:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>from enum import Enum
-</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>
-</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>class Status(Enum[int]):
-</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>    OK = 1
-</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>    ERROR = 2
+<p>Many Python libraries (including modern web frameworks) use str-based Enums for dot-completion and clearer external representation.</p>
+<h2 id="flag-enums">Flag Enums<a class="headerlink" href="#flag-enums" title="Permanent link">#</a></h2>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="c1"># option_flags.py</span>
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="kn">from</span> <span class="nn">enum</span> <span class="kn">import</span> <span class="n">Flag</span><span class="p">,</span> <span class="n">auto</span>
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="k">class</span> <span class="nc">Option</span><span class="p">(</span><span class="n">Flag</span><span class="p">):</span>
+</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>    <span class="n">NONE</span> <span class="o">=</span> <span class="mi">0</span>
+</span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a>    <span class="n">TRACE</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
+</span><span id="__span-4-8"><a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a>    <span class="n">DEBUG</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
+</span><span id="__span-4-9"><a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a>    <span class="n">VERBOSE</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
+</span><span id="__span-4-10"><a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a>    <span class="n">SILENT</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
+</span><span id="__span-4-11"><a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a>    <span class="n">SAVE</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
+</span><span id="__span-4-12"><a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a>
+</span><span id="__span-4-13"><a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a>    <span class="nd">@classmethod</span>
+</span><span id="__span-4-14"><a id="__codelineno-4-14" name="__codelineno-4-14" href="#__codelineno-4-14"></a>    <span class="k">def</span> <span class="nf">all</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Option&quot;</span><span class="p">:</span>
+</span><span id="__span-4-15"><a id="__codelineno-4-15" name="__codelineno-4-15" href="#__codelineno-4-15"></a>        <span class="k">return</span> <span class="p">(</span>
+</span><span id="__span-4-16"><a id="__codelineno-4-16" name="__codelineno-4-16" href="#__codelineno-4-16"></a>            <span class="bp">cls</span><span class="o">.</span><span class="n">TRACE</span>
+</span><span id="__span-4-17"><a id="__codelineno-4-17" name="__codelineno-4-17" href="#__codelineno-4-17"></a>            <span class="o">|</span> <span class="bp">cls</span><span class="o">.</span><span class="n">DEBUG</span>
+</span><span id="__span-4-18"><a id="__codelineno-4-18" name="__codelineno-4-18" href="#__codelineno-4-18"></a>            <span class="o">|</span> <span class="bp">cls</span><span class="o">.</span><span class="n">VERBOSE</span>
+</span><span id="__span-4-19"><a id="__codelineno-4-19" name="__codelineno-4-19" href="#__codelineno-4-19"></a>            <span class="o">|</span> <span class="bp">cls</span><span class="o">.</span><span class="n">SILENT</span>
+</span><span id="__span-4-20"><a id="__codelineno-4-20" name="__codelineno-4-20" href="#__codelineno-4-20"></a>            <span class="o">|</span> <span class="bp">cls</span><span class="o">.</span><span class="n">SAVE</span>
+</span><span id="__span-4-21"><a id="__codelineno-4-21" name="__codelineno-4-21" href="#__codelineno-4-21"></a>        <span class="p">)</span>
+</span><span id="__span-4-22"><a id="__codelineno-4-22" name="__codelineno-4-22" href="#__codelineno-4-22"></a>
+</span><span id="__span-4-23"><a id="__codelineno-4-23" name="__codelineno-4-23" href="#__codelineno-4-23"></a>
+</span><span id="__span-4-24"><a id="__codelineno-4-24" name="__codelineno-4-24" href="#__codelineno-4-24"></a><span class="nb">print</span><span class="p">([(</span><span class="n">member</span><span class="p">,</span> <span class="n">member</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">member</span><span class="o">.</span><span class="n">value</span><span class="p">)</span> <span class="k">for</span> <span class="n">member</span> <span class="ow">in</span> <span class="n">Option</span><span class="p">])</span>
+</span><span id="__span-4-25"><a id="__codelineno-4-25" name="__codelineno-4-25" href="#__codelineno-4-25"></a><span class="c1">## [(&lt;Option.TRACE: 1&gt;, &#39;TRACE&#39;, 1), (&lt;Option.DEBUG: 2&gt;, &#39;DEBUG&#39;,</span>
+</span><span id="__span-4-26"><a id="__codelineno-4-26" name="__codelineno-4-26" href="#__codelineno-4-26"></a><span class="c1">## 2), (&lt;Option.VERBOSE: 4&gt;, &#39;VERBOSE&#39;, 4), (&lt;Option.SILENT: 8&gt;,</span>
+</span><span id="__span-4-27"><a id="__codelineno-4-27" name="__codelineno-4-27" href="#__codelineno-4-27"></a><span class="c1">## &#39;SILENT&#39;, 8), (&lt;Option.SAVE: 16&gt;, &#39;SAVE&#39;, 16)]</span>
+</span><span id="__span-4-28"><a id="__codelineno-4-28" name="__codelineno-4-28" href="#__codelineno-4-28"></a>
+</span><span id="__span-4-29"><a id="__codelineno-4-29" name="__codelineno-4-29" href="#__codelineno-4-29"></a><span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">Option</span><span class="o">.</span><span class="n">__members__</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+</span><span id="__span-4-30"><a id="__codelineno-4-30" name="__codelineno-4-30" href="#__codelineno-4-30"></a>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s2"> = </span><span class="si">{</span><span class="n">v</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="n">v</span><span class="o">.</span><span class="n">value</span><span class="si">:</span><span class="s2">08b</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
+</span><span id="__span-4-31"><a id="__codelineno-4-31" name="__codelineno-4-31" href="#__codelineno-4-31"></a><span class="c1">## NONE = 0 (00000000)</span>
+</span><span id="__span-4-32"><a id="__codelineno-4-32" name="__codelineno-4-32" href="#__codelineno-4-32"></a><span class="c1">## TRACE = 1 (00000001)</span>
+</span><span id="__span-4-33"><a id="__codelineno-4-33" name="__codelineno-4-33" href="#__codelineno-4-33"></a><span class="c1">## DEBUG = 2 (00000010)</span>
+</span><span id="__span-4-34"><a id="__codelineno-4-34" name="__codelineno-4-34" href="#__codelineno-4-34"></a><span class="c1">## VERBOSE = 4 (00000100)</span>
+</span><span id="__span-4-35"><a id="__codelineno-4-35" name="__codelineno-4-35" href="#__codelineno-4-35"></a><span class="c1">## SILENT = 8 (00001000)</span>
+</span><span id="__span-4-36"><a id="__codelineno-4-36" name="__codelineno-4-36" href="#__codelineno-4-36"></a><span class="c1">## SAVE = 16 (00010000)</span>
+</span><span id="__span-4-37"><a id="__codelineno-4-37" name="__codelineno-4-37" href="#__codelineno-4-37"></a>
+</span><span id="__span-4-38"><a id="__codelineno-4-38" name="__codelineno-4-38" href="#__codelineno-4-38"></a><span class="c1"># Compose options:</span>
+</span><span id="__span-4-39"><a id="__codelineno-4-39" name="__codelineno-4-39" href="#__codelineno-4-39"></a><span class="n">opt1</span> <span class="o">=</span> <span class="n">Option</span><span class="o">.</span><span class="n">TRACE</span> <span class="o">|</span> <span class="n">Option</span><span class="o">.</span><span class="n">VERBOSE</span>
+</span><span id="__span-4-40"><a id="__codelineno-4-40" name="__codelineno-4-40" href="#__codelineno-4-40"></a><span class="c1"># Combined flags produce symbolic names, not just numbers:</span>
+</span><span id="__span-4-41"><a id="__codelineno-4-41" name="__codelineno-4-41" href="#__codelineno-4-41"></a><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">opt1</span><span class="w"> </span><span class="si">= }</span><span class="s2"> (</span><span class="si">{</span><span class="n">opt1</span><span class="o">.</span><span class="n">value</span><span class="si">:</span><span class="s2">08b</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
+</span><span id="__span-4-42"><a id="__codelineno-4-42" name="__codelineno-4-42" href="#__codelineno-4-42"></a><span class="c1">## opt1 = &lt;Option.TRACE|VERBOSE: 5&gt; (00000101)</span>
+</span><span id="__span-4-43"><a id="__codelineno-4-43" name="__codelineno-4-43" href="#__codelineno-4-43"></a><span class="n">opt2</span> <span class="o">=</span> <span class="n">opt1</span> <span class="o">|</span> <span class="n">Option</span><span class="o">.</span><span class="n">SAVE</span>
+</span><span id="__span-4-44"><a id="__codelineno-4-44" name="__codelineno-4-44" href="#__codelineno-4-44"></a><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">opt2</span><span class="w"> </span><span class="si">= }</span><span class="s2"> (</span><span class="si">{</span><span class="n">opt2</span><span class="o">.</span><span class="n">value</span><span class="si">:</span><span class="s2">08b</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
+</span><span id="__span-4-45"><a id="__codelineno-4-45" name="__codelineno-4-45" href="#__codelineno-4-45"></a><span class="c1">## opt2 = &lt;Option.TRACE|VERBOSE|SAVE: 21&gt; (00010101)</span>
+</span><span id="__span-4-46"><a id="__codelineno-4-46" name="__codelineno-4-46" href="#__codelineno-4-46"></a>
+</span><span id="__span-4-47"><a id="__codelineno-4-47" name="__codelineno-4-47" href="#__codelineno-4-47"></a><span class="c1"># Membership:</span>
+</span><span id="__span-4-48"><a id="__codelineno-4-48" name="__codelineno-4-48" href="#__codelineno-4-48"></a><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">Option</span><span class="o">.</span><span class="n">TRACE</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">opt2</span><span class="w"> </span><span class="si">= }</span><span class="s2">&quot;</span><span class="p">)</span>
+</span><span id="__span-4-49"><a id="__codelineno-4-49" name="__codelineno-4-49" href="#__codelineno-4-49"></a><span class="c1">## Option.TRACE in opt2 = True</span>
+</span><span id="__span-4-50"><a id="__codelineno-4-50" name="__codelineno-4-50" href="#__codelineno-4-50"></a><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">Option</span><span class="o">.</span><span class="n">VERBOSE</span><span class="w"> </span><span class="ow">not</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">opt2</span><span class="w"> </span><span class="si">= }</span><span class="s2">&quot;</span><span class="p">)</span>
+</span><span id="__span-4-51"><a id="__codelineno-4-51" name="__codelineno-4-51" href="#__codelineno-4-51"></a><span class="c1">## Option.VERBOSE not in opt2 = False</span>
+</span><span id="__span-4-52"><a id="__codelineno-4-52" name="__codelineno-4-52" href="#__codelineno-4-52"></a>
+</span><span id="__span-4-53"><a id="__codelineno-4-53" name="__codelineno-4-53" href="#__codelineno-4-53"></a><span class="c1"># Bitwise AND: what options are present in both:</span>
+</span><span id="__span-4-54"><a id="__codelineno-4-54" name="__codelineno-4-54" href="#__codelineno-4-54"></a><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">opt2</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">Option</span><span class="o">.</span><span class="n">VERBOSE</span><span class="w"> </span><span class="si">= }</span><span class="s2">&quot;</span><span class="p">)</span>
+</span><span id="__span-4-55"><a id="__codelineno-4-55" name="__codelineno-4-55" href="#__codelineno-4-55"></a><span class="c1">## opt2 &amp; Option.VERBOSE = &lt;Option.VERBOSE: 4&gt;</span>
+</span><span id="__span-4-56"><a id="__codelineno-4-56" name="__codelineno-4-56" href="#__codelineno-4-56"></a><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">opt2</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">Option</span><span class="o">.</span><span class="n">DEBUG</span><span class="w"> </span><span class="si">= }</span><span class="s2">&quot;</span><span class="p">)</span>
+</span><span id="__span-4-57"><a id="__codelineno-4-57" name="__codelineno-4-57" href="#__codelineno-4-57"></a><span class="c1">## opt2 &amp; Option.DEBUG = &lt;Option.NONE: 0&gt;</span>
+</span><span id="__span-4-58"><a id="__codelineno-4-58" name="__codelineno-4-58" href="#__codelineno-4-58"></a>
+</span><span id="__span-4-59"><a id="__codelineno-4-59" name="__codelineno-4-59" href="#__codelineno-4-59"></a><span class="c1"># Equivalence:</span>
+</span><span id="__span-4-60"><a id="__codelineno-4-60" name="__codelineno-4-60" href="#__codelineno-4-60"></a><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="p">(</span><span class="n">opt2</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">Option</span><span class="o">.</span><span class="n">SAVE</span><span class="p">)</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">Option</span><span class="o">.</span><span class="n">NONE</span><span class="w"> </span><span class="si">= }</span><span class="s2">&quot;</span><span class="p">)</span>
+</span><span id="__span-4-61"><a id="__codelineno-4-61" name="__codelineno-4-61" href="#__codelineno-4-61"></a><span class="c1">## (opt2 &amp; Option.SAVE) != Option.NONE = True</span>
+</span><span id="__span-4-62"><a id="__codelineno-4-62" name="__codelineno-4-62" href="#__codelineno-4-62"></a>
+</span><span id="__span-4-63"><a id="__codelineno-4-63" name="__codelineno-4-63" href="#__codelineno-4-63"></a><span class="c1"># Bitwise XOR: what options are missing from opt2:</span>
+</span><span id="__span-4-64"><a id="__codelineno-4-64" name="__codelineno-4-64" href="#__codelineno-4-64"></a><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Missing: </span><span class="si">{</span><span class="n">Option</span><span class="o">.</span><span class="n">all</span><span class="p">()</span><span class="w"> </span><span class="o">^</span><span class="w"> </span><span class="n">opt2</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</span><span id="__span-4-65"><a id="__codelineno-4-65" name="__codelineno-4-65" href="#__codelineno-4-65"></a><span class="c1">## Missing: Option.DEBUG|SILENT</span>
 </span></code></pre></div>
-<p>At the time of writing, this feature is supported by type checkers such as Pyright and Mypy.
-However, full runtime support in CPython is still rolling out.
-For maximum compatibility, we recommend using IntEnum and StrEnum for type-safe enums until full support stabilizes.</p>
 <h2 id="_2">...<a class="headerlink" href="#_2" title="Permanent link">#</a></h2>
 <h2 id="type-safe-dates">Type Safe Dates<a class="headerlink" href="#type-safe-dates" title="Permanent link">#</a></h2>
 <p>This example uses data classes, <code>Enum</code>s, and type safety principles.
@@ -1236,7 +1337,7 @@ Because it's a frozen data class, it cannot be made invalid after creation.</p>
 </span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="kn">from</span> <span class="nn">month_value</span> <span class="kn">import</span> <span class="n">MonthValue</span>
 </span><span id="__span-6-6"><a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a>
 </span><span id="__span-6-7"><a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a>
-</span><span id="__span-6-8"><a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a><span class="k">class</span> <span class="nc">Month</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>  <span class="c1"># Enum[MonthValue]</span>
+</span><span id="__span-6-8"><a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a><span class="k">class</span> <span class="nc">Month</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
 </span><span id="__span-6-9"><a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a>    <span class="n">JANUARY</span> <span class="o">=</span> <span class="n">MonthValue</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">31</span><span class="p">)</span>
 </span><span id="__span-6-10"><a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a>    <span class="n">FEBRUARY</span> <span class="o">=</span> <span class="n">MonthValue</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">28</span><span class="p">)</span>
 </span><span id="__span-6-11"><a id="__codelineno-6-11" name="__codelineno-6-11" href="#__codelineno-6-11"></a>    <span class="n">MARCH</span> <span class="o">=</span> <span class="n">MonthValue</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">31</span><span class="p">)</span>
