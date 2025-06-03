@@ -39,7 +39,8 @@ nav:
   - '11: Structural Typing': C11_Structural_Typing.md
   - '12: Make Illegal Types Unrepresentable': C12_Make_Illegal_Types_Unrepresentable.md
   - '13: Errors as Values': C13_Errors_as_Values.md
-  - '14: Advanced Generics': C14_Advanced_Generics.md
+  - '14: Async Types': C14_Async_Types.md
+  - '15: Advanced Generics': C15_Advanced_Generics.md
   - 'A1: Quick Reference': Z01_Appendix_Quick_Reference.md
   - 'A2: Reference': Z02_Appendix_Reference.md
   - 'A3: Guidelines': Z03_Appendix_Guidelines.md

@@ -152,14 +152,14 @@ Common uses of the wildcard pattern include:
 
 ```python
 # wildcard_final_case.py
-def wildcard(status):
+def wildcard(status) -> str:
     match status:
         case 200:
-            message = "OK"
+            return "OK"
         case 404:
-            message = "Not Found"
+            return "Not Found"
         case _:
-            message = "Unknown"  # `_` matches anything not matched above
+            return "Unknown"  # `_` matches anything not matched above
 ```
 
 - Ignoring one or more elements in a sequence pattern:
@@ -299,7 +299,6 @@ However, we can put an annotation on the argument (`values`) passed to the `matc
 
 ```python
 # subject_annotations.py
-from typing import Tuple
 
 
 def subject_annotation(*values: int) -> None:
@@ -620,11 +619,11 @@ For example, if you do:
 def type_narrowing(data: int | float | str):
     match data:
         case int(x) | float(x):
-            ...
             # handle as numeric (x will be int or float here)
+            print(f"numeric {x}")
         case str(s):
-            ...
             # handle as string
+            print(f"string {s}")
 ```
 
 Here `int(x) | float(x)` uses two class patterns in an OR.
@@ -825,6 +824,7 @@ def narrow(obj):
         case list as lst if all(isinstance(x, int) for x in lst):
             # Here, lst is a list and we asserted all elements are int.
             total: int = sum(lst)
+            print(list, total)
 ```
 
 In this contrived example, the guard ensures every element in the list is int, so inside the case it might be safe to treat it as `list[int]`.

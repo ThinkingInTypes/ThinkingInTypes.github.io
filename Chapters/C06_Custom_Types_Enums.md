@@ -428,8 +428,6 @@ The `Month(Enum)` will hold `MonthValue`s, each of which holds its month's numbe
 ```python
 # month_value.py
 from dataclasses import dataclass
-from enum import Enum
-from typing import Self
 
 
 @dataclass(frozen=True)

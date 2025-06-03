@@ -74,7 +74,6 @@ Here's a generic class `Box` that can hold a value of any type:
 ```python
 # box.py
 from dataclasses import dataclass
-from typing_extensions import reveal_type
 
 
 @dataclass
