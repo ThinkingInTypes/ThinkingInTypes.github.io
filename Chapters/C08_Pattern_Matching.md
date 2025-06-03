@@ -26,6 +26,8 @@ match status:
         result = "Not Found"
     case _:
         result = "Unknown status"
+print(result)
+## Not Found
 ```
 
 The cases `200` and `404` are literal patterns.
@@ -36,7 +38,10 @@ If `status` had been something else, the wildcard `_` would catch it as a defaul
 Most literal constants match by equality.
 However, Python's three singletons--`True`, `False`, and `None`--are matched by identity (i.e., the subject _is_ that object).
 This distinction rarely matters in practice (since there's only one `True` etc.), but it's a defined part of the rules.
-You can also combine multiple literals in one pattern using the OR operator `|` to match any of several constants (e.g., `case 401 | 403 | 404:` to handle multiple error codes in one branch).
+You can also combine multiple literals in one pattern using the OR operator `|` to match any of several constants
+(e.g., `case 401 | 403 | 404:` to handle multiple error codes in one branch).
+
+## Enum Patterns
 
 You'll often want to match against a constant defined elsewhere, such as an enumeration member or a module-level constant.
 In pattern matching, a bare name is treated as a _capture variable_, not a constant.
@@ -45,34 +50,38 @@ Named constants must appear as dotted names (or attributes) in patterns.
 For example, to match an `Enum` member:
 
 ```python
-# colors.py
-from enum import Enum
+# traffic_light.py
+from enum import Enum, auto
 
 
-class Color(Enum):
-    RED = 1
-    GREEN = 2
-    BLUE = 3
+class TrafficLight(Enum):
+    RED = auto()
+    YELLOW = auto()
+    GREEN = auto()
+
+
+def action(light: TrafficLight) -> str:
+    match light:
+        case TrafficLight.RED:
+            return "Stop now"
+        case TrafficLight.YELLOW:
+            return "Proceed with caution"
+        case TrafficLight.GREEN:
+            return "Go"
+        case _:  # Should not need this (exhaustivity)
+            return "Unknown state"
+
+
+for light in TrafficLight:
+    print(f"{light.name}: {action(light)}")
+## RED: Stop now
+## YELLOW: Proceed with caution
+## GREEN: Go
 ```
 
-```python
-# color_match.py
-from colors import Color
-
-color = Color.GREEN
-match color:
-    case Color.RED:
-        print("color is red!")
-    case Color.GREEN:
-        print("color is green!")
-    case Color.BLUE:
-        print("color is blue!")
-## color is green!
-```
-
-Here `Color.RED` etc. are dotted names, so the pattern treats them as specific constant values rather than capturing new variables named `RED`, `GREEN`, `BLUE`.
-This will correctly match the enum value in `color`.
-Using the un-dotted `RED` instead of `Color.RED` makes it a capture pattern.
+Here `TrafficLight.RED` etc. are dotted names, so the pattern treats them as specific constant values rather than capturing new variables named `RED`, `GREEN`, `BLUE`.
+This will correctly match the enum value in `light`.
+Using the un-dotted `RED` instead of `TrafficLight.RED` makes it a capture pattern.
 
 Literal patterns work well with type annotations for `Literal` types and `Enum`s.
 If a variable is annotated with a union of literal values or an `Enum` type, a series of literal `case` clauses can cover all possibilities.
@@ -80,7 +89,7 @@ If a variable is annotated with a union of literal values or an `Enum` type, a s
 Static type checkers can perform _exhaustiveness checking_ on `match` statements.
 This means if you forget to handle one of the specified values, the type checker can warn you.
 For instance, if `status` was of type `Literal[200, 404]`, the checker would expect all those values to be matched.
-With the `Color` enum, checkers know there are three members and can report an error if you omit a case.
+With the `TrafficLight` enum, checkers know there are three members and can report an error if you omit a case.
 
 ## Capture Patterns
 
@@ -693,15 +702,30 @@ For example:
 
 ```python
 # example_16.py
-from colors import Color
+from enum import Enum
+
+
+class Color(Enum):
+    RED = 1
+    GREEN = 2
+    BLUE = 3
 
 
 def handle_color(color: Color):
     match color:
         case Color.RED | Color.GREEN | Color.BLUE:
-            ...  # handle known colors
-        case _ as unknown:
-            raise ValueError(f"Unknown color: {unknown}")
+            print(f"Color is {color.name.lower()}")
+        # Exhaustiveness produces: "code is unreachable":
+        # // Need a different example
+        # case _ as unknown:
+        #     raise ValueError(f"Unknown color: {unknown}")
+
+
+for color in Color:
+    handle_color(color)
+## Color is red
+## Color is green
+## Color is blue
 ```
 
 Here, `_ as unknown` catches anything not handled and gives it the name `unknown` so we can include it in the error message.
@@ -728,10 +752,10 @@ For example, suppose we want to match a pair of numbers but only if they satisfy
 pair = (5, 5)
 match pair:
     case (x, y) if x == y:
-        print("The two values are equal.")
+        print("Values are equal.")
     case (x, y):
-        print("The values are different.")
-## The two values are equal.
+        print("Values are different.")
+## Values are equal.
 ```
 
 Here the first case is a sequence pattern `(x, y)` with a guard `if x == y`.
