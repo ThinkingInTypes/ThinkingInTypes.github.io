@@ -417,6 +417,8 @@ The Python interpreter and core type checkers mostly ignore the second argument 
 
 ### Type Guards (PEP 647)
 
+// https://typing.python.org/en/latest/guides/modernizing.html#typing-typeguard
+
 A _type guard_ is a special kind of function that informs the type checker of a type refinement.
 Introduced in Python 3.10, `typing.TypeGuard` is used as a return annotation on a boolean function to indicate that if the function returns True, its argument is of a certain type.
 For example:

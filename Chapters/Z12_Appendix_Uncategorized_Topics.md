@@ -60,6 +60,9 @@ Custom type guards offer explicit ways to narrow types more clearly:
 
 ### Custom type guard functions (Python 3.10+)
 
+// Don't use TypeGuard
+// https://typing.python.org/en/latest/guides/modernizing.html#typing-typeguard
+
 ```python
 # example_6.py
 from typing import TypeGuard

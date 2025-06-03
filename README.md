@@ -29,6 +29,7 @@
 ## Notes
 
 - Add an appendix on hashing?
+- Don't use TypeGuard: https://typing.python.org/en/latest/guides/modernizing.html#typing-typeguard
 
 ## TODO
 
