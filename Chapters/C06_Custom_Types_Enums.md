@@ -274,6 +274,125 @@ print(f"Missing: {Option.all() ^ opt2}")
 ## Missing: Option.DEBUG|SILENT
 ```
 
+### IntFlag
+
+```python
+# intflag_vs_flag.py
+from enum import Flag, IntFlag, auto
+
+from book_utils import Catch
+
+
+class Flags(Flag):
+    FIRST = auto()
+    SECOND = auto()
+    THIRD = auto()
+
+
+class IntFlags(IntFlag):
+    FIRST = auto()
+    SECOND = auto()
+    THIRD = auto()
+
+
+# Both auto-assign powers of two:
+for k, v in Flags.__members__.items():
+    print(f"{k} = {v.value} ({v.value:08b})")
+## FIRST = 1 (00000001)
+## SECOND = 2 (00000010)
+## THIRD = 4 (00000100)
+
+defined = 3  # FIRST | SECOND
+undefined = 903
+
+# Both succeed:
+print(f"{IntFlags(defined) = }")
+## IntFlags(defined) = <IntFlags.FIRST|SECOND: 3>
+print(f"{Flags(defined) = }")
+## Flags(defined) = <Flags.FIRST|SECOND: 3>
+
+# IntFlags accepts any value:
+print(f"{IntFlags(undefined) = }")
+## IntFlags(undefined) = <IntFlags.FIRST|SECOND|THIRD|896: 903>
+
+# Flags requires defined value:
+with Catch():
+    Flags(undefined)
+## Error: <flag 'Flags'> invalid value 903
+##     given 0b0 1110000111
+##   allowed 0b0 0000000111
+```
+
+`IntFlag` accepts any integer.
+It decomposes the known parts (`FIRST | SECOND`) and just keeps the remaining bits as numeric.
+
+`Flag` is strict.
+It checks whether any bits are unknown (not part of `FIRST` or `SECOND`).
+Since `903` contains unknown bits, it fails.
+
+### Ensuring Uniqueness
+
+```python
+# unique_values.py
+# pyright: reportArgumentType=false
+from enum import Enum, unique
+
+from book_utils import Catch
+
+with Catch():
+
+    @unique
+    class Color(Enum):
+        RED = 1
+        GREEN = 2
+        BLUE = 3
+        DUPLICATE = 3
+## Error: duplicate values found in <enum 'Color'>: DUPLICATE ->
+## BLUE
+```
+
+### Ensuring Continuous Values
+
+```python
+# continuous_values.py
+# pyright: reportArgumentType=false
+from enum import Enum, EnumCheck
+
+# CONTINUOUS Not implemented yet
+class Status(Enum, boundary=EnumCheck.CONTINUOUS):
+    OK = 1
+    WARNING = 2
+    ERROR = 3
+    MISSING = 5  # error: gap
+```
+
+### Ensuring Bitwise Combinations
+
+We can ensure that all possible bitwise combinations of flags have a name.
+This helps ensure that your flags are fully named even for combinations.
+
+```python
+# all_combinations.py
+# pyright: reportArgumentType=false
+from enum import Flag, EnumCheck, auto
+
+
+class AllFlags(Flag, boundary=EnumCheck.NAMED_FLAGS):
+    FIRST = auto()  # 1
+    SECOND = auto()  # 2
+    THIRD = auto()  # 4
+    ALL = FIRST | SECOND | THIRD  # 7
+
+
+# NAMED_FLAGS not implemented yet
+class Missing(Flag, boundary=EnumCheck.NAMED_FLAGS):
+    FIRST = auto()
+    SECOND = auto()
+    THIRD = auto()
+```
+
+This feature is primarily useful for Flag or IntFlag.
+
 ## ...
 
 ## Type Safe Dates
