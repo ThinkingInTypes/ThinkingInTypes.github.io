@@ -490,11 +490,32 @@
   
   
     <li class="md-nav__item">
-      <a href="../C14_Advanced_Generics/" class="md-nav__link">
+      <a href="../C14_Async_Types/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    14: Advanced Generics
+    14: Async Types
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../C15_Advanced_Generics/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    15: Advanced Generics
     
   </span>
   
@@ -2008,6 +2029,7 @@ This metadata can be used by frameworks or tools at runtime or by linters for ad
 For instance, one can annotate a type with a range, as in <code>Annotated[int, Between(0, 100)]</code> to indicate an <code>int</code> that should lie between 0 and 100.
 The Python interpreter and core type checkers mostly ignore the second argument of <code>Annotated</code> (they treat the variable as just type <code>T</code>), but specific libraries can inspect it.</p>
 <h3 id="type-guards-pep-647">Type Guards (PEP 647)<a class="headerlink" href="#type-guards-pep-647" title="Permanent link">#</a></h3>
+<p>// https://typing.python.org/en/latest/guides/modernizing.html#typing-typeguard</p>
 <p>A <em>type guard</em> is a special kind of function that informs the type checker of a type refinement.
 Introduced in Python 3.10, <code>typing.TypeGuard</code> is used as a return annotation on a boolean function to indicate that if the function returns True, its argument is of a certain type.
 For example:</p>

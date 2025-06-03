@@ -699,11 +699,32 @@
   
   
     <li class="md-nav__item">
-      <a href="../C14_Advanced_Generics/" class="md-nav__link">
+      <a href="../C14_Async_Types/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    14: Advanced Generics
+    14: Async Types
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../C15_Advanced_Generics/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    15: Advanced Generics
     
   </span>
   
@@ -1824,7 +1845,7 @@ that allows fine-tuning of instances behavior.</p>
 </span><span id="__span-14-104"><a id="__codelineno-14-104" name="__codelineno-14-104" href="#__codelineno-14-104"></a><span class="k">def</span> <span class="nf">location_info</span><span class="p">(</span><span class="n">p</span><span class="p">:</span> <span class="n">Person</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 </span><span id="__span-14-105"><a id="__codelineno-14-105" name="__codelineno-14-105" href="#__codelineno-14-105"></a>    <span class="k">match</span> <span class="n">p</span><span class="p">:</span>
 </span><span id="__span-14-106"><a id="__codelineno-14-106" name="__codelineno-14-106" href="#__codelineno-14-106"></a>        <span class="k">case</span><span class="w"> </span><span class="n">Person</span><span class="p">(</span><span class="k">_</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">Address</span><span class="p">(</span><span class="n">_</span><span class="p">,</span> <span class="n">city</span><span class="o">=</span><span class="s2">&quot;Springfield&quot;</span><span class="p">)):</span>
-</span><span id="__span-14-107"><a id="__codelineno-14-107" name="__codelineno-14-107" href="#__codelineno-14-107"></a>            <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;Resident of Springfield&quot;</span>
+</span><span id="__span-14-107"><a id="__codelineno-14-107" name="__codelineno-14-107" href="#__codelineno-14-107"></a>            <span class="k">return</span> <span class="s2">&quot;Resident of Springfield&quot;</span>
 </span><span id="__span-14-108"><a id="__codelineno-14-108" name="__codelineno-14-108" href="#__codelineno-14-108"></a>        <span class="k">case</span><span class="w"> </span><span class="n">Person</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="k">_</span><span class="p">,</span> <span class="n">Address</span><span class="p">(</span><span class="n">street</span><span class="p">,</span> <span class="n">city</span><span class="p">)):</span>
 </span><span id="__span-14-109"><a id="__codelineno-14-109" name="__codelineno-14-109" href="#__codelineno-14-109"></a>            <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2"> lives at </span><span class="si">{</span><span class="n">street</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">city</span><span class="si">}</span><span class="s2">&quot;</span>
 </span><span id="__span-14-110"><a id="__codelineno-14-110" name="__codelineno-14-110" href="#__codelineno-14-110"></a>        <span class="k">case</span><span class="w"> </span><span class="k">_</span><span class="p">:</span>
