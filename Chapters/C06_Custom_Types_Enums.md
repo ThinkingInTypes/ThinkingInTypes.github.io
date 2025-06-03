@@ -202,6 +202,24 @@ class Status(StrEnum):
     RETRY = "again!"
 ```
 
+```python
+# enum_str_auto.py
+from enum import StrEnum, auto
+
+
+class Pets(StrEnum):
+    DOG = auto()
+    CAT = auto()
+    HAMSTER = auto()
+
+
+for p in Pets:
+    print(f"{p.name = }: {p.value = }")
+## p.name = 'DOG': p.value = 'dog'
+## p.name = 'CAT': p.value = 'cat'
+## p.name = 'HAMSTER': p.value = 'hamster'
+```
+
 Many Python libraries (including modern web frameworks) use str-based Enums for dot-completion and clearer external representation.
 
 ## Flag Enums
@@ -357,6 +375,7 @@ with Catch():
 # continuous_values.py
 # pyright: reportArgumentType=false
 from enum import Enum, EnumCheck
+
 
 # CONTINUOUS Not implemented yet
 class Status(Enum, boundary=EnumCheck.CONTINUOUS):
