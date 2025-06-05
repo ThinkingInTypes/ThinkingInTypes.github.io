@@ -1,6 +1,6 @@
 # Appendix: Uncategorized Topics
 
-These need to appear somewhere...
+These should appear somewhere...
 
 ## `Annotated` for Metadata
 

@@ -4,7 +4,7 @@ Built-in types are extremely useful (I'm including all the types in the standard
 but the real programming power comes by creating user-defined types, which we shall call _custom types_.
 The remainder of this book will primarily focus on various ways to create and use custom types.
 
-One of the biggest benefits of custom types is that they allow you to create types that reflect entities in your problem domain.
+One of the biggest benefits of custom types is that they create types that reflect entities in your problem domain.
 The book _Domain-Driven Design_ by Eric Evans explores problem-domain modeling to discover the types in your system.
 
 ## Ensuring Correctness
@@ -282,7 +282,7 @@ def f2(stars: Stars) -> Stars:
 ```
 
 Now `f1` and `f2` will produce an error if you try to pass them an `int`; they only accept `Stars`.
-Note that `NewType` generates a constructor for `Stars`, which we need to return `Stars` objects.
+Note that `NewType` generates a constructor for `Stars`, which we use to return `Stars` objects.
 The validation code remains the same, because `Stars` _is_ an `int`.
 However, we still need the validation code.
 To improve the design, we require a more powerful technique.
@@ -657,7 +657,7 @@ with Catch():
 ## Error: Stars(number=99)
 ```
 
-Now `f1` and `f2` no longer need to do any validation testing on `Stars`, because it is impossible to create an invalid `Stars` object.
+Now `f1` and `f2` no longer need validation testing on `Stars`, because it is impossible to create an invalid `Stars` object.
 Note that you can still take a `Stars` and modify it so it becomes invalid; we shall address this in the next chapter.
 
 ### Initializers
@@ -769,7 +769,7 @@ Invalid data never propagates, vastly simplifying subsequent interactions.
 
 ### `InitVar`
 
-`dataclasses.InitVar` allows you to define fields that are only used during initialization but are not stored as attributes of the data class object.
+`dataclasses.InitVar` defines fields that are only used during initialization but are not stored as attributes of the data class object.
 `InitVar` fields are passed as parameters to the `__init__` method and can be used within the `__post_init__` method for additional initialization logic.
 They are not considered regular fields of the data class and are not included in the output of functions like `fields()`.
 

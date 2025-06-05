@@ -75,7 +75,7 @@ In short, use `# noqa` to silence specific linter errors on a line (or none afte
 
 ## Combining Directives
 
-Sometimes you need to silence both a type checker and a linter on one line.
+You'll sometimes want to silence both a type checker and a linter on one line.
 In that case you can chain the comments.
 For example, to please both Mypy and Ruff, do:
 

@@ -71,11 +71,15 @@ Path as an example of a type (you don't typically inherit it)
 
 Assumptions I make about your Python & programming knowledge.
 
+If you are interested in types, I assume you're the kind of person who uses the latest version of Python.
+This book targets Python 3.14, the latest version available at the time of writing.
+It only shows the latest/most modern features, and doesn't cover older feature styles.
+
 ### Your Python Knowledge
 
-- You have intermediate-level understanding of the language, including a reasonable grasp of classes
-- You understand core language features and know how to look up and learn features you haven't seen
-- I will explain things I think are outside the core
+- You have intermediate-level understanding of the language, including a reasonable grasp of classes.
+- You understand core language features and know how to look up and learn features you haven't seen.
+- I will explain things I think are outside the core.
 
 ### This book uses
 
@@ -95,7 +99,7 @@ Assumptions I make about your Python & programming knowledge.
 - Classes are for creating types.
   As much as possible, pretend inheritance doesn't exist.
 - Performance issues can be solved (sometimes by converting types or functions to Rust)
-- Minimize Hungarian notation: a typed identifier name does not need to include the type information in its name.
+- Minimize Hungarian notation: a typed identifier name does not need the type information in its name.
 
 ### Examples
 

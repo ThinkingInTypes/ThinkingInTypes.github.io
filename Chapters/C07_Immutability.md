@@ -92,7 +92,7 @@ These provide a more formal way to achieve immutability beyond just convention.
 ## Using `Final` for Constants and Immutable References
 
 Python 3.8 introduced the `Final` qualifier.
-`Final` allows you to declare that a name--whether a module-level variable, a class attribute, or an instance
+`Final` declares that a name--whether a module-level variable, a class attribute, or an instance
 attribute--cannot be reassigned after initialization.
 This is a purely static indication; it's enforced by the type checker but not by the Python runtime.
 
@@ -112,7 +112,7 @@ MAX_CONNECTIONS: Final = 100  # type inferred as int
 Here, `PI` and `MAX_CONNECTIONS` are marked as `Final`, signaling that these names should never be re-bound to a new
 value.
 A type checker will enforce this.
-If later in the code you attempt to do `PI = 3.14` (reassigning the constant), the type checker will emit an error, e.g.
+If later in the code you attempt `PI = 3.14` (reassigning the constant), the type checker will emit an error, e.g.
 "Error: can't assign to final attribute."
 The same goes for changing `MAX_CONNECTIONS`.
 The Python interpreter itself will not stop you from doing this reassignment, but using `Final` elevates the constant
@@ -481,7 +481,7 @@ In a regular (mutable) dataclass, it's common to use a `__post_init__` method to
 validation after the auto-generated `__init__` has run.
 With frozen dataclasses, however, you must be careful: by the time `__post_init__` executes, the `__setattr__` override
 that enforces immutability is already in place.
-Any attempt to do `self.field = value` in `__post_init__` will trigger a `FrozenInstanceError` just like an outside
+Any attempt to set `self.field = value` in `__post_init__` will trigger a `FrozenInstanceError` just like an outside
 assignment would (because internally it uses the same attribute-setting mechanism).
 
 So how can we set up derived fields or perform adjustments in `__post_init__` for a frozen class?

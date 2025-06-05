@@ -351,7 +351,8 @@ Just like a Smalltalk browser, we inspect our object's current interface and sta
 
 You _must_ make your new class a "type of" the base class, and all that entails, including overriding methods you don't care about.
 Your new class _belongs_ to the base class, but with composition, the member object belongs to your new class.
-With composition, the object does what you want it to do, with inheritance, you must do what the base class wants you to do.
+
+> With composition, the object does what _you_ want, but with inheritance, you must do what the base class wants.
 
 Arguably the only success story, Ruby, is a kind of Smalltalk.
 
@@ -477,7 +478,7 @@ There is a lot of trust and convention involved--but it's trust backed by the ab
 
 Smalltalk's development environment is a persistent image of objects, where you can test sending messages in a Workspace or inspect an object's class and methods on the fly.
 This means that if you're unsure about what messages an object supports, you can literally ask the object or its class at runtime.
-The system can list an object's method selectors or let you browse its class hierarchy.
+The system can list an object's method selectors or browse its class hierarchy.
 This introspective capability (made possible because everything is alive in the image) gives you a form of "live documentation."
 A Smalltalk system is an ecosystem of live objects.
 You can query the running program directly, rather than rely solely on static type information.

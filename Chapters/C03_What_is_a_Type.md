@@ -57,7 +57,8 @@ Let's unpack what that means and the pros and cons of each approach.
   If you attempt an invalid operation, like adding a number to a string, a compile-time error is raised and the program won't run until the error is fixed.
   In short, static type checking finds type errors by analyzing the program's source code before execution.
   This early detection can prevent many runtime errors.
-  Static typing can also enable performance optimizations, since knowing the types in advance allows the compiler to produce more efficient machine code (for example, it doesn't need to check types
+  Static typing can also enable performance optimizations,
+- since knowing the types in advance allows the compiler to produce more efficient machine code (for example, it doesn't need to check types
   during each operation at runtime).
 
 - **Dynamically Typed Languages:** In a dynamically typed language, the variable type is allowed to change over its lifetime, and type checks are done at runtime.
@@ -223,7 +224,7 @@ def greet2(name: str) -> str:
 
 In the second version, the `str` in `name: str` and `-> str` is a type annotation.
 It indicates that `name` should be a string, and that the function returns a string.
-If you run this code, Python will not enforce that `name` is a string--if you pass an integer, it will still run, and likely error out only when it tries to do `"Hello, " + 5`.
+If you run this code, Python will not enforce that `name` is a string--if you pass an integer, it will still run, and likely error out only when it tries to execute `"Hello, " + 5`.
 In other words, type annotations don't make Python statically typed.
 They are metadata attached to the functions and variables.
 The official Python documentation makes this clear: the Python runtime does not enforce function and variable type annotations; they are meant to be used by third-party tools (like type checkers,
@@ -405,7 +406,7 @@ Two of the most popular type checking tools for Python are MyPy and PyRight.
   Mypy reads your `.py` files, interprets the type annotations, and reports any inconsistencies or errors.
   For example, if you have `def func(x: int) -> None:` and somewhere you call `func("hello")`, mypy will catch that and report an error.
   Mypy aims to be strict and thorough, catching subtle issues (it even tries to infer types of variables where possible and can warn if you, say, add a string and int without any annotations given, etc.).
-  The philosophy of mypy is to let you start with little to no annotations and gradually add them--it will treat unannotated code as basically `Any` types by default (which don't produce errors), and
+  The philosophy of mypy is to start with little to no annotations and gradually add them--it will treat unannotated code as basically `Any` types by default (which don't produce errors), and
   as you add annotations, it will enforce them.
   As the official mypy documentation states, it "is an optional static type checker for Python that aims to combine the benefits of dynamic (or 'duck') typing and static typing."
   You can run mypy as part of your development or CI (Continuous Integration) to prevent type regressions in a codebase.
@@ -425,7 +426,8 @@ Two of the most popular type checking tools for Python are MyPy and PyRight.
 Both mypy and PyRight adhere to Python's typing rules (PEP 484 and successors) pretty closely.
 There are some minor differences and configuration options (for example, how strict they are about certain default behaviors, or handling of untyped code).
 Some teams use one, some use the other, and some even use both (one as an editor linter for speed, another as a final check in CI for thoroughness).
-The good news is you don't need to lock yourself in--you can try them out and see which fits your workflow.
+The good news is there's no lock-in.
+You can try them out and see which fits your workflow.
 
 Aside from mypy and PyRight, there are other tools worth mentioning:
 
@@ -485,7 +487,7 @@ Let's clearly distinguish between runtime type checking and static type checking
 
 - **Runtime Type Checking:** This is what Python does natively.
   The interpreter checks types on the fly as operations are executed.
-  If you try to do something invalid (like call a method that doesn't exist or use an operator on incompatible types), Python will raise an error at that moment.
+  If you try something invalid (like call a method that doesn't exist or use an operator on incompatible types), Python will raise an error at that moment.
   For example, if you do `3 + "3"`, Python immediately raises a `TypeError` when it hits that line, because it finds an integer and a string and doesn't know how to add them.
   Another example: calling `quacks(42)` in the earlier duck typing example raised an `AttributeError` at runtime, because 42 didn't have the required method.
   Runtime type checking is built into the language's operations.
@@ -511,7 +513,7 @@ In those cases, you can often adjust your type annotations or use casts/`# type:
 This disconnect between static analysis and running code is something to be aware of--it's the price of keeping the type system optional.
 A quote from Python's documentation highlights this separation: \_"The Python runtime does not enforce function and variable type annotations.
 They can be used by third party tools such as type checkers, IDEs, linters, etc."
-In other words, if you want enforcement of those annotations, you need to use a tool (or implement your own checks).
+In other words, if you want enforcement of those annotations, use a tool (or implement your own checks).
 
 Consider:
 

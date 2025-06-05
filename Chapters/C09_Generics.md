@@ -11,7 +11,7 @@ TODO: Probably divide this into "Generics" here and "Advanced Generics" at the e
 ## Defining Custom Generics
 
 Python directly supports *parameterized types*.
-This allows you to declare a *type variable* as a placeholder for an arbitrary type.
+This declares a *type variable* as a placeholder for an arbitrary type.
 
 ### Generic Functions
 

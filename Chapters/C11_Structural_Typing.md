@@ -116,7 +116,7 @@ are recognized structurally.
 Python's typing module and static checkers come with several predefined protocols (either explicitly as in `typing.Protocol` classes or implicitly via ABCs with structural hooks) for common patterns.
 
 Let's look at a slightly more elaborate example of defining and using a protocol.
-Imagine we have objects that need to support a `close()` method (like files or network connections).
+Imagine we have objects that support a `close()` method (like files or network connections).
 We can define a protocol `Closable` and use it to write a function that closes a batch of resources:
 
 ```python
@@ -207,7 +207,7 @@ In most cases, protocols are used purely for static checking and documentation.
 Protocols shine in real-world scenarios where you want to decouple code and reduce dependencies on concrete classes.
 A common use case is _dependency injection_ and testing.
 In Python, it's common to write functions or classes that operate on objects with a particular interface without caring about the concrete implementation.
-Protocols let you formally capture that interface in the type system.
+Protocols capture that interface in the type system.
 This makes your code's expectations clear and allows static analysis to validate those expectations.
 Let's discuss a few practical examples.
 
@@ -321,7 +321,7 @@ Protocols can serve as interfaces in your application design.
 Even if you're not writing multiple implementations immediately, defining a protocol for a role in your system can clarify the design.
 For example, you might define a `DataStore` protocol with methods like `save(item)` and `load(id)` that any storage backend should implement.
 Today you only have a database implementation, but tomorrow you might add an in-memory or file-based implementation--the protocol makes the contract clear.
-Moreover, if you want to accept objects from a third-party library with the necessary methods, protocols let you do so without subclassing or modifying those classes.
+Moreover, if you want to accept objects from a third-party library with the necessary methods, protocols do so without subclassing or modifying those classes.
 Suppose you're writing a function that can output data to any "file-like" object (something with a `.write()` method).
 The `io.TextIOBase` abstract class in Python is nominal, but not every file-like object will inherit it.
 By defining your own protocol with a `write(str)` method, your function can accept a wide range of objects (file handles, `io.StringIO` instances, custom writer objects) as long as they implement `write`.
@@ -380,7 +380,7 @@ print_id(Product(101, 19.99))
 ## Combining Protocols with Generics
 
 Just like classes and functions can be generic (using a type variable to operate over a range of types), protocol classes can be generic as well.
-A _generic protocol_ allows you to define a protocol parameterized by a type (or multiple types), enabling more precise typing of method arguments and return values.
+A _generic protocol_ defines a protocol parameterized by a type (or multiple types), enabling more precise typing of method arguments and return values.
 Many built-in protocols are generic--for example, `Iterable[T]` is a protocol that can be `Iterable[int]`, `Iterable[str]`, etc., depending on what type it yields.
 We can do the same with our own protocols.
 
@@ -450,8 +450,7 @@ y: int = print_item_and_return(IntContainer(42))
 In the function `print_item_and_return`, we used `C` (could also use `T` again) as a type variable for the container's item type.
 When we call this function with a `StringContainer`, the type checker knows `C` is `str` in that call, so it infers that the function returns a `str`.
 Similarly, with `IntContainer`, `C` becomes `int`.
-This is the benefit of generic protocols:
-they let you write flexible code that is still type-safe and retains specific type information.
+The benefit of generic protocols is that they create flexible code that is still type-safe and retains specific type information.
 In other words, one protocol can work for many types without losing the ability to distinguish those types when it matters.
 The syntax we used (`Container[C]` inside the function annotation) leverages Python's ability to support generics in type annotations.
 `Container[int]` is a _parameterized protocol_ instance, but conceptually you can think of it like an interface template.
@@ -579,7 +578,7 @@ Choose nominal typing when you want an explicit, enforced contract and possibly 
 Remember that protocols are most valuable when you are using static type checking; if your project doesn't use type checks, then a protocol is a `abc.ABC` with no abstract methods--it won't enforce anything by itself at runtime.
 In such cases, if enforcement is needed, an ABC with abstract methods (or even just documentation) might be better.
 However, even in purely dynamic contexts, many developers find protocols useful as documentation:
-by reading the Protocol class, you know what an object is expected to do.
+by reading the `Protocol` class, you know what an object is expected to look like.
 
 In Python's type system evolution, protocols were introduced to complement nominal typing, not to replace it.
 They give you the freedom to write code in the Pythonic duck-typed style while still reaping the benefits of static analysis.

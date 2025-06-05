@@ -2,7 +2,7 @@
 
 Most of the time you will be a consumer of generic code rather than a producer.
 It is useful to understand the introductory generic material in [C09_Generics].
-Occasionally you will need to know the material in this chapter.
+Occasionally you will need the material in this chapter.
 
 ## Variance
 
@@ -106,7 +106,7 @@ In Python, we can leverage generics to curry functions while preserving type inf
 
 For example, imagine a function that takes two arguments, and we want to get a new function that has the first argument
 fixed (a partial application).
-We can write a generic higher-order function to do this:
+We can write a generic higher-order function for this:
 
 ```python
 # curry_two_arg.py
@@ -497,9 +497,9 @@ common base class or inheritance.
 By default, Protocols are a static concept.
 You typically wouldn't use `isinstance(x, Drawable)` or `issubclass(C, Drawable)` with a protocol at runtime, because
 `Protocol` classes by themselves don't have special status as base classes.
-However, if you need to do runtime checks, the `typing.runtime_checkable` decorator can be applied to a Protocol class,
-which then allows using
-`isinstance(obj, ProtocolName)` to check if an object conforms (this requires that either the object's class explicitly
+For runtime checks, apply the `typing.runtime_checkable` decorator to a Protocol class.
+This allows `isinstance(obj, ProtocolName)` to check if an object conforms
+(this requires that either the object's class explicitly
 inherits the Protocol or that the Protocol is annotated with `runtime_checkable`; a purely structural match at runtime
 without explicit registration isn't directly supported).
 In general, it's more common to rely on static checking for protocols and use normal duck typing at runtime, "asking
@@ -519,7 +519,7 @@ or attribute.
 
 ## Generic Type Aliases
 
-Type aliases in Python let you create alternative names for types, which can improve code clarity.
+Type aliases in Python create alternative names for types, which can improve code clarity.
 For example, you might write `Coordinate = tuple[float, float]` to give a semantic name to a tuple of two floats.
 *Generic type aliases* extend this idea by allowing aliases to be parameterized with type variables.
 
@@ -688,7 +688,7 @@ Now `sort_items` explicitly requires that the item type implements `<` (as per t
 Don't use a totally unconstrained type variable if the function or class really needs the type to have some capability.
 Either use a type bound or a protocol to encode that requirement.
 Conversely, if you truly intend a function to accept anything (like a generic passthrough that just returns what it was
-given), then using `Any` might be appropriate, or a type variable with no constraints if you need to preserve the type
+given), then using `Any` might be appropriate, or a type variable with no constraints to preserve the type
 identity.
 A function using `Any` will accept and return anything without errors--it turns off type checking for that element.
 
@@ -721,7 +721,7 @@ The function `set_value` as written can accept any type, and the type of `global
 calling it (it can be `int` if called with `int`, `str` if called with `str`, etc.).
 This is probably a design mistake.
 In such cases, use a normal specific type (or `Any`) if the function isn't meant to be generic.
-Use type variable only for functions that really need to be generic.
+Use type variables only for functions that must be generic.
 
 ### Practice: Use Descriptive Type Variable Names for Clarity
 
@@ -783,7 +783,7 @@ Be aware of the Python version you are targeting:
 
 ## temporary
 
-To get examples building; need to fix to tool
+To get examples building
 
 ```python
 # animals.py

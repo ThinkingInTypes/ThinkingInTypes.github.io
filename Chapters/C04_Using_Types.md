@@ -371,7 +371,7 @@ Annotating this helps users of `generate_numbers` know what to expect: they will
 Also, it signals that the function uses `yield` internally.
 As a side note, if a function is meant to never return normally (for instance, one that enters an infinite loop or always raises an exception), you could use the special return type `NoReturn` from `typing`, but such cases are rare and beyond our current scope.
 
-Specialized annotations like `Sequence`, `Mapping`, `Iterable`, and `Iterator` let you capture the interface or behavior you require, rather than a specific concrete type.
+Specialized annotations like `Sequence`, `Mapping`, `Iterable`, and `Iterator` capture the interface or behavior you require, rather than a specific concrete type.
 They are especially useful in library or API design, where over-specifying types can needlessly limit the utility of a function or class.
 By using these abstract collection types, you make your code flexible while still retaining the benefits of type checking.
 

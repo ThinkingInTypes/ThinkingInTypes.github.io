@@ -37,7 +37,7 @@ While most programmers initially encounter Enums as collections of named integer
 
 Enums can be parameterized to fully participate in the type system, giving you even stronger guarantees of correctness.
 
-As with data classes, Enums allow you to bring your problem domain directly into your code, reducing bugs and improving clarity.
+As with data classes, Enums bring your problem domain directly into your code, reducing bugs and improving clarity.
 
 ## Basic Enums
 

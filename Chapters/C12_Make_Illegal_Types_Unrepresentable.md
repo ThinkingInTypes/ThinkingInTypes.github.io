@@ -421,10 +421,10 @@ with Catch():
 ```
 
 This code is significantly more straightforward to understand and change.
-If we need to modify the underlying representation of `Amount` we only do it in one place.
+When modifying the underlying representation of `Amount`, we only do it in one place.
 For example, suppose we discover Python's implementation of `Decimal` is too slow.
 We can modify `Amount` to use, for example, a Rust implementation of decimal numbers.
-We _only_ need to change the code for `Amount`; all code that uses `Amount` automatically adopts the new behavior.
+We _only_ change the code for `Amount`; all code that uses `Amount` automatically adopts the new behavior.
 
 All code we write that uses our custom types benefits from all the type validations for those custom types.
 If we add more validations to `Amount` or `Balance`, they automatically propagate to each site where those types are used.
@@ -526,8 +526,8 @@ print(PhoneNumber("886", "7775551212"))
 ```
 
 Every function that works with phone numbers only uses the `PhoneNumber` type.
-If you need to modify the behavior of a `PhoneNumber`, you do it in only one place.
-If you need to improve the performance of `PhoneNumber` creation and use, you do it in only one place.
+You only modify the behavior of a `PhoneNumber` in only one place.
+To improve the performance of `PhoneNumber` creation and use, you do it in only one place.
 
 ## The Programmable Meter
 

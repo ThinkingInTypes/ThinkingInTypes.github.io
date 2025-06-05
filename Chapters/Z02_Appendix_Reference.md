@@ -75,7 +75,7 @@ Modern Python allows using built-in container types directly as generics.
 For example, use `list[int]` instead of `typing.List[int]`, `dict[str, float]` instead of `typing.Dict[str, float]`, and so on.
 PEP 585 (Python 3.9) enabled this, so the `typing` module's capitalized aliases (List, Dict, etc.)
 are no longer necessary in new code.
-These generics let you specify element types:
+These generics specify element types:
 e.g.
 `list[int]` means "list of ints."
 (Note:
@@ -218,7 +218,7 @@ class Box[T]:
 One can create `Box[int]`, `Box[str]`, etc., and the methods will be type-safe.
 
 When subclassing generics or creating more complex hierarchies,
-you might need to be mindful of type variance, but for most user-defined generics,
+you may encounter type variance, but for most user-defined generics,
 the default invariance (type must match exactly) is fine.
 
 ### `typing.Type` for Class Objects
@@ -227,7 +227,7 @@ When you want to indicate that a function parameter or return is not an instance
 For example, `def factory(cls: type[T]) -> T:` indicates that `factory` expects a class (subclass) of T and will return an instance of that class.
 If you want to accept specific subclasses, you can use a union; for example, `user_class: type[BasicUser]` means a class object inheriting from `BasicUser`.
 In documentation, you may see `Type[Base]` to mean "any subclass of Base."
-This is helpful for functions that need to work with class constructors or class methods.
+This is helpful for functions that work with class constructors or class methods.
 
 ## Structural Subtyping with Protocols
 
@@ -286,11 +286,11 @@ When you pass a lambda or function to `apply_to_ints`, a type checker will ensur
 ### Overloaded Functions (PEP 484)
 
 Sometimes a function can be called with different argument types and behave differently (especially common in library stubs).
-The `@typing.overload` decorator allows you to declare multiple _overload variants_ for a function for static typing purposes.
+The `@typing.overload` decorator declares multiple _overload variants_ for a function.
 For example:
 
 ```python
-# example_11.py
+# overloaded_functions.py
 from typing import overload
 
 
@@ -366,7 +366,7 @@ This technique is useful for decorators and wrapper functions that modify call s
 
 ### Literal Types (PEP 586 and PEP 675)
 
-A `Literal` type allows you to indicate that a value is not just of a general type, but a specific constant value (or one of a specific set of constants).
+A `Literal` type indicates that a value is not just of a general type, but a specific constant value (or one of a specific set of constants).
 For example, `Literal["GET", "POST"]` can be used to type a variable that should only ever equal `"GET"` or `"POST"`.
 This is helpful for functions that behave differently based on constant string or numeric inputs.
 In Python 3.8, PEP 586 introduced `typing.Literal`.
@@ -465,7 +465,7 @@ Common use cases for `Self` are fluent interfaces (methods that return `self`), 
 ### TypedDicts (PEP 589 and extensions)
 
 A `TypedDict` is a way to describe the expected shape of dictionaries with specific string keys.
-Introduced in Python 3.8, TypedDict allows you to create a type that expects certain keys with certain value types, mimicking the behavior of JavaScript objects or dataclasses but for dicts.
+`TypedDict` creates a type that expects certain keys with certain value types, mimicking the behavior of JavaScript objects or dataclasses but for dicts.
 For example:
 
 ```python
@@ -575,7 +575,7 @@ A stub file is a skeletal version of a module with only `pass` statements and ty
 PEP 561 describes how libraries can distribute these stubs so that your type checker picks them up.
 For instance, popular libraries often ship a `py.typed` marker and include inline types or separate stub packages (e.g.
 `types-requests`).
-As a user, you typically don't need to write stub files unless you're providing types for an untyped library or doing something very dynamic.
+As a user, you typically don't write stub files unless you're providing types for an untyped library or doing something very dynamic.
 But it's good to know that the ecosystem supports them, enabling gradual adoption of typing even for older code.
 
 ### General Best Practices

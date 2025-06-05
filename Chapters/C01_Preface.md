@@ -55,8 +55,8 @@ They had little interest in taking a chance on something that didn't feel like C
 
 As I burrowed my way into this new language, I came across a mystery: the keyword `virtual`.
 Because `cfront` emitted C code, I was able to sleuth my way through the convoluted process of dynamic binding in a statically compiled language.
-Although this seemed like a weird thing to do, I reasoned that this very weirdness meant it must be especially important.
-And I, along with everyone else, began trying to understand what we were supposed to do with this new feature.
+Although this seemed like a weird thing, I reasoned that this very weirdness meant it must be especially important.
+And I, along with everyone else, began trying to understand this new feature.
 
 This lead to writing books, teaching, and consulting about OOP.
 An industry grew up around it, and the reign of OOP influenced new languages--you had to have it.
@@ -70,7 +70,7 @@ He also made the distinction between _object-based_ and _object-oriented_.
 The former turned out to be the very problem we wanted to solve, to liberate ourselves from the limitations of the language's built-in types.
 The latter turned out to be a huge distraction.
 
-The book _Design Patterns: Elements of Reusable Object-Oriented Software_ appeared in 1994 and answered the question, "what are we supposed to do with OOP?"
+The book _Design Patterns: Elements of Reusable Object-Oriented Software_ appeared in 1994 and answered the question, "what do we do with OOP?"
 It was such a success that its four primary authors garnered the nickname _Gang of Four_, and "GoF" became the shorthand way to refer to the book.
 
 The GoF book showed that there were indeed many interesting ways to apply OOP to design problems.

@@ -119,8 +119,7 @@ Programmers produced a scattered collection of solutions to the reporting proble
 - Indicate failure by returning a special value from a function call.
   This only works when the special value doesn't occur from an ordinary call to that function.
   For example, if your function returns any `int`, you can't use `0` or `-1` to report an error.
-  A bigger problem is that you rely on the client programmer to pay attention to the return value and know what to do
-  about errors.
+  A bigger problem is that you rely on the client programmer to pay attention to the return value and know how to handle errors.
 
 - Indicate failure by [setting a global flag](https://en.wikipedia.org/wiki/Errno.h).
   This is a single flag shared by all functions in the program.
@@ -411,7 +410,7 @@ The `returns` library has been slipped in here, but its basic form is that of `r
 ## Composing with `Result`
 
 The previous examples included composition in the `composed` functions which just called a single other function.
-What if you need to compose a more complex function from multiple other functions?
+What about composing a more complex function from multiple other functions?
 The `Result` type ensures that the `composed` function properly represents both the `Answer` type but also the various
 different errors that can occur:
 
@@ -592,7 +591,7 @@ The most popular Python library that includes this extra functionality
 is [Returns](https://github.com/dry-python/returns).
 `Returns` includes other features, but we will only focus on `Result`.
 
-What if you need to create a `composed` function that takes multiple arguments?
+What about a `composed` function that takes multiple arguments?
 For this, we use something called "do notation," which you access using `Result.do`:
 
 ```python
