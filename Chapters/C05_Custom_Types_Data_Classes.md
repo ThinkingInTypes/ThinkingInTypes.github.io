@@ -492,7 +492,7 @@ ordered_points: list[OrderedPoint] = [
 ]
 print(sorted(ordered_points))
 ## [OrderedPoint(x=1, y=2), OrderedPoint(x=1, y=9),
-## OrderedPoint(x=3, y=4)]
+## OrderedPoint(x=3, y=4), OrderedPoint(x=3, y=5)]
 ```
 
 ```python

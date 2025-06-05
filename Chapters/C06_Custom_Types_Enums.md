@@ -364,6 +364,7 @@ with Catch():
         GREEN = 2
         BLUE = 3
         DUPLICATE = 3
+## Error: aliases found in <enum 'Color'>: DUPLICATE -> BLUE
 ```
 
 ### Ensuring Continuous Values
@@ -383,6 +384,7 @@ with Catch():
         WARNING = 2
         ERROR = 3
         MISSING = 5  # error: gap
+## Error: invalid enum 'Status': missing values 4
 ```
 
 `CONTINUOUS` is designed to work with integer-valued members.

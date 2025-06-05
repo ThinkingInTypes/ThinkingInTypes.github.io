@@ -407,6 +407,7 @@ For instance, a container of `str` and a container of `int`:
 ```python
 # container_types.py
 
+
 class StringContainer:
     def __init__(self, value: str):
         self.value = value
