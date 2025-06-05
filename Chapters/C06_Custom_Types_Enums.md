@@ -357,6 +357,7 @@ from enum import Enum, verify, UNIQUE
 from book_utils import Catch
 
 with Catch():
+
     @verify(UNIQUE)
     class Color(Enum):
         RED = 1
@@ -375,6 +376,7 @@ from enum import Enum, verify, CONTINUOUS
 from book_utils import Catch
 
 with Catch():
+
     @verify(CONTINUOUS)
     class Status(Enum):
         OK = 1
@@ -406,6 +408,7 @@ class AllFlags(Flag):
 
 
 with Catch():
+
     @verify(NAMED_FLAGS)
     class Missing(Flag):
         FIRST = auto()

@@ -62,14 +62,18 @@ We can create two completely unrelated classes that fulfill this protocol withou
 
 ```python
 # announce.py
+from dataclasses import dataclass
+
 from speaker import Speaker
 
 
+@dataclass
 class Dog:
     def speak(self) -> str:
         return "woof"
 
 
+@dataclass
 class Robot:
     def speak(self) -> str:
         return "beep-boop"
@@ -301,7 +305,7 @@ This reduces coupling and makes it easier to integrate third-party classes that 
 Building on the above example, protocols are extremely handy for unit testing.
 In tests, we often use fake objects or mocks to simulate real components (like databases, web services, etc.)
 without having to perform the real operations.
-With protocols, you can give those test doubles a clear interface.
+With protocols, you can give those tests a clear interface.
 For example, if you have a function that fetches data from an API, you could define a protocol for the fetcher.
 In production, you pass a real HTTP client, in tests you pass a fake object that returns predetermined data.
 The protocol assures the fake has the same method signature as the real client.
@@ -382,7 +386,8 @@ We can do the same with our own protocols.
 
 To define a generic protocol, we put the type variable in brackets after `Protocol` when defining the class.
 Let's say we want to define a container protocol that yields items of some type.
-We can make it generic so that a `Container[int]` is a protocol for "container of ints" and `Container[str]` for "container of strings," but both are based on the same generic interface.
+We can make it generic so that a `Container[int]` is a protocol for "container of ints" and `Container[str]` for "container of strings,"
+but both are based on the same generic interface.
 For example:
 
 ```python
@@ -396,11 +401,12 @@ class Container[T](Protocol):
 
 Here, `Container[T]` is a generic `Protocol` with a single type variable `T`.
 It specifies one method `get_item` that returns an object of type `T`.
-Now we can implement this protocol for different types by providing concrete type parameters.
-For instance, a container of strings and a container of integers:
+We implement this protocol by providing a concrete type parameter for `T`.
+For instance, a container of `str` and a container of `int`:
 
 ```python
 # container_types.py
+
 class StringContainer:
     def __init__(self, value: str):
         self.value = value
@@ -455,8 +461,8 @@ You can declare variance for type variables if needed (covariant, contravariant)
 In our container example, this is not an issue because we're primarily using it to carry the exact type.
 
 Another scenario for combining protocols with generics is when you want to put protocols as bounds on type variables.
-For instance, you can declare `[T: SomeProtocol]` to indicate that a type variable must satisfy a certain protocol.
 With classes, a bound indicates that `T` must subclass the bound.
+For instance, declaring `[T: SomeProtocol]` means the type variable `T` must satisfy the protocol `SomeProtocol`.
 However, protocols aren't part of the class hierarchy, so this is analogous to saying, "`T` must structurally implement the protocol."
 For example, if we have:
 

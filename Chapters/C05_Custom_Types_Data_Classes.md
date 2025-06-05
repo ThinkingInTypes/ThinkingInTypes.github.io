@@ -485,6 +485,7 @@ Adding `order=True` together with `frozen=True` produces the sum of all generate
 from point_dataclasses import OrderedPoint
 
 ordered_points: list[OrderedPoint] = [
+    OrderedPoint(3, 5),
     OrderedPoint(3, 4),
     OrderedPoint(1, 9),
     OrderedPoint(1, 2),
