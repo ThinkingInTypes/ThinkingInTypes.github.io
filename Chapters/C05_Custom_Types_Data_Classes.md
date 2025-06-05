@@ -478,7 +478,7 @@ Adding `order=True` together with `frozen=True` produces the sum of all generate
 
 ### Sorting and Hashing
 
-// Describe
+- // Describe
 
 ```python
 # sortable_points.py
@@ -564,7 +564,7 @@ print(f"{user2 = }")
 ## n1=30, data={'A': 'B', 'C': 'D'}, n2=40)
 ```
 
-// Describe
+- // Describe
 
 ### Post-Initialization
 

@@ -298,7 +298,7 @@ The `zip_variadic` signature says:
 
 ### Example: N-dimensional Tensor Shape
 
-// Introduce Tensors
+- // Introduce Tensors
 
 Suppose you're building a generic `Tensor` type that carries its shape as part of its type.
 For example, `Tensor[float, 3, 3]` for a 3×3 matrix, or `Tensor[float, 2, 2, 2]` for a 3D cube.

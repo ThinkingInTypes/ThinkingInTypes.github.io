@@ -1,7 +1,7 @@
 # Pattern Matching
 
-// Value patterns: How to match against variables (using dotted names)
-// Nested class patterns: More complex examples
+- // Value patterns: How to match against variables (using dotted names)
+- // Nested class patterns: More complex examples
 
 Pattern matching compares a value (the _subject_) against a series of _patterns_, and executes code based on the pattern that fits.
 Unlike a basic switch on a single value, structural pattern matching destructures complex data and tests for conditions in one expressive syntax.
