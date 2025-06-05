@@ -1765,7 +1765,7 @@ The same goes for classes and custom types--you annotate with the class itself (
 For example, use <code>list[int]</code> instead of <code>typing.List[int]</code>, <code>dict[str, float]</code> instead of <code>typing.Dict[str, float]</code>, and so on.
 PEP 585 (Python 3.9) enabled this, so the <code>typing</code> module's capitalized aliases (List, Dict, etc.)
 are no longer necessary in new code.
-These generics let you specify element types:
+These generics specify element types:
 e.g.
 <code>list[int]</code> means "list of ints."
 (Note:
@@ -1871,14 +1871,14 @@ For instance, <code>[U: Number]</code> means <code>U</code> can be any subclass 
 <p><code>Box[T]</code> is a generic class that can hold a value of type T.
 One can create <code>Box[int]</code>, <code>Box[str]</code>, etc., and the methods will be type-safe.</p>
 <p>When subclassing generics or creating more complex hierarchies,
-you might need to be mindful of type variance, but for most user-defined generics,
+you may encounter type variance, but for most user-defined generics,
 the default invariance (type must match exactly) is fine.</p>
 <h3 id="typingtype-for-class-objects"><code>typing.Type</code> for Class Objects<a class="headerlink" href="#typingtype-for-class-objects" title="Permanent link">#</a></h3>
 <p>When you want to indicate that a function parameter or return is not an instance of a class but rather a class itself, use <code>Type[T]</code> (or <code>type[T]</code> in Python 3.9+) where T is a class.
 For example, <code>def factory(cls: type[T]) -&gt; T:</code> indicates that <code>factory</code> expects a class (subclass) of T and will return an instance of that class.
 If you want to accept specific subclasses, you can use a union; for example, <code>user_class: type[BasicUser]</code> means a class object inheriting from <code>BasicUser</code>.
 In documentation, you may see <code>Type[Base]</code> to mean "any subclass of Base."
-This is helpful for functions that need to work with class constructors or class methods.</p>
+This is helpful for functions that work with class constructors or class methods.</p>
 <h2 id="structural-subtyping-with-protocols">Structural Subtyping with Protocols<a class="headerlink" href="#structural-subtyping-with-protocols" title="Permanent link">#</a></h2>
 <p>Python's static typing supports <em>structural typing</em> via <code>Protocol</code> classes.</p>
 <h3 id="protocols-pep-544">Protocols (PEP 544)<a class="headerlink" href="#protocols-pep-544" title="Permanent link">#</a></h3>
@@ -1921,9 +1921,9 @@ For example:</p>
 When you pass a lambda or function to <code>apply_to_ints</code>, a type checker will ensure it matches the described signature.</p>
 <h3 id="overloaded-functions-pep-484">Overloaded Functions (PEP 484)<a class="headerlink" href="#overloaded-functions-pep-484" title="Permanent link">#</a></h3>
 <p>Sometimes a function can be called with different argument types and behave differently (especially common in library stubs).
-The <code>@typing.overload</code> decorator allows you to declare multiple <em>overload variants</em> for a function for static typing purposes.
+The <code>@typing.overload</code> decorator declares multiple <em>overload variants</em> for a function.
 For example:</p>
-<div class="language-python highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="c1"># example_11.py</span>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="c1"># overloaded_functions.py</span>
 </span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">overload</span>
 </span><span id="__span-10-3"><a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>
 </span><span id="__span-10-4"><a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a>
@@ -1988,7 +1988,7 @@ We use <code>Callable[P, int]</code> to represent the input function's signature
 This technique is useful for decorators and wrapper functions that modify call signatures.</p>
 <h2 id="advanced-and-new-type-constructs">Advanced and New Type Constructs<a class="headerlink" href="#advanced-and-new-type-constructs" title="Permanent link">#</a></h2>
 <h3 id="literal-types-pep-586-and-pep-675">Literal Types (PEP 586 and PEP 675)<a class="headerlink" href="#literal-types-pep-586-and-pep-675" title="Permanent link">#</a></h3>
-<p>A <code>Literal</code> type allows you to indicate that a value is not just of a general type, but a specific constant value (or one of a specific set of constants).
+<p>A <code>Literal</code> type indicates that a value is not just of a general type, but a specific constant value (or one of a specific set of constants).
 For example, <code>Literal["GET", "POST"]</code> can be used to type a variable that should only ever equal <code>"GET"</code> or <code>"POST"</code>.
 This is helpful for functions that behave differently based on constant string or numeric inputs.
 In Python 3.8, PEP 586 introduced <code>typing.Literal</code>.
@@ -2066,7 +2066,7 @@ Common use cases for <code>Self</code> are fluent interfaces (methods that retur
 <code>Self</code> ensures the return type is automatically updated in subclasses, preventing type checkers from thinking a subclass method returning <code>self</code> is returning the base class.</p>
 <h3 id="typeddicts-pep-589-and-extensions">TypedDicts (PEP 589 and extensions)<a class="headerlink" href="#typeddicts-pep-589-and-extensions" title="Permanent link">#</a></h3>
 <p>A <code>TypedDict</code> is a way to describe the expected shape of dictionaries with specific string keys.
-Introduced in Python 3.8, TypedDict allows you to create a type that expects certain keys with certain value types, mimicking the behavior of JavaScript objects or dataclasses but for dicts.
+<code>TypedDict</code> creates a type that expects certain keys with certain value types, mimicking the behavior of JavaScript objects or dataclasses but for dicts.
 For example:</p>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="c1"># example_16.py</span>
 </span><span id="__span-15-2"><a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">TypedDict</span>
@@ -2155,7 +2155,7 @@ A stub file is a skeletal version of a module with only <code>pass</code> statem
 PEP 561 describes how libraries can distribute these stubs so that your type checker picks them up.
 For instance, popular libraries often ship a <code>py.typed</code> marker and include inline types or separate stub packages (e.g.
 <code>types-requests</code>).
-As a user, you typically don't need to write stub files unless you're providing types for an untyped library or doing something very dynamic.
+As a user, you typically don't write stub files unless you're providing types for an untyped library or doing something very dynamic.
 But it's good to know that the ecosystem supports them, enabling gradual adoption of typing even for older code.</p>
 <h3 id="general-best-practices">General Best Practices<a class="headerlink" href="#general-best-practices" title="Permanent link">#</a></h3>
 <ul>

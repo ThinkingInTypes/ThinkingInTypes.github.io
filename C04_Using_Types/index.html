@@ -1166,8 +1166,6 @@ This means you can write <code>list[int]</code> instead of importing <code>List<
 <p>To support Python versions earlier than 3.9, use <code>typing.List</code> / <code>typing.Dict</code> style,
 because bracketed syntax for built-in types won't be recognized in older versions.
 This book will use the built-in names whenever possible</p>
-<p>There is also a mechanism called <code>from __future__ import annotations</code> that can ease adoption of newer annotation features by treating annotations as strings (to avoid evaluation issues), but that is an advanced detail beyond our current scope.
-TODO: Add an example</p>
 <h2 id="specialized-annotations-sequence-mapping-iterable-iterator">Specialized Annotations (<code>Sequence</code>, <code>Mapping</code>, <code>Iterable</code>, <code>Iterator</code>)<a class="headerlink" href="#specialized-annotations-sequence-mapping-iterable-iterator" title="Permanent link">#</a></h2>
 <p>Sometimes you want a more abstract concept of a type.
 For example, suppose you write a function that takes anything you can iterate over, rather than a specific type like <code>list</code> or <code>tuple</code> or <code>set</code>.
@@ -1237,7 +1235,7 @@ The return type is annotated as <code>Iterator[int]</code> because calling <code
 Annotating this helps users of <code>generate_numbers</code> know what to expect: they will get an iterator (which they might loop over or convert to a list, etc.) rather than, say, a fully realized list.
 Also, it signals that the function uses <code>yield</code> internally.
 As a side note, if a function is meant to never return normally (for instance, one that enters an infinite loop or always raises an exception), you could use the special return type <code>NoReturn</code> from <code>typing</code>, but such cases are rare and beyond our current scope.</p>
-<p>Specialized annotations like <code>Sequence</code>, <code>Mapping</code>, <code>Iterable</code>, and <code>Iterator</code> let you capture the interface or behavior you require, rather than a specific concrete type.
+<p>Specialized annotations like <code>Sequence</code>, <code>Mapping</code>, <code>Iterable</code>, and <code>Iterator</code> capture the interface or behavior you require, rather than a specific concrete type.
 They are especially useful in library or API design, where over-specifying types can needlessly limit the utility of a function or class.
 By using these abstract collection types, you make your code flexible while still retaining the benefits of type checking.</p>
 <h2 id="t-strings">T-Strings<a class="headerlink" href="#t-strings" title="Permanent link">#</a></h2>

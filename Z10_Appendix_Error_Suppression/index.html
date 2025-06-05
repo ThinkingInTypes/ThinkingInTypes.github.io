@@ -1234,7 +1234,7 @@ For instance, to silence Flake8's error code <code>E731</code> ("do not assign l
 Ruff is mostly Flake8-compatible: it recognizes <code># noqa</code> (and even a file-level <code># flake8: noqa</code> or <code># ruff: noqa</code> to disable the whole file).
 In short, use <code># noqa</code> to silence specific linter errors on a line (or none after the colon), and <code># flake8: noqa</code> or <code># ruff: noqa</code> at file top to skip an entire file.</p>
 <h2 id="combining-directives">Combining Directives<a class="headerlink" href="#combining-directives" title="Permanent link">#</a></h2>
-<p>Sometimes you need to silence both a type checker and a linter on one line.
+<p>You'll sometimes want to silence both a type checker and a linter on one line.
 In that case you can chain the comments.
 For example, to please both Mypy and Ruff, do:</p>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="c1"># example_4.py</span>

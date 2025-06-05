@@ -1279,7 +1279,7 @@ and frozen dataclasses (for creating immutable data objects).
 These provide a more formal way to achieve immutability beyond just convention.</p>
 <h2 id="using-final-for-constants-and-immutable-references">Using <code>Final</code> for Constants and Immutable References<a class="headerlink" href="#using-final-for-constants-and-immutable-references" title="Permanent link">#</a></h2>
 <p>Python 3.8 introduced the <code>Final</code> qualifier.
-<code>Final</code> allows you to declare that a name--whether a module-level variable, a class attribute, or an instance
+<code>Final</code> declares that a name--whether a module-level variable, a class attribute, or an instance
 attribute--cannot be reassigned after initialization.
 This is a purely static indication; it's enforced by the type checker but not by the Python runtime.</p>
 <h3 id="declaring-final-variables">Declaring Final Variables<a class="headerlink" href="#declaring-final-variables" title="Permanent link">#</a></h3>
@@ -1294,7 +1294,7 @@ For example:</p>
 <p>Here, <code>PI</code> and <code>MAX_CONNECTIONS</code> are marked as <code>Final</code>, signaling that these names should never be re-bound to a new
 value.
 A type checker will enforce this.
-If later in the code you attempt to do <code>PI = 3.14</code> (reassigning the constant), the type checker will emit an error, e.g.
+If later in the code you attempt <code>PI = 3.14</code> (reassigning the constant), the type checker will emit an error, e.g.
 "Error: can't assign to final attribute."
 The same goes for changing <code>MAX_CONNECTIONS</code>.
 The Python interpreter itself will not stop you from doing this reassignment, but using <code>Final</code> elevates the constant
@@ -1610,7 +1610,7 @@ In a regular (mutable) dataclass, it's common to use a <code>__post_init__</code
 validation after the auto-generated <code>__init__</code> has run.
 With frozen dataclasses, however, you must be careful: by the time <code>__post_init__</code> executes, the <code>__setattr__</code> override
 that enforces immutability is already in place.
-Any attempt to do <code>self.field = value</code> in <code>__post_init__</code> will trigger a <code>FrozenInstanceError</code> just like an outside
+Any attempt to set <code>self.field = value</code> in <code>__post_init__</code> will trigger a <code>FrozenInstanceError</code> just like an outside
 assignment would (because internally it uses the same attribute-setting mechanism).</p>
 <p>So how can we set up derived fields or perform adjustments in <code>__post_init__</code> for a frozen class?
 The answer is to bypass the frozen <code>__setattr__</code> using the base class (<code>object</code>) method.

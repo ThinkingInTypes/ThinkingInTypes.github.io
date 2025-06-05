@@ -1350,26 +1350,37 @@ Rather than designing everything up front, Smalltalk encourages programmers to b
 The key ideas:</p>
 <ul>
 <li>Everything is an object.</li>
-<li>You send messages to objects, even if you don't know whether they understand them.</li>
+<li>You send messages to objects.</li>
+<li>It's OK for an object not to understand a message.</li>
 <li>Objects can learn new behaviors at runtime.</li>
-<li>The system evolves live as you work.</li>
+<li>The system evolves as you work.</li>
 </ul>
 <p>We'll simulate the Smalltalk programming experience using Python, so you can see what it feels like to develop in the Smalltalk style.
 The entire session mirrors the experience of working in a Smalltalk image: there is no compile-run-edit loop.
 You interact with objects directly, teach them behavior, and the system grows and adapts as you explore it.</p>
 <p>We start with a basic object that handles unknown messages by implementing <code>not_found</code>, similar to how Smalltalk does it.</p>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="c1"># smalltalk_object.py</span>
-</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="k">class</span> <span class="nc">SmalltalkObject</span><span class="p">:</span>
-</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>    <span class="k">def</span> <span class="fm">__getattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
-</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>        <span class="k">def</span> <span class="nf">handler</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">not_found</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>
-</span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a>        <span class="k">return</span> <span class="n">handler</span>
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="k">class</span> <span class="nc">SmalltalkObject</span><span class="p">:</span>
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>    <span class="k">def</span> <span class="fm">__getattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>        <span class="k">def</span> <span class="nf">handler</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+</span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a>            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">not_found</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 </span><span id="__span-4-8"><a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a>
-</span><span id="__span-4-9"><a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a>    <span class="k">def</span> <span class="nf">not_found</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-</span><span id="__span-4-10"><a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a>        <span class="nb">print</span><span class="p">(</span>
-</span><span id="__span-4-11"><a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a>            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">: &#39;</span><span class="si">{</span><span class="n">message</span><span class="si">}</span><span class="s2">&#39; not found&quot;</span>
-</span><span id="__span-4-12"><a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a>        <span class="p">)</span>
+</span><span id="__span-4-9"><a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a>        <span class="k">return</span> <span class="n">handler</span>
+</span><span id="__span-4-10"><a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a>
+</span><span id="__span-4-11"><a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a>    <span class="k">def</span> <span class="nf">not_found</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+</span><span id="__span-4-12"><a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a>        <span class="n">args_str</span> <span class="o">=</span> <span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">repr</span><span class="p">(</span><span class="n">arg</span><span class="p">)</span> <span class="k">for</span> <span class="n">arg</span> <span class="ow">in</span> <span class="n">args</span><span class="p">)</span>
+</span><span id="__span-4-13"><a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a>        <span class="n">kwargs_str</span> <span class="o">=</span> <span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+</span><span id="__span-4-14"><a id="__codelineno-4-14" name="__codelineno-4-14" href="#__codelineno-4-14"></a>            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s2">=</span><span class="si">{</span><span class="n">v</span><span class="si">!r}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+</span><span id="__span-4-15"><a id="__codelineno-4-15" name="__codelineno-4-15" href="#__codelineno-4-15"></a>        <span class="p">)</span>
+</span><span id="__span-4-16"><a id="__codelineno-4-16" name="__codelineno-4-16" href="#__codelineno-4-16"></a>        <span class="n">all_args</span> <span class="o">=</span> <span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+</span><span id="__span-4-17"><a id="__codelineno-4-17" name="__codelineno-4-17" href="#__codelineno-4-17"></a>            <span class="nb">filter</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="p">[</span><span class="n">args_str</span><span class="p">,</span> <span class="n">kwargs_str</span><span class="p">])</span>
+</span><span id="__span-4-18"><a id="__codelineno-4-18" name="__codelineno-4-18" href="#__codelineno-4-18"></a>        <span class="p">)</span>
+</span><span id="__span-4-19"><a id="__codelineno-4-19" name="__codelineno-4-19" href="#__codelineno-4-19"></a>
+</span><span id="__span-4-20"><a id="__codelineno-4-20" name="__codelineno-4-20" href="#__codelineno-4-20"></a>        <span class="nb">print</span><span class="p">(</span>
+</span><span id="__span-4-21"><a id="__codelineno-4-21" name="__codelineno-4-21" href="#__codelineno-4-21"></a>            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">message</span><span class="si">}</span><span class="s2">(</span><span class="si">{</span><span class="n">all_args</span><span class="si">}</span><span class="s2">) not found&quot;</span>
+</span><span id="__span-4-22"><a id="__codelineno-4-22" name="__codelineno-4-22" href="#__codelineno-4-22"></a>        <span class="p">)</span>
 </span></code></pre></div>
 <p>When you say <code>obj.some_attr</code>, Python (internally) runs <code>type(obj).__getattribute__(obj, "some_attr")</code>.
 If that fails with <code>AttributeError</code>, <em>and</em> you've defined <strong>getattr</strong>, Python calls <code>obj.__getattr__("some_attr")</code>.</p>
@@ -1379,7 +1390,7 @@ If that fails with <code>AttributeError</code>, <em>and</em> you've defined <str
 </span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>
 </span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="n">obj</span> <span class="o">=</span> <span class="n">SmalltalkObject</span><span class="p">()</span>
 </span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="n">obj</span><span class="o">.</span><span class="n">dance</span><span class="p">()</span>
-</span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="c1">## SmalltalkObject: &#39;dance&#39; not found</span>
+</span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="c1">## SmalltalkObject: dance() not found</span>
 </span></code></pre></div>
 <p>Python can't find the method <code>dance</code>, so it calls <code>obj.__getattr__("dance")</code> which returns a function <code>handler(...)</code>.
 Calling <code>obj.dance()</code> now runs <code>handler(...)</code>, which calls <code>self.not_found("dance", ...)</code></p>
@@ -1399,7 +1410,7 @@ Calling <code>obj.dance()</code> now runs <code>handler(...)</code>, which calls
 </span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>
 </span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="n">bot</span> <span class="o">=</span> <span class="n">Chatbot</span><span class="p">()</span>
 </span><span id="__span-7-5"><a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a><span class="n">bot</span><span class="o">.</span><span class="n">hello</span><span class="p">()</span>
-</span><span id="__span-7-6"><a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a><span class="c1">## Chatbot: &#39;hello&#39; not found</span>
+</span><span id="__span-7-6"><a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a><span class="c1">## Chatbot: hello() not found</span>
 </span></code></pre></div>
 <p>It uses <code>__getattr__</code> to search for <code>hello()</code> which it doesn't find, so it falls back to <code>not_found</code>.</p>
 <h3 id="teach-it-to-say-hello">Teach it to say hello<a class="headerlink" href="#teach-it-to-say-hello" title="Permanent link">#</a></h3>
@@ -1476,8 +1487,10 @@ No compilation step--just live system growth.</p>
 <h3 id="the-dynamism-of-smalltalk-cant-be-tied-down">The Dynamism of Smalltalk Can't be Tied Down<a class="headerlink" href="#the-dynamism-of-smalltalk-cant-be-tied-down" title="Permanent link">#</a></h3>
 <h3 id="inheritance-forces-you-to-deal-with-the-base-class">Inheritance Forces you to Deal with the Base Class<a class="headerlink" href="#inheritance-forces-you-to-deal-with-the-base-class" title="Permanent link">#</a></h3>
 <p>You <em>must</em> make your new class a "type of" the base class, and all that entails, including overriding methods you don't care about.
-Your new class <em>belongs</em> to the base class, but with composition, the member object belongs to your new class.
-With composition, the object does what you want it to do, with inheritance, you must do what the base class wants you to do.</p>
+Your new class <em>belongs</em> to the base class, but with composition, the member object belongs to your new class.</p>
+<blockquote>
+<p>With composition, the object does what <em>you</em> want, but with inheritance, you must do what the base class wants.</p>
+</blockquote>
 <p>Arguably the only success story, Ruby, is a kind of Smalltalk.</p>
 <h2 id="type-in-smalltalk-a-dynamic-message-driven-perspective">"Type" in Smalltalk: A Dynamic, Message--Driven Perspective<a class="headerlink" href="#type-in-smalltalk-a-dynamic-message-driven-perspective" title="Permanent link">#</a></h2>
 <p>In Smalltalk, an object's identity and capabilities are not described by an explicit static type annotation.
@@ -1584,7 +1597,7 @@ When using that method, you ensure you pass something like a String or a Number 
 There is a lot of trust and convention involved--but it's trust backed by the ability to quickly try things out in the live environment.</p>
 <p>Smalltalk's development environment is a persistent image of objects, where you can test sending messages in a Workspace or inspect an object's class and methods on the fly.
 This means that if you're unsure about what messages an object supports, you can literally ask the object or its class at runtime.
-The system can list an object's method selectors or let you browse its class hierarchy.
+The system can list an object's method selectors or browse its class hierarchy.
 This introspective capability (made possible because everything is alive in the image) gives you a form of "live documentation."
 A Smalltalk system is an ecosystem of live objects.
 You can query the running program directly, rather than rely solely on static type information.</p>

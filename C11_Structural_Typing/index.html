@@ -1022,28 +1022,32 @@ We can define:</p>
 Now, any class that defines a <code>speak(self) -&gt; str</code> method is considered a <code>Speaker</code> for typing purposes.
 We can create two completely unrelated classes that fulfill this protocol without explicit inheritance:</p>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="c1"># announce.py</span>
-</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="kn">from</span> <span class="nn">speaker</span> <span class="kn">import</span> <span class="n">Speaker</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span>
 </span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>
-</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>
-</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="k">class</span> <span class="nc">Dog</span><span class="p">:</span>
-</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>    <span class="k">def</span> <span class="nf">speak</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>        <span class="k">return</span> <span class="s2">&quot;woof&quot;</span>
-</span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>
-</span><span id="__span-1-9"><a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>
-</span><span id="__span-1-10"><a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="k">class</span> <span class="nc">Robot</span><span class="p">:</span>
-</span><span id="__span-1-11"><a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a>    <span class="k">def</span> <span class="nf">speak</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-</span><span id="__span-1-12"><a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a>        <span class="k">return</span> <span class="s2">&quot;beep-boop&quot;</span>
-</span><span id="__span-1-13"><a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a>
-</span><span id="__span-1-14"><a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a>
-</span><span id="__span-1-15"><a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a><span class="k">def</span> <span class="nf">announce</span><span class="p">(</span><span class="n">speaker</span><span class="p">:</span> <span class="n">Speaker</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-</span><span id="__span-1-16"><a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a>    <span class="c1"># `speaker` can be any object with .speak() returning str</span>
-</span><span id="__span-1-17"><a id="__codelineno-1-17" name="__codelineno-1-17" href="#__codelineno-1-17"></a>    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Announcement:&quot;</span><span class="p">,</span> <span class="n">speaker</span><span class="o">.</span><span class="n">speak</span><span class="p">())</span>
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="kn">from</span> <span class="nn">speaker</span> <span class="kn">import</span> <span class="n">Speaker</span>
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>
+</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>
+</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="nd">@dataclass</span>
+</span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="k">class</span> <span class="nc">Dog</span><span class="p">:</span>
+</span><span id="__span-1-9"><a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>    <span class="k">def</span> <span class="nf">speak</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+</span><span id="__span-1-10"><a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a>        <span class="k">return</span> <span class="s2">&quot;woof&quot;</span>
+</span><span id="__span-1-11"><a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a>
+</span><span id="__span-1-12"><a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a>
+</span><span id="__span-1-13"><a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a><span class="nd">@dataclass</span>
+</span><span id="__span-1-14"><a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a><span class="k">class</span> <span class="nc">Robot</span><span class="p">:</span>
+</span><span id="__span-1-15"><a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a>    <span class="k">def</span> <span class="nf">speak</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+</span><span id="__span-1-16"><a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a>        <span class="k">return</span> <span class="s2">&quot;beep-boop&quot;</span>
+</span><span id="__span-1-17"><a id="__codelineno-1-17" name="__codelineno-1-17" href="#__codelineno-1-17"></a>
 </span><span id="__span-1-18"><a id="__codelineno-1-18" name="__codelineno-1-18" href="#__codelineno-1-18"></a>
-</span><span id="__span-1-19"><a id="__codelineno-1-19" name="__codelineno-1-19" href="#__codelineno-1-19"></a>
-</span><span id="__span-1-20"><a id="__codelineno-1-20" name="__codelineno-1-20" href="#__codelineno-1-20"></a><span class="n">announce</span><span class="p">(</span><span class="n">Dog</span><span class="p">())</span>  <span class="c1"># OK, Dog has speak()</span>
-</span><span id="__span-1-21"><a id="__codelineno-1-21" name="__codelineno-1-21" href="#__codelineno-1-21"></a><span class="c1">## Announcement: woof</span>
-</span><span id="__span-1-22"><a id="__codelineno-1-22" name="__codelineno-1-22" href="#__codelineno-1-22"></a><span class="n">announce</span><span class="p">(</span><span class="n">Robot</span><span class="p">())</span>  <span class="c1"># OK, Robot has speak()</span>
-</span><span id="__span-1-23"><a id="__codelineno-1-23" name="__codelineno-1-23" href="#__codelineno-1-23"></a><span class="c1">## Announcement: beep-boop</span>
+</span><span id="__span-1-19"><a id="__codelineno-1-19" name="__codelineno-1-19" href="#__codelineno-1-19"></a><span class="k">def</span> <span class="nf">announce</span><span class="p">(</span><span class="n">speaker</span><span class="p">:</span> <span class="n">Speaker</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="__span-1-20"><a id="__codelineno-1-20" name="__codelineno-1-20" href="#__codelineno-1-20"></a>    <span class="c1"># `speaker` can be any object with .speak() returning str</span>
+</span><span id="__span-1-21"><a id="__codelineno-1-21" name="__codelineno-1-21" href="#__codelineno-1-21"></a>    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Announcement:&quot;</span><span class="p">,</span> <span class="n">speaker</span><span class="o">.</span><span class="n">speak</span><span class="p">())</span>
+</span><span id="__span-1-22"><a id="__codelineno-1-22" name="__codelineno-1-22" href="#__codelineno-1-22"></a>
+</span><span id="__span-1-23"><a id="__codelineno-1-23" name="__codelineno-1-23" href="#__codelineno-1-23"></a>
+</span><span id="__span-1-24"><a id="__codelineno-1-24" name="__codelineno-1-24" href="#__codelineno-1-24"></a><span class="n">announce</span><span class="p">(</span><span class="n">Dog</span><span class="p">())</span>  <span class="c1"># OK, Dog has speak()</span>
+</span><span id="__span-1-25"><a id="__codelineno-1-25" name="__codelineno-1-25" href="#__codelineno-1-25"></a><span class="c1">## Announcement: woof</span>
+</span><span id="__span-1-26"><a id="__codelineno-1-26" name="__codelineno-1-26" href="#__codelineno-1-26"></a><span class="n">announce</span><span class="p">(</span><span class="n">Robot</span><span class="p">())</span>  <span class="c1"># OK, Robot has speak()</span>
+</span><span id="__span-1-27"><a id="__codelineno-1-27" name="__codelineno-1-27" href="#__codelineno-1-27"></a><span class="c1">## Announcement: beep-boop</span>
 </span></code></pre></div>
 <p>Even though <code>Dog</code> and <code>Robot</code> do not inherit from <code>Speaker</code> (and are not related to each other at all), the static type checker will accept them as valid arguments to <code>announce</code> because they structurally conform to the <code>Speaker</code> protocol by implementing the required method.
 This is the power of structural typing.
@@ -1068,7 +1072,7 @@ This demonstrates that many idiomatic Python "protocols" (iteration, context man
 are recognized structurally.
 Python's typing module and static checkers come with several predefined protocols (either explicitly as in <code>typing.Protocol</code> classes or implicitly via ABCs with structural hooks) for common patterns.</p>
 <p>Let's look at a slightly more elaborate example of defining and using a protocol.
-Imagine we have objects that need to support a <code>close()</code> method (like files or network connections).
+Imagine we have objects that support a <code>close()</code> method (like files or network connections).
 We can define a protocol <code>Closable</code> and use it to write a function that closes a batch of resources:</p>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1"># file_resource.py</span>
 </span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Protocol</span>
@@ -1148,7 +1152,7 @@ In most cases, protocols are used purely for static checking and documentation.<
 <p>Protocols shine in real-world scenarios where you want to decouple code and reduce dependencies on concrete classes.
 A common use case is <em>dependency injection</em> and testing.
 In Python, it's common to write functions or classes that operate on objects with a particular interface without caring about the concrete implementation.
-Protocols let you formally capture that interface in the type system.
+Protocols capture that interface in the type system.
 This makes your code's expectations clear and allows static analysis to validate those expectations.
 Let's discuss a few practical examples.</p>
 <p><strong>1. Dependency injection and interchangeable components:</strong>
@@ -1237,7 +1241,7 @@ This reduces coupling and makes it easier to integrate third-party classes that 
 Building on the above example, protocols are extremely handy for unit testing.
 In tests, we often use fake objects or mocks to simulate real components (like databases, web services, etc.)
 without having to perform the real operations.
-With protocols, you can give those test doubles a clear interface.
+With protocols, you can give those tests a clear interface.
 For example, if you have a function that fetches data from an API, you could define a protocol for the fetcher.
 In production, you pass a real HTTP client, in tests you pass a fake object that returns predetermined data.
 The protocol assures the fake has the same method signature as the real client.
@@ -1252,7 +1256,7 @@ Protocols can serve as interfaces in your application design.
 Even if you're not writing multiple implementations immediately, defining a protocol for a role in your system can clarify the design.
 For example, you might define a <code>DataStore</code> protocol with methods like <code>save(item)</code> and <code>load(id)</code> that any storage backend should implement.
 Today you only have a database implementation, but tomorrow you might add an in-memory or file-based implementation--the protocol makes the contract clear.
-Moreover, if you want to accept objects from a third-party library with the necessary methods, protocols let you do so without subclassing or modifying those classes.
+Moreover, if you want to accept objects from a third-party library with the necessary methods, protocols do so without subclassing or modifying those classes.
 Suppose you're writing a function that can output data to any "file-like" object (something with a <code>.write()</code> method).
 The <code>io.TextIOBase</code> abstract class in Python is nominal, but not every file-like object will inherit it.
 By defining your own protocol with a <code>write(str)</code> method, your function can accept a wide range of objects (file handles, <code>io.StringIO</code> instances, custom writer objects) as long as they implement <code>write</code>.
@@ -1304,12 +1308,13 @@ The key takeaway is that structural typing focuses on the behavior, so even obje
 </span></code></pre></div>
 <h2 id="combining-protocols-with-generics">Combining Protocols with Generics<a class="headerlink" href="#combining-protocols-with-generics" title="Permanent link">#</a></h2>
 <p>Just like classes and functions can be generic (using a type variable to operate over a range of types), protocol classes can be generic as well.
-A <em>generic protocol</em> allows you to define a protocol parameterized by a type (or multiple types), enabling more precise typing of method arguments and return values.
+A <em>generic protocol</em> defines a protocol parameterized by a type (or multiple types), enabling more precise typing of method arguments and return values.
 Many built-in protocols are generic--for example, <code>Iterable[T]</code> is a protocol that can be <code>Iterable[int]</code>, <code>Iterable[str]</code>, etc., depending on what type it yields.
 We can do the same with our own protocols.</p>
 <p>To define a generic protocol, we put the type variable in brackets after <code>Protocol</code> when defining the class.
 Let's say we want to define a container protocol that yields items of some type.
-We can make it generic so that a <code>Container[int]</code> is a protocol for "container of ints" and <code>Container[str]</code> for "container of strings," but both are based on the same generic interface.
+We can make it generic so that a <code>Container[int]</code> is a protocol for "container of ints" and <code>Container[str]</code> for "container of strings,"
+but both are based on the same generic interface.
 For example:</p>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="c1"># container.py</span>
 </span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Protocol</span>
@@ -1320,23 +1325,25 @@ For example:</p>
 </span></code></pre></div>
 <p>Here, <code>Container[T]</code> is a generic <code>Protocol</code> with a single type variable <code>T</code>.
 It specifies one method <code>get_item</code> that returns an object of type <code>T</code>.
-Now we can implement this protocol for different types by providing concrete type parameters.
-For instance, a container of strings and a container of integers:</p>
+We implement this protocol by providing a concrete type parameter for <code>T</code>.
+For instance, a container of <code>str</code> and a container of <code>int</code>:</p>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="c1"># container_types.py</span>
-</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="k">class</span> <span class="nc">StringContainer</span><span class="p">:</span>
-</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
-</span><span id="__span-9-4"><a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">value</span>
-</span><span id="__span-9-5"><a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a>
-</span><span id="__span-9-6"><a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a>    <span class="k">def</span> <span class="nf">get_item</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-</span><span id="__span-9-7"><a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span>
-</span><span id="__span-9-8"><a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a>
-</span><span id="__span-9-9"><a id="__codelineno-9-9" name="__codelineno-9-9" href="#__codelineno-9-9"></a>
-</span><span id="__span-9-10"><a id="__codelineno-9-10" name="__codelineno-9-10" href="#__codelineno-9-10"></a><span class="k">class</span> <span class="nc">IntContainer</span><span class="p">:</span>
-</span><span id="__span-9-11"><a id="__codelineno-9-11" name="__codelineno-9-11" href="#__codelineno-9-11"></a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
-</span><span id="__span-9-12"><a id="__codelineno-9-12" name="__codelineno-9-12" href="#__codelineno-9-12"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">value</span>
-</span><span id="__span-9-13"><a id="__codelineno-9-13" name="__codelineno-9-13" href="#__codelineno-9-13"></a>
-</span><span id="__span-9-14"><a id="__codelineno-9-14" name="__codelineno-9-14" href="#__codelineno-9-14"></a>    <span class="k">def</span> <span class="nf">get_item</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-</span><span id="__span-9-15"><a id="__codelineno-9-15" name="__codelineno-9-15" href="#__codelineno-9-15"></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span>
+</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>
+</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>
+</span><span id="__span-9-4"><a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="k">class</span> <span class="nc">StringContainer</span><span class="p">:</span>
+</span><span id="__span-9-5"><a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+</span><span id="__span-9-6"><a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">value</span>
+</span><span id="__span-9-7"><a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a>
+</span><span id="__span-9-8"><a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a>    <span class="k">def</span> <span class="nf">get_item</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+</span><span id="__span-9-9"><a id="__codelineno-9-9" name="__codelineno-9-9" href="#__codelineno-9-9"></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span>
+</span><span id="__span-9-10"><a id="__codelineno-9-10" name="__codelineno-9-10" href="#__codelineno-9-10"></a>
+</span><span id="__span-9-11"><a id="__codelineno-9-11" name="__codelineno-9-11" href="#__codelineno-9-11"></a>
+</span><span id="__span-9-12"><a id="__codelineno-9-12" name="__codelineno-9-12" href="#__codelineno-9-12"></a><span class="k">class</span> <span class="nc">IntContainer</span><span class="p">:</span>
+</span><span id="__span-9-13"><a id="__codelineno-9-13" name="__codelineno-9-13" href="#__codelineno-9-13"></a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+</span><span id="__span-9-14"><a id="__codelineno-9-14" name="__codelineno-9-14" href="#__codelineno-9-14"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">value</span>
+</span><span id="__span-9-15"><a id="__codelineno-9-15" name="__codelineno-9-15" href="#__codelineno-9-15"></a>
+</span><span id="__span-9-16"><a id="__codelineno-9-16" name="__codelineno-9-16" href="#__codelineno-9-16"></a>    <span class="k">def</span> <span class="nf">get_item</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+</span><span id="__span-9-17"><a id="__codelineno-9-17" name="__codelineno-9-17" href="#__codelineno-9-17"></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span>
 </span></code></pre></div>
 <p><code>StringContainer</code> and <code>IntContainer</code> each implement <code>get_item</code> returning the appropriate type.
 They don't subclass <code>Container</code>, but they structurally match <code>Container[str]</code> and <code>Container[int]</code>.
@@ -1361,8 +1368,7 @@ We can write functions that use the generic protocol to accept any kind of conta
 <p>In the function <code>print_item_and_return</code>, we used <code>C</code> (could also use <code>T</code> again) as a type variable for the container's item type.
 When we call this function with a <code>StringContainer</code>, the type checker knows <code>C</code> is <code>str</code> in that call, so it infers that the function returns a <code>str</code>.
 Similarly, with <code>IntContainer</code>, <code>C</code> becomes <code>int</code>.
-This is the benefit of generic protocols:
-they let you write flexible code that is still type-safe and retains specific type information.
+The benefit of generic protocols is that they create flexible code that is still type-safe and retains specific type information.
 In other words, one protocol can work for many types without losing the ability to distinguish those types when it matters.
 The syntax we used (<code>Container[C]</code> inside the function annotation) leverages Python's ability to support generics in type annotations.
 <code>Container[int]</code> is a <em>parameterized protocol</em> instance, but conceptually you can think of it like an interface template.</p>
@@ -1371,8 +1377,8 @@ You can declare variance for type variables if needed (covariant, contravariant)
 <code>Container[BaseClass]</code> unless you marked variance).
 In our container example, this is not an issue because we're primarily using it to carry the exact type.</p>
 <p>Another scenario for combining protocols with generics is when you want to put protocols as bounds on type variables.
-For instance, you can declare <code>[T: SomeProtocol]</code> to indicate that a type variable must satisfy a certain protocol.
 With classes, a bound indicates that <code>T</code> must subclass the bound.
+For instance, declaring <code>[T: SomeProtocol]</code> means the type variable <code>T</code> must satisfy the protocol <code>SomeProtocol</code>.
 However, protocols aren't part of the class hierarchy, so this is analogous to saying, "<code>T</code> must structurally implement the protocol."
 For example, if we have:</p>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="c1"># protocols_as_bounds.py</span>
@@ -1484,7 +1490,7 @@ Choose nominal typing when you want an explicit, enforced contract and possibly 
 Remember that protocols are most valuable when you are using static type checking; if your project doesn't use type checks, then a protocol is a <code>abc.ABC</code> with no abstract methods--it won't enforce anything by itself at runtime.
 In such cases, if enforcement is needed, an ABC with abstract methods (or even just documentation) might be better.
 However, even in purely dynamic contexts, many developers find protocols useful as documentation:
-by reading the Protocol class, you know what an object is expected to do.</p>
+by reading the <code>Protocol</code> class, you know what an object is expected to look like.</p>
 <p>In Python's type system evolution, protocols were introduced to complement nominal typing, not to replace it.
 They give you the freedom to write code in the Pythonic duck-typed style while still reaping the benefits of static analysis.
 A good guideline is to use protocols to describe roles that can be played by objects of different class hierarchies and use nominal typing for relationships within a class hierarchy.
