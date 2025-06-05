@@ -1610,7 +1610,9 @@ Here is <code>show_methods</code> applied to an ordinary class:</p>
 The definitions of <code>__setattr__</code> and <code>__delattr__</code> prevent modification at runtime.</p>
 <p>Adding <code>order=True</code> together with <code>frozen=True</code> produces the sum of all generated methods.</p>
 <h3 id="sorting-and-hashing">Sorting and Hashing<a class="headerlink" href="#sorting-and-hashing" title="Permanent link">#</a></h3>
-<p>// Describe</p>
+<ul>
+<li>// Describe</li>
+</ul>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="c1"># sortable_points.py</span>
 </span><span id="__span-13-2"><a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a><span class="kn">from</span> <span class="nn">point_dataclasses</span> <span class="kn">import</span> <span class="n">OrderedPoint</span>
 </span><span id="__span-13-3"><a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a>
@@ -1687,7 +1689,9 @@ Here, <code>next_ten</code> is a custom default factory; it's a function that pr
 </span><span id="__span-15-42"><a id="__codelineno-15-42" name="__codelineno-15-42" href="#__codelineno-15-42"></a><span class="c1">## user2 = UserProfile(username=&#39;Bob&#39;, strlist=[&#39;notifications&#39;],</span>
 </span><span id="__span-15-43"><a id="__codelineno-15-43" name="__codelineno-15-43" href="#__codelineno-15-43"></a><span class="c1">## n1=30, data={&#39;A&#39;: &#39;B&#39;, &#39;C&#39;: &#39;D&#39;}, n2=40)</span>
 </span></code></pre></div>
-<p>// Describe</p>
+<ul>
+<li>// Describe</li>
+</ul>
 <h3 id="post-initialization">Post-Initialization<a class="headerlink" href="#post-initialization" title="Permanent link">#</a></h3>
 <p>In a typical data class, validation logic resides in the <code>__post_init__</code> method.
 This is executed automatically after initialization.
