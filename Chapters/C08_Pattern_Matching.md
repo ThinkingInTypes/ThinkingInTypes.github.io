@@ -1,11 +1,45 @@
 # Pattern Matching
 
+// Value patterns: How to match against variables (using dotted names)
+// Nested class patterns: More complex examples
+
 Pattern matching compares a value (the _subject_) against a series of _patterns_, and executes code based on the pattern that fits.
 Unlike a basic switch on a single value, structural pattern matching destructures complex data and tests for conditions in one expressive syntax.
 
 A `match` statement looks similar to a **switch**/**case** from other languages, but Python's patterns can match structure (like the shape of a sequence or the attributes of an object) and bind variables.
 Pattern matching tries each `case` in order and executes the first one that matches, with a wildcard `_` as a catch-all default.
 Patterns can include literals, names, and even nested sub-patterns to unpack data.
+
+```python
+# before_and_after.py
+
+# Before pattern matching
+def process_data_before(data):
+    if isinstance(data, dict):
+        if "type" in data:
+            if data["type"] == "user":
+                return f"User: {data.get('name', 'Unknown')}"
+            elif data["type"] == "product":
+                return (
+                    f"Product: {data.get('title', 'Untitled')}"
+                )
+    elif isinstance(data, list) and len(data) == 2:
+        return f"Coordinates: ({data[0]}, {data[1]})"
+    return "Unknown data"
+
+
+# After pattern matching
+def process_data_after(data):
+    match data:
+        case {"type": "user", "name": name}:
+            return f"User: {name}"
+        case {"type": "product", "title": title}:
+            return f"Product: {title}"
+        case [x, y]:
+            return f"Coordinates: ({x}, {y})"
+        case _:
+            return "Unknown data"
+```
 
 ## Literal Patterns
 
@@ -117,6 +151,8 @@ In this example, the second case uses `other` as a capture pattern:
 
 ```python
 # capture_pattern.py
+from typing import Any
+
 
 def quit_or_other(command: Any) -> None:
     match command:
@@ -125,8 +161,11 @@ def quit_or_other(command: Any) -> None:
         case other:
             print(f"Received unknown command: {other!r}")
 
-quit_or_other("quit)
+
+quit_or_other("quit")
+## Quitting...
 quit_or_other("hello")
+## Received unknown command: 'hello'
 ```
 
 If the first case (`"quit"`) doesn't match, the second case will match anything.
@@ -161,14 +200,16 @@ Common uses of the wildcard pattern include:
 
 ```python
 # wildcard_final_case.py
-def wildcard(status) -> str:
+
+
+def wildcard(status: int) -> str:
     match status:
         case 200:
             return "OK"
         case 404:
             return "Not Found"
-        case _:
-            return "Unknown"  # `_` matches anything not matched above
+        case _:  # Matches anything not matched above
+            return "Unknown"
 ```
 
 - Ignoring one or more elements in a sequence pattern:
@@ -229,31 +270,41 @@ This is a powerful way to destructure sequence data.
 Suppose we want to categorize a 2D point given as a tuple `(x, y)`:
 
 ```python
-# example_7.py
-point = (0, 5)
-match point:
-    case (0, 0):
-        print("Origin")
-    case (0, y):
-        print(f"On the Y-axis at y={y}")
-    case (x, 0):
-        print(f"On the X-axis at x={x}")
-    case (x, y):
-        print(f"Point at ({x}, {y})")
-## On the Y-axis at y=5
+# sequence_pattern_tuple.py
+
+
+def where(point: object) -> str:
+    match point:
+        case (0, 0):
+            return "Origin"
+        case (0, y):
+            return f"On the Y-axis at y={y}"
+        case (x, 0):
+            return f"On the X-axis at x={x}"
+        case (x, y):
+            return f"Point at ({x}, {y})"
+        case _:
+            return f"Unknown {point = }"
+
+
+for p in [(0, 0), (0, 1), (1, 0), (1, 1), tuple()]:
+    print(where(p))
+## Origin
+## On the Y-axis at y=1
+## On the X-axis at x=1
+## Point at (1, 1)
+## Unknown point = ()
 ```
 
 This match has four sequence patterns, each a tuple of two elements:
 
 - `(0, 0)` is a sequence pattern of two literals, matching only the point `(0, 0)`.
 - `(0, y)` matches any 2-tuple whose first element is 0 and captures the second element as `y`.
-  So `(0, 5)` fits here, and `y` would be 5, resulting in `On the Y-axis at y=5`.
+  So `(0, 1)` results in `On the Y-axis at y=1`.
 - `(x, 0)` matches any 2-tuple with second element 0, capturing the first element as `x`.
-- `(x, y)` (the most general) matches any 2-tuple, capturing both elements.
+- `(x, y)` matches any 2-tuple, capturing both elements.
 
-Only one case will run: the first one that matches in order.
-In our example, `point = (0, 5)` matches the second pattern `(0, y)` because the first element is 0 (literal match) and it binds `y = 5`.
-The remaining cases are skipped.
+Only one case runs: the first one that matches in order.
 
 ### Details
 
@@ -280,7 +331,9 @@ The remaining cases are skipped.
   For example:
 
 ```python
-# example_8.py
+# starred_subpattern.py
+
+
 def rest_pattern(*values):
     match values:
         case [first, second, *rest]:
@@ -322,8 +375,13 @@ def subject_annotation(*values: int) -> None:
 
 subject_annotation(10, 20, 30, 40)
 ## first = 10, second = 20, rest = [30, 40]
-# rest_pattern("a", "b", "c", "d")  # Disallowed
+subject_annotation(10, 20, 30, "40")  # type: ignore
+## first = 10, second = 20, rest = [30, '40']
+subject_annotation("a", "b", "c", "d")  # type: ignore
+## first = 'a', second = 'b', rest = ['c', 'd']
 ```
+
+Remove the `# type: ignore`  comments to see the type checker find the problems.
 
 **Nested patterns:** You can nest sequence patterns within sequences for multidimensional data.:
 
@@ -368,7 +426,7 @@ This can be both clearer and less error-prone.
 Static type checkers can verify that your patterns make sense given the declared types.
 For example, if a function parameter is `coords: tuple[int, int]`, then a pattern with two elements will always match, whereas a pattern with three would be flagged as possibly unreachable (since a tuple[int,int] can't have length 3).
 Additionally, the types of captured variables can be inferred: if `coords` is `tuple[int,int]`, then in `case (x, y):` the checker knows `x` and `y` are `int`.
-This synergy makes pattern matching with sequences both convenient and type-safe in well-typed code.
+Pattern matching with sequences is both convenient and type-safe.
 
 ## Mapping Patterns
 
@@ -380,16 +438,41 @@ This is useful for working with JSON-like data or configuration dictionaries.
 For example, imagine we receive event data as dictionaries, and we want to handle different event types:
 
 ```python
-# example_9.py
-event = {"type": "keypress", "key": "Enter"}
-match event:
-    case {"type": "keypress", "key": k}:
-        print(f"Key pressed: {k}")
-    case {"type": "mousemove", "x": x, "y": y}:
-        print(f"Mouse moved to ({x}, {y})")
-    case _:
-        print("Unknown event")
+# mapping_patterns.py
+from typing import Literal, TypedDict
+
+
+class KeyPressEvent(TypedDict):
+    type: Literal["keypress"]
+    key: str
+
+
+class MouseMoveEvent(TypedDict):
+    type: Literal["mousemove"]
+    x: int
+    y: int
+
+
+Event = KeyPressEvent | MouseMoveEvent
+
+
+def event_info(event: Event) -> None:
+    match event:
+        case {"type": "keypress", "key": k}:
+            print(f"Key pressed: {k}")
+        case {"type": "mousemove", "x": x, "y": y}:
+            print(f"Mouse moved to ({x}, {y})")
+        case _:
+            print("Unknown event")
+
+
+e1: KeyPressEvent = {"type": "keypress", "key": "Enter"}
+e2: MouseMoveEvent = {"type": "mousemove", "x": 47, "y": 42}
+
+event_info(e1)
 ## Key pressed: Enter
+event_info(e2)
+## Mouse moved to (47, 42)
 ```
 
 In this match:
@@ -453,6 +536,102 @@ However, if you use something like `TypedDict` or `Mapping[str, X]`, a type chec
 Pattern matching shines in expressiveness rather than static type rigor for mappings.
 If you have a fixed schema for a dict, pattern matching can clearly express the shape, and a tool like mypy can check that you at least treat captured values consistently with their annotated types.
 (For truly fixed keys, a dataclass or custom class might be a better fit, which leads us to class patterns.)
+
+```python
+# event_system.py
+from typing import TypedDict, Literal
+
+
+class KeyPress(TypedDict):
+    type: Literal["key_press"]
+    key: str
+
+
+class MouseMove(TypedDict):
+    type: Literal["mouse_move"]
+    x: int
+    y: int
+
+
+mouseButton = Literal["left", "right", "middle"]
+
+
+class MouseClick(TypedDict):
+    type: Literal["mouse_click"]
+    x: int
+    y: int
+    button: mouseButton
+
+
+class WindowResize(TypedDict):
+    type: Literal["window_resize"]
+    width: int
+    height: int
+
+
+Event = KeyPress | MouseMove | MouseClick | WindowResize
+
+
+class EVT:
+    @staticmethod
+    def key_press(key: str) -> KeyPress:
+        return {"type": "key_press", "key": key}
+
+    @staticmethod
+    def mouse_move(x: int, y: int) -> MouseMove:
+        return {"type": "mouse_move", "x": x, "y": y}
+
+    @staticmethod
+    def mouse_click(
+        x: int, y: int, button: mouseButton
+    ) -> MouseClick:
+        return {
+            "type": "mouse_click",
+            "x": x,
+            "y": y,
+            "button": button,
+        }
+
+    @staticmethod
+    def window_resize(width: int, height: int) -> WindowResize:
+        return {
+            "type": "window_resize",
+            "width": width,
+            "height": height,
+        }
+
+
+def handle_event(event: Event) -> None:
+    match event:
+        case {"type": "key_press", "key": key}:
+            print(f"Key press: {key}")
+        case {"type": "mouse_move", "x": x, "y": y}:
+            print(f"Mouse move to ({x}, {y})")
+        case {
+            "type": "mouse_click",
+            "x": x,
+            "y": y,
+            "button": button,
+        }:
+            print(f"Mouse click: ({x}, {y}) button: {button}")
+        case {"type": "window_resize", "width": w, "height": h}:
+            print(f"Window resize to {w} x {h}")
+        case _:
+            print(f"Unknown event {event}")
+
+
+for event in [
+    EVT.key_press("A"),
+    EVT.mouse_move(100, 200),
+    EVT.mouse_click(10, 15, "left"),
+    EVT.window_resize(800, 600),
+]:
+    handle_event(event)
+## Key press: A
+## Mouse move to (100, 200)
+## Mouse click: (10, 15) button: left
+## Window resize to 800 x 600
+```
 
 ## Class Patterns
 
@@ -846,22 +1025,198 @@ Type checkers are not guaranteed to catch that nuance, but you as the programmer
 More commonly, you'd have already annotated or known types.
 Guards are mainly for logic, not for static type discrimination (that's what class patterns are for).
 
-## Pattern Matching vs.
+## Dataclass Pattern Matching
 
-Inheritance
+```python
+# dataclass_pattern_matching.py
+from dataclasses import dataclass
+from typing import Any
+
+
+@dataclass
+class Point:
+    x: int
+    y: int
+
+
+@dataclass
+class Rectangle:
+    width: int
+    height: int
+    color: str
+
+    __match_args__ = (
+        "width",
+        "height",
+    )  # control positional matching
+
+
+def match_point(value: Any) -> None:
+    match value:
+        case Point(0, 0):
+            print("Origin")
+        case Point(x, 0):
+            print(f"On X-axis at {x = }")
+        case Point(0, y):
+            print(f"On Y-axis at {y = }")
+        case Point(x, y):
+            print(f"General point: ({x}, {y})")
+        case _:
+            print("Not a Point")
+
+
+def match_rectangle(value: Any) -> None:
+    match value:
+        case Rectangle(
+            100, 200
+        ):  # uses __match_args__: width, height
+            print("Large rectangle")
+        case Rectangle(width=w, height=h, color=c):
+            print(f"Rectangle: width={w}, height={h}, color={c}")
+        case _:
+            print("Not a Rectangle")
+
+
+match_point(Point(0, 0))
+## Origin
+match_point(Point(5, 0))
+## On X-axis at x = 5
+match_point(Point(0, 7))
+## On Y-axis at y = 7
+match_point(Point(3, 4))
+## General point: (3, 4)
+match_point(None)
+## Not a Point
+match_rectangle(Rectangle(100, 200, "red"))
+## Large rectangle
+match_rectangle(Rectangle(50, 60, "blue"))
+## Rectangle: width=50, height=60, color=blue
+match_rectangle(None)
+## Not a Rectangle
+```
+
+## Pattern Matching vs. Inheritance
+
+## Quick Reference
+
+| Pattern Type          | Syntax Example               | Meaning                              |
+|-----------------------|------------------------------|--------------------------------------|
+| **Literal**           | `case 42:`                   | Match exact value                    |
+| **Capture**           | `case x:`                    | Bind matched value to variable `x`   |
+| **Wildcard**          | `case _:`                    | Match anything (ignore value)        |
+| **Sequence**          | `case [x, y]:`               | Match sequence of length 2           |
+| **Mapping**           | `case {"key": value}:`       | Match dict with key `"key"`          |
+| **Class**             | `case MyClass(attr=x):`      | Match class with attribute `attr`    |
+| **Alternatives (OR)** | `case p1 \| p2:`             | Match either pattern `p1` or `p2`    |
+| **Binding (AS)**      | `case pattern as name:`      | Bind matched value as `name`         |
+| **Guard**             | `case pattern if condition:` | Add condition after successful match |
+
+```python
+# quick_reference.py
+from typing import TypedDict, Literal, Any
+
+
+def literal_example(value: int) -> None:
+    match value:
+        case 42:
+            print("The Answer")
+        case _:
+            print("Not the Answer")
+
+
+def capture_example(value: Any) -> None:
+    match value:
+        case x:
+            print(f"Got: {x}")
+
+
+def wildcard_example(value: Any) -> None:
+    match value:
+        case _:
+            print("Don't care")
+
+
+def sequence_example(value: Any) -> None:
+    match value:
+        case [x, y]:
+            print(f"Sequence of length 2: x={x}, y={y}")
+        case _:
+            print("Not a 2-element sequence")
+
+
+class Event(TypedDict):
+    type: Literal["keypress"]
+    key: str
+
+
+def mapping_example(event: Any) -> None:
+    match event:
+        case {"type": "keypress", "key": k}:
+            print(f"Key pressed: {k}")
+        case _:
+            print("Not a keypress event")
+
+
+class Point:
+    def __init__(self, x: int, y: int):
+        self.x = x
+        self.y = y
+
+
+def class_example(value: Any) -> None:
+    match value:
+        case Point(x=px, y=py):
+            print(f"Point: x={px}, y={py}")
+        case _:
+            print("Not a Point")
+
+
+def or_pattern_example(value: int) -> None:
+    match value:
+        case 0 | 1:
+            print("Zero or one")
+        case _:
+            print("Something else")
+
+
+def as_pattern_example(value: Any) -> None:
+    match value:
+        case [x, y] as pair:
+            print(f"Pair: {pair}, elements: {x}, {y}")
+        case _:
+            print("Not a pair")
+
+
+def guard_example(value: int) -> None:
+    match value:
+        case x if x > 10:
+            print("Greater than 10")
+        case _:
+            print("10 or below")
+```
+
+## Migration Guide
+
+Converting common Python idioms to pattern matching.
+
+### Convert if/elif chains
+
+### Convert isinstance checks
+
+### Convert dictionary key checking
 
 ## Conclusion
 
-Structural pattern matching can be composed in various ways--you can nest patterns arbitrarily, use OR inside sequence patterns, add guards to class patterns, and so on, to model the logic you need.
+Structural pattern matching can be composed in various ways--you can nest patterns arbitrarily, use OR inside sequence patterns,
+add guards to class patterns, and so on, to model the logic you need.
 
 When used thoughtfully, pattern matching can make code more readable by aligning it closely with the structure of the data it's handling.
 It can reduce boilerplate (no more long chains of `isinstance` and indexing) and help catch errors (exhaustiveness checks with static typing, for example).
 Your code will be more readable and maintainable if you do not overcomplicate patterns--strive for clarity.
 Often a straightforward series of cases is better than one mega-pattern that is hard to understand.
 
-With practice, you'll find pattern matching to be a natural extension of Python's ethos of readable and expressive code.
+With practice, you'll find pattern matching to be a natural extension of Python's readable and expressive code.
 It brings Python closer to languages like Scala or Haskell in this regard, but in a Pythonic way.
-Use the references and examples in this chapter as a guide to the various forms, and happy matching!
 
 ## References
 
