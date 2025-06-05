@@ -171,9 +171,10 @@ Rather than designing everything up front, Smalltalk encourages programmers to b
 The key ideas:
 
 - Everything is an object.
-- You send messages to objects, even if you don't know whether they understand them.
+- You send messages to objects.
+- It's OK for an object not to understand a message.
 - Objects can learn new behaviors at runtime.
-- The system evolves live as you work.
+- The system evolves as you work.
 
 We'll simulate the Smalltalk programming experience using Python, so you can see what it feels like to develop in the Smalltalk style.
 The entire session mirrors the experience of working in a Smalltalk image: there is no compile-run-edit loop.
@@ -183,17 +184,19 @@ We start with a basic object that handles unknown messages by implementing `not_
 
 ```python
 # smalltalk_object.py
+
 class SmalltalkObject:
     def __getattr__(self, name):
         def handler(*args, **kwargs):
             return self.not_found(name, *args, **kwargs)
-
         return handler
 
     def not_found(self, message, *args, **kwargs):
-        print(
-            f"{self.__class__.__name__}: '{message}' not found"
-        )
+        args_str = ", ".join(repr(arg) for arg in args)
+        kwargs_str = ", ".join(f"{k}={v!r}" for k, v in kwargs.items())
+        all_args = ", ".join(filter(None, [args_str, kwargs_str]))
+
+        print(f"{self.__class__.__name__}: {message}({all_args}) not found")
 ```
 
 When you say `obj.some_attr`, Python (internally) runs `type(obj).__getattribute__(obj, "some_attr")`.
