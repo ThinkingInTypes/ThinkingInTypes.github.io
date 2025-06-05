@@ -282,9 +282,6 @@ To support Python versions earlier than 3.9, use `typing.List` / `typing.Dict` s
 because bracketed syntax for built-in types won't be recognized in older versions.
 This book will use the built-in names whenever possible
 
-There is also a mechanism called `from __future__ import annotations` that can ease adoption of newer annotation features by treating annotations as strings (to avoid evaluation issues), but that is an advanced detail beyond our current scope.
-TODO: Add an example
-
 ## Specialized Annotations (`Sequence`, `Mapping`, `Iterable`, `Iterator`)
 
 Sometimes you want a more abstract concept of a type.

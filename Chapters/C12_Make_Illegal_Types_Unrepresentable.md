@@ -87,6 +87,7 @@ def f3(phonenumber: str):
     if not phone_number.match(phonenumber):
         return f"Bad {phonenumber = }"
     ...
+    return "OK"
 ```
 
 Each function has its own custom code and reports errors differently.
@@ -265,8 +266,6 @@ If an `Amount` object exists, you know it cannot contain a negative value or mor
 
 ```python
 # amount.py
-from __future__ import annotations
-
 from dataclasses import dataclass
 from decimal import Decimal
 from typing import Self
@@ -359,7 +358,6 @@ Now we define a bank-account `Balance` that contains an `Amount`, but doesn't ne
 
 ```python
 # balance.py
-from __future__ import annotations
 from dataclasses import dataclass
 from amount import Amount
 
@@ -438,7 +436,6 @@ Let's apply this approach to the stringly-typed phone number problem shown at th
 ```python
 # phone_number.py
 # Validated and normalized phone number
-from __future__ import annotations
 from dataclasses import dataclass
 from typing import Self
 import re

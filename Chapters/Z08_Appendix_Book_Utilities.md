@@ -21,8 +21,6 @@ the context manager in case argument evaluation raises an exception.
 To do this the function should be provided as a zero-argument callable.
 If the function takes arguments, it must be wrapped in a lambda to delay evaluation.
 """
-from __future__ import annotations
-
 import traceback as _traceback
 from typing import Any, Callable
 

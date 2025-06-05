@@ -171,7 +171,6 @@ Here's how we can do it:
 ```python
 # self_referencing.py
 # For forward-referenced types:
-from __future__ import annotations
 from dataclasses import dataclass, field
 
 
@@ -220,8 +219,6 @@ Consider a base class that should return an instance of the subclass in a method
 
 ```python
 # f_bounded_polymorphism.py
-from __future__ import annotations
-
 from dataclasses import dataclass, field
 from typing import cast
 

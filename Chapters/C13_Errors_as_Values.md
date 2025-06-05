@@ -511,7 +511,6 @@ Let's modify `Result` to add a new member function, `bind`:
 
 ```python
 # result_with_bind.py
-from __future__ import annotations
 
 from dataclasses import dataclass
 from typing import Callable
