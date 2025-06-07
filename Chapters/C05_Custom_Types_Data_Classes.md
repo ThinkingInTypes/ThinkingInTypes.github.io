@@ -985,7 +985,7 @@ show_dicts(a, "a")
 ## a.y is 111
 ```
 
-After creating `a`, we see class attribute of `x` and `y` with values `1` and `2`, respectively.
+After creating `a`, we see class attributes of `x` and `y` with values `1` and `2`, respectively.
 However, the instance dictionary is empty--there are no instance attributes.
 Thus, when we access `a.x` and `b.x`, Python doesn't find those instance attributes and continues to search, displaying the class attributes instead.
 
