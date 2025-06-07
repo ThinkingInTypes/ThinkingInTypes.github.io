@@ -381,7 +381,7 @@ If yes, then for all intents and purposes, it can play the role of a duck in the
 Different classes can implement the same set of messages, thereby effectively conforming to the same "duck type."
 This gives Smalltalk tremendous flexibility and polymorphism--any object that implements the expected messages can be used in a given context, regardless of its class.
 
-It's important to note that Smalltalk is not "weakly typed" or "untyped."
+Smalltalk is not "weakly typed" or "untyped."
 It is in fact strongly typed at runtime--if you send a message an object doesn't understand, the system will throw a runtime error rather than blindly misinterpreting it.
 Strong typing only means type errors are prevented; it does not require that they be prevented at compile time.
 Smalltalk enforces type safety dynamically: a `MessageNotUnderstood` error will halt a misuse, analogous to a type error in a static system, but occurring at runtime.

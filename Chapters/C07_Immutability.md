@@ -1,14 +1,12 @@
 # Immutability
 
-Immutability--the inability to change an object or variable after its creation--offers several key benefits in software
-design.
+Immutability is the inability to change an object or variable after its creation.
+It offers several key benefits in software design.
 By making data immutable, we greatly simplify the mental model needed to understand program state.
-In particular, immutability makes programs easier to reason about by eliminating the possibility of unexpected changes
-to data.
-This reduction in "the realm of possibility" for how data can evolve means fewer potential bugs and side effects in our
-code.
-An immutable variable gives us one less thing to worry about when tracing through a program's logic, because once it's
-set, it won't arbitrarily change under us.
+In particular, immutability makes programs easier to reason about by eliminating the possibility of unexpected changes to data.
+This reduction in "the realm of possibility" for how data can evolve means fewer potential bugs and side effects in our code.
+An immutable variable gives us one less thing to worry about when tracing through a program's logic, because once it's set,
+it won't arbitrarily change under us.
 
 Another major benefit is safety in concurrent contexts.
 In multithreaded code, shared mutable state is a common source of issues like data races.
@@ -53,11 +51,9 @@ According to PEP 8 (Python's style guide),
 For example, one might write:
 
 ```python
-# example_1.py
-MAX_OVERFLOW = 1000  # intended to be a constant
-DATABASE_URL = (
-    "postgres://localhost/db"  # constant configuration
-)
+# by_convention.py
+MAX_OVERFLOW = 1000
+DATABASE_URL = "postgres://localhost/db"
 ```
 
 By writing these names in uppercase, we indicate to other developers (and ourselves) that these values should be treated
@@ -139,8 +135,8 @@ class BaseConfig:
     TIMEOUT: Final[int] = 60
 
 
+# Error: can't override a final attribute in BaseConfig
 class SubConfig(BaseConfig):
-    # Error: can't override a final attribute in BaseConfig
     TIMEOUT = 30  # type: ignore
 ```
 
@@ -150,7 +146,21 @@ Similarly, `BaseConfig.TIMEOUT` is a constant class attribute; attempting to ove
 flagged ("can't override a final attribute").
 This helps maintain invariants in class hierarchies.
 
-It's important to note that `Final` can also be used for instance attributes in `__init__`.
+We can improve `configuration.py` from Chapter 5 by making the class attributes `Final`:
+
+```python
+# final_configuration.py
+from pathlib import Path
+from typing import Final
+
+
+class Config:
+    WIDTH: Final[int] = 65
+    INPUT: Final[Path] = Path("infile.txt")
+    OUTPUT: Final[Path] = Path("outfile.txt")
+```
+
+`Final` can also be used for instance attributes in `__init__`.
 If you have an instance attribute that should only be set once (in the initializer) and never changed, you can annotate
 it with `Final` in the class body and then assign it in the constructor.
 For example:

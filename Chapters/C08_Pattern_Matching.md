@@ -964,7 +964,7 @@ Guards refine a pattern match with arbitrary logic:
 - Guards can also prevent a case from handling a scenario that should be passed to a later case.
   For instance, if you have overlapping patterns, a guard can differentiate them.
 
-It's important to note that the guard is evaluated after the pattern matches.
+The guard is evaluated after the pattern matches.
 If the pattern doesn't match, Python doesn't even evaluate the guard.
 If the pattern matches but the guard is False, the overall result is as if the pattern didn't match at all, and the next case is tried.
 

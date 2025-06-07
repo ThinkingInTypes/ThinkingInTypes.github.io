@@ -108,9 +108,7 @@ To summarize the difference:
   The downside is that type-related mistakes are only caught when that line of code runs, which might be far into a program's execution.
   This can lead to runtime errors and sometimes makes large codebases harder to reason about (you have to remember or check what type a variable might be at a given point).
 
-It's important to note that dynamic vs.
-static is about when type checking happens (at runtime vs.
-compile time).
+Dynamic vs. static is about when type checking happens: at runtime vs. compile time.
 It's independent of strong vs. weak typing; Python is strongly typed--it won't implicitly convert types for you in unchecked ways (except for truthiness, which can be disallowed).
 Trying to add a number to a string is not permitted, as Python won't guess that maybe you meant `"10" + "world"`.
 In Python, values have a definite type, and you can't treat a value as a different type without an explicit conversion.

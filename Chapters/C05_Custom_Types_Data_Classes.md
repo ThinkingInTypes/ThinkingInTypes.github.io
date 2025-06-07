@@ -1105,6 +1105,31 @@ As a result, even though `x` and `y` are still listed as data class attributes, 
 Accessing `di.x` and `di.y` falls back to the class attributes, just like in a regular class.
 Only when you assign new values to `di.x` and `di.y` do they become instance attributes and override the class-level defaults.
 
+### A Useful Application
+
+One valuable place to use class attributes is for a configuration object:
+
+```python
+# configuration.py
+from pathlib import Path
+
+
+class Config:
+    WIDTH = 65
+    INPUT = Path("infile.txt")
+    OUTPUT = Path("outfile.txt")
+
+
+print(Config.WIDTH)
+## 65
+print(Config.INPUT)
+## infile.txt
+print(Config.OUTPUT)
+## outfile.txt
+```
+
+This provides nice dot-completion in your editor.
+
 ## The Power of Custom Types
 
 Creating custom types simplifies managing data integrity and composition,

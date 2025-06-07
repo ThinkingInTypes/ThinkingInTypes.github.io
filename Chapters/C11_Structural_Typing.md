@@ -95,7 +95,7 @@ This is the power of structural typing.
 The type checker treats `Dog` and `Robot` as subtypes of `Speaker` because they have the right `speak()` method signature.
 If we tried to pass an object that lacks a `speak()` method (or has an incompatible signature), the type checker would flag an error, ensuring type safety.
 
-It's important to note that protocols are primarily a static concept--they are enforced by type checkers, not by the Python runtime (by default).
+Protocols are primarily a static concept--they are enforced by type checkers, not by the Python runtime (by default).
 Unlike an abstract base class (ABC), a protocol doesn't require classes to formally subclass it, and Python will not produce an error at runtime if a required method is missing.
 For example, in the code above, if we call `announce(Dog())` and `Dog.speak` is missing or misnamed, we would only find out at runtime via an `AttributeError`.
 The protocol helps catch such issues before runtime by using tools like Mypy.
