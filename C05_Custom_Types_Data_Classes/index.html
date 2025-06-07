@@ -502,6 +502,21 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="Class Attributes">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#a-useful-application" class="md-nav__link">
+    <span class="md-ellipsis">
+      A Useful Application
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
@@ -1162,6 +1177,21 @@
       Class Attributes
     </span>
   </a>
+  
+    <nav class="md-nav" aria-label="Class Attributes">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#a-useful-application" class="md-nav__link">
+    <span class="md-ellipsis">
+      A Useful Application
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -2167,6 +2197,26 @@ That means your <code>__init__</code> is responsible for setting up the instance
 As a result, even though <code>x</code> and <code>y</code> are still listed as data class attributes, the instance starts out with no <code>x</code> or <code>y</code> in its <code>__dict__</code>.
 Accessing <code>di.x</code> and <code>di.y</code> falls back to the class attributes, just like in a regular class.
 Only when you assign new values to <code>di.x</code> and <code>di.y</code> do they become instance attributes and override the class-level defaults.</p>
+<h3 id="a-useful-application">A Useful Application<a class="headerlink" href="#a-useful-application" title="Permanent link">#</a></h3>
+<p>One valuable place to use class attributes is for a configuration object:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-30-1"><a id="__codelineno-30-1" name="__codelineno-30-1" href="#__codelineno-30-1"></a><span class="c1"># configuration.py</span>
+</span><span id="__span-30-2"><a id="__codelineno-30-2" name="__codelineno-30-2" href="#__codelineno-30-2"></a><span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+</span><span id="__span-30-3"><a id="__codelineno-30-3" name="__codelineno-30-3" href="#__codelineno-30-3"></a>
+</span><span id="__span-30-4"><a id="__codelineno-30-4" name="__codelineno-30-4" href="#__codelineno-30-4"></a>
+</span><span id="__span-30-5"><a id="__codelineno-30-5" name="__codelineno-30-5" href="#__codelineno-30-5"></a><span class="k">class</span> <span class="nc">Config</span><span class="p">:</span>
+</span><span id="__span-30-6"><a id="__codelineno-30-6" name="__codelineno-30-6" href="#__codelineno-30-6"></a>    <span class="n">WIDTH</span> <span class="o">=</span> <span class="mi">65</span>
+</span><span id="__span-30-7"><a id="__codelineno-30-7" name="__codelineno-30-7" href="#__codelineno-30-7"></a>    <span class="n">INPUT</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s2">&quot;infile.txt&quot;</span><span class="p">)</span>
+</span><span id="__span-30-8"><a id="__codelineno-30-8" name="__codelineno-30-8" href="#__codelineno-30-8"></a>    <span class="n">OUTPUT</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s2">&quot;outfile.txt&quot;</span><span class="p">)</span>
+</span><span id="__span-30-9"><a id="__codelineno-30-9" name="__codelineno-30-9" href="#__codelineno-30-9"></a>
+</span><span id="__span-30-10"><a id="__codelineno-30-10" name="__codelineno-30-10" href="#__codelineno-30-10"></a>
+</span><span id="__span-30-11"><a id="__codelineno-30-11" name="__codelineno-30-11" href="#__codelineno-30-11"></a><span class="nb">print</span><span class="p">(</span><span class="n">Config</span><span class="o">.</span><span class="n">WIDTH</span><span class="p">)</span>
+</span><span id="__span-30-12"><a id="__codelineno-30-12" name="__codelineno-30-12" href="#__codelineno-30-12"></a><span class="c1">## 65</span>
+</span><span id="__span-30-13"><a id="__codelineno-30-13" name="__codelineno-30-13" href="#__codelineno-30-13"></a><span class="nb">print</span><span class="p">(</span><span class="n">Config</span><span class="o">.</span><span class="n">INPUT</span><span class="p">)</span>
+</span><span id="__span-30-14"><a id="__codelineno-30-14" name="__codelineno-30-14" href="#__codelineno-30-14"></a><span class="c1">## infile.txt</span>
+</span><span id="__span-30-15"><a id="__codelineno-30-15" name="__codelineno-30-15" href="#__codelineno-30-15"></a><span class="nb">print</span><span class="p">(</span><span class="n">Config</span><span class="o">.</span><span class="n">OUTPUT</span><span class="p">)</span>
+</span><span id="__span-30-16"><a id="__codelineno-30-16" name="__codelineno-30-16" href="#__codelineno-30-16"></a><span class="c1">## outfile.txt</span>
+</span></code></pre></div>
+<p>This provides nice dot-completion in your editor.</p>
 <h2 id="the-power-of-custom-types">The Power of Custom Types<a class="headerlink" href="#the-power-of-custom-types" title="Permanent link">#</a></h2>
 <p>Creating custom types simplifies managing data integrity and composition,
 reduces repetitive checks, and centralizes validation.
