@@ -1,17 +1,15 @@
 # Advanced Generics
 
 Most of the time you will be a consumer of generic code rather than a producer.
-It is useful to understand the introductory generic material in [C09_Generics].
-Occasionally you will need the material in this chapter.
+It is useful to understand the introductory generic material in [Generics](C09_Generics.md).
+Occasionally, you might need the more advanced concepts covered here.
 
 ## Variance
 
-In the context of generics, *variance* describes how subtyping between complex types relates to subtyping between their
-component types.
-In Python, all generics are invariant by default, meaning `Container[SubType]` is not a subtype of `Container[BaseType]`
-even if `SubType` is a subtype of `BaseType`.
-This is a common source of confusion for those coming from languages like Java or C#, but it's an important aspect of
-type safety.
+In the context of generics, *variance* describes how subtyping between complex types relates to subtyping between their component types.
+In Python, all generics are invariant by default,
+meaning `Container[SubType]` is not a subtype of `Container[BaseType]` even if `SubType` is a subtype of `BaseType`.
+This is a common source of confusion for those coming from languages like Java or C#, but it's an important aspect of type safety.
 
 Python 3.12 introduced variance inference, so you do not have to specify variance.
 This is a great benefit, as people often find variance confusing.
@@ -25,8 +23,7 @@ The type checker forbids treating `Box[Dog]` as a `Box[Animal]`.
 
 ### Covariance
 
-Covariance usually makes sense for read-only or producer containers.
-For example:
+Covariance usually makes sense for read-only or producer containers:
 
 ```python
 # covariance.py
@@ -56,8 +53,7 @@ instances that can violate assumptions).
 
 ### Contravariance
 
-Contravariance is suitable for consumer objects that only take in data of type `T` and do not produce it.
-For example:
+Contravariance is suitable for consumer objects that only take in data of type `T` and do not produce it:
 
 ```python
 # contravariance.py
@@ -77,7 +73,7 @@ dog_sink.send(Dog())
 ## Processing Dog(name=None)
 ```
 
-In this example, `Sink[T]` is contravariant, indicating it only consumes values of type `T` (here, via `send`).
+`Sink[T]` is contravariant, indicating it only consumes values of type `T` (here, via `send`).
 Because a `Sink[Animal]` can accept a `Dog` (since `Dog` is an `Animal`),
 it is safe to assign `animal_sink` to a `dog_sink` reference.
 In general, contravariance allows broadening the accepted types when substituting; a `Sink[Animal]` can stand in for a
@@ -260,8 +256,7 @@ checker as returning a `ContactForm` with the methods of `ContactForm` available
 This pattern ensures that each subclass of `Form` will have `set_title` (inherited) returning the subclass type,
 not the base type.
 It's a bit complex to set up, but it provides more precise typing for chaining methods.
-Python 3.11+ provides `typing.Self` (PEP 673) that simplifies this pattern by allowing methods to return `Self` (the type of the class).
-For example:
+Python 3.11+ added `typing.Self` (PEP 673) that simplifies this pattern by allowing methods to return `Self` (the type of the class):
 
 ```python
 # return_self.py
@@ -327,9 +322,7 @@ We have to put `'JSON'` in quotes because we are referring to the name `JSON` be
 `from __future__ import annotations` or run in a module where that's the default).
 
 Most type checkers support such recursive type aliases.
-In use, if you annotate a variable as `JSON`, the type checker will understand nested structures of dicts and lists
-accordingly.
-For example:
+In use, if you annotate a variable as `JSON`, the type checker will understand nested structures of dicts and lists accordingly:
 
 ```python
 # recursive_alias_applied.py
@@ -413,8 +406,7 @@ but they are accepted by the `render` function because they fulfill the structur
 protocol.
 This is static duck typing in action: if it quacks like a duck, treat it as a duck.
 
-**Protocols with Attributes:** Protocols can also specify that an attribute exists (with a certain type).
-For example:
+**Protocols with Attributes:** Protocols can also specify that an attribute exists (with a certain type):
 
 ```python
 # protocols_with_attributes.py
@@ -504,7 +496,6 @@ In general, it's more common to rely on static checking for protocols and use no
 forgiveness rather than permission."
 
 **Use cases:** Protocols are useful when you want to accept "any object that has these methods."
-For example:
 
 - A serialization utility that works with any object that has a `to_json()` method can define a protocol for that
   method.
@@ -548,8 +539,7 @@ data: StrDict[int] = {"age": 30, "year": 2025}
 
 These annotations make the intent clearer: `p` is a pair of ints, `q` a pair of strs, and `data` is a string-to-int map.
 The type checker treats `Pair[int]` as `tuple[int, int]`.
-If you do not subscript the alias (e.g., just use `Pair` by itself), the type variables are typically treated as `Any`.
-For example:
+If you do not subscript the alias (e.g., just use `Pair` by itself), the type variables are typically treated as `Any`:
 
 ```python
 # generic_alias_tuple.py
@@ -570,8 +560,7 @@ Always supply type parameters for a generic alias to avoid inadvertently falling
 
 Type aliases don't create new types at runtime; they are solely for type checking and readability.
 In code, `Pair[int]` does not exist as a real class; it's just an alias for `tuple[int, int]`.
-If you inspect `Pair[int]` at runtime, you'll get the underlying type.
-For example:
+If you inspect `Pair[int]` at runtime, you'll get the underlying type:
 
 ```python
 # inspect_alias.py

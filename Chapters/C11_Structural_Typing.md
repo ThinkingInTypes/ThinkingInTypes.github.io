@@ -178,8 +178,8 @@ protocols by default cannot be used with `isinstance()` or `issubclass()` checks
 If you try `isinstance(some_obj, Closable)` in the above example, Python will raise a `TypeError` unless you take additional steps.
 This is because the protocol is not a real base class of those objects (they never inherited from it).
 However, Python's `typing` module provides a decorator `@runtime_checkable` that you can apply to a protocol to make runtime `isinstance` checks possible on it.
-Marking a protocol with `@runtime_checkable` means it gets a special `__instancecheck__` that will return True if the object has the required attributes (much like ABCs in `collections.abc` do with their `__subclasshook__`).
-For example:
+Marking a protocol with `@runtime_checkable` means it gets a special `__instancecheck__` that will return `True` if the object has the required attributes
+(much like ABCs in `collections.abc` do with their `__subclasshook__`):
 
 ```python
 # example_4.py
@@ -387,8 +387,7 @@ We can do the same with our own protocols.
 To define a generic protocol, we put the type variable in brackets after `Protocol` when defining the class.
 Let's say we want to define a container protocol that yields items of some type.
 We can make it generic so that a `Container[int]` is a protocol for "container of ints" and `Container[str]` for "container of strings,"
-but both are based on the same generic interface.
-For example:
+but both are based on the same generic interface:
 
 ```python
 # container.py

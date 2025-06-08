@@ -16,8 +16,7 @@ This enables _gradual typing_--code can be partially or fully annotated, and typ
 
 ### Function Annotations (Parameters and Return)
 
-You can annotate function parameters and return types using the syntax introduced in PEP 484.
-For example:
+You can annotate function parameters and return types using the syntax introduced in PEP 484:
 
 ```python
 # example_1.py
@@ -33,8 +32,7 @@ If a function does not return a value (or returns `None`), it's good practice to
 ### Variable Annotations
 
 Python 3.6 (PEP 526) introduced syntax for annotating variables and class attributes with types.
-For example:
-`age: int = 21` or `pi: float` (with or without initialization).
+For example: `age: int = 21` or `pi: float` (with or without initialization).
 These annotations can appear at the class or module level as well as inside functions.
 When annotating class variables (as opposed to instance variables), use `typing.ClassVar`.
 For instance:
@@ -91,7 +89,7 @@ You can write a union as `typing.Union[X, Y]` or, more readably in Python 3.10+,
 For example, `def parse(data: str | bytes) -> None:` indicates `data` can be either a string or bytes.
 If one of the types is `None`, you can use shorthand:
 `Optional[T]` is equivalent to `T | None`.
-For example, `Optional[int]` (or `int | None`) means the value can be an int or None.\*\*Important
+For example, `Optional[int]` (or `int | None`) means the value can be an `int` or `None`.
 
 The `Optional` annotation refers to "may be `None`"; it does not mean an argument is optional in the sense of having a default.
 An argument with a default value isn't automatically `Optional` unless you explicitly want to allow `None` as a value.
@@ -113,10 +111,10 @@ For instance:
 
 ```python
 # example_3.py
-from typing import NoReturn
+from typing import Never
 
 
-def fatal_error(msg: str) -> NoReturn:
+def fatal_error(msg: str) -> Never:
     raise RuntimeError(msg)
 ```
 
@@ -130,8 +128,7 @@ Static analyzers use it to understand control flow (e.g., after a call to a NoRe
 
 Sometimes you have a complex type and want to give it a short name (alias) for readability.
 You can create a type alias by assignment or using the new `type` statement.
-For example:
-`Address = tuple[str, int]` creates an alias `Address` for "tuple of (str, int)".
+For example, `Address = tuple[str, int]` creates an alias `Address` for "tuple of (str, int)".
 In Python 3.12+, you can declare aliases more explicitly with the `type` keyword (PEP 695):
 
 ```python
@@ -147,8 +144,7 @@ PEP 695 deprecates the need for `TypeAlias` by introducing the explicit alias sy
 
 ### NewType--Distinct Types Based on Existing Ones
 
-The `typing.NewType` helper defines a distinct type that is interchangeable with some base type at runtime but treated as a separate type by type checkers.
-For example:
+The `typing.NewType` helper defines a distinct type that is interchangeable with some base type at runtime but treated as a separate type by type checkers:
 
 ```python
 # example_5.py
@@ -235,8 +231,7 @@ Python's static typing supports _structural typing_ via `Protocol` classes.
 
 ### Protocols (PEP 544)
 
-A `Protocol` defines a set of methods and properties that a type must have to satisfy the protocol, without requiring inheritance.
-For example:
+A `Protocol` defines a set of methods and properties that a type must have to satisfy the protocol, without requiring inheritance:
 
 ```python
 # example_9.py
@@ -266,8 +261,7 @@ Functions are first-class in Python, so you may want to annotate variables or pa
 The `typing.Callable` type is used to describe the signature of a callable.
 For example, `Callable[[int, str], bool]` means "a callable that takes an `int` and a `str` and returns a `bool`."
 If you don't want to specify the parameters (so you can accept any callable returning a specific type), use an ellipsis:
-`Callable[..., bool]` means any callable returning bool.
-For example:
+`Callable[..., bool]` means any callable returning bool:
 
 ```python
 # example_10.py
@@ -286,8 +280,7 @@ When you pass a lambda or function to `apply_to_ints`, a type checker will ensur
 ### Overloaded Functions (PEP 484)
 
 Sometimes a function can be called with different argument types and behave differently (especially common in library stubs).
-The `@typing.overload` decorator declares multiple _overload variants_ for a function.
-For example:
+The `@typing.overload` decorator declares multiple _overload variants_ for a function:
 
 ```python
 # overloaded_functions.py
@@ -374,8 +367,7 @@ E.g.
 `def set_mode(mode: Literal["fast", "slow"]) -> None:...` means mode _must_ be one of those two strings.
 More recently, PEP 675 (Python 3.11) added `LiteralString`, a special type to mark literal strings for security-sensitive APIs.
 `LiteralString` is a subtype of `str` that static analyzers treat as strings that are either literal in the source or derived from other literal strings.
-The goal is to prevent untrusted or dynamic strings from flowing into places where they could cause injection attacks (SQL queries, shell commands, etc.).
-For example:
+The goal is to prevent untrusted or dynamic strings from flowing into places where they could cause injection attacks (SQL queries, shell commands, etc.):
 
 ```python
 # example_13.py
@@ -420,8 +412,7 @@ The Python interpreter and core type checkers mostly ignore the second argument 
 // https://typing.python.org/en/latest/guides/modernizing.html#typing-typeguard
 
 A _type guard_ is a special kind of function that informs the type checker of a type refinement.
-Introduced in Python 3.10, `typing.TypeGuard` is used as a return annotation on a boolean function to indicate that if the function returns True, its argument is of a certain type.
-For example:
+Introduced in Python 3.10, `typing.TypeGuard` is used as a return annotation on a boolean function to indicate that if the function returns True, its argument is of a certain type:
 
 ```python
 # example_14.py
@@ -442,8 +433,7 @@ This concept helps make code with conditional type logic (like parsing JSON to s
 ### `Self` Type (PEP 673)
 
 In class methods that return `self` (or class/instance attributes of the same class type), Python 3.11 introduced `typing.Self` to simplify the annotation.
-Using `Self` in a method return type or parameter type means "the same type as the class in which this method is defined."
-For example:
+Using `Self` in a method return type or parameter type means "the same type as the class in which this method is defined":
 
 ```python
 # example_15.py
@@ -465,8 +455,8 @@ Common use cases for `Self` are fluent interfaces (methods that return `self`), 
 ### TypedDicts (PEP 589 and extensions)
 
 A `TypedDict` is a way to describe the expected shape of dictionaries with specific string keys.
-`TypedDict` creates a type that expects certain keys with certain value types, mimicking the behavior of JavaScript objects or dataclasses but for dicts.
-For example:
+`TypedDict` creates a type that expects certain keys with certain value types,
+mimicking the behavior of JavaScript objects or dataclasses but for dicts:
 
 ```python
 # example_16.py
@@ -484,10 +474,9 @@ At runtime, a `TypedDict` is just a plain `dict` (there's no special dictionary 
 You can also create TypedDict types using a functional syntax:
 `Movie = TypedDict('Movie', {'title': str, 'year': int})`.
 By default, all keys are required, but you can make some optional.
-Initially, you could specify `total=False` on the TypedDict to make all keys optional.
+Initially, you could specify `total=False` on the `TypedDict` to make all keys optional.
 Later, PEP 655 (Python 3.11) introduced `Required` and `NotRequired` markers to allow fine-grained control:
-you can mark individual keys as optional in an otherwise total TypedDict.
-For example:
+you can mark individual keys as optional in an otherwise total `TypedDict`:
 
 ```python
 # example_17.py

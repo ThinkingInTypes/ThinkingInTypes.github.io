@@ -327,8 +327,7 @@ Only one case runs: the first one that matches in order.
 
 - **Starred subpattern (`*`):** Sequence patterns support a "rest" pattern using `*`.
   This is similar to unpacking with a star in assignments.
-  You can write one subpattern as `*name` (or `*_` to ignore) to soak up the remaining elements of a sequence.
-  For example:
+  You can write one subpattern as `*name` (or `*_` to ignore) to soak up the remaining elements of a sequence:
 
 ```python
 # starred_subpattern.py

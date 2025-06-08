@@ -136,7 +136,7 @@ Created by ChatGPT 4o.
 
 ### Static Type Checkers
 
-- Using `mypy`, `pyright`, `pyrefly`, `pytype`
+- Using `mypy`, `pyright`, `Pyrefly, `pytype`
 - Configuration and workflows
 
 ### IDE and Editor Support

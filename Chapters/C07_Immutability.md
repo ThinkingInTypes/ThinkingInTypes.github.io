@@ -45,10 +45,10 @@ unchangeable user-defined objects in all cases.
 Instead, Python developers have traditionally relied on conventions and certain immutable built-in types to signal that
 something should not be changed.
 
-One common convention is the use of ALL_CAPS names for constants.
+The common convention is the use of ALL_CAPS names for constants.
 According to PEP 8 (Python's style guide),
 "constants are usually defined on a module level and written in all capital letters with underscores separating words."
-For example, one might write:
+One might write:
 
 ```python
 # by_convention.py
@@ -94,8 +94,7 @@ This is a purely static indication; it's enforced by the type checker but not by
 
 ### Declaring Final Variables
 
-To use it, import `Final` from `typing` and annotate your constant definitions.
-For example:
+To use it, import `Final` from `typing` and annotate your constant definitions:
 
 ```python
 # example_2.py
@@ -162,8 +161,7 @@ class Config:
 
 `Final` can also be used for instance attributes in `__init__`.
 If you have an instance attribute that should only be set once (in the initializer) and never changed, you can annotate
-it with `Final` in the class body and then assign it in the constructor.
-For example:
+it with `Final` in the class body and then assign it in the constructor:
 
 ```python
 # example_4.py
@@ -199,8 +197,7 @@ but with `Final[list[int]]` the list methods are available.
 In short, marking something `Final` guarantees that the _name_ won't be re-bound to a different object, but it does not
 magically make the object's contents immutable.
 If true immutability of the content is needed, combine `Final` with an immutable type (e.g., use a tuple or use an
-immutable interface like `Sequence` instead of `list`).
-For example:
+immutable interface like `Sequence` instead of `list`):
 
 ```python
 # example_5.py

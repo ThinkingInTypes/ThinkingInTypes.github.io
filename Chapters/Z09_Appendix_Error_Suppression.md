@@ -4,7 +4,7 @@
 |---------|----------------------------------------------------------|
 | Mypy    | Fully supported; can specify codes like `[arg-type]`     |
 | Pyright | Fully supported via PEP 484                              |
-| Pyre    | Supported but prefers `# pyre-ignore`                    |
+| Pyrefly | Supported but prefers `# pyrefly-ignore`                 |
 | Pytype  | Supported but prefers `# pytype: disable=...`            |
 | Flake8  | Unsupported; Linter only, does not process type comments |
 | Ruff    | Unsupported; Same as Flake8                              |
@@ -12,7 +12,7 @@
 | Tool    | Custom Directive                                                          |
 |---------|---------------------------------------------------------------------------|
 | Pyright | `# pyright: ignore`: Allows granular control; can target error categories |
-| Pyre    | `# pyre-ignore`: Suppresses one error line; can include code              |
+| Pyrefly | `# pyrefly-ignore`: Suppresses one error line; can include code           |
 | Pytype  | `# pytype: disable=`: Disables specific checks; re-enable with `enable=`  |
 
 | Directive            | Tool   | Notes                                                      |
@@ -24,8 +24,7 @@
 | `# pylint: disable=` | Pylint | Pylint-specific suppression (not related to type checking) |
 
 Python's static checkers, and linters like Flake8 or Ruff, respect special end-of-line comments that disable error reporting.
-The most common is `# type: ignore`, which tells type checkers to ignore all type errors on that line.
-For example:
+The most common is `# type: ignore`, which tells type checkers to ignore all type errors on that line:
 
 ```python
 # example_1.py
@@ -52,8 +51,7 @@ In Pyright you can also use tool-specific variants like `# pyright: ignore`, whi
 ## `# noqa`
 
 Flake8 and Ruff (and many linters) use the `# noqa` comment to suppress lint errors on a line.
-By default `# noqa` with no code ignores all warnings on that line.
-For example:
+By default `# noqa` with no code ignores all warnings on that line:
 
 ```python
 # example_2.py
@@ -95,8 +93,7 @@ Beyond `# type: ignore` and `# noqa`, some checkers support their own suppressor
 ### Pyright
 
 In addition to `# type: ignore`, Pyright supports `# pyright: ignore` to mute only Pyright's diagnostics.
-You can even specify particular rule names.
-For example:
+You can even specify particular rule names:
 
 ```python
 # example_5.py
@@ -107,21 +104,20 @@ bar: int = "123"  # pyright: ignore [reportGeneralTypeIssues] # type: ignore # n
 The first comment silences all Pyright errors on that line, the second suppresses only the named category.
 Pyright prefers its own `# pyright: ignore` (it validates rule names) to avoid over-suppressing compared to the blanket `# type: ignore`.
 
-### Pyre
+### Pyrefly
 
-The Pyre type checker (by Facebook) uses `# pyre-ignore` and `# pyre-ignore-all-errors`.
-A comment like `# pyre-ignore[CODE]` tells Pyre to skip that error on the line (you omit the code to ignore all Pyre errors on that line).
-For example:
+The Pyreflytype checker (by Facebook) uses `# pyrefly-ignore` and `# pyrefly-ignore-all-errors`.
+A comment like `# pyrefly-ignore[CODE]` tells Pyrefly to skip that error on the line (you omit the code to ignore all Pyrefly errors on that line):
 
 ```python
 # example_6.py
 def f(x: int) -> str:
     return x  # type: ignore      # This mismatches return type
-    # pyre-ignore-all-errors[7]  # ignore "incompatible return type" for file
+    # pyrefly-ignore-all-errors[7]  # ignore "incompatible return type" for file
 ```
 
-Pyre's docs explain that `# pyre-ignore` means "there's an issue with the type checker or code… we have decided not to fix this".
-You can also put `# pyre-ignore-all-errors` (optionally with codes) at the top of a file to silence types across the whole module.
+Pyrefly's docs explain that `# pyrefly-ignore` means "there's an issue with the type checker or code… we have decided not to fix this".
+You can also put `# pyrefly-ignore-all-errors` (optionally with codes) at the top of a file to silence types across the whole module.
 
 ### Pytype
 
