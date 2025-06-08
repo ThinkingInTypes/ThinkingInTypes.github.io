@@ -1372,15 +1372,13 @@
 
 <h1 id="advanced-generics">Advanced Generics<a class="headerlink" href="#advanced-generics" title="Permanent link">#</a></h1>
 <p>Most of the time you will be a consumer of generic code rather than a producer.
-It is useful to understand the introductory generic material in [C09_Generics].
-Occasionally you will need the material in this chapter.</p>
+It is useful to understand the introductory generic material in <a href="../C09_Generics/">Generics</a>.
+Occasionally, you might need the more advanced concepts covered here.</p>
 <h2 id="variance">Variance<a class="headerlink" href="#variance" title="Permanent link">#</a></h2>
-<p>In the context of generics, <em>variance</em> describes how subtyping between complex types relates to subtyping between their
-component types.
-In Python, all generics are invariant by default, meaning <code>Container[SubType]</code> is not a subtype of <code>Container[BaseType]</code>
-even if <code>SubType</code> is a subtype of <code>BaseType</code>.
-This is a common source of confusion for those coming from languages like Java or C#, but it's an important aspect of
-type safety.</p>
+<p>In the context of generics, <em>variance</em> describes how subtyping between complex types relates to subtyping between their component types.
+In Python, all generics are invariant by default,
+meaning <code>Container[SubType]</code> is not a subtype of <code>Container[BaseType]</code> even if <code>SubType</code> is a subtype of <code>BaseType</code>.
+This is a common source of confusion for those coming from languages like Java or C#, but it's an important aspect of type safety.</p>
 <p>Python 3.12 introduced variance inference, so you do not have to specify variance.
 This is a great benefit, as people often find variance confusing.</p>
 <h3 id="invariant">Invariant<a class="headerlink" href="#invariant" title="Permanent link">#</a></h3>
@@ -1389,8 +1387,7 @@ For example, given <code>Dog</code> is a subclass of <code>Animal</code>, <code>
 This is unsafe because you can then put a <code>Cat</code> (another <code>Animal</code>) into a <code>Box[Animal]</code> which is a <code>Box[Dog]</code> internally.
 The type checker forbids treating <code>Box[Dog]</code> as a <code>Box[Animal]</code>.</p>
 <h3 id="covariance">Covariance<a class="headerlink" href="#covariance" title="Permanent link">#</a></h3>
-<p>Covariance usually makes sense for read-only or producer containers.
-For example:</p>
+<p>Covariance usually makes sense for read-only or producer containers:</p>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1"># covariance.py</span>
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="kn">from</span> <span class="nn">animals</span> <span class="kn">import</span> <span class="n">Animal</span><span class="p">,</span> <span class="n">Dog</span>
 </span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>
@@ -1415,8 +1412,7 @@ because <code>ReadOnlyBox</code> only produces <code>T</code> (via <code>get_con
 Covariance is appropriate when the generic class is basically a container of <code>T</code> that only returns <code>T</code> (and doesn't accept <code>T</code>
 instances that can violate assumptions).</p>
 <h3 id="contravariance">Contravariance<a class="headerlink" href="#contravariance" title="Permanent link">#</a></h3>
-<p>Contravariance is suitable for consumer objects that only take in data of type <code>T</code> and do not produce it.
-For example:</p>
+<p>Contravariance is suitable for consumer objects that only take in data of type <code>T</code> and do not produce it:</p>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="c1"># contravariance.py</span>
 </span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="kn">from</span> <span class="nn">animals</span> <span class="kn">import</span> <span class="n">Animal</span><span class="p">,</span> <span class="n">Dog</span>
 </span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>
@@ -1433,7 +1429,7 @@ For example:</p>
 </span><span id="__span-1-14"><a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a><span class="n">dog_sink</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">Dog</span><span class="p">())</span>
 </span><span id="__span-1-15"><a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a><span class="c1">## Processing Dog(name=None)</span>
 </span></code></pre></div>
-<p>In this example, <code>Sink[T]</code> is contravariant, indicating it only consumes values of type <code>T</code> (here, via <code>send</code>).
+<p><code>Sink[T]</code> is contravariant, indicating it only consumes values of type <code>T</code> (here, via <code>send</code>).
 Because a <code>Sink[Animal]</code> can accept a <code>Dog</code> (since <code>Dog</code> is an <code>Animal</code>),
 it is safe to assign <code>animal_sink</code> to a <code>dog_sink</code> reference.
 In general, contravariance allows broadening the accepted types when substituting; a <code>Sink[Animal]</code> can stand in for a
@@ -1589,8 +1585,7 @@ checker as returning a <code>ContactForm</code> with the methods of <code>Contac
 <p>This pattern ensures that each subclass of <code>Form</code> will have <code>set_title</code> (inherited) returning the subclass type,
 not the base type.
 It's a bit complex to set up, but it provides more precise typing for chaining methods.
-Python 3.11+ provides <code>typing.Self</code> (PEP 673) that simplifies this pattern by allowing methods to return <code>Self</code> (the type of the class).
-For example:</p>
+Python 3.11+ added <code>typing.Self</code> (PEP 673) that simplifies this pattern by allowing methods to return <code>Self</code> (the type of the class):</p>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="c1"># return_self.py</span>
 </span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="sd">&quot;&quot;&quot;</span>
 </span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="sd">Return `Self` enables type-safe method chaining in subclasses</span>
@@ -1647,9 +1642,7 @@ We have to put <code>'JSON'</code> in quotes because we are referring to the nam
 (again, Python 3.11+ with automatic postponed evaluation of annotations handles this without quotes if you use
 <code>from __future__ import annotations</code> or run in a module where that's the default).</p>
 <p>Most type checkers support such recursive type aliases.
-In use, if you annotate a variable as <code>JSON</code>, the type checker will understand nested structures of dicts and lists
-accordingly.
-For example:</p>
+In use, if you annotate a variable as <code>JSON</code>, the type checker will understand nested structures of dicts and lists accordingly:</p>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="c1"># recursive_alias_applied.py</span>
 </span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="kn">from</span> <span class="nn">recursive_alias</span> <span class="kn">import</span> <span class="n">JSON</span>
 </span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>
@@ -1717,8 +1710,7 @@ We can write functions that accept a <code>Drawable</code>:</p>
 but they are accepted by the <code>render</code> function because they fulfill the structural requirements of the <code>Drawable</code>
 protocol.
 This is static duck typing in action: if it quacks like a duck, treat it as a duck.</p>
-<p><strong>Protocols with Attributes:</strong> Protocols can also specify that an attribute exists (with a certain type).
-For example:</p>
+<p><strong>Protocols with Attributes:</strong> Protocols can also specify that an attribute exists (with a certain type):</p>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="c1"># protocols_with_attributes.py</span>
 </span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Protocol</span>
 </span><span id="__span-10-3"><a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>
@@ -1793,8 +1785,7 @@ inherits the Protocol or that the Protocol is annotated with <code>runtime_check
 without explicit registration isn't directly supported).
 In general, it's more common to rely on static checking for protocols and use normal duck typing at runtime, "asking
 forgiveness rather than permission."</p>
-<p><strong>Use cases:</strong> Protocols are useful when you want to accept "any object that has these methods."
-For example:</p>
+<p><strong>Use cases:</strong> Protocols are useful when you want to accept "any object that has these methods."</p>
 <ul>
 <li>A serialization utility that works with any object that has a <code>to_json()</code> method can define a protocol for that
   method.</li>
@@ -1828,8 +1819,7 @@ For instance:</p>
 </span></code></pre></div>
 <p>These annotations make the intent clearer: <code>p</code> is a pair of ints, <code>q</code> a pair of strs, and <code>data</code> is a string-to-int map.
 The type checker treats <code>Pair[int]</code> as <code>tuple[int, int]</code>.
-If you do not subscript the alias (e.g., just use <code>Pair</code> by itself), the type variables are typically treated as <code>Any</code>.
-For example:</p>
+If you do not subscript the alias (e.g., just use <code>Pair</code> by itself), the type variables are typically treated as <code>Any</code>:</p>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="c1"># generic_alias_tuple.py</span>
 </span><span id="__span-15-2"><a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a><span class="kn">from</span> <span class="nn">generic_alias</span> <span class="kn">import</span> <span class="n">Pair</span>
 </span><span id="__span-15-3"><a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a>
@@ -1845,8 +1835,7 @@ Always supply type parameters for a generic alias to avoid inadvertently falling
 <h3 id="alias-vs-direct-use">Alias vs. Direct Use<a class="headerlink" href="#alias-vs-direct-use" title="Permanent link">#</a></h3>
 <p>Type aliases don't create new types at runtime; they are solely for type checking and readability.
 In code, <code>Pair[int]</code> does not exist as a real class; it's just an alias for <code>tuple[int, int]</code>.
-If you inspect <code>Pair[int]</code> at runtime, you'll get the underlying type.
-For example:</p>
+If you inspect <code>Pair[int]</code> at runtime, you'll get the underlying type:</p>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="c1"># inspect_alias.py</span>
 </span><span id="__span-16-2"><a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a><span class="kn">from</span> <span class="nn">generic_alias</span> <span class="kn">import</span> <span class="n">Pair</span>
 </span><span id="__span-16-3"><a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">get_origin</span><span class="p">,</span> <span class="n">get_args</span>

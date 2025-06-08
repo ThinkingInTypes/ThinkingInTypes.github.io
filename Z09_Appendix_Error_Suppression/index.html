@@ -785,9 +785,9 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#pyre" class="md-nav__link">
+  <a href="#pyrefly" class="md-nav__link">
     <span class="md-ellipsis">
-      Pyre
+      Pyrefly
     </span>
   </a>
   
@@ -981,9 +981,9 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#pyre" class="md-nav__link">
+  <a href="#pyrefly" class="md-nav__link">
     <span class="md-ellipsis">
-      Pyre
+      Pyrefly
     </span>
   </a>
   
@@ -1100,8 +1100,8 @@
 <td>Fully supported via PEP 484</td>
 </tr>
 <tr>
-<td>Pyre</td>
-<td>Supported but prefers <code># pyre-ignore</code></td>
+<td>Pyrefly</td>
+<td>Supported but prefers <code># pyrefly-ignore</code></td>
 </tr>
 <tr>
 <td>Pytype</td>
@@ -1130,8 +1130,8 @@
 <td><code># pyright: ignore</code>: Allows granular control; can target error categories</td>
 </tr>
 <tr>
-<td>Pyre</td>
-<td><code># pyre-ignore</code>: Suppresses one error line; can include code</td>
+<td>Pyrefly</td>
+<td><code># pyrefly-ignore</code>: Suppresses one error line; can include code</td>
 </tr>
 <tr>
 <td>Pytype</td>
@@ -1176,8 +1176,7 @@
 </tbody>
 </table>
 <p>Python's static checkers, and linters like Flake8 or Ruff, respect special end-of-line comments that disable error reporting.
-The most common is <code># type: ignore</code>, which tells type checkers to ignore all type errors on that line.
-For example:</p>
+The most common is <code># type: ignore</code>, which tells type checkers to ignore all type errors on that line:</p>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1"># example_1.py</span>
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="kn">from</span> <span class="nn">book_utils</span> <span class="kn">import</span> <span class="n">Catch</span>
 </span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>
@@ -1198,8 +1197,7 @@ Pyright and other tools likewise recognize <code># type: ignore</code>.
 In Pyright you can also use tool-specific variants like <code># pyright: ignore</code>, which we discuss below.</p>
 <h2 id="noqa"><code># noqa</code><a class="headerlink" href="#noqa" title="Permanent link">#</a></h2>
 <p>Flake8 and Ruff (and many linters) use the <code># noqa</code> comment to suppress lint errors on a line.
-By default <code># noqa</code> with no code ignores all warnings on that line.
-For example:</p>
+By default <code># noqa</code> with no code ignores all warnings on that line:</p>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="c1"># example_2.py</span>
 </span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="kn">from</span> <span class="nn">math</span> <span class="kn">import</span> <span class="o">*</span>  <span class="c1"># type: ignore  # noqa</span>
 </span></code></pre></div>
@@ -1226,25 +1224,23 @@ Without careful ordering, you might accidentally hide errors from one tool or th
 <p>Beyond <code># type: ignore</code> and <code># noqa</code>, some checkers support their own suppressors:</p>
 <h3 id="pyright">Pyright<a class="headerlink" href="#pyright" title="Permanent link">#</a></h3>
 <p>In addition to <code># type: ignore</code>, Pyright supports <code># pyright: ignore</code> to mute only Pyright's diagnostics.
-You can even specify particular rule names.
-For example:</p>
+You can even specify particular rule names:</p>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="c1"># example_5.py</span>
 </span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="n">foo</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="s2">&quot;123&quot;</span>  <span class="c1"># pyright: ignore # noqa</span>
 </span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="n">bar</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="s2">&quot;123&quot;</span>  <span class="c1"># pyright: ignore [reportGeneralTypeIssues] # type: ignore # noqa</span>
 </span></code></pre></div>
 <p>The first comment silences all Pyright errors on that line, the second suppresses only the named category.
 Pyright prefers its own <code># pyright: ignore</code> (it validates rule names) to avoid over-suppressing compared to the blanket <code># type: ignore</code>.</p>
-<h3 id="pyre">Pyre<a class="headerlink" href="#pyre" title="Permanent link">#</a></h3>
-<p>The Pyre type checker (by Facebook) uses <code># pyre-ignore</code> and <code># pyre-ignore-all-errors</code>.
-A comment like <code># pyre-ignore[CODE]</code> tells Pyre to skip that error on the line (you omit the code to ignore all Pyre errors on that line).
-For example:</p>
+<h3 id="pyrefly">Pyrefly<a class="headerlink" href="#pyrefly" title="Permanent link">#</a></h3>
+<p>The Pyreflytype checker (by Facebook) uses <code># pyrefly-ignore</code> and <code># pyrefly-ignore-all-errors</code>.
+A comment like <code># pyrefly-ignore[CODE]</code> tells Pyrefly to skip that error on the line (you omit the code to ignore all Pyrefly errors on that line):</p>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="c1"># example_6.py</span>
 </span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 </span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>    <span class="k">return</span> <span class="n">x</span>  <span class="c1"># type: ignore      # This mismatches return type</span>
-</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>    <span class="c1"># pyre-ignore-all-errors[7]  # ignore &quot;incompatible return type&quot; for file</span>
+</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>    <span class="c1"># pyrefly-ignore-all-errors[7]  # ignore &quot;incompatible return type&quot; for file</span>
 </span></code></pre></div>
-<p>Pyre's docs explain that <code># pyre-ignore</code> means "there's an issue with the type checker or code… we have decided not to fix this".
-You can also put <code># pyre-ignore-all-errors</code> (optionally with codes) at the top of a file to silence types across the whole module.</p>
+<p>Pyrefly's docs explain that <code># pyrefly-ignore</code> means "there's an issue with the type checker or code… we have decided not to fix this".
+You can also put <code># pyrefly-ignore-all-errors</code> (optionally with codes) at the top of a file to silence types across the whole module.</p>
 <h3 id="pytype">Pytype<a class="headerlink" href="#pytype" title="Permanent link">#</a></h3>
 <p>Google's Pytype supports <code># pytype: disable=ERROR</code> (and <code># pytype: enable=ERROR</code>) to turn off specific checks.
 For instance:</p>

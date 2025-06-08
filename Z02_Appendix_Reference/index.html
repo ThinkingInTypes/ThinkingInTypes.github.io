@@ -1700,8 +1700,7 @@ The <code>typing</code> module provides a standardized vocabulary of types.
 This enables <em>gradual typing</em>--code can be partially or fully annotated, and type checkers will treat unannotated parts as dynamically typed (effectively type <code>Any</code>).</p>
 <h2 id="basic-annotation-syntax-and-usage">Basic Annotation Syntax and Usage<a class="headerlink" href="#basic-annotation-syntax-and-usage" title="Permanent link">#</a></h2>
 <h3 id="function-annotations-parameters-and-return">Function Annotations (Parameters and Return)<a class="headerlink" href="#function-annotations-parameters-and-return" title="Permanent link">#</a></h3>
-<p>You can annotate function parameters and return types using the syntax introduced in PEP 484.
-For example:</p>
+<p>You can annotate function parameters and return types using the syntax introduced in PEP 484:</p>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1"># example_1.py</span>
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="k">def</span> <span class="nf">greet</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">excited</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 </span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>    <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;Hello, </span><span class="si">{</span><span class="s1">&#39;!&#39;</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">excited</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="s1">&#39;&#39;</span><span class="si">}{</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span>
@@ -1712,8 +1711,7 @@ If a function does not return a value (or returns <code>None</code>), it's good 
 <code>-&gt; None</code>), especially for <code>__init__</code> methods.</p>
 <h3 id="variable-annotations">Variable Annotations<a class="headerlink" href="#variable-annotations" title="Permanent link">#</a></h3>
 <p>Python 3.6 (PEP 526) introduced syntax for annotating variables and class attributes with types.
-For example:
-<code>age: int = 21</code> or <code>pi: float</code> (with or without initialization).
+For example: <code>age: int = 21</code> or <code>pi: float</code> (with or without initialization).
 These annotations can appear at the class or module level as well as inside functions.
 When annotating class variables (as opposed to instance variables), use <code>typing.ClassVar</code>.
 For instance:</p>
@@ -1758,7 +1756,7 @@ You can write a union as <code>typing.Union[X, Y]</code> or, more readably in Py
 For example, <code>def parse(data: str | bytes) -&gt; None:</code> indicates <code>data</code> can be either a string or bytes.
 If one of the types is <code>None</code>, you can use shorthand:
 <code>Optional[T]</code> is equivalent to <code>T | None</code>.
-For example, <code>Optional[int]</code> (or <code>int | None</code>) means the value can be an int or None.**Important</p>
+For example, <code>Optional[int]</code> (or <code>int | None</code>) means the value can be an <code>int</code> or <code>None</code>.</p>
 <p>The <code>Optional</code> annotation refers to "may be <code>None</code>"; it does not mean an argument is optional in the sense of having a default.
 An argument with a default value isn't automatically <code>Optional</code> unless you explicitly want to allow <code>None</code> as a value.</p>
 <h3 id="the-any-type">The <code>Any</code> Type<a class="headerlink" href="#the-any-type" title="Permanent link">#</a></h3>
@@ -1773,10 +1771,10 @@ However, overusing <code>Any</code> undermines the benefits of static typing, so
 This signals to type checkers that the function doesn't produce a value at all.
 For instance:</p>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1"># example_3.py</span>
-</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">NoReturn</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Never</span>
 </span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>
 </span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>
-</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="k">def</span> <span class="nf">fatal_error</span><span class="p">(</span><span class="n">msg</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">NoReturn</span><span class="p">:</span>
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="k">def</span> <span class="nf">fatal_error</span><span class="p">(</span><span class="n">msg</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Never</span><span class="p">:</span>
 </span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>    <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
 </span></code></pre></div>
 <p>Here, callers can know that <code>fatal_error()</code> will not return normally.
@@ -1786,8 +1784,7 @@ Static analyzers use it to understand control flow (e.g., after a call to a NoRe
 <h3 id="type-aliases">Type Aliases<a class="headerlink" href="#type-aliases" title="Permanent link">#</a></h3>
 <p>Sometimes you have a complex type and want to give it a short name (alias) for readability.
 You can create a type alias by assignment or using the new <code>type</code> statement.
-For example:
-<code>Address = tuple[str, int]</code> creates an alias <code>Address</code> for "tuple of (str, int)".
+For example, <code>Address = tuple[str, int]</code> creates an alias <code>Address</code> for "tuple of (str, int)".
 In Python 3.12+, you can declare aliases more explicitly with the <code>type</code> keyword (PEP 695):</p>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="c1"># example_4.py</span>
 </span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="nb">type</span> <span class="n">Point</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span>
@@ -1798,8 +1795,7 @@ Type aliases can also be generic, e.g.
 In older versions, you might see <code>TypeAlias</code> from <code>typing</code> used as an annotation to mark an assignment as a type alias, especially when forward references are involved (to indicate to the checker that a string is meant to be a type name).
 PEP 695 deprecates the need for <code>TypeAlias</code> by introducing the explicit alias syntax.</p>
 <h3 id="newtype-distinct-types-based-on-existing-ones">NewType--Distinct Types Based on Existing Ones<a class="headerlink" href="#newtype-distinct-types-based-on-existing-ones" title="Permanent link">#</a></h3>
-<p>The <code>typing.NewType</code> helper defines a distinct type that is interchangeable with some base type at runtime but treated as a separate type by type checkers.
-For example:</p>
+<p>The <code>typing.NewType</code> helper defines a distinct type that is interchangeable with some base type at runtime but treated as a separate type by type checkers:</p>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="c1"># example_5.py</span>
 </span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">NewType</span>
 </span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>
@@ -1861,8 +1857,7 @@ This is helpful for functions that work with class constructors or class methods
 <h2 id="structural-subtyping-with-protocols">Structural Subtyping with Protocols<a class="headerlink" href="#structural-subtyping-with-protocols" title="Permanent link">#</a></h2>
 <p>Python's static typing supports <em>structural typing</em> via <code>Protocol</code> classes.</p>
 <h3 id="protocols-pep-544">Protocols (PEP 544)<a class="headerlink" href="#protocols-pep-544" title="Permanent link">#</a></h3>
-<p>A <code>Protocol</code> defines a set of methods and properties that a type must have to satisfy the protocol, without requiring inheritance.
-For example:</p>
+<p>A <code>Protocol</code> defines a set of methods and properties that a type must have to satisfy the protocol, without requiring inheritance:</p>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="c1"># example_9.py</span>
 </span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Protocol</span>
 </span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>
@@ -1885,8 +1880,7 @@ PEP 544 formalized this in Python 3.8; it's an extension of abstract base classe
 <p>The <code>typing.Callable</code> type is used to describe the signature of a callable.
 For example, <code>Callable[[int, str], bool]</code> means "a callable that takes an <code>int</code> and a <code>str</code> and returns a <code>bool</code>."
 If you don't want to specify the parameters (so you can accept any callable returning a specific type), use an ellipsis:
-<code>Callable[..., bool]</code> means any callable returning bool.
-For example:</p>
+<code>Callable[..., bool]</code> means any callable returning bool:</p>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="c1"># example_10.py</span>
 </span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Callable</span>
 </span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>
@@ -1900,8 +1894,7 @@ For example:</p>
 When you pass a lambda or function to <code>apply_to_ints</code>, a type checker will ensure it matches the described signature.</p>
 <h3 id="overloaded-functions-pep-484">Overloaded Functions (PEP 484)<a class="headerlink" href="#overloaded-functions-pep-484" title="Permanent link">#</a></h3>
 <p>Sometimes a function can be called with different argument types and behave differently (especially common in library stubs).
-The <code>@typing.overload</code> decorator declares multiple <em>overload variants</em> for a function.
-For example:</p>
+The <code>@typing.overload</code> decorator declares multiple <em>overload variants</em> for a function:</p>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="c1"># overloaded_functions.py</span>
 </span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">overload</span>
 </span><span id="__span-10-3"><a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>
@@ -1975,8 +1968,7 @@ E.g.
 <code>def set_mode(mode: Literal["fast", "slow"]) -&gt; None:...</code> means mode <em>must</em> be one of those two strings.
 More recently, PEP 675 (Python 3.11) added <code>LiteralString</code>, a special type to mark literal strings for security-sensitive APIs.
 <code>LiteralString</code> is a subtype of <code>str</code> that static analyzers treat as strings that are either literal in the source or derived from other literal strings.
-The goal is to prevent untrusted or dynamic strings from flowing into places where they could cause injection attacks (SQL queries, shell commands, etc.).
-For example:</p>
+The goal is to prevent untrusted or dynamic strings from flowing into places where they could cause injection attacks (SQL queries, shell commands, etc.):</p>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="c1"># example_13.py</span>
 </span><span id="__span-12-2"><a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">LiteralString</span>
 </span><span id="__span-12-3"><a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a>
@@ -2010,8 +2002,7 @@ The Python interpreter and core type checkers mostly ignore the second argument 
 <h3 id="type-guards-pep-647">Type Guards (PEP 647)<a class="headerlink" href="#type-guards-pep-647" title="Permanent link">#</a></h3>
 <p>// https://typing.python.org/en/latest/guides/modernizing.html#typing-typeguard</p>
 <p>A <em>type guard</em> is a special kind of function that informs the type checker of a type refinement.
-Introduced in Python 3.10, <code>typing.TypeGuard</code> is used as a return annotation on a boolean function to indicate that if the function returns True, its argument is of a certain type.
-For example:</p>
+Introduced in Python 3.10, <code>typing.TypeGuard</code> is used as a return annotation on a boolean function to indicate that if the function returns True, its argument is of a certain type:</p>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="c1"># example_14.py</span>
 </span><span id="__span-13-2"><a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">TypeGuard</span>
 </span><span id="__span-13-3"><a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a>
@@ -2027,8 +2018,7 @@ Python's <code>match</code> statement and <code>isinstance</code> checks also pe
 This concept helps make code with conditional type logic (like parsing JSON to specific shapes) more type-safe and clear to the type checker.</p>
 <h3 id="self-type-pep-673"><code>Self</code> Type (PEP 673)<a class="headerlink" href="#self-type-pep-673" title="Permanent link">#</a></h3>
 <p>In class methods that return <code>self</code> (or class/instance attributes of the same class type), Python 3.11 introduced <code>typing.Self</code> to simplify the annotation.
-Using <code>Self</code> in a method return type or parameter type means "the same type as the class in which this method is defined."
-For example:</p>
+Using <code>Self</code> in a method return type or parameter type means "the same type as the class in which this method is defined":</p>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="c1"># example_15.py</span>
 </span><span id="__span-14-2"><a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Self</span>
 </span><span id="__span-14-3"><a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a>
@@ -2045,8 +2035,8 @@ Common use cases for <code>Self</code> are fluent interfaces (methods that retur
 <code>Self</code> ensures the return type is automatically updated in subclasses, preventing type checkers from thinking a subclass method returning <code>self</code> is returning the base class.</p>
 <h3 id="typeddicts-pep-589-and-extensions">TypedDicts (PEP 589 and extensions)<a class="headerlink" href="#typeddicts-pep-589-and-extensions" title="Permanent link">#</a></h3>
 <p>A <code>TypedDict</code> is a way to describe the expected shape of dictionaries with specific string keys.
-<code>TypedDict</code> creates a type that expects certain keys with certain value types, mimicking the behavior of JavaScript objects or dataclasses but for dicts.
-For example:</p>
+<code>TypedDict</code> creates a type that expects certain keys with certain value types,
+mimicking the behavior of JavaScript objects or dataclasses but for dicts:</p>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="c1"># example_16.py</span>
 </span><span id="__span-15-2"><a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">TypedDict</span>
 </span><span id="__span-15-3"><a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a>
@@ -2061,10 +2051,9 @@ At runtime, a <code>TypedDict</code> is just a plain <code>dict</code> (there's 
 You can also create TypedDict types using a functional syntax:
 <code>Movie = TypedDict('Movie', {'title': str, 'year': int})</code>.
 By default, all keys are required, but you can make some optional.
-Initially, you could specify <code>total=False</code> on the TypedDict to make all keys optional.
+Initially, you could specify <code>total=False</code> on the <code>TypedDict</code> to make all keys optional.
 Later, PEP 655 (Python 3.11) introduced <code>Required</code> and <code>NotRequired</code> markers to allow fine-grained control:
-you can mark individual keys as optional in an otherwise total TypedDict.
-For example:</p>
+you can mark individual keys as optional in an otherwise total <code>TypedDict</code>:</p>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="c1"># example_17.py</span>
 </span><span id="__span-16-2"><a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">TypedDict</span><span class="p">,</span> <span class="n">Required</span><span class="p">,</span> <span class="n">NotRequired</span>
 </span><span id="__span-16-3"><a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a>

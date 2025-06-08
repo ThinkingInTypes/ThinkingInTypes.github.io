@@ -1107,8 +1107,8 @@ protocols by default cannot be used with <code>isinstance()</code> or <code>issu
 If you try <code>isinstance(some_obj, Closable)</code> in the above example, Python will raise a <code>TypeError</code> unless you take additional steps.
 This is because the protocol is not a real base class of those objects (they never inherited from it).
 However, Python's <code>typing</code> module provides a decorator <code>@runtime_checkable</code> that you can apply to a protocol to make runtime <code>isinstance</code> checks possible on it.
-Marking a protocol with <code>@runtime_checkable</code> means it gets a special <code>__instancecheck__</code> that will return True if the object has the required attributes (much like ABCs in <code>collections.abc</code> do with their <code>__subclasshook__</code>).
-For example:</p>
+Marking a protocol with <code>@runtime_checkable</code> means it gets a special <code>__instancecheck__</code> that will return <code>True</code> if the object has the required attributes
+(much like ABCs in <code>collections.abc</code> do with their <code>__subclasshook__</code>):</p>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="c1"># example_4.py</span>
 </span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">runtime_checkable</span><span class="p">,</span> <span class="n">Protocol</span>
 </span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="kn">from</span> <span class="nn">file_resource</span> <span class="kn">import</span> <span class="n">FileResource</span>
@@ -1293,8 +1293,7 @@ We can do the same with our own protocols.</p>
 <p>To define a generic protocol, we put the type variable in brackets after <code>Protocol</code> when defining the class.
 Let's say we want to define a container protocol that yields items of some type.
 We can make it generic so that a <code>Container[int]</code> is a protocol for "container of ints" and <code>Container[str]</code> for "container of strings,"
-but both are based on the same generic interface.
-For example:</p>
+but both are based on the same generic interface:</p>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="c1"># container.py</span>
 </span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Protocol</span>
 </span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>
