@@ -252,13 +252,13 @@ with Catch():
 The second call `add(10, "5")` is a mistake: we intended both arguments to be `int`s.
 Running this code would produce a runtime error when trying to add an integer to a string (`TypeError: unsupported operand type(s) for +: 'int' and 'str'`).
 A static type checker, however, would catch this before running the program.
-For instance, Mypy (one of the most popular Python type checkers) would emit an error like: `error: Argument 2 to "add" has incompatible type "str"; expected "int"`.
+For instance, a type checker would emit an error like: `error: Argument 2 to "add" has incompatible type "str"; expected "int"`.
 This early detection of the bug can save you from having to debug a runtime crash.
 
 Python's adoption of type annotations has been gradual and very much optional.
 You can start adding types to a few functions, or even one variable at a time.
 This approach is sometimes called gradual typing or optional static typing.
-The designers of Mypy describe it as an attempt to "combine the benefits of dynamic (or 'duck') typing and static typing."
+It is an attempt to combine the benefits of dynamic (or 'duck') typing and static typing.
 You don't have to choose one or the other for the whole program; you can get the flexibility of dynamic typing where needed, and the safety/net of static typing where it helps.
 Python will happily run code with or without type annotations, and you can mix annotated and unannotated code freely.
 This means you can adopt type annotations in a legacy codebase incrementally or use them only for the trickiest parts of a new project.
@@ -393,7 +393,7 @@ That said, there are some downsides or challenges with type annotations to be aw
 Overall, the Python community has increasingly embraced type annotations because the benefits (especially for larger projects) have proven valuable: fewer bugs, easier collaboration, improved code quality.
 It's a way to get some advantages of statically typed languages without giving up Python's dynamic flexibility entirely.
 
-## Static Type Checkers: `mypy`, `PyRight`, and Friends
+## Static Type Checkers
 
 Type annotations by themselves do nothing unless you use a tool to check those annotations against your code.
 While you might visually inspect code and spot a type mismatch, it's much more reliable to use automated tools.
@@ -433,13 +433,12 @@ Aside from mypy and PyRight, there are other tools worth mentioning:
   It's not as configurable as mypy/PyRight, but it often catches many of the same things in real-time.
 - **Pylint and Flake8:** These are linters that primarily focus on code style issues, but they have basic type checking rules or plugins (e.g., Pylint can catch some obvious type errors, though it's
   not as comprehensive as a dedicated type checker).
-- **Pyre:** A type checker from Facebook (written in OCaml).
+- **PyreFly:** A type checker from Facebook (written in Rust).
   It's also fast and aimed at large applications.
   Its usage is less widespread in the community compared to mypy/PyRight, but it's an alternative.
 - **TypeGuard, Enforce, etc.:** These are runtime type checking helpers.
-  For example, TypeGuard is a library that can be used to enforce type annotations at runtime by wrapping functions (so if someone calls `func("hello")` when it expects an int, it will raise an error at
-  call time).
-  These can be useful in specific scenarios, but generally static checkers are more common in Python since runtime checks negate some of the performance benefits of dynamic typing.
+  For example, the TypeGuard library enforces type annotations at runtime by wrapping functions;
+  if someone calls `func("hello")` when it expects an `int`, it raises an error at call time.
 
 As an example of using a type checker, imagine we save the earlier `add` function example in a file and run a checker:
 
