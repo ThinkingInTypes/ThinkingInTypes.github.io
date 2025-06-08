@@ -1739,7 +1739,8 @@ If it had no <code>"name"</code> key, the pattern would not match at all.</p>
 <p><strong>Static analysis and mappings:</strong> For dicts, static type checking is less precise than with sequences because the set of keys is not always known through type annotations (unless using <code>TypedDict</code> or specific <code>Literal</code> keys).
 However, if you use something like <code>TypedDict</code> or <code>Mapping[str, X]</code>, a type checker can ensure the values you capture are of the expected type <code>X</code>.
 Pattern matching shines in expressiveness rather than static type rigor for mappings.
-If you have a fixed schema for a dict, pattern matching can clearly express the shape, and a tool like mypy can check that you at least treat captured values consistently with their annotated types.
+If you have a fixed schema for a dict, pattern matching can clearly express the shape,
+the type checker verifies that you treat captured values consistently with their annotated types.
 (For truly fixed keys, a dataclass or custom class might be a better fit, which leads us to class patterns.)</p>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="c1"># event_system.py</span>
 </span><span id="__span-13-2"><a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">TypedDict</span><span class="p">,</span> <span class="n">Literal</span>

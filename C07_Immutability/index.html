@@ -1298,7 +1298,7 @@ In other words, marking a variable as <code>Final</code> means:</p>
 </span><span id="__span-2-13"><a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a>    <span class="n">TIMEOUT</span> <span class="o">=</span> <span class="mi">30</span>  <span class="c1"># type: ignore</span>
 </span></code></pre></div>
 <p>In the above code, <code>RATE</code> is a module-level constant.
-If somewhere else we had <code>RATE = 2500</code>, a tool like mypy would report an error ("can't assign to final name 'RATE'").
+If somewhere else we assign <code>RATE = 2500</code>, the type checker reports an error ("can't assign to final name 'RATE'").
 Similarly, <code>BaseConfig.TIMEOUT</code> is a constant class attribute; attempting to override it in <code>SubConfig</code> would be
 flagged ("can't override a final attribute").
 This helps maintain invariants in class hierarchies.</p>
@@ -1550,8 +1550,7 @@ This greatly simplifies code maintenance and readability.</p>
 When you declare a variable or attribute with <code>Final</code>, the Python interpreter records that in the <code>__annotations__</code> of
 the module or class, but it does not prevent assignments at runtime.
 The enforcement comes from type checkers.
-Tools like mypy will scan your code and, if you try to reassign a <code>Final</code> variable, they will emit an error and refuse
-to consider the code type-safe.
+The type checker emits an error if you try to reassign a <code>Final</code> variable.
 As of Python 3.11, marking classes or methods with the <code>@final</code> decorator sets a <code>__final__ = True</code> attribute on the
 object, mostly for introspection or tooling--Python won't stop you from subclassing a <code>@final</code> class or
 overriding a

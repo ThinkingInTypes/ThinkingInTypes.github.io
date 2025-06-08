@@ -1691,7 +1691,7 @@
 <h1 id="appendix-reference">Appendix: Reference<a class="headerlink" href="#appendix-reference" title="Permanent link">#</a></h1>
 <p>Type annotations (or "type hints") declare the expected data types of variables, function parameters, and return values.
 Python remains <em>dynamically typed</em> at runtime--these annotations are not enforced by the interpreter and are mainly for static analysis and documentation.
-Tools like type checkers (e.g., mypy, PyRight) and IDEs use the annotations to catch errors or suggest code completions.
+Type checkers and IDEs use the annotations to catch errors or suggest code completions.
 Python's core team has no plan to make type annotations mandatory; they are optional aids to improve code quality.</p>
 <h2 id="introduction-via-peps">Introduction via PEPs<a class="headerlink" href="#introduction-via-peps" title="Permanent link">#</a></h2>
 <p>Function annotation syntax was first introduced by PEP 3107 (Python 3.0) with no fixed semantics.
@@ -2123,7 +2123,7 @@ The takeaway:
 forward references are supported via quoting or future imports, and the language is evolving to make annotation evaluation lazy by default in a robust way.</p>
 <h2 id="tools-stubs-and-practices">Tools, Stubs, and Practices<a class="headerlink" href="#tools-stubs-and-practices" title="Permanent link">#</a></h2>
 <h3 id="type-checkers-and-ide-support">Type Checkers and IDE Support<a class="headerlink" href="#type-checkers-and-ide-support" title="Permanent link">#</a></h3>
-<p>To make the most of type annotations, use a static type checker (like <em>mypy</em>, <em>pyright</em>, <em>Pyre</em>) or an IDE with built-in checking (PyCharm, VS Code, etc.).
+<p>To make the most of type annotations, use a static type checker or an IDE with built-in checking (PyCharm, VS Code, etc.).
 These tools will read your annotations and warn you of type mismatches, missing return statements for functions declared to return non-<code>None</code>, improper overrides, etc.
 The type system is standardized enough that most checkers agree on core behavior.
 You can customize their strictness (for example, disallowing implicit <code>Any</code> types).
