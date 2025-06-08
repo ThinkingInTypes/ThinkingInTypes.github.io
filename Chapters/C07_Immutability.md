@@ -141,7 +141,7 @@ class SubConfig(BaseConfig):
 ```
 
 In the above code, `RATE` is a module-level constant.
-If somewhere else we had `RATE = 2500`, a tool like mypy would report an error ("can't assign to final name 'RATE'").
+If somewhere else we assign `RATE = 2500`, the type checker reports an error ("can't assign to final name 'RATE'").
 Similarly, `BaseConfig.TIMEOUT` is a constant class attribute; attempting to override it in `SubConfig` would be
 flagged ("can't override a final attribute").
 This helps maintain invariants in class hierarchies.
@@ -436,8 +436,7 @@ This is entirely a compile-time (static) concept.
 When you declare a variable or attribute with `Final`, the Python interpreter records that in the `__annotations__` of
 the module or class, but it does not prevent assignments at runtime.
 The enforcement comes from type checkers.
-Tools like mypy will scan your code and, if you try to reassign a `Final` variable, they will emit an error and refuse
-to consider the code type-safe.
+The type checker emits an error if you try to reassign a `Final` variable.
 As of Python 3.11, marking classes or methods with the `@final` decorator sets a `__final__ = True` attribute on the
 object, mostly for introspection or tooling--Python won't stop you from subclassing a `@final` class or
 overriding a

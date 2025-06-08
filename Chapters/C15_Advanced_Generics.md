@@ -350,17 +350,15 @@ Recursive aliases cannot be directly made generic with type variable in the curr
 
 Python's static typing supports two forms of subtype compatibility: *nominal* and *structural*.
 Nominal subtyping is the traditional style; an object of class `C` is a subtype of class `B` if `C` subclasses `B`.
-Structural subtyping, on the other hand, is about the shape or structure of the type--often called "duck typing"
-for types.
-If an object has the required methods/attributes, it can be used as that type, regardless of its class in the
-inheritance hierarchy.
+Structural subtyping is about the shape or structure of the type--often called "duck typing."
+If an object has the required methods/attributes, it can be used as that type, regardless of its class in the inheritance hierarchy.
 
 Python 3.8 introduced *protocols* to facilitate structural typing.
 A `Protocol` defines methods and attributes that a type must have, without specifying a particular base class.
-Any class that has those members with compatible types is considered a subtype of the protocol, even if it doesn't
-explicitly inherit from `Protocol`.
-Protocols create interfaces or contracts that can be satisfied by any class, matching Python's dynamic duck typing in a
-static type checking context.
+Any class that has those members with compatible types is considered a subtype of the protocol,
+even if it doesn't explicitly inherit from `Protocol`.
+Protocols create interfaces or contracts that can be satisfied by any class,
+matching Python's dynamic duck typing in a static type checking context.
 
 ### A Drawable Protocol
 

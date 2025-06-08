@@ -125,7 +125,7 @@ Managing large-scale typed codebases requires strategic approaches:
 
 ### Automate Type Checking
 
-- Integrate tools like `mypy` and `pyright` into CI/CD.
+- Integrate your type checker into CI/CD.
 - Regularly enforce type checking to maintain standards.
 
 ### Continuous Review and Improvement

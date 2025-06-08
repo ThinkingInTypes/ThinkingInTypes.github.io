@@ -2,7 +2,7 @@
 
 Type annotations (or "type hints") declare the expected data types of variables, function parameters, and return values.
 Python remains _dynamically typed_ at runtime--these annotations are not enforced by the interpreter and are mainly for static analysis and documentation.
-Tools like type checkers (e.g., mypy, PyRight) and IDEs use the annotations to catch errors or suggest code completions.
+Type checkers and IDEs use the annotations to catch errors or suggest code completions.
 Python's core team has no plan to make type annotations mandatory; they are optional aids to improve code quality.
 
 ## Introduction via PEPs
@@ -562,7 +562,7 @@ forward references are supported via quoting or future imports, and the language
 
 ### Type Checkers and IDE Support
 
-To make the most of type annotations, use a static type checker (like _mypy_, _pyright_, _Pyre_) or an IDE with built-in checking (PyCharm, VS Code, etc.).
+To make the most of type annotations, use a static type checker or an IDE with built-in checking (PyCharm, VS Code, etc.).
 These tools will read your annotations and warn you of type mismatches, missing return statements for functions declared to return non-`None`, improper overrides, etc.
 The type system is standardized enough that most checkers agree on core behavior.
 You can customize their strictness (for example, disallowing implicit `Any` types).

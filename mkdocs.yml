@@ -26,29 +26,29 @@ markdown_extensions:
 
 
 nav:
-  - '1: Preface': C01_Preface.md
-  - '2: Foundations': C02_Foundations.md
-  - '3: What is a Type': C03_What_is_a_Type.md
-  - '4: Using Types': C04_Using_Types.md
-  - '5: Custom Types Data Classes': C05_Custom_Types_Data_Classes.md
-  - '6: Custom Types Enums': C06_Custom_Types_Enums.md
-  - '7: Immutability': C07_Immutability.md
-  - '8: Pattern Matching': C08_Pattern_Matching.md
-  - '9: Generics': C09_Generics.md
-  - '10: Callables': C10_Callables.md
-  - '11: Structural Typing': C11_Structural_Typing.md
-  - '12: Make Illegal Types Unrepresentable': C12_Make_Illegal_Types_Unrepresentable.md
-  - '13: Errors as Values': C13_Errors_as_Values.md
-  - '14: Async Types': C14_Async_Types.md
-  - '15: Advanced Generics': C15_Advanced_Generics.md
-  - 'A1: Quick Reference': Z01_Appendix_Quick_Reference.md
-  - 'A2: Reference': Z02_Appendix_Reference.md
-  - 'A3: Guidelines': Z03_Appendix_Guidelines.md
-  - 'A4: Automatic Annotations': Z04_Appendix_Automatic_Annotations.md
-  - 'A5: Type Checkers': Z05_Appendix_Type_Checkers.md
-  - 'A6: Tools': Z06_Appendix_Tools.md
-  - 'A7: Book Utilities': Z07_Appendix_Book_Utilities.md
-  - 'A8: Book Notes': Z08_Appendix_Book_Notes.md
-  - 'A9: Error Suppression': Z09_Appendix_Error_Suppression.md
-  - 'A10: Dynamic Smalltalk vs Static Typing': Z10_Appendix_Dynamic_Smalltalk_vs_Static_Typing.md
-  - 'A11: Uncategorized Topics': Z11_Appendix_Uncategorized_Topics.md
+  - '1. Preface': C01_Preface.md
+  - '2. Foundations': C02_Foundations.md
+  - '3. What is a Type?': C03_What_is_a_Type.md
+  - '4. Using Types': C04_Using_Types.md
+  - '5. Custom Types: Data Classes': C05_Custom_Types_Data_Classes.md
+  - '6. Custom Types: Enums': C06_Custom_Types_Enums.md
+  - '7. Immutability': C07_Immutability.md
+  - '8. Pattern Matching': C08_Pattern_Matching.md
+  - '9. Generics': C09_Generics.md
+  - '10. Callables': C10_Callables.md
+  - '11. Structural Typing': C11_Structural_Typing.md
+  - '12. Make Illegal Types Unrepresentable': C12_Make_Illegal_Types_Unrepresentable.md
+  - '13. Errors as Values': C13_Errors_as_Values.md
+  - '14. Async Types': C14_Async_Types.md
+  - '15. Advanced Generics': C15_Advanced_Generics.md
+  - 'A1. Quick Reference': Z01_Appendix_Quick_Reference.md
+  - 'A2. Reference': Z02_Appendix_Reference.md
+  - 'A3. Guidelines': Z03_Appendix_Guidelines.md
+  - 'A4. Automatic Annotations': Z04_Appendix_Automatic_Annotations.md
+  - 'A5. Type Checkers': Z05_Appendix_Type_Checkers.md
+  - 'A6. Tools': Z06_Appendix_Tools.md
+  - 'A7. Book Utilities': Z07_Appendix_Book_Utilities.md
+  - 'A8. Book Notes': Z08_Appendix_Book_Notes.md
+  - 'A9. Error Suppression': Z09_Appendix_Error_Suppression.md
+  - 'A10. Dynamic Smalltalk vs. Static Typing': Z10_Appendix_Dynamic_Smalltalk_vs_Static_Typing.md
+  - 'A11. Uncategorized Topics': Z11_Appendix_Uncategorized_Topics.md

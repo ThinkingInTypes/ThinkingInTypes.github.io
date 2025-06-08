@@ -4,9 +4,9 @@ In type systems, there are two fundamental ways to decide if one type is compati
 _nominal typing_ and _structural typing_.
 Nominal typing (name-based typing) means type compatibility is determined by explicit declarations and the class hierarchy--an object's type is what its class name (or inheritance) says it is.
 For example, if class `Dog` inherits from class `Animal`, then `Dog` _is-a_ subtype of `Animal` by definition, and a `Dog` instance can be used wherever an `Animal` is expected.
-This is how traditional object-oriented languages like Java or C++ work, and it's also the primary mode in Python's type system by default.
+This is how traditional object-oriented languages like Java or C++ work, and it's also the default mode in Python's type system.
 
-On the other hand, structural typing determines type compatibility by the structure or capabilities of the object, not its explicit inheritance.
+Structural typing determines type compatibility by the structure or capabilities of the object, not its explicit inheritance.
 In a structural type system, if an object has all the required methods and attributes of a type, then it qualifies as that type, regardless of its class name or parent classes.
 In other words, if it "walks like a duck and quacks like a duck, then it's treated as a duck."
 This is the essence of the famous _duck typing_ principle.
@@ -19,33 +19,32 @@ This approach is more flexible than nominal typing because it doesn't require pr
 It is also more explicit and safe than unguarded duck typing because the structure is checked (by a type checker) before the code runs.
 
 Python historically embraced duck typing at runtime--you call methods on objects and trust they exist.
-Prior to Python 3.8, static type checking in Python (via tools like MyPy, PyRight, etc.)
-was largely nominal:
+Prior to Python 3.8, static type checking in Python was largely nominal:
 you would use abstract base classes or concrete classes to annotation the types, and an object's class had to match the annotation or inherit from a matching class.
-This could make it awkward to type-annotation code written in a duck-typed style.
-For instance, if you had a function that worked with any object that had a `.read()` method, there wasn't a straightforward way to express that in a type annotation without making all such objects share a common base class or using `typing.Any`.
+This could make it awkward for type-annotation code written in a duck-typed style.
+For instance, if you had a function that worked with any object that had a `.read()` method,
+there wasn't a straightforward way to express that in a type annotation without making all such objects share a common base class or using `typing.Any`.
 Python 3.8 remedied this by introducing _protocols_ in the `typing` module.
 A protocol defines a _structural interface_ that other classes can fulfill just by having the right methods/attributes, without inheritance.
 This brings the flexibility of duck typing into the realm of static type checking--essentially formalizing "If it quacks like a duck, it can be treated as a duck" in the type system.
 
-Nominal typing ties compatibility to declared relationships (e.g., subclassing an interface or abstract class), whereas structural typing ties compatibility to an object's shape (the presence of specific methods/attributes).
-Python's type system now supports both:
-use nominal typing for clarity and runtime consistency with class relationships, and use structural typing (via protocols) for flexibility and to more directly model Python's duck-typed nature.
+Nominal typing ties compatibility to declared relationships (e.g., subclassing an interface or abstract class),
+whereas structural typing ties compatibility to an object's shape (the presence of specific methods/attributes).
+Python's type system now supports both: use nominal typing for clarity and runtime consistency with class relationships,
+and use structural typing (via protocols) for flexibility and to more directly model Python's duck-typed nature.
 
 ## Defining and Using Protocols
 
 To leverage structural typing in Python's type annotations, you define _protocols_.
 A protocol in Python is essentially an interface or template for a set of methods and attributes.
-It's defined by inheriting from `typing.Protocol` (available in the standard library `typing` module as of Python 3.8, or in `typing_extensions` for earlier versions).
-By creating a class that subclasses
-`Protocol`, you declare a group of methods and properties that form a "protocol."
-Static type checkers consider any class with those methods and properties (with compatible types) an implementation of that protocol, even if it doesn't formally inherit from the protocol.
+It's defined by inheriting from `typing.Protocol`.
+By creating a class that subclasses `Protocol`, you declare a group of methods and properties that form a "protocol."
+Static type checkers consider any class with those methods and properties (with compatible types) an implementation of that protocol,
+even if it doesn't formally inherit from the protocol.
 
 **To define a protocol:** Create a class that inherits `Protocol` and define the method signatures (and any attribute types) that are required.
 Protocol methods typically have empty bodies (often using `...` or `pass`) because you're not providing an implementation, just a definition of the interface.
-For example, suppose we want a protocol for "speaking" creatures or objects:
-it should have a method `speak()` that returns a string.
-We can define:
+For example, suppose we want a protocol for "speaking" creatures or objects: it should have a method `speak()` that returns a string:
 
 ```python
 # speaker.py
@@ -84,21 +83,22 @@ def announce(speaker: Speaker) -> None:
     print("Announcement:", speaker.speak())
 
 
-announce(Dog())  # OK, Dog has speak()
+announce(Dog())  # Dog has speak()
 ## Announcement: woof
-announce(Robot())  # OK, Robot has speak()
+announce(Robot())  # Robot has speak()
 ## Announcement: beep-boop
 ```
 
-Even though `Dog` and `Robot` do not inherit from `Speaker` (and are not related to each other at all), the static type checker will accept them as valid arguments to `announce` because they structurally conform to the `Speaker` protocol by implementing the required method.
+Even though `Dog` and `Robot` do not inherit from `Speaker` (and are not related to each other at all),
+the static type checker will accept them as valid arguments to `announce` because they structurally conform to the `Speaker` protocol by implementing the required method.
 This is the power of structural typing.
 The type checker treats `Dog` and `Robot` as subtypes of `Speaker` because they have the right `speak()` method signature.
 If we tried to pass an object that lacks a `speak()` method (or has an incompatible signature), the type checker would flag an error, ensuring type safety.
 
-Protocols are primarily a static concept--they are enforced by type checkers, not by the Python runtime (by default).
+Protocols are primarily a static concept--they are enforced by type checkers, not by the Python runtime.
 Unlike an abstract base class (ABC), a protocol doesn't require classes to formally subclass it, and Python will not produce an error at runtime if a required method is missing.
 For example, in the code above, if we call `announce(Dog())` and `Dog.speak` is missing or misnamed, we would only find out at runtime via an `AttributeError`.
-The protocol helps catch such issues before runtime by using tools like Mypy.
+A static type checker catches protocol mismatches before runtime.
 The protocols defined in `typing` are optional and have no runtime effect on their own.
 This means you can use them freely for type annotations without incurring runtime overhead or restrictions.
 Protocols do inherit from `abc.ABC`, but by default `isinstance()` and `issubclass()` checks against a protocol will not work without an explicit opt-in.
@@ -171,7 +171,7 @@ We created a `FileResource` class and a `SocketResource` class that both impleme
 We also use a built-in file object from `open()`, which we know has a `close()` method.
 The `close_all` function is annotated to accept any iterable of `Closable` objects.
 Thanks to structural typing, it doesn't matter that these objects are of different types and don't share a common ancestor named `Closable`--as long as each has a callable `close()` method, the static type checker is satisfied and, at runtime, the code will work.
-Mypy considers the built-in file object and our custom classes all as subtypes of `Closable` because they provide the required attribute.
+The type checker considers the built-in file object and our custom classes all as subtypes of `Closable` because they provide the required attribute.
 
 One thing to be aware of:
 protocols by default cannot be used with `isinstance()` or `issubclass()` checks at runtime.
@@ -331,7 +331,7 @@ Protocols thus increase the reusability and extensibility of your code by focusi
 It's worth mentioning that Python's standard library and frameworks have embraced the concept of protocols (even before the formal `Protocol` type existed) by using "duck typing" and abstract base classes.
 For instance, the act of iterating in Python checks for an `__iter__` method--any object with `__iter__` is iterable.
 The static typing system knows this too:
-you don't have to explicitly register your class as an `Iterable` ABC; if it has the right method, tools like Mypy will treat it as iterable.
+you don't have to explicitly register your class as an `Iterable` ABC; if it has the right method, the type checker will treat it as iterable.
 With `Protocol`, we can create our own such abstractions.
 In modern Python, the combination of protocols and `@runtime_checkable` even lets us approximate some features of a language with a built-in interface system.
 

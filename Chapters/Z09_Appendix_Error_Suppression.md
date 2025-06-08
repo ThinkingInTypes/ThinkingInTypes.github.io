@@ -23,7 +23,7 @@
 | `# flake8: noqa`     | Flake8 | File-level suppression                                     |
 | `# pylint: disable=` | Pylint | Pylint-specific suppression (not related to type checking) |
 
-Python's static checkers (like Mypy or Pyright) and linters (like Flake8 or Ruff) respect special end-of-line comments that disable error reporting.
+Python's static checkers, and linters like Flake8 or Ruff, respect special end-of-line comments that disable error reporting.
 The most common is `# type: ignore`, which tells type checkers to ignore all type errors on that line.
 For example:
 

@@ -534,7 +534,8 @@ If it had no `"name"` key, the pattern would not match at all.
 **Static analysis and mappings:** For dicts, static type checking is less precise than with sequences because the set of keys is not always known through type annotations (unless using `TypedDict` or specific `Literal` keys).
 However, if you use something like `TypedDict` or `Mapping[str, X]`, a type checker can ensure the values you capture are of the expected type `X`.
 Pattern matching shines in expressiveness rather than static type rigor for mappings.
-If you have a fixed schema for a dict, pattern matching can clearly express the shape, and a tool like mypy can check that you at least treat captured values consistently with their annotated types.
+If you have a fixed schema for a dict, pattern matching can clearly express the shape,
+the type checker verifies that you treat captured values consistently with their annotated types.
 (For truly fixed keys, a dataclass or custom class might be a better fit, which leads us to class patterns.)
 
 ```python
