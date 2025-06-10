@@ -2,14 +2,33 @@
 
 In type systems, there are two fundamental ways to decide if one type is compatible with another:
 _nominal typing_ and _structural typing_.
-Nominal typing (name-based typing) means type compatibility is determined by explicit declarations and the class hierarchy--an object's type is what its class name (or inheritance) says it is.
+Nominal typing (name-based typing) means type compatibility is determined by explicit declarations and the class hierarchy.
+An object's type is what its class name (or inheritance) says it is.
 For example, if class `Dog` inherits from class `Animal`, then `Dog` _is-a_ subtype of `Animal` by definition, and a `Dog` instance can be used wherever an `Animal` is expected.
 This is how traditional object-oriented languages like Java or C++ work, and it's also the default mode in Python's type system.
 
 Structural typing determines type compatibility by the structure or capabilities of the object, not its explicit inheritance.
 In a structural type system, if an object has all the required methods and attributes of a type, then it qualifies as that type, regardless of its class name or parent classes.
-In other words, if it "walks like a duck and quacks like a duck, then it's treated as a duck."
-This is the essence of the famous _duck typing_ principle.
+This is often called _Duck Typing_: "if it walks like a duck and quacks like a duck, it's a duck."
+
+```python
+# duck_typing.py
+
+class Duck:
+    def walk(self): ...
+    def quack(self): ...
+    
+class Robot:
+    def walk(self): ...
+    def quack(self): ...
+
+def be_a_duck(duck):
+    duck.walk()
+    duck.quack()
+    
+be_a_duck(Duck())
+be_a_duck(Robot())
+```
 
 Duck typing is a runtime concept in Python:
 you invoke methods or attributes on an object, and as long as it supports those operations, things work (if a required method is missing, you get an `AttributeError` at runtime).
@@ -311,7 +330,8 @@ In production, you pass a real HTTP client, in tests you pass a fake object that
 The protocol assures the fake has the same method signature as the real client.
 This avoids type checker warnings and makes tests cleaner.
 It's essentially the static typing analog of using an interface in other languages for dependency injection in tests.
-Many testing libraries (like `unittest.mock`) create dynamic mocks that can be configured with attributes on the fly; to type-annotate those, you can either cast them to a Protocol or use a Protocol as a base for a fake implementation.
+Many testing libraries (like `unittest.mock`) create dynamic mocks that can be configured with attributes on the fly; to type-annotate those,
+you can either cast them to a Protocol or use a Protocol as a base for a fake implementation.
 Using protocols in this way documents what methods a mock is expected to provide.
 This can prevent situations where your test double is missing a method or has a typo that wouldn't be caught until runtime.
 In short, whenever you say "I need an object that can do X in my code, and I might swap different implementations of it," that's a cue to define a protocol for X.
