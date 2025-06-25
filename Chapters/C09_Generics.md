@@ -6,8 +6,6 @@ information.
 With generics, you can avoid writing duplicate code for similar operations on different types and catch type errors
 early during development.
 
-TODO: Probably divide this into "Generics" here and "Advanced Generics" at the end of the book.
-
 ## Defining Custom Generics
 
 Python directly supports *parameterized types*.
@@ -405,4 +403,3 @@ print(Record((True, None)))
 ```
 
 Each `Record` preserves the exact type signature of its fields.
-
