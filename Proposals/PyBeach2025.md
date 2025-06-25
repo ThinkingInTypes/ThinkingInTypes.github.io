@@ -12,6 +12,7 @@ Lengthy Description:
 1. Enum values can be any kind of object (not just ints), enabling
 2. Exhaustiveness checking with Enums
 3. Dot completion in editing environments speeds development
+4. Creating self-validating data classes
 
 1. Discover problems sooner.
 2. Eliminate duplicate validation checks and their associated maintenance.
