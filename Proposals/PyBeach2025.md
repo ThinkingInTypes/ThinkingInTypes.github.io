@@ -7,7 +7,20 @@ Combining this with the power of dataclasses and the flexibility of Enums produc
 This example-based presentation shows you how to design and build stubbornly resilient systems that immediately tell you when something is wrong.
 Such systems can save significant time and money during development and maintenance.
 
+How types enable dataclasses and enums to create stubbornly resilient software components.
+
 Lengthy Description:
+
+As libraries grow in quantity and power, more of our job becomes connecting the interfaces of pre-existing pieces.
+With a dynamically typed language, you must unravel connection problems at runtime.
+Python's type annotations discover problems *while you type your code*. They:
+
+- Produce airtight connections to functions and methods
+- Quickly illuminate a significant class of problems without requiring hand-coded testing.
+- Help design your code
+- Show others what it does
+
+Type annotations dramatically increase productivity and simplify your life.
 
 1. Enum values can be any kind of object (not just ints), enabling
 2. Exhaustiveness checking with Enums
@@ -22,17 +35,6 @@ Lengthy Description:
 6. Enable more focused testing with finer granularity.
 7. Clarify the meaning of your code.
 
-As libraries grow in quantity and power, more of our job becomes connecting the interfaces of pre-existing pieces.
-With a dynamically-typed language, you must unravel connection problems at runtime.
-Python's type annotations discover problems *while you type your code*. They:
-
-- Produce airtight connections to functions and methods
-- Quickly illuminate a significant class of problems without requiring hand-coded testing.
-- Help design your code
-- Show others what it does
-
-Type annotations dramatically increase productivity and simplify your life.
-
 This example-based presentation covers:
 
 1. Type-driven development for greater productivity.
@@ -40,7 +42,7 @@ This example-based presentation covers:
 3. Type annotations provide both constraints and documentation.
 4. The execution path problem: Why testing doesn't solve it.
 5. Immediate feedback from your IDE.
-6. Use constants for robust & debuggable code.
+6. Use constants for robust and debuggable code.
 7. Make illegal states unrepresentable with custom types.
 8. Types solve Design-By-Contract (DBC) problems.
 9. Easier refactoring.

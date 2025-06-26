@@ -1,0 +1,27 @@
+- Produce airtight connections to functions and methods
+- Quickly illuminate a significant class of problems without requiring hand-coded testing.
+- Help design your code
+- Show others what it does
+- Type annotations dramatically increase productivity and simplify your life.
+- Enum values can be any kind of object (not just ints), enabling elegant designs
+- Exhaustiveness checking with Enums
+- Dot completion in editing environments speeds development
+- Creating self-validating data classes
+- Discover problems sooner.
+- Eliminate duplicate validation checks and their associated maintenance.
+- Share custom type benefits across all functions that use those types.
+- Localize validation to a single point, making changes much easier.
+- Eliminate the need for techniques such as Design By Contract (DBC).
+- Enable more focused testing with finer granularity.
+- Clarify the meaning of your code.
+- Type-driven development for greater productivity.
+- Type annotations provide both constraints and documentation.
+- The execution path problem: Why testing doesn't solve it.
+- Immediate feedback from your IDE.
+- Constants and literals for robust and debuggable code.
+- Make illegal states unrepresentable with custom types.
+- Types solve Design-By-Contract (DBC) problems.
+- Easier refactoring.
+- Runtime type checking for annotations.
+- Easier Rust conversion.
+- The Failure of type systems with "holes."
