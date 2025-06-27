@@ -16,16 +16,24 @@ They:
 
 - Produce airtight connections to functions and methods
 - Specify and validate acceptable values
+- Enable dot-completion
 - Quickly detect a significant class of problems without hand-coded tests
 - Help you design code
 - Show others what it does
 
-Dataclasses and Enums are tools for generating custom types.
+Dataclasses and Enumerations are tools for generating custom types.
 
-1. Enum values can be any kind of object (not just integers), enabling elegant designs
-2. Exhaustiveness checking with Enums
-3. Dot completion in editing environments speeds development
-4. Creating self-validating data classes
+**Dataclasses**
+
+- Automatically create a constructor and standard class methods
+- Can self-validate
+- Can be immutable
+
+**Enumerations**
+
+- A constrained set of instances
+- Enum values can be any kind of object (not just integers), enabling elegant designs
+- Exhaustiveness checking with Enums
 
 Type annotations dramatically increase productivity and simplify your life.
 
