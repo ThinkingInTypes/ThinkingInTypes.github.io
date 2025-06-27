@@ -1,26 +1,24 @@
 Title: Types and Dataclasses and Enums, Oh My!
 
 Blurb:
-The Python type annotation system enables rapid system construction by seamlessly connecting classes and functions.
+Python type annotations enable rapid system construction by seamlessly connecting classes and functions.
 Mistakes are revealed the moment they happen, without extensive hand-coded testing to verify correctness.
 Dataclasses and enums quickly generate custom types to produce clear, robust designs.
 This example-based presentation shows you how to use types to design and build stubbornly resilient systems that immediately tell you when something is wrong.
-Such systems can save significant time and money during development and maintenance.
+Such systems save significant time and money during development and maintenance.
 
 Lengthy Description:
 
 As libraries grow in quantity and power, more of our job becomes connecting the interfaces of pre-existing pieces.
 With a dynamically typed language, you must unravel connection problems at runtime.
-Python's type annotation system discovers problems *while you type your code*. They:
+Python's type annotations discover problems *while you type your code*.
+They:
 
 - Produce airtight connections to functions and methods
 - Specify and validate acceptable values
-- Quickly illuminate a significant class of problems without hand-coded tests
+- Quickly detect a significant class of problems without hand-coded tests
 - Help you design code
 - Show others what it does
-
-Type annotations dramatically increase productivity and simplify your life.
-All examples and explanations are available in a free online book (under development).
 
 Dataclasses and Enums are tools for generating custom types.
 
@@ -28,6 +26,10 @@ Dataclasses and Enums are tools for generating custom types.
 2. Exhaustiveness checking with Enums
 3. Dot completion in editing environments speeds development
 4. Creating self-validating data classes
+
+Type annotations dramatically increase productivity and simplify your life.
+
+All examples and explanations are available in a free online book (under development).
 
 1. Discover problems sooner.
 2. Eliminate duplicate validation checks and their associated maintenance.
@@ -40,17 +42,10 @@ Dataclasses and Enums are tools for generating custom types.
 This example-based presentation shows different approaches to creating custom types to produce clear and robust software.
 
 1. Type-driven development for greater productivity.
-2. A type is a set of values.
 3. Type annotations provide both constraints and documentation.
-4. The execution path problem: Why testing doesn't solve it.
 5. Immediate feedback from your IDE.
-6. Use constants for robust and debuggable code.
 7. Make illegal states unrepresentable with custom types.
-8. Types solve Design-By-Contract (DBC) problems.
 9. Easier refactoring.
-10. Runtime type checking for annotations.
-11. Easier Rust conversion.
-12. The Failure of type systems with "holes."
 
 Outline:
 
