@@ -37,22 +37,12 @@ Dataclasses and Enumerations are tools for generating custom types.
 
 Type annotations dramatically increase productivity and simplify your life.
 
+This example-based presentation shows different approaches to creating custom types to produce clear and robust software.
 All examples and explanations are available in a free online book (under development).
 
-1. Discover problems sooner.
 2. Eliminate duplicate validation checks and their associated maintenance.
 3. Share custom type benefits across all functions that use those types.
 4. Localize validation to a single point, making changes much easier.
-5. Eliminate the need for techniques such as Design By Contract (DBC).
-6. Enable more focused testing with finer granularity.
-7. Clarify the meaning of your code.
-
-This example-based presentation shows different approaches to creating custom types to produce clear and robust software.
-
-1. Type-driven development for greater productivity.
-3. Type annotations provide both constraints and documentation.
-5. Immediate feedback from your IDE.
-7. Make illegal states unrepresentable with custom types.
 9. Easier refactoring.
 
 Outline:
