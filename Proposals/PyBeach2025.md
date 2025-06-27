@@ -56,7 +56,7 @@ Outline:
 
 - Intro (7 Min)
     - A type is a set of values, producing constraints, documentation, and dot-completion
-    - Validating at runtime vs. validating beforehand (finding problems while writing code, not at runtime)
+    - Discovering problems while writing code rather than runtime
     - Built-in types are too broad for most needs; custom types narrow to only what you use
     - Tools to create custom types: Alias, NewType, Literals, Dataclasses, Enums
 - Dataclasses (5 min)
@@ -66,4 +66,10 @@ Outline:
     - A constrained set of instances
     - Exhaustiveness checking
     - Type values can be anything, not just integers, producing elegant designs
-- Building a Robust Date system (8 Min)
+- A Robust Date Type (8 Min)
+    - `dataclass MonthValue`
+    - `Enum Month`
+    - `dataclass Year`
+    - `dataclass Day`
+    - `dataclass Date`
+    - The types make illegal states unrepresentable
