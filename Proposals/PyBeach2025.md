@@ -11,18 +11,20 @@ Lengthy Description:
 
 As libraries grow in quantity and power, more of our job becomes connecting the interfaces of pre-existing pieces.
 With a dynamically typed language, you must unravel connection problems at runtime.
-Python's type system discovers problems *while you type your code*. They:
+Python's type annotation system discovers problems *while you type your code*. They:
 
 - Produce airtight connections to functions and methods
-- Quickly illuminate a significant class of problems without requiring hand-coded testing.
+- Specify and validate acceptable values
+- Quickly illuminate a significant class of problems without hand-coded tests
 - Help you design code
 - Show others what it does
 
 Type annotations dramatically increase productivity and simplify your life.
+All examples and explanations are available in a free online book (under development).
 
 Dataclasses and Enums are tools for generating custom types.
 
-1. Enum values can be any kind of object (not just ints), enabling
+1. Enum values can be any kind of object (not just integers), enabling elegant designs
 2. Exhaustiveness checking with Enums
 3. Dot completion in editing environments speeds development
 4. Creating self-validating data classes
@@ -35,7 +37,7 @@ Dataclasses and Enums are tools for generating custom types.
 6. Enable more focused testing with finer granularity.
 7. Clarify the meaning of your code.
 
-This example-based presentation covers:
+This example-based presentation shows different approaches to creating custom types to produce clear and robust software.
 
 1. Type-driven development for greater productivity.
 2. A type is a set of values.
@@ -52,5 +54,16 @@ This example-based presentation covers:
 
 Outline:
 
-- Intro (3 Min)
-  - 
+- Intro (7 Min)
+    - A type is a set of values, producing constraints, documentation, and dot-completion
+    - Validating at runtime vs. validating beforehand (finding problems while writing code, not at runtime)
+    - Built-in types are too broad for most needs; custom types narrow to only what you use
+    - Tools to create custom types: Alias, NewType, Literals, Dataclasses, Enums
+- Dataclasses (5 min)
+    - Correctly generating class methods you'd otherwise do by hand
+    - Why to prefer frozen dataclasses
+- Enums (5 min)
+    - A constrained set of instances
+    - Exhaustiveness checking
+    - Type values can be anything, not just integers, producing elegant designs
+- Building a Robust Date system (8 Min)
