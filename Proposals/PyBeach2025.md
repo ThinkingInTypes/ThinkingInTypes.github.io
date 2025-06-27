@@ -1,26 +1,26 @@
 Title: Types and Dataclasses and Enums, Oh My!
 
 Blurb:
-The Python type system enables rapid system construction by seamlessly connecting classes and functions.
-Mistakes are revealed the moment they happen, without extensive testing—testing that might not happen.
-Combining this with the power of dataclasses and the flexibility of Enums produce clear, robust designs that are quickly implemented.
-This example-based presentation shows you how to design and build stubbornly resilient systems that immediately tell you when something is wrong.
+The Python type annotation system enables rapid system construction by seamlessly connecting classes and functions.
+Mistakes are revealed the moment they happen, without extensive hand-coded testing to verify correctness.
+Dataclasses and enums quickly generate custom types to produce clear, robust designs.
+This example-based presentation shows you how to use types to design and build stubbornly resilient systems that immediately tell you when something is wrong.
 Such systems can save significant time and money during development and maintenance.
-
-How types enable dataclasses and enums to create stubbornly resilient software components.
 
 Lengthy Description:
 
 As libraries grow in quantity and power, more of our job becomes connecting the interfaces of pre-existing pieces.
 With a dynamically typed language, you must unravel connection problems at runtime.
-Python's type annotations discover problems *while you type your code*. They:
+Python's type system discovers problems *while you type your code*. They:
 
 - Produce airtight connections to functions and methods
 - Quickly illuminate a significant class of problems without requiring hand-coded testing.
-- Help design your code
+- Help you design code
 - Show others what it does
 
 Type annotations dramatically increase productivity and simplify your life.
+
+Dataclasses and Enums are tools for generating custom types.
 
 1. Enum values can be any kind of object (not just ints), enabling
 2. Exhaustiveness checking with Enums
