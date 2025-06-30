@@ -1,18 +1,11 @@
 Title: Types and Dataclasses and Enums, Oh My!
 
 Blurb:
-Python type annotations enable rapid system construction by seamlessly connecting classes and functions.
-Mistakes are revealed the moment they happen, without extensive hand-coded testing to verify correctness.
-Dataclasses and enums quickly generate custom types to produce clear, robust designs.
-This example-based presentation shows you how to use types to design and build stubbornly resilient systems that immediately tell you when something is wrong.
-Such systems save significant time and money during development and maintenance.
+Python type annotations enable rapid system construction by seamlessly connecting classes and functions. Mistakes are revealed the moment they happen, without extensive hand-coded testing to verify correctness. Dataclasses and enums quickly generate custom types to produce clear, robust designs. This example-based presentation shows you how to use types to design and build stubbornly resilient systems that immediately tell you when something is wrong. Such systems save significant time and money during development and maintenance, increase productivity, and simplify your life.
 
 Lengthy Description:
 
-As libraries grow in quantity and power, more of our job becomes connecting the interfaces of pre-existing pieces.
-With a dynamically typed language, you must unravel connection problems at runtime.
-Python's type annotations discover problems *while you type your code*.
-They:
+As libraries grow in quantity and power, more of our job becomes connecting the interfaces of pre-existing pieces. With a dynamically typed language, you must unravel connection problems at runtime. Python's type annotations discover problems *while you type your code*. They:
 
 - Produce airtight connections to functions and methods
 - Specify and validate acceptable values
@@ -20,6 +13,8 @@ They:
 - Quickly detect a significant class of problems without hand-coded tests
 - Help you design code
 - Show others what it does
+- Eliminate duplicate validation checks and their associated maintenance by localizing validation to a single point
+- Share custom type benefits across all functions that use those types, producing consistency and easier refactoring.
 
 Dataclasses and Enumerations are tools for generating custom types.
 
@@ -31,30 +26,22 @@ Dataclasses and Enumerations are tools for generating custom types.
 
 **Enumerations**
 
-- A constrained set of instances
+- Produce a constrained set of instances
 - Enum values can be any kind of object (not just integers), enabling elegant designs
-- Exhaustiveness checking with Enums
+- Enable exhaustiveness checking
 
-Type annotations dramatically increase productivity and simplify your life.
-
-This example-based presentation shows different approaches to creating custom types to produce clear and robust software.
-All examples and explanations are available in a free online book (under development).
-
-2. Eliminate duplicate validation checks and their associated maintenance.
-3. Share custom type benefits across all functions that use those types.
-4. Localize validation to a single point, making changes much easier.
-9. Easier refactoring.
+This example-based presentation shows different approaches to creating custom types to produce clear and robust software. All examples and explanations are available in a free online book (under development).
 
 Outline:
 
 - Intro (7 Min)
     - A type is a set of values, producing constraints, documentation, and dot-completion
-    - Discovering problems while writing code rather than runtime
+    - Discover problems while writing code rather than runtime
     - Built-in types are too broad for most needs; custom types narrow to only what you use
     - Tools to create custom types: Alias, NewType, Literals, Dataclasses, Enums
 - Dataclasses (5 min)
     - Correctly generating class methods you'd otherwise do by hand
-    - Why to prefer frozen dataclasses
+    - Immutability with frozen dataclasses
 - Enums (5 min)
     - A constrained set of instances
     - Exhaustiveness checking
@@ -66,3 +53,6 @@ Outline:
     - `dataclass Day`
     - `dataclass Date`
     - The types make illegal states unrepresentable
+
+Social:
+Twitter/X: @BruceEckel, linkedin.com/in/bruceeckel, @bruceeckel.bsky.social, fosstodon.org/@BruceEckel
