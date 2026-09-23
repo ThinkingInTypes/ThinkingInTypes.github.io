@@ -399,14 +399,14 @@ By default, `Object>>doesNotUnderstand:` will raise a `MessageNotUnderstood` err
 but critically, developers can override this method to change the behavior.
 This means an object can be designed to gracefully handle any message at all, even ones not originally defined in its class's method dictionary.
 
-For example, one could create a proxy object that intercepts all messages via `doesNotUnderstand:` and forwards them to another object,
+For example, one can create a proxy object that intercepts all messages via `doesNotUnderstand:` and forwards them to another object,
 or a stub that logs all unknown messages for testing.
 In fact, Smalltalk was the first language to introduce this kind of open-ended message handling, and it unlocks a lot of power.
 Using `doesNotUnderstand:`, programmers have implemented features like remote method invocation proxies,
 lazy-loaded objects, futures, and other patterns that require catching arbitrary messages at runtime.
 The existence of `doesNotUnderstand:` underscores that an object's "type" (its message-handling ability) isn't necessarily fixed by its class--it can be extended or altered at runtime in a very dynamic fashion.
 Thanks to this mechanism, an object can respond to a message without considering when it was written.
-From a philosophical view, this pushes the "duck typing" idea to the extreme: an object can choose to attempt anything asked of it,
+This pushes the "duck typing" idea to the extreme: an object can choose to attempt anything asked of it,
 defining its behavior on the fly.
 
 The flip side is that you truly don't know if a given message will be handled until you send it.
@@ -423,22 +423,22 @@ If it isn't, that's effectively a type mismatch, caught by the runtime (often du
 Smalltalk is a class-based OO language, and every object is an instance of some class.
 However, a class in Smalltalk is not a "type" in the static sense; it's more like a template that defines behavior and structure.
 A class specifies which messages its instances will understand (by providing method implementations for those messages), and it defines the internal state structure.
-Two different classes could end up implementing the same protocol (thus effectively the same behavioral
+Two different classes can end up implementing the same protocol (thus effectively the same behavioral
 type), but they would still be distinct classes (perhaps with different internal representations).
 The Smalltalk system doesn't have a separate notion of an interface or protocol type distinct from classes--classes are how you organize and advertise what messages exist.
-But importantly, the system will never restrict you to using only a particular class in a given variable or call.
+But importantly, the system never restricts you to using only a particular class in a given variable or call.
 There's no static type checker insisting "this variable must contain an instance of class X."
 The class is a property of the object itself, not a restriction on its use by others.
 
-In the Smalltalk programmer's mind, classes serve as a useful guide and documentation of an object's capabilities, but not a rigid cage.
+Smalltalk classes serve as a useful guide and documentation of an object's capabilities, not a rigid cage.
 They provide a shared vocabulary of messages
 for all instances of that class (and subclasses), which helps humans reason about what an object can do.
 For example, if you have a `GraphicsShape` class with methods like `drawOn:`,
 `area`, etc., you know any instance of that class (or its subclasses) will respond to those messages.
-In day-to-day practice, a Smalltalk developer
-does often think in terms of an object's class when reasoning about what messages it can handle--the class system is the primary organizational tool for behavior.
+Smalltalk developers do
+tend to think in terms of an object's class when reasoning about what messages it can handle--the class system is the primary organizational tool for behavior.
 But this is a convention and convenience, not an enforcement mechanism.
-You could always substitute an object of a completely different class in a piece of code, as long as it implements the needed messages.
+You can always substitute an object of a completely different class in a piece of code, as long as it implements the needed messages.
 The Smalltalk environment even allows adding methods to classes at runtime or creating entirely new classes on the fly,
 which means the system's notion of who can respond to what is always malleable.
 Classes thus shape an object's behavior, but they do not constitute a static contract imposed on the rest of the program.
@@ -464,7 +464,7 @@ Thus, the mental model shifts from "I have a guarantee this object supports X, Y
 The class of the object is a strong hint (since class defines the methods), but it's not an enforced boundary.
 Indeed, a seasoned Smalltalker might say an object's true "type" is simply the set of messages it knows how to
 handle, regardless of its class name.
-The class is one way to know that set, but it's not the only way--you could also query the object at runtime (ask it `respondsTo:` a certain selector) or consult documentation/tests.
+The class is one way to know that set, but it's not the only way--you can also query the object at runtime (ask it `respondsTo:` a certain selector) or consult documentation/tests.
 
 ### Living with Dynamic Typing: The Programmer's Experience
 
@@ -554,7 +554,7 @@ This can be incredibly liberating--it encourages focusing on what needs to happe
 letting different kinds of objects participate as long as they behave appropriately.
 As the Smalltalk ethos would suggest, "Look at what the object does, not what it says it is."
 
-### Conclusion: The Philosophical Takeaway
+### Summary
 
 From a practical and philosophical perspective, "type" in Smalltalk is less a label and more a dynamic quality of an object's behavior.
 It's defined by the messages an object understands and how it respond--this is ultimately determined the class methods along with any clever
